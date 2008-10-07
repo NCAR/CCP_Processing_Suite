@@ -1,0 +1,32 @@
+#!/bin/csh -f
+# Write a file to a mass store
+#
+# Arguments:
+# 1 file to write
+# 2 place on mass store to write the file to
+#
+if ("$#argv" != 2) then
+  echo "Usage: mss_write file mss_directory - both REQUIRED"
+  exit 1
+else
+  set file = $argv[1]
+  if !(-f $file) then
+    echo "$file not present, cannot write to the mass store"
+    exit 1
+  endif
+  set mssd = $argv[2]
+endif
+#
+# If NCAR MSS msrcp command exists, use it.
+if (`which msrcp | wc -w` == 1 ) then
+   msrcp -pe 3652 -srcdelete $file mss:$mssd
+endif
+#
+# If NERSC/ORNL hsi command exists, use it.
+if ( `which hsi | wc -w` == 1  ) then 
+  hsi -q "mkdir -p ${mssd} ; chmod -R 775 ${mssd}"
+  hsi -q "cd ${mssd} ; put ${f} ; chmod 644 ${f}"
+  if ($status == 0) rm -f ${f}
+endif
+#
+exit

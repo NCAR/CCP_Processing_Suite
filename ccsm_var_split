@@ -1,0 +1,146 @@
+#!/bin/csh -f
+#
+# See http://www.cgd.ucar.edu/~njn01/ccsm/draft.html
+#
+# Input filenames of forms:
+# b30.030e.pop.h.1870-01.nc      (monthly average)
+# Output filenames of forms:
+# b30.030e.pop.h.TEMP.1870-01.nc (monthly average of TEMP, only)
+#
+if ("$#argv" == 0) then
+   echo "Usage: ccsm_var_split file [erase]"
+   echo "2 args means erase file after fields extracted."
+   exit 1
+else if ("$#argv" == 1) then
+   set file = $argv[1]
+else if ("$#argv" == 2) then
+   set file = $argv[1]
+else
+   echo "Usage: ccsm_var_split file [erase]"
+   echo "2 args means erase file after fields extracted."
+   exit 1
+endif
+#
+if !(-f ${file}) then
+   echo $file "not found. Exit."
+   exit 1
+endif
+#
+set chek   = `echo $file | cut -d"." -f3 | cut -c1-2`
+if (${chek} == "ES") then
+  set outfp0 = `echo $file | cut -d"." -f1-5`
+  set outfp1 = `echo $file | cut -d"." -f6-`
+else
+  set outfp0 = `echo $file | cut -d"." -f1-4`
+  set outfp1 = `echo $file | cut -d"." -f5-`
+endif
+#
+set d0vars = `ncks -m ${file} | egrep "# dim\. = 0" | cut -d":" -f1`
+set d1vars = `ncks -m ${file} | egrep "# dim\. = 1" | cut -d":" -f1`
+set d2vars = `ncks -m ${file} | egrep "# dim\. = 2" | cut -d":" -f1`
+set d3vars = `ncks -m ${file} | egrep "# dim\. = 3" | cut -d":" -f1`
+set d4vars = `ncks -m ${file} | egrep "# dim\. = 4" | cut -d":" -f1`
+set d5vars = `ncks -m ${file} | egrep "# dim\. = 5" | cut -d":" -f1`
+#
+# Get auxiliary header fields
+#
+if (`echo ${d2vars} | wc -c` != 0) then
+  if (`echo ${d1vars} | wc -c` != 0) then
+    if (`echo ${d0vars} | wc -c` != 0) then
+      set d0head = `echo $d0vars | sed -e 's/ /,/g'`
+      set d1head = `echo $d1vars | sed -e 's/ /,/g'`
+      set d2head = `echo $d2vars | sed -e 's/ /,/g'`
+      set header = `echo $d0head","$d1head","$d2head`
+    else
+      set d1head = `echo $d1vars | sed -e 's/ /,/g'`
+      set d2head = `echo $d2vars | sed -e 's/ /,/g'`
+      set header = `echo $d1head","$d2head`
+    endif
+  else
+    if (`echo ${d0vars} | wc -c` != 0) then
+      set d0head = `echo $d0vars | sed -e 's/ /,/g'`
+      set d2head = `echo $d2vars | sed -e 's/ /,/g'`
+      set header = `echo $d0head","$d2head`
+    else
+      set d2head = `echo $d2vars | sed -e 's/ /,/g'`
+      set header = `echo $d2head`
+    endif
+  endif
+else
+  if (`echo ${d1vars} | wc -c` != 0) then
+    if (`echo ${d0vars} | wc -c` != 0) then
+      set d0head = `echo $d0vars | sed -e 's/ /,/g'`
+      set d1head = `echo $d1vars | sed -e 's/ /,/g'`
+      set header = `echo $d0head","$d1head`
+    else
+      set d1head = `echo $d1vars | sed -e 's/ /,/g'`
+      set header = `echo $d1head`
+    endif
+  else
+    if (`echo ${d0vars} | wc -c` != 0) then
+      set d0head = `echo $d0vars | sed -e 's/ /,/g'`
+      set header = `echo $d0head`
+    else
+      set d2head = `echo $d2vars | sed -e 's/ /,/g'`
+      set header = `echo $d2head`
+    endif
+  endif
+endif
+#
+# Get variable fields
+#
+if (`echo ${d3vars} | wc -c` != 0) set fields3d = `echo $d3vars`
+if (`echo ${d4vars} | wc -c` != 0) set fields4d = `echo $d4vars`
+if (`echo ${d5vars} | wc -c` != 0) set fields5d = `echo $d5vars`
+#
+# 3D vars
+#
+if (`echo ${fields3d} | wc -c` != 0) then
+  foreach f ( `echo $fields3d` )
+    if !(-d ${f}_3d.d) then
+      mkdir ${f}_3d.d
+    endif
+    set out = ${f}_3d.d/${outfp0}.${f}.${outfp1}
+    ncks -h -O -v ${header},${f} ${file} ${out}
+    if ($status != 0) then
+      echo "ncks -h -O -v ${header},${f} ${file} ${out} failed"
+      exit 1
+    endif
+  end
+endif
+#
+# 4D vars
+#
+if (`echo ${fields4d} | wc -c` != 0) then
+  foreach f ( `echo $fields4d` )
+    if !(-d ${f}_4d.d) then
+      mkdir ${f}_4d.d
+    endif
+    set out = ${f}_4d.d/${outfp0}.${f}.${outfp1}
+    ncks -h -O -v ${header},${f} ${file} ${out}
+    if ($status != 0) then
+      echo "ncks -h -O -v ${header},${f} ${file} ${out} failed"
+      exit 1
+    endif
+  end
+endif
+#
+# 5D vars
+#
+if (`echo ${fields5d} | wc -c` != 0) then
+  foreach f ( `echo $fields5d` )
+    if !(-d ${f}_5d.d) then
+      mkdir ${f}_5d.d
+    endif
+    set out = ${f}_5d.d/${outfp0}.${f}.${outfp1}
+    ncks -h -O -v ${header},${f} ${file} ${out}
+    if ($status != 0) then
+      echo "ncks -h -O -v ${header},${f} ${file} ${out} failed"
+      exit 1
+    endif
+  end
+endif
+#
+if ("$#argv" == 2) rm -f ${file}
+#
+exit

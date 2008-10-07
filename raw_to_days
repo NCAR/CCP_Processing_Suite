@@ -1,0 +1,59 @@
+#!/bin/csh -f
+#
+if ("$#argv" == 0) then
+   echo "Usage: day_time_split file [erase]"
+   echo "2 args means erase file after data split by time."
+   exit 1
+else if (("$#argv" == 1)||("$#argv" == 2)) then
+   set file = $argv[1]
+else
+   echo "Usage: day_time_split file [erase]"
+   echo "2 args means erase file after data split by time."
+   exit 1
+endif
+#
+if !(-f ${file}) then
+  echo "File ${file} does not exist. Error\!"
+  exit 1
+endif
+#
+# CCSM: b30.030e.cam2.h1.1870-01-01-00000.nc
+# CCSM: b30.030e.ES01.cam2.h1.1870-01-01-00000.nc
+#
+set char1  = `echo ${file} | cut -c1-1`
+#
+if (${char1} == "b") then
+  set case   = `echo ${file} | cut -d"." -f1-2`
+  set comp   = `echo ${file} | cut -d"." -f3-4`
+  if (`echo ${comp} | cut -c1-2` == "ES") then
+    set case   = `echo ${file} | cut -d"." -f1-3`
+    set comp   = `echo ${file} | cut -d"." -f4-5`
+  endif
+else
+  set case   = `echo ${file} | cut -d"." -f2-3`
+  set comp   = `echo ${file} | cut -d"." -f4`
+endif
+#
+set ntp1 = `ncks -F -H -C -v time ${file} | wc -l`
+@ nt = $ntp1 - 1
+#
+set it = 1
+while ($it <= $nt)
+  set yr = `ncks -s  "%8.8i\n" -F -H -C -v date -d time,${it},${it} ${file} | cut -c1-4`
+  set mn = `ncks -s  "%8.8i\n" -F -H -C -v date -d time,${it},${it} ${file} | cut -c5-6`
+  set dy = `ncks -s  "%8.8i\n" -F -H -C -v date -d time,${it},${it} ${file} | cut -c7-8`
+  set ts = `ncks -s "%010.4f\n" -F -H -C -v time -d time,${it},${it} ${file} | sed -e 's/\.//g'`
+  set dt = ${yr}"-"${mn}"-"${dy}"-"${ts}
+  set outfil = ${case}.${comp}.${dt}.nc
+  ncks -h -O -F -d time,${it},${it} ${file} ${outfil}
+  if ($status == 0) then
+    echo "Created "${outfil}
+    @ it = $it + 1
+  else
+    echo "Error on ncks -O -F -d time,${it},${it} ${file} ${outfil}"
+    exit 1
+  endif
+end
+if ("$#argv" == 2) rm -f ${file}
+#
+exit

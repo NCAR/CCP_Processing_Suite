@@ -1,0 +1,86 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2008.10.02.22.03.33;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/csh -f
+#
+set machine = `hostname | cut -c1-1`
+
+# NCAR CGD
+if ($machine == "m") then
+  set based = /home/strandwg/data/IPCC_Processing
+  set regrd = ${based}/regridding
+  set mapd  = /project/ccr/strandwg/IPCC_Processing/ocn/CCSM
+  set iced  = /datalocal/ccpa/strandwg/regridding
+  set msd   = /CCSM/csm/c/ice/hist
+  set mso   = /STRANDWG/IPCC_AR4
+# NCAR tempest
+else if ($machine == "t") then
+  set based = ~${USER}/IPCC_Processing
+  set regrd = ~${USER}/IPCC_Processing/regridding
+  set mapd  = /ptmp/strandwg/IPCC_Processing/ice
+  set iced  = /ptmp/${USER}/${c}/ice/mon
+  set msd   = /CCSM/csm/${c}/ice/hist
+  set mso   = /STRANDWG/IPCC_AR4
+endif
+
+if !(-d  ${iced})      mkdir -p ${iced}
+if !(-d  ${iced}/maps) mkdir -p ${iced}/maps
+cd ${iced}
+ln -s -f ${regrd}/ccsm_ice_rgd            .
+ln -s -f ${regrd}/NML_ccsm_ice_T          .
+ln -s -f ${regrd}/NML_ccsm_ice_U          .
+cd ${iced}/maps
+ln -s -f ${mapd}/*k01*T*.nc               .
+ln -s -f ${mapd}/*k01*U*.nc               .
+cd ${iced}
+
+foreach i ( `ls b30*csim*nc` )
+  set c = `echo $i | cut -d"." -f1-2`
+  set d = `echo $i | cut -d"." -f5 | cut -c1-3`
+  set y = `echo $i | cut -d"." -f5 | cut -c4`
+  set m = `echo $i | cut -d"-" -f2 | cut -c1-2`
+  rm -f input_nml_T input_nml_U
+  cat NML_ccsm_ice_T | sed -e "s/CASE/${c}/g" | \
+                       sed -e "s/YYYY/${d}${y}/g" | \
+                       sed -e "s/MM/${m}/g" > input_nml_T
+  cat NML_ccsm_ice_U | sed -e "s/CASE/${c}/g" | \
+                       sed -e "s/YYYY/${d}${y}/g" | \
+                       sed -e "s/MM/${m}/g" > input_nml_U
+  ./ccsm_ice_rgd < input_nml_T
+  if ($status == 0) then
+    ./ccsm_ice_rgd < input_nml_U
+    if ($status == 0) then
+      rm -f ${i}
+      echo "RGD done "${d}${y}" "`date`
+    else
+      echo "REGRID of U FAILED"
+      exit 1
+    endif
+  else
+    echo "REGRID of T FAILED"
+    exit 1
+  endif
+end
+#
+exit
+
+@

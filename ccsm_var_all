@@ -1,0 +1,52 @@
+#!/bin/csh -f
+#
+# Concatenate decades of by-field CCSM netCDF into whole span
+#
+if ("$#argv" != 0) then
+   echo "Usage: ccsm_var_all"
+   exit 1
+endif
+#
+#
+set chek = `ls b*.*.h*.*.*cat*.nc | cut -d"." -f3 | cut -c1-2 | uniq`
+foreach m ( ${chek} )
+  if (${m} == "ES") then
+    set fc = 3 ; set fv = 6 ; set ft = 7 ; set fd = 4 ; set fe = 5
+  else
+    set fc = 2 ; set fv = 5 ; set ft = 6 ; set fd = 3 ; set fe = 4
+  endif
+  set comp = `ls b*.*.*.h*.*.*cat*.nc | cut -d"." -f${fd}-${fe} | uniq`
+  foreach p (`echo ${comp}`)
+    set vars = `ls b*.*.${p}.*.*cat*.nc | cut -d"." -f${fv} | uniq`
+    foreach v (`echo ${vars}`)
+      set cases = `ls b*.${p}.${v}.*cat*.nc | cut -d"." -f1-${fc} | uniq`
+      foreach c (`echo ${cases}`)
+        if (${p} == "cam2.h1") then
+          set y0 = `ls ${c}.${p}.${v}.???0-01-01_cat_???9-12-31.nc | head -1 | cut -d"." -f${ft} | cut -c1-4`
+          set y1 = `ls ${c}.${p}.${v}.???0-01-01_cat_???9-12-31.nc | tail -1 | cut -d"." -f${ft} | cut -c16-19`
+          set df = ${c}.${p}.${v}.${y0}-01-01_allcat_${y1}-12-31.nc
+          ncrcat -h -O ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc ${df}
+          if ($status == 0) then
+            rm -f ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc
+            set tf = ${c}.${p}.${v}.${y0}-01-01_cat_${y1}-12-31.nc
+            mv ${df} ${tf}
+            echo "Completed "${tf}
+          endif
+        else
+          set y0 = `ls ${c}.${p}.${v}.????-01_cat_????-12.nc | head -1 | cut -d"." -f${ft} | cut -c1-4`
+          set y1 = `ls ${c}.${p}.${v}.????-01_cat_????-12.nc | tail -1 | cut -d"." -f${ft} | cut -c13-16`
+          set df = ${c}.${p}.${v}.${y0}-01_allcat_${y1}-12.nc
+          ncrcat -h -O ${c}.${p}.${v}.????-01_cat_????-12.nc ${df}
+          if ($status == 0) then
+            rm -f ${c}.${p}.${v}.????-01_cat_????-12.nc
+            set tf = ${c}.${p}.${v}.${y0}-01_cat_${y1}-12.nc
+            mv ${df} ${tf}
+            echo "Completed "${tf}
+          endif
+        endif
+      end
+    end
+  end
+end
+#
+exit

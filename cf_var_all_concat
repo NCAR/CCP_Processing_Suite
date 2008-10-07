@@ -1,0 +1,59 @@
+#!/bin/csh -f
+#
+# Concatenate decades of IPCC netCDF files into bigger chunks
+#
+if ("$#argv" != 0) then
+   echo "Usage: cf_var_all_concat"
+   exit 1
+endif
+#
+#
+set table  = `ls | egrep '\.nc$' | cut -d"_" -f2 | cut -d"." -f1 | sort | uniq`
+set expids = `ls | egrep '\.nc$' | cut -d"." -f2 | sort | uniq`
+set model  = `ls | egrep '\.nc$' | cut -d"." -f3 | sort | uniq`
+set comp   = `ls | egrep '\.nc$' | cut -d"." -f4 | sort | uniq`
+#
+foreach m (${model})
+  foreach c (${comp})
+    foreach t (${table})
+      if (${t} == "A2") then
+        set vars = `ls *_${t}.*.${m}.${c}.????-??-??_cat_????-??-??.nc | cut -d"_" -f1 | uniq`
+      else
+        set vars = `ls *_${t}.*.${m}.${c}.????-??_cat_????-??.nc | cut -d"_" -f1 | uniq`
+      endif
+      foreach v (${vars})
+        foreach e (${expids})
+          if (${t} == "A2") then
+            set f1 = `ls ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??.nc | head -1`
+            set f2 = `ls ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??.nc | tail -1`
+            set t1 = `echo ${f1} | cut -d"." -f5 | cut -c1-10`
+            set t2 = `echo ${f2} | cut -d"." -f5 | cut -c16-25`    
+            set tf = ${v}_${t}.${e}.${m}.${c}.${t1}_allcat_${t2}.nc
+            ncrcat -h -O ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??.nc ${tf}
+            if ($status == 0) then
+              rm -f ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??.nc
+              set df = ${v}_${t}.${e}.${m}.${c}.${t1}_cat_${t2}.nc
+              mv ${tf} ${df}
+              echo "Completed "${df}
+            endif
+          else
+            set f1 = `ls ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??.nc | head -1`
+            set f2 = `ls ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??.nc | tail -1`
+            set t1 = `echo ${f1} | cut -d"." -f5 | cut -c1-7`
+            set t2 = `echo ${f2} | cut -d"." -f5 | cut -c13-19`    
+            set tf = ${v}_${t}.${e}.${m}.${c}.${t1}_allcat_${t2}.nc
+            ncrcat -h -O ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??.nc ${tf}
+            if ($status == 0) then
+              rm -f ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??.nc
+              set df = ${v}_${t}.${e}.${m}.${c}.${t1}_cat_${t2}.nc
+              mv ${tf} ${df}
+              echo "Completed "${df}
+            endif
+          endif
+        end
+      end
+    end
+  end
+end
+#
+exit

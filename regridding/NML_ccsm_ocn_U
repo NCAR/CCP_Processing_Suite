@@ -1,0 +1,9 @@
+&popregrid_nml
+  src_file       = 'CASE.pop.h.YYYY-MM.nc'
+  out_form       = 'CASE.pop.h.src_var.YYYY-MM.nc'
+  dst_lclobber   = .true.
+  dst_z_standard = .false.
+  src_var        = 'UVEL','VVEL'
+  map_file       = 'maps/map_gx1v3_k40_U_to_gx1R_distwgt.nc'
+  nk		 = 40
+/

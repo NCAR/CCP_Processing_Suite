@@ -1,0 +1,207 @@
+#!/bin/csh -f
+#
+# Process CCSM CSIM monthly-mean netCDF files
+# Optionally, create IPCC format files
+#
+# --------------------------------------------------------------------------------
+# User-settable parameters
+# --------------------------------------------------------------------------------
+# Case(s)
+#
+set cases   = ( b30.030f.ES01 b30.030g.ES01 )
+#
+# Decades to process
+#
+set decades = ( 187 188 189 190 191 192 193 194 195 196 197 198 199 )
+#
+# Years from each decade to process
+#
+set years   = ( 0 1 2 3 4 5 6 7 8 9 )
+#
+# Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
+#
+set do_ipcc = 1
+#
+# Whether or not to do single-field processing (zero means DO NOT, non-zero means DO)
+#
+set do_proc = 1
+#
+# --------------------------------------------------------------------------------
+# NOTE: See also the "msd" variable below for archival directory of original 
+#       history files
+# --------------------------------------------------------------------------------
+#
+set machine = `hostname`
+#
+foreach c ( ${cases} )
+#
+# --------------------------------------------------------------------------------
+# Site-specific variables
+# --------------------------------------------------------------------------------
+#
+# NCAR (mineral)
+#
+  if ($machine == "mineral") then
+    set based = /home/strandwg/data/IPCC_Processing
+    set regrd = ${based}/regridding
+    set mapd  = /project/ccr/strandwg/IPCC_Processing/ice/CCSM
+    set iced  = /datalocal/ccpc/$USER/${c}/ice/mon
+    set msd   = /CCSM/csm/${c}/ice/hist
+    set msi   = /CCSM/csm/${c}/ice/ipcc/tseries/monthly
+    set msp   = /CCSM/csm/${c}/ice/proc/tseries/monthly
+#
+# ORNL (lens, aka "lens0")
+#
+  else if ($machine == "lens0") then
+    set based = ~${USER}/IPCC_Processing
+    set iced  = /tmp/work/${USER}/${c}/ice/mon
+    set regrd = ${based}/regridding
+    set mapd  = "~wgstrand/IPCC_Processing/ice/CCSM"
+#
+# HPSS history file directory
+#
+    set msd   = "~adrianne/ccsm/${c}/ice/hist"
+    set msi   = "~strandwg/CCSM/csm/${c}/ice/ipcc/tseries/monthly"
+    set msp   = "~strandwg/CCSM/csm/${c}/ice/proc/tseries/monthly"
+#
+# NERSC (davinci)
+#
+  else if ($machine == "davinci") then
+    set based = ~${USER}/IPCC_Processing
+    set iced  = /scratch/scratchdirs/${USER}/${c}/ice/mon
+    set regrd = ${based}/regridding
+    set mapd  = "~strandwg/IPCC_Processing/ice/CCSM"
+#
+# HPSS history file directory
+#
+    set msd   = "~adrianne/ccsm/${c}/ice/hist"
+    set msi   = "~strandwg/CCSM/csm/${c}/ice/ipcc/tseries/monthly"
+    set msp   = "~strandwg/CCSM/csm/${c}/ice/proc/tseries/monthly"
+  endif
+#
+# --------------------------------------------------------------------------------
+# End of site-specific variables
+# --------------------------------------------------------------------------------
+#
+  if !(-d  ${iced}) mkdir -p ${iced}
+#
+  cd ${iced}
+  ln -s -f ${based}/mss_* .
+  ln -s -f ${based}/ccsm_var_* .
+#
+  if ( $do_ipcc != "0") then
+    if !(-d ${iced}/IPCC) mkdir -p ${iced}/IPCC
+    if !(-d ${iced}/maps) mkdir -p ${iced}/maps
+    ln -s -f ${based}/do_cmor_create_ccsm .
+    ln -s -f ${based}/CCSM_icem_2cf.ncl .
+    ln -s -f ${based}/set_attributes_ccsm.ncl .
+    ln -s -f ${regrd}/ccsm_ice_rgd            .
+    ln -s -f ${regrd}/NML_ccsm_ice*           .
+    cd ${iced}/IPCC
+    ln -s -f ${based}/mss_* .
+    ln -s -f ${based}/cf_*var*concat .
+    cd ${iced}/maps
+    if ($machine == "mineral") then
+      ln -s -f ${mapd}/*k01*T*.nc .
+      ln -s -f ${mapd}/*k01*U*.nc .
+    else
+      hsi -q "cd $mapd ; get map*k01*nc"
+    endif
+    cd ${iced}
+  endif
+#
+  foreach d ( ${decades} )
+    cd ${iced}
+    foreach y ( ${years} )
+      set msf = "${c}.csim.h.${d}${y}-{01,02,03,04,05,06,07,08,09,10,11,12}.nc"
+      ./mss_read "${msd}" "${msf}"
+#
+# Do IPCC processing on each file
+#
+      if (${do_ipcc} != "0") then
+        foreach i ( ${msf} )
+          set m = `echo $i | cut -d"-" -f2 | cut -c1-2`
+          rm -f input_nml_T input_nml_U
+          cat NML_ccsm_ice_T | sed -e "s/CASE/${c}/g" | \
+                               sed -e "s/YYYY/${d}${y}/g" | \
+                               sed -e "s/MM/${m}/g" > input_nml_T
+          cat NML_ccsm_ice_U | sed -e "s/CASE/${c}/g" | \
+                               sed -e "s/YYYY/${d}${y}/g" | \
+                               sed -e "s/MM/${m}/g" > input_nml_U
+          ./ccsm_ice_rgd < input_nml_U
+          if ($status == 0) then
+            ./ccsm_ice_rgd < input_nml_1
+            if ($status == 0) then
+              if (${do_proc} != "0") ./ccsm_var_split $i erase
+              foreach j (${c}.csim.h.*.${d}${y}-${m}.nc )
+                ./do_cmor_create_ccsm $j
+                if ($status == 0) rm -f ${j}
+              end
+            else
+              echo "U REGRID FAILED"
+              exit 1
+          else
+            echo "T REGRID FAILED"
+            exit 1
+          endif
+        end
+      else
+#
+# Do single-field processing on each file, only
+#
+        if (${do_proc} != "0") then
+          foreach i ( ${msf} )
+            ./ccsm_var_split $i erase
+          end
+        endif
+      endif
+#
+# Concatenate results
+#
+      if ( $do_ipcc != "0") then
+        cd ${iced}/IPCC
+        ./cf_var_ann_concat
+        cd ${iced}
+      endif
+      if ( $do_proc != "0") then
+        foreach e (`ls -d *d.d`)
+          cd ${iced}/${e}
+          ./ccsm_var_ann
+          cd ${iced}
+        end
+      endif
+    end
+  end
+  if ( $do_proc != "0") then
+    foreach e (`ls -d *d.d`)
+      cd ${iced}/${e}
+      ./ccsm_var_dec
+    end
+    cd ${iced}
+    if ( $do_ipcc != "0") then
+      cd ${iced}/IPCC
+      ./cf_var_dec_concat
+      cd ${iced}
+  end
+  if ( $do_ipcc != "0") then
+    cd ${iced}/IPCC
+    ./cf_var_all_concat
+    foreach g (`ls *cat*nc`)
+      ./mss_write ${g} ${msi}
+    end
+  endif
+  cd ${iced}
+  if ( $do_proc != "0") then
+    foreach e (`ls -d *d.d`)
+      cd ${iced}/${e}
+      ./ccsm_var_all
+      if !(-f ./mss_write) ln -s -f ${based}/mss_write .
+      foreach g (`ls *cat*nc`)
+        ./mss_write $g ${msp}
+      end
+      cd ${iced}
+    end
+  endif
+end
+#
+exit

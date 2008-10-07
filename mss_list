@@ -1,0 +1,27 @@
+#!/bin/csh -f
+# List a directory on an archival system
+# Arguments:
+# 1 directory on the archival system
+# 2 local file that has list
+#
+if ("$#argv" != 2) then
+   echo "Usage: mss_list mss_directory list - both REQUIRED"
+   exit 1
+else
+   set mssd = "$argv[1]"
+   set file = "$argv[2]"
+endif
+#
+# If NCAR MSS msrcp command exists, use it.
+if (`which msrcp | wc -w` == 1 ) then
+   rm -f $file
+   msls -1R "${mssd}" > $file
+endif
+#
+# If NERSC/ORNL hsi command exists, use it.
+if ( `which hsi | wc -w` == 1  ) then 
+  rm -f file
+  hsi -q "ls -1R ${mssd}" > $file
+endif
+#
+exit

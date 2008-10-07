@@ -1,0 +1,44 @@
+#!/bin/csh -f
+#
+# Concatenate years of IPCC netCDF files into decades
+#
+if ("$#argv" != 0) then
+   echo "Usage: cf_var_dec_concat"
+   exit 1
+endif
+#
+set vars   = `ls | egrep '\.....\.nc$' | cut -d"_" -f1 | uniq`
+foreach v (${vars})
+  set table  = `ls ${v}*.????.nc | cut -d"_" -f2 | cut -d"." -f1 | sort| uniq`
+  foreach t (${table})
+    set expids = `ls ${v}_${t}.*.????.nc | cut -d"." -f2 | sort | uniq`
+    foreach e (${expids})
+      set model = `ls ${v}_${t}.${e}.*.????.nc | cut -d"." -f3 | sort | uniq`
+      foreach m (${model})
+        set comp = `ls ${v}_${t}.${e}.${m}.*.????.nc | cut -d"." -f4 | sort | uniq`
+        foreach c (${comp})
+          set decade = `ls ${v}_${t}.${e}.${m}.${c}.????.nc | cut -d"." -f5 | cut -c1-3 | sort | uniq`
+          foreach d (${decade})
+            set nf = `ls ${v}_${t}.${e}.${m}.${c}.${d}?.nc | wc -l`
+            if (${nf} == 10) then
+              set y1 = `ls ${v}_${t}.${e}.${m}.${c}.${d}?.nc | cut -d"." -f5 | cut -c1-4 | head -1`
+              set y2 = `ls ${v}_${t}.${e}.${m}.${c}.${d}?.nc | cut -d"." -f5 | cut -c1-4 | tail -1`
+              if (${t} == "A2") then
+                 set df = ${v}_${t}.${e}.${m}.${c}.${y1}-01-01_cat_${y2}-12-31.nc
+              else
+                 set df = ${v}_${t}.${e}.${m}.${c}.${y1}-01_cat_${y2}-12.nc
+              endif
+              ncrcat -h -O ${v}_${t}.${e}.${m}.${c}.${d}?.nc ${df}
+              if ($status == 0) then
+                rm -f ${v}_${t}.${e}.${m}.${c}.${d}?.nc
+                echo "Completed "${df}
+              endif
+            endif
+          end
+        end
+      end
+    end
+  end
+end
+#
+exit

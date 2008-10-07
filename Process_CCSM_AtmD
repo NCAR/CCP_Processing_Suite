@@ -1,0 +1,182 @@
+#!/bin/csh -f
+#
+# Process CCSM CAM daily netCDF files
+# Optionally, create IPCC format files
+#
+# --------------------------------------------------------------------------------
+# User-settable parameters
+# --------------------------------------------------------------------------------
+# Case(s)
+#
+set cases   = ( b30.030f.ES01 b30.030g.ES01 )
+#
+# Decades to process
+#
+set decades = ( 187 188 189 190 191 192 193 194 195 196 197 198 199 )
+#
+# Years from each decade to process
+#
+set years   = ( 0 1 2 3 4 5 6 7 8 9 )
+#
+# Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
+#
+set do_ipcc = 1
+#
+# Whether or not to do single-field processing (zero means DO NOT, non-zero means DO)
+#
+set do_proc = 1
+#
+# --------------------------------------------------------------------------------
+# NOTE: See also the "msd" variable below for archival directory of original 
+#       history files
+# --------------------------------------------------------------------------------
+#
+set machine = `hostname`
+#
+foreach c ( ${cases} )
+#
+# --------------------------------------------------------------------------------
+# Site-specific variables
+# --------------------------------------------------------------------------------
+#
+# NCAR (mineral)
+#
+  if ($machine == "mineral") then
+    set based = /home/strandwg/data/IPCC_Processing
+    set atmd  = /datalocal/ccpc/$USER/${c}/atm/mon
+    set msd   = /CCSM/csm/${c}/atm/hist
+    set msi   = /CCSM/csm/${c}/atm/ipcc/tseries/daily
+    set msp   = /CCSM/csm/${c}/atm/proc/tseries/daily
+#
+# ORNL (lens, aka "lens0")
+#
+  else if ($machine == "lens0") then
+    set based = ~${USER}/IPCC_Processing
+    set atmd  = /tmp/work/${USER}/${c}/atm/mon
+#
+# HPSS history file directory
+#
+    set msd   = "~adrianne/ccsm/${c}/atm/hist"
+    set msi   = "~strandwg/CCSM/csm/${c}/atm/ipcc/tseries/daily"
+    set msp   = "~strandwg/CCSM/csm/${c}/atm/proc/tseries/daily"
+#
+# NERSC (davinci)
+#
+  else if ($machine == "davinci") then
+    set based = ~${USER}/IPCC_Processing
+    set atmd  = /scratch/scratchdirs/${USER}/${c}/atm/mon
+#
+# HPSS history file directory
+#
+    set msd   = "~adrianne/ccsm/${c}/atm/hist"
+    set msi   = "~strandwg/CCSM/csm/${c}/atm/ipcc/tseries/daily"
+    set msp   = "~strandwg/CCSM/csm/${c}/atm/proc/tseries/daily"
+  endif
+#
+# --------------------------------------------------------------------------------
+# End of site-specific variables
+# --------------------------------------------------------------------------------
+#
+  if !(-d ${atmd}) mkdir -p ${atmd}
+  cd ${atmd}
+#
+  if (${do_ipcc} != "0") then
+    if !(-d  ${atmd}/IPCC) mkdir -p ${atmd}/IPCC
+    ln -s -f ${based}/do_cmor_create_ccsm .
+    ln -s -f ${based}/CCSM_atmd_2cf.ncl .
+    ln -s -f ${based}/set_attributes_ccsm.ncl .
+    cd ${atmd}/IPCC
+    ln -s -f ${based}/mss_* .
+    ln -s -f ${based}/cf_*var*concat .
+    cd ${atmd}
+  endif
+#
+  ln -s -f ${based}/raw_to_days .
+  ln -s -f ${based}/days_to_mon .
+  ln -s -f ${based}/mss_* .
+  ln -s -f ${based}/ccsm_var_* .
+#
+# Get list of history files on archival system
+#
+  ./mss_list ${mssd} ${c}.atm_files
+  foreach d ( ${decades} )
+    cd ${atmd}
+    foreach y ( ${years} )
+      if (`echo ${c} | cut -d"." -f3 | cut -c1-2` == "ES") then
+        set dat = `/bin/egrep "${c}.cam2.h1.${d}${y}" ${c}.atm_files | cut -d"." -f8 | cut -c6-10`
+      else
+        set dat = `/bin/egrep "${c}.cam2.h1.${d}${y}" ${c}.atm_files | cut -d"." -f6 | cut -c6-10`
+      endif
+      set lst = `echo $dat | sed -e "s/ /,/g"`
+      echo "mss_read "${msd}/${c}.cam2.h1.${d}${y}-"{"${lst}"}"-00000.nc
+      ./mss_read ${msd} ${c}.cam2.h1.${d}${y}-"{"${lst}"}"-00000.nc
+      if ($status == 0) then
+        foreach i ( `ls ${c}.cam2.h1.${d}${y}-??-??-00000.nc` )
+          ./raw_to_days ${i} erase
+          ./days_to_mon erase
+        end
+        foreach i ( `ls ${c}.cam2.h1.????-??.nc`)
+          if ( $do_ipcc != "0") then
+            ./do_cmor_create_ccsm $i >& /dev/null
+            if ($status != 0) then
+              echo "Error from do_cmor_create_ccsm on file "${i}
+              exit 1
+            endif
+          endif
+          if ( $do_proc != "0") then
+            ./ccsm_var_split $i erase
+          endif
+        end
+      else
+        echo "Error on mss_read of "${c}".cam2.h1."${d}${y}"-{"${lst}"}-00000.nc"
+        exit 1
+      endif
+      if ( $do_ipcc != "0") then
+        cd ${atmd}/IPCC
+        ./cf_var_ann_concat
+        cd ${atmd}
+      endif
+      if ( $do_proc != "0") then
+        foreach e (`ls -d *d.d`)
+          cd ${atmd}/${e}
+          ./ccsm_var_ann
+          cd ${atmd}
+        end
+      endif
+    end
+    if ( $do_proc != "0") then
+      foreach e (`ls -d *d.d`)
+        cd ${atmd}/${e}
+        ./ccsm_var_dec
+        cd ${atmd}
+      end
+      cd ${atmd}
+    end
+    if ( $do_ipcc != "0") then
+      cd ${atmd}/IPCC
+      ./cf_var_dec_concat
+      cd ${atmd}
+    end
+  endif
+  if ( $do_ipcc != "0") then
+    cd ${atmd}/IPCC
+    ./cf_var_all_concat
+    foreach g (`ls *cat*nc`)
+      ./mss_write ${g} ${msi}
+    end
+  endif
+  cd ${atmd}
+  if ( $do_proc != "0") then
+    foreach e (`ls -d *d.d`)
+      cd ${atmd}/${e}
+      ./ccsm_var_all
+      if !(-f ./mss_write) ln -s -f ${based}/mss_write .
+      foreach g (`ls *cat*nc`)
+        ./mss_write $g ${msp}
+      end
+      cd ${atmd}
+    end
+  endif
+end
+#
+exit

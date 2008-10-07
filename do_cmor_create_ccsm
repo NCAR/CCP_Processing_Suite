@@ -1,0 +1,89 @@
+#!/bin/csh -f
+#
+if ("$#argv" == 0) then
+   echo "Usage: do_cmor_create_ccsm file"
+   exit 1
+else if ("$#argv" == 1) then
+   set ccsm_file = $argv[1]
+else
+   echo "Usage: do_cmor_create_ccsm file"
+   exit 1
+endif
+#
+if !(-f ${ccsm_file}) then
+   echo $ccsm_file "not found. Exit."
+   exit 1
+endif
+#
+#
+# Assume filename is of form bxx.xxxx.(pop|csim|clm2|cam2).hh.dddd-dd.nc
+# bxx.xx              : case name and number
+# (pop|csim|clm2|cam2): component
+# hh                  : stream
+# dddd                : time period
+#
+set isES = `ls $ccsm_file | cut -d"." -f3 | cut -c1-2 | uniq`
+if (${isES} == "ES") then
+  set f_case = 3 ; set f_comp = 4 ; set f_strm = 5 ; set f_time = 6
+else
+  set f_case = 2 ; set f_comp = 3 ; set f_strm = 4 ; set f_time = 5
+endif
+#
+set ccsm_case = `echo ${ccsm_file} | cut -d"." -f1-${f_case}`
+set ccsm_comp = `echo ${ccsm_file} | cut -d"." -f${f_comp}`
+set ccsm_strm = `echo ${ccsm_file} | cut -d"." -f${f_strm}`
+set ccsm_time = `echo ${ccsm_file} | cut -d"." -f${f_time}`
+#
+setenv CCSM_FILE ${ccsm_file}
+setenv CCSM_CASE ${ccsm_case}
+setenv CCSM_TIME ${ccsm_time}
+#
+if !(-d IPCC) mkdir ./IPCC
+#
+if (${ccsm_comp} == "cam2") then
+  if (${ccsm_strm} == "h0") then
+    setenv CCSM_COMP "atmm"
+    setenv NCL_SCPT CCSM_atmm_2cf.ncl
+  else if (${ccsm_strm} == "h1") then
+    setenv CCSM_COMP "atmd"
+    setenv NCL_SCPT CCSM_atmd_2cf.ncl
+  endif
+  ncl < ${NCL_SCPT}
+  if ($status != 0) then
+     echo "NCL ERROR"
+     exit 1
+  endif
+else if (${ccsm_comp} == "clm2") then
+  setenv CCSM_COMP "lndm"
+  setenv NCL_SCPT CCSM_lndm_2cf.ncl
+  ncl < ${NCL_SCPT}
+  if ($status != 0) then
+     echo "NCL ERROR"
+     exit 1
+  endif
+else if (${ccsm_comp} == "csim") then
+  setenv CCSM_COMP "icem"
+  setenv NCL_SCPT CCSM_icem_2cf.ncl
+  ncl < ${NCL_SCPT}
+  if ($status != 0) then
+     echo "NCL ERROR"
+     exit 1
+  endif
+else if (${ccsm_comp} == "pop") then
+  setenv CCSM_COMP "ocnm"
+  setenv NCL_SCPT CCSM_ocnm_2cf.ncl
+  ncl < ${NCL_SCPT}
+  if ($status != 0) then
+     echo "NCL ERROR"
+     exit 1
+  endif
+  setenv NCL_SCPT CCSM_trans_2cf.ncl
+  ncl < ${NCL_SCPT}
+  if ($status != 0) then
+     echo "NCL ERROR"
+     exit 1
+  endif
+endif
+#
+#
+exit

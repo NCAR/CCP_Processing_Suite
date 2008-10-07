@@ -1,0 +1,164 @@
+#!/bin/csh -f
+#
+# Process CCSM CLM monthly-mean netCDF files
+# Optionally, create IPCC format files
+#
+# --------------------------------------------------------------------------------
+# User-settable parameters
+# --------------------------------------------------------------------------------
+# Case(s)
+#
+set cases   = ( b30.030f.ES01 b30.030g.ES01 )
+#
+# Decades to process
+#
+set decades = ( 187 188 189 190 191 192 193 194 195 196 197 198 199 )
+#
+# Years from each decade to process
+#
+set years   = ( 0 1 2 3 4 5 6 7 8 9 )
+#
+# Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
+#
+set do_ipcc = 1
+#
+# Whether or not to do single-field processing (zero means DO NOT, non-zero means DO)
+#
+set do_proc = 1
+#
+# --------------------------------------------------------------------------------
+# NOTE: See also the "msd" variable below for archival directory of original 
+#       history files
+# --------------------------------------------------------------------------------
+#
+set machine = `hostname`
+#
+foreach c ( ${cases} )
+#
+# --------------------------------------------------------------------------------
+# Site-specific variables
+# --------------------------------------------------------------------------------
+#
+# NCAR (mineral)
+#
+  if ($machine == "mineral") then
+    set based = /home/strandwg/data/IPCC_Processing
+    set lndd  = /datalocal/ccpc/$USER/${c}/lnd/mon
+    set msd   = /CCSM/csm/${c}/lnd/hist
+    set msi   = /CCSM/csm/${c}/lnd/ipcc/tseries/monthly
+    set msp   = /CCSM/csm/${c}/lnd/proc/tseries/monthly
+#
+# ORNL (lens, aka "lens0")
+#
+  else if ($machine == "lens0") then
+    set based = ~${USER}/IPCC_Processing
+    set lndd  = /tmp/work/${USER}/${c}/lnd/mon
+#
+# HPSS history file directory
+#
+    set msd   = "~adrianne/ccsm/${c}/lnd/hist"
+    set msi   = "~strandwg/CCSM/csm/${c}/lnd/ipcc/tseries/monthly"
+    set msp   = "~strandwg/CCSM/csm/${c}/lnd/proc/tseries/monthly"
+#
+# NERSC (davinci)
+#
+  else if ($machine == "davinci") then
+    set based = ~${USER}/IPCC_Processing
+    set lndd  = /scratch/scratchdirs/${USER}/${c}/lnd/mon
+#
+# HPSS history file directory
+#
+    set msd   = "~adrianne/ccsm/${c}/lnd/hist"
+    set msi   = "~strandwg/CCSM/csm/${c}/lnd/ipcc/tseries/monthly"
+    set msp   = "~strandwg/CCSM/csm/${c}/lnd/proc/tseries/monthly"
+  endif
+#
+# --------------------------------------------------------------------------------
+# End of site-specific variables
+# --------------------------------------------------------------------------------
+#
+  if !(-d ${lndd}) mkdir -p ${lndd}
+  cd ${lndd}
+#
+  if ( $do_ipcc != "0") then
+    if !(-d  ${lndd}/IPCC) mkdir -p ${lndd}/IPCC
+    ln -s -f ${based}/do_cmor_create_ccsm .
+    ln -s -f ${based}/CCSM_lndm_2cf.ncl .
+    ln -s -f ${based}/set_attributes_ccsm.ncl .
+    cd ${lndd}/IPCC
+    ln -s -f ${based}/mss_* .
+    ln -s -f ${based}/cf_*var*concat .
+    cd ${lndd}
+  endif
+#
+  ln -s -f ${based}/mss_* .
+  ln -s -f ${based}/ccsm_var* .
+#
+  foreach d ( ${decades} )
+    cd ${lndd}
+    foreach y ( ${years} )
+      set msf = "${c}.clm2.h0.${d}${y}-{01,02,03,04,05,06,07,08,09,10,11,12}.nc"
+      ./mss_read "${msd}" "${msf}"
+      if ($status == 0) then
+        foreach i ( `ls ${c}.clm2.h0.${d}${y}-??.nc`)
+          if ( $do_ipcc != "0") then
+            ./do_cmor_create_ccsm $i >& /dev/null
+            if ($status != 0) then
+              echo "Error from do_cmor_create_ccsm on file "${i}
+              exit 1
+            endif
+          endif
+          if ( $do_proc != "0") then
+            ./ccsm_var_split $i erase
+          endif
+        end
+      endif
+      if ( $do_ipcc != "0") then
+        cd ${lndd}/IPCC
+        ./cf_var_ann_concat
+        cd ${lndd}
+      endif
+      if ( $do_proc != "0") then
+        foreach e (`ls -d *d.d`)
+          cd ${lndd}/${e}
+          ./ccsm_var_ann
+          cd ${lndd}
+        end
+      endif
+    end
+    if ( $do_proc != "0") then
+      foreach e (`ls -d *d.d`)
+        cd ${lndd}/${e}
+        ./ccsm_var_dec
+        cd ${lndd}
+      end
+      cd ${lndd}
+    end
+    if ( $do_ipcc != "0") then
+      cd ${lndd}/IPCC
+      ./cf_var_dec_concat
+      cd ${lndd}
+    end
+  endif
+  if ( $do_ipcc != "0") then
+    cd ${lndd}/IPCC
+    ./cf_var_all_concat
+    foreach g (`ls *cat*nc`)
+      ./mss_write ${g} ${msi}
+    end
+  endif
+  cd ${lndd}
+  if ( $do_proc != "0") then
+    foreach e (`ls -d *d.d`)
+      cd ${lndd}/${e}
+      ./ccsm_var_all
+      if !(-f ./mss_write) ln -s -f ${based}/mss_write .
+      foreach g (`ls *cat*nc`)
+        ./mss_write $g ${msp}
+      end
+      cd ${lndd}
+    end
+  endif
+end
+#
+exit
