@@ -1,6 +1,6 @@
 #!/bin/csh -f
 #
-# Process CCSM CLM monthly-mean netCDF files
+# Process CCSM CAM monthly-mean netCDF files
 # Optionally, create IPCC format files
 #
 # --------------------------------------------------------------------------------
@@ -27,82 +27,42 @@ set do_ipcc = 0
 set do_proc = 1
 #
 # --------------------------------------------------------------------------------
-# NOTE: See also the "msd" variable below for archival directory of original 
-#       history files
+# NOTE: See also the "mssorig" variable in 'do_setup' for archival directory of 
+#       original history files
 # --------------------------------------------------------------------------------
-#
-set machine = `hostname`
 #
 foreach c ( ${cases} )
 #
 # --------------------------------------------------------------------------------
-# Site-specific variables
+# Set up all necessary script variables
 # --------------------------------------------------------------------------------
 #
-# NCAR (mineral)
+  source ./do_setup $c lndm
 #
-  if ($machine == "mineral") then
-    set based = /home/strandwg/data/IPCC_Processing
-    set lndd  = /datalocal/ccpc/$USER/${c}/lnd/mon
-    set msd   = /CCSM/csm/${c}/lnd/hist
-    set msi   = /CCSM/csm/${c}/lnd/ipcc/tseries/monthly
-    set msp   = /CCSM/csm/${c}/lnd/proc/tseries/monthly
-#
-# ORNL (lens, aka "lens0")
-#
-  else if ($machine == "lens0") then
-#    eval `/usr/bin/modulecmd csh load ncl`
-#    eval `/usr/bin/modulecmd csh load pgi`
-    set based = ~${USER}/IPCC_Processing
-    set lndd  = /tmp/work/${USER}/${c}/lnd/mon
-#
-# HPSS history file directory
-#
-    set msd   = "~adrianne/ccsm/${c}/lnd/hist"
-    set msi   = "/f2/wgstrand/CCSM/csm/${c}/lnd/ipcc/tseries/monthly"
-    set msp   = "/f2/wgstrand/CCSM/csm/${c}/lnd/proc/tseries/monthly"
-#
-# NERSC (davinci)
-#
-  else if ($machine == "davinci") then
-    set based = ~${USER}/IPCC_Processing
-    set lndd  = /scratch/scratchdirs/${USER}/${c}/lnd/mon
-#
-# HPSS history file directory
-#
-    set msd   = "~adrianne/ccsm/${c}/lnd/hist"
-    set msi   = "~strandwg/CCSM/csm/${c}/lnd/ipcc/tseries/monthly"
-    set msp   = "~strandwg/CCSM/csm/${c}/lnd/proc/tseries/monthly"
-  endif
-#
-# --------------------------------------------------------------------------------
-# End of site-specific variables
-# --------------------------------------------------------------------------------
-#
-  if !(-d ${lndd}) mkdir -p ${lndd}
-  cd ${lndd}
+  if !(-d ${procdir}) mkdir -p ${procdir}
+  cd ${procdir}
 #
   if ( $do_ipcc != "0") then
-    if !(-d  ${lndd}/IPCC) mkdir -p ${lndd}/IPCC
-    ln -s -f ${based}/do_cmor_create_ccsm .
-    ln -s -f ${based}/CCSM_lndm_2cf.ncl .
-    ln -s -f ${based}/set_attributes_ccsm.ncl .
-    cd ${lndd}/IPCC
-    ln -s -f ${based}/mss_* .
-    ln -s -f ${based}/cf_*var*concat .
-    cd ${lndd}
+    if !(-d  ${procdir}/IPCC) mkdir -p ${procdir}/IPCC
+    ln -s -f ${basedir}/do_cmor_create_ccsm .
+    ln -s -f ${basedir}/CCSM_lndm_2cf.ncl .
+    ln -s -f ${basedir}/set_attributes_ccsm.ncl .
+    cd ${procdir}/IPCC
+    ln -s -f ${basedir}/mss_* .
+    ln -s -f ${basedir}/cf_*var*concat .
+    cd ${procdir}
   endif
 #
-  ln -s -f ${based}/mss_* .
-  ln -s -f ${based}/ccsm_var* .
+  ln -s -f ${basedir}/mss_* .
+  ln -s -f ${basedir}/ccsm_var* .
 #
   foreach d ( ${decades} )
-    cd ${lndd}
+    cd ${procdir}
     foreach y ( ${years} )
-      set msf = "${c}.clm2.h0.${d}${y}-{01,02,03,04,05,06,07,08,09,10,11,12}.nc"
-      ./mss_read "${msd}" "${msf}"
+      set msf = "${c}.cam2.h0.${d}${y}-{01,02,03,04,05,06,07,08,09,10,11,12}.nc"
+      ./mss_read "${mssorig}" "${msf}"
       if ($status == 0) then
-        foreach i ( `ls ${c}.clm2.h0.${d}${y}-??.nc`)
+        foreach i ( `ls ${c}.cam2.h0.${d}${y}-??.nc`)
           if ( $do_ipcc != "0") then
             ./do_cmor_create_ccsm $i
             if ($status != 0) then
@@ -116,48 +76,48 @@ foreach c ( ${cases} )
         end
       endif
       if ( $do_ipcc != "0") then
-        cd ${lndd}/IPCC
+        cd ${procdir}/IPCC
         ./cf_var_ann_concat
-        cd ${lndd}
+        cd ${procdir}
       endif
       if ( $do_proc != "0") then
         foreach e (`ls -d *d.d`)
-          cd ${lndd}/${e}
+          cd ${procdir}/${e}
           ../ccsm_var_ann
-          cd ${lndd}
+          cd ${procdir}
         end
       endif
     end
     if ( $do_proc != "0") then
       foreach e (`ls -d *d.d`)
-        cd ${lndd}/${e}
+        cd ${procdir}/${e}
         ../ccsm_var_dec
-        cd ${lndd}
+        cd ${procdir}
       end
-      cd ${lndd}
+      cd ${procdir}
     end
     if ( $do_ipcc != "0") then
-      cd ${lndd}/IPCC
+      cd ${procdir}/IPCC
       ./cf_var_dec_concat
-      cd ${lndd}
+      cd ${procdir}
     end
   endif
   if ( $do_ipcc != "0") then
-    cd ${lndd}/IPCC
+    cd ${procdir}/IPCC
     ./cf_var_all_concat
     foreach g (`ls *cat*nc`)
-      ../mss_write ${g} ${msi}
+      ../mss_write ${g} ${mssipcc}
     end
   endif
-  cd ${lndd}
+  cd ${procdir}
   if ( $do_proc != "0") then
     foreach e (`ls -d *d.d`)
-      cd ${lndd}/${e}
+      cd ${procdir}/${e}
       ../ccsm_var_all
       foreach g (`ls *cat*nc`)
-        ../mss_write $g ${msp}
+        ../mss_write $g ${mssproc}
       end
-      cd ${lndd}
+      cd ${procdir}
     end
   endif
 end
