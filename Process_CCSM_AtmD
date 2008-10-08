@@ -53,10 +53,10 @@ foreach c ( ${cases} )
     cd ${procdir}
   endif
 #
-  ln -s -f ${based}/raw_to_days .
-  ln -s -f ${based}/days_to_mon .
-  ln -s -f ${based}/mss_* .
-  ln -s -f ${based}/ccsm_var_* .
+  ln -s -f ${basedir}/raw_to_days .
+  ln -s -f ${basedir}/days_to_mon .
+  ln -s -f ${basedir}/mss_* .
+  ln -s -f ${basedir}/ccsm_var_* .
 #
 # Get list of history files on archival system
 #
