@@ -15,13 +15,13 @@ endif
 # If NCAR MSS msrcp command exists, use it.
 if (`which msrcp | wc -w` == 1 ) then
    rm -f $file
-   msls -1R "${mssd}" > $file
+   msls -1R "${mssd}" >& $file
 endif
 #
 # If NERSC/ORNL hsi command exists, use it.
 if ( `which hsi | wc -w` == 1  ) then 
   rm -f file
-  hsi -q "ls -1R ${mssd}" > $file
+  hsi -q "ls -1R ${mssd}" >& $file
 endif
 #
 exit
