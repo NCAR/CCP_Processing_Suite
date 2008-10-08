@@ -8,11 +8,11 @@
 # --------------------------------------------------------------------------------
 # Case(s)
 #
-set cases   = ( b30.030f.ES01 b30.030g.ES01 )
+set cases   = ( b30.209a )
 #
 # Decades to process
 #
-set decades = ( 187 188 189 190 191 192 193 194 195 196 197 198 199 )
+set decades = ( 200 201 202 203 204 205 206 207 208 209 )
 #
 # Years from each decade to process
 #
@@ -20,7 +20,7 @@ set years   = ( 0 1 2 3 4 5 6 7 8 9 )
 #
 # Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
 #
-set do_ipcc = 1
+set do_ipcc = 0
 #
 # Whether or not to do single-field processing (zero means DO NOT, non-zero means DO)
 #
@@ -51,14 +51,16 @@ foreach c ( ${cases} )
 # ORNL (lens, aka "lens0")
 #
   else if ($machine == "lens0") then
+#    eval `/usr/bin/modulecmd csh load ncl`
+#    eval `/usr/bin/modulecmd csh load pgi`
     set based = ~${USER}/IPCC_Processing
     set atmd  = /tmp/work/${USER}/${c}/atm/mon
 #
 # HPSS history file directory
 #
     set msd   = "~adrianne/ccsm/${c}/atm/hist"
-    set msi   = "~strandwg/CCSM/csm/${c}/atm/ipcc/tseries/monthly"
-    set msp   = "~strandwg/CCSM/csm/${c}/atm/proc/tseries/monthly"
+    set msi   = "/f2/wgstrand/CCSM/csm/${c}/atm/ipcc/tseries/monthly"
+    set msp   = "/f2/wgstrand/CCSM/csm/${c}/atm/proc/tseries/monthly"
 #
 # NERSC (davinci)
 #
@@ -102,7 +104,7 @@ foreach c ( ${cases} )
       if ($status == 0) then
         foreach i ( `ls ${c}.cam2.h0.${d}${y}-??.nc`)
           if ( $do_ipcc != "0") then
-            ./do_cmor_create_ccsm $i >& /dev/null
+            ./do_cmor_create_ccsm $i
             if ($status != 0) then
               echo "Error from do_cmor_create_ccsm on file "${i}
               exit 1
@@ -121,7 +123,7 @@ foreach c ( ${cases} )
       if ( $do_proc != "0") then
         foreach e (`ls -d *d.d`)
           cd ${atmd}/${e}
-          ./ccsm_var_ann
+          ../ccsm_var_ann
           cd ${atmd}
         end
       endif
@@ -129,7 +131,7 @@ foreach c ( ${cases} )
     if ( $do_proc != "0") then
       foreach e (`ls -d *d.d`)
         cd ${atmd}/${e}
-        ./ccsm_var_dec
+        ../ccsm_var_dec
         cd ${atmd}
       end
       cd ${atmd}
@@ -144,17 +146,16 @@ foreach c ( ${cases} )
     cd ${atmd}/IPCC
     ./cf_var_all_concat
     foreach g (`ls *cat*nc`)
-      ./mss_write ${g} ${msi}
+      ../mss_write ${g} ${msi}
     end
   endif
   cd ${atmd}
   if ( $do_proc != "0") then
     foreach e (`ls -d *d.d`)
       cd ${atmd}/${e}
-      ./ccsm_var_all
-      if !(-f ./mss_write) ln -s -f ${based}/mss_write .
+      ../ccsm_var_all
       foreach g (`ls *cat*nc`)
-        ./mss_write $g ${msp}
+        ../mss_write $g ${msp}
       end
       cd ${atmd}
     end

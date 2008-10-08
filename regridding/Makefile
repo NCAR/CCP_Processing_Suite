@@ -1,8 +1,10 @@
 FC     = pgf95
 FFLAGS = -c
-NCDIRI = -I/usr/local/netcdf-3.6.1-pgi-hpf-cc-6.1-6/include
+#NCDIRI = -I/usr/local/netcdf-3.6.1-pgi-hpf-cc-6.1-6/include
+NCDIRI = -I$(HOME)/include
 NCINCF = -lnetcdf
-NCDIRL = -L/usr/local/netcdf-3.6.1-pgi-hpf-cc-6.1-6/lib
+#NCDIRL = -L/usr/local/netcdf-3.6.1-pgi-hpf-cc-6.1-6/lib
+NCDIRL = -L$(HOME)/lib
 NCLIBS = $(NCDIRL) $(NCINCF)
 
 OBJCOMN = \
@@ -16,24 +18,11 @@ OBJCOMN = \
    nf_wrap_stubs.o \
    vars_mod.o
 
-OBJPOCN = main_pcm1_ocn.o pcm1_ocn_rgd.o
-
 OBJCOCN = main_ccsm_ocn.o ccsm_ocn_rgd.o
-
-OBJPICE = main_pcm1_ice.o pcm1_ice_rgd.o
 
 OBJCICE = main_ccsm_ice.o ccsm_ice_rgd.o
 
-all: pcm1_ice_rgd pcm1_ocn_rgd pcm1_ocn_trans ccsm_ice_rgd ccsm_ocn_rgd
-
-pcm1_ice_rgd: $(OBJCOMN) $(OBJPICE)
-	$(FC) -o pcm1_ice_rgd $(OBJCOMN) $(OBJPICE) $(NCLIBS)
-
-pcm1_ocn_rgd: $(OBJCOMN) $(OBJPOCN)
-	$(FC) -o pcm1_ocn_rgd $(OBJCOMN) $(OBJPOCN) $(NCLIBS)
-
-pcm1_ocn_trans: pcm1_ocn_trans.F90
-	$(FC) -o pcm1_ocn_trans $(NCDIRI) $(NCDIRL) pcm1_ocn_trans.F90 $(NCINCF)
+all: ccsm_ice_rgd ccsm_ocn_rgd
 
 ccsm_ice_rgd: $(OBJCOMN) $(OBJCICE)
 	$(FC) -o ccsm_ice_rgd $(OBJCOMN) $(OBJCICE) $(NCLIBS)
@@ -54,17 +43,9 @@ main_ccsm_ocn.o: main_ccsm_ocn.F90 kinds_mod.o vars_mod.o ccsm_ocn_rgd.o
 
 main_ccsm_ice.o: main_ccsm_ice.F90 kinds_mod.o vars_mod.o ccsm_ice_rgd.o
 
-main_pcm1_ocn.o: main_pcm1_ocn.F90 kinds_mod.o vars_mod.o pcm1_ocn_rgd.o
-
-main_pcm1_ice.o: main_pcm1_ice.F90 kinds_mod.o vars_mod.o pcm1_ice_rgd.o
-
 ccsm_ocn_rgd.o: ccsm_ocn_rgd.F90 kinds_mod.o vars_mod.o msg_mod.o char_case.o const_mod.o nf_wrap.o nf_tools.o
 
 ccsm_ice_rgd.o: ccsm_ice_rgd.F90 kinds_mod.o vars_mod.o msg_mod.o char_case.o const_mod.o nf_wrap.o nf_tools.o
-
-pcm1_ocn_rgd.o: pcm1_ocn_rgd.F90 kinds_mod.o vars_mod.o msg_mod.o char_case.o const_mod.o nf_wrap.o nf_tools.o
-
-pcm1_ice_rgd.o: pcm1_ice_rgd.F90 kinds_mod.o vars_mod.o msg_mod.o char_case.o const_mod.o nf_wrap.o nf_tools.o
 
 array_tools.o: array_tools.F90 kinds_mod.o msg_mod.o
 

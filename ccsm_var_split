@@ -50,20 +50,20 @@ if (`echo ${d2vars} | wc -c` != 0) then
       set d0head = `echo $d0vars | sed -e 's/ /,/g'`
       set d1head = `echo $d1vars | sed -e 's/ /,/g'`
       set d2head = `echo $d2vars | sed -e 's/ /,/g'`
-      set header = `echo $d0head","$d1head","$d2head`
+      set header = `echo $d0head","$d1head","$d2head | sed -e 's/^,//g'`
     else
       set d1head = `echo $d1vars | sed -e 's/ /,/g'`
       set d2head = `echo $d2vars | sed -e 's/ /,/g'`
-      set header = `echo $d1head","$d2head`
+      set header = `echo $d1head","$d2head | sed -e 's/^,//g'`
     endif
   else
     if (`echo ${d0vars} | wc -c` != 0) then
       set d0head = `echo $d0vars | sed -e 's/ /,/g'`
       set d2head = `echo $d2vars | sed -e 's/ /,/g'`
-      set header = `echo $d0head","$d2head`
+      set header = `echo $d0head","$d2head | sed -e 's/^,//g'`
     else
       set d2head = `echo $d2vars | sed -e 's/ /,/g'`
-      set header = `echo $d2head`
+      set header = `echo $d2head | sed -e 's/^,//g'`
     endif
   endif
 else
@@ -71,18 +71,18 @@ else
     if (`echo ${d0vars} | wc -c` != 0) then
       set d0head = `echo $d0vars | sed -e 's/ /,/g'`
       set d1head = `echo $d1vars | sed -e 's/ /,/g'`
-      set header = `echo $d0head","$d1head`
+      set header = `echo $d0head","$d1head | sed -e 's/^,//g'`
     else
       set d1head = `echo $d1vars | sed -e 's/ /,/g'`
-      set header = `echo $d1head`
+      set header = `echo $d1head | sed -e 's/^,//g'`
     endif
   else
     if (`echo ${d0vars} | wc -c` != 0) then
       set d0head = `echo $d0vars | sed -e 's/ /,/g'`
-      set header = `echo $d0head`
+      set header = `echo $d0head | sed -e 's/^,//g'`
     else
       set d2head = `echo $d2vars | sed -e 's/ /,/g'`
-      set header = `echo $d2head`
+      set header = `echo $d2head | sed -e 's/^,//g'`
     endif
   endif
 endif

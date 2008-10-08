@@ -28,7 +28,7 @@ foreach m ( ${chek} )
             ncrcat -h -O ${c}.${p}.${v}.${y}-??.nc ${df}
             if ($status == 0) then
               rm -f ${c}.${p}.${v}.${y}-??.nc
-              echo "Completed "${df}
+#              echo "Completed "${df}
             endif
           endif
         end

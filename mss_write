@@ -24,9 +24,9 @@ endif
 #
 # If NERSC/ORNL hsi command exists, use it.
 if ( `which hsi | wc -w` == 1  ) then 
-  hsi -q "mkdir -p ${mssd} ; chmod -R 775 ${mssd}"
-  hsi -q "cd ${mssd} ; put ${f} ; chmod 644 ${f}"
-  if ($status == 0) rm -f ${f}
+#  hsi -q "mkdir -p ${mssd} ; chmod 775 ${mssd}"
+  hsi -q "put -R ${mssd}/${file} ; chmod 644 ${mssd}/${file} ; chmod 775 ${mssd}"
+  if ($status == 0) rm -f ${file}
 endif
 #
 exit
