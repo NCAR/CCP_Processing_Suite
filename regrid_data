@@ -1,0 +1,85 @@
+#!/bin/csh -f
+#
+# Regrid CCSM POP/CSIM data to regular-ish grid using SCRIP weights (predefined)
+#
+if ("$#argv" != 1) then
+  echo "Usage: regrid_data file"
+  echo "Type must be one of (atmm atmd lndm ocnm icem)"
+  exit 1
+else
+  set file = $argv[1]
+  if !(-f ./${file}) then
+    echo "regrid_data: "$file" does not exist. Exit."
+    exit 1
+  endif
+endif
+#
+set isES = `echo $file | cut -d"." -f3 | cut -c1-2 | uniq`
+if (${isES} == "ES") then
+  set f_comp = 4
+else
+  set f_comp = 3
+endif
+#
+# POP regrid
+#
+if (${f_comp} == "pop") then
+  set m = `echo $file | cut -d"-" -f2 | cut -c1-2`
+  rm -f input_nml_T input_nml_U input_nml_1
+  cat NML_ccsm_ocn_1 | sed -e "s/CASE/${c}/g" | \
+                       sed -e "s/YYYY/${d}${y}/g" | \
+                       sed -e "s/MM/${m}/g" > input_nml_1
+  cat NML_ccsm_ocn_T | sed -e "s/CASE/${c}/g" | \
+                       sed -e "s/YYYY/${d}${y}/g" | \
+                       sed -e "s/MM/${m}/g" > input_nml_T
+  cat NML_ccsm_ocn_U | sed -e "s/CASE/${c}/g" | \
+                       sed -e "s/YYYY/${d}${y}/g" | \
+                       sed -e "s/MM/${m}/g" > input_nml_U
+  ./ccsm_ocn_rgd < input_nml_1
+  if ($status == 0) then
+    ./ccsm_ocn_rgd < input_nml_T
+    if ($status == 0) then
+      ./ccsm_ocn_rgd < input_nml_U
+      if ($status == 0) then
+        echo "regrid_data ocn COMPLETE"
+      else
+        echo "regrid_data ocn U regrid FAILED"
+        exit 1
+      endif
+    else
+      echo "regrid_data ocn T regrid FAILED"
+      exit 1
+    endif
+  else
+    echo "regrid_data ocn 1 regrid FAILED"
+    exit 1
+  endif
+endif
+#
+# CSIM regrid
+#
+if (${f_comp} == "csim") then
+  set m = `echo $file | cut -d"-" -f2 | cut -c1-2`
+  rm -f input_nml_T input_nml_U
+  cat NML_ccsm_ice_T | sed -e "s/CASE/${c}/g" | \
+                       sed -e "s/YYYY/${d}${y}/g" | \
+                       sed -e "s/MM/${m}/g" > input_nml_T
+  cat NML_ccsm_ice_U | sed -e "s/CASE/${c}/g" | \
+                       sed -e "s/YYYY/${d}${y}/g" | \
+                       sed -e "s/MM/${m}/g" > input_nml_U
+  ./ccsm_ice_rgd < input_nml_T
+  if ($status == 0) then
+    ./ccsm_ice_rgd < input_nml_U
+    if ($status == 0) then
+      echo "regrid_data ice COMPLETE"
+    else
+      echo "regrid_data U ice regrid FAILED"
+      exit 1
+    endif
+  else
+    echo "regrid_data T ice regrid FAILED"
+    exit 1
+  endif
+endif
+#
+exit 0

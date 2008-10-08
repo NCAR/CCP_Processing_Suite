@@ -72,42 +72,16 @@ foreach c ( ${cases} )
       set msf = "${c}.pop.h.${d}${y}-{01,02,03,04,05,06,07,08,09,10,11,12}.nc"
       ./mss_read "${mssorig}" "${msf}"
 #
-# Do IPCC processing on each file
+# Do regridding and IPCC processing on each file
 #
       if (${do_ipcc} != "0") then
         foreach i ( `ls ${c}.pop.h.${d}${y}-??.nc` )
-          set m = `echo $i | cut -d"-" -f2 | cut -c1-2`
-          rm -f input_nml_T input_nml_U input_nml_1
-          cat NML_ccsm_ocn_1 | sed -e "s/CASE/${c}/g" | \
-                               sed -e "s/YYYY/${d}${y}/g" | \
-                               sed -e "s/MM/${m}/g" > input_nml_1
-          cat NML_ccsm_ocn_T | sed -e "s/CASE/${c}/g" | \
-                               sed -e "s/YYYY/${d}${y}/g" | \
-                               sed -e "s/MM/${m}/g" > input_nml_T
-          cat NML_ccsm_ocn_U | sed -e "s/CASE/${c}/g" | \
-                               sed -e "s/YYYY/${d}${y}/g" | \
-                               sed -e "s/MM/${m}/g" > input_nml_U
-          ./ccsm_ocn_rgd < input_nml_1
+          ./regrid_data $i
           if ($status == 0) then
-            ./ccsm_ocn_rgd < input_nml_T
-            if ($status == 0) then
-              ./ccsm_ocn_rgd < input_nml_U
-              if ($status == 0) then
-                foreach j (${c}.pop.h.*.${d}${y}-${m}.nc )
-                  ./do_cmor_create_ccsm $j
-                  if ($status == 0) rm -f ${j}
-                end
-              else
-                echo "U REGRID FAILED"
-                exit 1
-              endif
-            else
-              echo "T REGRID FAILED"
-              exit 1
-            endif
-          else
-            echo "1 REGRID FAILED"
-            exit 1
+            foreach j (${c}.pop.h.*.${d}${y}-${m}.nc )
+              ./do_cmor_create_ccsm $j
+              if ($status == 0) rm -f ${j}
+            end
           endif
         end
       endif

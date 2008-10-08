@@ -75,29 +75,12 @@ foreach c ( ${cases} )
 #
       if (${do_ipcc} != "0") then
         foreach i ( `ls ${c}.csim.h.${d}${y}-??.nc` )
-          set m = `echo $i | cut -d"-" -f2 | cut -c1-2`
-          rm -f input_nml_T input_nml_U
-          cat NML_ccsm_ice_T | sed -e "s/CASE/${c}/g" | \
-                               sed -e "s/YYYY/${d}${y}/g" | \
-                               sed -e "s/MM/${m}/g" > input_nml_T
-          cat NML_ccsm_ice_U | sed -e "s/CASE/${c}/g" | \
-                               sed -e "s/YYYY/${d}${y}/g" | \
-                               sed -e "s/MM/${m}/g" > input_nml_U
-          ./ccsm_ice_rgd < input_nml_T
+          ./regrid_data $i
           if ($status == 0) then
-            ./ccsm_ice_rgd < input_nml_U
-            if ($status == 0) then
-              foreach j (${c}.csim.h.*.${d}${y}-${m}.nc )
-                ./do_cmor_create_ccsm $j
-                if ($status == 0) rm -f ${j}
-              end
-            else
-              echo "U REGRID FAILED"
-              exit 1
-            endif
-          else
-            echo "T REGRID FAILED"
-            exit 1
+            foreach j (${c}.csim.h.*.${d}${y}-${m}.nc )
+              ./do_cmor_create_ccsm $j
+              if ($status == 0) rm -f ${j}
+            end
           endif
         end
       endif
