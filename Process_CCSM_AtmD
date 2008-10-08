@@ -60,9 +60,10 @@ foreach c ( ${cases} )
 #
 # Get list of history files on archival system
 #
+  cd ${procdir}
   ./mss_list ${mssorig} >& ${c}.atm_files
   foreach d ( ${decades} )
-    cd ${mssproc}
+    cd ${procdir}
     foreach y ( ${years} )
       if (`echo ${c} | cut -d"." -f3 | cut -c1-2` == "ES") then
         set dat = `/bin/egrep "${c}.cam2.h1.${d}${y}" ${c}.atm_files | cut -d"." -f8 | cut -c6-10`
