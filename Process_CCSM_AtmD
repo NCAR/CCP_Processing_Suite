@@ -61,6 +61,7 @@ foreach c ( ${cases} )
 # Get list of history files on archival system
 #
   cd ${procdir}
+  rm -f  ${c}.atm_files
   ./mss_list ${mssorig} ${c}.atm_files
   foreach d ( ${decades} )
     cd ${procdir}

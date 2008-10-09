@@ -31,7 +31,7 @@ if ($status == 0) then
             if (${p} == "cam2.h4") set nday =  124
         # Apr, Jun, Sep, Nov
           else if ($m == "04"||$m == "06"||$m == "09"||$m == "11") then
-            if (${p} == "cam2.h1") set nday =   31
+            if (${p} == "cam2.h1") set nday =   30
             if (${p} == "cam2.h4") set nday =  120
         # Feb
           else
@@ -43,7 +43,7 @@ if ($status == 0) then
             set monfil = ${c}.${p}.${y}-${m}.nc
             ncrcat -h -O ${c}.${p}.${y}-${m}-??-?????????.nc ${monfil}
             if ($status == 0) then
-              echo "Created "${monfil}
+#              echo "Created "${monfil}
               if ("$#argv" == 1) rm -f ${c}.${p}.${y}-${m}-??-?????????.nc
             endif
           endif

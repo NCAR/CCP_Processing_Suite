@@ -47,7 +47,7 @@ while ($it <= $nt)
   set outfil = ${case}.${comp}.${dt}.nc
   ncks -h -O -F -d time,${it},${it} ${file} ${outfil}
   if ($status == 0) then
-    echo "Created "${outfil}
+#    echo "Created "${outfil}
     @ it = $it + 1
   else
     echo "Error on ncks -O -F -d time,${it},${it} ${file} ${outfil}"
