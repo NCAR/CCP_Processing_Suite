@@ -64,6 +64,13 @@ switch($machine)
       set mssipcc = /CCSM/csm/${case}/ocn/ipcc/tseries/monthly
       set mssproc = /CCSM/csm/${case}/ocn/proc/tseries/monthly
       set regrdir = /project/ccr/strandwg/IPCC_Processing/ocn/CCSM
+      set oregrid = ${basedir}/ccsm_ocn_rgd.mineral
+      if !(-f ${oregrid}) then
+        echo "Need to build OCN regridding code. Do that and re-run."
+        exit 1
+      else
+        setenv CCSM_OCN_RGD $oregrid
+      endif
     endif
     if (${type} == "icem") then
       set procdir = /datalocal/ccpc/$USER/${case}/ice/mon
@@ -71,6 +78,13 @@ switch($machine)
       set mssipcc = /CCSM/csm/${case}/ice/ipcc/tseries/monthly
       set mssproc = /CCSM/csm/${case}/ice/proc/tseries/monthly
       set regrdir = /project/ccr/strandwg/IPCC_Processing/ice/CCSM
+      set iregrid = ${basedir}/ccsm_ice_rgd.mineral
+      if !(-f ${iregrid}) then
+        echo "Need to build ICE regridding code. Do that and re-run."
+        exit 1
+      else
+        setenv CCSM_ICE_RGD $iregrid
+      endif
     endif
  breaksw
 
@@ -102,6 +116,13 @@ switch($machine)
       set mssipcc = /nersc/mp9/strandwg/CCSM/csm/${case}/ocn/ipcc/tseries/monthly
       set mssproc = /nersc/mp9/strandwg/CCSM/csm/${case}/ocn/proc/tseries/monthly
       set regrdir = /nersc/mp9/strandwg/CCP_Processing_Suite/ocn/CCSM
+      set oregrid = ${basedir}/ccsm_ocn_rgd.davinci
+      if !(-f ${oregrid}) then
+        echo "Need to build OCN regridding code. Do that and re-run."
+        exit 1
+      else
+        setenv CCSM_OCN_RGD $oregrid
+      endif
     endif
     if (${type} == "icem") then
       set procdir = /scratch/scratchdirs/$USER/${case}/ice/mon
@@ -109,6 +130,13 @@ switch($machine)
       set mssipcc = /nersc/mp9/strandwg/CCSM/csm/${case}/ice/ipcc/tseries/monthly
       set mssproc = /nersc/mp9/strandwg/CCSM/csm/${case}/ice/proc/tseries/monthly
       set regrdir = /nersc/mp9/strandwg/CCP_Processing_Suite/ocn/CCSM
+      set iregrid = ${basedir}/ccsm_ice_rgd.davinci
+      if !(-f ${iregrid}) then
+        echo "Need to build ICE regridding code. Do that and re-run."
+        exit 1
+      else
+        setenv CCSM_ICE_RGD $iregrid
+      endif
     endif
  breaksw
 
@@ -141,7 +169,12 @@ switch($machine)
       set mssproc = /f2/wgstrand/CCSM/csm/${case}/ocn/proc/tseries/monthly
       set regrdir = /f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
       set oregrid = ${basedir}/ccsm_ocn_rgd.lens0
-      setenv CCSM_OCN_RGD $oregrid
+      if !(-f ${oregrid}) then
+        echo "Need to build OCN regridding code. Do that and re-run."
+        exit 1
+      else
+        setenv CCSM_OCN_RGD $oregrid
+      endif
     endif
     if (${type} == "icem") then
       set procdir = /tmp/work/$USER/${case}/ice/mon
@@ -150,7 +183,12 @@ switch($machine)
       set mssproc = /f2/wgstrand/CCSM/csm/${case}/ice/proc/tseries/monthly
       set regrdir = /f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
       set iregrid = ${basedir}/ccsm_ice_rgd.lens0
-      setenv CCSM_ICE_RGD $iregrid
+      if !(-f ${iregrid}) then
+        echo "Need to build ICE regridding code. Do that and re-run."
+        exit 1
+      else
+        setenv CCSM_ICE_RGD $iregrid
+      endif
     endif
   breaksw
 endsw
