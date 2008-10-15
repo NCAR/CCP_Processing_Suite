@@ -12,6 +12,16 @@ ifeq ($(HOST),lens0)
   NCLIBS = $(NCDIRL) $(NCINCF)
 endif
 #
+# 'mineral' at NCAR/CGD
+ifeq ($(HOST),mineral)
+  FC     = pgf95
+  FFLAGS = -c
+  NCDIRI = -I/usr/local/include
+  NCINCF = -lnetcdf
+  NCDIRL = -L/usr/local/lib
+  NCLIBS = $(NCDIRL) $(NCINCF)
+endif
+#
 OBJCOMN = \
    array_tools.o \
    char_case.o \
