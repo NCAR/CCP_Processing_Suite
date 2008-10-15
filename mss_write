@@ -24,7 +24,7 @@ endif
 #
 # If NERSC/ORNL hsi command exists, use it.
 if ( `which hsi | wc -w` == 1  ) then 
-  hsi -q "put -U -R ${mssd}/${file}" 
+  hsi -q "mkdir -m 775 -p ${mssd} ; put -U ${mssd}/${file}" 
   if ($status == 0) rm -f ${file}
 endif
 #

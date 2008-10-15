@@ -7,6 +7,26 @@ if ("$#argv" != 0) then
    exit 1
 endif
 #
+# Get correct NCO binaries
+#
+set machine = `hostname`
+switch($machine)
+  case "mineral*":                                # mineral @ CGD/NCAR
+    set ccps_ncks   = /usr/local/bin/ncks
+    set ccps_ncrcat = /usr/local/bin/ncrcat
+  breaksw
+  case "davinci*":                                # davinci @ NERSC
+    set ccps_ncks   = /usr/common/homes/s/strandwg/bin/ncks
+    set ccps_ncrcat = /usr/common/homes/s/strandwg/bin/ncrcat
+  breaksw
+  case "lens*":                                # lens @ ORNL
+    set ccps_ncks   = /ccs/home/wgstrand/bin/ncks
+    set ccps_ncrcat = /ccs/home/wgstrand/bin/ncrcat
+  breaksw
+endsw
+#
+setenv CCPS_NCKS   ${ccps_ncks}
+setenv CCPS_NCRCAT ${ccps_ncrcat}
 #
 set table  = `ls | egrep '\.nc$' | cut -d"_" -f2 | cut -d"." -f1 | sort | uniq`
 set expids = `ls | egrep '\.nc$' | cut -d"." -f2 | sort | uniq`
@@ -29,7 +49,7 @@ foreach m (${model})
             set t1 = `echo ${f1} | cut -d"." -f5 | cut -c1-10`
             set t2 = `echo ${f2} | cut -d"." -f5 | cut -c16-25`    
             set tf = ${v}_${t}.${e}.${m}.${c}.${t1}_allcat_${t2}.nc
-            ncrcat -h -O ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??.nc ${tf}
+            $CCPS_NCRCAT -h -O ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??.nc ${tf}
             if ($status == 0) then
               rm -f ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??.nc
               set df = ${v}_${t}.${e}.${m}.${c}.${t1}_cat_${t2}.nc
@@ -42,7 +62,7 @@ foreach m (${model})
             set t1 = `echo ${f1} | cut -d"." -f5 | cut -c1-7`
             set t2 = `echo ${f2} | cut -d"." -f5 | cut -c13-19`    
             set tf = ${v}_${t}.${e}.${m}.${c}.${t1}_allcat_${t2}.nc
-            ncrcat -h -O ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??.nc ${tf}
+            $CCPS_NCRCAT -h -O ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??.nc ${tf}
             if ($status == 0) then
               rm -f ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??.nc
               set df = ${v}_${t}.${e}.${m}.${c}.${t1}_cat_${t2}.nc

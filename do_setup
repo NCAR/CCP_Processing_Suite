@@ -39,7 +39,7 @@ set machine = `hostname`
 switch($machine)
    
   case "mineral*":                                # mineral @ CGD/NCAR
-    set basedir = /home/strandwg/data/CCP_Processing_Suite
+    set basedir     = /home/strandwg/data/CCP_Processing_Suite
     if (${type} == "atmm") then
       set procdir = /datalocal/ccpc/$USER/${case}/atm/mon
       set mssorig = /CCSM/csm/${case}/atm/hist
@@ -75,78 +75,80 @@ switch($machine)
  breaksw
 
  case "davinci*":                                # davinci @ NERSC
-    set basedir = /usr/common/homes/s/strandwg/CCP_Processing_Suite
+    set basedir     = /usr/common/homes/s/strandwg/CCP_Processing_Suite
+    set ccps_ncks   = /usr/common/homes/s/strandwg/bin/ncks
+    set ccps_ncrcat = /usr/common/homes/s/strandwg/bin/ncrcat
     if (${type} == "atmm") then
       set procdir = /scratch/scratchdirs/$USER/${case}/atm/mon
       set mssorig = /nersc/mp9/adrianne/ccsm/${case}/atm/hist
-      set mssipcc = /nersc/mp9/strandwg/${case}/atm/ipcc/tseries/monthly
-      set mssproc = /nersc/mp9/strandwg/${case}/atm/proc/tseries/monthly
+      set mssipcc = /nersc/mp9/strandwg/CCSM/csm/${case}/atm/ipcc/tseries/monthly
+      set mssproc = /nersc/mp9/strandwg/CCSM/csm/${case}/atm/proc/tseries/monthly
     endif
     if (${type} == "atmd") then
       set procdir = /scratch/scratchdirs/$USER/${case}/atm/day
       set mssorig = /nersc/mp9/adrianne/ccsm/${case}/atm/hist
-      set mssipcc = /nersc/mp9/strandwg/${case}/atm/ipcc/tseries/daily
-      set mssproc = /nersc/mp9/strandwg/${case}/atm/proc/tseries/daily
+      set mssipcc = /nersc/mp9/strandwg/CCSM/csm/${case}/atm/ipcc/tseries/daily
+      set mssproc = /nersc/mp9/strandwg/CCSM/csm/${case}/atm/proc/tseries/daily
     endif
     if (${type} == "lndm") then
       set procdir = /scratch/scratchdirs/$USER/${case}/lnd/mon
       set mssorig = /nersc/mp9/adrianne/ccsm/${case}/lnd/hist
-      set mssipcc = /nersc/mp9/strandwg/${case}/lnd/ipcc/tseries/monthly
-      set mssproc = /nersc/mp9/strandwg/${case}/lnd/proc/tseries/monthly
+      set mssipcc = /nersc/mp9/strandwg/CCSM/csm/${case}/lnd/ipcc/tseries/monthly
+      set mssproc = /nersc/mp9/strandwg/CCSM/csm/${case}/lnd/proc/tseries/monthly
     endif
     if (${type} == "ocnm") then
       set procdir = /scratch/scratchdirs/$USER/${case}/ocn/mon
       set mssorig = /nersc/mp9/adrianne/ccsm/${case}/ocn/hist
-      set mssipcc = /nersc/mp9/strandwg/${case}/ocn/ipcc/tseries/monthly
-      set mssproc = /nersc/mp9/strandwg/${case}/ocn/proc/tseries/monthly
+      set mssipcc = /nersc/mp9/strandwg/CCSM/csm/${case}/ocn/ipcc/tseries/monthly
+      set mssproc = /nersc/mp9/strandwg/CCSM/csm/${case}/ocn/proc/tseries/monthly
       set regrdir = /nersc/mp9/strandwg/CCP_Processing_Suite/ocn/CCSM
     endif
     if (${type} == "icem") then
       set procdir = /scratch/scratchdirs/$USER/${case}/ice/mon
       set mssorig = /nersc/mp9/adrianne/ccsm/${case}/ice/hist
-      set mssipcc = /nersc/mp9/strandwg/${case}/ice/ipcc/tseries/monthly
-      set mssproc = /nersc/mp9/strandwg/${case}/ice/proc/tseries/monthly
+      set mssipcc = /nersc/mp9/strandwg/CCSM/csm/${case}/ice/ipcc/tseries/monthly
+      set mssproc = /nersc/mp9/strandwg/CCSM/csm/${case}/ice/proc/tseries/monthly
       set regrdir = /nersc/mp9/strandwg/CCP_Processing_Suite/ocn/CCSM
     endif
  breaksw
 
  case "lens*":                                # lens @ ORNL
-    set basedir = /ccs/home/wgstrand/CCP_Processing_Suite
+    set basedir     = /ccs/home/wgstrand/CCP_Processing_Suite
+    set ccps_ncks   = /ccs/home/wgstrand/bin/ncks
+    set ccps_ncrcat = /ccs/home/wgstrand/bin/ncrcat
     if (${type} == "atmm") then
       set procdir = /tmp/work/$USER/${case}/atm/mon
       set mssorig = /f2/adrianne/ccsm/${case}/atm/hist
-      set mssipcc = /f2/wgstrand/${case}/atm/ipcc/tseries/monthly
-      set mssproc = /f2/wgstrand/${case}/atm/proc/tseries/monthly
+      set mssipcc = /f2/wgstrand/CCSM/csm/${case}/atm/ipcc/tseries/monthly
+      set mssproc = /f2/wgstrand/CCSM/csm/${case}/atm/proc/tseries/monthly
     endif
     if (${type} == "atmd") then
       set procdir = /tmp/work/$USER/${case}/atm/day
       set mssorig = /f2/adrianne/ccsm/${case}/atm/hist
-      set mssipcc = /f2/wgstrand/${case}/atm/ipcc/tseries/daily
-      set mssproc = /f2/wgstrand/${case}/atm/proc/tseries/daily
+      set mssipcc = /f2/wgstrand/CCSM/csm/${case}/atm/ipcc/tseries/daily
+      set mssproc = /f2/wgstrand/CCSM/csm/${case}/atm/proc/tseries/daily
     endif
     if (${type} == "lndm") then
       set procdir = /tmp/work/$USER/${case}/lnd/mon
       set mssorig = /f2/adrianne/ccsm/${case}/lnd/hist
-      set mssipcc = /f2/wgstrand/${case}/lnd/ipcc/tseries/monthly
-      set mssproc = /f2/wgstrand/${case}/lnd/proc/tseries/monthly
+      set mssipcc = /f2/wgstrand/CCSM/csm/${case}/lnd/ipcc/tseries/monthly
+      set mssproc = /f2/wgstrand/CCSM/csm/${case}/lnd/proc/tseries/monthly
     endif
     if (${type} == "ocnm") then
       set procdir = /tmp/work/$USER/${case}/ocn/mon
       set mssorig = /f2/adrianne/ccsm/${case}/ocn/hist
-      set mssipcc = /f2/wgstrand/${case}/ocn/ipcc/tseries/monthly
-      set mssproc = /f2/wgstrand/${case}/ocn/proc/tseries/monthly
+      set mssipcc = /f2/wgstrand/CCSM/csm/${case}/ocn/ipcc/tseries/monthly
+      set mssproc = /f2/wgstrand/CCSM/csm/${case}/ocn/proc/tseries/monthly
       set regrdir = /f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
     endif
     if (${type} == "icem") then
       set procdir = /tmp/work/$USER/${case}/ice/mon
       set mssorig = /f2/adrianne/ccsm/${case}/ice/hist
-      set mssipcc = /f2/wgstrand/${case}/ice/ipcc/tseries/monthly
-      set mssproc = /f2/wgstrand/${case}/ice/proc/tseries/monthly
+      set mssipcc = /f2/wgstrand/CCSM/csm/${case}/ice/ipcc/tseries/monthly
+      set mssproc = /f2/wgstrand/CCSM/csm/${case}/ice/proc/tseries/monthly
       set regrdir = /f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
     endif
   breaksw
 endsw
 #
 exit 0
-
-

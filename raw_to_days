@@ -17,6 +17,27 @@ if !(-f ${file}) then
   exit 1
 endif
 #
+# Get correct NCO binaries
+#
+set machine = `hostname`
+switch($machine)
+  case "mineral*":                                # mineral @ CGD/NCAR
+    set ccps_ncks   = /usr/local/bin/ncks
+    set ccps_ncrcat = /usr/local/bin/ncrcat
+  breaksw
+  case "davinci*":                                # davinci @ NERSC
+    set ccps_ncks   = /usr/common/homes/s/strandwg/bin/ncks
+    set ccps_ncrcat = /usr/common/homes/s/strandwg/bin/ncrcat
+  breaksw
+  case "lens*":                                # lens @ ORNL
+    set ccps_ncks   = /ccs/home/wgstrand/bin/ncks
+    set ccps_ncrcat = /ccs/home/wgstrand/bin/ncrcat
+  breaksw
+endsw
+#
+setenv CCPS_NCKS   ${ccps_ncks}
+setenv CCPS_NCRCAT ${ccps_ncrcat}
+#
 # CCSM: b30.030e.cam2.h1.1870-01-01-00000.nc
 # CCSM: b30.030e.ES01.cam2.h1.1870-01-01-00000.nc
 #
@@ -34,23 +55,23 @@ else
   set comp   = `echo ${file} | cut -d"." -f4`
 endif
 #
-set ntp1 = `ncks -F -H -C -v time ${file} | wc -l`
+set ntp1 = `$CCPS_NCKS -F -H -C -v time ${file} | wc -l`
 @ nt = $ntp1 - 1
 #
 set it = 1
 while ($it <= $nt)
-  set yr = `ncks -s  "%8.8i\n" -F -H -C -v date -d time,${it},${it} ${file} | cut -c1-4`
-  set mn = `ncks -s  "%8.8i\n" -F -H -C -v date -d time,${it},${it} ${file} | cut -c5-6`
-  set dy = `ncks -s  "%8.8i\n" -F -H -C -v date -d time,${it},${it} ${file} | cut -c7-8`
-  set ts = `ncks -s "%010.4f\n" -F -H -C -v time -d time,${it},${it} ${file} | sed -e 's/\.//g'`
+  set yr = `$CCPS_NCKS -s  "%8.8i\n" -F -H -C -v date -d time,${it},${it} ${file} | cut -c1-4`
+  set mn = `$CCPS_NCKS -s  "%8.8i\n" -F -H -C -v date -d time,${it},${it} ${file} | cut -c5-6`
+  set dy = `$CCPS_NCKS -s  "%8.8i\n" -F -H -C -v date -d time,${it},${it} ${file} | cut -c7-8`
+  set ts = `$CCPS_NCKS -s "%010.4f\n" -F -H -C -v time -d time,${it},${it} ${file} | sed -e 's/\.//g'`
   set dt = ${yr}"-"${mn}"-"${dy}"-"${ts}
   set outfil = ${case}.${comp}.${dt}.nc
-  ncks -h -O -F -d time,${it},${it} ${file} ${outfil}
+  $CCPS_NCKS -h -O -F -d time,${it},${it} ${file} ${outfil}
   if ($status == 0) then
 #    echo "Created "${outfil}
     @ it = $it + 1
   else
-    echo "Error on ncks -O -F -d time,${it},${it} ${file} ${outfil}"
+    echo "Error on $CCPS_NCKS -O -F -d time,${it},${it} ${file} ${outfil}"
     exit 1
   endif
 end

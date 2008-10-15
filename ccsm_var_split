@@ -26,6 +26,27 @@ if !(-f ${file}) then
    exit 1
 endif
 #
+# Get correct NCO binaries
+#
+set machine = `hostname`
+switch($machine)
+  case "mineral*":                                # mineral @ CGD/NCAR
+    set ccps_ncks   = /usr/local/bin/ncks
+    set ccps_ncrcat = /usr/local/bin/ncrcat
+  breaksw
+  case "davinci*":                                # davinci @ NERSC
+    set ccps_ncks   = /usr/common/homes/s/strandwg/bin/ncks
+    set ccps_ncrcat = /usr/common/homes/s/strandwg/bin/ncrcat
+  breaksw
+  case "lens*":                                # lens @ ORNL
+    set ccps_ncks   = /ccs/home/wgstrand/bin/ncks
+    set ccps_ncrcat = /ccs/home/wgstrand/bin/ncrcat
+  breaksw
+endsw
+#
+setenv CCPS_NCKS   ${ccps_ncks}
+setenv CCPS_NCRCAT ${ccps_ncrcat}
+#
 set chek   = `echo $file | cut -d"." -f3 | cut -c1-2`
 if (${chek} == "ES") then
   set outfp0 = `echo $file | cut -d"." -f1-5`
@@ -35,12 +56,12 @@ else
   set outfp1 = `echo $file | cut -d"." -f5-`
 endif
 #
-set d0vars = `ncks -m ${file} | egrep "# dim\. = 0" | cut -d":" -f1`
-set d1vars = `ncks -m ${file} | egrep "# dim\. = 1" | cut -d":" -f1`
-set d2vars = `ncks -m ${file} | egrep "# dim\. = 2" | cut -d":" -f1`
-set d3vars = `ncks -m ${file} | egrep "# dim\. = 3" | cut -d":" -f1`
-set d4vars = `ncks -m ${file} | egrep "# dim\. = 4" | cut -d":" -f1`
-set d5vars = `ncks -m ${file} | egrep "# dim\. = 5" | cut -d":" -f1`
+set d0vars = `$CCPS_NCKS -m ${file} | egrep "# dim\. = 0" | cut -d":" -f1`
+set d1vars = `$CCPS_NCKS -m ${file} | egrep "# dim\. = 1" | cut -d":" -f1`
+set d2vars = `$CCPS_NCKS -m ${file} | egrep "# dim\. = 2" | cut -d":" -f1`
+set d3vars = `$CCPS_NCKS -m ${file} | egrep "# dim\. = 3" | cut -d":" -f1`
+set d4vars = `$CCPS_NCKS -m ${file} | egrep "# dim\. = 4" | cut -d":" -f1`
+set d5vars = `$CCPS_NCKS -m ${file} | egrep "# dim\. = 5" | cut -d":" -f1`
 #
 # Get auxiliary header fields
 #
@@ -101,9 +122,9 @@ if (`echo ${fields3d} | wc -c` != 0) then
       mkdir ${f}_3d.d
     endif
     set out = ${f}_3d.d/${outfp0}.${f}.${outfp1}
-    ncks -h -O -v ${header},${f} ${file} ${out}
+    $CCPS_NCKS -h -O -v ${header},${f} ${file} ${out}
     if ($status != 0) then
-      echo "ncks -h -O -v ${header},${f} ${file} ${out} failed"
+      echo "$CCPS_NCKS -h -O -v ${header},${f} ${file} ${out} failed"
       exit 1
     endif
   end
@@ -117,9 +138,9 @@ if (`echo ${fields4d} | wc -c` != 0) then
       mkdir ${f}_4d.d
     endif
     set out = ${f}_4d.d/${outfp0}.${f}.${outfp1}
-    ncks -h -O -v ${header},${f} ${file} ${out}
+    $CCPS_NCKS -h -O -v ${header},${f} ${file} ${out}
     if ($status != 0) then
-      echo "ncks -h -O -v ${header},${f} ${file} ${out} failed"
+      echo "$CCPS_NCKS -h -O -v ${header},${f} ${file} ${out} failed"
       exit 1
     endif
   end
@@ -133,9 +154,9 @@ if (`echo ${fields5d} | wc -c` != 0) then
       mkdir ${f}_5d.d
     endif
     set out = ${f}_5d.d/${outfp0}.${f}.${outfp1}
-    ncks -h -O -v ${header},${f} ${file} ${out}
+    $CCPS_NCKS -h -O -v ${header},${f} ${file} ${out}
     if ($status != 0) then
-      echo "ncks -h -O -v ${header},${f} ${file} ${out} failed"
+      echo "$CCPS_NCKS -h -O -v ${header},${f} ${file} ${out} failed"
       exit 1
     endif
   end

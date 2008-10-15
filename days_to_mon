@@ -7,8 +7,30 @@ else
    exit 1
 endif
 #
+# Get correct NCO binaries
+#
+set machine = `hostname`
+switch($machine)
+  case "mineral*":                                # mineral @ CGD/NCAR
+    set ccps_ncks   = /usr/local/bin/ncks
+    set ccps_ncrcat = /usr/local/bin/ncrcat
+  breaksw
+  case "davinci*":                                # davinci @ NERSC
+    set ccps_ncks   = /usr/common/homes/s/strandwg/bin/ncks
+    set ccps_ncrcat = /usr/common/homes/s/strandwg/bin/ncrcat
+  breaksw
+  case "lens*":                                # lens @ ORNL
+    set ccps_ncks   = /ccs/home/wgstrand/bin/ncks
+    set ccps_ncrcat = /ccs/home/wgstrand/bin/ncrcat
+  breaksw
+endsw
+#
+setenv CCPS_NCKS   ${ccps_ncks}
+setenv CCPS_NCRCAT ${ccps_ncrcat}
+#
 #b30.090e.cam2.h1.1870-01-01-000000000.nc
 #
+
 set comp  = `ls | egrep '\.....\-..\-..\-.........\.nc$' | cut -d"." -f3-4 | sort | uniq`
 if ($status == 0) then
   if (`echo ${comp} | cut -c1-2` == "ES") then
@@ -41,7 +63,7 @@ if ($status == 0) then
           set mday = `ls ${c}.${p}.${y}-${m}-??-?????????.nc | wc -l`
           if ($mday == $nday) then
             set monfil = ${c}.${p}.${y}-${m}.nc
-            ncrcat -h -O ${c}.${p}.${y}-${m}-??-?????????.nc ${monfil}
+            $CCPS_NCRCAT -h -O ${c}.${p}.${y}-${m}-??-?????????.nc ${monfil}
             if ($status == 0) then
 #              echo "Created "${monfil}
               if ("$#argv" == 1) rm -f ${c}.${p}.${y}-${m}-??-?????????.nc

@@ -7,6 +7,27 @@ if ("$#argv" != 0) then
    exit 1
 endif
 #
+# Get correct NCO binaries
+#
+set machine = `hostname`
+switch($machine)
+  case "mineral*":                                # mineral @ CGD/NCAR
+    set ccps_ncks   = /usr/local/bin/ncks
+    set ccps_ncrcat = /usr/local/bin/ncrcat
+  breaksw
+  case "davinci*":                                # davinci @ NERSC
+    set ccps_ncks   = /usr/common/homes/s/strandwg/bin/ncks
+    set ccps_ncrcat = /usr/common/homes/s/strandwg/bin/ncrcat
+  breaksw
+  case "lens*":                                # lens @ ORNL
+    set ccps_ncks   = /ccs/home/wgstrand/bin/ncks
+    set ccps_ncrcat = /ccs/home/wgstrand/bin/ncrcat
+  breaksw
+endsw
+#
+setenv CCPS_NCKS   ${ccps_ncks}
+setenv CCPS_NCRCAT ${ccps_ncrcat}
+#
 set chek = `ls b*.*.h*.*.????-??.nc | cut -d"." -f3 | cut -c1-2 | uniq`
 foreach m ( ${chek} )
   if (${m} == "ES") then
@@ -25,7 +46,7 @@ foreach m ( ${chek} )
           set num = `ls ${c}.${p}.${v}.${y}-??.nc | wc -l`
           if (${num} == 12) then
             set df = ${c}.${p}.${v}.${y}.nc
-            ncrcat -h -O ${c}.${p}.${v}.${y}-??.nc ${df}
+            $CCPS_NCRCAT -h -O ${c}.${p}.${v}.${y}-??.nc ${df}
             if ($status == 0) then
               rm -f ${c}.${p}.${v}.${y}-??.nc
 #              echo "Completed "${df}
