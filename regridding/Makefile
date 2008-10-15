@@ -1,12 +1,17 @@
-FC     = pgf95
-FFLAGS = -c
-#NCDIRI = -I/usr/local/netcdf-3.6.1-pgi-hpf-cc-6.1-6/include
-NCDIRI = -I$(HOME)/include
-NCINCF = -lnetcdf
-#NCDIRL = -L/usr/local/netcdf-3.6.1-pgi-hpf-cc-6.1-6/lib
-NCDIRL = -L$(HOME)/lib
-NCLIBS = $(NCDIRL) $(NCINCF)
-
+HOST = $(shell hostname)
+null =
+FC   = $(null)
+#
+# 'lens' at ORNL
+ifeq ($(HOST),lens0)
+  FC     = pgf95
+  FFLAGS = -c
+  NCDIRI = -I/ccs/home/wgstrand/include
+  NCINCF = -lnetcdf
+  NCDIRL = -L/ccs/home/wgstrand/lib
+  NCLIBS = $(NCDIRL) $(NCINCF)
+endif
+#
 OBJCOMN = \
    array_tools.o \
    char_case.o \
@@ -25,10 +30,10 @@ OBJCICE = main_ccsm_ice.o ccsm_ice_rgd.o
 all: ccsm_ice_rgd ccsm_ocn_rgd
 
 ccsm_ice_rgd: $(OBJCOMN) $(OBJCICE)
-	$(FC) -o ccsm_ice_rgd $(OBJCOMN) $(OBJCICE) $(NCLIBS)
+	$(FC) -o ccsm_ice_rgd.$(HOST) $(OBJCOMN) $(OBJCICE) $(NCLIBS)
 
 ccsm_ocn_rgd: $(OBJCOMN) $(OBJCOCN)
-	$(FC) -o ccsm_ocn_rgd $(OBJCOMN) $(OBJCOCN) $(NCLIBS)
+	$(FC) -o ccsm_ocn_rgd.$(HOST) $(OBJCOMN) $(OBJCOCN) $(NCLIBS)
 
 clean:
 	rm -f *.o *.mod

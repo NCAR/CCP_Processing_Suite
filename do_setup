@@ -140,6 +140,8 @@ switch($machine)
       set mssipcc = /f2/wgstrand/CCSM/csm/${case}/ocn/ipcc/tseries/monthly
       set mssproc = /f2/wgstrand/CCSM/csm/${case}/ocn/proc/tseries/monthly
       set regrdir = /f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
+      set oregrid = ${basedir}/ccsm_ocn_rgd.lens0
+      setenv CCSM_OCN_RGD $oregrid
     endif
     if (${type} == "icem") then
       set procdir = /tmp/work/$USER/${case}/ice/mon
@@ -147,6 +149,8 @@ switch($machine)
       set mssipcc = /f2/wgstrand/CCSM/csm/${case}/ice/ipcc/tseries/monthly
       set mssproc = /f2/wgstrand/CCSM/csm/${case}/ice/proc/tseries/monthly
       set regrdir = /f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
+      set iregrid = ${basedir}/ccsm_ice_rgd.lens0
+      setenv CCSM_ICE_RGD $iregrid
     endif
   breaksw
 endsw

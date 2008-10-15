@@ -50,8 +50,8 @@ foreach c ( ${cases} )
     if !(-d ${procdir}/maps) mkdir -p ${procdir}/maps
     ln -s -f ${basedir}/do_cmor_create_ccsm .
     ln -s -f ${basedir}/CCSM_icem_2cf.ncl .
-    ln -s -f ${basedir}/set_attributes_ccsm.ncl  .
-    ln -s -f ${basedir}/regridding/ccsm_ice_rgd  .
+    ln -s -f ${basedir}/set_attributes_ccsm.ncl .
+    ln -s -f ${basedir}/regridding/${CCSM_ICE_RGD} ccsm_ice_rgd
     ln -s -f ${basedir}/regridding/NML_ccsm_ice* .
     cd ${procdir}/IPCC
     ln -s -f ${basedir}/mss_* .
