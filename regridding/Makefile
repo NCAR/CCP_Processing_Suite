@@ -22,6 +22,16 @@ ifeq ($(HOST),mineral)
   NCLIBS = $(NCDIRL) $(NCINCF)
 endif
 #
+# 'davinci' at NERSC
+ifeq ($(HOST),davinci)
+  FC     = ifort
+  FFLAGS = -c
+  NCDIRI = -I/usr/common/usg/netcdf/default/include
+  NCINCF = -lnetcdf
+  NCDIRL = -L/usr/common/usg/netcdf/default/lib
+  NCLIBS = $(NCDIRL) $(NCINCF)
+endif
+#
 OBJCOMN = \
    array_tools.o \
    char_case.o \
