@@ -15,6 +15,25 @@ if !(-f ${ccsm_file}) then
    exit 1
 endif
 #
+# Get correct NCL binary
+#
+set machine = `hostname`
+switch($machine)
+ case "mineral*":                              # mineral @ CGD/NCAR
+    set ccps_ncl = /contrib/bin/ncl
+    setenv NCARG_ROOT /contrib/ncarg
+  breaksw
+  case "davinci*":                             # davinci @ NERSC
+    set ccps_ncl = /usr/common/usg/ncar/5.0.0/bin/ncl
+    setenv NCARG_ROOT /usr/common/usg/ncar/5.0.0
+  breaksw
+  case "lens*":                                # lens @ ORNL
+    set ccps_ncl = /ccs/home/wgstrand/bin/ncl
+    setenv NCARG_ROOT "/sw/analysis-x64/ncl/5.0.0/sl5.0_binary"
+  breaksw
+endsw
+#
+setenv CCPS_NCL ${ccps_ncl}
 #
 # Assume filename is of form bxx.xxxx.(pop|csim|clm2|cam2).hh.dddd-dd.nc
 # bxx.xx              : case name and number
@@ -48,7 +67,7 @@ if (${ccsm_comp} == "cam2") then
     setenv CCSM_COMP "atmd"
     setenv NCL_SCPT CCSM_atmd_2cf.ncl
   endif
-  ncl < ${NCL_SCPT}
+  ${CCPS_NCL} < ${NCL_SCPT}
   if ($status != 0) then
      echo "NCL ERROR"
      exit 1
@@ -56,7 +75,7 @@ if (${ccsm_comp} == "cam2") then
 else if (${ccsm_comp} == "clm2") then
   setenv CCSM_COMP "lndm"
   setenv NCL_SCPT CCSM_lndm_2cf.ncl
-  ncl < ${NCL_SCPT}
+  ${CCPS_NCL} < ${NCL_SCPT}
   if ($status != 0) then
      echo "NCL ERROR"
      exit 1
@@ -64,7 +83,7 @@ else if (${ccsm_comp} == "clm2") then
 else if (${ccsm_comp} == "csim") then
   setenv CCSM_COMP "icem"
   setenv NCL_SCPT CCSM_icem_2cf.ncl
-  ncl < ${NCL_SCPT}
+  ${CCPS_NCL} < ${NCL_SCPT}
   if ($status != 0) then
      echo "NCL ERROR"
      exit 1
@@ -72,13 +91,13 @@ else if (${ccsm_comp} == "csim") then
 else if (${ccsm_comp} == "pop") then
   setenv CCSM_COMP "ocnm"
   setenv NCL_SCPT CCSM_ocnm_2cf.ncl
-  ncl < ${NCL_SCPT}
+  ${CCPS_NCL} < ${NCL_SCPT}
   if ($status != 0) then
      echo "NCL ERROR"
      exit 1
   endif
   setenv NCL_SCPT CCSM_trans_2cf.ncl
-  ncl < ${NCL_SCPT}
+  ${CCPS_NCL} < ${NCL_SCPT}
   if ($status != 0) then
      echo "NCL ERROR"
      exit 1
