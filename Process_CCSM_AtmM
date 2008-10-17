@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------------
 # Case(s)
 #
-set cases   = ( b30.209a )
+set cases   = ( b30.240a )
 #
 # Decades to process
 #
@@ -20,7 +20,7 @@ set years   = ( 0 1 2 3 4 5 6 7 8 9 )
 #
 # Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
 #
-set do_ipcc = 0
+set do_ipcc = 1
 #
 # Whether or not to do single-field processing (zero means DO NOT, non-zero means DO)
 #
@@ -95,13 +95,13 @@ foreach c ( ${cases} )
         cd ${procdir}
       end
       cd ${procdir}
-    end
+    endif
     if ( $do_ipcc != "0") then
       cd ${procdir}/IPCC
       ./cf_var_dec_concat
       cd ${procdir}
-    end
-  endif
+    endif
+  end
   if ( $do_ipcc != "0") then
     cd ${procdir}/IPCC
     ./cf_var_all_concat

@@ -60,6 +60,28 @@ begin
 ; 2xCO2 equilibrium experiment            2xCO2
 ; AMIP experiment                         AMIP
 ;--------------------------------------------------------------------
+; CCSP level 2 (CO2 550 ppm @ 2300) stabilization experiment (CCSPL2)
+;--------------------------------------------------------------------
+  if (case.eq."b30.240a") then
+    parent  = "b30.030a"
+    year1   = "2000"
+    machine = "jaguar.ccs.ornl.gov"
+    forcing = "ozone forcing    : ozone_WLEV2-53_128x64_L18_1990-2100_c080701.nc"+n1+\
+              "aerosol optics   : AerosolOptics_c040105.nc"+n1+\
+              "aerosol MMR      : AerosolMass_V_128x256_clim_c031022.nc"+n1+\
+              "carbon scaling   : carbonscaling_WLEV2-53_1765-2300_c080630.nc"+n1+\
+              "solar forcing    : scon_lean_1870-2100_c040123.nc (2005 value ONLY)"+n1+\
+              "GHGs             : ghg_WLEV2-53_1765-2300_c080708.nc"+n1+\
+              "GHG loss rates   : noaamisc.r8.nc"+n1+\
+              "volcanic forcing : none"+n1+\
+              "DMS emissions    : DMS_emissions_128x256_clim_c040122.nc"+n1+\
+              "oxidants         : oxid_128x256_L26_clim_c040112.nc"+n1+\
+              "SOx emissions    : SOx_emissions_WLEV2-53_256x128L2_1990-2100_c080701.nc"
+    glbAtt@realization    = 1
+    glbAtt@experiment_id  = "CCSP level 2 (CO2 550 ppm @ 2300) stabilization experiment (CCSPL2)"
+    expid   = "CCSPL2_"+glbAtt@realization
+  end if
+;--------------------------------------------------------------------
 ; A1FI experiment
 ;--------------------------------------------------------------------
   if (case.eq."b30.099a")then
