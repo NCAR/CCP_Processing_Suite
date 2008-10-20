@@ -67,7 +67,7 @@ if (${ccsm_comp} == "cam2") then
     setenv CCSM_COMP "atmd"
     setenv NCL_SCPT CCSM_atmd_2cf.ncl
   endif
-  ${CCPS_NCL} < ${NCL_SCPT} >& /dev/null
+  ${CCPS_NCL} < ${NCL_SCPT}
   if ($status != 0) then
      echo "NCL ERROR"
      exit 1
@@ -75,7 +75,7 @@ if (${ccsm_comp} == "cam2") then
 else if (${ccsm_comp} == "clm2") then
   setenv CCSM_COMP "lndm"
   setenv NCL_SCPT CCSM_lndm_2cf.ncl
-  ${CCPS_NCL} < ${NCL_SCPT} >& /dev/null
+  ${CCPS_NCL} < ${NCL_SCPT}
   if ($status != 0) then
      echo "NCL ERROR"
      exit 1
@@ -83,7 +83,7 @@ else if (${ccsm_comp} == "clm2") then
 else if (${ccsm_comp} == "csim") then
   setenv CCSM_COMP "icem"
   setenv NCL_SCPT CCSM_icem_2cf.ncl
-  ${CCPS_NCL} < ${NCL_SCPT} >& /dev/null
+  ${CCPS_NCL} < ${NCL_SCPT}
   if ($status != 0) then
      echo "NCL ERROR"
      exit 1
@@ -91,13 +91,13 @@ else if (${ccsm_comp} == "csim") then
 else if (${ccsm_comp} == "pop") then
   setenv CCSM_COMP "ocnm"
   setenv NCL_SCPT CCSM_ocnm_2cf.ncl
-  ${CCPS_NCL} < ${NCL_SCPT} >& /dev/null
+  ${CCPS_NCL} < ${NCL_SCPT}
   if ($status != 0) then
      echo "NCL ERROR"
      exit 1
   endif
   setenv NCL_SCPT CCSM_trans_2cf.ncl
-  ${CCPS_NCL} < ${NCL_SCPT} >& /dev/null
+  ${CCPS_NCL} < ${NCL_SCPT}
   if ($status != 0) then
      echo "NCL ERROR"
      exit 1
