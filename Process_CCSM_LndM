@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------------
 # Case(s)
 #
-set cases   = ( b30.209a )
+set cases   = ( b30.240a )
 #
 # Decades to process
 #
@@ -20,14 +20,14 @@ set years   = ( 0 1 2 3 4 5 6 7 8 9 )
 #
 # Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
 #
-set do_ipcc = 0
+set do_ipcc = 1
 #
 # Whether or not to do single-field processing (zero means DO NOT, non-zero means DO)
 #
 set do_proc = 1
 #
 # --------------------------------------------------------------------------------
-# NOTE: See also the "mssorig" variable in 'do_setup' for archival directory of 
+# NOTE: See also the "msorig" variable in 'do_setup' for archival directory of 
 #       original history files
 # --------------------------------------------------------------------------------
 #
@@ -59,10 +59,10 @@ foreach c ( ${cases} )
   foreach d ( ${decades} )
     cd ${procdir}
     foreach y ( ${years} )
-      set msf = "${c}.cam2.h0.${d}${y}-{01,02,03,04,05,06,07,08,09,10,11,12}.nc"
+      set msf = "${c}.clm2.h0.${d}${y}-{01,02,03,04,05,06,07,08,09,10,11,12}.nc"
       ./mss_read "${mssorig}" "${msf}"
       if ($status == 0) then
-        foreach i ( `ls ${c}.cam2.h0.${d}${y}-??.nc`)
+        foreach i ( `ls ${c}.clm2.h0.${d}${y}-??.nc`)
           if ( $do_ipcc != "0") then
             ./do_cmor_create_ccsm $i
             if ($status != 0) then
@@ -95,13 +95,13 @@ foreach c ( ${cases} )
         cd ${procdir}
       end
       cd ${procdir}
-    end
+    endif
     if ( $do_ipcc != "0") then
       cd ${procdir}/IPCC
       ./cf_var_dec_concat
       cd ${procdir}
-    end
-  endif
+    endif
+  end
   if ( $do_ipcc != "0") then
     cd ${procdir}/IPCC
     ./cf_var_all_concat
