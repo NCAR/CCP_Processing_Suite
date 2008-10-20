@@ -57,10 +57,10 @@ foreach c ( ${cases} )
     ln -s -f ${basedir}/mss_* .
     ln -s -f ${basedir}/cf_*var*concat .
     cd ${procdir}/maps
-    if ($machine == "mineral") then
-      ln -s -f ${regrdir}/*k01*.nc .
-    else
+    if ($machine == "lens0") then
       ./mss_read $regrdir "map*k01*nc"
+    else
+      ln -s -f ${regrdir}/*k01*.nc .
     endif
     cd ${procdir}
   endif

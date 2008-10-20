@@ -115,7 +115,7 @@ switch($machine)
       set mssorig = /nersc/mp9/adrianne/ccsm/${case}/ocn/hist
       set mssipcc = /nersc/mp9/strandwg/CCSM/csm/${case}/ocn/ipcc/tseries/monthly
       set mssproc = /nersc/mp9/strandwg/CCSM/csm/${case}/ocn/proc/tseries/monthly
-      set regrdir = /nersc/mp9/strandwg/CCP_Processing_Suite/ocn/CCSM
+      set regrdir = /project/projectdirs/ccp/CCP_Processing_Suite/ocn/CCSM
       set oregrid = ${basedir}/ccsm_ocn_rgd.davinci
       if !(-f ${oregrid}) then
         echo "Need to build OCN regridding code. Do that and re-run."
@@ -129,7 +129,7 @@ switch($machine)
       set mssorig = /nersc/mp9/adrianne/ccsm/${case}/ice/hist
       set mssipcc = /nersc/mp9/strandwg/CCSM/csm/${case}/ice/ipcc/tseries/monthly
       set mssproc = /nersc/mp9/strandwg/CCSM/csm/${case}/ice/proc/tseries/monthly
-      set regrdir = /nersc/mp9/strandwg/CCP_Processing_Suite/ocn/CCSM
+      set regrdir = /project/projectdirs/ccp/CCP_Processing_Suite/ice/CCSM
       set iregrid = ${basedir}/ccsm_ice_rgd.davinci
       if !(-f ${iregrid}) then
         echo "Need to build ICE regridding code. Do that and re-run."
