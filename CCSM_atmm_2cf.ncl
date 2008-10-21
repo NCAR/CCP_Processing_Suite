@@ -34,19 +34,7 @@ begin
 ;--------------------------------------------------------------------
 ; Set various attributes
 ;--------------------------------------------------------------------
-  parent  = ""
-  year1   = ""
-  machine = ""
-  forcing = ""
-  expid   = ""
   set_attributes_ccsm(case,glbAtt,parent,year1,machine,forcing,expid)
-;--------------------------------------------------------------------
-; Check to make sure we got values!
-;--------------------------------------------------------------------
-  if (expid.eq."")then
-    print(case+" NOT DEFINED IN set_attributes_ccsm.ncl *PLEASE CORRECT*")
-    status_exit(1)
-  end if
 ;--------------------------------------------------------------------
 ; Read input file
 ;--------------------------------------------------------------------

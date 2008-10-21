@@ -8,6 +8,14 @@ procedure set_attributes_ccsm(case,glbAtt,parent,year1,machine,forcing,expid)
 begin
   n1 = integertochar(10)
 ;--------------------------------------------------------------------
+; initialize arguments
+;--------------------------------------------------------------------
+  parent  = ""
+  year1   = ""
+  machine = ""
+  forcing = ""
+  expid   = ""
+;--------------------------------------------------------------------
 ; experiment-invariant global attributes
 ;--------------------------------------------------------------------
   glbAtt@title          = "model output prepared for IPCC AR4"
@@ -1967,6 +1975,13 @@ begin
                           " "+n1+\
                           " Integrations were performed by NCAR and CRIEPI with support"+n1+\
                           " and facilities provided by NSF, DOE, MEXT and ESC/JAMSTEC."
+;--------------------------------------------------------------------
+; Check to make sure we got values!
+;--------------------------------------------------------------------
+  if (expid.eq."")then
+    print(case+" NOT DEFINED IN set_attributes_ccsm.ncl *PLEASE CORRECT*")
+    status_exit(1)
+  end if
 ;
 end
 ;********************************************************************************
