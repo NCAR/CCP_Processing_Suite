@@ -49,6 +49,7 @@ foreach c ( ${cases} )
     if !(-d ${procdir}/IPCC) mkdir -p ${procdir}/IPCC
     if !(-d ${procdir}/maps) mkdir -p ${procdir}/maps
     ln -s -f ${basedir}/do_cmor_create_ccsm .
+    ln -s -f ${basedir}/regrid_data .
     ln -s -f ${basedir}/CCSM_ocnm_2cf.ncl .
     ln -s -f ${basedir}/set_attributes_ccsm.ncl  .
     ln -s -f ${basedir}/regridding/${CCSM_OCN_RGD} ccsm_ocn_rgd
