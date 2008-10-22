@@ -8,11 +8,11 @@
 # --------------------------------------------------------------------------------
 # Case(s)
 #
-set cases   = ( b30.209a )
+set cases   = ( b30.053d )
 #
 # Decades to process
 #
-set decades = ( 200 201 202 203 204 205 206 207 208 209 )
+set decades = ( 187 188 189 190 191 192 193 194 195 196 197 198 199 )
 #
 # Years from each decade to process
 #
@@ -20,7 +20,7 @@ set years   = ( 0 1 2 3 4 5 6 7 8 9 )
 #
 # Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
 #
-set do_ipcc = 0
+set do_ipcc = 1
 #
 # Whether or not to do single-field processing (zero means DO NOT, non-zero means DO)
 #
