@@ -82,6 +82,8 @@ else if (${ccsm_comp} == "clm2") then
   endif
 else if (${ccsm_comp} == "csim") then
   @ f_time = $f_time + 1
+  set ccsm_time = `echo ${ccsm_file} | cut -d"." -f${f_time}`
+  setenv CCSM_TIME ${ccsm_time}
   setenv CCSM_COMP "icem"
   setenv NCL_SCPT CCSM_icem_2cf.ncl
   ${CCPS_NCL} < ${NCL_SCPT}
@@ -91,6 +93,8 @@ else if (${ccsm_comp} == "csim") then
   endif
 else if (${ccsm_comp} == "pop") then
   @ f_time = $f_time + 1
+  set ccsm_time = `echo ${ccsm_file} | cut -d"." -f${f_time}`
+  setenv CCSM_TIME ${ccsm_time}
   setenv CCSM_COMP "ocnm"
   setenv NCL_SCPT CCSM_ocnm_2cf.ncl
   ${CCPS_NCL} < ${NCL_SCPT}
