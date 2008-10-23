@@ -1,6 +1,6 @@
 &popregrid_nml
-  src_file       = 'CASE.pop.h.YYYY-MM.nc'
-  out_form       = 'CASE.pop.h.src_var.YYYY-MM.nc'
+  src_file       = 'CASE.pop.h.TTTT.nc'
+  out_form       = 'CASE.pop.h.src_var.TTTT.nc'
   dst_lclobber   = .true.
   dst_z_standard = .false.
   src_var        = 'SSH'

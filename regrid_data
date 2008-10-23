@@ -1,4 +1,4 @@
-#!/bin/csh -f
+#!/bin/csh -fxv
 #
 # Regrid CCSM POP/CSIM data to regular-ish grid using SCRIP weights (predefined)
 #
@@ -16,25 +16,24 @@ endif
 #
 set isES = `echo $file | cut -d"." -f3 | cut -c1-2 | uniq`
 if (${isES} == "ES") then
-  set f_comp = 4
+  set f_case = 3 ; set f_comp = 4 ; set f_time = 6
 else
-  set f_comp = 3
+  set f_case = 2 ; set f_comp = 3 ; set f_time = 5
 endif
+set case = `echo $file | cut -d"." -f1-${f_case}`
+set comp = `echo $file | cut -d"." -f${f_comp}`
+set tval = `echo $file | cut -d"." -f${f_time} | cut -d"." -f1`
 #
 # POP regrid
 #
-if (${f_comp} == "pop") then
-  set m = `echo $file | cut -d"-" -f2 | cut -c1-2`
+if (${comp} == "pop") then
   rm -f input_nml_T input_nml_U input_nml_1
-  cat NML_ccsm_ocn_1 | sed -e "s/CASE/${c}/g" | \
-                       sed -e "s/YYYY/${d}${y}/g" | \
-                       sed -e "s/MM/${m}/g" > input_nml_1
-  cat NML_ccsm_ocn_T | sed -e "s/CASE/${c}/g" | \
-                       sed -e "s/YYYY/${d}${y}/g" | \
-                       sed -e "s/MM/${m}/g" > input_nml_T
-  cat NML_ccsm_ocn_U | sed -e "s/CASE/${c}/g" | \
-                       sed -e "s/YYYY/${d}${y}/g" | \
-                       sed -e "s/MM/${m}/g" > input_nml_U
+  cat NML_ccsm_ocn_1 | sed -e "s/CASE/${case}/g" | \
+                       sed -e "s/TTTT/${tval}/g" > input_nml_1
+  cat NML_ccsm_ocn_T | sed -e "s/CASE/${case}/g" | \
+                       sed -e "s/TTTT/${tval}/g" > input_nml_T
+  cat NML_ccsm_ocn_U | sed -e "s/CASE/${case}/g" | \
+                       sed -e "s/TTTT/${tval}/g" > input_nml_U
   ./ccsm_ocn_rgd < input_nml_1
   if ($status == 0) then
     ./ccsm_ocn_rgd < input_nml_T
@@ -58,15 +57,12 @@ endif
 #
 # CSIM regrid
 #
-if (${f_comp} == "csim") then
-  set m = `echo $file | cut -d"-" -f2 | cut -c1-2`
+if (${comp} == "csim") then
   rm -f input_nml_T input_nml_U
-  cat NML_ccsm_ice_T | sed -e "s/CASE/${c}/g" | \
-                       sed -e "s/YYYY/${d}${y}/g" | \
-                       sed -e "s/MM/${m}/g" > input_nml_T
-  cat NML_ccsm_ice_U | sed -e "s/CASE/${c}/g" | \
-                       sed -e "s/YYYY/${d}${y}/g" | \
-                       sed -e "s/MM/${m}/g" > input_nml_U
+  cat NML_ccsm_ice_T | sed -e "s/CASE/${case}/g" | \
+                       sed -e "s/TTTT/${tval}/g" > input_nml_T
+  cat NML_ccsm_ice_U | sed -e "s/CASE/${case}/g" | \
+                       sed -e "s/TTTT/${tval}/g" > input_nml_U
   ./ccsm_ice_rgd < input_nml_T
   if ($status == 0) then
     ./ccsm_ice_rgd < input_nml_U
