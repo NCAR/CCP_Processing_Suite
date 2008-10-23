@@ -332,8 +332,6 @@ begin
                               5374.999  /)
         end if
 
-        print("BOUNDS="+depth_bnds(:,0)+" "+depth_bnds(:,1)+" "+depth)
-
         delete(lat_bnds@_FillValue)
         delete(lon_bnds@_FillValue)
         delete(depth_bnds@_FillValue)

@@ -134,9 +134,6 @@ begin
 ;
         nregion           = 4
         raw                = new((/ntim,nregion,nlat/),float)
-        printVarSummary(global)
-        printVarSummary(atlantic)
-        printVarSummary(raw)
         raw(:,0,:)         = (/atlantic/)*1.e15
         raw(:,1,:)         = missing_value
         raw(:,2,:)         = missing_value
