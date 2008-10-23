@@ -81,6 +81,7 @@ else if (${ccsm_comp} == "clm2") then
      exit 1
   endif
 else if (${ccsm_comp} == "csim") then
+  @ f_time = $f_time + 1
   setenv CCSM_COMP "icem"
   setenv NCL_SCPT CCSM_icem_2cf.ncl
   ${CCPS_NCL} < ${NCL_SCPT}
@@ -89,14 +90,8 @@ else if (${ccsm_comp} == "csim") then
      exit 1
   endif
 else if (${ccsm_comp} == "pop") then
-  setenv CCSM_COMP "ocnm"
+  @ f_time = $f_time + 1
   setenv NCL_SCPT CCSM_ocnm_2cf.ncl
-  ${CCPS_NCL} < ${NCL_SCPT}
-  if ($status != 0) then
-     echo "NCL ERROR"
-     exit 1
-  endif
-  setenv NCL_SCPT CCSM_trans_2cf.ncl
   ${CCPS_NCL} < ${NCL_SCPT}
   if ($status != 0) then
      echo "NCL ERROR"
