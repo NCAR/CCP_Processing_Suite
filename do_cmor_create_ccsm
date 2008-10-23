@@ -91,6 +91,7 @@ else if (${ccsm_comp} == "csim") then
   endif
 else if (${ccsm_comp} == "pop") then
   @ f_time = $f_time + 1
+  setenv CCSM_COMP "ocnm"
   setenv NCL_SCPT CCSM_ocnm_2cf.ncl
   ${CCPS_NCL} < ${NCL_SCPT}
   if ($status != 0) then
