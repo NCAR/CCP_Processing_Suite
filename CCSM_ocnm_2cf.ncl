@@ -1,6 +1,5 @@
 ;******************************************************************************
-;load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
-load "/home/strandwg/proj/ncarg/nclscripts/csm/contributed.ncl"
+load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
 load "set_attributes_ccsm.ncl"
 ;******************************************************************************
 
@@ -33,14 +32,17 @@ begin
 ;--------------------------------------------------------------------
 ; Set various attributes
 ;--------------------------------------------------------------------
+  parent  = ""
+  year1   = ""
+  machine = ""
+  forcing = ""
+  expid   = ""
   set_attributes_ccsm(case,glbAtt,parent,year1,machine,forcing,expid)
 ;--------------------------------------------------------------------
 ; Define table and ipcc_vars
 ;--------------------------------------------------------------------
   table     = "O1"
   ipcc_vars = (/"so","thetao","rhopoto","uo","vo","wo","tos","zos"/)
-;  ipcc_vars = (/"so","thetao","rhopoto","uo","vo","wo",\
-;                "hfogo","tos","zos"/)
 ;--------------------------------------------------------------------
 ; Read input file
 ;--------------------------------------------------------------------

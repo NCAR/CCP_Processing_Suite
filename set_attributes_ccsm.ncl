@@ -1956,6 +1956,29 @@ begin
     expid   = "Commit_"+glbAtt@realization
   end if
 ;--------------------------------------------------------------------
+; Check to make sure we got values!
+;--------------------------------------------------------------------
+  if (expid.eq."") then
+    print(case+" NOT DEFINED IN set_attributes_ccsm.ncl *PLEASE CORRECT*")
+    status_exit(1)
+  end if
+  if (parent.eq."") then
+    print(case+" NOT DEFINED IN set_attributes_ccsm.ncl *PLEASE CORRECT*")
+    status_exit(1)
+  end if
+  if (machine.eq."") then
+    print(case+" NOT DEFINED IN set_attributes_ccsm.ncl *PLEASE CORRECT*")
+    status_exit(1)
+  end if
+  if (forcing.eq."") then
+    print(case+" NOT DEFINED IN set_attributes_ccsm.ncl *PLEASE CORRECT*")
+    status_exit(1)
+  end if
+  if (year1.eq."") then
+    print(case+" NOT DEFINED IN set_attributes_ccsm.ncl *PLEASE CORRECT*")
+    status_exit(1)
+  end if
+;--------------------------------------------------------------------
 ; experiment-invariant global attributes
 ;--------------------------------------------------------------------
   glbAtt@history        = "Created from CCSM3 case "+case+n1+\
@@ -1975,14 +1998,6 @@ begin
                           " "+n1+\
                           " Integrations were performed by NCAR and CRIEPI with support"+n1+\
                           " and facilities provided by NSF, DOE, MEXT and ESC/JAMSTEC."
-;--------------------------------------------------------------------
-; Check to make sure we got values!
-;--------------------------------------------------------------------
-  if (expid.eq."")then
-    print(case+" NOT DEFINED IN set_attributes_ccsm.ncl *PLEASE CORRECT*")
-    status_exit(1)
-  end if
-;
 end
 ;********************************************************************************
 ; del_FillValue

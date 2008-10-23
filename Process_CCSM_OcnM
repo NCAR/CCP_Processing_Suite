@@ -51,6 +51,7 @@ foreach c ( ${cases} )
     ln -s -f ${basedir}/do_cmor_create_ccsm .
     ln -s -f ${basedir}/regrid_data .
     ln -s -f ${basedir}/CCSM_ocnm_2cf.ncl .
+    ln -s -f ${basedir}/CCSM_trans_2cf.ncl .
     ln -s -f ${basedir}/set_attributes_ccsm.ncl  .
     ln -s -f ${basedir}/regridding/NML_ccsm_ocn* .
     cd ${procdir}/IPCC
