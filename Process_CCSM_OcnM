@@ -52,7 +52,6 @@ foreach c ( ${cases} )
     ln -s -f ${basedir}/regrid_data .
     ln -s -f ${basedir}/CCSM_ocnm_2cf.ncl .
     ln -s -f ${basedir}/set_attributes_ccsm.ncl  .
-    ln -s -f ${basedir}/regridding/${CCSM_OCN_RGD} ccsm_ocn_rgd ; chmod +x ccsm_ocn_rgd
     ln -s -f ${basedir}/regridding/NML_ccsm_ocn* .
     cd ${procdir}/IPCC
     ln -s -f ${basedir}/mss_* .
@@ -79,7 +78,7 @@ foreach c ( ${cases} )
         foreach i ( `ls ${c}.pop.h.${d}${y}-??.nc` )
           ./regrid_data $i
           if ($status == 0) then
-            foreach j (${c}.pop.h.*.${d}${y}-${m}.nc )
+            foreach j (${c}.pop.h.*.${d}${y}-??.nc )
               ./do_cmor_create_ccsm $j
               if ($status == 0) rm -f ${j}
             end

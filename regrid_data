@@ -4,7 +4,6 @@
 #
 if ("$#argv" != 1) then
   echo "Usage: regrid_data file"
-  echo "Type must be one of (atmm atmd lndm ocnm icem)"
   exit 1
 else
   set file = $argv[1]
@@ -34,11 +33,11 @@ if (${comp} == "pop") then
                        sed -e "s/TTTT/${tval}/g" > input_nml_T
   cat NML_ccsm_ocn_U | sed -e "s/CASE/${case}/g" | \
                        sed -e "s/TTTT/${tval}/g" > input_nml_U
-  ./ccsm_ocn_rgd < input_nml_1
+  ${CCSM_OCN_RGD} < input_nml_1
   if ($status == 0) then
-    ./ccsm_ocn_rgd < input_nml_T
+    ${CCSM_OCN_RGD} < input_nml_T
     if ($status == 0) then
-      ./ccsm_ocn_rgd < input_nml_U
+      ${CCSM_OCN_RGD} < input_nml_U
       if ($status == 0) then
         echo "regrid_data ocn COMPLETE"
       else
@@ -63,9 +62,9 @@ if (${comp} == "csim") then
                        sed -e "s/TTTT/${tval}/g" > input_nml_T
   cat NML_ccsm_ice_U | sed -e "s/CASE/${case}/g" | \
                        sed -e "s/TTTT/${tval}/g" > input_nml_U
-  ./ccsm_ice_rgd < input_nml_T
+  ${CCSM_ICE_RGD} < input_nml_T
   if ($status == 0) then
-    ./ccsm_ice_rgd < input_nml_U
+    ${CCSM_ICE_RGD} < input_nml_U
     if ($status == 0) then
       echo "regrid_data ice COMPLETE"
     else

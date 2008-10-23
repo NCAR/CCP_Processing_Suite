@@ -77,7 +77,7 @@ foreach c ( ${cases} )
         foreach i ( `ls ${c}.csim.h.${d}${y}-??.nc` )
           ./regrid_data $i
           if ($status == 0) then
-            foreach j (${c}.csim.h.*.${d}${y}-${m}.nc )
+            foreach j (${c}.csim.h.*.${d}${y}-??.nc )
               ./do_cmor_create_ccsm $j
               if ($status == 0) rm -f ${j}
             end

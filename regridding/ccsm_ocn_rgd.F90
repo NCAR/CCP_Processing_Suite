@@ -1063,7 +1063,7 @@ CONTAINS
     !---------------------------------------------------------------------------
     !   use unlikely value if variable has no missing_value attribute
     !---------------------------------------------------------------------------
-    WRITE(*,*) 'Entering ',trim(sub_name),' ',trim(src_var(ivar)),' ',k,l
+!    WRITE(*,*) 'Entering ',trim(sub_name),' ',trim(src_var(ivar)),' ',k,l
     CALL nf_get_att_wrap(src_ncid, src_varid(ivar), 'missing_value', msv, &
          ALLOW=NF_ENOTATT, stat_out=stat)
     IF (stat == NF_ENOTATT) msv = default_msv
