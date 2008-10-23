@@ -90,6 +90,89 @@ begin
     expid   = "CCSPL2_"+glbAtt@realization
   end if
 ;--------------------------------------------------------------------
+; black carbon (bc)
+;--------------------------------------------------------------------
+  if (case.eq."b30.053a")then
+    parent  = "b30.020"
+    year1   = "360"
+    machine = "seaborg.nersc.gov"
+    forcing = "ozone forcing    : mozart.o3.128x64_L18_1870-2000_c040515.nc, 1870 ONLY"+n1+\
+              "carbon scaling   : carbonscaling_1870-2000_c040225.nc"+n1+\
+              "solar forcing    : scon_lean_1870-2100_c040123.nc, 1870 only"+n1+\
+              "GHGs             : ghg_1870_2100_c040122.nc, 1870 ONLY"+n1+\
+              "SOx emissions    : SOx_emissions_128x256_L2_1850-2000_c040321.nc, 1870 ONLY"+n1+\
+              "volcanic forcing : none"+n1+n1+\
+              "GHG loss rates   : noaamisc.r8.nc"+n1+\
+              "aerosol optics   : AerosolOptics_c040105.nc"+n1+\
+              "aerosol MMR      : AerosolMass_V_128x256_clim_c031022.nc"+n1+\
+              "DMS emissions    : DMS_emissions_128x256_clim_c040122.nc"+n1+\
+              "oxidants         : oxid_128x256_L26_clim_c040112.nc"
+    glbAtt@realization    = 1
+    glbAtt@experiment_id  = "climate of the 20th Century experiment (20C3M)"
+    expid   = "20C3M_bc_"+glbAtt@realization
+    glbAtt@source         = "CCSM3.0.1, version beta24"
+  end if
+  if (case.eq."b30.053b")then
+    parent  = "b30.020"
+    year1   = "380"
+    machine = "seaborg.nersc.gov"
+    forcing = "ozone forcing    : mozart.o3.128x64_L18_1870-2000_c040515.nc, 1870 ONLY"+n1+\
+              "carbon scaling   : carbonscaling_1870-2000_c040225.nc"+n1+\
+              "solar forcing    : scon_lean_1870-2100_c040123.nc, 1870 ONLY"+n1+\
+              "GHGs             : ghg_1870_2100_c040122.nc, 1870 ONLY"+n1+\
+              "SOx emissions    : SOx_emissions_128x256_L2_1850-2000_c040321.nc, 1870 ONLY"+n1+\
+              "volcanic forcing : none"+n1+n1+\
+              "GHG loss rates   : noaamisc.r8.nc"+n1+\
+              "aerosol optics   : AerosolOptics_c040105.nc"+n1+\
+              "aerosol MMR      : AerosolMass_V_128x256_clim_c031022.nc"+n1+\
+              "DMS emissions    : DMS_emissions_128x256_clim_c040122.nc"+n1+\
+              "oxidants         : oxid_128x256_L26_clim_c040112.nc"
+    glbAtt@realization    = 2
+    glbAtt@experiment_id  = "climate of the 20th Century experiment (20C3M)"
+    expid   = "20C3M_bc_"+glbAtt@realization
+    glbAtt@source         = "CCSM3.0.1, version beta24"
+  end if
+  if (case.eq."b30.053c")then
+    parent  = "b30.020"
+    year1   = "400"
+    machine = "seaborg.nersc.gov"
+    forcing = "ozone forcing    : mozart.o3.128x64_L18_1870-2000_c040515.nc, 1870 ONLY"+n1+\
+              "carbon scaling   : carbonscaling_1870-2000_c040225.nc"+n1+\
+              "solar forcing    : scon_lean_1870-2100_c040123.nc, 1870 ONLY"+n1+\
+              "GHGs             : ghg_1870_2100_c040122.nc, 1870 ONLY"+n1+\
+              "SOx emissions    : SOx_emissions_128x256_L2_1850-2000_c040321.nc, 1870 ONLY"+n1+\
+              "volcanic forcing : none"+n1+n1+\
+              "GHG loss rates   : noaamisc.r8.nc"+n1+\
+              "aerosol optics   : AerosolOptics_c040105.nc"+n1+\
+              "aerosol MMR      : AerosolMass_V_128x256_clim_c031022.nc"+n1+\
+              "DMS emissions    : DMS_emissions_128x256_clim_c040122.nc"+n1+\
+              "oxidants         : oxid_128x256_L26_clim_c040112.nc"
+    glbAtt@realization    = 3
+    glbAtt@experiment_id  = "climate of the 20th Century experiment (20C3M)"
+    expid   = "20C3M_bc_"+glbAtt@realization
+    glbAtt@source         = "CCSM3.0.1, version beta24"
+  end if
+  if (case.eq."b30.053d")then
+    parent  = "b30.020"
+    year1   = "420"
+    machine = "seaborg.nersc.gov"
+    forcing = "ozone forcing    : mozart.o3.128x64_L18_1870-2000_c040515.nc, 1870 ONLY"+n1+\
+              "carbon scaling   : carbonscaling_1870-2000_c040225.nc"+n1+\
+              "solar forcing    : scon_lean_1870-2100_c040123.nc, 1870 ONLY"+n1+\
+              "GHGs             : ghg_1870_2100_c040122.nc, 1870 ONLY"+n1+\
+              "SOx emissions    : SOx_emissions_128x256_L2_1850-2000_c040321.nc, 1870 ONLY"+n1+\
+              "volcanic forcing : none"+n1+n1+\
+              "GHG loss rates   : noaamisc.r8.nc"+n1+\
+              "aerosol optics   : AerosolOptics_c040105.nc"+n1+\
+              "aerosol MMR      : AerosolMass_V_128x256_clim_c031022.nc"+n1+\
+              "DMS emissions    : DMS_emissions_128x256_clim_c040122.nc"+n1+\
+              "oxidants         : oxid_128x256_L26_clim_c040112.nc"
+    glbAtt@realization    = 4
+    glbAtt@experiment_id  = "climate of the 20th Century experiment (20C3M)"
+    expid   = "20C3M_bc_"+glbAtt@realization
+    glbAtt@source         = "CCSM3.0.1, version beta24"
+  end if
+;--------------------------------------------------------------------
 ; A1FI experiment
 ;--------------------------------------------------------------------
   if (case.eq."b30.099a")then
