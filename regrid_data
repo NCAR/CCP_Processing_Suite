@@ -1,4 +1,4 @@
-#!/bin/csh -fxv
+#!/bin/csh -f
 #
 # Regrid CCSM POP/CSIM data to regular-ish grid using SCRIP weights (predefined)
 #
