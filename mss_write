@@ -24,8 +24,20 @@ endif
 #
 # If NERSC/ORNL hsi command exists, use it.
 if ( `which hsi | wc -w` == 1  ) then 
-  hsi -q "mkdir -m 775 -p ${mssd} ; put -U ${mssd}/${file}" 
-  if ($status == 0) rm -f ${file}
+  hsi -q "mkdir -m 775 -p ${mssd} ; put -U ${mssd}/${file}" >& /dev/null
+  if ($status == 0) then
+    echo ${file}" written to "${mssd}" and erased"
+    rm -f ${file}
+  else
+    hsi -q "put ${file}" >& /dev/null
+    if ($status == 0) then
+      echo ${file}" written to your HPSS HOME and erased"
+      rm -f ${file}
+    else
+      echo "Problem with HPSS on "${file}". Stopping"
+      exit 1
+    endif
+  endif
 endif
 #
 exit

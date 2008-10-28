@@ -32,6 +32,11 @@ begin
 ;--------------------------------------------------------------------
 ; Set various attributes
 ;--------------------------------------------------------------------
+  parent  = ""
+  year1   = ""
+  machine = ""
+  forcing = ""
+  expid   = ""
   set_attributes_ccsm(case,glbAtt,parent,year1,machine,forcing,expid)
 ;--------------------------------------------------------------------
 ; Read input file
