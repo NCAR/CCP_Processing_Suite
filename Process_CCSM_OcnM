@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------------
 # Case(s)
 #
-set cases   = ( b30.053d )
+set cases   = ( b30.053c )
 #
 # Decades to process
 #
@@ -119,6 +119,7 @@ foreach c ( ${cases} )
         cd ${procdir}/${e}
         ../ccsm_var_dec
       end
+      cd ${procdir}
       foreach e (`ls -d *4d.d`)
         cd ${procdir}/${e}
         ../ccsm_var_dec
@@ -127,6 +128,7 @@ foreach c ( ${cases} )
           ./mss_write $g ${mssproc}
         end
       end
+      cd ${procdir}
       foreach e (`ls -d *5d.d`)
         cd ${procdir}/${e}
         ../ccsm_var_dec
