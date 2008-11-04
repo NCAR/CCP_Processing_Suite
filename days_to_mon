@@ -50,15 +50,15 @@ if ($status == 0) then
         # Jan, Mar, May, Jul, Aug, Oct, Dec
           if ($m == "01"||$m == "03"||$m == "05"||$m == "07"||$m == "08"||$m == "10"||$m == "12") then
             if (${p} == "cam2.h1") set nday =   31
-            if (${p} == "cam2.h4") set nday =  124
+            if (${p} == "cam2.h3") set nday =  124
         # Apr, Jun, Sep, Nov
           else if ($m == "04"||$m == "06"||$m == "09"||$m == "11") then
             if (${p} == "cam2.h1") set nday =   30
-            if (${p} == "cam2.h4") set nday =  120
+            if (${p} == "cam2.h3") set nday =  120
         # Feb
           else
             if (${p} == "cam2.h1") set nday =   28
-            if (${p} == "cam2.h4") set nday =  112
+            if (${p} == "cam2.h3") set nday =  112
           endif
           set mday = `ls ${c}.${p}.${y}-${m}-??-?????????.nc | wc -l`
           if ($mday == $nday) then
