@@ -1,5 +1,4 @@
 #!/bin/csh -f
-#set echo verbose
 #
 #   do_setup usage:
 #
@@ -31,166 +30,201 @@ if (${type} != "atmm") then
     endif
   endif
 endif
-
-# resolve machine dependencies
-
-set machine = `hostname`
-
+#
+# Extract information from "experiments.txt"
+#
+set location = `egrep "^${case} " experiments.txt | cut -c20-  | cut -d" " -f1`
+set descrip  = `egrep "^${case} " experiments.txt | cut -c25-  | cut -d" " -f1`
+set parent   = `egrep "^${case} " experiments.txt | cut -c50-  | cut -d" " -f1`
+set branch   = `egrep "^${case} " experiments.txt | cut -c65-  | cut -d" " -f1`
+set yearbeg  = `egrep "^${case} " experiments.txt | cut -c80-  | cut -d" " -f1`
+set yearend  = `egrep "^${case} " experiments.txt | cut -c85-  | cut -d" " -f1`
+set histbase = `egrep "^${case} " experiments.txt | cut -c100- | cut -d" " -f1`
+#
+# Processed data archival locations
+#
+switch($location)
+  case "NC":                                        # NCAR experiments
+    set mssbase = /CCSM/csm/${case}
+    set machine = "mineral"
+  breaksw
+  case "NE":                                        # NERSC experiments
+    set mssbase = /nersc/mp9/strandwg/CCSM/csm/${case}
+    set machine = "davinci"
+  breaksw
+  case "OR":                                        # ORNL experiments
+    set mssbase = /f2/wgstrand/CCSM/csm/${case}
+    set machine = "lens0"
+  breaksw
+  default:
+    echo "Unable to set mssbase because "${case}" not found in experiments.txt"
+    exit 1
+  breaksw
+endsw
+#
+# History tape locations
+#
+switch($type)
+  case "atmm": 
+    set msshist = ${histbase}/${case}/atm/hist
+    set mssipcc = ${mssbase}/atm/ipcc/tseries/monthly
+    set mssproc = ${mssbase}/atm/proc/tseries/monthly
+  breaksw
+  case "atmd": 
+    set msshist = ${histbase}/${case}/atm/hist
+    set mssipcc = ${mssbase}/atm/ipcc/tseries/daily
+    set mssproc = ${mssbase}/atm/proc/tseries/daily
+  breaksw
+  case "lndm": 
+    set msshist = ${histbase}/${case}/lnd/hist
+    set mssipcc = ${mssbase}/lnd/ipcc/tseries/daily
+    set mssproc = ${mssbase}/lnd/proc/tseries/daily
+  breaksw
+  case "ocnm": 
+    set msshist = ${histbase}/${case}/ocn/hist
+    set mssipcc = ${mssbase}/ocn/ipcc/tseries/monthly
+    set mssproc = ${mssbase}/ocn/proc/tseries/monthly
+  breaksw
+  case "icem": 
+    set msshist = ${histbase}/${case}/ice/hist
+    set mssipcc = ${mssbase}/ice/ipcc/tseries/monthly
+    set mssproc = ${mssbase}/ice/proc/tseries/monthly
+  breaksw
+endsw
+#
+# resolve machine/site dependencies
+#
 switch($machine)
-   
   case "mineral*":                                # mineral @ CGD/NCAR
-    set basedir     = /home/strandwg/data/CCP_Processing_Suite
-    if (${type} == "atmm") then
-      set procdir = /datalocal/ccpc/$USER/${case}/atm/mon
-      set mssorig = /CCSM/csm/${case}/atm/hist
-      set mssipcc = /CCSM/csm/${case}/atm/ipcc/tseries/monthly
-      set mssproc = /CCSM/csm/${case}/atm/proc/tseries/monthly
-    endif
-    if (${type} == "atmd") then
-      set procdir = /datalocal/ccpc/$USER/${case}/atm/day
-      set mssorig = /CCSM/csm/${case}/atm/hist
-      set mssipcc = /CCSM/csm/${case}/atm/ipcc/tseries/daily
-      set mssproc = /CCSM/csm/${case}/atm/proc/tseries/daily
-    endif
-    if (${type} == "lndm") then
-      set procdir = /datalocal/ccpc/$USER/${case}/lnd/mon
-      set mssorig = /CCSM/csm/${case}/lnd/hist
-      set mssipcc = /CCSM/csm/${case}/lnd/ipcc/tseries/monthly
-      set mssproc = /CCSM/csm/${case}/lnd/proc/tseries/monthly
-    endif
-    if (${type} == "ocnm") then
-      set procdir = /datalocal/ccpc/$USER/${case}/ocn/mon
-      set mssorig = /CCSM/csm/${case}/ocn/hist
-      set mssipcc = /CCSM/csm/${case}/ocn/ipcc/tseries/monthly
-      set mssproc = /CCSM/csm/${case}/ocn/proc/tseries/monthly
-      set regrdir = /project/ccr/strandwg/IPCC_Processing/ocn/CCSM
-      set oregrid = ${basedir}/regridding/ccsm_ocn_rgd.mineral
-      if !(-f ${oregrid}) then
-        echo "Need to build OCN regridding code. Do that and re-run."
-        exit 1
-      else
-        setenv CCSM_OCN_RGD $oregrid
-      endif
-    endif
-    if (${type} == "icem") then
-      set procdir = /datalocal/ccpc/$USER/${case}/ice/mon
-      set mssorig = /CCSM/csm/${case}/ice/hist
-      set mssipcc = /CCSM/csm/${case}/ice/ipcc/tseries/monthly
-      set mssproc = /CCSM/csm/${case}/ice/proc/tseries/monthly
-      set regrdir = /project/ccr/strandwg/IPCC_Processing/ice/CCSM
-      set iregrid = ${basedir}/regridding/ccsm_ice_rgd.mineral
-      if !(-f ${iregrid}) then
-        echo "Need to build ICE regridding code. Do that and re-run."
-        exit 1
-      else
-        setenv CCSM_ICE_RGD $iregrid
-      endif
-    endif
- breaksw
+    set basedir  = /home/strandwg/data/CCP_Processing_Suite
+    switch($type)
+      case "atmm": 
+        set procdir = /datalocal/ccpc/$USER/${case}/atm/mon
+      breaksw
+      case "atmd": 
+        set procdir = /datalocal/ccpc/$USER/${case}/atm/day
+      breaksw
+      case "lndm": 
+        set procdir = /datalocal/ccpc/$USER/${case}/lnd/mon
+      breaksw
+      case "ocnm": 
+        set procdir = /datalocal/ccpc/$USER/${case}/ocn/mon
+        set regrdir = /project/ccr/strandwg/IPCC_Processing/ocn/CCSM
+        set oregrid = ${basedir}/regridding/ccsm_ocn_rgd.mineral
+        if !(-f ${oregrid}) then
+          echo "Need to build OCN regridding code. Do that and re-run."
+          exit 1
+        else
+          setenv CCSM_OCN_RGD $oregrid
+        endif
+      breaksw
+      case "icem": 
+        set procdir = /datalocal/ccpc/$USER/${case}/ocn/mon
+        set regrdir = /project/ccr/strandwg/IPCC_Processing/ice/CCSM
+        set iregrid = ${basedir}/regridding/ccsm_ice_rgd.mineral
+        if !(-f ${iregrid}) then
+          echo "Need to build ICE regridding code. Do that and re-run."
+          exit 1
+        else
+          setenv CCSM_ICE_RGD $iregrid
+         endif
+      breaksw
+   endsw
+   breaksw
 
- case "davinci*":                                # davinci @ NERSC
+   case "davinci*":                                # davinci @ NERSC
     set basedir     = /usr/common/homes/s/strandwg/CCP_Processing_Suite
     set ccps_ncks   = /usr/common/homes/s/strandwg/bin/ncks
     set ccps_ncrcat = /usr/common/homes/s/strandwg/bin/ncrcat
-    if (${type} == "atmm") then
-      set procdir = /scratch/scratchdirs/$USER/${case}/atm/mon
-      set mssorig = /nersc/mp9/adrianne/ccsm/${case}/atm/hist
-      set mssipcc = /nersc/mp9/strandwg/CCSM/csm/${case}/atm/ipcc/tseries/monthly
-      set mssproc = /nersc/mp9/strandwg/CCSM/csm/${case}/atm/proc/tseries/monthly
-    endif
-    if (${type} == "atmd") then
-      set procdir = /scratch/scratchdirs/$USER/${case}/atm/day
-      set mssorig = /nersc/mp9/adrianne/ccsm/${case}/atm/hist
-      set mssipcc = /nersc/mp9/strandwg/CCSM/csm/${case}/atm/ipcc/tseries/daily
-      set mssproc = /nersc/mp9/strandwg/CCSM/csm/${case}/atm/proc/tseries/daily
-    endif
-    if (${type} == "lndm") then
-      set procdir = /scratch/scratchdirs/$USER/${case}/lnd/mon
-      set mssorig = /nersc/mp9/adrianne/ccsm/${case}/lnd/hist
-      set mssipcc = /nersc/mp9/strandwg/CCSM/csm/${case}/lnd/ipcc/tseries/monthly
-      set mssproc = /nersc/mp9/strandwg/CCSM/csm/${case}/lnd/proc/tseries/monthly
-    endif
-    if (${type} == "ocnm") then
-      set procdir = /scratch/scratchdirs/$USER/${case}/ocn/mon
-      set mssorig = /nersc/mp9/adrianne/ccsm/${case}/ocn/hist
-      set mssipcc = /nersc/mp9/strandwg/CCSM/csm/${case}/ocn/ipcc/tseries/monthly
-      set mssproc = /nersc/mp9/strandwg/CCSM/csm/${case}/ocn/proc/tseries/monthly
-      set regrdir = /project/projectdirs/ccp/CCP_Processing_Suite/ocn/CCSM
-      set oregrid = ${basedir}/regridding/ccsm_ocn_rgd.davinci
-      if !(-f ${oregrid}) then
-        echo "Need to build OCN regridding code. Do that and re-run."
-        exit 1
-      else
-        setenv CCSM_OCN_RGD $oregrid
-      endif
-    endif
-    if (${type} == "icem") then
-      set procdir = /scratch/scratchdirs/$USER/${case}/ice/mon
-      set mssorig = /nersc/mp9/adrianne/ccsm/${case}/ice/hist
-      set mssipcc = /nersc/mp9/strandwg/CCSM/csm/${case}/ice/ipcc/tseries/monthly
-      set mssproc = /nersc/mp9/strandwg/CCSM/csm/${case}/ice/proc/tseries/monthly
-      set regrdir = /project/projectdirs/ccp/CCP_Processing_Suite/ice/CCSM
-      set iregrid = ${basedir}/regridding/ccsm_ice_rgd.davinci
-      if !(-f ${iregrid}) then
-        echo "Need to build ICE regridding code. Do that and re-run."
-        exit 1
-      else
-        setenv CCSM_ICE_RGD $iregrid
-      endif
-    endif
- breaksw
+    switch($type)
+      case "atmm": 
+        set procdir = /scratch/scratchdirs/$USER/${case}/atm/mon
+      breaksw
+      case "atmd": 
+        set procdir = /scratch/scratchdirs/$USER/${case}/atm/day
+      breaksw
+      case "lndm": 
+        set procdir = /scratch/scratchdirs/$USER/${case}/lnd/mon
+      breaksw
+      case "ocnm": 
+        set procdir = /scratch/scratchdirs/$USER/${case}/ocn/mon
+        set regrdir = /project/projectdirs/ccp/CCP_Processing_Suite/ocn/CCSM
+        set oregrid = ${basedir}/regridding/ccsm_ocn_rgd.davinci
+        if !(-f ${oregrid}) then
+          echo "Need to build OCN regridding code. Do that and re-run."
+          exit 1
+        else
+          setenv CCSM_OCN_RGD $oregrid
+        endif
+      breaksw
+      case "icem": 
+        set procdir = /scratch/scratchdirs/$USER/${case}/ice/mon
+        set regrdir = /project/projectdirs/ccp/CCP_Processing_Suite/ice/CCSM
+        set iregrid = ${basedir}/regridding/ccsm_ice_rgd.davinci
+        if !(-f ${iregrid}) then
+          echo "Need to build ICE regridding code. Do that and re-run."
+          exit 1
+        else
+          setenv CCSM_ICE_RGD $iregrid
+         endif
+      breaksw
+    endsw
+  breaksw
 
- case "lens*":                                # lens @ ORNL
+  case "lens*":                                # lens @ ORNL
     set basedir     = /ccs/home/wgstrand/CCP_Processing_Suite
     set ccps_ncks   = /ccs/home/wgstrand/bin/ncks
     set ccps_ncrcat = /ccs/home/wgstrand/bin/ncrcat
-    if (${type} == "atmm") then
-      set procdir = /tmp/work/$USER/${case}/atm/mon
-      set mssorig = /f2/adrianne/ccsm/${case}/atm/hist
-      set mssipcc = /f2/wgstrand/CCSM/csm/${case}/atm/ipcc/tseries/monthly
-      set mssproc = /f2/wgstrand/CCSM/csm/${case}/atm/proc/tseries/monthly
-    endif
-    if (${type} == "atmd") then
-      set procdir = /tmp/work/$USER/${case}/atm/day
-      set mssorig = /f2/adrianne/ccsm/${case}/atm/hist
-      set mssipcc = /f2/wgstrand/CCSM/csm/${case}/atm/ipcc/tseries/daily
-      set mssproc = /f2/wgstrand/CCSM/csm/${case}/atm/proc/tseries/daily
-    endif
-    if (${type} == "lndm") then
-      set procdir = /tmp/work/$USER/${case}/lnd/mon
-      set mssorig = /f2/adrianne/ccsm/${case}/lnd/hist
-      set mssipcc = /f2/wgstrand/CCSM/csm/${case}/lnd/ipcc/tseries/monthly
-      set mssproc = /f2/wgstrand/CCSM/csm/${case}/lnd/proc/tseries/monthly
-    endif
-    if (${type} == "ocnm") then
-      set procdir = /tmp/work/$USER/${case}/ocn/mon
-      set mssorig = /f2/adrianne/ccsm/${case}/ocn/hist
-      set mssipcc = /f2/wgstrand/CCSM/csm/${case}/ocn/ipcc/tseries/monthly
-      set mssproc = /f2/wgstrand/CCSM/csm/${case}/ocn/proc/tseries/monthly
-      set regrdir = /f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
-      set oregrid = ${basedir}/regridding/ccsm_ocn_rgd.lens0
-      if !(-f ${oregrid}) then
-        echo "Need to build OCN regridding code. Do that and re-run."
-        exit 1
-      else
-        setenv CCSM_OCN_RGD $oregrid
-      endif
-    endif
-    if (${type} == "icem") then
-      set procdir = /tmp/work/$USER/${case}/ice/mon
-      set mssorig = /f2/adrianne/ccsm/${case}/ice/hist
-      set mssipcc = /f2/wgstrand/CCSM/csm/${case}/ice/ipcc/tseries/monthly
-      set mssproc = /f2/wgstrand/CCSM/csm/${case}/ice/proc/tseries/monthly
-      set regrdir = /f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
-      set iregrid = ${basedir}/regridding/ccsm_ice_rgd.lens0
-      if !(-f ${iregrid}) then
-        echo "Need to build ICE regridding code. Do that and re-run."
-        exit 1
-      else
-        setenv CCSM_ICE_RGD $iregrid
-      endif
-    endif
-  breaksw
+    switch($type)
+      case "atmm": 
+        set procdir = /tmp/work/$USER/${case}/atm/mon
+      breaksw
+      case "atmd": 
+        set procdir = /tmp/work/$USER/${case}/atm/day
+      breaksw
+      case "lndm": 
+        set procdir = /tmp/work/$USER/${case}/lnd/mon
+      breaksw
+      case "ocnm": 
+        set procdir = /tmp/work/$USER/${case}/ocn/mon
+        set regrdir = /f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
+        set oregrid = ${basedir}/regridding/ccsm_ocn_rgd.lens0
+        if !(-f ${oregrid}) then
+          echo "Need to build OCN regridding code. Do that and re-run."
+          exit 1
+        else
+          setenv CCSM_OCN_RGD $oregrid
+        endif
+      breaksw
+      case "icem": 
+        set procdir = /tmp/work/$USER/${case}/ice/mon
+        set regrdir = /f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
+        set iregrid = ${basedir}/regridding/ccsm_ice_rgd.lens0
+        if !(-f ${iregrid}) then
+          echo "Need to build ICE regridding code. Do that and re-run."
+          exit 1
+        else
+          setenv CCSM_ICE_RGD $iregrid
+         endif
+      breaksw
+   endsw
+   breaksw
 endsw
+#
+# Print out values
+#
+echo "        Case name : "${case}
+echo "         Location : "${location}
+echo "      Description : "${descrip}
+echo "      Parent case : "${parent}
+echo "      Branch date : "${branch}
+echo "       Begin year : "${yearbeg}
+echo "         End year : "${yearend}
+#
+echo "    History files : "${msshist}
+echo "IPCC format files : "${mssipcc}
+echo "  Processed files : "${mssproc}
+#
+echo "   Processing dir : "${procdir}
 #
 exit 0

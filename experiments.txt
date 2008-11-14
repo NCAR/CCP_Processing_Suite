@@ -1,8 +1,24 @@
-                                                                                                   1         1         1         1         1        1
-         1         2         3         4         5         6         7         8         9         0         1         2         3         4        4
-12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
-CCSM case          LC   PCMDI name         AR4   parent case    branch date    beg  end  res       history file archive location
--------------      --   --------------     ---   -----------    -----------    --------- --------- -----------------------------------
+#
+# Master CCSM experiment list
+#
+#  Columns   Field
+# NNN - NNN  CCSM case name
+#   1 -  19  CCSM case name
+#  20 -  21  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  25 -  40  Very brief description and/or PCMDI name (n/a if not applicable)
+#  44 -  46  Is an AR4 experiment?
+#  50 -  64  Parent CCSM case name 
+#  65 -  74  Branch date (yyyy-mm-dd, "none" if out-of-the-box)
+#  80 -  83  Year began
+#  85 -  88  Year ended
+#  90 -  98  Resolution
+# 100 - end  History file location on archive
+#
+#                                                                                                  1         1         1         1         1        1
+#        1         2         3         4         5         6         7         8         9         0         1         2         3         4        4
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+#CCSM case         LC   Description        AR4   parent case    branch date    beg  end  res       history file archive location
+#------------      --   --------------     ---   -----------    -----------    --------- --------- -----------------------------------
 b30.004            NC   PDcntrl_1                none           0000-01-01     0001 1001 T42_gx1   /CCSM/csm
 b30.009            NC   PDcntrl_1          AR4   none           0000-01-01     0100 0699 T85_gx1   /CCSM/csm
 b30.013            NC   PIcntrl_0                none           0000-01-01     0001 0230 T85_gx1   /CCSM/csm
@@ -74,7 +90,7 @@ b30.045b.ES01      NC   SRESB1_6           AR4   b30.041b.ES01  2100-01-01     2
 b30.045f.ES01      NC   SRESB1_7           AR4   b30.041f.ES01  2100-01-01     2100 2349 T85_gx1   /CCSM/csm
 b30.045g.ES01      NC   SRESB1_8           AR4   b30.041g.ES01  2100-01-01     2100 2349 T85_gx1   /CCSM/csm
 b30.048            NC   PIcntrl_1                none           0400-01-01     0400 0553 T31_gx3   /CCSM/csm
-b30.052a           OR   N/A                      b30.020        0450-01-01     0450 0499 T85_gx1   /home/buja/mss/CCSM/csm
+b30.052a           OR   n/a                      b30.020        0450-01-01     0450 0499 T85_gx1   /home/buja/mss/CCSM/csm
 b30.053a           NE   20C3M_bc_1               b30.020        0360-01-01     1870 1999 T85_gx1   /nersc/mp9/adrianne/ccsm
 b30.053b           NE   20C3M_bc_2               b30.020        0380-01-01     1870 1999 T85_gx1   /nersc/mp9/adrianne/ccsm
 b30.053c           NE   20C3M_bc_3               b30.020        0400-01-01     1870 1999 T85_gx1   /nersc/mp9/adrianne/ccsm
@@ -174,5 +190,3 @@ iamip.ES01         NC   AMIP_2             AR4   none           0000-01-01     1
 iamip.ES03         NC   AMIP_3             AR4   none           0000-01-01     1979 2000 T85_gx1   /CCSM/csm
 iamip.ES04         NC   AMIP_4             AR4   none           0000-01-01     1979 2000 T85_gx1   /CCSM/csm
 iamip.ES05         NC   AMIP_5             AR4   none           0000-01-01     1979 2000 T85_gx1   /CCSM/csm
-         1         2         3         4         5         6         7         8         9         0         1         2         3         4        4
-12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
