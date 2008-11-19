@@ -10,14 +10,6 @@
 #
 set cases   = ( b30.030a )
 #
-# Decades to process
-#
-set decades = ( 198 199 )
-#
-# Years from each decade to process
-#
-set years   = ( 0 1 2 3 4 5 6 7 8 9 )
-#
 # Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
 #
 set do_ipcc = 0
@@ -27,7 +19,7 @@ set do_ipcc = 0
 set do_proc = 1
 #
 # --------------------------------------------------------------------------------
-# NOTE: See also the "mssorig" variable in 'do_setup' for archival directory of 
+# NOTE: See also the "mssorig" variable in 'process_setup' for archival directory of 
 #       original history files
 # --------------------------------------------------------------------------------
 #
@@ -37,7 +29,7 @@ foreach c ( ${cases} )
 # Set up all necessary script variables
 # --------------------------------------------------------------------------------
 #
-  source ./do_setup $c ocnm
+  source ./process_setup $c ocnm
 #
   if !(-d  ${procdir}) mkdir -p ${procdir}
 #
@@ -53,7 +45,7 @@ foreach c ( ${cases} )
     ln -s -f ${basedir}/CCSM_ocnm_2cf.ncl   .
     ln -s -f ${basedir}/do_ocn_transports   .
     ln -s -f ${basedir}/CCSM_trans_2cf.ncl  .
-    ln -s -f ${basedir}/set_attributes_ccsm.ncl  .
+    ln -s -f ${basedir}/attributes_ccsm.ncl  .
     ln -s -f ${basedir}/regridding/NML_ccsm_ocn* .
     cd ${procdir}/IPCC
     ln -s -f ${basedir}/mss_* .

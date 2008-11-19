@@ -1,0 +1,103 @@
+#!/bin/csh -f
+#
+# Process CCSM CAM monthly-mean netCDF files
+# Optionally, create IPCC format files
+#
+# --------------------------------------------------------------------------------
+# User-settable parameters
+# --------------------------------------------------------------------------------
+# Case(s)
+#
+set cases   = ( b30.097a )
+#
+# Type(s) (atmm atmd lndm ocnm icem )
+#
+set types   = ( atmm )
+#
+# Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
+#
+set do_ipcc = 0
+#
+# Whether or not to do single-field processing (zero means DO NOT, non-zero means DO)
+# one for each type above
+#
+set do_proc = 1
+#
+foreach c ( ${cases} )
+  foreach t ( ${types} )
+# --------------------------------------------------------------------------------
+# Set up all necessary script variables
+# --------------------------------------------------------------------------------
+#
+    source ./process_setup $c $t $do_proc $do_ipcc
+    if ($status != 0) then
+      echo "ERROR in setting up "${c}" "${t}" processing. EXITING. FIX."
+      exit 1
+    endif
+#
+    cd ${procdir}
+    set yearnow = $yearbeg
+    while ( $yearnow <= $yearend )
+      set yrcheck = .done.${proccase}.${histnam}.${yearnow}
+      if !(-f ${yrcheck}) then
+        echo "Processing "${proccase}".${histnam}."${yearnow}" at "`date`
+        set msf = "${proccase}.${histnam}.${yearnow}-{01,02,03,04,05,06,07,08,09,10,11,12}.nc"
+        ./mss_read "${msshist}" "${msf}"
+        if ($status == 0) then
+          foreach i ( `ls ${proccase}.${histnam}.${yearnow}-??.nc`)
+            if ( $doesipcc != "0") then
+              ./create_ipcc_data $i
+              if ($status != 0) then
+                echo "Error from create_ipcc_data on file "${i}
+                exit 1
+              else
+                touch .ipcc.${i}
+              endif
+            endif
+            if ( $doesproc != "0") then
+              ./ccsm_var_split $i erase
+              if ($status != 0) then
+                echo "Error from ccsm_var_split on file "${i}
+                exit 1
+              else
+                touch .proc.${i}
+              endif
+            endif
+            if ((-f .proc.${i})||(-f .ipcc.${i})) touch .done.${i}
+          end
+        else
+          echo "Error from mss_read of "${msf}
+          exit 1
+        endif
+      endif
+      if (`ls .done.${proccase}.${histnam}.${yearnow}-??.nc | wc -l` == 12) then
+        touch ${yrcheck}
+        rm .????.${proccase}.${histnam}.${yearnow}-??.nc
+        if ( $doesipcc != "0") then
+          cd ${procdir}/IPCC
+          ./cf_var_ann_concat
+          cd ${procdir}
+        endif
+        if ( $doesproc != "0") then
+          foreach e (`ls -d *d.d`)
+            cd ${procdir}/${e}
+            ../var_mon_to_year
+            cd ${procdir}
+          end
+        endif
+      endif
+      @ yearnow = $yearnow + 1
+    end
+#
+# Concatenate years -> decades, decades -> all
+#
+    ./finish_concatenation
+#
+# Store completed data on archival system
+#
+    ./store_to_archive
+#
+  end # type
+end # case
+#
+exit

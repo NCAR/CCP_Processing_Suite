@@ -8,15 +8,7 @@
 # --------------------------------------------------------------------------------
 # Case(s)
 #
-set cases   = ( b30.209a )
-#
-# Decades to process
-#
-set decades = ( 200 201 202 203 204 205 206 207 208 209 )
-#
-# Years from each decade to process
-#
-set years   = ( 0 1 2 3 4 5 6 7 8 9 )
+set cases   = ( b30.097a )
 #
 # Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
 #
@@ -27,7 +19,7 @@ set do_ipcc = 0
 set do_proc = 1
 #
 # --------------------------------------------------------------------------------
-# NOTE: See also the "mssorig" variable in 'do_setup' for archival directory of 
+# NOTE: See also the "mssorig" variable in 'process_setup' for archival directory of 
 #       original history files
 # --------------------------------------------------------------------------------
 #
@@ -37,7 +29,7 @@ foreach c ( ${cases} )
 # Set up all necessary script variables
 # --------------------------------------------------------------------------------
 #
-  source ./do_setup $c icem
+  source ./process_setup $c icem
 #
   if !(-d  ${procdir}) mkdir -p ${procdir}
 #
@@ -50,7 +42,7 @@ foreach c ( ${cases} )
     if !(-d ${procdir}/maps) mkdir -p ${procdir}/maps
     ln -s -f ${basedir}/do_cmor_create_ccsm .
     ln -s -f ${basedir}/CCSM_icem_2cf.ncl .
-    ln -s -f ${basedir}/set_attributes_ccsm.ncl .
+    ln -s -f ${basedir}/attributes_ccsm.ncl .
     ln -s -f ${basedir}/regridding/${CCSM_OCN_RGD} ccsm_ice_rgd ; chmod +x ccsm_ice_rgd
     ln -s -f ${basedir}/regridding/NML_ccsm_ice* .
     cd ${procdir}/IPCC
@@ -75,13 +67,7 @@ foreach c ( ${cases} )
 #
       if (${do_ipcc} != "0") then
         foreach i ( `ls ${c}.csim.h.${d}${y}-??.nc` )
-          ./regrid_data $i
-          if ($status == 0) then
-            foreach j (${c}.csim.h.*.${d}${y}-??.nc )
-              ./do_cmor_create_ccsm $j
-              if ($status == 0) rm -f ${j}
-            end
-          endif
+          ./do_cmor_create_ccsm $i
         end
       endif
 #

@@ -8,11 +8,11 @@
 # --------------------------------------------------------------------------------
 # Case(s)
 #
-set cases   = ( b30.209d )
+set cases   = ( b30.097a )
 #
 # Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
 #
-set do_ipcc = 1
+set do_ipcc = 0
 #
 # Whether or not to do single-field processing (zero means DO NOT, non-zero means DO)
 #
@@ -24,7 +24,7 @@ foreach c ( ${cases} )
 # Set up all necessary script variables
 # --------------------------------------------------------------------------------
 #
-  source ./do_setup $c atmm
+  source ./process_setup $c atmm
 #
   if !(-d ${procdir}) mkdir -p ${procdir}
   cd ${procdir}
@@ -33,7 +33,7 @@ foreach c ( ${cases} )
     if !(-d  ${procdir}/IPCC) mkdir -p ${procdir}/IPCC
     ln -s -f ${basedir}/do_cmor_create_ccsm .
     ln -s -f ${basedir}/CCSM_atmm_2cf.ncl .
-    ln -s -f ${basedir}/set_attributes_ccsm.ncl .
+    ln -s -f ${basedir}/attributes_ccsm.ncl .
     cd ${procdir}/IPCC
     ln -s -f ${basedir}/mss_* .
     ln -s -f ${basedir}/cf_*var*concat .
@@ -43,25 +43,44 @@ foreach c ( ${cases} )
   ln -s -f ${basedir}/mss_* .
   ln -s -f ${basedir}/ccsm_var* .
 #
-  foreach d ( ${decades} )
-    cd ${procdir}
-    foreach y ( ${years} )
-      set msf = "${c}.cam2.h0.${d}${y}-{01,02,03,04,05,06,07,08,09,10,11,12}.nc"
-      ./mss_read "${mssorig}" "${msf}"
+  cd ${procdir}
+  set yearnow = $yearbeg
+  while ( $yearnow <= $yearend )
+    set yrcheck = .done.${c}.cam2.h0.${yearnow}
+    if !(-f ${yrcheck}) then
+      echo "Processing "${c}".cam2.h0."${yearnow}" at "`date`
+      set msf = "${c}.cam2.h0.${yearnow}-{01,02,03,04,05,06,07,08,09,10,11,12}.nc"
+      ./mss_read "${msshist}" "${msf}"
       if ($status == 0) then
-        foreach i ( `ls ${c}.cam2.h0.${d}${y}-??.nc`)
+        foreach i ( `ls ${c}.cam2.h0.${yearnow}-??.nc`)
           if ( $do_ipcc != "0") then
             ./do_cmor_create_ccsm $i
             if ($status != 0) then
               echo "Error from do_cmor_create_ccsm on file "${i}
               exit 1
+            else
+              touch .ipcc.${i}
             endif
           endif
           if ( $do_proc != "0") then
             ./ccsm_var_split $i erase
+            if ($status != 0) then
+              echo "Error from ccsm_var_split on file "${i}
+              exit 1
+            else
+              touch .proc.${i}
+            endif
           endif
+          if ((-f .proc.${i})||(-f .ipcc.${i})) touch .done.${i}
         end
+      else
+        echo "Error from mss_read of "${msf}
+        exit 1
       endif
+    endif
+    if (`ls .done.${c}.cam2.h0.${yearnow}-??.nc | wc -l` == 12) then
+      touch ${yrcheck}
+      rm .????.${c}.cam2.h0.${yearnow}-??.nc
       if ( $do_ipcc != "0") then
         cd ${procdir}/IPCC
         ./cf_var_ann_concat
@@ -74,37 +93,30 @@ foreach c ( ${cases} )
           cd ${procdir}
         end
       endif
-    end
-    if ( $do_proc != "0") then
-      foreach e (`ls -d *d.d`)
-        cd ${procdir}/${e}
-        ../ccsm_var_dec
-        cd ${procdir}
-      end
-      cd ${procdir}
     endif
-    if ( $do_ipcc != "0") then
-      cd ${procdir}/IPCC
-      ./cf_var_dec_concat
-      cd ${procdir}
-    endif
+    @ yearnow = $yearnow + 1
   end
-  if ( $do_ipcc != "0") then
-    cd ${procdir}/IPCC
-    ./cf_var_all_concat
-    foreach g (`ls *cat*nc`)
-      ../mss_write ${g} ${mssipcc}
-    end
-  endif
-  cd ${procdir}
+#
+# Finish concatenating
+#
   if ( $do_proc != "0") then
     foreach e (`ls -d *d.d`)
       cd ${procdir}/${e}
+      ../ccsm_var_dec
       ../ccsm_var_all
       foreach g (`ls *cat*nc`)
-        ../mss_write $g ${mssproc}
+        ../mss_write $g ${mssproc} 
       end
       cd ${procdir}
+    end
+    cd ${procdir}
+  endif
+  if ( $do_ipcc != "0") then
+    cd ${procdir}/IPCC
+    ./cf_var_dec_concat
+    ./cf_var_all_concat
+    foreach g (`ls *cat*nc`)
+      ../mss_write ${g} ${mssipcc}
     end
   endif
 end

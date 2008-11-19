@@ -1,0 +1,50 @@
+#!/bin/csh -f
+#
+# Concatenate years -> decades, decades -> all
+#
+if ("$#argv" != 0) then
+  echo "Usage: finish_concatenation"
+  exit 1
+endif
+#
+cd $procdir
+#
+if ( $do_proc != "0") then
+  if ( $proctype != "ocnm" ) then
+    foreach e (`ls -d *d.d`)
+      cd ${procdir}/${e}
+      ../var_year_to_dec
+      ../var_dec_to_all
+      cd ${procdir}
+    end
+    cd ${procdir}
+  else
+    foreach e (`ls -d *3d.d`)
+      cd ${procdir}/${e}
+      ../var_year_to_dec
+      ../var_dec_to_all
+      cd ${procdir}
+    end
+    cd ${procdir}
+    foreach e (`ls -d *4d.d`)
+      cd ${procdir}/${e}
+      ../var_year_to_dec
+      cd ${procdir}
+    end
+    cd ${procdir}
+    foreach e (`ls -d *5d.d`)
+      cd ${procdir}/${e}
+      ../var_year_to_dec
+      ../var_dec_to_all
+      cd ${procdir}
+    end
+    cd ${procdir}
+endif
+#
+if ( $do_ipcc != "0") then
+  cd ${procdir}/IPCC
+  ./cf_var_dec_concat
+  ./cf_var_all_concat
+endif
+#
+exit

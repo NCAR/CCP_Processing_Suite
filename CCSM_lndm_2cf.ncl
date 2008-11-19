@@ -1,6 +1,6 @@
 ;********************************************************************************
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
-load "set_attributes_ccsm.ncl"
+load "attributes_ccsm.ncl"
 ;********************************************************************************
 
 begin
@@ -20,11 +20,11 @@ begin
 ;--------------------------------------------------------------------
 ; Get input file env vars
 ;--------------------------------------------------------------------
-  ncin = getenv("CCSM_FILE")
-  case = getenv("CCSM_CASE")
-  comp = getenv("CCSM_COMP")
-  tval = getenv("CCSM_TIME")
-  scpt = getenv("NCL_SCPT")
+  ncin   = getenv("CCSM_FILE")
+  case   = getenv("CCSM_CASE")
+  comp   = getenv("CCSM_COMP")
+  tval   = getenv("CCSM_TIME")
+  scpt   = getenv("NCL_SCPT")
 ;--------------------------------------------------------------------
 ; Define global attributes
 ;--------------------------------------------------------------------
@@ -32,12 +32,10 @@ begin
 ;--------------------------------------------------------------------
 ; Set various attributes
 ;--------------------------------------------------------------------
-  parent  = ""
-  year1   = ""
   machine = ""
   forcing = ""
   expid   = ""
-  set_attributes_ccsm(case,glbAtt,parent,year1,machine,forcing,expid)
+  attributes_ccsm(case,glbAtt,machine,forcing,expid)
 ;--------------------------------------------------------------------
 ; Read input file
 ;--------------------------------------------------------------------

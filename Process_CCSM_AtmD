@@ -28,7 +28,7 @@ set do_ipcc = 0
 set do_proc = 1
 #
 # --------------------------------------------------------------------------------
-# NOTE: See also the "msorig" variable in 'do_setup' for archival directory of 
+# NOTE: See also the "msorig" variable in 'process_setup' for archival directory of 
 #       original history files
 # --------------------------------------------------------------------------------
 #
@@ -38,7 +38,7 @@ foreach c ( ${cases} )
 # Set up all necessary script variables
 # --------------------------------------------------------------------------------
 #
-  source ./do_setup $c atmd
+  source ./process_setup $c atmd
 #
   if !(-d ${procdir}) mkdir -p ${procdir}
   cd ${procdir}
@@ -47,7 +47,7 @@ foreach c ( ${cases} )
     if !(-d  ${procdir}/IPCC) mkdir -p ${procdir}/IPCC
     ln -s -f ${basedir}/do_cmor_create_ccsm .
     ln -s -f ${basedir}/CCSM_atmd_2cf.ncl .
-    ln -s -f ${basedir}/set_attributes_ccsm.ncl .
+    ln -s -f ${basedir}/attributes_ccsm.ncl .
     cd ${procdir}/IPCC
     ln -s -f ${basedir}/mss_* .
     ln -s -f ${basedir}/cf_*var*concat .

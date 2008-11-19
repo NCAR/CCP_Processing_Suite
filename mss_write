@@ -19,19 +19,25 @@ endif
 #
 # If NCAR MSS msrcp command exists, use it.
 if (`which msrcp | wc -w` == 1 ) then
-   msrcp -pe 3652 -srcdelete $file mss:$mssd
+  msrcp -pe 3652 -srcdelete $file mss:${mssd}/${file}
+  if ($status == 0) then
+    echo ${file}" written to "${mssd}" and erased."
+  else
+    echo "Problem with storing "${file}" to "${mssd}". Stopping."
+    exit 1
+  endif
 endif
 #
 # If NERSC/ORNL hsi command exists, use it.
 if ( `which hsi | wc -w` == 1  ) then 
   hsi -q "mkdir -m 775 -p ${mssd} ; put -U ${mssd}/${file}" >& /dev/null
   if ($status == 0) then
-    echo ${file}" written to "${mssd}" and erased"
+    echo ${file}" written to "${mssd}" and erased."
     rm -f ${file}
   else
     hsi -q "put ${file}" >& /dev/null
     if ($status == 0) then
-      echo ${file}" written to your HPSS HOME and erased"
+      echo ${file}" written to your HPSS HOME and erased."
       rm -f ${file}
     else
       echo "Problem with HPSS on "${file}". Stopping"

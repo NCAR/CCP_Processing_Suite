@@ -3,7 +3,7 @@
 # Concatenate decades of by-field CCSM netCDF into whole span
 #
 if ("$#argv" != 0) then
-   echo "Usage: ccsm_var_finish"
+   echo "Usage: var_dec_to_all"
    echo "Can use DECCOUNT as defined by process_setup"
    exit 1
 endif

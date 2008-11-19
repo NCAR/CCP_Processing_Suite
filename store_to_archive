@@ -1,0 +1,32 @@
+#!/bin/csh -f
+#
+# Store data on archival system
+#
+if ("$#argv" != 0) then
+  echo "Usage: store_to_archive"
+  exit 1
+endif
+#
+cd $procdir
+#
+if ( $do_proc != "0") then
+  foreach e (`ls -d *d.d`)
+    cd ${procdir}/${e}
+    if !(-f ./mss_write) ln -s -f ${basedir}/mss_write .
+    foreach g (`ls *cat*nc`)
+      ./mss_write $g ${mssproc}
+    end
+    cd ${procdir}
+  end
+endif
+#
+if ( $do_ipcc != "0") then
+  cd ${procdir}/IPCC
+    if !(-f ./mss_write) ln -s -f ${basedir}/mss_write .
+    foreach g (`ls *cat*nc`)
+      ./mss_write $g ${mssipcc}
+    end
+    cd ${procdir}
+endif
+#
+exit
