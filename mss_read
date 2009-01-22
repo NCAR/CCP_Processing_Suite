@@ -1,27 +1,30 @@
-#!/bin/csh -f
+#!/bin/sh
 # Read a file from a mass store
 # Arguments:
 # 1 place on mass store to read file from
 # 2 file to read
 #
-if ("$#argv" != 2) then
-   echo "I need two arguments:"
-   echo "1) place on mass store to read file from"
-   echo "2) file to read"
-   exit 1
+if [ $# = 2 ] ; then
+  MSSD=$1
+  MSSF=$2
 else
-   set mssd = "$argv[1]"
-   set mssf = "$argv[2]"
-endif
+  echo "I need two arguments:"
+  echo "1) place on mass store to read file from"
+  echo "2) file(s) to read"
+  exit 1
+fi
 #
 # If NCAR MSS msrcp command exists, use it.
-if (`which msrcp | wc -w` == 1 ) then
-   msrcp mss:"${mssd}"/"${mssf}" .
-endif
+if [ `which msrcp` ] ; then
+   msrcp -overwrite never mss:"$MSSD/$MSSF" .
+else
 #
 # If NERSC/ORNL hsi command exists, use it.
-if ( `which hsi | wc -w` == 1  ) then 
-  hsi -q "get -U ${mssd}/${mssf}" >& /dev/null
-endif
+   if [ `which hsi` ] ; then 
+     hsi -q "get -U $MSSD/$MSSF"
+   else
+     echo "Neither msrcp nor hsi exist."
+     exit 1
+   fi
+fi
 #
-exit

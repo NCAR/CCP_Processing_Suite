@@ -1,39 +1,33 @@
-#!/bin/csh -f
+#!/bin/sh
 #
-if ("$#argv" == 0) then
-   echo "Usage: create_ipcc_data file"
-   exit 1
-else if ("$#argv" == 1) then
-   set file = $argv[1]
+if [ $# = 1 ] ; then
+   FILE=$1
 else
    echo "Usage: create_ipcc_data file"
    exit 1
-endif
+fi
 #
-if !(-f ${file}) then
+if [ ! -f $file] ; then
    echo $file "not found. Exit."
    exit 1
-endif
+fi
 #
 # Get correct NCL binary
 #
-set machine = `hostname`
-switch($machine)
- case "mineral*":                              # mineral @ CGD/NCAR
-    set ccps_ncl = /contrib/bin/ncl
-    setenv NCARG_ROOT /contrib/ncarg
-  breaksw
-  case "davinci*":                             # davinci @ NERSC
-    set ccps_ncl = /usr/common/usg/ncar/5.0.0/bin/ncl
-    setenv NCARG_ROOT /usr/common/usg/ncar/5.0.0
-  breaksw
-  case "lens*":                                # lens @ ORNL
-    set ccps_ncl = /ccs/home/wgstrand/bin/ncl
-    setenv NCARG_ROOT "/sw/analysis-x64/ncl/5.0.0/sl5.0_binary"
-  breaksw
-endsw
-#
-setenv CCPS_NCL ${ccps_ncl}
+case "$MACHINE" in
+  mineral* )                               # mineral @ CGD/NCAR
+    CCPS_NCL=/contrib/bin/ncl
+    NCARG_ROOT=/contrib/ncarg  ; export NCARG_ROOT ;;
+  davinci* )                               # davinci @ NERSC
+    CCPS_NCL=/usr/common/usg/ncar/5.0.0/bin/ncl
+    NCARG_ROOT=/usr/common/usg/ncar/5.0.0 ; export NCARG_ROOT ;;
+  lens* )                                  # lens @ ORNL
+    CCPS_NCL=/ccs/home/wgstrand/bin/ncl
+    NCARG_ROOT=/sw/analysis-x64/ncl/5.0.0/sl5.0_binary
+  * )
+    echo "Unable to run NCL from create_ipcc_data because "$MACHINE" not found."
+    exit 1 ;;
+esac
 #
 # Assume filename is of form bxx.xxxx.(pop|csim|clm2|cam2).hh.dddd-dd.nc
 # bxx.xx              : case name and number
@@ -41,72 +35,66 @@ setenv CCPS_NCL ${ccps_ncl}
 # hh                  : stream
 # dddd                : time period
 #
-set isES = `ls $file | cut -d"." -f3 | cut -c1-2 | uniq`
-if (${isES} == "ES") then
-  set f_case = 3 ; set f_comp = 4 ; set f_strm = 5 ; set f_tval = 6
+ISES=`ls $FILE | cut -d"." -f3 | cut -c1-2 | uniq`
+if [ $ISES == "ES"] ; then
+  FCASE=3 ; FCOMP=4 ; FSTRM=5 ; FTVAL=6
 else
-  set f_case = 2 ; set f_comp = 3 ; set f_strm = 4 ; set f_tval = 5
-endif
+  FCASE=2 ; FCOMP=3 ; FSTRM=4 ; FTVAL=5
+fi
 #
-set case = `echo ${file} | cut -d"." -f1-${f_case}`
-set comp = `echo ${file} | cut -d"." -f${f_comp}`
-set strm = `echo ${file} | cut -d"." -f${f_strm}`
-set tval = `echo ${file} | cut -d"." -f${f_tval}`
+CASE=`echo $FILE | cut -d"." -f1-$FCASE`
+COMP=`echo $FILE | cut -d"." -f$FCOMP`
+STRM=`echo $FILE | cut -d"." -f$FSTRM`
+TVAL=`echo $FILE | cut -d"." -f$FTVAL`
 #
-setenv FILE ${file}
-setenv CASE ${case}
-setenv TVAL ${tval}
+if [ ! -d ./IPCC] ; then
+   mkdir ./IPCC
+if
 #
-if !(-d IPCC) mkdir ./IPCC
-#
-if (${comp} == "cam2") then
-  if (${strm} == "h0") then
-    setenv COMP "atmm"
-    setenv NCL_SCPT atmm_2cf.ncl
-  else if (${strm} == "h1") then
-    setenv COMP "atmd"
-    setenv NCL_SCPT atmd_2cf.ncl
-  endif
-  ${CCPS_NCL} < ${NCL_SCPT}
-  if ($status != 0) then
+if [ $COMP == "cam2" ] ; then
+  if [ $STRM == "h0" ] ; then
+    COMP=atmm
+    NCL_SCPT=CCSM_atmm_2cf.ncl
+  elif [ $STRM == "h1" ] ; then
+    COMP=atmd
+    NCL_SCPT=atmd_2cf.ncl
+  fi
+  $CCPS_NCL < $NCL_SCPT
+  if [ $? -ne 0 ] ; then
      echo "NCL ERROR"
      exit 1
-  endif
-else if (${comp} == "clm2") then
-  setenv COMP "lndm"
-  setenv NCL_SCPT lndm_2cf.ncl
-  ${CCPS_NCL} < ${NCL_SCPT}
-  if ($status != 0) then
-     echo "NCL ERROR"
-     exit 1
-  endif
-else if (${comp} == "csim") then
-  ./regrid_data ${file}
-  @ f_tval = $f_tval + 1
-  setenv COMP "icem"
-  setenv NCL_SCPT icem_2cf.ncl
-  foreach file (`ls ${case}.csim.h.*.${tval}.nc`)
-    setenv FILE ${file}
-    set tval = `echo ${file} | cut -d"." -f${f_tval}`
-    setenv TVAL ${tval}
-    ${CCPS_NCL} < ${NCL_SCPT}
-    if ($status != 0) then
+  fi
+elif [ $comp == "clm2" ] ; then
+    COMP=lndm
+    NCL_SCPT=CCSM_lndm_2cf.ncl
+    $CCPS_NCL < $NCL_SCPT
+    if [ $? -ne 0 ] ; then
+      echo "NCL ERROR"
+      exit 1
+    fi
+elif [ $comp == "csim" ] ; then
+  ./regrid_data $file
+  FTVAL=`expr $FTVAL + 1`
+  COMP=icem
+  NCL_SCPT=CCSM_icem_2cf.ncl
+  for FILE in `ls $CASE.csim.h.*.*.nc` ; do
+    TVAL=`echo $file | cut -d"." -f$FTVAL`
+    $CCPS_NCL < $NCL_SCPT
+    if [ $? -ne 0 ] ; then
        echo "NCL ERROR"
        exit 1
-    endif
-  end
-else if (${comp} == "pop") then
-  @ f_tval = $f_tval + 1
-  set tval = `echo ${file} | cut -d"." -f${f_tval}`
-  setenv TVAL ${tval}
-  setenv COMP "ocnm"
-  setenv NCL_SCPT ocnm_2cf.ncl
-  ${CCPS_NCL} < ${NCL_SCPT}
-  if ($status != 0) then
+    fi
+  done
+elif [ $comp == "pop" ] ; then
+  FTVAL=`expr $FTVAL + 1`
+  TVAL=`echo $file | cut -d"." -f$FTVAL`
+  COMP=ocnm
+  NCL_SCPT=CCSM_ocnm_2cf.ncl
+  $CCPS_NCL < $NCL_SCPT
+  if [ $? -ne 0 ] ; then
      echo "NCL ERROR"
      exit 1
-  endif
-endif
-#
+  fi
+fi
 #
 exit

@@ -7,27 +7,6 @@ if ("$#argv" != 0) then
    exit 1
 endif
 #
-# Get correct NCO binaries
-#
-set machine = `hostname`
-switch($machine)
-  case "mineral*":                                # mineral @ CGD/NCAR
-    set ccps_ncks   = /usr/local/bin/ncks
-    set ccps_ncrcat = /usr/local/bin/ncrcat
-  breaksw
-  case "davinci*":                                # davinci @ NERSC
-    set ccps_ncks   = /usr/common/homes/s/strandwg/bin/ncks
-    set ccps_ncrcat = /usr/common/homes/s/strandwg/bin/ncrcat
-  breaksw
-  case "lens*":                                # lens @ ORNL
-    set ccps_ncks   = /ccs/home/wgstrand/bin/ncks
-    set ccps_ncrcat = /ccs/home/wgstrand/bin/ncrcat
-  breaksw
-endsw
-#
-setenv CCPS_NCKS   ${ccps_ncks}
-setenv CCPS_NCRCAT ${ccps_ncrcat}
-#
 set vars   = `ls | egrep '\.nc$' | cut -d"_" -f1 | uniq`
 if ($status == 0) then
   set table  = `ls | egrep '\.nc$' | cut -d"_" -f2 | cut -d"." -f1 | sort | uniq`

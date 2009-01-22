@@ -1,126 +1,104 @@
-#!/bin/csh -f
+#!/bin/sh
 #
 # Concatenate decades of by-field CCSM netCDF into whole span
 #
-if ("$#argv" != 0) then
-   echo "Usage: var_dec_to_all"
-   echo "Can use DECCOUNT as defined by process_setup"
-   exit 1
-endif
+if [ $# -ne 0 ] ; then
+  echo "Usage: var_mon_to_year"
+  echo "Can use DECOUNT as defined by process_setup"
+  exit 1
+fi
 #
-# Get correct NCO binaries
-#
-set machine = `hostname`
-switch($machine)
-  case "mineral*":                                # mineral @ CGD/NCAR
-    set ccps_ncks   = /usr/local/bin/ncks
-    set ccps_ncrcat = /usr/local/bin/ncrcat
-  breaksw
-  case "davinci*":                                # davinci @ NERSC
-    set ccps_ncks   = /usr/common/homes/s/strandwg/bin/ncks
-    set ccps_ncrcat = /usr/common/homes/s/strandwg/bin/ncrcat
-  breaksw
-  case "lens*":                                # lens @ ORNL
-    set ccps_ncks   = /ccs/home/wgstrand/bin/ncks
-    set ccps_ncrcat = /ccs/home/wgstrand/bin/ncrcat
-  breaksw
-endsw
-#
-setenv CCPS_NCKS   ${ccps_ncks}
-setenv CCPS_NCRCAT ${ccps_ncrcat}
-#
-set chek = `ls b*.*.h*.*.*cat*.nc | cut -d"." -f3 | cut -c1-2 | uniq`
-foreach m ( ${chek} )
-  if (${m} == "ES") then
-    set fc = 3 ; set fv = 6 ; set ft = 7 ; set fd = 4 ; set fe = 5
+CHEK=`ls b*.*.h*.*.*cat*.nc | cut -d"." -f3 | cut -c1-2 | uniq`
+for m in $CHEK ; do
+  if [ $m = "ES" ] ; then
+    FC=3 ; FV=6 ; FT=7 ; FD=4 ; FE=5
   else
-    set fc = 2 ; set fv = 5 ; set ft = 6 ; set fd = 3 ; set fe = 4
-  endif
-  set comp = `ls b*.*.*.h*.*.*cat*.nc | cut -d"." -f${fd}-${fe} | uniq`
-  foreach p (`echo ${comp}`)
-    set vars = `ls b*.*.${p}.*.*cat*.nc | cut -d"." -f${fv} | uniq`
-    foreach v (`echo ${vars}`)
-      set cases = `ls b*.${p}.${v}.*cat*.nc | cut -d"." -f1-${fc} | uniq`
-      foreach c (`echo ${cases}`)
-        if ( $?deccount ) then
-          if (${p} == "cam2.h1") then
-            set num = `ls ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc | wc -l`
-            if (${num} == ${deccount}) then
-              set y0 = `ls ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc | head -1 | cut -d"." -f${ft} | cut -c1-4`
-              set y1 = `ls ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc | tail -1 | cut -d"." -f${ft} | cut -c16-19`
-              set df = ${c}.${p}.${v}.${y0}-01-01_allcat_${y1}-12-31.nc
-              $CCPS_NCRCAT -h -O ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc ${df}
-              if ($status == 0) then
+    FC=2 ; FV=5 ; FT=6 ; FD=3 ; FE=4
+  fi
+  COMP=`ls b*.*.*.h*.*.*cat*.nc | cut -d"." -f${FD}-${FE} | uniq`
+  for p in $COMP ; do
+    VARS=`ls b*.*.${p}.*.*cat*.nc | cut -d"." -f${FV} | uniq`
+    for v in $VARS ; do
+      CASES=`ls b*.${p}.${v}.*cat*.nc | cut -d"." -f1-${FC} | uniq`
+      for c in $CASES ; do
+        if [ $DECOUNT ] ; then
+          echo "Concatenating of "${c}"."${p}"."${v}" files and checking decade counts: "$DECOUNT
+          if [ $p = "cam2.h1" ] ; then
+            NUM=`ls ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc | wc -l`
+            if [ $NUM = $DECOUNT ] ; then
+              Y0=`ls ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc | head -1 | cut -d"." -f${FT} | cut -c1-4`
+              Y1=`ls ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc | tail -1 | cut -d"." -f${FT} | cut -c16-19`
+              DF=${c}.${p}.${v}.${Y0}-01-01_allcat_${Y1}-12-31.nc
+              $CCPS_NCRCAT -O ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc $DF
+              if [ $? = 0 ] ; then
                 rm -f ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc
-                set tf = ${c}.${p}.${v}.${y0}-01-01_cat_${y1}-12-31.nc
-                mv ${df} ${tf}
-                echo "Completed "${tf}
+                TF=${c}.${p}.${v}.${Y0}-01-01_cat_${Y1}-12-31.nc
+                mv $DF $TF
+                echo "Completed "$TF
               else
-                echo "Failure on concat of "${c}"."${p}"."${v}".etc files"
+                echo "Failure on concat of "${c}"."${p}"."${v}" files"
                 exit 1
-              endif
+              fi
             else
-              echo "Missing decade(s) from "${c}"."${p}"."${v}".etc files"
-              echo "Count is "${num}" should be "${deccount}
+              echo "Missing decade(s) from "${c}"."${p}"."${v}" files"
+              echo "Count is "$NUM" should be "$DECOUNT
               exit 1
-            endif
+            fi
           else
-            set num = `ls ${c}.${p}.${v}.????-01_cat_????-12.nc | wc -l`
-            if (${num} == ${deccount}) then
-              set y0 = `ls ${c}.${p}.${v}.????-01_cat_????-12.nc | head -1 | cut -d"." -f${ft} | cut -c1-4`
-              set y1 = `ls ${c}.${p}.${v}.????-01_cat_????-12.nc | tail -1 | cut -d"." -f${ft} | cut -c13-16`
-              set df = ${c}.${p}.${v}.${y0}-01-01_allcat_${y1}-12-31.nc
-              $CCPS_NCRCAT -h -O ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc ${df}
-              if ($status == 0) then
-                rm -f ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc
-                set tf = ${c}.${p}.${v}.${y0}-01-01_cat_${y1}-12-31.nc
-                mv ${df} ${tf}
-                echo "Completed "${tf}
+            NUM=`ls ${c}.${p}.${v}.????-01_cat_????-12.nc | wc -l`
+            if [ $NUM = $DECOUNT ] ; then
+              Y0=`ls ${c}.${p}.${v}.????-01_cat_????-12.nc | head -1 | cut -d"." -f${FT} | cut -c1-4`
+              Y1=`ls ${c}.${p}.${v}.????-01_cat_????-12.nc | tail -1 | cut -d"." -f${FT} | cut -c13-16`
+              DF=${c}.${p}.${v}.${Y0}-01-allcat_${Y1}-12.nc
+              $CCPS_NCRCAT -O ${c}.${p}.${v}.????-01_cat_????-12.nc $DF
+              if [ $? = 0 ] ; then
+                rm -f ${c}.${p}.${v}.????-01_cat_????-12.nc
+                TF=${c}.${p}.${v}.${Y0}-01_cat_${Y1}-12.nc
+                mv $DF $TF
+                echo "Completed "$TF
               else
-                echo "Failure on concat of "${c}"."${p}"."${v}".etc files"
+                echo "Failure on concat of "${c}"."${p}"."${v}" files"
                 exit 1
-              endif
+              fi
             else
-              echo "Missing decade(s) from "${c}"."${p}"."${v}".etc files"
-              echo "Count is "${num}" should be "${deccount}
+              echo "Missing decade(s) from "${c}"."${p}"."${v}" files"
+              echo "Count is "$NUM" should be "$DECOUNT
               exit 1
-            endif
-          endif
+            fi
+          fi
         else
-          echo "Concatenating of "${c}"."${p}"."${v}".etc files WITHOUT checking counts." 
-          if (${p} == "cam2.h1") then
-            set y0 = `ls ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc | head -1 | cut -d"." -f${ft} | cut -c1-4`
-            set y1 = `ls ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc | tail -1 | cut -d"." -f${ft} | cut -c16-19`
-            set df = ${c}.${p}.${v}.${y0}-01-01_allcat_${y1}-12-31.nc
-            $CCPS_NCRCAT -h -O ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc ${df}
-            if ($status == 0) then
+          echo "Concatenating of "${c}"."${p}"."${v}" files WITHOUT checking counts." 
+          if [ $p = "cam2.h1" ] ; then
+            Y0=`ls ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc | head -1 | cut -d"." -f${FT} | cut -c1-4`
+            Y1=`ls ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc | tail -1 | cut -d"." -f${FT} | cut -c16-19`
+            DF=${c}.${p}.${v}.${Y0}-01-01_allcat_${Y1}-12-31.nc
+            $CCPS_NCRCAT -O ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc $DF
+            if [ $? = 0 ] ; then
               rm -f ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc
-              set tf = ${c}.${p}.${v}.${y0}-01-01_cat_${y1}-12-31.nc
-              mv ${df} ${tf}
-              echo "Completed "${tf}
+              TF=${c}.${p}.${v}.${Y0}-01-01_cat_${Y1}-12-31.nc
+              mv $DF $TF
+              echo "Completed "$TF
             else
-              echo "Failure on concat of "${c}"."${p}"."${v}".etc files"
+              echo "Failure on concat of "${c}"."${p}"."${v}" files"
               exit 1
-            endif
+            fi
           else
-            set y0 = `ls ${c}.${p}.${v}.????-01_cat_????-12.nc | head -1 | cut -d"." -f${ft} | cut -c1-4`
-            set y1 = `ls ${c}.${p}.${v}.????-01_cat_????-12.nc | tail -1 | cut -d"." -f${ft} | cut -c13-16`
-            set df = ${c}.${p}.${v}.${y0}-01-01_allcat_${y1}-12-31.nc
-            $CCPS_NCRCAT -h -O ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc ${df}
-            if ($status == 0) then
-              rm -f ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc
-              set tf = ${c}.${p}.${v}.${y0}-01-01_cat_${y1}-12-31.nc
-              mv ${df} ${tf}
-              echo "Completed "${tf}
+            Y0=`ls ${c}.${p}.${v}.????-01_cat_????-12.nc | head -1 | cut -d"." -f${FT} | cut -c1-4`
+            Y1=`ls ${c}.${p}.${v}.????-01_cat_????-12.nc | tail -1 | cut -d"." -f${FT} | cut -c13-16`
+            DF=${c}.${p}.${v}.${Y0}-01_allcat_${Y1}-12.nc
+            $CCPS_NCRCAT -O ${c}.${p}.${v}.????-01_cat_????-12.nc ${DF}
+            if [ $? = 0 ] ; then
+              rm -f ${c}.${p}.${v}.????-01_cat_????-12.nc
+              TF=${c}.${p}.${v}.${Y0}-01_cat_${Y1}-12.nc
+              mv $DF $TF
+              echo "Completed "$TF
             else
-              echo "Failure on concat of "${c}"."${p}"."${v}".etc files"
+              echo "Failure on concat of "${c}"."${p}"."${v}" files"
               exit 1
-            endif
-          endif
-        endif
-      end
-    end
-  end
-end
-#
-exit
+            fi
+          fi
+        fi
+      done
+    done
+  done
+done

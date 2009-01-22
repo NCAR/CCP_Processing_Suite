@@ -1,49 +1,55 @@
-#!/bin/csh -f
+#!/bin/sh
 # Write a file to a mass store
 #
 # Arguments:
 # 1 file to write
-# 2 place on mass store to write the file to
+# 2 directory on archival system to write file to
 #
-if ("$#argv" != 2) then
-  echo "Usage: mss_write file mss_directory - both REQUIRED"
-  exit 1
+if [ $# = 2 ] ; then
+  MSSF=$1
+  MSSD=$2
 else
-  set file = $argv[1]
-  if !(-f $file) then
-    echo "$file not present, cannot write to the mass store"
-    exit 1
-  endif
-  set mssd = $argv[2]
-endif
+  echo "I need two arguments:"
+  echo "1) file to write"
+  echo "2) directory on archival system to write file to"
+  exit 1
+fi
+#
+if [ ! -f $MSSF ] ; then
+  echo $MMSF" not present, cannot write to the archival system"
+  exit 1
+fi
+#
 #
 # If NCAR MSS msrcp command exists, use it.
-if (`which msrcp | wc -w` == 1 ) then
-  msrcp -pe 3652 -srcdelete $file mss:${mssd}/${file}
-  if ($status == 0) then
-    echo ${file}" written to "${mssd}" and erased."
+if [ `which msrcp` ] ; then
+  msrcp -pe 3652 -srcdelete $MSSF "mss:${MSSD}/${MSSF}"
+  if [ $? -eq 0 ] ; then
+    echo $MSSF" written to "${MSSD}/${MSSF}" and erased."
   else
-    echo "Problem with storing "${file}" to "${mssd}". Stopping."
+    echo "Problem with storing "${MSSF}" to "${MSSD}". Stopping."
     exit 1
-  endif
-endif
+  fi
+else
 #
 # If NERSC/ORNL hsi command exists, use it.
-if ( `which hsi | wc -w` == 1  ) then 
-  hsi -q "mkdir -m 775 -p ${mssd} ; put -U ${mssd}/${file}" >& /dev/null
-  if ($status == 0) then
-    echo ${file}" written to "${mssd}" and erased."
-    rm -f ${file}
-  else
-    hsi -q "put ${file}" >& /dev/null
-    if ($status == 0) then
-      echo ${file}" written to your HPSS HOME and erased."
-      rm -f ${file}
-    else
-      echo "Problem with HPSS on "${file}". Stopping"
-      exit 1
-    endif
-  endif
-endif
-#
-exit
+   if [ `which hsi` ] ; then 
+     hsi -q "mkdir -m 775 -p $MSSD ; put -U ${MSSD}/${MSSF}" >& /dev/null
+     if [ $? -eq 0 ] ; then
+       echo ${MSSF}" written to "${MSSD}" and erased."
+       rm -f $MSSF
+     else
+       hsi -q "put ${MSSF}" >& /dev/null
+       if [ $? -eq 0 ] ; then
+         echo ${MSSF}" written to your HPSS HOME and erased."
+         rm -f $MSSF
+       else
+         echo "Problem with HPSS on "${MSSF}". Stopping"
+         exit 1
+       fi
+     fi      
+   else
+     echo "Neither msrcp nor hsi exist."
+     exit 1
+  fi
+fi

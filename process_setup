@@ -1,263 +1,249 @@
-#!/bin/csh -f
+#!/bin/sh
 #
 # Set up a bunch of stuff
 #
-if ("$#argv" != 4) then
-  echo "Usage: process_setup CASE type do_proc do_ipcc"
+if [ $# = 2 ] ; then
+  PROCCASE=$1
+  PROCTYPE=$2
+else
+  echo "Usage: process_setup case type"
   echo "Type must be one of (atmm atmd lndm ocnm icem)"
   exit 1
-else
-  set proccase = $argv[1]
-  set proctype = $argv[2]
-  set doesproc = $argv[3]
-  set doesipcc = $argv[4]
-endif
+fi
 #
-if (${proctype} != "atmm") then
-  if (${proctype} != "atmd") then
-    if (${proctype} != "lndm") then
-      if (${proctype} != "ocnm") then
-        if (${proctype} != "icem") then
-          echo "Usage: process_setup CASE type"
+if [ $PROCTYPE != "atmm" ] ; then
+  if [ $PROCTYPE != "atmd" ] ; then
+    if [ $PROCTYPE != "lndm" ] ; then
+      if [ $PROCTYPE != "ocnm" ] ; then
+        if [ $PROCTYPE != "icem" ] ; then
+          echo "Usage: process_setup case type"
           echo "Type must be one of (atmm atmd lndm ocnm icem)"
           exit 1
-        endif
-      endif
-    endif
-  endif
-endif
+        fi
+      fi
+    fi
+  fi
+fi
 #
 # Extract information from "experiments.txt"
 #
-set location = `egrep "^${proccase} " experiments.txt | cut -c20-  | cut -d" " -f1`
-set descrip  = `egrep "^${proccase} " experiments.txt | cut -c25-  | cut -d" " -f1`
-set parent   = `egrep "^${proccase} " experiments.txt | cut -c50-  | cut -d" " -f1`
-set branch   = `egrep "^${proccase} " experiments.txt | cut -c65-  | cut -d" " -f1`
-set yearbeg  = `egrep "^${proccase} " experiments.txt | cut -c80-  | cut -d" " -f1`
-set yearend  = `egrep "^${proccase} " experiments.txt | cut -c85-  | cut -d" " -f1`
-set histbase = `egrep "^${proccase} " experiments.txt | cut -c100- | cut -d" " -f1`
+if [ -f ./experiments.txt ] ; then
+  LOCATION=`egrep "^$PROCCASE " experiments.txt | cut -c20-  | cut -d" " -f1`
+   DESCRIP=`egrep "^$PROCCASE " experiments.txt | cut -c25-  | cut -d" " -f1`
+    PARENT=`egrep "^$PROCCASE " experiments.txt | cut -c50-  | cut -d" " -f1`
+    BRANCH=`egrep "^$PROCCASE " experiments.txt | cut -c65-  | cut -d" " -f1`
+   YEARBEG=`egrep "^$PROCCASE " experiments.txt | cut -c80-  | cut -d" " -f1`
+   YEAREND=`egrep "^$PROCCASE " experiments.txt | cut -c85-  | cut -d" " -f1`
+  HISTBASE=`egrep "^$PROCCASE " experiments.txt | cut -c100- | cut -d" " -f1`
+else
+  echo "Cannot find experiments.txt. HELP"
+  exit 1
+fi
+DEFINED=`/usr/bin/printenv | grep -c '^LOCATION='`
+if ! [ $DEFINED ] ; then
+  echo "Unable to set variables because "$PROCCASE" not found in experiments.txt"
+  exit 1
+fi
 #
-set decdbeg  = `echo $yearbeg | cut -c1-3`
-set decdend  = `echo $yearend | cut -c1-3`
-@ decount    = ($decdend - $decdbeg) + 1
-@ mncount    = (($yearend - $yearbeg) + 1) * 12
+DECDBEG=`echo $YEARBEG | cut -c1-3`
+DECDEND=`echo $YEAREND | cut -c1-3`
+DECOUNT=`expr '(' $DECDEND '-' $DECDBEG ')' '+' '1'`
+MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
 # Processed data archival locations
 #
-switch($location)
-  case "NC":                                        # NCAR experiments
-    set mssbase = /CCSM/csm/${proccase}
-    set machine = "mineral"
-  breaksw
-  case "NE":                                        # NERSC experiments
-    set mssbase = /nersc/mp9/strandwg/CCSM/csm/${proccase}
-    set machine = "davinci"
-  breaksw
-  case "OR":                                        # ORNL experiments
-    set mssbase = /f2/wgstrand/CCSM/csm/${proccase}
-    set machine = "lens0"
-  breaksw
-  default:
-    echo "Unable to set mssbase because "${proccase}" not found in experiments.txt"
-    exit 1
-  breaksw
-endsw
+case "$LOCATION" in
+  NC )                                        # NCAR experiments
+    MSSBASE=/CCSM/csm/$PROCCASE
+    MACHINE="mineral"  ;;
+  NE )                                        # NERSC experiments
+    MSSBASE=/nersc/mp9/strandwg/CCSM/csm/$PROCCASE
+    MACHINE="davinci"  ;;
+  OR )                                        # ORNL experiments
+    MSSBASE=/f2/wgstrand/CCSM/csm/$PROCCASE
+    MACHINE="lens0"    ;;
+  * )
+    echo "Unable to set variables because "$LOCATION" not found in experiments.txt"
+    exit 1 ;;
+esac
 #
 # History tape locations
 #
-switch($proctype)
-  case "atmm":
-    set histnam = "cam2.h0"
-    set msshist = ${histbase}/${proccase}/atm/hist
-    set mssipcc = ${mssbase}/atm/ipcc/tseries/monthly
-    set mssproc = ${mssbase}/atm/proc/tseries/monthly
-  breaksw
-  case "atmd": 
-    set histnam = "cam2.h1"
-    set msshist = ${histbase}/${proccase}/atm/hist
-    set mssipcc = ${mssbase}/atm/ipcc/tseries/daily
-    set mssproc = ${mssbase}/atm/proc/tseries/daily
-  breaksw
-  case "lndm": 
-    set histnam = "clm2.h0"
-    set msshist = ${histbase}/${proccase}/lnd/hist
-    set mssipcc = ${mssbase}/lnd/ipcc/tseries/daily
-    set mssproc = ${mssbase}/lnd/proc/tseries/daily
-  breaksw
-  case "ocnm": 
-    set histnam = "pop.h"
-    set msshist = ${histbase}/${proccase}/ocn/hist
-    set mssipcc = ${mssbase}/ocn/ipcc/tseries/monthly
-    set mssproc = ${mssbase}/ocn/proc/tseries/monthly
-  breaksw
-  case "icem": 
-    set histnam = "csim.h"
-    set msshist = ${histbase}/${proccase}/ice/hist
-    set mssipcc = ${mssbase}/ice/ipcc/tseries/monthly
-    set mssproc = ${mssbase}/ice/proc/tseries/monthly
-  breaksw
-endsw
+case "$PROCTYPE" in
+  atmm )
+    HISTNAM="cam2.h0"
+    MSSHIST=$HISTBASE/$PROCCASE/atm/hist
+    MSSIPCC=$MSSBASE/atm/ipcc/tseries/monthly
+    MSSPROC=$MSSBASE/atm/proc/tseries/monthly  ;;
+  atmd )
+    HISTNAM="cam2.h1"
+    MSSHIST=$HISTBASE/$PROCCASE/atm/hist
+    MSSIPCC=$MSSBASE/atm/ipcc/tseries/daily
+    MSSPROC=$MSSBASE/atm/proc/tseries/daily    ;;
+  lndm ) 
+    HISTNAM="clm2.h0"
+    MSSHIST=$HISTBASE/$PROCCASE/lnd/hist
+    MSSIPCC=$MSSBASE/lnd/ipcc/tseries/daily
+    MSSPROC=$MSSBASE/lnd/proc/tseries/daily    ;;
+  ocnm ) 
+    HISTNAM="pop.h"
+    MSSHIST=$HISTBASE/$PROCCASE/ocn/hist
+    MSSIPCC=$MSSBASE/ocn/ipcc/tseries/monthly
+    MSSPROC=$MSSBASE/ocn/proc/tseries/monthly  ;;
+  icem ) 
+    HISTNAM="csim.h"
+    MSSHIST=$HISTBASE/$PROCCASE/ice/hist
+    MSSIPCC=$MSSBASE/ice/ipcc/tseries/monthly
+    MSSPROC=$MSSBASE/ice/proc/tseries/monthly  ;;
+  * ) 
+    echo "Unable to continue because "$PROCTYPE" not known."
+    exit 1 ;;
+esac
 #
 # resolve machine/site dependencies
 #
-switch($machine)
-  case "mineral*":                                # mineral @ CGD/NCAR
-    set basedir  = /home/strandwg/data/CCP_Processing_Suite
-    switch($proctype)
-      case "atmm": 
-        set procdir = /datalocal/ccpc/$USER/${proccase}/atm/mon
-      breaksw
-      case "atmd": 
-        set procdir = /datalocal/ccpc/$USER/${proccase}/atm/day
-      breaksw
-      case "lndm": 
-        set procdir = /datalocal/ccpc/$USER/${proccase}/lnd/mon
-      breaksw
-      case "ocnm": 
-        set procdir = /datalocal/ccpc/$USER/${proccase}/ocn/mon
-        set regrdir = /project/ccr/strandwg/IPCC_Processing/ocn/CCSM
-        set oregrid = ${basedir}/regridding/ccsm_ocn_rgd.mineral
-        if !(-f ${oregrid}) then
+case "$MACHINE" in 
+  mineral* )                                # mineral @ CGD/NCAR
+    BASEDIR=/home/strandwg/data/CCP_Processing_Suite
+    CCPS_NCKS=/usr/local/bin/ncks ; export CCPS_NCKS
+    CCPS_NCRCAT=/usr/local/bin/ncrcat ; export CCPS_NCRCAT
+    case "$PROCTYPE" in
+      atmm ) PROCDIR=/datalocal/ccpg/$USER/$PROCCASE/atm/mon ;;
+      atmd ) PROCDIR=/datalocal/ccpg/$USER/$PROCCASE/atm/day ;;
+      lndm ) PROCDIR=/datalocal/ccpg/$USER/$PROCCASE/lnd/mon ;;
+      ocnm ) 
+        PROCDIR=/datalocal/ccpg/$USER/$PROCCASE/ocn/mon
+        REGRDIR=/project/ccr/strandwg/IPCC_Processing/ocn/CCSM
+        OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.mineral
+        if [ ! -f $OREGRID ] ; then
           echo "Need to build OCN regridding code. Do that and re-run."
           exit 1
-        else
-          setenv CCSM_OCN_RGD $oregrid
-        endif
-      breaksw
-      case "icem": 
-        set procdir = /datalocal/ccpc/$USER/${proccase}/ocn/mon
-        set regrdir = /project/ccr/strandwg/IPCC_Processing/ice/CCSM
-        set iregrid = ${basedir}/regridding/ccsm_ice_rgd.mineral
-        if !(-f ${iregrid}) then
+        fi ;;
+      icem ) 
+        PROCDIR=/datalocal/ccpg/$USER/$PROCCASE/ocn/mon
+        REGRDIR=/project/ccr/strandwg/IPCC_Processing/ice/CCSM
+        IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.mineral
+        if [ ! -f $IREGRID ] ; then
           echo "Need to build ICE regridding code. Do that and re-run."
           exit 1
-        else
-          setenv CCSM_ICE_RGD $iregrid
-         endif
-      breaksw
-   endsw
-   breaksw
+        fi ;;
+      * ) 
+        echo "Unable to continue because "$PROCTYPE" not known."
+        exit 1 ;;
+    esac ;;
 
-   case "davinci*":                                # davinci @ NERSC
-    set basedir     = /usr/common/homes/s/strandwg/CCP_Processing_Suite
-    set ccps_ncks   = /usr/common/homes/s/strandwg/bin/ncks
-    set ccps_ncrcat = /usr/common/homes/s/strandwg/bin/ncrcat
-    switch($proctype)
-      case "atmm": 
-        set procdir = /scratch/scratchdirs/$USER/${proccase}/atm/mon
-      breaksw
-      case "atmd": 
-        set procdir = /scratch/scratchdirs/$USER/${proccase}/atm/day
-      breaksw
-      case "lndm": 
-        set procdir = /scratch/scratchdirs/$USER/${proccase}/lnd/mon
-      breaksw
-      case "ocnm": 
-        set procdir = /scratch/scratchdirs/$USER/${proccase}/ocn/mon
-        set regrdir = /project/projectdirs/ccp/CCP_Processing_Suite/ocn/CCSM
-        set oregrid = ${basedir}/regridding/ccsm_ocn_rgd.davinci
-        if !(-f ${oregrid}) then
+  davinci* )                                # davinci @ NERSC
+    BASEDIR=/usr/common/homes/s/strandwg/CCP_Processing_Suite
+    CCPS_NCKS=/usr/common/homes/s/strandwg/bin/ncks ; export CCPS_NCKS
+    CCPS_NCRCAT=/usr/common/homes/s/strandwg/bin/ncrcat ; export CCPS_NCRCAT
+    case "$PROCTYPE" in
+      atmm ) PROCDIR=/scratch/scratchdirs/$USER/$PROCCASE/atm/mon ;;
+      atmd ) PROCDIR=/scratch/scratchdirs/$USER/$PROCCASE/atm/day ;;
+      lndm ) PROCDIR=/scratch/scratchdirs/$USER/$PROCCASE/lnd/mon ;;
+      ocnm ) 
+        PROCDIR=/scratch/scratchdirs/$USER/$PROCCASE/ocn/mon
+        REGRDIR=/project/projectdirs/ccp/CCP_Processing_Suite/ocn/CCSM
+        OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.davinci
+        if [ ! -f $OREGRID ] ; then
           echo "Need to build OCN regridding code. Do that and re-run."
           exit 1
-        else
-          setenv CCSM_OCN_RGD $oregrid
-        endif
-      breaksw
-      case "icem": 
-        set procdir = /scratch/scratchdirs/$USER/${proccase}/ice/mon
-        set regrdir = /project/projectdirs/ccp/CCP_Processing_Suite/ice/CCSM
-        set iregrid = ${basedir}/regridding/ccsm_ice_rgd.davinci
-        if !(-f ${iregrid}) then
+        fi ;;
+      icem ) 
+        procdir=/scratch/scratchdirs/$USER/$PROCCASE/ice/mon
+        regrdir=/project/projectdirs/ccp/CCP_Processing_Suite/ice/CCSM
+        iregrid=$BASEDIR/regridding/ccsm_ice_rgd.davinci
+        if [ ! -f $IREGRID ] ; then
           echo "Need to build ICE regridding code. Do that and re-run."
           exit 1
         else
-          setenv CCSM_ICE_RGD $iregrid
-         endif
-      breaksw
-    endsw
-  breaksw
+          setenv CCSM_ICE_RGD $IREGRID
+         fi ;;
+      * ) 
+        echo "Unable to continue because "$PROCTYPE" not known."
+        exit 1 ;;
+    esac ;;
 
-  case "lens*":                                # lens @ ORNL
-    set basedir     = /ccs/home/wgstrand/CCP_Processing_Suite
-    set ccps_ncks   = /ccs/home/wgstrand/bin/ncks
-    set ccps_ncrcat = /ccs/home/wgstrand/bin/ncrcat
-    switch($proctype)
-      case "atmm": 
-        set procdir = /tmp/work/$USER/${proccase}/atm/mon
-      breaksw
-      case "atmd": 
-        set procdir = /tmp/work/$USER/${proccase}/atm/day
-      breaksw
-      case "lndm": 
-        set procdir = /tmp/work/$USER/${proccase}/lnd/mon
-      breaksw
-      case "ocnm": 
-        set procdir = /tmp/work/$USER/${proccase}/ocn/mon
-        set regrdir = /f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
-        set oregrid = ${basedir}/regridding/ccsm_ocn_rgd.lens0
-        if !(-f ${oregrid}) then
+  lens* )                                # lens @ ORNL
+    BASEDIR=/ccs/home/wgstrand/CCP_Processing_Suite
+    CCPS_NCKS=/ccs/home/wgstrand/bin/ncks ; export CCPS_NCKS
+    CCPS_NCRCAT=/ccs/home/wgstrand/bin/ncrcat ; export CCPS_NCRCAT
+    case "$PROCTYPE" in
+      atmm ) PROCDIR=/tmp/work/$USER/$PROCCASE/atm/mon ;;
+      atmd ) PROCDIR=/tmp/work/$USER/$PROCCASE/atm/day ;;
+      lndm ) PROCDIR=/tmp/work/$USER/$PROCCASE/lnd/mon ;;
+      ocnm ) 
+        procdir=/tmp/work/$USER/$PROCCASE/ocn/mon
+        regrdir=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
+        oregrid=$BASEDIR/regridding/ccsm_ocn_rgd.lens0
+        if [ ! -f $OREGRID ] ; then
           echo "Need to build OCN regridding code. Do that and re-run."
           exit 1
-        else
-          setenv CCSM_OCN_RGD $oregrid
-        endif
-      breaksw
-      case "icem": 
-        set procdir = /tmp/work/$USER/${proccase}/ice/mon
-        set regrdir = /f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
-        set iregrid = ${basedir}/regridding/ccsm_ice_rgd.lens0
-        if !(-f ${iregrid}) then
+        fi ;;
+      icem ) 
+        procdir=/tmp/work/$USER/$PROCCASE/ice/mon
+        regrdir=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
+        iregrid=$BASEDIR/regridding/ccsm_ice_rgd.lens0
+        if [ ! -f $IREGRID ] ; then
           echo "Need to build ICE regridding code. Do that and re-run."
           exit 1
-        else
-          setenv CCSM_ICE_RGD $iregrid
-         endif
-      breaksw
-   endsw
-   breaksw
-endsw
+        fi ;;
+      * ) 
+        echo "Unable to continue because "$PROCTYPE" not known."
+        exit 1 ;;
+    esac ;;
+  * ) 
+    echo "Unable to continue because "$MACHINE" not known."
+    exit 1 ;;
+esac
 #
 # Print out values
 #
 echo " process_setup as of : "`date`
 echo ""
-echo "           Case name : "${proccase}
-echo "     Processing type : "${proctype}
-echo "            Location : "${location}
-echo "         Description : "${descrip}
-echo "         Parent case : "${parent}
-echo "         Branch date : "${branch}
-echo "          Begin year : "${yearbeg}
-echo "            End year : "${yearend}
-echo "        Months count : "${mncount}
-echo "        Decade count : "${decount}
+echo "           Case name : "$PROCCASE ; export PROCCASE
+echo "     Processing type : "$PROCTYPE ; export PROCTYPE
+echo "            Location : "$LOCATION ; export LOCATION
+echo "         Description : "$DESCRIP  ; export DESCRIP
+echo "         Parent case : "$PARENT   ; export PARENT
+echo "         Branch date : "$BRANCH   ; export BRANCH
+echo "          Begin year : "$YEARBEG  ; export YEARBEG
+echo "            End year : "$YEAREND  ; export YEAREND
+echo "        Months count : "$MNCOUNT  ; export MNCOUNT
+echo "        Decade count : "$DECOUNT  ; export DECOUNT
 echo ""
-echo "       History files : "${msshist}
-echo "       History names : "${histnam}
-echo "   IPCC format files : "${mssipcc}
-echo "     Processed files : "${mssproc}
+echo "       History files : "$MSSHIST  ; export MSSHIST
+echo "       History names : "$HISTNAM  ; export HISTNAM
+echo "   Archival base dir : "$MSSBASE  ; export MSSBASE
+echo "   IPCC format files : "$MSSIPCC  ; export MSSIPCC
+echo "     Processed files : "$MSSPROC  ; export MSSPROC
 echo ""
-echo "      Processing dir : "${procdir}
+echo "     Processing host : "$MACHINE  ; export MACHINE
+echo "      Processing dir : "$PROCDIR  ; export PROCDIR
+echo " Processing code dir : "$BASEDIR  ; export BASEDIR
 #  
-if !(-d ${procdir}) mkdir -p ${procdir}
-cd ${procdir}
+if [ ! -d $PROCDIR ] ; then 
+  mkdir -p $PROCDIR 
+fi
+cd $PROCDIR
 #
-if ( $doesipcc != "0") then
-  setenv PARENT $parent
-  setenv BRANCH $branch
-  if !(-d  ${procdir}/IPCC) mkdir -p ${procdir}/IPCC
-  ln -s -f ${basedir}/create_ipcc_data    .
-  ln -s -f ${basedir}/CCSM_${proctype}_2cf.ncl   .
-  ln -s -f ${basedir}/attributes_ccsm.ncl .
-  cd ${procdir}/IPCC
-  ln -s -f ${basedir}/mss_*      .
-  ln -s -f ${basedir}/cf_*concat .
-  cd ${procdir}
-endif
+if [ $DO_IPCC ] ; then
+  if [ ! -d $PROCDIR/IPCC ] ; then
+     mkdir -p $PROCDIR/IPCC
+  fi
+  ln -s -f $BASEDIR/create_ipcc_data    .
+  ln -s -f $BASEDIR/CCSM_${PROCTYPE}_2cf.ncl   .
+  ln -s -f $BASEDIR/attributes_ccsm.ncl .
+  cd $PROCDIR/IPCC
+  ln -s -f $BASEDIR/mss_*      .
+  ln -s -f $BASEDIR/cf_*concat .
+  cd $PROCDIR
+fi
 #
-if ( $doesproc != "0") then
-  ln -s -f ${basedir}/mss_* .
-  ln -s -f ${basedir}/var_* .
-endif
+if [ $DO_PROC ] ; then
+  ln -s -f $BASEDIR/mss_* .
+  ln -s -f $BASEDIR/var_* .
+fi
 #
-exit
+ln -s -f $BASEDIR/finish_concatenation .
+ln -s -f $BASEDIR/store_to_archive     .
+#
