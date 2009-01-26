@@ -2,21 +2,11 @@
 #
 # Set up a bunch of stuff
 #
-if [ $# = 2 ] ; then
-  PROCCASE=$1
-  PROCTYPE=$2
-else
-  echo "Usage: process_setup case type"
-  echo "Type must be one of (atmm atmd lndm ocnm icem)"
-  exit 1
-fi
-#
-if [ $PROCTYPE != "atmm" ] ; then
-  if [ $PROCTYPE != "atmd" ] ; then
-    if [ $PROCTYPE != "lndm" ] ; then
-      if [ $PROCTYPE != "ocnm" ] ; then
-        if [ $PROCTYPE != "icem" ] ; then
-          echo "Usage: process_setup case type"
+if [ $TYPE != "atmm" ] ; then
+  if [ $TYPE != "atmd" ] ; then
+    if [ $TYPE != "lndm" ] ; then
+      if [ $TYPE != "ocnm" ] ; then
+        if [ $TYPE != "icem" ] ; then
           echo "Type must be one of (atmm atmd lndm ocnm icem)"
           exit 1
         fi
@@ -28,20 +18,20 @@ fi
 # Extract information from "experiments.txt"
 #
 if [ -f ./experiments.txt ] ; then
-  LOCATION=`egrep "^$PROCCASE " experiments.txt | cut -c20-  | cut -d" " -f1`
-   DESCRIP=`egrep "^$PROCCASE " experiments.txt | cut -c25-  | cut -d" " -f1`
-    PARENT=`egrep "^$PROCCASE " experiments.txt | cut -c50-  | cut -d" " -f1`
-    BRANCH=`egrep "^$PROCCASE " experiments.txt | cut -c65-  | cut -d" " -f1`
-   YEARBEG=`egrep "^$PROCCASE " experiments.txt | cut -c80-  | cut -d" " -f1`
-   YEAREND=`egrep "^$PROCCASE " experiments.txt | cut -c85-  | cut -d" " -f1`
-  HISTBASE=`egrep "^$PROCCASE " experiments.txt | cut -c100- | cut -d" " -f1`
+  LOCATION=`egrep "^$CASE " experiments.txt | cut -c20-  | cut -d" " -f1`
+   DESCRIP=`egrep "^$CASE " experiments.txt | cut -c25-  | cut -d" " -f1`
+    PARENT=`egrep "^$CASE " experiments.txt | cut -c50-  | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " experiments.txt | cut -c65-  | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " experiments.txt | cut -c80-  | cut -d" " -f1`
+   YEAREND=`egrep "^$CASE " experiments.txt | cut -c85-  | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " experiments.txt | cut -c100- | cut -d" " -f1`
 else
   echo "Cannot find experiments.txt. HELP"
   exit 1
 fi
 DEFINED=`/usr/bin/printenv | grep -c '^LOCATION='`
 if ! [ $DEFINED ] ; then
-  echo "Unable to set variables because "$PROCCASE" not found in experiments.txt"
+  echo "Unable to set variables because "$CASE" not found in experiments.txt"
   exit 1
 fi
 #
@@ -54,13 +44,13 @@ MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
 case "$LOCATION" in
   NC )                                        # NCAR experiments
-    MSSBASE=/CCSM/csm/$PROCCASE
+    MSSBASE=/CCSM/csm/$CASE
     MACHINE="mineral"  ;;
   NE )                                        # NERSC experiments
-    MSSBASE=/nersc/mp9/strandwg/CCSM/csm/$PROCCASE
+    MSSBASE=/nersc/mp9/strandwg/CCSM/csm/$CASE
     MACHINE="davinci"  ;;
   OR )                                        # ORNL experiments
-    MSSBASE=/f2/wgstrand/CCSM/csm/$PROCCASE
+    MSSBASE=/f2/wgstrand/CCSM/csm/$CASE
     MACHINE="lens0"    ;;
   * )
     echo "Unable to set variables because "$LOCATION" not found in experiments.txt"
@@ -69,34 +59,34 @@ esac
 #
 # History tape locations
 #
-case "$PROCTYPE" in
+case "$TYPE" in
   atmm )
     HISTNAM="cam2.h0"
-    MSSHIST=$HISTBASE/$PROCCASE/atm/hist
+    MSSHIST=$HISTBASE/$CASE/atm/hist
     MSSIPCC=$MSSBASE/atm/ipcc/tseries/monthly
     MSSPROC=$MSSBASE/atm/proc/tseries/monthly  ;;
   atmd )
     HISTNAM="cam2.h1"
-    MSSHIST=$HISTBASE/$PROCCASE/atm/hist
+    MSSHIST=$HISTBASE/$CASE/atm/hist
     MSSIPCC=$MSSBASE/atm/ipcc/tseries/daily
     MSSPROC=$MSSBASE/atm/proc/tseries/daily    ;;
   lndm ) 
     HISTNAM="clm2.h0"
-    MSSHIST=$HISTBASE/$PROCCASE/lnd/hist
+    MSSHIST=$HISTBASE/$CASE/lnd/hist
     MSSIPCC=$MSSBASE/lnd/ipcc/tseries/daily
     MSSPROC=$MSSBASE/lnd/proc/tseries/daily    ;;
   ocnm ) 
     HISTNAM="pop.h"
-    MSSHIST=$HISTBASE/$PROCCASE/ocn/hist
+    MSSHIST=$HISTBASE/$CASE/ocn/hist
     MSSIPCC=$MSSBASE/ocn/ipcc/tseries/monthly
     MSSPROC=$MSSBASE/ocn/proc/tseries/monthly  ;;
   icem ) 
     HISTNAM="csim.h"
-    MSSHIST=$HISTBASE/$PROCCASE/ice/hist
+    MSSHIST=$HISTBASE/$CASE/ice/hist
     MSSIPCC=$MSSBASE/ice/ipcc/tseries/monthly
     MSSPROC=$MSSBASE/ice/proc/tseries/monthly  ;;
   * ) 
-    echo "Unable to continue because "$PROCTYPE" not known."
+    echo "Unable to continue because "$TYPE" not known."
     exit 1 ;;
 esac
 #
@@ -107,12 +97,12 @@ case "$MACHINE" in
     BASEDIR=/home/strandwg/data/CCP_Processing_Suite
     CCPS_NCKS=/usr/local/bin/ncks ; export CCPS_NCKS
     CCPS_NCRCAT=/usr/local/bin/ncrcat ; export CCPS_NCRCAT
-    case "$PROCTYPE" in
-      atmm ) PROCDIR=/datalocal/ccpg/$USER/$PROCCASE/atm/mon ;;
-      atmd ) PROCDIR=/datalocal/ccpg/$USER/$PROCCASE/atm/day ;;
-      lndm ) PROCDIR=/datalocal/ccpg/$USER/$PROCCASE/lnd/mon ;;
+    case "$TYPE" in
+      atmm ) PROCDIR=/datalocal/ccpg/$USER/$CASE/atm/mon ;;
+      atmd ) PROCDIR=/datalocal/ccpg/$USER/$CASE/atm/day ;;
+      lndm ) PROCDIR=/datalocal/ccpg/$USER/$CASE/lnd/mon ;;
       ocnm ) 
-        PROCDIR=/datalocal/ccpg/$USER/$PROCCASE/ocn/mon
+        PROCDIR=/datalocal/ccpg/$USER/$CASE/ocn/mon
         REGRDIR=/project/ccr/strandwg/IPCC_Processing/ocn/CCSM
         OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.mineral
         if [ ! -f $OREGRID ] ; then
@@ -120,7 +110,7 @@ case "$MACHINE" in
           exit 1
         fi ;;
       icem ) 
-        PROCDIR=/datalocal/ccpg/$USER/$PROCCASE/ocn/mon
+        PROCDIR=/datalocal/ccpg/$USER/$CASE/ocn/mon
         REGRDIR=/project/ccr/strandwg/IPCC_Processing/ice/CCSM
         IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.mineral
         if [ ! -f $IREGRID ] ; then
@@ -128,7 +118,7 @@ case "$MACHINE" in
           exit 1
         fi ;;
       * ) 
-        echo "Unable to continue because "$PROCTYPE" not known."
+        echo "Unable to continue because "$TYPE" not known."
         exit 1 ;;
     esac ;;
 
@@ -136,12 +126,12 @@ case "$MACHINE" in
     BASEDIR=/usr/common/homes/s/strandwg/CCP_Processing_Suite
     CCPS_NCKS=/usr/common/homes/s/strandwg/bin/ncks ; export CCPS_NCKS
     CCPS_NCRCAT=/usr/common/homes/s/strandwg/bin/ncrcat ; export CCPS_NCRCAT
-    case "$PROCTYPE" in
-      atmm ) PROCDIR=/scratch/scratchdirs/$USER/$PROCCASE/atm/mon ;;
-      atmd ) PROCDIR=/scratch/scratchdirs/$USER/$PROCCASE/atm/day ;;
-      lndm ) PROCDIR=/scratch/scratchdirs/$USER/$PROCCASE/lnd/mon ;;
+    case "$TYPE" in
+      atmm ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/atm/mon ;;
+      atmd ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/atm/day ;;
+      lndm ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/lnd/mon ;;
       ocnm ) 
-        PROCDIR=/scratch/scratchdirs/$USER/$PROCCASE/ocn/mon
+        PROCDIR=/scratch/scratchdirs/$USER/$CASE/ocn/mon
         REGRDIR=/project/projectdirs/ccp/CCP_Processing_Suite/ocn/CCSM
         OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.davinci
         if [ ! -f $OREGRID ] ; then
@@ -149,7 +139,7 @@ case "$MACHINE" in
           exit 1
         fi ;;
       icem ) 
-        procdir=/scratch/scratchdirs/$USER/$PROCCASE/ice/mon
+        procdir=/scratch/scratchdirs/$USER/$CASE/ice/mon
         regrdir=/project/projectdirs/ccp/CCP_Processing_Suite/ice/CCSM
         iregrid=$BASEDIR/regridding/ccsm_ice_rgd.davinci
         if [ ! -f $IREGRID ] ; then
@@ -159,7 +149,7 @@ case "$MACHINE" in
           setenv CCSM_ICE_RGD $IREGRID
          fi ;;
       * ) 
-        echo "Unable to continue because "$PROCTYPE" not known."
+        echo "Unable to continue because "$TYPE" not known."
         exit 1 ;;
     esac ;;
 
@@ -167,12 +157,12 @@ case "$MACHINE" in
     BASEDIR=/ccs/home/wgstrand/CCP_Processing_Suite
     CCPS_NCKS=/ccs/home/wgstrand/bin/ncks ; export CCPS_NCKS
     CCPS_NCRCAT=/ccs/home/wgstrand/bin/ncrcat ; export CCPS_NCRCAT
-    case "$PROCTYPE" in
-      atmm ) PROCDIR=/tmp/work/$USER/$PROCCASE/atm/mon ;;
-      atmd ) PROCDIR=/tmp/work/$USER/$PROCCASE/atm/day ;;
-      lndm ) PROCDIR=/tmp/work/$USER/$PROCCASE/lnd/mon ;;
+    case "$TYPE" in
+      atmm ) PROCDIR=/tmp/work/$USER/$CASE/atm/mon ;;
+      atmd ) PROCDIR=/tmp/work/$USER/$CASE/atm/day ;;
+      lndm ) PROCDIR=/tmp/work/$USER/$CASE/lnd/mon ;;
       ocnm ) 
-        procdir=/tmp/work/$USER/$PROCCASE/ocn/mon
+        procdir=/tmp/work/$USER/$CASE/ocn/mon
         regrdir=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
         oregrid=$BASEDIR/regridding/ccsm_ocn_rgd.lens0
         if [ ! -f $OREGRID ] ; then
@@ -180,7 +170,7 @@ case "$MACHINE" in
           exit 1
         fi ;;
       icem ) 
-        procdir=/tmp/work/$USER/$PROCCASE/ice/mon
+        procdir=/tmp/work/$USER/$CASE/ice/mon
         regrdir=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
         iregrid=$BASEDIR/regridding/ccsm_ice_rgd.lens0
         if [ ! -f $IREGRID ] ; then
@@ -188,20 +178,21 @@ case "$MACHINE" in
           exit 1
         fi ;;
       * ) 
-        echo "Unable to continue because "$PROCTYPE" not known."
+        echo "Unable to continue because "$TYPE" not known."
         exit 1 ;;
     esac ;;
   * ) 
     echo "Unable to continue because "$MACHINE" not known."
     exit 1 ;;
 esac
+CACHEDIR=${PROCDIR}/to_archive
 #
 # Print out values
 #
 echo " process_setup as of : "`date`
 echo ""
-echo "           Case name : "$PROCCASE ; export PROCCASE
-echo "     Processing type : "$PROCTYPE ; export PROCTYPE
+echo "           Case name : "$CASE     ; export CASE
+echo "     Processing type : "$TYPE     ; export TYPE
 echo "            Location : "$LOCATION ; export LOCATION
 echo "         Description : "$DESCRIP  ; export DESCRIP
 echo "         Parent case : "$PARENT   ; export PARENT
@@ -219,19 +210,27 @@ echo "     Processed files : "$MSSPROC  ; export MSSPROC
 echo ""
 echo "     Processing host : "$MACHINE  ; export MACHINE
 echo "      Processing dir : "$PROCDIR  ; export PROCDIR
+echo "   Archive cache dir : "$CACHEDIR ; export CACHEDIR
 echo " Processing code dir : "$BASEDIR  ; export BASEDIR
 #  
 if [ ! -d $PROCDIR ] ; then 
   mkdir -p $PROCDIR 
 fi
+if [ ! -d $CACHEDIR ] ; then 
+  mkdir -p $CACHEDIR 
+fi
 cd $PROCDIR
 #
-if [ $DO_IPCC ] ; then
+if [ $DO_IPCC -ne 0 ] ; then
   if [ ! -d $PROCDIR/IPCC ] ; then
      mkdir -p $PROCDIR/IPCC
   fi
+  if [ $TYPE = "atmd" ] ; then
+    ln -s -f $BASEDIR/time_split    .
+    ln -s -f $BASEDIR/days_to_month .
+  fi
   ln -s -f $BASEDIR/create_ipcc_data    .
-  ln -s -f $BASEDIR/CCSM_${PROCTYPE}_2cf.ncl   .
+  ln -s -f $BASEDIR/CCSM_${TYPE}_2cf.ncl   .
   ln -s -f $BASEDIR/attributes_ccsm.ncl .
   cd $PROCDIR/IPCC
   ln -s -f $BASEDIR/mss_*      .
@@ -239,11 +238,15 @@ if [ $DO_IPCC ] ; then
   cd $PROCDIR
 fi
 #
-if [ $DO_PROC ] ; then
+if [ $DO_PROC -ne 0 ] ; then
+  if [ $TYPE = "atmd" ] ; then
+    ln -s -f $BASEDIR/time_split    .
+    ln -s -f $BASEDIR/days_to_month .
+  fi
   ln -s -f $BASEDIR/mss_* .
   ln -s -f $BASEDIR/var_* .
 fi
 #
-ln -s -f $BASEDIR/finish_concatenation .
-ln -s -f $BASEDIR/store_to_archive     .
+ln -s -f $BASEDIR/concatenate_data .
+ln -s -f $BASEDIR/store_to_archive .
 #

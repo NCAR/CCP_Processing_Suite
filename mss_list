@@ -1,27 +1,28 @@
-#!/bin/csh -f
+#!/bin/sh
 # List a directory on an archival system
 # Arguments:
-# 1 directory on the archival system
-# 2 local file that has list
+# 1 local file that has list
 #
-if ("$#argv" != 2) then
-   echo "Usage: mss_list mss_directory list - both REQUIRED"
-   exit 1
+if [ $# -ne 1 ] ; then
+  echo "Usage: mss_list local_list - REQUIRED"
+  exit 1
 else
-   set mssd = "$argv[1]"
-   set file = "$argv[2]"
-endif
+  MSSL=$1
+fi
 #
 # If NCAR MSS msrcp command exists, use it.
-if (`which msrcp | wc -w` == 1 ) then
-   rm -f $file
-   msls -1R "${mssd}" >& $file
-endif
+if [ `which msrcp` ] ; then
+   rm -f ABCXYZ
+   msls -1R "$MSSHIST" >& ABCXYZ
+   egrep "$HISTNAM" ABCXYZ >& $MSSL
+   rm -f ABCXYZ
+else
 #
 # If NERSC/ORNL hsi command exists, use it.
-if ( `which hsi | wc -w` == 1  ) then 
-  rm -f file
-  hsi -q "ls -1R ${mssd}" >& $file
-endif
-#
-exit
+   if [ `which hsi` ] ; then 
+     hsi -q "ls -1R ${MSSHIST}" | egrep $HISTNAME >& $MSSL
+   else
+     echo "Neither msrcp nor hsi exist."
+     exit 1
+   fi
+fi

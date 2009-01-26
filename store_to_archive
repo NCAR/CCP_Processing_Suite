@@ -7,28 +7,14 @@ if [ $# -ne 0 ] ; then
   exit 1
 fi
 #
-cd $PROCDIR
+cd $CACHEDIR
+ln -s -f ${BASEDIR}/mss_write .
 #
-if [ $DO_PROC -ne 0 ] ; then
-  for e in `ls -d *d.d` ; do
-    cd ${PROCDIR}/${e}
-    if [ ! -f ./mss_write ] ; then
-      ln -s -f ${BASEDIR}/mss_write .
-    fi
-    for g in `ls *.${YEARBEG}*cat*${YEAREND}*.nc` ; do
-      ./mss_write $g $MSSPROC
-    done
-    cd $PROCDIR
-  done
-fi
+LAST=`ls -1 *cat*nc | tail -1`
 #
-if [ $DO_PROC -ne 0 ] ; then
-  cd ${procdir}/IPCC
-  if [ ! -f ./mss_write ] ; then
-    ln -s -f ${BASEDIR}/mss_write .
-  fi
-  for g in `ls *.${YEARBEG}*cat*${YEAREND}*.nc` ; do
-    ./mss_write $g $MSSIPCC
+while [ -f $LAST ] ; do
+  for g in `ls *cat*nc | head -5` ; do
+    ./mss_write $g $MSSPROC &
   done
-  cd $PROCDIR
-fi
+  wait
+done

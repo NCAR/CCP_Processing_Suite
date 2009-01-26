@@ -16,7 +16,7 @@ fi
 #
 # If NCAR MSS msrcp command exists, use it.
 if [ `which msrcp` ] ; then
-   msrcp -overwrite never mss:"$MSSD/$MSSF" .
+   msrcp -overwrite sizemismatch mss:"$MSSD/$MSSF" .
 else
 #
 # If NERSC/ORNL hsi command exists, use it.

@@ -11,7 +11,7 @@ CASES="b30.097b"
 #
 # Type(s) - one of "atmm atmd lndm ocnm icem"
 #
-TYPES="atmm"
+TYPES="lndm"
 #
 # Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
 #
@@ -25,12 +25,15 @@ DO_PROC=1 ; export DO_PROC
 CURDIR=$PWD
 #
 for CASE in $CASES ; do
+  export CASE
   for TYPE in $TYPES ; do
+    export TYPE
 # --------------------------------------------------------------------------------
 # Set up all necessary script variables
+# MUST BE "source"'D TO PASS VARIABLES!
 # --------------------------------------------------------------------------------
 #
-    source ./process_setup $CASE $TYPE
+    source ./process_setup
     if [ $? -ne 0 ] ; then
       echo "ERROR in setting up "$CASE" "$TYPE" processing. EXITING. FIX."
       exit 1
@@ -39,49 +42,98 @@ for CASE in $CASES ; do
     cd $PROCDIR
     YEARNOW=$YEARBEG
     while [ $YEARNOW -le $YEAREND ] ; do
-      YRCHECK=.done.$PROCCASE.$HISTNAM.$YEARNOW
+      YRCHECK=.done.$CASE.$HISTNAM.$YEARNOW
       if [ ! -f $YRCHECK ] ; then
-        echo "Processing "$PROCCASE"."$HISTNAM"."$YEARNOW" at "`date`
-        MSFILES=$PROCCASE.$HISTNAM.$YEARNOW-{01,02,03,04,05,06,07,08,09,10,11,12}.nc
+        echo "Processing "$CASE"."$HISTNAM"."$YEARNOW" at "`date`
+        if [ $TYPE != "atmd" ] ; then
+          MSFILES=$CASE.$HISTNAM.$YEARNOW-{01,02,03,04,05,06,07,08,09,10,11,12}.nc
+        else
+          MSSLIST=MSS.$CASE.$TYPE
+          if [ ! -f $MSSLIST ] ; then
+            echo "Getting archival list of "$CASE" "$HISTNAM
+            ./mss_list $MSSLIST
+          fi
+          CHEK=`echo $CASE | cut -d"." -f3 | cut -c1-2`
+          if [ ! $CHEK ] ; then
+            DAT=`/bin/egrep "$YEARNOW" $MSSLIST | cut -d"." -f5 | cut -d"-" -f2-3`
+          else
+            DAT=`/bin/egrep "$YEARNOW" $MSSLIST | cut -d"." -f5 | cut -d"-" -f2-3`
+          fi
+          LST=`echo $DAT | sed -e "s/ /,/g"`
+          MSFILES=$CASE.$HISTNAM.${YEARNOW}-"{"${LST}"}"-00000.nc
+          echo $MSFILES
+        fi
         ./mss_read $MSSHIST $MSFILES
         if [ $? -ne 0 ] ; then
           echo "Error from mss_read of "$MSFILES
           exit 1
         else
-          for FILE in `ls $PROCCASE.$HISTNAM.$YEARNOW-??.nc` ; do
-            if [ $DO_IPCC -ne 0 ] ; then
-              ./create_ipcc_data $FILE
-              if [ $? -ne 0 ] ; then
-                echo "Error from create_ipcc_data on file "$FILE
-                exit 1
-              else
-                touch .ipcc.$FILE
+          if [ $TYPE != "atmd" ] ; then
+            for FILE in `ls $CASE.$HISTNAM.$YEARNOW-??.nc` ; do
+              if [ $DO_IPCC -ne 0 ] ; then
+                ./create_ipcc_data $FILE
+                if [ $? -ne 0 ] ; then
+                  echo "Error from create_ipcc_data on file "$FILE
+                  exit 1
+                else
+                  touch .ipcc.$FILE
+                fi
               fi
-            fi
-            if [ $DO_PROC -ne 0 ] ; then
-              ./var_split $FILE erase
-              if [ $? -ne 0 ] ; then
-                echo "Error from ccsm_var_split on file "$FILE
-                exit 1
-              else
-                touch .proc.$FILE
+              if [ $DO_PROC -ne 0 ] ; then
+                ./var_split $FILE erase
+                if [ $? -ne 0 ] ; then
+                  echo "Error from var_split on file "$FILE
+                  exit 1
+                else
+                  touch .proc.$FILE
+                fi
               fi
-            fi
-            if [ -f .proc.$FILE ] || [-f .ipcc.$FILE ] ; then
-              touch .done.$FILE
-            fi
-          done
+              if [ -f .proc.$FILE ] || [-f .ipcc.$FILE ] ; then
+                touch .done.$FILE
+                rm -f .proc.$FILE .ipcc.$FILE
+              fi
+            done
+          else
+            for FILE in `ls $CASE.$HISTNAM.$YEARNOW-??-??-?????.nc` ; do
+              ./time_split $FILE erase
+              ./days_to_month erase
+            done
+            for FILE in `ls $CASE.$HISTNAM.????-??.nc` ; do
+              if [ $DO_IPCC -ne 0 ] ; then
+                ./create_ipcc_data $FILE
+                if [ $? -ne 0 ] ; then
+                  echo "Error from create_ipcc_data on file "$FILE
+                  exit 1
+                else
+                  touch .ipcc.$FILE
+                fi
+              fi
+              if [ $DO_PROC -ne 0 ] ; then
+                ./var_split $FILE erase
+                if [ $? -ne 0 ] ; then
+                  echo "Error from var_split on file "$FILE
+                  exit 1
+                else
+                  touch .proc.$FILE
+                fi
+              fi
+              if [ -f .proc.$FILE ] || [-f .ipcc.$FILE ] ; then
+                touch .done.$FILE
+              fi
+            done
+          fi
         fi
       fi
-      if [ `ls .done.$PROCCASE.$HISTNAM.$YEARNOW-??.nc | wc -l` -eq 12 ] ; then
+      if [ `ls .done.$CASE.$HISTNAM.$YEARNOW-??.nc | wc -l` -eq 12 ] ; then
         touch $YRCHECK
+        rm .done.$CASE.$HISTNAM.$YEARNOW-??.nc
       fi
       YEARNOW=`expr $YEARNOW + 1`
     done
 #
 # Concatenate months -> years, years -> decades, decades -> all
 #
-#    ./concatenate_data
+    ./concatenate_data
 #
 # Store completed data on archival system
 #
