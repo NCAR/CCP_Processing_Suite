@@ -15,12 +15,12 @@ else
 fi
 #
 # If NCAR MSS msrcp command exists, use it.
-if [ `which msrcp` ] ; then
+if [ `which msrcp >& /dev/null` ] ; then
    msrcp -overwrite sizemismatch mss:"$MSSD/$MSSF" .
 else
 #
 # If NERSC/ORNL hsi command exists, use it.
-   if [ `which hsi` ] ; then 
+   if [ `which hsi >& /dev/null` ] ; then 
      hsi -q "get -U $MSSD/$MSSF"
    else
      echo "Neither msrcp nor hsi exist."
