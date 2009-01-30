@@ -7,6 +7,18 @@ if [ $# -ne 0 ] ; then
   echo "Can use DECOUNT as defined by process_setup"
   exit 1
 fi
+# 
+# Check for ncrcat
+#
+if [ ! $NCRCAT ] ; then
+   TEST4NCRCAT=`which ncrcat 2<&1 >& /dev/null`
+   if [ $? -eq 0 ] ; then
+     NCRCAT=`which ncrcat`
+   else
+     echo "NCRCAT not in PATH - UNDEFINED"
+     exit 1
+   fi
+fi
 #
 CHEK=`ls b*.*.h*.*.*cat*.nc | cut -d"." -f3 | cut -c1-2 | uniq`
 for m in $CHEK ; do
@@ -29,7 +41,7 @@ for m in $CHEK ; do
               Y0=`ls ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc | head -1 | cut -d"." -f${FT} | cut -c1-4`
               Y1=`ls ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc | tail -1 | cut -d"." -f${FT} | cut -c16-19`
               DF=${c}.${p}.${v}.${Y0}-01-01_allcat_${Y1}-12-31.nc
-              $CCPS_NCRCAT -O ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc $DF
+              $NCRCAT -O ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc $DF
               if [ $? = 0 ] ; then
                 rm -f ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc
                 TF=${c}.${p}.${v}.${Y0}-01-01_cat_${Y1}-12-31.nc
@@ -50,7 +62,7 @@ for m in $CHEK ; do
               Y0=`ls ${c}.${p}.${v}.????-01_cat_????-12.nc | head -1 | cut -d"." -f${FT} | cut -c1-4`
               Y1=`ls ${c}.${p}.${v}.????-01_cat_????-12.nc | tail -1 | cut -d"." -f${FT} | cut -c13-16`
               DF=${c}.${p}.${v}.${Y0}-01-allcat_${Y1}-12.nc
-              $CCPS_NCRCAT -O ${c}.${p}.${v}.????-01_cat_????-12.nc $DF
+              $NCRCAT -O ${c}.${p}.${v}.????-01_cat_????-12.nc $DF
               if [ $? = 0 ] ; then
                 rm -f ${c}.${p}.${v}.????-01_cat_????-12.nc
                 TF=${c}.${p}.${v}.${Y0}-01_cat_${Y1}-12.nc
@@ -72,7 +84,7 @@ for m in $CHEK ; do
             Y0=`ls ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc | head -1 | cut -d"." -f${FT} | cut -c1-4`
             Y1=`ls ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc | tail -1 | cut -d"." -f${FT} | cut -c16-19`
             DF=${c}.${p}.${v}.${Y0}-01-01_allcat_${Y1}-12-31.nc
-            $CCPS_NCRCAT -O ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc $DF
+            $NCRCAT -O ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc $DF
             if [ $? = 0 ] ; then
               rm -f ${c}.${p}.${v}.????-01-01_cat_????-12-31.nc
               TF=${c}.${p}.${v}.${Y0}-01-01_cat_${Y1}-12-31.nc
@@ -86,7 +98,7 @@ for m in $CHEK ; do
             Y0=`ls ${c}.${p}.${v}.????-01_cat_????-12.nc | head -1 | cut -d"." -f${FT} | cut -c1-4`
             Y1=`ls ${c}.${p}.${v}.????-01_cat_????-12.nc | tail -1 | cut -d"." -f${FT} | cut -c13-16`
             DF=${c}.${p}.${v}.${Y0}-01_allcat_${Y1}-12.nc
-            $CCPS_NCRCAT -O ${c}.${p}.${v}.????-01_cat_????-12.nc ${DF}
+            $NCRCAT -O ${c}.${p}.${v}.????-01_cat_????-12.nc ${DF}
             if [ $? = 0 ] ; then
               rm -f ${c}.${p}.${v}.????-01_cat_????-12.nc
               TF=${c}.${p}.${v}.${Y0}-01_cat_${Y1}-12.nc

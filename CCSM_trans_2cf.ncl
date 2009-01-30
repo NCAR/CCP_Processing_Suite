@@ -4,29 +4,17 @@ load "attributes_ccsm.ncl"
 ;******************************************************************************
 
 begin
-;--------------------------------------------------------------------
-; Constants
-;--------------------------------------------------------------------
-; Density of water, 1000 kg m-3
-  density_h2o = 1000
-; Latent heat of evaporation, J kg-1
-  latent_ht_v = 2.501e6
-; Latent heat of fusion, J kg-1
-  latent_ht_f = 3.337e5
-; grams to kilograms
-  g_to_kg     = 1000.
-  missing_value  = 1.e+20
-;
-  n1     = integertochar(10)
-  stglen = 15
+  n1 = integertochar(10)
 ;--------------------------------------------------------------------
 ; Get input file env vars
 ;--------------------------------------------------------------------
-  ncin = getenv("CCSM_FILE")
-  case = getenv("CCSM_CASE")
-  comp = getenv("CCSM_COMP")
-  tval = getenv("CCSM_TIME")
-  scpt = getenv("NCL_SCPT")
+  ncin       = getenv("NCL_FILE")
+  case       = getenv("CASE")
+  type       = getenv("TYPE")
+  tval       = getenv("NCL_TVAL")
+  nclscript  = getenv("NCL_SCRIPT")
+  nclversion = getenv("NCL_VERSION")
+  prochost   = getenv("PROCHOST") 
 ;--------------------------------------------------------------------
 ; Define global attributes
 ;--------------------------------------------------------------------
@@ -34,12 +22,12 @@ begin
 ;--------------------------------------------------------------------
 ; Set various attributes
 ;--------------------------------------------------------------------
-  parent  = ""
-  year1   = ""
-  machine = ""
   forcing = ""
   expid   = ""
-  attributes_ccsm(case,glbAtt,parent,year1,machine,forcing,expid)
+  attributes_ccsm(case,glbAtt,expid)
+;
+  table   = "O1"
+  glbAtt@table_id = "Table "+table
 ;--------------------------------------------------------------------
 ; Define table and ipcc_vars
 ;--------------------------------------------------------------------
@@ -122,8 +110,6 @@ begin
         raw@comment        = "Only global_ocean"
         raw@history        = "Scaled by 1.e^15"
         raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
 
       if (isfilevar(in_file,"gmht")) then
@@ -145,8 +131,6 @@ begin
         raw@comment        = "Offline calculation; eddy component not available"
         raw@history        = "Scaled by 1.e^15"
         raw@cell_methods   = "time: annual (interval: 1 year)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM.ocna."+tval+".nc"
       end if
     end if
 
@@ -198,8 +182,6 @@ begin
         raw@history        = "Scaled by 1.e^6"
         raw@comment        = "Only global_ocean and atlantic_ocean"
         raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
 ;--------------------------------------------------------------------
@@ -209,12 +191,16 @@ begin
      raw@long_name      = raw@standard_name
      raw@_FillValue     = 1.e+20
      raw@missing_value  = 1.e+20
-     raw@comment        = "Created using NCL code "+scpt+" on"+n1+\
-                         " machine "+systemfunc("hostname")
+     raw@comment        = "Created using NCL version "+nclversion+n1+\
+                          " NCL script: "+nclscript+" on "+n1+\
+                          "processing host "+prochost+" by "+systemfunc("whoami")+" at "+n1+\
+                          systemfunc("date")
 ;--------------------------------------------------------------------
 ; Create output file
 ; [file name as per requirements document]
 ;--------------------------------------------------------------------
+     now = systemfunc("date '+%y%m%d'")
+     nccf = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+type+"."+tval+"_c"+now+".nc"
      system("csh -c 'rm -f "+nccf+"'")
      cf_file = addfile(nccf, "c")
      fileattdef(cf_file, glbAtt)

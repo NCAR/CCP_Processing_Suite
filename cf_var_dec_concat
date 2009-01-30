@@ -1,44 +1,54 @@
-#!/bin/csh -f
+#!/bin/sh
 #
 # Concatenate years of IPCC netCDF files into decades
 #
-if ("$#argv" != 0) then
+if [ $# -ne 0 ] ; then
    echo "Usage: cf_var_dec_concat"
    exit 1
-endif
+fi
+# 
+# Check for ncrcat
 #
-set vars   = `ls | egrep '\.....\.nc$' | cut -d"_" -f1 | uniq`
-foreach v (${vars})
-  set table  = `ls ${v}*.????.nc | cut -d"_" -f2 | cut -d"." -f1 | sort| uniq`
-  foreach t (${table})
-    set expids = `ls ${v}_${t}.*.????.nc | cut -d"." -f2 | sort | uniq`
-    foreach e (${expids})
-      set model = `ls ${v}_${t}.${e}.*.????.nc | cut -d"." -f3 | sort | uniq`
-      foreach m (${model})
-        set comp = `ls ${v}_${t}.${e}.${m}.*.????.nc | cut -d"." -f4 | sort | uniq`
-        foreach c (${comp})
-          set decade = `ls ${v}_${t}.${e}.${m}.${c}.????.nc | cut -d"." -f5 | cut -c1-3 | sort | uniq`
-          foreach d (${decade})
-            set nf = `ls ${v}_${t}.${e}.${m}.${c}.${d}?.nc | wc -l`
-            if (${nf} == 10) then
-              set y1 = `ls ${v}_${t}.${e}.${m}.${c}.${d}?.nc | cut -d"." -f5 | cut -c1-4 | head -1`
-              set y2 = `ls ${v}_${t}.${e}.${m}.${c}.${d}?.nc | cut -d"." -f5 | cut -c1-4 | tail -1`
-              if (${t} == "A2") then
-                 set df = ${v}_${t}.${e}.${m}.${c}.${y1}-01-01_cat_${y2}-12-31.nc
+if [ ! $NCRCAT ] ; then
+   TEST4NCRCAT=`which ncrcat 2<&1 >& /dev/null`
+   if [ $? -eq 0 ] ; then
+     NCRCAT=`which ncrcat`
+   else
+     echo "NCRCAT not in PATH - UNDEFINED"
+     exit 1
+   fi
+fi
+#
+VARS=`ls | egrep '\....._c......\.nc$' | cut -d"_" -f1 | uniq`
+for v in $VARS ; do
+  TABLE=`ls ${v}*.????_c??????.nc | cut -d"_" -f2 | cut -d"." -f1 | sort | uniq`
+  for t in $TABLE ; do
+    EXPIDS=`ls ${v}_${t}.*.????_c??????.nc | cut -d"." -f2 | sort | uniq`
+    for e in $EXPIDS ; do
+      MODEL=`ls ${v}_${t}.${e}.*.????_c??????.nc | cut -d"." -f3 | sort | uniq`
+      for m in $MODEL ; do
+        COMP=`ls ${v}_${t}.${e}.${m}.*.????_c??????.nc | cut -d"." -f4 | sort | uniq`
+        for c in $COMP ; do
+          DECADE=`ls ${v}_${t}.${e}.${m}.${c}.????_c??????.nc | cut -d"." -f5 | cut -c1-3 | sort | uniq`
+          for d in $DECADE ; do
+            NF=`ls ${v}_${t}.${e}.${m}.${c}.${d}?_c??????.nc | wc -l`
+            if [ $NF -eq 10 ] ; then
+              Y1=`ls ${v}_${t}.${e}.${m}.${c}.${d}?_c??????.nc | cut -d"." -f5 | cut -c1-4 | head -1`
+              Y2=`ls ${v}_${t}.${e}.${m}.${c}.${d}?_c??????.nc | cut -d"." -f5 | cut -c1-4 | tail -1`
+              TS=`date '+%y%m%d'`
+              if [ "$t" == "A2" ] ; then
+                 DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01-01_cat_${Y2}-12-31_c${TS}.nc
               else
-                 set df = ${v}_${t}.${e}.${m}.${c}.${y1}-01_cat_${y2}-12.nc
-              endif
-              $CCPS_NCRCAT -h -O ${v}_${t}.${e}.${m}.${c}.${d}?.nc ${df}
-              if ($status == 0) then
-                rm -f ${v}_${t}.${e}.${m}.${c}.${d}?.nc
-                echo "Completed "${df}
-              endif
-            endif
-          end
-        end
-      end
-    end
-  end
-end
-#
-exit
+                 DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01_cat_${Y2}-12_c${TS}.nc
+              fi
+              $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.${d}[0-9]_*.nc $DF
+              if [ $? -eq 0 ] ; then
+                rm -f ${v}_${t}.${e}.${m}.${c}.${d}[0-9]_*.nc
+              fi
+            fi
+          done
+        done
+      done
+    done
+  done
+done

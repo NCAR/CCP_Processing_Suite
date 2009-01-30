@@ -20,11 +20,14 @@ fi
 if [ -f ./experiments.txt ] ; then
   LOCATION=`egrep "^$CASE " experiments.txt | cut -c20-  | cut -d" " -f1`
    DESCRIP=`egrep "^$CASE " experiments.txt | cut -c25-  | cut -d" " -f1`
+   REALIZN=`egrep "^$CASE " experiments.txt | cut -c40-  | cut -d" " -f1`
     PARENT=`egrep "^$CASE " experiments.txt | cut -c50-  | cut -d" " -f1`
     BRANCH=`egrep "^$CASE " experiments.txt | cut -c65-  | cut -d" " -f1`
    YEARBEG=`egrep "^$CASE " experiments.txt | cut -c80-  | cut -d" " -f1`
    YEAREND=`egrep "^$CASE " experiments.txt | cut -c85-  | cut -d" " -f1`
-  HISTBASE=`egrep "^$CASE " experiments.txt | cut -c100- | cut -d" " -f1`
+       RES=`egrep "^$CASE " experiments.txt | cut -c90-  | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " experiments.txt | cut -c100- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " experiments.txt | cut -c110- | cut -d" " -f1`
 else
   echo "Cannot find experiments.txt. HELP"
   exit 1
@@ -45,13 +48,13 @@ MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 case "$LOCATION" in
   NC )                                        # NCAR experiments
     MSSBASE=/CCSM/csm/$CASE
-    MACHINE="mineral"  ;;
+    PROCHOST="mineral"  ;;
   NE )                                        # NERSC experiments
     MSSBASE=/nersc/mp9/strandwg/CCSM/csm/$CASE
-    MACHINE="davinci"  ;;
+    PROCHOST="davinci"  ;;
   OR )                                        # ORNL experiments
     MSSBASE=/f2/wgstrand/CCSM/csm/$CASE
-    MACHINE="lens0"    ;;
+    PROCHOST="lens0"    ;;
   * )
     echo "Unable to set variables because "$LOCATION" not found in experiments.txt"
     exit 1 ;;
@@ -92,30 +95,37 @@ esac
 #
 # resolve machine/site dependencies
 #
-case "$MACHINE" in 
+case "$PROCHOST" in 
   mineral* )                                # mineral @ CGD/NCAR
     BASEDIR=/home/strandwg/data/CCP_Processing_Suite
-    CCPS_NCKS=/usr/local/bin/ncks ; export CCPS_NCKS
-    CCPS_NCRCAT=/usr/local/bin/ncrcat ; export CCPS_NCRCAT
+    NCKS=/usr/local/bin/ncks ; export NCKS
+    NCRCAT=/usr/local/bin/ncrcat ; export NCRCAT
+    NCL=/contrib/bin/ncl ; export NCL
     case "$TYPE" in
       atmm ) PROCDIR=/datalocal/ccpg/$USER/$CASE/atm/mon ;;
       atmd ) PROCDIR=/datalocal/ccpg/$USER/$CASE/atm/day ;;
       lndm ) PROCDIR=/datalocal/ccpg/$USER/$CASE/lnd/mon ;;
       ocnm ) 
         PROCDIR=/datalocal/ccpg/$USER/$CASE/ocn/mon
-        REGRDIR=/project/ccr/strandwg/IPCC_Processing/ocn/CCSM
-        OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.mineral
-        if [ ! -f $OREGRID ] ; then
-          echo "Need to build OCN regridding code. Do that and re-run."
-          exit 1
+        if [ $DO_IPCC -ne 0 ] ; then
+          REGRDIR=/project/ccr/strandwg/IPCC_Processing/ocn/CCSM ; export REGRDIR
+          NAMLDIR=$BASEDIR/regridding                            ; export NAMLDIR
+          OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.mineral       ; export OREGRID
+          if [ ! -f $OREGRID ] ; then
+            echo "Need to build OCN regridding code. Do that and re-run."
+            exit 1
+          fi
         fi ;;
       icem ) 
-        PROCDIR=/datalocal/ccpg/$USER/$CASE/ocn/mon
-        REGRDIR=/project/ccr/strandwg/IPCC_Processing/ice/CCSM
-        IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.mineral
-        if [ ! -f $IREGRID ] ; then
-          echo "Need to build ICE regridding code. Do that and re-run."
-          exit 1
+        PROCDIR=/datalocal/ccpg/$USER/$CASE/ice/mon
+        if [ $DO_IPCC -ne 0 ] ; then
+          REGRDIR=/project/ccr/strandwg/IPCC_Processing/ice/CCSM ; export REGRDIR
+          NAMLDIR=$BASEDIR/regridding                            ; export NAMLDIR
+          IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.mineral       ; export IREGRID
+          if [ ! -f $IREGRID ] ; then
+            echo "Need to build ICE regridding code. Do that and re-run."
+            exit 1
+          fi
         fi ;;
       * ) 
         echo "Unable to continue because "$TYPE" not known."
@@ -124,8 +134,8 @@ case "$MACHINE" in
 
   davinci* )                                # davinci @ NERSC
     BASEDIR=/usr/common/homes/s/strandwg/CCP_Processing_Suite
-    CCPS_NCKS=/usr/common/homes/s/strandwg/bin/ncks ; export CCPS_NCKS
-    CCPS_NCRCAT=/usr/common/homes/s/strandwg/bin/ncrcat ; export CCPS_NCRCAT
+    NCKS=/usr/common/homes/s/strandwg/bin/ncks ; export NCKS
+    NCRCAT=/usr/common/homes/s/strandwg/bin/ncrcat ; export NCRCAT
     case "$TYPE" in
       atmm ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/atm/mon ;;
       atmd ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/atm/day ;;
@@ -145,9 +155,7 @@ case "$MACHINE" in
         if [ ! -f $IREGRID ] ; then
           echo "Need to build ICE regridding code. Do that and re-run."
           exit 1
-        else
-          setenv CCSM_ICE_RGD $IREGRID
-         fi ;;
+        fi ;;
       * ) 
         echo "Unable to continue because "$TYPE" not known."
         exit 1 ;;
@@ -155,8 +163,8 @@ case "$MACHINE" in
 
   lens* )                                # lens @ ORNL
     BASEDIR=/ccs/home/wgstrand/CCP_Processing_Suite
-    CCPS_NCKS=/ccs/home/wgstrand/bin/ncks ; export CCPS_NCKS
-    CCPS_NCRCAT=/ccs/home/wgstrand/bin/ncrcat ; export CCPS_NCRCAT
+    NCKS=/ccs/home/wgstrand/bin/ncks ; export NCKS
+    NCRCAT=/ccs/home/wgstrand/bin/ncrcat ; export NCRCAT
     case "$TYPE" in
       atmm ) PROCDIR=/tmp/work/$USER/$CASE/atm/mon ;;
       atmd ) PROCDIR=/tmp/work/$USER/$CASE/atm/day ;;
@@ -182,7 +190,7 @@ case "$MACHINE" in
         exit 1 ;;
     esac ;;
   * ) 
-    echo "Unable to continue because "$MACHINE" not known."
+    echo "Unable to continue because "$PROCHOST" not known."
     exit 1 ;;
 esac
 CACHEDIR=${PROCDIR}/to_archive
@@ -193,10 +201,39 @@ echo " process_setup as of : "`date`
 echo ""
 echo "           Case name : "$CASE     ; export CASE
 echo "     Processing type : "$TYPE     ; export TYPE
+if [ $DO_PROC -ne 0 ] ; then
+  echo "   by var processing : YES"
+else
+  echo "   by var processing : NO"
+fi
+if [ $DO_IPCC -ne 0 ] ; then
+  echo "     IPCC processing : YES"
+  if [ "$TYPE" = "ocnm" ] ; then
+    echo "regridding directory : "$REGRDIR
+    echo "   regridding binary : "$OREGRID
+  elif [ "$TYPE" = "icem" ] ; then
+    echo "regridding directory : "$REGRDIR
+    echo "   regridding binary : "$IREGRID
+  fi
+else
+  echo "     IPCC processing : NO"
+fi
+if [ "$LOCATION" = "NC" ] ; then
+  HARDWARE=${HARDWARE}".ucar.edu"
+fi
+if [ "$LOCATION" = "NE" ] ; then
+  HARDWARE=${HARDWARE}".nersc.gov"
+fi
+if [ "$LOCATION" = "OR" ] ; then
+  HARDWARE=${HARDWARE}".ccs.ornl.gov"
+fi
 echo "            Location : "$LOCATION ; export LOCATION
 echo "         Description : "$DESCRIP  ; export DESCRIP
+echo "         Realization : "$REALIZN  ; export REALIZN
 echo "         Parent case : "$PARENT   ; export PARENT
 echo "         Branch date : "$BRANCH   ; export BRANCH
+echo "          Resolution : "$RES      ; export RES
+echo "            Hardware : "$HARDWARE ; export HARDWARE
 echo "          Begin year : "$YEARBEG  ; export YEARBEG
 echo "            End year : "$YEAREND  ; export YEAREND
 echo "        Months count : "$MNCOUNT  ; export MNCOUNT
@@ -208,7 +245,7 @@ echo "   Archival base dir : "$MSSBASE  ; export MSSBASE
 echo "   IPCC format files : "$MSSIPCC  ; export MSSIPCC
 echo "     Processed files : "$MSSPROC  ; export MSSPROC
 echo ""
-echo "     Processing host : "$MACHINE  ; export MACHINE
+echo "     Processing host : "$PROCHOST ; export PROCHOST
 echo "      Processing dir : "$PROCDIR  ; export PROCDIR
 echo "   Archive cache dir : "$CACHEDIR ; export CACHEDIR
 echo " Processing code dir : "$BASEDIR  ; export BASEDIR
@@ -225,10 +262,18 @@ if [ $DO_IPCC -ne 0 ] ; then
   if [ ! -d $PROCDIR/IPCC ] ; then
      mkdir -p $PROCDIR/IPCC
   fi
-  if [ $TYPE = "atmd" ] ; then
+  if [ "$TYPE" = "atmd" ] ; then
     ln -s -f $BASEDIR/time_split    .
     ln -s -f $BASEDIR/days_to_month .
   fi
+  if [ "$TYPE" = "ocnm" ] || [ "$TYPE" = "icem" ] ; then
+    ln -s -f $BASEDIR/regrid_data .
+    mkdir -p $PROCDIR/maps
+    cd $PROCDIR/maps
+    ln -s -f $REGRDIR/*T*.nc .
+    ln -s -f $REGRDIR/*U*.nc .
+  fi
+  cd $PROCDIR
   ln -s -f $BASEDIR/create_ipcc_data    .
   ln -s -f $BASEDIR/CCSM_${TYPE}_2cf.ncl   .
   ln -s -f $BASEDIR/attributes_ccsm.ncl .
@@ -239,7 +284,7 @@ if [ $DO_IPCC -ne 0 ] ; then
 fi
 #
 if [ $DO_PROC -ne 0 ] ; then
-  if [ $TYPE = "atmd" ] ; then
+  if [ "$TYPE" = "atmd" ] ; then
     ln -s -f $BASEDIR/time_split    .
     ln -s -f $BASEDIR/days_to_month .
   fi

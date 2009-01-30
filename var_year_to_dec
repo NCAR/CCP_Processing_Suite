@@ -6,6 +6,18 @@ if [ $# -ne 0 ] ; then
   echo "Usage: var_year_to_dec"
   exit 1
 fi
+# 
+# Check for ncrcat
+#
+if [ ! $NCRCAT ] ; then
+   TEST4NCRCAT=`which ncrcat 2<&1 >& /dev/null`
+   if [ $? -eq 0 ] ; then
+     NCRCAT=`which ncrcat`
+   else
+     echo "NCRCAT not in PATH - UNDEFINED"
+     exit 1
+   fi
+fi
 #
 CHEK=`ls b*.*.h*.*.????.nc | cut -d"." -f3 | cut -c1-2 | uniq`
 for m in $CHEK ; do
@@ -30,7 +42,7 @@ for m in $CHEK ; do
               DF=${c}.${p}.${v}.${d}0-01_cat_${d}9-12.nc
             fi
             if [ $DF ] ; then
-              $CCPS_NCRCAT -h -O ${c}.${p}.${v}.${d}?.nc $DF
+              $NCRCAT -h -O ${c}.${p}.${v}.${d}?.nc $DF
               if [ $? = 0 ] ; then
                 rm -f ${c}.${p}.${v}.${d}?.nc
               fi

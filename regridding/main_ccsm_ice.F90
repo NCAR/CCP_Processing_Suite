@@ -67,18 +67,18 @@ PROGRAM main
         IF ((INDEX(src_var(ivar), 'unknown')) /= 1) nvars = nvars + 1
      END DO
      nvars = nvars - 1
-     WRITE(*,*) 'src_file        = ',TRIM(src_file)
-     WRITE(*,*) 'nvars           = ',nvars
+!     WRITE(*,*) 'src_file        = ',TRIM(src_file)
+!     WRITE(*,*) 'nvars           = ',nvars
      ix = INDEX(out_form,'src_var')-1
      jx = ix + len_trim('src_var')+1
      DO ivar = 1,nvars
         dst_file(ivar) = out_form(1:ix)//trim(src_var(ivar))//out_form(jx:)
-        WRITE(*,'('' src/dst_var     = '',a,'' dst_file = '',a)') &
-             src_var(ivar)(1:10),TRIM(dst_file(ivar))
+!        WRITE(*,'('' src/dst_var     = '',a,'' dst_file = '',a)') &
+!             src_var(ivar)(1:10),TRIM(dst_file(ivar))
      END DO
-     WRITE(*,*) 'map_file        = ', TRIM(map_file)
+!     WRITE(*,*) 'map_file        = ', TRIM(map_file)
      CALL regrid_driver
-     WRITE(*,*) ' '
+!     WRITE(*,*) ' '
      CYCLE
 10   WRITE(*,*) 'error reading namelist, iostat = ', ios
 20   EXIT

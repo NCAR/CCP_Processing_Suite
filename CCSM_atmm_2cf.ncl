@@ -1,32 +1,20 @@
-;********************************************************************************
+;******************************************************************************
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
 load "attributes_ccsm.ncl"
-;********************************************************************************
+;******************************************************************************
 
 begin
-;--------------------------------------------------------------------
-; Constants
-;--------------------------------------------------------------------
-; Density of water, 1000 kg m-3
-  density_h2o = 1000
-; Latent heat of evaporation, J kg-1
-  latent_ht_v = 2.501e6
-; Latent heat of fusion, J kg-1
-  latent_ht_f = 3.337e5
-; grams to kilograms
-  g_to_kg     = 1000.
-; Stefan-Boltzmann constant, W m-2 K-4
-  sb          = 5.67E-8 
-;
   n1 = integertochar(10)
 ;--------------------------------------------------------------------
 ; Get input file env vars
 ;--------------------------------------------------------------------
-  ncin = getenv("CCSM_FILE")
-  case = getenv("CCSM_CASE")
-  comp = getenv("CCSM_COMP")
-  tval = getenv("CCSM_TIME")
-  scpt = getenv("NCL_SCPT")
+  ncin       = getenv("NCL_FILE")
+  case       = getenv("CASE")
+  type       = getenv("TYPE")
+  tval       = getenv("NCL_TVAL")
+  nclscript  = getenv("NCL_SCRIPT")
+  nclversion = getenv("NCL_VERSION")
+  prochost   = getenv("PROCHOST") 
 ;--------------------------------------------------------------------
 ; Define global attributes
 ;--------------------------------------------------------------------
@@ -34,128 +22,13 @@ begin
 ;--------------------------------------------------------------------
 ; Set various attributes
 ;--------------------------------------------------------------------
-  parent  = ""
-  year1   = ""
-  machine = ""
   forcing = ""
   expid   = ""
-  attributes_ccsm(case,glbAtt,parent,year1,machine,forcing,expid)
-;--------------------------------------------------------------------
-; Read input file
-;--------------------------------------------------------------------
-  in_file = addfile (ncin,"r")
-;--------------------------------------------------------------------
-; Read input file coordinates
-;--------------------------------------------------------------------
-  time = in_file->time
-  date = in_file->date
-  lat  = in_file->lat
-  lev  = (/in_file->lev/)
-  ilev = (/in_file->ilev/)
-  lon  = in_file->lon
-  nlon = dimsizes(lon)
-  nlat = dimsizes(lat)
-  nlev = dimsizes(lev)
-  ntim = dimsizes(time)
-  nbnd = 2
-;--------------------------------------------------------------------
-; Calculate lon/lat bounds
-; Note that bound(X,1) is the same as bound(X-1,2)
-;-----------------------------------------------------------------
-  lat_bnds  = new((/nlat,nbnd/),double)
-  lat_bnds(0,0)      = -90.
-  lat_bnds(nlat-1,1) =  90.
-  do j = 0,nlat-2
-    lat_bnds(j,1) = ((lat(j)+lat(j+1))/2.)
-  end do
-  do j = 1,nlat-1
-    lat_bnds(j,0) =  lat_bnds(j-1,1)
-  end do
-  lon_bnds  = new((/nlon,nbnd/),double)
-  lon_bnds(0,     0) = (lon(0) - ((lon(1)-lon(0))/2.))
-  lon_bnds(nlon-1,1) = (lon(nlon-1) + ((lon(nlon-1)-lon(nlon-2))/2.))
-  do i = 0,nlon-2
-    lon_bnds(i,1) = ((lon(i)+lon(i+1))/2.)
-  end do
-  do i = 1,nlon-1
-    lon_bnds(i,0) =  lon_bnds(i-1,1)
-  end do
-;--------------------------------------------------------------------
-; Calculate time bounds
-; Note that bound(X,1) is the same as bound(X-1,2)
-;--------------------------------------------------------------------
-; Month beg, month end, in terms of day-of-year
-;-----------------------------------------------------------------
-  mbeg = (/  1, 32, 60, 91,121,152,182,213,244,274,305,335/)
-  mend = (/ 31, 59, 90,120,151,181,212,243,273,304,334,365/)
-  time_bnds = new((/ntim,nbnd/),double)
-  tnew      = new((/ntim/),double)
-  do n = 0,ntim-1
-    iyr = date(n)/10000
-    imn = (date(n)-(iyr*10000))/100
-    if (imn.eq.1) then
-      iyr = iyr - 1
-      imn = 12
-    else
-      imn = imn - 1
-    end if
-    time_bnds(n,0) = ((iyr*365)+mbeg(imn-1))-1
-    time_bnds(n,1) = ((iyr*365)+mend(imn-1))
-    tnew(n) = (time_bnds(n,0)+time_bnds(n,1))/2
-  end do
-  del_FillValue(tnew)
-  del_FillValue(time_bnds)
-  del_FillValue(lat_bnds)
-  del_FillValue(lon_bnds)
-  lat@bounds  = "lat_bnds"
-  lon@bounds  = "lon_bnds"
-  tnew@bounds = "time_bnds"
-;--------------------------------------------------------------------
-; Fields needed for vertical interpolation to IPCC pressure levels
-;--------------------------------------------------------------------
-  hyam = in_file->hyam
-  hybm = in_file->hybm
-  hyai = in_file->hyai
-  hybi = in_file->hybi
-  ps   = in_file->PS
-;  P0mb = dble2flt(0.01*in_file->P0)
-  P0mb = new(1,float)
-  del_FillValue(P0mb)
-  P0mb = 0.01*(/dble2flt(in_file->P0)/)
-  phis = in_file->PHIS
-  if (isfilevar(in_file, "TEMP")) then
-    tbot = in_file->TEMP(:,nlev-1,:,:)
-  end if
-  if (isfilevar(in_file, "T")) then
-    tbot = in_file->T(:,nlev-1,:,:)
-  end if
-;--------------------------------------------------------------------
-; IPCC-required pressure levels
-;--------------------------------------------------------------------
-  plev               = (/1000.,925.,850.,700.,600.,500.,400.,300.,250.,200.,\
-                          150.,100., 70., 50., 30.,20., 10./)
-  plev@long_name     = "pressure"
-; units are hPa at this point but will be written as Pa
-  plev@units	     = "Pa"
-  plev@standard_name = "air_pressure"
-  plev@positive      = "down"
-  plev@axis          = "Z"
-  plev!0             = "plev"
-  plev&plev          = plev
-  nplev              = dimsizes(plev)
-;--------------------------------------------------------------------
-; Read input field(s), using IPCC required fields as parser
-;--------------------------------------------------------------------
-  table              = "A1"
-  height = 2.d0
-  height!0 = "ncl_scalar"
-  height@standard_name = "height"
-  height@long_name = "height"
-  height@units = "m"
-  height@axis = "Z"
-  height@positive = "up"
-  del_FillValue(height)
-
+  attributes_ccsm(case,glbAtt,expid)
+;
+  table   = "A1"
+  glbAtt@table_id = "Table "+table
+;
   ipcc_vars = (/"psl","pr","tas","tasmin","tasmax","tauu","tauv",\
                 "rlds","rlus","rsds","rsus","ts","ps","prsn","prc",\
                 "prw","huss","rsdt","snd","hfls","hfss",\
@@ -171,8 +44,6 @@ begin
         raw@original_name  = "PSL"
         raw@original_units = raw@units
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."pr") then
@@ -184,8 +55,6 @@ begin
         raw@original_units = "m-1 s-1"
         raw@units          = "kg m-2 s-1"
         raw@history        = "(PRECC+PRECL)*r[h2o]"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."tas") then
@@ -196,8 +65,6 @@ begin
         raw@original_units = raw@units
         raw@coordinates	 = "height"
         raw@history        = "Added height coordinate"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."tasmin") then
@@ -209,8 +76,6 @@ begin
         raw@coordinates	 = "height"
         raw@history        = "Added height coordinate"
         raw@cell_methods   = "time: minimum within days time: mean over days"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."tasmax") then
@@ -222,8 +87,6 @@ begin
         raw@coordinates	 = "height"
         raw@history        = "Added height coordinate"
         raw@cell_methods   = "time: maximum within days time: mean over days"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."tauu") then
@@ -234,8 +97,6 @@ begin
         raw@original_units = raw@units
         raw@units          = "N m-2"
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."tauv") then
@@ -246,8 +107,6 @@ begin
         raw@original_units = raw@units
         raw@units          = "N m-2"
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
 ;    if (ipcc_vars(v).eq."snd") then
@@ -257,24 +116,16 @@ begin
 ;        raw@original_name  = "SNOWHLND"
 ;        raw@original_units = raw@units
 ;        raw@history        = "No change"
-;        glbAtt@table_id    = "Table "+table
-;        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
 ;      end if
 ;    end if
     if (ipcc_vars(v).eq."hfls") then
-      if ((isfilevar(in_file,"QFLX")).and.\
-          (isfilevar(in_file,"PRECC")).and.\
-          (isfilevar(in_file,"PRECL"))) then
-        raw                = in_file->QFLX
-        raw                = ((latent_ht_v+latent_ht_f)*in_file->QFLX)-\
-                            (latent_ht_f*1000*(in_file->PRECC+in_file->PRECL))
+      if (isfilevar(in_file,"LHFLX")) then
+        raw                = in_file->LHFLX
         raw@standard_name  = "surface_upward_latent_heat_flux"
-        raw@original_name  = "QFLX,PRECC,PRECL"
+        raw@original_name  = "LHFLX"
         raw@original_units = "W m-2"
         raw@units          = "W m-2"
-        raw@history        = "((Lv+Lf)*QFLX-(Lf*(r[h2o]*(PRECC+PRECL))"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
+        raw@history        = "No change"
       end if
     end if
     if (ipcc_vars(v).eq."hfss") then
@@ -285,8 +136,6 @@ begin
         raw@original_units = "W m-2"
         raw@units          = "W m-2"
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."rlds") then
@@ -298,8 +147,6 @@ begin
         raw@original_units = "K,W m-2"
         raw@units          = "W m-2"
         raw@history        = "SB*TS^4-FLNS"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."rlus") then
@@ -311,8 +158,6 @@ begin
         raw@original_units = "K"
         raw@units          = "W m-2"
         raw@history        = "SB*TS^4"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."rsds") then
@@ -323,8 +168,6 @@ begin
         raw@original_units = raw@units
         raw@units          = "W m-2"
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."rsus") then
@@ -336,8 +179,6 @@ begin
         raw@original_units = "W m-2"
         raw@units          = "W m-2"
         raw@history        = "FSDS-FSNS"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."ts") then
@@ -347,8 +188,6 @@ begin
         raw@original_name  = "TS"
         raw@original_units = raw@units
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."ps") then
@@ -358,8 +197,6 @@ begin
         raw@original_name  = "PS"
         raw@original_units = raw@units
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."prsn") then
@@ -371,8 +208,6 @@ begin
         raw@original_units = "m-1 s-1"
         raw@units          = "kg m-2 s-1"
         raw@history        = "(PRECSC+PRECSL)*r[h2o]"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."prc") then
@@ -384,8 +219,6 @@ begin
         raw@original_units = "m-1 s-1"
         raw@units          = "kg m-2 s-1"
         raw@history        = "PRECC*r[h2o]"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."prw") then
@@ -396,8 +229,6 @@ begin
         raw@original_units = raw@units
         raw@units          = "kg m-2"
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."huss") then
@@ -412,8 +243,6 @@ begin
         raw@note   	 = "Use 'huss' with caution. There are incorrect values over"+n1+\
                            " Antarctica in January. This data is from the CCSM3 model"+n1+\
                            " coupler code, not the atmospheric model code."
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."rsdt") then
@@ -424,8 +253,6 @@ begin
         raw@original_units = raw@units
         raw@units          = "W m-2"
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."rsut") then
@@ -437,8 +264,6 @@ begin
         raw@original_units = "W m-2"
         raw@units          = "W m-2"
         raw@history        = "SOLIN-FSNTOA"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."rlut") then
@@ -449,21 +274,17 @@ begin
         raw@original_units = raw@units
         raw@units          = "W m-2"
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."rtmt") then
-      if ((isfilevar(in_file,"FLUT")).and.(isfilevar(in_file,"FSNTOA"))) then
-        raw                = in_file->FSNTOA
-        raw                = in_file->FSNTOA-in_file->FLUT
+      if ((isfilevar(in_file,"FSNT")).and.(isfilevar(in_file,"FLNT"))) then
+        raw                = in_file->FSNT
+        raw                = in_file->FSNT-in_file->FLNT
         raw@standard_name  = "net_downward_radiative_flux_at_top_of_atmosphere_model"
-        raw@original_name  = "FSNTOA,FLUT"
+        raw@original_name  = "FSNT,FLNT"
         raw@original_units = "W m-2"
         raw@units          = "W m-2"
-        raw@history        = "FSNTOA-FLUT"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
+        raw@history        = "FSNT-FLNT"
       end if
     end if
     if (ipcc_vars(v).eq."rsdscs") then
@@ -474,8 +295,6 @@ begin
         raw@original_units = raw@units
         raw@units          = "W m-2"
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."rsuscs") then
@@ -487,8 +306,6 @@ begin
         raw@original_units = "W m-2"
         raw@units          = "W m-2"
         raw@history        = "FSDSC-FSNSC"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."rldscs") then
@@ -500,8 +317,6 @@ begin
         raw@original_units = "K,W m-2"
         raw@units          = "W m-2"
         raw@history        = "SB*TS^4-FLNSC"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."rlutcs") then
@@ -512,8 +327,6 @@ begin
         raw@original_units = raw@units
         raw@units          = "W m-2"
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."rsutcs") then
@@ -525,8 +338,6 @@ begin
         raw@original_units = "W m-2"
         raw@units          = "W m-2"
         raw@history        = "SOLIN-FSNTOAC"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."clt") then
@@ -538,8 +349,6 @@ begin
         raw@original_units = "fraction"
         raw@units          = "percent"
         raw@history        = "CLDTOT*100"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."clwvi") then
@@ -551,8 +360,6 @@ begin
         raw@original_units = "g m-2"
         raw@units          = "kg m-2"
         raw@history        = "TGCLDLWP/g2kg"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."clivi") then
@@ -564,8 +371,6 @@ begin
         raw@original_units = "g m-2"
         raw@units          = "kg m-2"
         raw@history        = "TGCLDIWP/g2kg"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
      end if
    end if
    if (ipcc_vars(v).eq."ta") then
@@ -588,8 +393,6 @@ begin
       raw@original_units = "K"
       raw@units          = "K"
       raw@history        = "Interpolated T with NCL 'vinth2p_ecmwf'"
-      glbAtt@table_id    = "Table "+table
-      nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
     end if
     if (ipcc_vars(v).eq."cl") then
       if (isfilevar(in_file, "CLOUD")) then
@@ -604,8 +407,6 @@ begin
         raw@original_units = "fraction"
         raw@history        = "CLOUD*100"
         raw@units          = "percent"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
         ps@standard_name   = "surface_air_pressure"
         ps@original_name   = "PS"
         ps@original_units  = ps@units
@@ -626,8 +427,6 @@ begin
         raw@original_units = "m s-1"
         raw@units          = "m s-1"
         raw@history        = "Interpolated U with NCL 'vinth2p_ecmwf'"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."va") then
@@ -645,8 +444,6 @@ begin
         raw@original_units = "m s-1"
         raw@units          = "m s-1"
         raw@history        = "Interpolated V with NCL 'vinth2p_ecmwf'"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."hus") then
@@ -664,8 +461,6 @@ begin
         raw@original_units = "kg kg-1"
         raw@units          = "1"
         raw@history        = "Interpolated Q with NCL 'vinth2p_ecmwf'"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."wap") then
@@ -683,8 +478,6 @@ begin
         raw@original_units = "Pa s-1"
         raw@units          = "Pa s-1"
         raw@history        = "Interpolated OMEGA with NCL 'vinth2p_ecmwf'"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."zg") then
@@ -702,8 +495,6 @@ begin
         raw@original_units = "m"
         raw@units          = "m"
         raw@history        = "Interpolated Z3 with NCL 'vinth2p_ecmwf'"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."hur") then
@@ -721,8 +512,6 @@ begin
         raw@original_units = "percent"
         raw@units          = "percent"
         raw@history        = "Interpolated RELHUM with NCL 'vinth2p_ecmwf'"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."tro3") then
@@ -740,8 +529,6 @@ begin
         raw@original_units = "fraction"
         raw@units          = "1e-9"
         raw@history        = "Interpolated O3 with NCL 'vinth2p_ecmwf'"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
 
@@ -754,12 +541,12 @@ begin
       raw@cell_methods   = "time: mean (interval: 1 month)"
       raw@_FillValue     = 1.e+20
       raw@missing_value  = 1.e+20
-      raw@comment        = "Created using NCL code "+scpt+" on"+n1+\
-                          " machine "+systemfunc("hostname")
 ;--------------------------------------------------------------------
 ; Create output file
 ; [file name as per requirements document]
 ;--------------------------------------------------------------------
+      now = systemfunc("date '+%y%m%d'")
+      nccf = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+type+"."+tval+"_c"+now+".nc"
       system("csh -c 'rm -f "+nccf+"'")
       cf_file = addfile(nccf, "c")
       fileattdef(cf_file, glbAtt)

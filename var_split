@@ -1,4 +1,4 @@
-#!/bin/csh -f
+#!/bin/sh
 #
 # See http://www.cgd.ucar.edu/~njn01/ccsm/draft.html
 #
@@ -7,161 +7,158 @@
 # Output filenames of forms:
 # b30.030e.pop.h.TEMP.1870-01.nc (monthly average of TEMP, only)
 #
-if ("$#argv" == 0) then
+if [ $# -eq 0 ] ; then
    echo "Usage: ccsm_var_split file [erase]"
    echo "2 args means erase file after fields extracted."
    exit 1
-else if ("$#argv" == 1) then
-   set file = $argv[1]
-else if ("$#argv" == 2) then
-   set file = $argv[1]
+elif [ $# -eq 1 ] ; then
+   FILE=$1
+elif [ $# -eq 2 ] ; then
+   FILE=$1
 else
    echo "Usage: ccsm_var_split file [erase]"
    echo "2 args means erase file after fields extracted."
    exit 1
-endif
+fi
 #
-if !(-f ${file}) then
-   echo $file "not found. Exit."
+if [ ! -f $FILE ] ; then
+   echo $FILE "not found. Exit."
    exit 1
-endif
+fi
+# 
+# Check for ncks
 #
-# Get correct NCO binaries
+if [ ! $NCKS ] ; then
+   TEST4NCKS=`which ncks 2<&1 >& /dev/null`
+   if [ $? -eq 0 ] ; then
+     NCKS=`which ncks`
+   else
+     echo "NCKS not in PATH - UNDEFINED"
+     exit 1
+   fi
+fi
 #
-set machine = `hostname`
-switch($machine)
-  case "mineral*":                                # mineral @ CGD/NCAR
-    set ccps_ncks   = /usr/local/bin/ncks
-    set ccps_ncrcat = /usr/local/bin/ncrcat
-  breaksw
-  case "davinci*":                                # davinci @ NERSC
-    set ccps_ncks   = /usr/common/homes/s/strandwg/bin/ncks
-    set ccps_ncrcat = /usr/common/homes/s/strandwg/bin/ncrcat
-  breaksw
-  case "lens*":                                # lens @ ORNL
-    set ccps_ncks   = /ccs/home/wgstrand/bin/ncks
-    set ccps_ncrcat = /ccs/home/wgstrand/bin/ncrcat
-  breaksw
-endsw
-#
-setenv CCPS_NCKS   ${ccps_ncks}
-setenv CCPS_NCRCAT ${ccps_ncrcat}
-#
-set chek   = `echo $file | cut -d"." -f3 | cut -c1-2`
-if (${chek} == "ES") then
-  set outfp0 = `echo $file | cut -d"." -f1-5`
-  set outfp1 = `echo $file | cut -d"." -f6-`
+CHEK=`echo $FILE | cut -d"." -f3 | cut -c1-2`
+if [ "$CHEK" = "ES" ] ; then
+  OUTPFX=`echo $FILE | cut -d"." -f1-5`
+  OUTSFX=`echo $FILE | cut -d"." -f6-`
 else
-  set outfp0 = `echo $file | cut -d"." -f1-4`
-  set outfp1 = `echo $file | cut -d"." -f5-`
-endif
+  OUTPFX=`echo $FILE | cut -d"." -f1-4`
+  OUTSFX=`echo $FILE | cut -d"." -f5-`
+fi
 #
-set d0vars = `$CCPS_NCKS -m ${file} | egrep "# dim\. = 0" | cut -d":" -f1`
-set d1vars = `$CCPS_NCKS -m ${file} | egrep "# dim\. = 1" | cut -d":" -f1`
-set d2vars = `$CCPS_NCKS -m ${file} | egrep "# dim\. = 2" | cut -d":" -f1`
-set d3vars = `$CCPS_NCKS -m ${file} | egrep "# dim\. = 3" | cut -d":" -f1`
-set d4vars = `$CCPS_NCKS -m ${file} | egrep "# dim\. = 4" | cut -d":" -f1`
-set d5vars = `$CCPS_NCKS -m ${file} | egrep "# dim\. = 5" | cut -d":" -f1`
+D0VARS=`$NCKS -m $FILE | egrep "# dim\. = 0" | cut -d":" -f1`
+D1VARS=`$NCKS -m $FILE | egrep "# dim\. = 1" | cut -d":" -f1`
+D2VARS=`$NCKS -m $FILE | egrep "# dim\. = 2" | cut -d":" -f1`
+D3VARS=`$NCKS -m $FILE | egrep "# dim\. = 3" | cut -d":" -f1`
+D4VARS=`$NCKS -m $FILE | egrep "# dim\. = 4" | cut -d":" -f1`
+D5VARS=`$NCKS -m $FILE | egrep "# dim\. = 5" | cut -d":" -f1`
 #
 # Get auxiliary header fields
 #
-if (`echo ${d2vars} | wc -c` != 0) then
-  if (`echo ${d1vars} | wc -c` != 0) then
-    if (`echo ${d0vars} | wc -c` != 0) then
-      set d0head = `echo $d0vars | sed -e 's/ /,/g'`
-      set d1head = `echo $d1vars | sed -e 's/ /,/g'`
-      set d2head = `echo $d2vars | sed -e 's/ /,/g'`
-      set header = `echo $d0head","$d1head","$d2head | sed -e 's/^,//g'`
+if [ `echo $D2VARS | wc -w` -ne 0 ] ; then
+  if [ `echo $D1VARS | wc -w` -ne 0 ] ; then
+    if [ `echo $D0VARS | wc -w` -ne 0 ] ; then
+      D0HEAD=`echo $D0VARS | sed -e 's/ /,/g'`
+      D1HEAD=`echo $D1VARS | sed -e 's/ /,/g'`
+      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D0HEAD","$D1HEAD","$D2HEAD | sed -e 's/^,//g'`
     else
-      set d1head = `echo $d1vars | sed -e 's/ /,/g'`
-      set d2head = `echo $d2vars | sed -e 's/ /,/g'`
-      set header = `echo $d1head","$d2head | sed -e 's/^,//g'`
-    endif
+      D1HEAD=`echo $D1VARS | sed -e 's/ /,/g'`
+      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D1HEAD","$D2HEAD | sed -e 's/^,//g'`
+    fi
   else
-    if (`echo ${d0vars} | wc -c` != 0) then
-      set d0head = `echo $d0vars | sed -e 's/ /,/g'`
-      set d2head = `echo $d2vars | sed -e 's/ /,/g'`
-      set header = `echo $d0head","$d2head | sed -e 's/^,//g'`
+    if [ `echo $D0VARS | wc -w` -ne 0 ] ; then
+      D0HEAD=`echo $D0VARS | sed -e 's/ /,/g'`
+      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D0HEAD","$D2HEAD | sed -e 's/^,//g'`
     else
-      set d2head = `echo $d2vars | sed -e 's/ /,/g'`
-      set header = `echo $d2head | sed -e 's/^,//g'`
-    endif
-  endif
+      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D2HEAD | sed -e 's/^,//g'`
+    fi
+  fi
 else
-  if (`echo ${d1vars} | wc -c` != 0) then
-    if (`echo ${d0vars} | wc -c` != 0) then
-      set d0head = `echo $d0vars | sed -e 's/ /,/g'`
-      set d1head = `echo $d1vars | sed -e 's/ /,/g'`
-      set header = `echo $d0head","$d1head | sed -e 's/^,//g'`
+  if [ `echo $D1VARS | wc -w` -ne 0 ] ; then
+    if [ `echo $D0VARS | wc -w` -ne 0 ] ; then
+      D0HEAD=`echo $D0VARS | sed -e 's/ /,/g'`
+      D1HEAD=`echo $D1VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D0HEAD","$D1HEAD | sed -e 's/^,//g'`
     else
-      set d1head = `echo $d1vars | sed -e 's/ /,/g'`
-      set header = `echo $d1head | sed -e 's/^,//g'`
-    endif
+      D1HEAD=`echo $D1VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D1HEAD | sed -e 's/^,//g'`
+    fi
   else
-    if (`echo ${d0vars} | wc -c` != 0) then
-      set d0head = `echo $d0vars | sed -e 's/ /,/g'`
-      set header = `echo $d0head | sed -e 's/^,//g'`
+    if [ `echo $D0VARS | wc -w` -ne 0 ] ; then
+      D0HEAD=`echo $D0VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D0HEAD | sed -e 's/^,//g'`
     else
-      set d2head = `echo $d2vars | sed -e 's/ /,/g'`
-      set header = `echo $d2head | sed -e 's/^,//g'`
-    endif
-  endif
-endif
+      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D2HEAD | sed -e 's/^,//g'`
+    fi
+  fi
+fi
 #
 # Get variable fields
 #
-if (`echo ${d3vars} | wc -c` != 0) set fields3d = `echo $d3vars`
-if (`echo ${d4vars} | wc -c` != 0) set fields4d = `echo $d4vars`
-if (`echo ${d5vars} | wc -c` != 0) set fields5d = `echo $d5vars`
+if [ `echo $D3VARS | wc -w` -ne 0 ] ; then
+  FIELDS3D=`echo $D3VARS`
+fi
+if [ `echo $D4VARS | wc -w` -ne 0 ] ; then
+  FIELDS4D=`echo $D4VARS`
+fi
+if [ `echo $D5VARS | wc -w` -ne 0 ] ; then
+  FIELDS5D=`echo $D5VARS`
+fi
 #
 # 3D vars
 #
-if (`echo ${fields3d} | wc -c` != 0) then
-  foreach f ( `echo $fields3d` )
-    if !(-d ${f}_3d.d) then
+if [ `echo $FIELDS3D | wc -w` -ne 0 ] ; then
+  for f in $FIELDS3D ; do
+    if [ ! -d ${f}_3d.d ] ; then
       mkdir ${f}_3d.d
-    endif
-    set out = ${f}_3d.d/${outfp0}.${f}.${outfp1}
-    $CCPS_NCKS -h -O -v ${header},${f} ${file} ${out}
-    if ($status != 0) then
-      echo "$CCPS_NCKS -h -O -v ${header},${f} ${file} ${out} failed"
+    fi
+    OUT=${f}_3d.d/${OUTPFX}.${f}.${OUTSFX}
+    $NCKS -O -v ${HEADER},${f} $FILE $OUT
+    if [ $? -ne 0 ] ; then
+      echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
       exit 1
-    endif
-  end
-endif
+    fi
+  done
+fi
 #
 # 4D vars
 #
-if (`echo ${fields4d} | wc -c` != 0) then
-  foreach f ( `echo $fields4d` )
-    if !(-d ${f}_4d.d) then
+if [ `echo $FIELDS4D | wc -w` -ne 0 ] ; then
+  for f in $FIELDS4D ; do
+    if [ ! -d ${f}_4d.d ] ; then
       mkdir ${f}_4d.d
-    endif
-    set out = ${f}_4d.d/${outfp0}.${f}.${outfp1}
-    $CCPS_NCKS -h -O -v ${header},${f} ${file} ${out}
-    if ($status != 0) then
-      echo "$CCPS_NCKS -h -O -v ${header},${f} ${file} ${out} failed"
+    fi
+    OUT=${f}_4d.d/${OUTPFX}.${f}.${OUTSFX}
+    $NCKS -O -v ${HEADER},${f} $FILE $OUT
+    if [ $? -ne 0 ] ; then
+      echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
       exit 1
-    endif
-  end
-endif
+    fi
+  done
+fi
 #
 # 5D vars
 #
-if (`echo ${fields5d} | wc -c` != 0) then
-  foreach f ( `echo $fields5d` )
-    if !(-d ${f}_5d.d) then
+if [ `echo $FIELDS5D | wc -w` -ne 0 ] ; then
+  for f in $FIELDS5D ; do
+    if [ ! -d ${f}_5d.d ] ; then
       mkdir ${f}_5d.d
-    endif
-    set out = ${f}_5d.d/${outfp0}.${f}.${outfp1}
-    $CCPS_NCKS -h -O -v ${header},${f} ${file} ${out}
-    if ($status != 0) then
-      echo "$CCPS_NCKS -h -O -v ${header},${f} ${file} ${out} failed"
+    fi
+    OUT=${f}_5d.d/${OUTPFX}.${f}.${OUTSFX}
+    $NCKS -O -v ${HEADER},${f} $FILE $OUT
+    if [ $? -ne 0 ] ; then
+      echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
       exit 1
-    endif
-  end
-endif
+    fi
+  done
+fi
 #
-if ("$#argv" == 2) rm -f ${file}
-#
-exit
+if [ $# -gt 1 ] ; then
+  rm -f $FILE
+fi

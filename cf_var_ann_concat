@@ -1,43 +1,51 @@
-#!/bin/csh -f
+#!/bin/sh
 #
 # Concatenate months of IPCC netCDF files into years
 #
-if ("$#argv" != 0) then
+if [ $# -ne 0 ] ; then
    echo "Usage: cf_var_ann_concat"
    exit 1
-endif
+fi
+# 
+# Check for ncrcat
 #
-set vars   = `ls | egrep '\.nc$' | cut -d"_" -f1 | uniq`
-if ($status == 0) then
-  set table  = `ls | egrep '\.nc$' | cut -d"_" -f2 | cut -d"." -f1 | sort | uniq`
-  set expids = `ls | egrep '\.nc$' | cut -d"." -f2 | sort | uniq`
-  set model  = `ls | egrep '\.nc$' | cut -d"." -f3 | sort | uniq`
-  set comp   = `ls | egrep '\.nc$' | cut -d"." -f4 | sort | uniq`
-  set years  = `ls | egrep '\.nc$' | cut -d"." -f5 | cut -c1-4 | sort | uniq`
+if [ ! $NCRCAT ] ; then
+   TEST4NCRCAT=`which ncrcat 2<&1 >& /dev/null`
+   if [ $? -eq 0 ] ; then
+     NCRCAT=`which ncrcat`
+   else
+     echo "NCRCAT not in PATH - UNDEFINED"
+     exit 1
+   fi
+fi
 #
-  foreach v (${vars})
-    foreach t (${table})
-      foreach e (${expids})
-        foreach y (${years})
-          foreach m (${model})
-            foreach c (${comp})
-              if (-f ${v}_${t}.${e}.${m}.${c}.${y}-12.nc) then
-                set num = `ls ${v}_${t}.${e}.${m}.${c}.${y}-??.nc | wc -l`
-                if (${num} == 12) then
-                  set df = ${v}_${t}.${e}.${m}.${c}.${y}.nc
-                  $CCPS_NCRCAT -h -O ${v}_${t}.${e}.${m}.${c}.${y}-??.nc ${df}
-                  if ($status == 0) then
-                    rm -f ${v}_${t}.${e}.${m}.{$c}.${y}-??.nc
-                    echo "Completed "${df}
-                  endif
-                endif
-              endif
-            end
-          end
-        end
-      end
-    end
-  end
-endif
+VARS=`ls | egrep '\.nc$' | cut -d"_" -f1 | uniq`
+if [ $? -eq 0 ] ; then
+   TABLE=`ls | egrep '\.nc$' | cut -d"_" -f2 | cut -d"." -f1 | sort | uniq`
+  EXPIDS=`ls | egrep '\.nc$' | cut -d"." -f2 | sort | uniq`
+   MODEL=`ls | egrep '\.nc$' | cut -d"." -f3 | sort | uniq`
+    COMP=`ls | egrep '\.nc$' | cut -d"." -f4 | sort | uniq`
+   YEARS=`ls | egrep '\.nc$' | cut -d"." -f5 | cut -c1-4 | sort | uniq`
 #
-exit
+  for v in $VARS ; do
+    for t in $TABLE ; do
+      for e in $EXPIDS ; do
+        for y in $YEARS ; do
+          for m in $MODEL ; do
+            for c in $COMP ; do
+              NUM=`ls ${v}_${t}.${e}.${m}.${c}.${y}-??*.nc | wc -l`
+              if [ $NUM -eq 12 ] ; then
+                TS=`date '+%y%m%d'`
+                DF=${v}_${t}.${e}.${m}.${c}.${y}_c${TS}.nc
+                $NCRCAT -h -O ${v}_${t}.${e}.${m}.${c}.${y}-??_*.nc $DF
+                if [ $? -eq 0 ] ; then
+                  rm -f ${v}_${t}.${e}.${m}.${c}.${y}-??_*.nc
+                fi
+              fi
+            done
+          done
+        done
+      done
+    done
+  done
+fi

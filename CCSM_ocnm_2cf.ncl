@@ -4,27 +4,17 @@ load "attributes_ccsm.ncl"
 ;******************************************************************************
 
 begin
-;--------------------------------------------------------------------
-; Constants
-;--------------------------------------------------------------------
-; Density of water, 1000 kg m-3
-  density_h2o = 1000
-; Latent heat of evaporation, J kg-1
-  latent_ht_v = 2.501e6
-; Latent heat of fusion, J kg-1
-  latent_ht_f = 3.337e5
-; grams to kilograms
-  g_to_kg     = 1000.
-;
   n1 = integertochar(10)
 ;--------------------------------------------------------------------
 ; Get input file env vars
 ;--------------------------------------------------------------------
-  ncin = getenv("CCSM_FILE")
-  case = getenv("CCSM_CASE")
-  comp = getenv("CCSM_COMP")
-  tval = getenv("CCSM_TIME")
-  scpt = getenv("NCL_SCPT")
+  ncin       = getenv("NCL_FILE")
+  case       = getenv("CASE")
+  type       = getenv("TYPE")
+  tval       = getenv("NCL_TVAL")
+  nclscript  = getenv("NCL_SCRIPT")
+  nclversion = getenv("NCL_VERSION")
+  prochost   = getenv("PROCHOST") 
 ;--------------------------------------------------------------------
 ; Define global attributes
 ;--------------------------------------------------------------------
@@ -32,16 +22,15 @@ begin
 ;--------------------------------------------------------------------
 ; Set various attributes
 ;--------------------------------------------------------------------
-  parent  = ""
-  year1   = ""
-  machine = ""
   forcing = ""
   expid   = ""
-  attributes_ccsm(case,glbAtt,parent,year1,machine,forcing,expid)
+  attributes_ccsm(case,glbAtt,expid)
 ;--------------------------------------------------------------------
 ; Define table and ipcc_vars
 ;--------------------------------------------------------------------
-  table     = "O1"
+  table           = "O1"
+  glbAtt@table_id = "Table "+table
+;
   ipcc_vars = (/"so","thetao","rhopoto","uo","vo","wo","tos","zos"/)
 ;--------------------------------------------------------------------
 ; Read input file
@@ -88,45 +77,6 @@ begin
         raw@history        = "Interpolated to regular grid from dipole grid"+n1+\
                              "SSH/100"
         raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
-      end if
-    end if
-    if (ipcc_vars(v).eq."hfogo") then
-      if (isfilevar(in_file,"N_HEAT")) then
-        raw                = (/in_file->N_HEAT(:,:,0,:)/)*1.e15
-;       Add Indo-Pacific region as global - Atlantic
-;        raw(:,2,:) = raw(:,0,:) - raw(:,1,:)
-        raw@standard_name  = "northward_ocean_heat_transport"
-        raw@original_name  = "N_HEAT"
-        raw@original_units = "PW"
-        raw@units          = "W"
-        raw@note           = "Contains only global and Atlantic basin values"+n1+\
-                             "Does not include sea ice contribution"
-        raw@history        = "N_HEAT*1.e15"
-        raw@cell_methods   = "time: mean (interval: 1 month) longitude:sum"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
-      end if
-    end if
-    if (ipcc_vars(v).eq."stfmmc") then
-      if (isfilevar(in_file,"MOC")) then
-        ntim = dimsizes(in_file->time)
-        nlat = dimsizes(in_file->lat_aux_grid)
-        ndep = dimsizes(in_file->moc_z)
-        print("T "+ntim+" Y "+nlat+" Z "+ndep)
-        raw                = new((/ntim,2,ndep,nlat/),float)
-        raw(:,0,:,:)       = (/in_file->MOC(:,0,0,:,:)/)*1.e15
-        raw(:,1,:,:)       = (/in_file->MOC(:,1,0,:,:)/)*1.e15
-;        raw(:,2,:,:)       = raw(:,0,:,:) - raw(:,1,:,:)
-        raw@standard_name  = "ocean_meridional_overturning_streamfunction"
-        raw@original_name  = "MOC"
-        raw@original_units = "Sverdrups"
-        raw@units          = "m 3 s -1"
-        raw@history        = "MOC*1.e15"
-        raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."tos") then
@@ -139,8 +89,6 @@ begin
         raw@history        = "Interpolated to regular grid from dipole grid,"+n1+\
                              "TEMP+273.15"
         raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."so") then
@@ -152,8 +100,6 @@ begin
         raw@units          = "1e-3"
         raw@history        = "Interpolated to regular grid from dipole grid"
         raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."thetao") then
@@ -166,8 +112,6 @@ begin
         raw@history        = "Interpolated to regular grid from dipole grid,"+n1+\
                              "TEMP+273.15"
         raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."rhopoto") then
@@ -180,8 +124,6 @@ begin
         raw@history        = "Interpolated to regular grid from dipole grid,"+n1+\
                              "PD*1.e3"
         raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."uo") then
@@ -194,8 +136,6 @@ begin
         raw@history        = "Interpolated and rotated to regular grid from dipole grid,"+n1+\
                              "UVEL/100"
         raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."vo") then
@@ -208,8 +148,6 @@ begin
         raw@history        = "Interpolated and rotated to regular grid from dipole grid,"+n1+\
                              "VVEL/100"
         raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."wo") then
@@ -222,8 +160,6 @@ begin
         raw@history        = "Interpolated and rotated to regular grid from dipole grid,"+n1+\
                              "WVEL/100"
         raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
 ;--------------------------------------------------------------------
@@ -233,12 +169,16 @@ begin
      raw@long_name      = raw@standard_name
      raw@_FillValue     = 1.e+20
      raw@missing_value  = 1.e+20
-     raw@comment        = "Created using NCL code "+scpt+" on"+n1+\
-                         " machine "+systemfunc("hostname")
+     raw@comment        = "Created using NCL version "+nclversion+n1+\
+                          " NCL script: "+nclscript+" on "+n1+\
+                          "processing host "+prochost+" by "+systemfunc("whoami")+" at "+n1+\
+                          systemfunc("date")
 ;--------------------------------------------------------------------
 ; Create output file
 ; [file name as per requirements document]
 ;--------------------------------------------------------------------
+     now = systemfunc("date '+%y%m%d'")
+     nccf = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+type+"."+tval+"_c"+now+".nc"
      system("csh -c 'rm -f "+nccf+"'")
      cf_file = addfile(nccf, "c")
      fileattdef(cf_file, glbAtt)
@@ -488,174 +428,6 @@ begin
         cf_file->lon = lon
         cf_file->lon_bnds = lon_bnds
         cf_file->$ipcc_vars(v)$ = raw
-      end if
-
-      if (ipcc_vars(v).eq."hfogo") then
-;--------------------------------------------------------------------
-; Read input file coordinates
-;--------------------------------------------------------------------
-        lat   = (/in_file->lat_aux_grid/)
-        lat!0 = "lat"
-        lat&lat = lat
-        nlat  = dimsizes(lat)
-;--------------------------------------------------------------------
-; Calculate Y bounds
-; Note that bound(X,1) is the same as bound(X-1,2)
-;-----------------------------------------------------------------
-        lat_bnds  = new((/nlat,nbnd/),double)
-        lat_bnds(0,0)      = lat(0)-((lat(1)-lat(0))/2.)
-        lat_bnds(nlat-1,1) =  90.
-        do j = 0,nlat-2
-          lat_bnds(j,1) = ((lat(j)+lat(j+1))/2.)
-        end do
-        do j = 1,nlat-1
-          lat_bnds(j,0) =  lat_bnds(j-1,1)
-        end do
-        delete(lat_bnds@_FillValue)
-        lat@bounds    = "lat_bnds"
-
-        var_y           = (/ "lat" /)
-        var_y_type      = (/ "double" /)
-        var_y_bnds      = (/ "lat_bnds" /)
-        var_y_bnds_type = (/ "double" /)
-        var_r           = (/ "region" /)
-        var_r_type      = (/ "character" /)
-        var_t_bnds      = (/ "time_bnds" /)
-        var_t_bnds_type = (/ "double" /)
-        var_t           = (/ "time" /)
-        var_t_type      = (/ "double" /)
-
-        dimNames = (/ "lat", "region", "strlen", "bnds", "time" /)
-        dimSizes = (/  nlat,  2,  256,     nbnd, -1     /)
-        dimUnlim = (/  False,  False, False, False, True    /)
-        filedimdef(cf_file, dimNames, dimSizes, dimUnlim )
-        filevardef(cf_file, var_y, var_y_type, (/"lat"/))
-        filevardef(cf_file, var_r, var_r_type, (/"region","strlen"/))
-        filevardef(cf_file, var_t, var_t_type, (/"time"/))
-        filevardef(cf_file, var_y_bnds, var_y_bnds_type, (/"lat","bnds"/) )
-        filevardef(cf_file, var_t_bnds, var_t_bnds_type, (/"time","bnds"/) )
-;--------------------------------------------------------------------
-; Write coordinates and their bounds to output file
-;--------------------------------------------------------------------
-
-        region = in_file->transport_regions
-        region!0 = "region"
-        region!1 = "strlen"
-        region@standard_name = "region"
-        lat@units            = "degrees_north"
-        lat@standard_name    = "latitude"
-        lat@axis             = "Y"
-;
-        raw!0        = "time"
-        raw&time     = tnew
-        tnew@bounds        = "time_bnds"
-        tnew@units         = "days since 0000-1-1"
-        tnew@axis          = "T"
-        tnew@standard_name = "time"
-        tnew@calendar      = "noleap"
-        raw!1        = "region"
-        raw!2        = "lat"
-        raw&lat      = lat
-
-        cf_file->region = region
-        cf_file->lat        = lat
-        cf_file->lat_bnds   = lat_bnds
-        cf_file->$ipcc_vars(v)$ = raw(time|:,region|::-1,lat|:)
-        delete(region)
-      end if
-
-      if (ipcc_vars(v).eq."stfmmc") then
-;--------------------------------------------------------------------
-; Read input file coordinates
-;--------------------------------------------------------------------
-        lat         = (/in_file->lat_aux_grid/)
-        lat!0       = "lat"
-        lat&lat     = lat
-        nlat        = dimsizes(lat)
-        depth       = (/in_file->moc_z/)
-        depth!0     = "depth"
-        depth&depth = depth
-        ndep        = dimsizes(depth)
-;--------------------------------------------------------------------
-; Calculate Y bounds
-; Note that bound(X,1) is the same as bound(X-1,2)
-;-----------------------------------------------------------------
-        lat_bnds  = new((/nlat,nbnd/),double)
-        lat_bnds(0,0)      = lat(0)-((lat(1)-lat(0))/2.)
-        lat_bnds(nlat-1,1) =  90.
-        do j = 0,nlat-2
-          lat_bnds(j,1) = ((lat(j)+lat(j+1))/2.)
-        end do
-        do j = 1,nlat-1
-          lat_bnds(j,0) =  lat_bnds(j-1,1)
-        end do
-        delete(lat_bnds@_FillValue)
-        lat@bounds    = "lat_bnds"
-
-        var_y           = (/ "lat" /)
-        var_y_type      = (/ "double" /)
-        var_y_bnds      = (/ "lat_bnds" /)
-        var_y_bnds_type = (/ "double" /)
-        var_z           = (/ "depth" /)
-        var_z_type      = (/ "double" /)
-        var_z_bnds      = (/ "depth_bnds" /)
-        var_z_bnds_type = (/ "double" /)
-        var_r           = (/ "region" /)
-        var_r_type      = (/ "character" /)
-        var_t_bnds      = (/ "time_bnds" /)
-        var_t_bnds_type = (/ "double" /)
-        var_t           = (/ "time" /)
-        var_t_type      = (/ "double" /)
-
-        dimNames = (/ "lat", "region", "strlen", "depth", "bnds", "time" /)
-        dimSizes = (/  nlat,        2,      256,    ndep,   nbnd,  -1    /)
-        dimUnlim = (/  False,  False, False, False, False, True    /)
-        filedimdef(cf_file, dimNames, dimSizes, dimUnlim )
-        filevardef(cf_file, var_y, var_y_type, (/"lat"/))
-        filevardef(cf_file, var_r, var_r_type, (/"region","strlen"/))
-        filevardef(cf_file, var_z, var_z_type, (/"depth"/))
-        filevardef(cf_file, var_t, var_t_type, (/"time"/))
-        filevardef(cf_file, var_y_bnds, var_y_bnds_type, (/"lat","bnds"/) )
-        filevardef(cf_file, var_z_bnds, var_z_bnds_type, (/"depth","bnds"/) )
-        filevardef(cf_file, var_t_bnds, var_t_bnds_type, (/"time","bnds"/) )
-;--------------------------------------------------------------------
-; Write coordinates and their bounds to output file
-;--------------------------------------------------------------------
-
-        region = in_file->transport_regions
-        region!0 = "region"
-        region!1 = "strlen"
-        region@standard_name = "region"
-        lat@units            = "degrees_north"
-        lat@standard_name    = "latitude"
-        lat@axis             = "Y"
-        depth@bounds         = "depth_bnds"
-        depth@units          = "m"
-        depth@positive       = "down"
-        depth@standard_name  = "depth"
-        depth@units          = "m"
-        depth@axis           = "Z"
-
-        raw!0        = "time"
-        raw!1        = "region"
-        raw!2        = "depth"
-        raw!3        = "lat"
-;
-        raw&time           = tnew
-        tnew@bounds        = "time_bnds"
-        tnew@units         = "days since 0000-1-1"
-        tnew@axis          = "T"
-        tnew@standard_name = "time"
-        tnew@calendar      = "noleap"
-        raw&lat      = lat
-
-        cf_file->region   = region
-        cf_file->lat      = lat
-        cf_file->lat_bnds = lat_bnds
-        cf_file->depth      = depth
-        cf_file->depth_bnds = depth_bnds
-        cf_file->$ipcc_vars(v)$ = raw
-        delete(region)
       end if
 
       cf_file->time      = tnew

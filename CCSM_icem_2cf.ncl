@@ -4,27 +4,17 @@ load "attributes_ccsm.ncl"
 ;******************************************************************************
 
 begin
-;--------------------------------------------------------------------
-; Constants
-;--------------------------------------------------------------------
-; Density of water, 1000 kg m-3
-  density_h2o = 1000
-; Latent heat of evaporation, J kg-1
-  latent_ht_v = 2.501e6
-; Latent heat of fusion, J kg-1
-  latent_ht_f = 3.337e5
-; grams to kilograms
-  g_to_kg     = 1000.
-;
   n1 = integertochar(10)
 ;--------------------------------------------------------------------
 ; Get input file env vars
 ;--------------------------------------------------------------------
-  ncin = getenv("CCSM_FILE")
-  case = getenv("CCSM_CASE")
-  comp = getenv("CCSM_COMP")
-  tval = getenv("CCSM_TIME")
-  scpt = getenv("NCL_SCPT")
+  ncin       = getenv("NCL_FILE")
+  case       = getenv("CASE")
+  type       = getenv("TYPE")
+  tval       = getenv("NCL_TVAL")
+  nclscript  = getenv("NCL_SCRIPT")
+  nclversion = getenv("NCL_VERSION")
+  prochost   = getenv("PROCHOST") 
 ;--------------------------------------------------------------------
 ; Define global attributes
 ;--------------------------------------------------------------------
@@ -32,16 +22,15 @@ begin
 ;--------------------------------------------------------------------
 ; Set various attributes
 ;--------------------------------------------------------------------
-  parent  = ""
-  year1   = ""
-  machine = ""
   forcing = ""
   expid   = ""
-  attributes_ccsm(case,glbAtt,parent,year1,machine,forcing,expid)
+  attributes_ccsm(case,glbAtt,expid)
 ;--------------------------------------------------------------------
 ; Define table and ipcc_vars
 ;--------------------------------------------------------------------
-  table     = "O1"
+  table           = "O1"
+  glbAtt@table_id = "Table "+table
+;
   ipcc_vars = (/"sic","sit","usi","vsi"/)
 ;--------------------------------------------------------------------
 ; Read input file
@@ -71,9 +60,6 @@ begin
   time_bnds(0:ntim-1,0) = ((iyr*365)+mbeg(jmn)-1)
   time_bnds(0:ntim-1,1) = ( iyr*365)+mend(jmn)
   tnew = (time_bnds(:,0)+time_bnds(:,1))/2
-  do n = 0,ntim-1
-    print(time_bnds(n,0)+" "+tnew(n)+" "+time_bnds(n,1))
-  end do
   delete(tnew@_FillValue)
   delete(time_bnds@_FillValue)
 ;--------------------------------------------------------------------
@@ -91,8 +77,6 @@ begin
         raw@units          = "%"
         raw@history        = "Interpolated to regular grid from dipole grid"
         raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."sit") then
@@ -105,8 +89,6 @@ begin
         raw@units          = "m"
         raw@history        = "Interpolated to regular grid from dipole grid"
         raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."usi") then
@@ -119,8 +101,6 @@ begin
         raw@units          = "m s-1"
         raw@history        = "Interpolated and rotated to regular grid from dipole grid"+n1+"u/100"
         raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."vsi") then
@@ -133,8 +113,6 @@ begin
         raw@units          = "m s-1"
         raw@history        = "Interpolated and rotated to regular grid from dipole grid"+n1+"v/100"
         raw@cell_methods   = "time: mean (interval: 1 month)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
 ;--------------------------------------------------------------------
@@ -144,12 +122,16 @@ begin
      raw@long_name      = raw@standard_name
      raw@_FillValue     = 1.e+20
      raw@missing_value  = 1.e+20
-     raw@comment        = "Created using NCL code "+scpt+" on"+n1+\
-                         " machine "+systemfunc("hostname")
+     raw@comment        = "Created using NCL version "+nclversion+n1+\
+                          " NCL script: "+nclscript+" on "+n1+\
+                          "processing host "+prochost+" by "+systemfunc("whoami")+" at "+n1+\
+                          systemfunc("date")
 ;--------------------------------------------------------------------
 ; Create output file
 ; [file name as per requirements document]
 ;--------------------------------------------------------------------
+     now = systemfunc("date '+%y%m%d'")
+     nccf = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+type+"."+tval+"_c"+now+".nc"
      system("csh -c 'rm -f "+nccf+"'")
      cf_file = addfile(nccf, "c")
      fileattdef(cf_file, glbAtt)

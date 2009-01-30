@@ -1,30 +1,20 @@
-;********************************************************************************
+;******************************************************************************
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
 load "attributes_ccsm.ncl"
-;********************************************************************************
+;******************************************************************************
 
 begin
-;--------------------------------------------------------------------
-; Constants
-;--------------------------------------------------------------------
-; Density of water, 1000 kg m-3
-  density_h2o = 1000
-; Latent heat of evaporation, J kg-1
-  latent_ht_v = 2.501e6
-; Latent heat of fusion, J kg-1
-  latent_ht_f = 3.337e5
-; Stefan-Boltzmann constant, W m-2 K-4
-  sb          = 5.67E-8 
-;
   n1 = integertochar(10)
 ;--------------------------------------------------------------------
 ; Get input file env vars
 ;--------------------------------------------------------------------
-  ncin = getenv("CCSM_FILE")
-  case = getenv("CCSM_CASE")
-  comp = getenv("CCSM_COMP")
-  tval = getenv("CCSM_TIME")
-  scpt = getenv("NCL_SCPT")
+  ncin       = getenv("NCL_FILE")
+  case       = getenv("CASE")
+  type       = getenv("TYPE")
+  tval       = getenv("NCL_TVAL")
+  nclscript  = getenv("NCL_SCRIPT")
+  nclversion = getenv("NCL_VERSION")
+  prochost   = getenv("PROCHOST") 
 ;--------------------------------------------------------------------
 ; Define global attributes
 ;--------------------------------------------------------------------
@@ -32,12 +22,12 @@ begin
 ;--------------------------------------------------------------------
 ; Set various attributes
 ;--------------------------------------------------------------------
-  parent  = ""
-  year1   = ""
-  machine = ""
   forcing = ""
   expid   = ""
-  attributes_ccsm(case,glbAtt,parent,year1,machine,forcing,expid)
+  attributes_ccsm(case,glbAtt,expid)
+;
+  table   = "A2"
+  glbAtt@table_id = "Table "+table
 ;--------------------------------------------------------------------
 ; Read input file
 ;--------------------------------------------------------------------
@@ -138,9 +128,6 @@ begin
   nplev              = dimsizes(plev)
 ;--------------------------------------------------------------------
 ; Read input field(s), using IPCC required fields as parser
-
-  table              = "A2"
-
   height = 2.d0
   height!0 = "ncl_scalar"
   height@standard_name = "height"
@@ -161,8 +148,7 @@ begin
         raw@original_name  = "PSL"
         raw@original_units = raw@units
         raw@cell_methods   = "time: mean (interval: 1 day)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
+        raw@history        = "No change"
       end if
     end if
     if (ipcc_vars(v).eq."pr") then
@@ -170,12 +156,11 @@ begin
         raw                =  in_file->PRECC
         raw                = (in_file->PRECC+in_file->PRECL)*density_h2o
         raw@standard_name  = "precipitation_flux"
-        raw@original_name  = "(PRECC+PRECL)*density_h2o"
+        raw@original_name  = "PRECC,PRECL"
         raw@original_units = "m-1 s-1"
         raw@units          = "kg m-2 s-1"
         raw@cell_methods   = "time: mean (interval: 1 day)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
+        raw@history        = "(PRECC+PRECL)*density_h2o"
       end if
     end if
     if (ipcc_vars(v).eq."tas") then
@@ -184,10 +169,9 @@ begin
         raw@standard_name  = "air_temperature"
         raw@original_name  = "TREFHT"
         raw@original_units = raw@units
-        raw@coordinates  = "height"
+        raw@coordinates    = "height"
         raw@cell_methods   = "time: mean (interval: 1 day)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
+        raw@history        = "No change"
       end if
     end if
     if (ipcc_vars(v).eq."tasmin") then
@@ -198,8 +182,7 @@ begin
         raw@original_units = raw@units
         raw@coordinates    = "height"
         raw@cell_methods   = "time: minimum within days"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
+        raw@history        = "No change"
       end if
     end if
     if (ipcc_vars(v).eq."tasmax") then
@@ -210,24 +193,18 @@ begin
         raw@original_units = raw@units
         raw@coordinates    = "height"
         raw@cell_methods   = "time: maximum within days"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
+        raw@history        = "No change"
       end if
     end if
     if (ipcc_vars(v).eq."hfls") then
-      if ((isfilevar(in_file,"QFLX")).and.\
-          (isfilevar(in_file,"PRECC")).and.\
-          (isfilevar(in_file,"PRECL"))) then
-        raw                = in_file->QFLX
-        raw                = ((latent_ht_v+latent_ht_f)*in_file->QFLX)-\
-                              (latent_ht_f*1000*(in_file->PRECC+in_file->PRECL))
+      if (isfilevar(in_file,"LHFLX")) then
+        raw                = in_file->LHFLX
         raw@standard_name  = "surface_upward_latent_heat_flux"
-        raw@original_name  = "(Lv+Lf)*QFLX-Lf*1000*(PRECC+PRECL)"
+        raw@original_name  = "LHFLX"
         raw@original_units = "W m-2"
         raw@units          = "W m-2"
         raw@cell_methods   = "time: mean (interval: 1 day)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
+        raw@history        = "No change"
       end if
     end if
     if (ipcc_vars(v).eq."hfss") then
@@ -238,8 +215,7 @@ begin
         raw@original_units = "W m-2"
         raw@units          = "W m-2"
         raw@cell_methods   = "time: mean (interval: 1 day)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
+        raw@history        = "No change"
       end if
     end if
     if (ipcc_vars(v).eq."rlds") then
@@ -251,8 +227,7 @@ begin
         raw@original_units = "K,W m-2"
         raw@units          = "W m-2"
         raw@history        = "SB*TS^4-FLNS"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
+        raw@cell_methods   = "time: mean (interval: 1 day)"
       end if
     end if
     if (ipcc_vars(v).eq."rlus") then
@@ -264,8 +239,7 @@ begin
         raw@original_units = "K"
         raw@units          = "W m-2"
         raw@history        = "SB*TS^4"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
+        raw@cell_methods   = "time: mean (interval: 1 day)"
       end if
     end if
     if (ipcc_vars(v).eq."rsds") then
@@ -276,8 +250,7 @@ begin
         raw@original_units = raw@units
         raw@units          = "W m-2"
         raw@cell_methods   = "time: mean (interval: 1 day)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
+        raw@history        = "No change"
       end if
     end if
     if (ipcc_vars(v).eq."rsus") then
@@ -285,12 +258,11 @@ begin
         raw                = in_file->FSDS
         raw                = in_file->FSDS-in_file->FSNS
         raw@standard_name  = "surface_upwelling_shortwave_flux_in_air"
-        raw@original_name  = "FSDS-FSNS"
+        raw@original_name  = "FSDS,FSNS"
         raw@original_units = "W m-2"
         raw@units          = "W m-2"
         raw@cell_methods   = "time: mean (interval: 1 day)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
+        raw@original_name  = "FSDS-FSNS"
       end if
     end if
     if (ipcc_vars(v).eq."rlut") then
@@ -301,8 +273,7 @@ begin
         raw@original_units = raw@units
         raw@units          = "W m-2"
         raw@cell_methods   = "time: mean (interval: 1 day)"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
+        raw@history        = "No change"
       end if
     end if
 
@@ -314,14 +285,16 @@ begin
       raw@long_name      = raw@standard_name
       raw@_FillValue     = 1.e+20
       raw@missing_value  = 1.e+20
-      raw@history        = "Created using NCL code "+scpt+" on"+n1+\
-                          " machine "+systemfunc("hostname")
-      raw@comment        = "Added PCMDI-required metadata and renamed field"+n1+\
-                           " to CF 1.0 compliance"
+      raw@comment        = "Created using NCL version "+nclversion+n1+\
+                           " NCL script: "+nclscript+" on "+n1+\
+                           "processing host "+prochost+" by "+systemfunc("whoami")+" at "+n1+\
+                            systemfunc("date")
 ;--------------------------------------------------------------------
 ; Create output file
 ; [file name as per requirements document]
 ;--------------------------------------------------------------------
+      now = systemfunc("date '+%y%m%d'")
+      nccf = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+type+"."+tval+"_c"+now+".nc"
       system("csh -c 'rm -f "+nccf+"'")
       cf_file = addfile(nccf, "c")
       fileattdef(cf_file, glbAtt)

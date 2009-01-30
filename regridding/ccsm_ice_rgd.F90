@@ -142,7 +142,7 @@ CONTAINS
     DO ivar = 1,nvars
        IF (src_var(ivar)=='u'.or.src_var(ivar)=='v') THEN
           src_var_rotate(ivar) = .true.
-          CALL msg_write(sub_name, 'vector rotating ',TRIM(src_var(ivar)))
+!          CALL msg_write(sub_name, 'vector rotating ',TRIM(src_var(ivar)))
           SELECT CASE (src_var(ivar))
           CASE ('u')
              src_var2(ivar) = 'v'

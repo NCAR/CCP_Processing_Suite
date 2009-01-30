@@ -1,80 +1,80 @@
-#!/bin/csh -f
+#!/bin/sh
 #
 # Regrid CCSM POP/CSIM data to regular-ish grid using SCRIP weights (predefined)
 #
-if ("$#argv" != 1) then
+if [ $# -ne 1 ] ; then
   echo "Usage: regrid_data file"
   exit 1
 else
-  set file = $argv[1]
-  if !(-f ./${file}) then
-    echo "regrid_data: "$file" does not exist. Exit."
+  FILE=$1
+  if [ ! -f $FILE ] ; then
+    echo "regrid_data: "$FILE" does not exist. Exit."
     exit 1
-  endif
-endif
+  fi
+fi
 #
-set isES = `echo $file | cut -d"." -f3 | cut -c1-2 | uniq`
-if (${isES} == "ES") then
-  set f_case = 3 ; set f_comp = 4 ; set f_time = 6
+CHEK=`echo $FILE | cut -d"." -f3 | cut -c1-2 | uniq`
+if [ "$CHEK" = "ES" ] ; then
+  F_COMP=4 ; F_TIME=6
 else
-  set f_case = 2 ; set f_comp = 3 ; set f_time = 5
-endif
-set case = `echo $file | cut -d"." -f1-${f_case}`
-set comp = `echo $file | cut -d"." -f${f_comp}`
-set tval = `echo $file | cut -d"." -f${f_time} | cut -d"." -f1`
+  F_COMP=3 ; F_TIME=5
+fi
+COMP=`echo $FILE | cut -d"." -f${F_COMP}`
+TVAL=`echo $FILE | cut -d"." -f${F_TIME} | cut -d"." -f1`
 #
 # POP regrid
 #
-if (${comp} == "pop") then
+if [ "$COMP" = "pop" ] ; then
   rm -f input_nml_T input_nml_U input_nml_1
-  cat NML_ccsm_ocn_1 | sed -e "s/CASE/${case}/g" | \
-                       sed -e "s/TTTT/${tval}/g" > input_nml_1
-  cat NML_ccsm_ocn_T | sed -e "s/CASE/${case}/g" | \
-                       sed -e "s/TTTT/${tval}/g" > input_nml_T
-  cat NML_ccsm_ocn_U | sed -e "s/CASE/${case}/g" | \
-                       sed -e "s/TTTT/${tval}/g" > input_nml_U
-  ${CCSM_OCN_RGD} < input_nml_1
-  if ($status == 0) then
-    ${CCSM_OCN_RGD} < input_nml_T
-    if ($status == 0) then
-      ${CCSM_OCN_RGD} < input_nml_U
-      if ($status == 0) then
+  ln -s -f $NAMLDIR/NML_ccsm_ocn_? .
+  cat NML_ccsm_ocn_1 | sed -e "s/CASE/${CASE}/g" | \
+                       sed -e "s/TTTT/${TVAL}/g" > input_nml_1
+  cat NML_ccsm_ocn_T | sed -e "s/CASE/${CASE}/g" | \
+                       sed -e "s/TTTT/${TVAL}/g" > input_nml_T
+  cat NML_ccsm_ocn_U | sed -e "s/CASE/${CASE}/g" | \
+                       sed -e "s/TTTT/${TVAL}/g" > input_nml_U
+  $OREGRID < input_nml_1
+  if [ $? -eq 0 ] ; then
+    $OREGRID < input_nml_T
+    if [ $? -eq 0 ] ; then
+      $OREGRID < input_nml_U
+      if [ $? -eq 0 ] ; then
         echo "regrid_data ocn COMPLETE"
       else
         echo "regrid_data ocn U regrid FAILED"
         exit 1
-      endif
+      fi
     else
       echo "regrid_data ocn T regrid FAILED"
       exit 1
-    endif
+    fi
   else
     echo "regrid_data ocn 1 regrid FAILED"
     exit 1
-  endif
-endif
+  fi
+fi
 #
 # CSIM regrid
 #
-if (${comp} == "csim") then
+if [ "$COMP" = "csim" ] ; then
   rm -f input_nml_T input_nml_U
-  cat NML_ccsm_ice_T | sed -e "s/CASE/${case}/g" | \
-                       sed -e "s/TTTT/${tval}/g" > input_nml_T
-  cat NML_ccsm_ice_U | sed -e "s/CASE/${case}/g" | \
-                       sed -e "s/TTTT/${tval}/g" > input_nml_U
-  ${CCSM_ICE_RGD} < input_nml_T
-  if ($status == 0) then
-    ${CCSM_ICE_RGD} < input_nml_U
-    if ($status == 0) then
+  ln -s -f $NAMLDIR/NML_ccsm_ice_? .
+  cat NML_ccsm_ice_T | sed -e "s/CASE/${CASE}/g" | \
+                       sed -e "s/TTTT/${TVAL}/g" > input_nml_T
+  cat NML_ccsm_ice_U | sed -e "s/CASE/${CASE}/g" | \
+                       sed -e "s/TTTT/${TVAL}/g" > input_nml_U
+  $IREGRID < input_nml_T
+  if [ $? -eq 0 ] ; then
+    $IREGRID < input_nml_U
+    if [ $? -eq 0 ] ; then
       echo "regrid_data ice COMPLETE"
     else
       echo "regrid_data U ice regrid FAILED"
       exit 1
-    endif
+    fi
   else
     echo "regrid_data T ice regrid FAILED"
     exit 1
-  endif
-endif
+  fi
+fi
 #
-exit 0

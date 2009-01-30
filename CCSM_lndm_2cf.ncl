@@ -1,30 +1,20 @@
-;********************************************************************************
+;******************************************************************************
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
 load "attributes_ccsm.ncl"
-;********************************************************************************
+;******************************************************************************
 
 begin
-;--------------------------------------------------------------------
-; Constants
-;--------------------------------------------------------------------
-; Density of water, 1000 kg m-3
-  density_h2o = 1000
-; Latent heat of evaporation, J kg-1
-  latent_ht_v = 2.501e6
-; Latent heat of fusion, J kg-1
-  latent_ht_f = 3.337e5
-; grams to kilograms
-  g_to_kg     = 1000.
-;
   n1 = integertochar(10)
 ;--------------------------------------------------------------------
 ; Get input file env vars
 ;--------------------------------------------------------------------
-  ncin   = getenv("CCSM_FILE")
-  case   = getenv("CCSM_CASE")
-  comp   = getenv("CCSM_COMP")
-  tval   = getenv("CCSM_TIME")
-  scpt   = getenv("NCL_SCPT")
+  ncin       = getenv("NCL_FILE")
+  case       = getenv("CASE")
+  type       = getenv("TYPE")
+  tval       = getenv("NCL_TVAL")
+  nclscript  = getenv("NCL_SCRIPT")
+  nclversion = getenv("NCL_VERSION")
+  prochost   = getenv("PROCHOST") 
 ;--------------------------------------------------------------------
 ; Define global attributes
 ;--------------------------------------------------------------------
@@ -32,10 +22,9 @@ begin
 ;--------------------------------------------------------------------
 ; Set various attributes
 ;--------------------------------------------------------------------
-  machine = ""
   forcing = ""
   expid   = ""
-  attributes_ccsm(case,glbAtt,machine,forcing,expid)
+  attributes_ccsm(case,glbAtt,expid)
 ;--------------------------------------------------------------------
 ; Read input file
 ;--------------------------------------------------------------------
@@ -129,7 +118,8 @@ begin
 ;--------------------------------------------------------------------
 ; Read input field(s), using IPCC required fields as parser
 ;--------------------------------------------------------------------
-  table              = "A1"
+  table           = "A1"
+  glbAtt@table_id = "Table "+table
 
   ipcc_vars = (/"mrso","mrsos","mrfso","mrros","mrro","snw","snc","snm","snd"/);  
 
@@ -147,8 +137,6 @@ begin
         raw@units          = "kg m-2"
         raw@history        = "SOILLIQ+SOILICE, 0-0.1m, added depth coordinate"
         raw@coordinates    = "depth"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."mrso") then
@@ -162,8 +150,6 @@ begin
         raw@original_units = "kg m-2"
         raw@units          = "kg m-2"
         raw@history        = "SOILLIQ+SOILICE, added depth coordinate"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."mrfso") then
@@ -176,8 +162,6 @@ begin
         raw@original_units = "kg m-2"
         raw@units          = "kg m-2"
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."mrros") then
@@ -188,8 +172,6 @@ begin
         raw@original_units = "mm s-1"
         raw@units          = "kg m-2 s-1"
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."snd") then
@@ -199,8 +181,6 @@ begin
         raw@original_name  = "SNOWDP"
         raw@original_units = raw@units
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM.atmm."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."mrro") then
@@ -214,8 +194,6 @@ begin
         raw@original_units = "mm s-1"
         raw@units          = "kg m-2 s-1"
         raw@history        = "QOVER+QRGWL+QDRAI"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."snw") then
@@ -227,8 +205,6 @@ begin
         raw@original_units = "kg m-2"
         raw@units          = "kg m-2"
         raw@history        = "SNOWICE+SNOWLIQ"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."snc") then
@@ -240,8 +216,6 @@ begin
         raw@original_units = "unitless"
         raw@units          = "percent"
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
     if (ipcc_vars(v).eq."snm") then
@@ -252,8 +226,6 @@ begin
         raw@original_units = "mm s-1"
         raw@units          = "kg m-2 s-1"
         raw@history        = "No change"
-        glbAtt@table_id    = "Table "+table
-        nccf               = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+comp+"."+tval+".nc"
       end if
     end if
 
@@ -266,12 +238,16 @@ begin
       raw@cell_methods   = "time: mean (interval: 1 month)"
       raw@_FillValue     = 1.e+20
       raw@missing_value  = 1.e+20
-      raw@comment        = "Created using NCL code "+scpt+" on"+n1+\
-                          " machine "+systemfunc("hostname")
+      raw@comment        = "Created using NCL version "+nclversion+n1+\
+                           " NCL script: "+nclscript+" on "+n1+\
+                           "processing host "+prochost+" by "+systemfunc("whoami")+" at "+n1+\
+                            systemfunc("date")
 ;--------------------------------------------------------------------
 ; Create output file
 ; [file name as per requirements document]
 ;--------------------------------------------------------------------
+      now = systemfunc("date '+%y%m%d'")
+      nccf = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+type+"."+tval+"_c"+now+".nc"
       system("csh -c 'rm -f "+nccf+"'")
       cf_file = addfile(nccf, "c")
       fileattdef(cf_file, glbAtt)
