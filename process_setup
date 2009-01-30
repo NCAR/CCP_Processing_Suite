@@ -149,9 +149,9 @@ case "$PROCHOST" in
           exit 1
         fi ;;
       icem ) 
-        procdir=/scratch/scratchdirs/$USER/$CASE/ice/mon
-        regrdir=/project/projectdirs/ccp/CCP_Processing_Suite/ice/CCSM
-        iregrid=$BASEDIR/regridding/ccsm_ice_rgd.davinci
+        PROCDIR=/scratch/scratchdirs/$USER/$CASE/ice/mon
+        REGRDIR=/project/projectdirs/ccp/CCP_Processing_Suite/ice/CCSM
+        IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.davinci
         if [ ! -f $IREGRID ] ; then
           echo "Need to build ICE regridding code. Do that and re-run."
           exit 1
@@ -170,17 +170,17 @@ case "$PROCHOST" in
       atmd ) PROCDIR=/tmp/work/$USER/$CASE/atm/day ;;
       lndm ) PROCDIR=/tmp/work/$USER/$CASE/lnd/mon ;;
       ocnm ) 
-        procdir=/tmp/work/$USER/$CASE/ocn/mon
-        regrdir=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
-        oregrid=$BASEDIR/regridding/ccsm_ocn_rgd.lens0
+        PROCDIR=/tmp/work/$USER/$CASE/ocn/mon
+        REGRDIR=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
+        OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.lens0
         if [ ! -f $OREGRID ] ; then
           echo "Need to build OCN regridding code. Do that and re-run."
           exit 1
         fi ;;
       icem ) 
-        procdir=/tmp/work/$USER/$CASE/ice/mon
-        regrdir=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
-        iregrid=$BASEDIR/regridding/ccsm_ice_rgd.lens0
+        PROCDIR=/tmp/work/$USER/$CASE/ice/mon
+        REGRDIR=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
+        IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.lens0
         if [ ! -f $IREGRID ] ; then
           echo "Need to build ICE regridding code. Do that and re-run."
           exit 1
