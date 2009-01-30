@@ -28,9 +28,9 @@ else
   TEST4HSI=`which hsi 2<&1 >& /dev/null`
   if [ $? -eq 0 ] ; then
     rm -f ABCXYZ
-    hsi -q "cd $MSSHIST; ls -Fl *nc" | cut -c60- >& ABCXYZ
+    hsi -q "cd $MSSHIST; ls -Fl *nc" >& ABCXYZ
     if [ $? -eq 0 ] ; then
-      egrep "$HISTNAME" ABCXYZ >& $MSSL
+      egrep "$HISTNAME" ABCXYZ | cut -c60- >& $MSSL
       rm -f ABCXYZ
     else
       echo "Error on mss_list from "$MSSHIST
