@@ -1,0 +1,75 @@
+#!/bin/sh
+# 
+# Check for ncrcat
+#
+if [ ! $NCRCAT ] ; then
+   TEST4NCRCAT=`which ncrcat 2<&1 >& /dev/null`
+   if [ $? -eq 0 ] ; then
+     NCRCAT=`which ncrcat`
+   else
+     echo "NCRCAT not in PATH - UNDEFINED"
+     exit 1
+   fi
+fi
+#
+CHEK=`ls | egrep '\-.........\.nc$' | cut -d"." -f3-4 | sort | uniq`
+if [ $? -eq 0 ] ; then
+  if [ `echo $CHEK | cut -c1-2` = "ES" ] ; then
+    CASES=`ls | egrep '\-.........\.nc$' | cut -d"." -f1-3 | sort | uniq`
+     COMP=`ls | egrep '\-.........\.nc$' | cut -d"." -f4-5 | sort | uniq`
+    YEARS=`ls | egrep '\-.........\.nc$' | cut -d"." -f6 | cut -c1-4 | sort | uniq`
+  else
+    CASES=`ls | egrep '\-.........\.nc$' | cut -d"." -f1-2 | sort | uniq`
+     COMP=`ls | egrep '\-.........\.nc$' | cut -d"." -f3-4 | sort | uniq`
+    YEARS=`ls | egrep '\-.........\.nc$' | cut -d"." -f5 | cut -c1-4 | sort | uniq`
+  fi
+#
+  for c in $CASES ; do
+    for y in $YEARS ; do
+      for p in $COMP ; do
+        MON=`ls ${c}.${p}.${y}-??-??-?????????.nc | cut -d"-" -f2 | uniq`
+        for m in $MON ; do
+        # Jan, Mar, May, Jul, Aug, Oct, Dec
+          if [ $m = "01" ] || [ $m = "03" ] || [ $m = "05" ] || [ $m = "07" ] || [ $m = "08" ] || [ $m = "10" ] || [ $m = "12" ] ; then
+            if [ $p = "cam2.h1" ] ; then
+              NDAY=31
+            fi
+            if [ $p = "cam2.h3" ] ; then
+              NDAY=124
+            fi
+          fi
+        # Apr, Jun, Sep, Nov
+          if [ $m = "04" ] || [ $m = "06" ] || [ $m = "09" ] || [ $m = "11" ] ; then
+            if [ $p = "cam2.h1" ] ; then
+              NDAY=30
+            fi
+            if [ $p = "cam2.h3" ] ; then
+              NDAY=120
+            fi
+          fi
+        # Feb
+          if [ $m = "02" ] ; then
+            if [ $p = "cam2.h1" ] ; then
+              NDAY=28
+            fi
+            if [ $p = "cam2.h3" ] ; then
+              NDAY=112
+            fi
+          fi
+          MDAY=`ls $c.$p.${y}-${m}-??-?????????.nc | wc -l`
+          if [ $MDAY = $NDAY ] ; then
+            MONFIL=${c}.$p.${y}-${m}.nc
+            $NCRCAT -O ${c}.$p.${y}-${m}-??-?????????.nc $MONFIL
+            if [ $? -eq 0 ] ; then
+              if [ $# -eq 1 ] ; then
+                 rm -f $c.$p.${y}-${m}-??-?????????.nc
+              fi
+            fi
+          fi
+        done
+      done
+    done
+  done
+fi
+#
+exit

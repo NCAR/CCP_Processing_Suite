@@ -1,0 +1,52 @@
+#!/bin/sh
+#
+if [ $# -eq 0 ] ; then
+   echo "Usage: time_split file [erase]"
+   echo "2 args means erase file after data split by time."
+   exit 1
+elif [ $# -eq 1 ] || [ $# -eq 2 ] ; then
+   FILE=$1
+else
+   echo "Usage: time_split file [erase]"
+   echo "2 args means erase file after data split by time."
+   exit 1
+fi
+#
+if [ ! -f $FILE ] ; then
+  echo "File $FILE does not exist. Error\!"
+  exit 1
+fi
+# 
+# Check for ncks
+#
+if [ ! $NCKS ] ; then
+   TEST4NCKS=`which ncks 2<&1 >& /dev/null`
+   if [ $? -eq 0 ] ; then
+     NCKS=`which ncks`
+   else
+     echo "NCKS not in PATH - UNDEFINED"
+     exit 1
+   fi
+fi
+#
+NT=`$NCKS -M $FILE | egrep "Record" | cut -d"=" -f3`
+#
+IT=1
+while [ $IT -le $NT ] ; do
+  YR=`$NCKS -s   "%8.8i\n" -F -H -C -v date -d time,${IT},${IT} $FILE | cut -c1-4`
+  MN=`$NCKS -s   "%8.8i\n" -F -H -C -v date -d time,${IT},${IT} $FILE | cut -c5-6`
+  DY=`$NCKS -s   "%8.8i\n" -F -H -C -v date -d time,${IT},${IT} $FILE | cut -c7-8`
+  TS=`$NCKS -s "%010.4f\n" -F -H -C -v time -d time,${IT},${IT} $FILE | sed -e 's/\.//g'`
+  DT=${YR}"-"${MN}"-"${DY}"-"${TS}
+  OF=$CASE.$HISTNAM.$DT.nc
+  $NCKS -h -O -F -d time,${IT},${IT} $FILE $OF
+  if [ $? -eq  0 ] ; then
+    IT=`expr $IT '+' '1'`
+  else
+    echo "Error on "$NCKS" -O -F -d time,"$IT","$IT" "$FILE" "$OF
+    exit 1
+  fi
+done
+if [ $# -eq 2 ] ; then
+  rm -f $FILE
+fi
