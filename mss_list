@@ -11,18 +11,20 @@ else
 fi
 #
 # If NCAR MSS msrcp command exists, use it.
-if [ `which msrcp` ] ; then
+TEST4MSRCP=`which ncrcat 2<&1 >& /dev/null`
+if [ $? -eq 0 ] ; then
    rm -f ABCXYZ
    msls -1R "$MSSHIST" >& ABCXYZ
    egrep "$HISTNAM" ABCXYZ >& $MSSL
    rm -f ABCXYZ
-else
 #
 # If NERSC/ORNL hsi command exists, use it.
-   if [ `which hsi` ] ; then 
-     hsi -q "ls -1R ${MSSHIST}" | egrep $HISTNAME >& $MSSL
-   else
-     echo "Neither msrcp nor hsi exist."
-     exit 1
-   fi
+else
+  TEST4HSI=`which hsi 2<&1 >& /dev/null`
+  if [ $? -eq 0 ] ; then
+     hsi -q "ls -1 ${MSSHIST}" | egrep $HISTNAME >& $MSSL
+  fi
+else
+  echo "Neither msrcp nor hsi exist."
+  exit 1
 fi
