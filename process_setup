@@ -142,19 +142,23 @@ case "$PROCHOST" in
       lndm ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/lnd/mon ;;
       ocnm ) 
         PROCDIR=/scratch/scratchdirs/$USER/$CASE/ocn/mon
-        REGRDIR=/project/projectdirs/ccp/CCP_Processing_Suite/ocn/CCSM
-        OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.davinci
-        if [ ! -f $OREGRID ] ; then
-          echo "Need to build OCN regridding code. Do that and re-run."
-          exit 1
+        if [ $DO_IPCC -ne 0 ] ; then
+          REGRDIR=/project/projectdirs/ccp/CCP_Processing_Suite/ocn/CCSM
+          OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.davinci
+          if [ ! -f $OREGRID ] ; then
+            echo "Need to build OCN regridding code. Do that and re-run."
+            exit 1
+          fi
         fi ;;
       icem ) 
         PROCDIR=/scratch/scratchdirs/$USER/$CASE/ice/mon
-        REGRDIR=/project/projectdirs/ccp/CCP_Processing_Suite/ice/CCSM
-        IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.davinci
-        if [ ! -f $IREGRID ] ; then
-          echo "Need to build ICE regridding code. Do that and re-run."
-          exit 1
+        if [ $DO_IPCC -ne 0 ] ; then
+          REGRDIR=/project/projectdirs/ccp/CCP_Processing_Suite/ice/CCSM
+          IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.davinci
+          if [ ! -f $IREGRID ] ; then
+            echo "Need to build ICE regridding code. Do that and re-run."
+            exit 1
+          fi
         fi ;;
       * ) 
         echo "Unable to continue because "$TYPE" not known."
@@ -171,19 +175,23 @@ case "$PROCHOST" in
       lndm ) PROCDIR=/tmp/work/$USER/$CASE/lnd/mon ;;
       ocnm ) 
         PROCDIR=/tmp/work/$USER/$CASE/ocn/mon
-        REGRDIR=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
-        OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.lens0
-        if [ ! -f $OREGRID ] ; then
-          echo "Need to build OCN regridding code. Do that and re-run."
-          exit 1
+        if [ $DO_IPCC -ne 0 ] ; then
+          REGRDIR=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
+          OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.lens0
+          if [ ! -f $OREGRID ] ; then
+            echo "Need to build OCN regridding code. Do that and re-run."
+            exit 1
+          fi
         fi ;;
       icem ) 
         PROCDIR=/tmp/work/$USER/$CASE/ice/mon
-        REGRDIR=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
-        IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.lens0
-        if [ ! -f $IREGRID ] ; then
-          echo "Need to build ICE regridding code. Do that and re-run."
-          exit 1
+        if [ $DO_IPCC -ne 0 ] ; then
+          REGRDIR=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
+          IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.lens0
+          if [ ! -f $IREGRID ] ; then
+            echo "Need to build ICE regridding code. Do that and re-run."
+            exit 1
+          fi
         fi ;;
       * ) 
         echo "Unable to continue because "$TYPE" not known."
