@@ -10,52 +10,16 @@ fi
 cd $PROCDIR
 #
 if [ $DO_PROC -ne 0 ] ; then
-  if [ "$PROCTYPE" = "ocnm" ] ; then
-    for e in `ls -d *3d.d` ; do
-      cd ${PROCDIR}/${e}
-      ../var_mon_to_year
-      ../var_year_to_dec
-      ../var_dec_to_all
-      mv *.${YEARBEG}*cat*${YEAREND}*.nc $CACHEDIR
-      cd ${PROCDIR}
-    done
+  cd ${PROCDIR}
+  for e in `ls -d *d.d` ; do
+    cd ${PROCDIR}/${e}
+    ../var_mon_to_year
+    ../var_year_to_dec
+    ../var_dec_to_all
+    mv *.${YEARBEG}*cat*${YEAREND}*.nc $CACHEDIR
     cd ${PROCDIR}
-    for e in `ls -d *4d.d` ; do
-      cd ${PROCDIR}/${e}
-      ../var_mon_to_year
-      ../var_year_to_dec
-      mv *cat*nc $CACHEDIR
-      cd ${PROCDIR}
-    done
-    cd ${PROCDIR}
-    for e in `ls -d N_????_4d.d` ; do
-      cd ${PROCDIR}/${e}
-      ../var_dec_to_all
-      mv *.${YEARBEG}*cat*${YEAREND}*.nc $CACHEDIR
-      cd ${PROCDIR}
-    done
-    cd ${PROCDIR}
-    for e in `ls -d *5d.d` ; do
-      cd ${PROCDIR}/${e}
-      ../var_mon_to_year
-      ../var_year_to_dec
-      ../var_dec_to_all
-      mv *.${YEARBEG}*cat*${YEAREND}*.nc $CACHEDIR
-      cd ${PROCDIR}
-    done
-    cd ${PROCDIR}
-  else
-    cd ${PROCDIR}
-    for e in `ls -d *d.d` ; do
-      cd ${PROCDIR}/${e}
-      ../var_mon_to_year
-      ../var_year_to_dec
-      ../var_dec_to_all
-      mv *.${YEARBEG}*cat*${YEAREND}*.nc $CACHEDIR
-      cd ${PROCDIR}
-    done
-    cd ${PROCDIR}
-  fi
+  done
+  cd ${PROCDIR}
 fi
 #
 if [ $DO_IPCC -ne 0 ] ; then
@@ -65,4 +29,5 @@ if [ $DO_IPCC -ne 0 ] ; then
   ./cf_var_all_concat
   mv *.${YEARBEG}*cat*${YEAREND}*.nc $CACHEDIR
 fi
+cd ${PROCDIR}
 #

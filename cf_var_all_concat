@@ -2,7 +2,7 @@
 #
 # Concatenate decades of IPCC netCDF files into bigger chunks
 #
-if [ "$#argv" != 0 ] ; then
+if [ $# -ne 0 ] ; then
    echo "Usage: cf_var_all_concat"
    exit 1
 fi
@@ -19,8 +19,8 @@ if [ ! $NCRCAT ] ; then
    fi
 fi
 #
- TABLE=`ls | egrep '\.nc$' | cut -d"_" -F2 | cut -d"." -f1 | sort | uniq`
-EXPIDS=`ls | egrep '\.nc$' | cut -d"." -F2 | sort | uniq`
+ TABLE=`ls | egrep '\.nc$' | cut -d"_" -f2 | cut -d"." -f1 | sort | uniq`
+EXPIDS=`ls | egrep '\.nc$' | cut -d"." -f2 | sort | uniq`
  MODEL=`ls | egrep '\.nc$' | cut -d"." -f3 | sort | uniq`
   COMP=`ls | egrep '\.nc$' | cut -d"." -f4 | sort | uniq`
 #
@@ -30,48 +30,49 @@ for m in $MODEL ; do
       VARS=`ls *_${t}.*.${m}.${c}.*cat*_c??????.nc | cut -d"_" -f1 | uniq`
       for v in $VARS ; do
         for e in $EXPIDS ; do
-        if [ $DECOUNT ] ; then
-          echo "Concatenating of "${v}"."${t}"."${e}" files and checking decade counts: "$DECOUNT
-          if [ "$t" == "A2" ] ; then
-            NUM=`ls ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c??????.nc | wc -l`
-            if [ $NUM = $DECOUNT ] ; then
-              F1=`ls ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c??????.nc | head -1`
-              F2=`ls ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c??????.nc | tail -1`
-              T1=`echo $F1 | cut -d"." -f5 | cut -c1-10`
-              T2=`echo $F2 | cut -d"." -f5 | cut -c16-25`
-              TS=`date '+%y%m%d'`
-              TF=${v}_${t}.${e}.${m}.${c}.${T1}_allcat_${T2}_c${TS}.nc
-              $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c??????.nc $TF
-              if [ $? -eq 0 ] ; then
-                rm -f ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c??????.nc
-                DF=${v}_${t}.${e}.${m}.${c}.${T1}_cat_${T2}_c${TS}.nc
-                mv $TF $DF
-                echo "Completed "$DF
+          if [ $DECOUNT ] ; then
+            echo "Concatenating of "${v}"."${t}"."${e}" files and checking decade counts: "$DECOUNT
+            if [ "$t" == "A2" ] ; then
+              NUM=`ls ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c??????.nc | wc -l`
+              if [ $NUM = $DECOUNT ] ; then
+                F1=`ls ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c??????.nc | head -1`
+                F2=`ls ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c??????.nc | tail -1`
+                T1=`echo $F1 | cut -d"." -f5 | cut -c1-10`
+                T2=`echo $F2 | cut -d"." -f5 | cut -c16-25`
+                TS=`date '+%y%m%d'`
+                TF=${v}_${t}.${e}.${m}.${c}.${T1}_allcat_${T2}_c${TS}.nc
+                $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c??????.nc $TF
+                if [ $? -eq 0 ] ; then
+                  rm -f ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c??????.nc
+                  DF=${v}_${t}.${e}.${m}.${c}.${T1}_cat_${T2}_c${TS}.nc
+                  mv $TF $DF
+                  echo "Completed "$DF
+                fi
+              else
+               echo "Missing decade(s) from "${v}"."${t}"."${e}" files"
+                echo "Count is "$NUM" should be "$DECOUNT
+                exit 1
               fi
             else
-              echo "Missing decade(s) from "${v}"."${t}"."${e}" files"
-              echo "Count is "$NUM" should be "$DECOUNT
-              exit 1
-            fi
-          else
-            NUM=`ls ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c??????.nc | wc -l`
-            if [ $NUM = $DECOUNT ] ; then
-              F1=`ls ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c??????.nc | head -1`
-              F2=`ls ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c??????.nc | tail -1`
-              T1=`echo $F1 | cut -d"." -f5 | cut -c1-7`
-              T2=`echo $F2 | cut -d"." -f5 | cut -c13-19`    
-              TF=${v}_${t}.${e}.${m}.${c}.${T1}_allcat_${T2}_c${TS}.nc
-              $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c??????.nc $TF
-              if [ $? -eq 0 ] ; then
-                rm -f ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c??????.nc
-                DF=${v}_${t}.${e}.${m}.${c}.${T1}_cat_${T2}_c${TS}.nc
-                mv $TF $DF
-                echo "Completed "${df}
+              NUM=`ls ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c??????.nc | wc -l`
+              if [ $NUM = $DECOUNT ] ; then
+                F1=`ls ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c??????.nc | head -1`
+                F2=`ls ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c??????.nc | tail -1`
+                T1=`echo $F1 | cut -d"." -f5 | cut -c1-7`
+                T2=`echo $F2 | cut -d"." -f5 | cut -c13-19`    
+                TF=${v}_${t}.${e}.${m}.${c}.${T1}_allcat_${T2}_c${TS}.nc
+                $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c??????.nc $TF
+                if [ $? -eq 0 ] ; then
+                  rm -f ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c??????.nc
+                  DF=${v}_${t}.${e}.${m}.${c}.${T1}_cat_${T2}_c${TS}.nc
+                  mv $TF $DF
+                  echo "Completed "${df}
+                fi
+              else
+                echo "Missing decade(s) from "${v}"."${t}"."${e}" files"
+                echo "Count is "$NUM" should be "$DECOUNT
+                exit 1
               fi
-            else
-              echo "Missing decade(s) from "${v}"."${t}"."${e}" files"
-              echo "Count is "$NUM" should be "$DECOUNT
-              exit 1
             fi
           fi
         else
@@ -104,8 +105,9 @@ for m in $MODEL ; do
               echo "Completed "${df}
             fi
           fi
-        done
+        fi
       done
     done
   done
+done
 done

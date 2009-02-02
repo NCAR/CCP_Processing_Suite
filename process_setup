@@ -32,8 +32,8 @@ else
   echo "Cannot find experiments.txt. HELP"
   exit 1
 fi
-DEFINED=`/usr/bin/printenv | grep -c '^LOCATION='`
-if ! [ $DEFINED ] ; then
+#
+if ! [ $LOCATION ] ; then
   echo "Unable to set variables because "$CASE" not found in experiments.txt"
   exit 1
 fi
@@ -59,6 +59,27 @@ case "$LOCATION" in
     echo "Unable to set variables because "$LOCATION" not found in experiments.txt"
     exit 1 ;;
 esac
+#
+# Check PROCHOST against LOCATION
+#
+if [ "$PROCHOST" = "mineral" ] || [ "$PROCHOST" = "lens0" ] ; then
+  if [ "$LOCATION" = "NE" ] ; then
+    echo "Using incorrect "$PROCHOST" for location "$LOCATION
+    exit 1
+  fi
+fi
+if [ "$PROCHOST" = "davinci" ] || [ "$PROCHOST" = "lens0" ] ; then
+  if [ "$LOCATION" = "NC" ] ; then
+    echo "Using incorrect "$PROCHOST" for location "$LOCATION
+    exit 1
+  fi
+fi
+if [ "$PROCHOST" = "mineral" ] || [ "$PROCHOST" = "davinci" ] ; then
+  if [ "$LOCATION" = "OR" ] ; then
+    echo "Using incorrect "$PROCHOST" for location "$LOCATION
+    exit 1
+  fi
+fi
 #
 # History tape locations
 #

@@ -7,15 +7,15 @@
 # --------------------------------------------------------------------------------
 # Case(s)
 #
-CASELIST="b30.030a"
+CASELIST="b30.040d"
 #
 # Type(s) - one of "atmm atmd lndm ocnm icem"
 #
-TYPELIST="icem"
+TYPELIST="ocnm"
 #
 # Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
 #
-DO_IPCC=1 ; export DO_IPCC
+DO_IPCC=0 ; export DO_IPCC
 #
 # Whether or not to do single-field processing (zero means DO NOT, non-zero means DO)
 # one for each type above
@@ -152,11 +152,11 @@ for CASE in $CASELIST ; do
 #
 # Concatenate months -> years, years -> decades, decades -> all
 #
-    ./concatenate_data
+#    ./concatenate_data
 #
 # Store completed data on archival system
 #
-#    ./store_to_archive
+    ./store_to_archive
 #
   cd $CURDIR
   done # TYPE
