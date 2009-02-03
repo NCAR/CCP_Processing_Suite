@@ -28,8 +28,7 @@ fi
 #
 if [ ! $NCARG_ROOT ] ; then
   if [ "$LOCATION" = "OR" ] ; then
-    NCARG_ROOT="/sw/analysis-x64/ncl/5.0.0/sl5.0_binary"
-    export NCARG_ROOT
+    NCARG_ROOT=/sw/analysis-x64/ncl/5.0.0/sl5.0_binary;export NCARG_ROOT
   fi
 else
   echo "NCARG_ROOT UNDEFINED"
