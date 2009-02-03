@@ -389,10 +389,9 @@ begin
                 "solar forcing    : Fixed at 1366.5 W m-2"+n1+\
                 "GHGs             : ghg_ipcc_A1B_1870-2100_c040521.nc"+n1+\
                 "GHG loss rates   : noaamisc.r8.nc"+n1+\
-                "volcanic forcing : none"+n1+\
-                "DMS emissions    : DMS_emissions_128x256_clim_c040122.nc"+n1+\
-                "oxidants         : oxid_128x256_L26_clim_c040112.nc"+n1+\
-                "SOx emissions    : SOx_emissions_A1B_128x256_L2_1990-2100_c040608.nc"
+                "DMS emissions    : DMS_emissions_64x128_c030722.nc"+n1+\
+                "oxidants         : oxid_64x128_L26_clim_c050816.nc"+n1+\
+                "SOx emissions    : SOx_emissions_A1_64x128_L2_1990-2100_c050912.nc"
     end if
   end if
   if (description.eq."SRESA1FI") then

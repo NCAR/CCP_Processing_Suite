@@ -7,7 +7,7 @@
 # --------------------------------------------------------------------------------
 # Case(s)
 #
-CASELIST="b30.040d"
+CASELIST="b30.040c"
 #
 # Type(s) - one of "atmm atmd lndm ocnm icem"
 #
@@ -152,11 +152,11 @@ for CASE in $CASELIST ; do
 #
 # Concatenate months -> years, years -> decades, decades -> all
 #
-#    ./concatenate_data
+    ./concatenate_data
 #
 # Store completed data on archival system
 #
-    ./store_to_archive
+#    ./store_to_archive
 #
   cd $CURDIR
   done # TYPE
