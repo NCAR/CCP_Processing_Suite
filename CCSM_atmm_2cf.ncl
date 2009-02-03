@@ -25,14 +25,124 @@ begin
   forcing = ""
   expid   = ""
   attributes_ccsm(case,glbAtt,expid)
+;
+  table   = "A1"
+  glbAtt@table_id = "Table "+table
 ;--------------------------------------------------------------------
 ; Read input file
 ;--------------------------------------------------------------------
   in_file = addfile (ncin,"r")
+;--------------------------------------------------------------------
+; Read input file coordinates
+;--------------------------------------------------------------------
+  time = in_file->time
+  date = in_file->date
+  lat  = in_file->lat
+  lev  = (/in_file->lev/)
+  ilev = (/in_file->ilev/)
+  lon  = in_file->lon
+  nlon = dimsizes(lon)
+  nlat = dimsizes(lat)
+  nlev = dimsizes(lev)
+  ntim = dimsizes(time)
+  nbnd = 2
+;--------------------------------------------------------------------
+; Calculate lon/lat bounds
+; Note that bound(X,1) is the same as bound(X-1,2)
+;-----------------------------------------------------------------
+  lat_bnds  = new((/nlat,nbnd/),double)
+  lat_bnds(0,0)      = -90.
+  lat_bnds(nlat-1,1) =  90.
+  do j = 0,nlat-2
+    lat_bnds(j,1) = ((lat(j)+lat(j+1))/2.)
+  end do
+  do j = 1,nlat-1
+    lat_bnds(j,0) =  lat_bnds(j-1,1)
+  end do
+  lon_bnds  = new((/nlon,nbnd/),double)
+  lon_bnds(0,     0) = (lon(0) - ((lon(1)-lon(0))/2.))
+  lon_bnds(nlon-1,1) = (lon(nlon-1) + ((lon(nlon-1)-lon(nlon-2))/2.))
+  do i = 0,nlon-2
+    lon_bnds(i,1) = ((lon(i)+lon(i+1))/2.)
+  end do
+  do i = 1,nlon-1
+    lon_bnds(i,0) =  lon_bnds(i-1,1)
+  end do
+;--------------------------------------------------------------------
+; Calculate time bounds
+; Note that bound(X,1) is the same as bound(X-1,2)
+;--------------------------------------------------------------------
+; Month beg, month end, in terms of day-of-year
+;-----------------------------------------------------------------
+  mbeg = (/  1, 32, 60, 91,121,152,182,213,244,274,305,335/)
+  mend = (/ 31, 59, 90,120,151,181,212,243,273,304,334,365/)
+  time_bnds = new((/ntim,nbnd/),double)
+  tnew      = new((/ntim/),double)
+  do n = 0,ntim-1
+    iyr = date(n)/10000
+    imn = (date(n)-(iyr*10000))/100
+    if (imn.eq.1) then
+      iyr = iyr - 1
+      imn = 12
+    else
+      imn = imn - 1
+    end if
+    time_bnds(n,0) = ((iyr*365)+mbeg(imn-1))-1
+    time_bnds(n,1) = ((iyr*365)+mend(imn-1))
+    tnew(n) = (time_bnds(n,0)+time_bnds(n,1))/2
+  end do
+  del_FillValue(tnew)
+  del_FillValue(time_bnds)
+  del_FillValue(lat_bnds)
+  del_FillValue(lon_bnds)
+  lat@bounds  = "lat_bnds"
+  lon@bounds  = "lon_bnds"
+  tnew@bounds = "time_bnds"
+;--------------------------------------------------------------------
+; Fields needed for vertical interpolation to IPCC pressure levels
+;--------------------------------------------------------------------
+  hyam = in_file->hyam
+  hybm = in_file->hybm
+  hyai = in_file->hyai
+  hybi = in_file->hybi
+  ps   = in_file->PS
+;  P0mb = dble2flt(0.01*in_file->P0)
+  P0mb = new(1,float)
+  del_FillValue(P0mb)
+  P0mb = 0.01*(/dble2flt(in_file->P0)/)
+  phis = in_file->PHIS
+  if (isfilevar(in_file, "TEMP")) then
+    tbot = in_file->TEMP(:,nlev-1,:,:)
+  end if
+  if (isfilevar(in_file, "T")) then
+    tbot = in_file->T(:,nlev-1,:,:)
+  end if
+;--------------------------------------------------------------------
+; IPCC-required pressure levels
+;--------------------------------------------------------------------
+  plev               = (/1000.,925.,850.,700.,600.,500.,400.,300.,250.,200.,\
+                          150.,100., 70., 50., 30.,20., 10./)
+  plev@long_name     = "pressure"
+; units are hPa at this point but will be written as Pa
+  plev@units	     = "Pa"
+  plev@standard_name = "air_pressure"
+  plev@positive      = "down"
+  plev@axis          = "Z"
+  plev!0             = "plev"
+  plev&plev          = plev
+  nplev              = dimsizes(plev)
 ;
-  table   = "A1"
-  glbAtt@table_id = "Table "+table
-;
+  height = 2.d0
+  height!0 = "ncl_scalar"
+  height@standard_name = "height"
+  height@long_name = "height"
+  height@units = "m"
+  height@axis = "Z"
+  height@positive = "up"
+  del_FillValue(height)
+;--------------------------------------------------------------------
+; Read input field(s), using IPCC required fields as parser
+;--------------------------------------------------------------------
   ipcc_vars = (/"psl","pr","tas","tasmin","tasmax","tauu","tauv",\
                 "rlds","rlus","rsds","rsus","ts","ps","prsn","prc",\
                 "prw","huss","rsdt","snd","hfls","hfss",\
