@@ -23,7 +23,7 @@ fi
 #
 # If NCAR MSS msrcp command exists, use it.
 if [ `which msrcp` ] ; then
-  msrcp -pe 3652 -srcdelete $MSSF "mss:${MSSD}/${MSSF}"
+  msrcp -pe 3652 -cl economy -srcdelete $MSSF "mss:${MSSD}/${MSSF}"
   if [ $? -eq 0 ] ; then
     echo $MSSF" written to "${MSSD}/${MSSF}" and erased."
   else
