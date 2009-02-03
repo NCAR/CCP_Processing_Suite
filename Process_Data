@@ -50,20 +50,7 @@ for CASE in $CASELIST ; do
           echo "Getting archival list of "$CASE" "$HISTNAM
           ./mss_list $MSSLIST
         fi
-        CHEK=`echo $CASE | cut -d"." -f3 | cut -c1-2`
-        if [ ! $CHEK ] ; then
-          DAT=`/bin/egrep "$YEARNOW\-" $MSSLIST | cut -d"." -f5 | cut -d"-" -f2-3`
-        else
-          DAT=`/bin/egrep "$YEARNOW\-" $MSSLIST | cut -d"." -f5 | cut -d"-" -f2-3`
-        fi
-        LST=`echo $DAT | sed -e "s/ /,/g"`
-        if [ "$TYPE" = "atmd" ] ; then
-          MSFILES=$CASE.$HISTNAM.${YEARNOW}-"{"${LST}"}"-00000.nc
-        else
-          MSFILES=$CASE.$HISTNAM.${YEARNOW}-"{"${LST}"}".nc
-        fi
-#        echo $MSFILES
-        ./mss_read $MSSHIST $MSFILES
+        ./mss_read $MSSLIST
         if [ $? -ne 0 ] ; then
           echo "Error from mss_read of "$MSFILES
           exit 1
