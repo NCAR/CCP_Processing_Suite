@@ -4,6 +4,17 @@ load "attributes_ccsm.ncl"
 ;******************************************************************************
 
 begin
+;--------------------------------------------------------------------
+; Constants
+;--------------------------------------------------------------------
+; Density of water, 1000 kg m-3
+  density_h2o = 1000
+; Latent heat of evaporation, J kg-1
+  latent_ht_v = 2.501e6
+; Latent heat of fusion, J kg-1
+  latent_ht_f = 3.337e5
+; grams to kilograms
+  g_to_kg     = 1000.
   n1 = integertochar(10)
 ;--------------------------------------------------------------------
 ; Get input file env vars
