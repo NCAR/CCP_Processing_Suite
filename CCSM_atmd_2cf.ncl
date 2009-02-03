@@ -25,13 +25,13 @@ begin
   forcing = ""
   expid   = ""
   attributes_ccsm(case,glbAtt,expid)
-;
-  table   = "A2"
-  glbAtt@table_id = "Table "+table
 ;--------------------------------------------------------------------
 ; Read input file
 ;--------------------------------------------------------------------
   in_file = addfile (ncin,"r")
+;
+  table   = "A2"
+  glbAtt@table_id = "Table "+table
 ;--------------------------------------------------------------------
 ; Read input file coordinates
 ;--------------------------------------------------------------------

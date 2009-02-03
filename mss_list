@@ -30,7 +30,7 @@ else
     rm -f ABCXYZ
     hsi -q "cd $MSSHIST; ls -Fl *nc" >& ABCXYZ
     if [ $? -eq 0 ] ; then
-      egrep "$HISTNAME" ABCXYZ | cut -c60- >& $MSSL
+      egrep "$HISTNAM" ABCXYZ | cut -c60- >& $MSSL
       rm -f ABCXYZ
     else
       echo "Error on mss_list from "$MSSHIST
