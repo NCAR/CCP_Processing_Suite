@@ -40,7 +40,7 @@ for CASE in $CASELIST ; do
     fi
 #
     cd $PROCDIR
-    YEARNOW=$YEARBEG
+    YEARNOW=$YEARBEG;export YEARNOW
     while [ $YEARNOW -le $YEAREND ] ; do
       YRCHECK=.comp.$CASE.$HISTNAM.$YEARNOW
       if [ ! -f $YRCHECK ] ; then
@@ -134,7 +134,8 @@ for CASE in $CASELIST ; do
           rm .????.$CASE.$HISTNAM.$YEARNOW-??.nc
         fi
       fi
-      YEARNOW=`expr $YEARNOW + 1`
+      YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
+
     done
 #
 # Concatenate months -> years, years -> decades, decades -> all

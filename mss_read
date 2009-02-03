@@ -17,17 +17,16 @@ fi
 #
 CHEK=`echo $CASE | cut -d"." -f3 | cut -c1-2`
 if [ ! $CHEK ] ; then
-  DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f5- | sed -e "s/^$YEARNOW//g"`
+  DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f5-`
 else
-  DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f6- | sed -e "s/^$YEARNOW//g"`
+  DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f6-`
 fi
 #
 LST=`echo $DAT | sed -e "s/ /,/g"`
-MSSFILES=$CASE.$HISTNAM.${YEARNOW}"{"${LST}"}"
+MSSFILES=$CASE.$HISTNAM."{"${LST}"}"
 echo $MSSFILES
-exit 1
 #
- If NCAR MSS msrcp command exists, use it.
+# If NCAR MSS msrcp command exists, use it.
 TEST4MSRCP=`which msrcp 2<&1 >& /dev/null`
 if [ $? -eq 0 ] ; then
    msrcp -overwrite sizemismatch mss:"$MSSHIST/$MSSFILES" .
