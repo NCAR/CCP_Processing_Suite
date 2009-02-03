@@ -15,6 +15,9 @@ begin
   latent_ht_f = 3.337e5
 ; grams to kilograms
   g_to_kg     = 1000.
+; Stefan-Boltzmann constant, W m-2 K-4
+  sb          = 5.67E-8 
+;
   n1 = integertochar(10)
 ;--------------------------------------------------------------------
 ; Get input file env vars
