@@ -25,6 +25,10 @@ begin
   forcing = ""
   expid   = ""
   attributes_ccsm(case,glbAtt,expid)
+;--------------------------------------------------------------------
+; Read input file
+;--------------------------------------------------------------------
+  in_file = addfile (ncin,"r")
 ;
   table   = "A1"
   glbAtt@table_id = "Table "+table
