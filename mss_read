@@ -1,25 +1,38 @@
 #!/bin/sh
-# Read a file from a mass store
-# Arguments:
-# 1 place on mass store to read file from
-# 2 file to read
+# Read file(s) from a archival system
 #
-if [ $# = 2 ] ; then
-  MSSD=$1
-  MSSF=$2
+if [ $# -ne 1 ] ; then
+  echo "Usage: mss_read MSSLIST"
+  echo "Requires YEARNOW CASE HISTNAM TYPE be defined"
+  exit 1
 else
-  echo "I need two arguments:"
-  echo "1) place on mass store to read file from"
-  echo "2) file(s) to read"
+  MSSLIST=$1
+fi
+if ! [ -f $MSSLIST ] ; then
+  echo "mss_read: No "$MSSLIST" file found. Exit."
   exit 1
 fi
 #
-# If NCAR MSS msrcp command exists, use it.
+# Deduce files to read
+#
+CHEK=`echo $CASE | cut -d"." -f3 | cut -c1-2`
+if [ ! $CHEK ] ; then
+  DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f5- | sed -e "s/^$YEARNOW//g"`
+else
+  DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f6- | sed -e "s/^$YEARNOW//g"`
+fi
+#
+LST=`echo $DAT | sed -e "s/ /,/g"`
+MSSFILES=$CASE.$HISTNAM.${YEARNOW}"{"${LST}"}"
+echo $MSSFILES
+exit 1
+#
+ If NCAR MSS msrcp command exists, use it.
 TEST4MSRCP=`which msrcp 2<&1 >& /dev/null`
 if [ $? -eq 0 ] ; then
-   msrcp -overwrite sizemismatch mss:"$MSSD/$MSSF" .
+   msrcp -overwrite sizemismatch mss:"$MSSHIST/$MSSFILES" .
    if [ $? -ne 0 ] ; then
-     echo "Error on msrcp -overwrite sizemismatch mss:"$MSSD"/"$MSSF
+     echo "Error on msrcp -overwrite sizemismatch mss:"$MSSHIST"/"$MSSFILES
      exit 1
    fi
 #
@@ -27,14 +40,30 @@ if [ $? -eq 0 ] ; then
 else
   TEST4HSI=`which hsi 2<&1 >& /dev/null`
   if [ $? -eq 0 ] ; then
-     hsi -q "get -U $MSSD/$MSSF" >& /dev/null
-     if [ $? -ne 0 ] ; then
-       echo "Error on hsi -q get -U "$MSSD"/"$MSSF
-       exit 1
-     fi
+    if [ "$LST" != ".tar" ] ; then
+      hsi -q "get -U $MSSHIST/$MSSFILES" >& /dev/null
+      if [ $? -ne 0 ] ; then
+        echo "Error on hsi get of "$MSSHIST"/"$MSSFILES
+        exit 1
+      fi
+    else
+      htar -x -f $MSSHIST/$MSSFILES
+      if [ $? -ne 0 ] ; then
+        hsi -q "get -U $MSSHIST/$MSSFILES" >& /dev/null
+        if [ $? -eq 0 ] ; then
+          tar xf $MSSFILES
+          if [ $? -ne 0 ] ; then
+            echo "htar and tar extraction failed on "$MSSFILES
+            exit 1
+          fi
+        else
+          echo "Error on hsi get of "$MSSHIST"/"$MSSFILES
+          exit 1
+        fi
+      fi
+    fi
   else
     echo "Neither msrcp nor hsi exist."
     exit 1
   fi
 fi
-#
