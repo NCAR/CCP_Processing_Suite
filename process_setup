@@ -328,5 +328,3 @@ fi
 #
 ln -s -f $BASEDIR/concatenate_data .
 ln -s -f $BASEDIR/store_to_archive .
-#
-exit 0

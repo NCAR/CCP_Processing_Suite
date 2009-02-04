@@ -55,5 +55,3 @@ for m in $CHEK ; do
     done
   done
 done
-#
-exit 0
