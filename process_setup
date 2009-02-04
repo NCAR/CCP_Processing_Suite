@@ -305,8 +305,11 @@ if [ $DO_IPCC -ne 0 ] ; then
   ln -s -f $BASEDIR/CCSM_${TYPE}_2cf.ncl   .
   ln -s -f $BASEDIR/attributes_ccsm.ncl .
   cd $PROCDIR/IPCC
-  ln -s -f $BASEDIR/mss_*      .
-  ln -s -f $BASEDIR/cf_*concat .
+  ln -s -f $BASEDIR/mss_list   .
+  ln -s -f $BASEDIR/mss_read   .
+  ln -s -f $BASEDIR/mss_write  .
+  ln -s -f $BASEDIR/cf_var_mon_to_year .
+  ln -s -f $BASEDIR/cf_var_year_to_all .
   cd $PROCDIR
 fi
 #
@@ -315,8 +318,11 @@ if [ $DO_PROC -ne 0 ] ; then
     ln -s -f $BASEDIR/time_split    .
     ln -s -f $BASEDIR/days_to_month .
   fi
-  ln -s -f $BASEDIR/mss_* .
-  ln -s -f $BASEDIR/var_* .
+  ln -s -f $BASEDIR/mss_list   .
+  ln -s -f $BASEDIR/mss_read   .
+  ln -s -f $BASEDIR/mss_write  .
+  ln -s -f $BASEDIR/var_mon_to_year .
+  ln -s -f $BASEDIR/var_year_to_all .
 fi
 #
 ln -s -f $BASEDIR/concatenate_data .
