@@ -40,6 +40,7 @@ for m in $CHEK ; do
               DF=${c}.${p}.${v}.${y}-01-01_cat_${y}-12-31.nc
             else
               DF=${c}.${p}.${v}.${y}-01_cat_${y}-12.nc
+            fi
             if [ $DF ] ; then
               $NCRCAT -O ${c}.${p}.${v}.${y}-??.nc $DF
               if [ $? -eq 0 ] ; then
