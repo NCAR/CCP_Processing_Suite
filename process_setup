@@ -263,7 +263,7 @@ echo "          Resolution : "$RES      ; export RES
 echo "            Hardware : "$HARDWARE ; export HARDWARE
 echo "          Begin year : "$YEARBEG  ; export YEARBEG
 echo "            End year : "$YEAREND  ; export YEAREND
-echo "        Decade count : "$YRCOUNT  ; export YRCOUNT
+echo "          Year count : "$YRCOUNT  ; export YRCOUNT
 echo "        Months count : "$MNCOUNT  ; export MNCOUNT
 echo ""
 echo "       History files : "$MSSHIST  ; export MSSHIST
