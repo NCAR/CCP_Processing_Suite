@@ -36,11 +36,7 @@ for m in $CHEK ; do
         for y in $YEARS ; do
           NUM=`ls ${c}.${p}.${v}.${y}-??.nc | wc -l`
           if [ $NUM -eq 12 ] ; then
-            if [ "$p" == "cam2.h1" ] ; then
-              DF=${c}.${p}.${v}.${y}-01-01_cat_${y}-12-31.nc
-            else
-              DF=${c}.${p}.${v}.${y}-01_cat_${y}-12.nc
-            fi
+            DF=${c}.${p}.${v}.${y}.nc
             if [ $DF ] ; then
               $NCRCAT -O ${c}.${p}.${v}.${y}-??.nc $DF
               if [ $? -eq 0 ] ; then

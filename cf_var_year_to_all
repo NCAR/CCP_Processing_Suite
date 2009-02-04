@@ -27,82 +27,51 @@ EXPIDS=`ls | egrep '\.nc$' | cut -d"." -f2 | sort | uniq`
 for m in $MODEL ; do
   for c in $COMP ; do
     for t in $TABLE ; do
-      VARS=`ls *_${t}.*.${m}.${c}.*cat*_c*.nc | cut -d"_" -f1 | uniq`
+      VARS=`ls *_${t}.*.${m}.${c}.????_c*.nc | cut -d"_" -f1 | uniq`
       for v in $VARS ; do
         for e in $EXPIDS ; do
           if [ $YRCOUNT ] ; then
             echo "Concatenating of "${v}"."${t}"."${e}" files and checking year counts: "$YRCOUNT
-            if [ "$t" == "A2" ] ; then
-              NUM=`ls ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c*.nc | wc -l`
-              if [ $NUM = $YRCOUNT ] ; then
-                F1=`ls ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c*.nc | head -1`
-                F2=`ls ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c*.nc | tail -1`
-                T1=`echo $F1 | cut -d"." -f5 | cut -c1-10`
-                T2=`echo $F2 | cut -d"." -f5 | cut -c16-25`
-                TS=`date '+%y%m%d'`
-                TF=${v}_${t}.${e}.${m}.${c}.${T1}_allcat_${T2}_c${TS}.nc
-                $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c*.nc $TF
-                if [ $? -eq 0 ] ; then
-                  rm -f ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c*.nc
-                  DF=${v}_${t}.${e}.${m}.${c}.${T1}_cat_${T2}_c${TS}.nc
-                  mv $TF $DF
-                  echo "Completed "$DF
-                fi
+            NUM=`ls ${v}_${t}.${e}.${m}.${c}.????_c*.nc | wc -l`
+            if [ $NUM = $YRCOUNT ] ; then
+              TS=`date '+%y%m%d'`
+              Y1=`ls ${v}_${t}.${e}.${m}.${c}.????_c*.nc | head -1 | cut -d"." -f5`
+              Y2=`ls ${v}_${t}.${e}.${m}.${c}.????_c*.nc | tail -1 | cut -d"." -f5`
+              if [ "$t" == "A2" ] ; then
+                DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01-01_cat_${Y2}-12-31_c${TS}.nc
               else
-               echo "Missing year(s) from "${v}"."${t}"."${e}" files"
-                echo "Count is "$NUM" should be "$YRCOUNT
+                DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01_cat_${Y2}-12_c${TS}.nc
+              fi
+              $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????_c*.nc $DF
+              if [ $? -eq 0 ] ; then
+                rm -f ${v}_${t}.${e}.${m}.${c}.????_c*.nc
+                echo "Completed "$DF
+              else
+                echo "Failure on concat of "${c}"."${p}"."${v}" files"
                 exit 1
               fi
             else
-              NUM=`ls ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c*.nc | wc -l`
-              if [ $NUM = $YRCOUNT ] ; then
-                F1=`ls ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c*.nc | head -1`
-                F2=`ls ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c*.nc | tail -1`
-                T1=`echo $F1 | cut -d"." -f5 | cut -c1-7`
-                T2=`echo $F2 | cut -d"." -f5 | cut -c13-19`    
-                TF=${v}_${t}.${e}.${m}.${c}.${T1}_allcat_${T2}_c${TS}.nc
-                $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c*.nc $TF
-                if [ $? -eq 0 ] ; then
-                  rm -f ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c*.nc
-                  DF=${v}_${t}.${e}.${m}.${c}.${T1}_cat_${T2}_c${TS}.nc
-                  mv $TF $DF
-                  echo "Completed "${df}
-                fi
-              else
-                echo "Missing year(s) from "${v}"."${t}"."${e}" files"
-                echo "Count is "$NUM" should be "$YRCOUNT
-                exit 1
-              fi
-            fi
-          fi
-        else
-          echo "Concatenating of "${v}"."${t}"."${e}" files WITHOUT checking counts."
-          if [ "$t" == "A2" ] ; then
-            F1=`ls ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c*.nc | head -1`
-            F2=`ls ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c*.nc | tail -1`
-            T1=`echo $F1 | cut -d"." -f5 | cut -c1-10`
-            T2=`echo $F2 | cut -d"." -f5 | cut -c16-25`
-            TS=`date '+%y%m%d'`
-            TF=${v}_${t}.${e}.${m}.${c}.${T1}_allcat_${T2}_c${TS}.nc
-            $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c*.nc $TF
-            if [ $? -eq 0 ] ; then
-              rm -f ${v}_${t}.${e}.${m}.${c}.????-??-??_cat_????-??-??_c*.nc
-              DF=${v}_${t}.${e}.${m}.${c}.${T1}_cat_${T2}_c${TS}.nc
-              mv $TF $DF
-              echo "Completed "$DF
+              echo "Missing year(s) from "${v}"."${t}"."${e}" files"
+              echo "Count is "$NUM" should be "$YRCOUNT
+              exit 1
             fi
           else
-            F1=`ls ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c*.nc | head -1`
-            F2=`ls ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c*.nc | tail -1`
-            T1=`echo $F1 | cut -d"." -f5 | cut -c1-7`
-            T2=`echo $F2 | cut -d"." -f5 | cut -c13-19`    
-            TF=${v}_${t}.${e}.${m}.${c}.${T1}_allcat_${T2}_c${TS}.nc
-            $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c*.nc $TF
+            echo "Concatenating of "${v}"."${t}"."${e}" files WITHOUT checking year counts"
+            TS=`date '+%y%m%d'`
+            Y1=`ls ${v}_${t}.${e}.${m}.${c}.????_c*.nc | head -1 | cut -d"." -f5`
+            Y2=`ls ${v}_${t}.${e}.${m}.${c}.????_c*.nc | tail -1 | cut -d"." -f5`
+            if [ "$t" == "A2" ] ; then
+              DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01-01_cat_${Y2}-12-31_c${TS}.nc
+            else
+              DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01_cat_${Y2}-12_c${TS}.nc
+            fi
+            $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????_c*.nc $DF
             if [ $? -eq 0 ] ; then
-              rm -f ${v}_${t}.${e}.${m}.${c}.????-??_cat_????-??_c*.nc
-              DF=${v}_${t}.${e}.${m}.${c}.${T1}_cat_${T2}_c${TS}.nc
-              mv $TF $DF
-              echo "Completed "${df}
+              rm -f ${v}_${t}.${e}.${m}.${c}.????_c*.nc
+              echo "Completed "$DF
+            else
+              echo "Failure on concat of "${c}"."${p}"."${v}" files"
+              exit 1
             fi
           fi
         fi
