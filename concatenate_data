@@ -14,8 +14,7 @@ if [ $DO_PROC -ne 0 ] ; then
   for e in `ls -d *d.d` ; do
     cd ${PROCDIR}/${e}
     ../var_mon_to_year
-    ../var_year_to_dec
-    ../var_dec_to_all
+    ../var_year_to_all
     mv *.${YEARBEG}*cat*${YEAREND}*.nc $CACHEDIR
     cd ${PROCDIR}
   done
@@ -24,9 +23,8 @@ fi
 #
 if [ $DO_IPCC -ne 0 ] ; then
   cd ${PROCDIR}/IPCC
-  ./cf_var_ann_concat
-  ./cf_var_dec_concat
-  ./cf_var_all_concat
+  ./cf_var_mon_to_year
+  ./cf_var_year_to_all
   mv *.${YEARBEG}*cat*${YEAREND}*.nc $CACHEDIR
 fi
 cd ${PROCDIR}
