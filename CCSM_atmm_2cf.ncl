@@ -9,10 +9,6 @@ begin
 ;--------------------------------------------------------------------
 ; Density of water, 1000 kg m-3
   density_h2o = 1000
-; Latent heat of evaporation, J kg-1
-  latent_ht_v = 2.501e6
-; Latent heat of fusion, J kg-1
-  latent_ht_f = 3.337e5
 ; grams to kilograms
   g_to_kg     = 1000.
 ; Stefan-Boltzmann constant, W m-2 K-4
@@ -246,6 +242,9 @@ begin
 ;        raw@history        = "No change"
 ;      end if
 ;    end if
+; --------------------------------------------------------------------------------
+; Correct
+; --------------------------------------------------------------------------------
     if (ipcc_vars(v).eq."hfls") then
       if (isfilevar(in_file,"LHFLX")) then
         raw                = in_file->LHFLX
@@ -404,6 +403,9 @@ begin
         raw@history        = "No change"
       end if
     end if
+; --------------------------------------------------------------------------------
+; Correct
+; --------------------------------------------------------------------------------
     if (ipcc_vars(v).eq."rtmt") then
       if ((isfilevar(in_file,"FSNT")).and.(isfilevar(in_file,"FLNT"))) then
         raw                = in_file->FSNT
