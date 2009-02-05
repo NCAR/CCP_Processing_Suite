@@ -19,13 +19,13 @@ if [ ! $NCRCAT ] ; then
    fi
 fi
 #
-VARS=`ls | egrep '\.nc$' | cut -d"_" -f1 | uniq`
+VARS=`ls | egrep "\-.._c......\.nc" | cut -d"_" -f1 | uniq`
 if [ $? -eq 0 ] ; then
-   TABLE=`ls | egrep '\.nc$' | cut -d"_" -f2 | cut -d"." -f1 | sort | uniq`
-  EXPIDS=`ls | egrep '\.nc$' | cut -d"." -f2 | sort | uniq`
-   MODEL=`ls | egrep '\.nc$' | cut -d"." -f3 | sort | uniq`
-    COMP=`ls | egrep '\.nc$' | cut -d"." -f4 | sort | uniq`
-   YEARS=`ls | egrep '\.nc$' | cut -d"." -f5 | cut -c1-4 | sort | uniq`
+   TABLE=`ls | egrep "\-.._c......\.nc" | cut -d"_" -f2 | cut -d"." -f1 | sort | uniq`
+  EXPIDS=`ls | egrep "\-.._c......\.nc" | cut -d"." -f2 | sort | uniq`
+   MODEL=`ls | egrep "\-.._c......\.nc" | cut -d"." -f3 | sort | uniq`
+    COMP=`ls | egrep "\-.._c......\.nc" | cut -d"." -f4 | sort | uniq`
+   YEARS=`ls | egrep "\-.._c......\.nc" | cut -d"." -f5 | cut -c1-4 | sort | uniq`
 #
   for v in $VARS ; do
     for t in $TABLE ; do
