@@ -40,7 +40,7 @@ else
   TEST4HSI=`which hsi 2<&1 >& /dev/null`
   if [ $? -eq 0 ] ; then
     if [ "$LST" != ".tar" ] ; then
-      hsi -q "get -U $MSSHIST/$MSSFILES" >& /dev/null
+      hsi -q "get $MSSHIST/$MSSFILES" >& /dev/null
       if [ $? -ne 0 ] ; then
         echo "Error on hsi get of "$MSSHIST"/"$MSSFILES
         exit 1
