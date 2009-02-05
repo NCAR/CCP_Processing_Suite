@@ -35,8 +35,8 @@ for m in $MODEL ; do
             NUM=`ls ${v}_${t}.${e}.${m}.${c}.????_c*.nc | wc -l`
             if [ $NUM = $YRCOUNT ] ; then
               TS=`date '+%y%m%d'`
-              Y1=`ls ${v}_${t}.${e}.${m}.${c}.????_c*.nc | head -1 | cut -d"." -f5`
-              Y2=`ls ${v}_${t}.${e}.${m}.${c}.????_c*.nc | tail -1 | cut -d"." -f5`
+              Y1=`ls ${v}_${t}.${e}.${m}.${c}.????_c*.nc | head -1 | cut -d"." -f5 | cut -d"_" -f1`
+              Y2=`ls ${v}_${t}.${e}.${m}.${c}.????_c*.nc | tail -1 | cut -d"." -f5 | cut -d"_" -f1`
               if [ "$t" == "A2" ] ; then
                 DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01-01_cat_${Y2}-12-31_c${TS}.nc
               else
@@ -58,8 +58,8 @@ for m in $MODEL ; do
           else
             echo "Concatenating of "${v}"."${t}"."${e}" files WITHOUT checking year counts"
             TS=`date '+%y%m%d'`
-            Y1=`ls ${v}_${t}.${e}.${m}.${c}.????_c*.nc | head -1 | cut -d"." -f5`
-            Y2=`ls ${v}_${t}.${e}.${m}.${c}.????_c*.nc | tail -1 | cut -d"." -f5`
+            Y1=`ls ${v}_${t}.${e}.${m}.${c}.????_c*.nc | head -1 | cut -d"." -f5 | cut -d"_" -f1`
+            Y2=`ls ${v}_${t}.${e}.${m}.${c}.????_c*.nc | tail -1 | cut -d"." -f5 | cut -d"_" -f1`
             if [ "$t" == "A2" ] ; then
               DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01-01_cat_${Y2}-12-31_c${TS}.nc
             else
