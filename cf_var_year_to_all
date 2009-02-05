@@ -74,9 +74,8 @@ for m in $MODEL ; do
               exit 1
             fi
           fi
-        fi
+        done
       done
     done
   done
-done
 done
