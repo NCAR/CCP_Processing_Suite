@@ -22,7 +22,7 @@ fi
 #
 #
 # If NCAR MSS msrcp command exists, use it.
-if [ `which msrcp 2<&1 >& /dev/null` -eq 0 ] ; then
+if [ `which msrcp | wc -w` -eq 1 ] ; then
   msrcp -pe 3652 -class reliability=economy -srcdelete $MSSF "mss:${MSSD}/${MSSF}"
   if [ $? -eq 0 ] ; then
     echo $MSSF" written to "${MSSD}/${MSSF}" and erased."
@@ -33,7 +33,7 @@ if [ `which msrcp 2<&1 >& /dev/null` -eq 0 ] ; then
 else
 #
 # If NERSC/ORNL hsi command exists, use it.
-   if [ `which hsi 2<&1 >& /dev/null` -eq 0 ] ; then 
+   if [ `which hsi | wc -w` -eq 1 ] ; then
      hsi -q "mkdir -m 775 -p $MSSD ; put -U ${MSSD}/${MSSF}" >& /dev/null
      if [ $? -eq 0 ] ; then
        echo ${MSSF}" written to "${MSSD}" and erased."
