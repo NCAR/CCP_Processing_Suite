@@ -52,7 +52,7 @@ for CASE in $CASELIST ; do
         fi
         ./mss_read $MSSLIST
         if [ $? -ne 0 ] ; then
-          echo "Error from mss_read of "$MSFILES
+          echo "Error from mss_read"
           exit 1
         else
           if [ "$TYPE" != "atmd" ] ; then
@@ -81,6 +81,7 @@ for CASE in $CASELIST ; do
                     echo "Error from create_ipcc_data on file "$FILE
                     exit 1
                   else
+                    rm -f $FILE
                     touch .ipcc.$FILE
                   fi
                 fi

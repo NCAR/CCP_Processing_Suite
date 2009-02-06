@@ -10,11 +10,23 @@ fi
 cd $CACHEDIR
 ln -s -f ${BASEDIR}/mss_write .
 #
-LAST=`ls -1 *cat*nc | tail -1`
 #
-while [ -f $LAST ] ; do
-  for g in `ls *cat*nc | head -5` ; do
-    ./mss_write $g $MSSPROC &
+if [ $DO_PROC -ne 0 ] ; then
+  LAST=`ls -1 *cat*nc | tail -1`
+  while [ -f $LAST ] ; do
+    for g in `ls *cat*nc | head -5` ; do
+      ./mss_write $g $MSSPROC &
+    done
+    wait
   done
-  wait
-done
+fi
+#
+if [ $DO_IPCC -ne 0 ] ; then
+  LAST=`ls -1 *cat*nc | tail -1`
+  while [ -f $LAST ] ; do
+    for g in `ls *cat*nc | head -5` ; do
+      ./mss_write $g $MSSIPCC &
+    done
+    wait
+  done
+fi
