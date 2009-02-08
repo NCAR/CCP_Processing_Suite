@@ -95,8 +95,8 @@ case "$TYPE" in
   lndm ) 
     HISTNAM="clm2.h0"
     MSSHIST=$HISTBASE/$CASE/lnd/hist
-    MSSIPCC=$MSSBASE/lnd/ipcc/tseries/daily
-    MSSPROC=$MSSBASE/lnd/proc/tseries/daily    ;;
+    MSSIPCC=$MSSBASE/lnd/ipcc/tseries/monthly
+    MSSPROC=$MSSBASE/lnd/proc/tseries/monthly  ;;
   ocnm ) 
     HISTNAM="pop.h"
     MSSHIST=$HISTBASE/$CASE/ocn/hist
