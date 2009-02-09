@@ -22,8 +22,10 @@ fi
 #
 #
 # If NCAR MSS msrcp command exists, use it.
-if [ `which msrcp | wc -w` -eq 1 ] ; then
-  msrcp -pe 3652 -class reliability=economy -srcdelete $MSSF "mss:${MSSD}/${MSSF}"
+TEST4MSRCP=`which msrcp 2<&1 >& /dev/null`
+if [ $? -eq 0 ] ; then
+  MSRCP=`which msrcp`
+  $MSRCP -pe 3652 -class reliability=economy -srcdelete $MSSF "mss:${MSSD}/${MSSF}"
   if [ $? -eq 0 ] ; then
     echo $MSSF" written to "${MSSD}/${MSSF}" and erased."
   else
@@ -33,23 +35,25 @@ if [ `which msrcp | wc -w` -eq 1 ] ; then
 else
 #
 # If NERSC/ORNL hsi command exists, use it.
-   if [ `which hsi | wc -w` -eq 1 ] ; then
-     hsi -q "mkdir -m 775 -p $MSSD ; put -U ${MSSD}/${MSSF}" >& /dev/null
-     if [ $? -eq 0 ] ; then
-       echo ${MSSF}" written to "${MSSD}" and erased."
-       rm -f $MSSF
-     else
-       hsi -q "put ${MSSF}" >& /dev/null
-       if [ $? -eq 0 ] ; then
-         echo ${MSSF}" written to your HPSS HOME and erased."
-         rm -f $MSSF
-       else
-         echo "Problem with HPSS on "${MSSF}". Stopping"
-         exit 1
-       fi
-     fi      
-   else
-     echo "Neither msrcp nor hsi exist."
-     exit 1
+  TEST4HSI=`which hsi 2<&1 >& /dev/null`
+  if [ $? -eq 0 ] ; then
+    HSI=`which hsi`
+    $HSI -q "mkdir -m 775 -p $MSSD ; put -U ${MSSD}/${MSSF}" >& /dev/null
+    if [ $? -eq 0 ] ; then
+      echo ${MSSF}" written to "${MSSD}" and erased."
+      rm -f $MSSF
+    else
+      $HSI -q "put ${MSSF}" >& /dev/null
+      if [ $? -eq 0 ] ; then
+        echo ${MSSF}" written to your HPSS HOME and erased."
+        rm -f $MSSF
+      else
+        echo "Problem with HPSS on "${MSSF}". Stopping"
+        exit 1
+      fi
+    fi      
+  else
+    echo "Neither msrcp nor hsi exist."
+    exit 1
   fi
 fi
