@@ -31,7 +31,6 @@ for m in $MODEL ; do
       for v in $VARS ; do
         for e in $EXPIDS ; do
           if [ $YRCOUNT ] ; then
-            echo "Concatenating of "${v}"."${t}"."${e}" files and checking year counts: "$YRCOUNT
             NUM=`ls ${v}_${t}.${e}.${m}.${c}.????_c??????.nc | wc -l`
             if [ $NUM = $YRCOUNT ] ; then
               TS=`date '+%y%m%d'`
@@ -45,7 +44,7 @@ for m in $MODEL ; do
               $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????_c??????.nc $DF
               if [ $? -eq 0 ] ; then
                 rm -f ${v}_${t}.${e}.${m}.${c}.????_c??????.nc
-                echo "Completed "$DF
+                echo "Concatenated "$DF" and checked year count: "$YRCOUNT
               else
                 echo "Failure on concat of "${c}"."${p}"."${v}" files"
                 exit 1
@@ -56,7 +55,6 @@ for m in $MODEL ; do
               exit 1
             fi
           else
-            echo "Concatenating of "${v}"."${t}"."${e}" files WITHOUT checking year counts"
             TS=`date '+%y%m%d'`
             Y1=`ls ${v}_${t}.${e}.${m}.${c}.????_c??????.nc | head -1 | cut -d"." -f5 | cut -d"_" -f1`
             Y2=`ls ${v}_${t}.${e}.${m}.${c}.????_c??????.nc | tail -1 | cut -d"." -f5 | cut -d"_" -f1`
@@ -68,7 +66,7 @@ for m in $MODEL ; do
             $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????_c??????.nc $DF
             if [ $? -eq 0 ] ; then
               rm -f ${v}_${t}.${e}.${m}.${c}.????_c??????.nc
-              echo "Completed "$DF
+              echo "Concatenated "$DF" WITHOUT checking year count"
             else
               echo "Failure on concat of "${c}"."${p}"."${v}" files"
               exit 1
