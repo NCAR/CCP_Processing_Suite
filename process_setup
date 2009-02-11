@@ -162,8 +162,9 @@ case "$PROCHOST" in
       ocnm ) 
         PROCDIR=/scratch/scratchdirs/$USER/$CASE/ocn/mon
         if [ $DO_IPCC -ne 0 ] ; then
-          REGRDIR=/project/projectdirs/ccp/CCP_Processing_Suite/ocn/CCSM
-          OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.davinci
+          REGRDIR=/nersc/mp9/strandwg/CCP_Processing_Suite/ocn/CCSM ; export REGRDIR
+          NAMLDIR=$BASEDIR/regridding                               ; export NAMLDIR
+          OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.davinci	    ; export OREGRID
           if [ ! -f $OREGRID ] ; then
             echo "Need to build OCN regridding code. Do that and re-run."
             exit 1
@@ -172,8 +173,9 @@ case "$PROCHOST" in
       icem ) 
         PROCDIR=/scratch/scratchdirs/$USER/$CASE/ice/mon
         if [ $DO_IPCC -ne 0 ] ; then
-          REGRDIR=/project/projectdirs/ccp/CCP_Processing_Suite/ice/CCSM
-          IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.davinci
+          REGRDIR=/nersc/mp9/strandwg/CCP_Processing_Suite/ice/CCSM ; export REGRDIR
+          NAMLDIR=$BASEDIR/regridding                               ; export NAMLDIR
+          IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.davinci	    ; export IREGRID
           if [ ! -f $IREGRID ] ; then
             echo "Need to build ICE regridding code. Do that and re-run."
             exit 1
@@ -195,8 +197,9 @@ case "$PROCHOST" in
       ocnm ) 
         PROCDIR=/tmp/work/$USER/$CASE/ocn/mon
         if [ $DO_IPCC -ne 0 ] ; then
-          REGRDIR=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
-          OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.lens0
+          REGRDIR=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM ; export REGRDIR
+          NAMLDIR=$BASEDIR/regridding                        ; export NAMLDIR
+          OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.lens0     ; export IREGRID
           if [ ! -f $OREGRID ] ; then
             echo "Need to build OCN regridding code. Do that and re-run."
             exit 1
@@ -205,8 +208,9 @@ case "$PROCHOST" in
       icem ) 
         PROCDIR=/tmp/work/$USER/$CASE/ice/mon
         if [ $DO_IPCC -ne 0 ] ; then
-          REGRDIR=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM
-          IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.lens0
+          REGRDIR=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM ; export REGRDIR
+          NAMLDIR=$BASEDIR/regridding                        ; export NAMLDIR
+          IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.lens0     ; export IREGRID
           if [ ! -f $IREGRID ] ; then
             echo "Need to build ICE regridding code. Do that and re-run."
             exit 1
@@ -297,8 +301,13 @@ if [ $DO_IPCC -ne 0 ] ; then
     ln -s -f $BASEDIR/regrid_data .
     mkdir -p $PROCDIR/maps
     cd $PROCDIR/maps
-    ln -s -f $REGRDIR/*T*.nc .
-    ln -s -f $REGRDIR/*U*.nc .
+    if [ "$LOCATION" = "NC" ] ; then
+      ln -s -f $REGRDIR/*T*.nc .
+      ln -s -f $REGRDIR/*U*.nc .
+    else
+      hsi -q "cd $REGRDIR ; get *T*nc"
+      hsi -q "cd $REGRDIR ; get *U*nc"
+    fi
   fi
   cd $PROCDIR
   ln -s -f $BASEDIR/create_ipcc_data    .
