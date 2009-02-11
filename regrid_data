@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -xv
 #
 # Regrid CCSM POP/CSIM data to regular-ish grid using SCRIP weights (predefined)
 #
@@ -33,11 +33,11 @@ if [ "$COMP" = "pop" ] ; then
                        sed -e "s/TTTT/${TVAL}/g" > input_nml_T
   cat NML_ccsm_ocn_U | sed -e "s/CASE/${CASE}/g" | \
                        sed -e "s/TTTT/${TVAL}/g" > input_nml_U
-  $OREGRID < input_nml_1
+  ./ccsm_ocn_regrid < input_nml_1
   if [ $? -eq 0 ] ; then
-    $OREGRID < input_nml_T
+    ./ccsm_ocn_regrid < input_nml_T
     if [ $? -eq 0 ] ; then
-      $OREGRID < input_nml_U
+      ./ccsm_ocn_regrid < input_nml_U
       if [ $? -eq 0 ] ; then
         echo "regrid_data ocn COMPLETE"
       else
@@ -63,9 +63,9 @@ if [ "$COMP" = "csim" ] ; then
                        sed -e "s/TTTT/${TVAL}/g" > input_nml_T
   cat NML_ccsm_ice_U | sed -e "s/CASE/${CASE}/g" | \
                        sed -e "s/TTTT/${TVAL}/g" > input_nml_U
-  $IREGRID < input_nml_T
+  ccsm_ice_regrid < input_nml_T
   if [ $? -eq 0 ] ; then
-    $IREGRID < input_nml_U
+    ccsm_ice_regrid < input_nml_U
     if [ $? -eq 0 ] ; then
       echo "regrid_data ice COMPLETE"
     else

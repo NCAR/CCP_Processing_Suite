@@ -297,6 +297,12 @@ if [ $DO_IPCC -ne 0 ] ; then
     ln -s -f $BASEDIR/time_split    .
     ln -s -f $BASEDIR/days_to_month .
   fi
+  if [ "$TYPE" = "ocnm" ] ; then
+    ln -s -f $OREGRID ccsm_ocn_regrid
+  fi
+  if [ "$TYPE" = "ocnm" ] ; then
+    ln -s -f $IREGRID ccsm_ice_regrid
+  fi
   if [ "$TYPE" = "ocnm" ] || [ "$TYPE" = "icem" ] ; then
     ln -s -f $BASEDIR/regrid_data .
     mkdir -p $PROCDIR/maps
