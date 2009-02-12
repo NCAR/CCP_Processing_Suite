@@ -23,7 +23,11 @@ else
 fi
 #
 LST=`echo $DAT | sed -e "s/ /,/g"`
-MSSFILES=$CASE.$HISTNAM."{"${LST}"}"
+if [ "$TYPE" = "atmd" ] ; then
+  MSSFILES=$CASE.$HISTNAM."{"${LST}"}"
+else
+  MSSFILES=$CASE.$HISTNAM.${LST}
+fi
 echo $MSSFILES
 #
 # If NCAR MSS msrcp command exists, use it.
@@ -40,8 +44,6 @@ else
   TEST4HSI=`which hsi 2<&1 >& /dev/null`
   if [ $? -eq 0 ] ; then
     if [ `echo $LST | cut -d"." -f2` = "tar" ] ; then
-      MSSFILES=`echo $MSSFILES | sed -e 's/\}//g' | sed -e 's/\{//g'`
-      echo $MSSFILES
       htar -x -f $MSSHIST/$MSSFILES
       if [ $? -ne 0 ] ; then
         hsi -q "get -U $MSSHIST/$MSSFILES" >& /dev/null
