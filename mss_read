@@ -23,10 +23,10 @@ else
 fi
 #
 LST=`echo $DAT | sed -e "s/ /,/g"`
-if [ "$TYPE" = "atmd" ] ; then
-  MSSFILES=$CASE.$HISTNAM."{"${LST}"}"
-else
+if [ `echo $LST | cut -d"." -f2` = "tar" ] ; then
   MSSFILES=$CASE.$HISTNAM.${LST}
+else
+  MSSFILES=$CASE.$HISTNAM."{"${LST}"}"
 fi
 echo $MSSFILES
 #
