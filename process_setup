@@ -311,8 +311,18 @@ if [ $DO_IPCC -ne 0 ] ; then
       ln -s -f $REGRDIR/*T*.nc .
       ln -s -f $REGRDIR/*U*.nc .
     else
-      hsi -q "cd $REGRDIR ; get *T*nc"
-      hsi -q "cd $REGRDIR ; get *U*nc"
+      if [ "$TYPE" = "ocnm" ] ; then
+        if [ `ls map_gx1v3_k*nc | wc -l` -ne 80 ] ; then
+          hsi -q "cd $REGRDIR ; get *T*nc"
+          hsi -q "cd $REGRDIR ; get *U*nc"
+        fi
+      fi
+      if [ "$TYPE" = "icem" ] ; then
+        if [ `ls map_gx1v3_k01*nc | wc -l` -ne 2 ] ; then
+          hsi -q "cd $REGRDIR ; get *k01*T*nc"
+          hsi -q "cd $REGRDIR ; get *k01*U*nc"
+        fi
+      fi
     fi
   fi
   cd $PROCDIR
