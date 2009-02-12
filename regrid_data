@@ -63,9 +63,9 @@ if [ "$COMP" = "csim" ] ; then
                        sed -e "s/TTTT/${TVAL}/g" > input_nml_T
   cat NML_ccsm_ice_U | sed -e "s/CASE/${CASE}/g" | \
                        sed -e "s/TTTT/${TVAL}/g" > input_nml_U
-  ccsm_ice_regrid < input_nml_T
+  ./ccsm_ice_regrid < input_nml_T
   if [ $? -eq 0 ] ; then
-    ccsm_ice_regrid < input_nml_U
+    ./ccsm_ice_regrid < input_nml_U
     if [ $? -eq 0 ] ; then
       echo "regrid_data ice COMPLETE"
     else
