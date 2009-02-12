@@ -52,6 +52,8 @@ else
           if [ $? -ne 0 ] ; then
             echo "htar and tar extraction failed on "$MSSFILES
             exit 1
+          else
+            rm -f  $MSSFILES
           fi
         else
           echo "Error on hsi get of "$MSSHIST"/"$MSSFILES
