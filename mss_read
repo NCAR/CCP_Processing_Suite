@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -xv
 # Read file(s) from a archival system
 #
 if [ $# -ne 1 ] ; then
