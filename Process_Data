@@ -103,10 +103,10 @@ for CASE in $CASELIST ; do
               fi
             done
           else
-            for FILE in `ls $CASE.$HISTNAM.${YEARNOW}*nc` ; do
+            for FILE in `ls $CASE.$HISTNAM.${YEARNOW}-??-??-?????.nc` ; do
               ./time_split $FILE erase
-              ./days_to_month erase
             done
+            ./days_to_month erase
             for FILE in `ls $CASE.$HISTNAM.????-??.nc` ; do
               if [ $DO_IPCC -ne 0 ] ; then
                 ./create_ipcc_data $FILE
