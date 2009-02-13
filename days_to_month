@@ -14,7 +14,8 @@ fi
 #
 CHEK=`ls | egrep '\-.........\.nc$' | cut -d"." -f3-4 | sort | uniq`
 if [ $? -eq 0 ] ; then
-  if [ `echo $CHEK | cut -c1-2` = "ES" ] ; then
+  ISES=`echo $CHEK | cut -c1-2`
+  if [ "$ISES" = "ES" ] ; then
     CASES=`ls | egrep '\-.........\.nc$' | cut -d"." -f1-3 | sort | uniq`
      COMP=`ls | egrep '\-.........\.nc$' | cut -d"." -f4-5 | sort | uniq`
     YEARS=`ls | egrep '\-.........\.nc$' | cut -d"." -f6 | cut -c1-4 | sort | uniq`
