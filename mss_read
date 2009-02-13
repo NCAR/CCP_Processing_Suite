@@ -28,7 +28,7 @@ if [ `echo $LST | cut -d"." -f2` = "tar" ] ; then
 else
   MSSFILES=$CASE.$HISTNAM."{"${LST}"}"
 fi
-echo $MSSFILES
+#echo $MSSFILES
 #
 # If NCAR MSS msrcp command exists, use it.
 TEST4MSRCP=`which msrcp 2<&1 >& /dev/null`
