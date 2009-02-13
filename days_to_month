@@ -27,7 +27,7 @@ if [ $? -eq 0 ] ; then
   for c in $CASES ; do
     for y in $YEARS ; do
       for p in $COMP ; do
-        MON=`ls ${c}.${p}.${y}-??-??-*.nc | cut -d"-" -f2 | uniq`
+        MON=`ls ${c}.${p}.${y}-??-??-*.nc | cut -d"-" -f3 | uniq`
         for m in $MON ; do
         # Jan, Mar, May, Jul, Aug, Oct, Dec
           if [ $m = "01" ] || [ $m = "03" ] || [ $m = "05" ] || [ $m = "07" ] || [ $m = "08" ] || [ $m = "10" ] || [ $m = "12" ] ; then
