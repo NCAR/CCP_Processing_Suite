@@ -37,7 +37,6 @@ while [ $IT -le $NT ] ; do
   DS=`$NCKS -s "%5.5i\n" -F -H -C -v datesec -d time,${IT},${IT} $FILE`
   DT=${TM}"-"${DS}
   OF=$CASE.$HISTNAM.$DT.nc
-  echo $OF
   $NCKS -h -O -F -d time,${IT},${IT} $FILE $OF
   if [ $? -eq  0 ] ; then
     IT=`expr $IT '+' '1'`
