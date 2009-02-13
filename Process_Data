@@ -103,7 +103,7 @@ for CASE in $CASELIST ; do
               fi
             done
           else
-            for FILE in `ls $CASE.$HISTNAM.$YEARNOW-??-??-?????.nc` ; do
+            for FILE in `ls $CASE.$HISTNAM.$YEARNOW-*nc` ; do
               ./time_split $FILE erase
               ./days_to_month erase
             done
@@ -141,13 +141,13 @@ for CASE in $CASELIST ; do
 
     done
 #
-# Concatenate months -> years, years -> decades, decades -> all
+# Concatenate months -> years, years -> all (if possible)
 #
     ./concatenate_data
 #
 # Store completed data on archival system
 #
-#    ./store_to_archive
+    ./store_to_archive
 #
   cd $CURDIR
   done # TYPE

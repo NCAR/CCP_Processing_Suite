@@ -6,7 +6,7 @@
 #  20 -  21  Location (NC = NCAR; NE = NERSC; OR = ORNL)
 #  25 -  39  Very brief description and/or PCMDI name (n/a if not applicable)
 #  40 -  41  Realization number (2 digits) (0 if not applicable)
-#  44 -  46  Is an AR4 experiment?
+#  44 -  46  Is a CMIP3 (cm3) or CMIP5 (cm5) experiment?
 #  50 -  64  Parent CCSM case name 
 #  65 -  74  Branch date (yyyy-mm-dd, "none" if out-of-the-box)
 #  80 -  83  Year began
@@ -18,78 +18,78 @@
 #                                                                                                  1         1         1         1         1        1
 #        1         2         3         4         5         6         7         8         9         0         1         2         3         4        4
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
-#CCSM case         LC   Description    nn  AR4   parent case    branch date    beg  end  res       hardware  history file archive location
+#CCSM case         LC   Description    nn  CMP   parent case    branch date    beg  end  res       hardware  history file archive location
 #------------      --   -------------- --  ---   -----------    -----------    --------- --------- --------- -----------------------------------
 b30.004            NC   PDcntrl        1         none           0000-01-01     0001 1001 T42_gx1   bluesky   /CCSM/csm
-b30.009            NC   PDcntrl        1   AR4   none           0000-01-01     0100 0699 T85_gx1   bluesky   /CCSM/csm
+b30.009            NC   PDcntrl        1   cm3   none           0000-01-01     0100 0699 T85_gx1   bluesky   /CCSM/csm
 b30.013            NC   PIcntrl        0         none           0000-01-01     0001 0230 T85_gx1   bluesky   /CCSM/csm
 b30.017            NC   PIcntrl        0         b30.013        0231-01-01     0231 0279 T85_gx1   bluesky   /CCSM/csm
-b30.020            NC   PIcntrl        1   AR4   b30.017        0280-01-01     0280 0509 T85_gx1   bluesky   /CCSM/csm
-b30.020.ES01       NC   PIcntrl        2   AR4   b30.020        0300-01-01     0300 0429 T85_gx1   JAMSTEC   /CCSM/csm
-b30.020.ES02       NC   PIcntrl        2   AR4   b30.020.ES01   0430-01-01     0430 0799 T85_gx1   JAMSTEC   /CCSM/csm
+b30.020            NC   PIcntrl        1   cm3   b30.017        0280-01-01     0280 0509 T85_gx1   bluesky   /CCSM/csm
+b30.020.ES01       NC   PIcntrl        2   cm3   b30.020        0300-01-01     0300 0429 T85_gx1   JAMSTEC   /CCSM/csm
+b30.020.ES02       NC   PIcntrl        2   cm3   b30.020.ES01   0430-01-01     0430 0799 T85_gx1   JAMSTEC   /CCSM/csm
 b30.025a.ES01      NC   1%_to2x        1         b30.004        0479-01-01     0479 0779 T42_gx1   JAMSTEC   /CCSM/csm
 b30.025b.ES01      NC   1%_to4x        1         b30.025a.ES01  0549-01-01     0549 0849 T42_gx1   JAMSTEC   /CCSM/csm
-b30.026a.ES01      NC   1%_to2x        1   AR4   b30.026.ES01   0479-01-01     0480 0629 T85_gx1   JAMSTEC   /CCSM/csm
-b30.026b           NC   1%_to4x        1   AR4   b30.026.ES01   0549-01-01     0550 0699 T85_gx1   JAMSTEC   /CCSM/csm
-b30.026.ES01       NC   1%_to2x        1   AR4   b30.009        0400-01-01     0410 0479 T85_gx1   JAMSTEC   /CCSM/csm
-b30.026.ES01       NC   1%_to4x        1   AR4   b30.009        0400-01-01     0410 0549 T85_gx1   JAMSTEC   /CCSM/csm
-b30.030a           NC   20C3M          1   AR4   b30.020        0360-01-01     1870 1999 T85_gx1   bluesky   /CCSM/csm
-b30.030b           OR   20C3M          2   AR4   b30.020        0380-01-01     1870 1999 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
-b30.030c           NC   20C3M          3   AR4   b30.020        0400-01-01     1870 1999 T85_gx1   bluesky   /CCSM/csm
-b30.030d           OR   20C3M          4   AR4   b30.020        0420-01-01     1870 1999 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
-b30.030e           NC   20C3M          5   AR4   b30.020        0440-01-01     1870 1999 T85_gx1   bluesky   /CCSM/csm
-b30.030b.ES01      NC   20C3M          6   AR4   b30.020.ES01   0380-01-01     1870 1999 T85_gx1   JAMSTEC   /CCSM/csm
-b30.030f.ES01      NC   20C3M          7   AR4   b30.020.ES01   0410-01-01     1870 1999 T85_gx1   JAMSTEC   /CCSM/csm
-b30.030g.ES01      NC   20C3M          8   AR4   b30.020.ES01   0460-01-01     1870 1999 T85_gx1   JAMSTEC   /CCSM/csm
-b30.030h.ES01      NC   20C3M          9   AR4   b30.020b.ES01  0540-01-01     1870 1999 T85_gx1   JAMSTEC   /CCSM/csm
-b30.030h           OR   20C3M          10  AR4   b20.020        0540-01-01     1870 1999 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
+b30.026a.ES01      NC   1%_to2x        1   cm3   b30.026.ES01   0479-01-01     0480 0629 T85_gx1   JAMSTEC   /CCSM/csm
+b30.026b           NC   1%_to4x        1   cm3   b30.026.ES01   0549-01-01     0550 0699 T85_gx1   JAMSTEC   /CCSM/csm
+b30.026.ES01       NC   1%_to2x        1   cm3   b30.009        0400-01-01     0410 0479 T85_gx1   JAMSTEC   /CCSM/csm
+b30.026.ES01       NC   1%_to4x        1   cm3   b30.009        0400-01-01     0410 0549 T85_gx1   JAMSTEC   /CCSM/csm
+b30.030a           NC   20C3M          1   cm3   b30.020        0360-01-01     1870 1999 T85_gx1   bluesky   /CCSM/csm
+b30.030b           OR   20C3M          2   cm3   b30.020        0380-01-01     1870 1999 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
+b30.030c           NC   20C3M          3   cm3   b30.020        0400-01-01     1870 1999 T85_gx1   bluesky   /CCSM/csm
+b30.030d           OR   20C3M          4   cm3   b30.020        0420-01-01     1870 1999 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
+b30.030e           NC   20C3M          5   cm3   b30.020        0440-01-01     1870 1999 T85_gx1   bluesky   /CCSM/csm
+b30.030b.ES01      NC   20C3M          6   cm3   b30.020.ES01   0380-01-01     1870 1999 T85_gx1   JAMSTEC   /CCSM/csm
+b30.030f.ES01      NC   20C3M          7   cm3   b30.020.ES01   0410-01-01     1870 1999 T85_gx1   JAMSTEC   /CCSM/csm
+b30.030g.ES01      NC   20C3M          8   cm3   b30.020.ES01   0460-01-01     1870 1999 T85_gx1   JAMSTEC   /CCSM/csm
+b30.030h.ES01      NC   20C3M          9   cm3   b30.020b.ES01  0540-01-01     1870 1999 T85_gx1   JAMSTEC   /CCSM/csm
+b30.030h           OR   20C3M          10  cm3   b20.020        0540-01-01     1870 1999 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
 b30.031            NC   PDcntrl        1         none           0359-01-01     0359 0880 T31_gx3   bluesky   /CCSM/csm
-b30.036a           NC   Commit         1   AR4   b30.030a       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
-b30.036b           NC   Commit         2   AR4   b30.030b       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
-b30.036c           NC   Commit         3   AR4   b30.030c       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
-b30.036d           NC   Commit         4   AR4   b30.030d       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
-b30.036e           NC   Commit         5   AR4   b30.030e       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
-b30.036b.ES01      NC   Commit         6   AR4   b30.030b.ES01  2000-01-01     2000 2049 T85_gx1   JAMSTEC   /CCSM/csm
-b30.036f.ES01      NC   Commit         7   AR4   b30.030f.ES01  2000-01-01     2000 2049 T85_gx1   JAMSTEC   /CCSM/csm
-b30.036g.ES01      NC   Commit         8   AR4   b30.030g.ES01  2000-01-01     2000 2049 T85_gx1   JAMSTEC   /CCSM/csm
-b30.040a           OR   SRESA1B        1   AR4   b30.030a       2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
-b30.040b           NC   SRESA1B        2   AR4   b30.030b       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
-b30.040c           NC   SRESA1B        3   AR4   b30.030c       2000-01-01     2050 2089 T85_gx1   bluesky   /CCSM/csm
-b30.040d           NC   SRESA1B        4   AR4   b30.030d       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
-b30.040e           NC   SRESA1B        5   AR4   b30.030e       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
-b30.040b.ES01      NC   SRESA1B        6   AR4   b30.030b.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
-b30.040f.ES01      NC   SRESA1B        7   AR4   b30.030f.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
-b30.040g.ES01      NC   SRESA1B        8   AR4   b30.030g.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
-b30.040g           NC   SRESA1B        9   AR4   b30.030g.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
-b30.041a           OR   SRESB1         1   AR4   b30.030a       2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
-b30.041b           NC   SRESB1         2   AR4   b30.030b       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
-b30.041c           OR   SRESB1         3   AR4   b30.030c       2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
-b30.041d           OR   SRESB1         4   AR4   b30.030d       2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
-b30.041e           OR   SRESB1         5   AR4   b30.030e       2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
-b30.041b.ES01      NC   SRESB1         6   AR4   b30.030b.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
-b30.041f.ES01      NC   SRESB1         7   AR4   b30.030f.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
-b30.041g.ES01      NC   SRESB1         8   AR4   b30.030g.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
-b30.041g           OR   SRESB1         9   AR4   b30.030g.ES01  2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
-b30.042a           NE   SRESA2         1   AR4   b30.030a       2000-01-01     2000 2099 T85_gx1   seaborg   /nersc/h/hteng/ccsm
-b30.042b           NE   SRESA2         2   AR4   b30.030b       2000-01-01     2000 2099 T85_gx1   seaborg   /nersc/h/hteng/ccsm
-b30.042c           NE   SRESA2         3   AR4   b30.030c       2000-01-01     2000 2099 T85_gx1   seaborg   /nersc/h/hteng/ccsm
-b30.042d           NE   SRESA2         4   AR4   b30.030d       2000-01-01     2000 2099 T85_gx1   seaborg   /nersc/h/hteng/ccsm
-b30.042e           NE   SRESA2         5   AR4   b30.030e       2000-01-01     2000 2099 T85_gx1   seaborg   /nersc/h/hteng/ccsm
-b30.042g           OR   SRESA1B        10  AR4   b30.030g.ES01  2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
-b30.044a           OR   SRESA1B        1   AR4   b30.040a       2100-01-01     2100 2199 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
-b30.044b           NC   SRESA1B        2   AR4   b30.040b       2100-01-01     2100 2199 T85_gx1   JAMSTEC   /CCSM/csm
-b30.044c           NC   SRESA1B        3   AR4   b30.040c       2100-01-01     2100 2199 T85_gx1   bluesky   /CCSM/csm
-b30.044d           NC   SRESA1B        4   AR4   b30.040d       2100-01-01     2100 2199 T85_gx1   bluesky   /CCSM/csm
-b30.044e           NC   SRESA1B        5   AR4   b30.040e       2100-01-01     2100 2199 T85_gx1   bluesky   /CCSM/csm
-b30.044b.ES01      NC   SRESA1B        6   AR4   b30.040b.ES01  2100-01-01     2100 2449 T85_gx1   JAMSTEC   /CCSM/csm
-b30.044f.ES01      NC   SRESA1B        7   AR4   b30.040f.ES01  2100-01-01     2100 2349 T85_gx1   JAMSTEC   /CCSM/csm
-b30.044g.ES01      NC   SRESA1B        8   AR4   b30.040g.ES01  2100-01-01     2100 2349 T85_gx1   JAMSTEC   /CCSM/csm
-b30.045a           OR   SRESB1         1   AR4   b30.041a       2100-01-01     2100 2199 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
-b30.045b           NC   SRESB1         2   AR4   b30.041b       2100-01-01     2100 2199 T85_gx1   bluesky   /CCSM/csm
-b30.045c           OR   SRESB1         3   AR4   b30.041c       2100-01-01     2100 2199 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
-b30.045b.ES01      NC   SRESB1         6   AR4   b30.041b.ES01  2100-01-01     2100 2449 T85_gx1   JAMSTEC   /CCSM/csm
-b30.045f.ES01      NC   SRESB1         7   AR4   b30.041f.ES01  2100-01-01     2100 2349 T85_gx1   JAMSTEC   /CCSM/csm
-b30.045g.ES01      NC   SRESB1         8   AR4   b30.041g.ES01  2100-01-01     2100 2349 T85_gx1   JAMSTEC   /CCSM/csm
+b30.036a           NC   Commit         1   cm3   b30.030a       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
+b30.036b           NC   Commit         2   cm3   b30.030b       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
+b30.036c           NC   Commit         3   cm3   b30.030c       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
+b30.036d           NC   Commit         4   cm3   b30.030d       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
+b30.036e           NC   Commit         5   cm3   b30.030e       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
+b30.036b.ES01      NC   Commit         6   cm3   b30.030b.ES01  2000-01-01     2000 2049 T85_gx1   JAMSTEC   /CCSM/csm
+b30.036f.ES01      NC   Commit         7   cm3   b30.030f.ES01  2000-01-01     2000 2049 T85_gx1   JAMSTEC   /CCSM/csm
+b30.036g.ES01      NC   Commit         8   cm3   b30.030g.ES01  2000-01-01     2000 2049 T85_gx1   JAMSTEC   /CCSM/csm
+b30.040a           OR   SRESA1B        1   cm3   b30.030a       2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
+b30.040b           NC   SRESA1B        2   cm3   b30.030b       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
+b30.040c           NC   SRESA1B        3   cm3   b30.030c       2000-01-01     2050 2089 T85_gx1   bluesky   /CCSM/csm
+b30.040d           NC   SRESA1B        4   cm3   b30.030d       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
+b30.040e           NC   SRESA1B        5   cm3   b30.030e       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
+b30.040b.ES01      NC   SRESA1B        6   cm3   b30.030b.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
+b30.040f.ES01      NC   SRESA1B        7   cm3   b30.030f.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
+b30.040g.ES01      NC   SRESA1B        8   cm3   b30.030g.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
+b30.040g           NC   SRESA1B        9   cm3   b30.030g.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
+b30.041a           OR   SRESB1         1   cm3   b30.030a       2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
+b30.041b           NC   SRESB1         2   cm3   b30.030b       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
+b30.041c           OR   SRESB1         3   cm3   b30.030c       2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
+b30.041d           OR   SRESB1         4   cm3   b30.030d       2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
+b30.041e           OR   SRESB1         5   cm3   b30.030e       2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
+b30.041b.ES01      NC   SRESB1         6   cm3   b30.030b.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
+b30.041f.ES01      NC   SRESB1         7   cm3   b30.030f.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
+b30.041g.ES01      NC   SRESB1         8   cm3   b30.030g.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
+b30.041g           OR   SRESB1         9   cm3   b30.030g.ES01  2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
+b30.042a           NE   SRESA2         1   cm3   b30.030a       2000-01-01     2000 2099 T85_gx1   seaborg   /nersc/h/hteng/ccsm
+b30.042b           NE   SRESA2         2   cm3   b30.030b       2000-01-01     2000 2099 T85_gx1   seaborg   /nersc/h/hteng/ccsm
+b30.042c           NE   SRESA2         3   cm3   b30.030c       2000-01-01     2000 2099 T85_gx1   seaborg   /nersc/h/hteng/ccsm
+b30.042d           NE   SRESA2         4   cm3   b30.030d       2000-01-01     2000 2099 T85_gx1   seaborg   /nersc/h/hteng/ccsm
+b30.042e           NE   SRESA2         5   cm3   b30.030e       2000-01-01     2000 2099 T85_gx1   seaborg   /nersc/h/hteng/ccsm
+b30.042g           OR   SRESA1B        10  cm3   b30.030g.ES01  2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
+b30.044a           OR   SRESA1B        1   cm3   b30.040a       2100-01-01     2100 2199 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
+b30.044b           NC   SRESA1B        2   cm3   b30.040b       2100-01-01     2100 2199 T85_gx1   JAMSTEC   /CCSM/csm
+b30.044c           NC   SRESA1B        3   cm3   b30.040c       2100-01-01     2100 2199 T85_gx1   bluesky   /CCSM/csm
+b30.044d           NC   SRESA1B        4   cm3   b30.040d       2100-01-01     2100 2199 T85_gx1   bluesky   /CCSM/csm
+b30.044e           NC   SRESA1B        5   cm3   b30.040e       2100-01-01     2100 2199 T85_gx1   bluesky   /CCSM/csm
+b30.044b.ES01      NC   SRESA1B        6   cm3   b30.040b.ES01  2100-01-01     2100 2449 T85_gx1   JAMSTEC   /CCSM/csm
+b30.044f.ES01      NC   SRESA1B        7   cm3   b30.040f.ES01  2100-01-01     2100 2349 T85_gx1   JAMSTEC   /CCSM/csm
+b30.044g.ES01      NC   SRESA1B        8   cm3   b30.040g.ES01  2100-01-01     2100 2349 T85_gx1   JAMSTEC   /CCSM/csm
+b30.045a           OR   SRESB1         1   cm3   b30.041a       2100-01-01     2100 2199 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
+b30.045b           NC   SRESB1         2   cm3   b30.041b       2100-01-01     2100 2199 T85_gx1   bluesky   /CCSM/csm
+b30.045c           OR   SRESB1         3   cm3   b30.041c       2100-01-01     2100 2199 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
+b30.045b.ES01      NC   SRESB1         6   cm3   b30.041b.ES01  2100-01-01     2100 2449 T85_gx1   JAMSTEC   /CCSM/csm
+b30.045f.ES01      NC   SRESB1         7   cm3   b30.041f.ES01  2100-01-01     2100 2349 T85_gx1   JAMSTEC   /CCSM/csm
+b30.045g.ES01      NC   SRESB1         8   cm3   b30.041g.ES01  2100-01-01     2100 2349 T85_gx1   JAMSTEC   /CCSM/csm
 b30.048            NC   PIcntrl        1         none           0400-01-01     0400 0553 T31_gx3   bluesky   /CCSM/csm
 b30.053a           NE   20C3M_bc       1         b30.020        0360-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
 b30.053b           NE   20C3M_bc       2         b30.020        0380-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
@@ -193,10 +193,10 @@ b30.243a           NE   CCSP_Overshoot 1         b30.030a       2000-01-01     2
 b30.243b           NE   CCSP_Overshoot 2         b30.030b       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
 b30.243c           NE   CCSP_Overshoot 3         b30.030c       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
 b30.243d           NE   CCSP_Overshoot 4         b30.030d       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-eul128x256_d50somd NC   2XCO2          1   AR4   none           0000-01-01     0000 0067 T85_gx1   bluesky   /JMCCAA/csm/eul128x256_d50somd
-eul128x256_d50som  NC   Slabcntl       1   AR4   none           0000-01-01     0000 0050 T85_gx1   bluesky   /JMCCAA/csm/eul128x256_d50som
-eul_amip           NC   AMIP           1   AR4   none           0000-01-01     1979 2000 T85_gx1   bluesky   /JMCCAA/csm/eul128x256_d48ttne2amip
-iamip.ES01         NC   AMIP           2   AR4   none           0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
-iamip.ES03         NC   AMIP           3   AR4   none           0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
-iamip.ES04         NC   AMIP           4   AR4   none           0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
-iamip.ES05         NC   AMIP           5   AR4   none           0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
+eul128x256_d50somd NC   2XCO2          1   cm3   none           0000-01-01     0000 0067 T85_gx1   bluesky   /JMCCAA/csm/eul128x256_d50somd
+eul128x256_d50som  NC   Slabcntl       1   cm3   none           0000-01-01     0000 0050 T85_gx1   bluesky   /JMCCAA/csm/eul128x256_d50som
+eul_amip           NC   AMIP           1   cm3   none           0000-01-01     1979 2000 T85_gx1   bluesky   /JMCCAA/csm/eul128x256_d48ttne2amip
+iamip.ES01         NC   AMIP           2   cm3   none           0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
+iamip.ES03         NC   AMIP           3   cm3   none           0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
+iamip.ES04         NC   AMIP           4   cm3   none           0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
+iamip.ES05         NC   AMIP           5   cm3   none           0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm

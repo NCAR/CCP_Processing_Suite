@@ -17,10 +17,29 @@ fi
 #
 # Extract information from "experiments.txt"
 #
+#  Columns   Field
+#   1 -  19  CCSM case name
+#  20 -  21  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  25 -  39  Very brief description and/or PCMDI name (n/a if not applicable)
+#  40 -  41  Realization number (2 digits) (0 if not applicable)
+#  44 -  46  Is a CMIP3 (cm3) or CMIP5 (cm5) experiment?
+#  50 -  64  Parent CCSM case name 
+#  65 -  74  Branch date (yyyy-mm-dd, "none" if out-of-the-box)
+#  80 -  83  Year began
+#  85 -  88  Year ended
+#  90 -  98  Resolution
+# 100 - 109  Hardware
+# 110 - end  History file location on archive
+#
 if [ -f ./experiments.txt ] ; then
   LOCATION=`egrep "^$CASE " experiments.txt | cut -c20-  | cut -d" " -f1`
    DESCRIP=`egrep "^$CASE " experiments.txt | cut -c25-  | cut -d" " -f1`
    REALIZN=`egrep "^$CASE " experiments.txt | cut -c40-  | cut -d" " -f1`
+   if [ `egrep "^$CASE " experiments.txt | cut -c44-46` != "   " ] ; then
+      CMIP=`egrep "^$CASE " experiments.txt | cut -c44-46`
+   else
+      CMIP="NOT"
+   fi
     PARENT=`egrep "^$CASE " experiments.txt | cut -c50-  | cut -d" " -f1`
     BRANCH=`egrep "^$CASE " experiments.txt | cut -c65-  | cut -d" " -f1`
    YEARBEG=`egrep "^$CASE " experiments.txt | cut -c80-  | cut -d" " -f1`
@@ -261,6 +280,9 @@ fi
 echo "            Location : "$LOCATION ; export LOCATION
 echo "         Description : "$DESCRIP  ; export DESCRIP
 echo "         Realization : "$REALIZN  ; export REALIZN
+if [ "$CMIP" != "NOT" ] ; then
+  echo "         CMIP version: "$CMIP     ; export CMIP
+fi
 echo "         Parent case : "$PARENT   ; export PARENT
 echo "         Branch date : "$BRANCH   ; export BRANCH
 echo "          Resolution : "$RES      ; export RES
@@ -327,7 +349,7 @@ if [ $DO_IPCC -ne 0 ] ; then
   fi
   cd $PROCDIR
   ln -s -f $BASEDIR/create_ipcc_data    .
-  ln -s -f $BASEDIR/CCSM_${TYPE}_2cf.ncl   .
+  ln -s -f $BASEDIR/CCSM_${TYPE}_${CMIP}.ncl   .
   ln -s -f $BASEDIR/attributes_ccsm.ncl .
   cd $PROCDIR/IPCC
   ln -s -f $BASEDIR/mss_list   .
