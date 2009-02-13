@@ -91,108 +91,108 @@ b30.045b.ES01      NC   SRESB1         6   cm3   b30.041b.ES01  2100-01-01     2
 b30.045f.ES01      NC   SRESB1         7   cm3   b30.041f.ES01  2100-01-01     2100 2349 T85_gx1   JAMSTEC   /CCSM/csm
 b30.045g.ES01      NC   SRESB1         8   cm3   b30.041g.ES01  2100-01-01     2100 2349 T85_gx1   JAMSTEC   /CCSM/csm
 b30.048            NC   PIcntrl        1         none           0400-01-01     0400 0553 T31_gx3   bluesky   /CCSM/csm
-b30.053a           NE   20C3M_bc       1         b30.020        0360-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
-b30.053b           NE   20C3M_bc       2         b30.020        0380-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
-b30.053c           NE   20C3M_bc       3         b30.020        0400-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
-b30.053d           NE   20C3M_bc       4         b30.020        0420-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
-b30.053e           NE   20C3M_bc       5         b30.020        0440-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
-b30.072a           OR   20C3M_nat      1         b30.020        0360-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
-b30.072b           OR   20C3M_nat      2         b30.020        0380-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
-b30.072c           OR   20C3M_nat      3         b30.020        0400-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
-b30.072d           OR   20C3M_nat      4         b30.020        0420-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
-b30.072e           NE   20C3M_nat      5         b30.020        0440-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.074a           NE   20C3M          1         b30.043        0541-01-01     1870 1999 T42_gx1   bassi     /nersc/h/hteng/ccsm
-b30.075-01         NC   SRESA1B        01        b30.074a       2000-01-01     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-02         NC   SRESA1B        02        b30.074a       1999-12-03     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-03         NC   SRESA1B        03        b30.074a       1999-12-05     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-04         NC   SRESA1B        04        b30.074a       1999-12-07     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-05         NC   SRESA1B        05        b30.074a       1999-12-09     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-06         NC   SRESA1B        06        b30.074a       1999-12-11     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-07         NC   SRESA1B        07        b30.074a       1999-12-13     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-08         NC   SRESA1B        08        b30.074a       1999-12-15     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-09         NC   SRESA1B        09        b30.074a       1999-12-17     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-10         NC   SRESA1B        10        b30.074a       1999-12-18     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-11         NC   SRESA1B        11        b30.074a       1999-12-19     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-12         NC   SRESA1B        12        b30.074a       1999-12-20     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-13         NC   SRESA1B        13        b30.074a       1999-12-21     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-14         NC   SRESA1B        14        b30.074a       1999-12-22     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-15         NC   SRESA1B        15        b30.074a       1999-12-23     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-16         NC   SRESA1B        16        b30.074a       1999-12-24     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-17         NC   SRESA1B        17        b30.074a       1999-12-25     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-18         NC   SRESA1B        18        b30.074a       1999-12-26     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-19         NC   SRESA1B        19        b30.074a       1999-12-27     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-20         NC   SRESA1B        20        b30.074a       1999-12-28     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-21         NC   SRESA1B        21        b30.074a       1999-12-29     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-22         NC   SRESA1B        22        b30.074a       1999-12-30     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-23         NC   SRESA1B        23        b30.074a       1999-12-31     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-24         NC   SRESA1B        24        b30.074a       2000-01-02     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-25         NC   SRESA1B        25        b30.074a       2000-01-04     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-26         NC   SRESA1B        26        b30.074a       2000-01-06     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-27         NC   SRESA1B        27        b30.074a       2000-01-08     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-28         NC   SRESA1B        28        b30.074a       2000-01-10     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-29         NC   SRESA1B        29        b30.074a       2000-01-12     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-30         NC   SRESA1B        30        b30.074a       2000-01-14     2000 2061 T42_gx1   bluesky   /CCSM/csm
-b30.075-31         OR   SRESA1B        31        b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
-b30.075-32         OR   SRESA1B        32        b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
-b30.075-33         OR   SRESA1B        33        b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
-b30.075-34         OR   SRESA1B        34        b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
-b30.075-35         OR   SRESA1B        35        b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
-b30.075-36         OR   SRESA1B        36        b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
-b30.075-37         OR   SRESA1B        37        b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
-b30.075-38         OR   SRESA1B        38        b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
-b30.075-39         OR   SRESA1B        39        b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
-b30.075-40         OR   SRESA1B        40        b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
-b30.090a           OR   20C3M_anthro   1         b30.020        0360-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
-b30.090b           OR   20C3M_anthro   2         b30.020        0380-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
-b30.090c           OR   20C3M_anthro   3         b30.020        0400-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
-b30.090d           OR   20C3M_anthro   4         b30.020        0420-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
-b30.090e           NE   20C3M_anthro   5         b30.020        0440-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.053a           NE   20C3M_bc       1   cm3   b30.020        0360-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
+b30.053b           NE   20C3M_bc       2   cm3   b30.020        0380-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
+b30.053c           NE   20C3M_bc       3   cm3   b30.020        0400-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
+b30.053d           NE   20C3M_bc       4   cm3   b30.020        0420-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
+b30.053e           NE   20C3M_bc       5   cm3   b30.020        0440-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
+b30.072a           OR   20C3M_nat      1   cm3   b30.020        0360-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
+b30.072b           OR   20C3M_nat      2   cm3   b30.020        0380-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
+b30.072c           OR   20C3M_nat      3   cm3   b30.020        0400-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
+b30.072d           OR   20C3M_nat      4   cm3   b30.020        0420-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
+b30.072e           NE   20C3M_nat      5   cm3   b30.020        0440-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.074a           NE   20C3M          1   cm3   b30.043        0541-01-01     1870 1999 T42_gx1   bassi     /nersc/h/hteng/ccsm
+b30.075-01         NC   SRESA1B        01  cm3   b30.074a       2000-01-01     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-02         NC   SRESA1B        02  cm3   b30.074a       1999-12-03     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-03         NC   SRESA1B        03  cm3   b30.074a       1999-12-05     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-04         NC   SRESA1B        04  cm3   b30.074a       1999-12-07     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-05         NC   SRESA1B        05  cm3   b30.074a       1999-12-09     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-06         NC   SRESA1B        06  cm3   b30.074a       1999-12-11     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-07         NC   SRESA1B        07  cm3   b30.074a       1999-12-13     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-08         NC   SRESA1B        08  cm3   b30.074a       1999-12-15     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-09         NC   SRESA1B        09  cm3   b30.074a       1999-12-17     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-10         NC   SRESA1B        10  cm3   b30.074a       1999-12-18     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-11         NC   SRESA1B        11  cm3   b30.074a       1999-12-19     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-12         NC   SRESA1B        12  cm3   b30.074a       1999-12-20     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-13         NC   SRESA1B        13  cm3   b30.074a       1999-12-21     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-14         NC   SRESA1B        14  cm3   b30.074a       1999-12-22     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-15         NC   SRESA1B        15  cm3   b30.074a       1999-12-23     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-16         NC   SRESA1B        16  cm3   b30.074a       1999-12-24     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-17         NC   SRESA1B        17  cm3   b30.074a       1999-12-25     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-18         NC   SRESA1B        18  cm3   b30.074a       1999-12-26     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-19         NC   SRESA1B        19  cm3   b30.074a       1999-12-27     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-20         NC   SRESA1B        20  cm3   b30.074a       1999-12-28     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-21         NC   SRESA1B        21  cm3   b30.074a       1999-12-29     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-22         NC   SRESA1B        22  cm3   b30.074a       1999-12-30     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-23         NC   SRESA1B        23  cm3   b30.074a       1999-12-31     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-24         NC   SRESA1B        24  cm3   b30.074a       2000-01-02     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-25         NC   SRESA1B        25  cm3   b30.074a       2000-01-04     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-26         NC   SRESA1B        26  cm3   b30.074a       2000-01-06     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-27         NC   SRESA1B        27  cm3   b30.074a       2000-01-08     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-28         NC   SRESA1B        28  cm3   b30.074a       2000-01-10     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-29         NC   SRESA1B        29  cm3   b30.074a       2000-01-12     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-30         NC   SRESA1B        30  cm3   b30.074a       2000-01-14     2000 2061 T42_gx1   bluesky   /CCSM/csm
+b30.075-31         OR   SRESA1B        31  cm3   b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
+b30.075-32         OR   SRESA1B        32  cm3   b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
+b30.075-33         OR   SRESA1B        33  cm3   b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
+b30.075-34         OR   SRESA1B        34  cm3   b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
+b30.075-35         OR   SRESA1B        35  cm3   b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
+b30.075-36         OR   SRESA1B        36  cm3   b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
+b30.075-37         OR   SRESA1B        37  cm3   b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
+b30.075-38         OR   SRESA1B        38  cm3   b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
+b30.075-39         OR   SRESA1B        39  cm3   b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
+b30.075-40         OR   SRESA1B        40  cm3   b30.074a       2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
+b30.090a           OR   20C3M_anthro   1   cm3   b30.020        0360-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
+b30.090b           OR   20C3M_anthro   2   cm3   b30.020        0380-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
+b30.090c           OR   20C3M_anthro   3   cm3   b30.020        0400-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
+b30.090d           OR   20C3M_anthro   4   cm3   b30.020        0420-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
+b30.090e           NE   20C3M_anthro   5   cm3   b30.020        0440-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
 b30.097a           NC   Geoengineering 1         b30.042a       2020-01-01     2020 2049 T85_gx1   bluesky   /CCSM/csm
 b30.097b           NC   Geoengineering 2         b30.042a       2020-01-01     2020 2049 T85_gx1   bluesky   /CCSM/csm
 b30.097c           NC   Geoengineering 3         b30.042b       2020-01-01     2020 2049 T85_gx1   bluesky   /CCSM/csm
 b30.097d           NC   Geoengineering 4         b30.042c       2020-01-01     2020 2049 T85_gx1   bluesky   /CCSM/csm
 b30.097e           NC   Geoengineering 5         b30.042d       2020-01-01     2020 2049 T85_gx1   bluesky   /CCSM/csm
-b30.099a           OR   SRESA1FI       1         b30.020        0360-01-01     2000 2099 T85_gx1   jaguar    /f2/hteng/mss/CCSM/csm
-b30.099b           OR   SRESA1FI       2         b30.020        0380-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
-b30.099c           OR   SRESA1FI       3         b30.020        0400-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
-b30.102a           NE   20C3M_sd       1         b30.020        0360-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.102b           NE   20C3M_sd       2         b30.020        0380-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.208a           NE   CCSP_Reference 1         b30.030a       2000-01-01     2000 2099 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.208b           NE   CCSP_Reference 2         b30.030b       2000-01-01     2000 2099 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.208c           NE   CCSP_Reference 3         b30.030c       2000-01-01     2000 2099 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.208d           NE   CCSP_Reference 4         b30.030d       2000-01-01     2000 2099 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.209a           OR   CCSP_Stab450   1         b30.030a       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
-b30.209b           OR   CCSP_Stab450   2         b30.030b       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
-b30.209c           OR   CCSP_Stab450   3         b30.030c       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
-b30.209d           OR   CCSP_Stab450   4         b30.030d       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
+b30.099a           OR   SRESA1FI       1   cm3   b30.020        0360-01-01     2000 2099 T85_gx1   jaguar    /f2/hteng/mss/CCSM/csm
+b30.099b           OR   SRESA1FI       2   cm3   b30.020        0380-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
+b30.099c           OR   SRESA1FI       3   cm3   b30.020        0400-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
+b30.102a           NE   20C3M_sd       1   cm3   b30.020        0360-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.102b           NE   20C3M_sd       2   cm3   b30.020        0380-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.208a           NE   CCSP_Reference 1   cm3   b30.030a       2000-01-01     2000 2099 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.208b           NE   CCSP_Reference 2   cm3   b30.030b       2000-01-01     2000 2099 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.208c           NE   CCSP_Reference 3   cm3   b30.030c       2000-01-01     2000 2099 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.208d           NE   CCSP_Reference 4   cm3   b30.030d       2000-01-01     2000 2099 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.209a           OR   CCSP_Stab450   1   cm3   b30.030a       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
+b30.209b           OR   CCSP_Stab450   2   cm3   b30.030b       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
+b30.209c           OR   CCSP_Stab450   3   cm3   b30.030c       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
+b30.209d           OR   CCSP_Stab450   4   cm3   b30.030d       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
 b30.210a           OR   T170_PIcntrl   0         none           0000-01-01     0000 0019 T170_gx1  jaguar    /f2/adrianne/ccsm
-b30.216a           NE   20C3M_gg       1         b30.020        0360-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.216b           NE   20C3M_gg       2         b30.020        0380-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.217a           NE   20C3M_sl       1         b30.020        0360-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.217b           NE   20C3M_sl       2         b30.020        0380-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.218a           NE   20C3M_vl       1         b30.020        0360-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.218b           NE   20C3M_vl       2         b30.020        0380-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.219a           NE   20C3M_oz       1         b30.020        0360-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.219b           NE   20C3M_oz       2         b30.020        0380-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.220a           NE   20C3M_si       1         b30.020        0360-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.220b           NE   20C3M_si       2         b30.020        0380-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.227a           NE   CCSP_Reference 1         b30.208a       2100-01-01     2100 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.240a           OR   CCSP_Level2    1         b30.030a       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
-b30.240b           OR   CCSP_Level2    2         b30.030b       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
-b30.240c           OR   CCSP_Level2    3         b30.030c       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
-b30.240d           OR   CCSP_Level2    4         b30.030d       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
-b30.241a           OR   CCSP_Level3    1         b30.030a       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
-b30.241b           OR   CCSP_Level3    2         b30.030b       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
-b30.241c           OR   CCSP_Level3    3         b30.030c       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
-b30.241d           OR   CCSP_Level3    4         b30.030d       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
-b30.242a           NE   CCSP_Level4    1         b30.030a       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.242b           NE   CCSP_Level4    2         b30.030b       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.242c           NE   CCSP_Level4    3         b30.030c       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.242d           NE   CCSP_Level4    4         b30.030d       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.243a           NE   CCSP_Overshoot 1         b30.030a       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.243b           NE   CCSP_Overshoot 2         b30.030b       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.243c           NE   CCSP_Overshoot 3         b30.030c       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
-b30.243d           NE   CCSP_Overshoot 4         b30.030d       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.216a           NE   20C3M_gg       1   cm3   b30.020        0360-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.216b           NE   20C3M_gg       2   cm3   b30.020        0380-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.217a           NE   20C3M_sl       1   cm3   b30.020        0360-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.217b           NE   20C3M_sl       2   cm3   b30.020        0380-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.218a           NE   20C3M_vl       1   cm3   b30.020        0360-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.218b           NE   20C3M_vl       2   cm3   b30.020        0380-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.219a           NE   20C3M_oz       1   cm3   b30.020        0360-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.219b           NE   20C3M_oz       2   cm3   b30.020        0380-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.220a           NE   20C3M_si       1   cm3   b30.020        0360-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.220b           NE   20C3M_si       2   cm3   b30.020        0380-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.227a           NE   CCSP_Reference 1   cm3   b30.208a       2100-01-01     2100 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.240a           OR   CCSP_Level2    1   cm3   b30.030a       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
+b30.240b           OR   CCSP_Level2    2   cm3   b30.030b       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
+b30.240c           OR   CCSP_Level2    3   cm3   b30.030c       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
+b30.240d           OR   CCSP_Level2    4   cm3   b30.030d       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
+b30.241a           OR   CCSP_Level3    1   cm3   b30.030a       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
+b30.241b           OR   CCSP_Level3    2   cm3   b30.030b       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
+b30.241c           OR   CCSP_Level3    3   cm3   b30.030c       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
+b30.241d           OR   CCSP_Level3    4   cm3   b30.030d       2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
+b30.242a           NE   CCSP_Level4    1   cm3   b30.030a       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.242b           NE   CCSP_Level4    2   cm3   b30.030b       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.242c           NE   CCSP_Level4    3   cm3   b30.030c       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.242d           NE   CCSP_Level4    4   cm3   b30.030d       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.243a           NE   CCSP_Overshoot 1   cm3   b30.030a       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.243b           NE   CCSP_Overshoot 2   cm3   b30.030b       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.243c           NE   CCSP_Overshoot 3   cm3   b30.030c       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
+b30.243d           NE   CCSP_Overshoot 4   cm3   b30.030d       2000-01-01     2000 2299 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
 eul128x256_d50somd NC   2XCO2          1   cm3   none           0000-01-01     0000 0067 T85_gx1   bluesky   /JMCCAA/csm/eul128x256_d50somd
 eul128x256_d50som  NC   Slabcntl       1   cm3   none           0000-01-01     0000 0050 T85_gx1   bluesky   /JMCCAA/csm/eul128x256_d50som
 eul_amip           NC   AMIP           1   cm3   none           0000-01-01     1979 2000 T85_gx1   bluesky   /JMCCAA/csm/eul128x256_d48ttne2amip
