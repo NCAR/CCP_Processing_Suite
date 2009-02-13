@@ -46,7 +46,7 @@ else
 fi
 #
 NCL_TVAL=`echo $NCL_FILE | cut -d"." -f${F_TVAL}`
-NCL_SCRIPT=CCSM_${TYPE}_2cf.ncl ; export NCL_SCRIPT
+NCL_SCRIPT=CCSM_${TYPE}_${CMIP}.ncl ; export NCL_SCRIPT
 #
 if [ ! -d ./IPCC ] ; then
    mkdir ./IPCC
@@ -59,7 +59,7 @@ if [ "$TYPE" = "icem" ] || [ "$TYPE" = "ocnm" ] ; then # We are processing regri
     if [ "$NCL_TVAL" = "nc" ] ; then # We are processing an original ocean file for transports
       F_TVAL=`expr $F_TVAL - 1`
       NCL_TVAL=`echo $NCL_FILE | cut -d"." -f${F_TVAL}`
-      NCL_SCRIPT=CCSM_trans_2cf.ncl ; export NCL_SCRIPT
+      NCL_SCRIPT=CCSM_trans_${CMIP}.ncl ; export NCL_SCRIPT
     fi
   fi
 fi
