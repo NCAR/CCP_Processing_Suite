@@ -33,12 +33,11 @@ NT=`$NCKS -M $FILE | egrep "Record" | cut -d"=" -f3`
 #
 IT=1
 while [ $IT -le $NT ] ; do
-  YR=`$NCKS -s   "%8.8i\n" -F -H -C -v date -d time,${IT},${IT} $FILE | cut -c1-4`
-  MN=`$NCKS -s   "%8.8i\n" -F -H -C -v date -d time,${IT},${IT} $FILE | cut -c5-6`
-  DY=`$NCKS -s   "%8.8i\n" -F -H -C -v date -d time,${IT},${IT} $FILE | cut -c7-8`
-  TS=`$NCKS -s "%010.4f\n" -F -H -C -v time -d time,${IT},${IT} $FILE | sed -e 's/\.//g'`
-  DT=${YR}"-"${MN}"-"${DY}"-"${TS}
+  TM=`$NCKS -s "%8.8i\n" -F -H -C -v date    -d time,${IT},${IT} $FILE`
+  DS=`$NCKS -s "%5.5i\n" -F -H -C -v datesec -d time,${IT},${IT} $FILE`
+  DT=${TM}"-"${DS}
   OF=$CASE.$HISTNAM.$DT.nc
+  echo $OF
   $NCKS -h -O -F -d time,${IT},${IT} $FILE $OF
   if [ $? -eq  0 ] ; then
     IT=`expr $IT '+' '1'`
