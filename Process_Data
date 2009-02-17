@@ -144,10 +144,15 @@ for CASE in $CASELIST ; do
 # Concatenate months -> years, years -> all (if possible)
 #
     ./concatenate_data
+    if [ $? -eq 0 ] ; then
 #
 # Store completed data on archival system
 #
-    ./store_to_archive
+      ./store_to_archive
+    else
+      echo "Error from concatenate_data"
+      exit 1
+    fi
 #
   cd $CURDIR
   done # TYPE
