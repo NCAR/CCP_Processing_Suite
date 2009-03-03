@@ -7,11 +7,11 @@
 # --------------------------------------------------------------------------------
 # Case(s)
 #
-CASELIST="b30.040c"
+CASELIST="b30.004"
 #
 # Type(s) - one of "atmm atmd lndm ocnm icem"
 #
-TYPELIST="ocnm"
+TYPELIST="atmm"
 #
 # Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
 #
@@ -138,7 +138,15 @@ for CASE in $CASELIST ; do
         fi
       fi
       YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
-
+      if [ $YEARNOW -lt 1000 ] ; then
+        YEARNOW=0${YEARNOW}
+      fi
+      if [ $YEARNOW -lt 100 ] ; then
+        YEARNOW=0${YEARNOW}
+      fi
+      if [ $YEARNOW -lt 10 ] ; then
+        YEARNOW=0${YEARNOW}
+      fi
     done
 #
 # Concatenate months -> years, years -> all (if possible)

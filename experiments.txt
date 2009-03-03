@@ -20,7 +20,7 @@
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
 #CCSM case         LC   Description    nn  CMP   parent case    branch date    beg  end  res       hardware  history file archive location
 #------------      --   -------------- --  ---   -----------    -----------    --------- --------- --------- -----------------------------------
-b30.004            NC   PDcntrl        1         none           0000-01-01     0001 1001 T42_gx1   bluesky   /CCSM/csm
+b30.004            NC   PDcntrl        1         none           0000-01-01     0001 0499 T42_gx1   bluesky   /CCSM/csm
 b30.009            NC   PDcntrl        1   cm3   none           0000-01-01     0100 0699 T85_gx1   bluesky   /CCSM/csm
 b30.013            NC   PIcntrl        0         none           0000-01-01     0001 0230 T85_gx1   bluesky   /CCSM/csm
 b30.017            NC   PIcntrl        0         b30.013        0231-01-01     0231 0279 T85_gx1   bluesky   /CCSM/csm
@@ -54,7 +54,7 @@ b30.036f.ES01      NC   Commit         7   cm3   b30.030f.ES01  2000-01-01     2
 b30.036g.ES01      NC   Commit         8   cm3   b30.030g.ES01  2000-01-01     2000 2049 T85_gx1   JAMSTEC   /CCSM/csm
 b30.040a           OR   SRESA1B        1   cm3   b30.030a       2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
 b30.040b           NC   SRESA1B        2   cm3   b30.030b       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
-b30.040c           NC   SRESA1B        3   cm3   b30.030c       2000-01-01     2050 2089 T85_gx1   bluesky   /CCSM/csm
+b30.040c           NC   SRESA1B        3   cm3   b30.030c       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
 b30.040d           NC   SRESA1B        4   cm3   b30.030d       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
 b30.040e           NC   SRESA1B        5   cm3   b30.030e       2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
 b30.040b.ES01      NC   SRESA1B        6   cm3   b30.030b.ES01  2000-01-01     2000 2099 T85_gx1   JAMSTEC   /CCSM/csm
