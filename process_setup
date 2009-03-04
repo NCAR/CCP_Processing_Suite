@@ -18,35 +18,35 @@ fi
 # Extract information from "experiments.txt"
 #
 #  Columns   Field
-#   1 -  19  CCSM case name
-#  20 -  21  Location (NC = NCAR; NE = NERSC; OR = ORNL)
-#  25 -  39  Very brief description and/or PCMDI name (n/a if not applicable)
-#  40 -  41  Realization number (2 digits) (0 if not applicable)
-#  44 -  46  Is a CMIP3 (cm3) or CMIP5 (cm5) experiment?
-#  50 -  64  Parent CCSM case name 
-#  65 -  74  Branch date (yyyy-mm-dd, "none" if out-of-the-box)
-#  80 -  83  Year began
-#  85 -  88  Year ended
-#  90 -  98  Resolution
-# 100 - 109  Hardware
-# 110 - end  History file location on archive
+#   1 -  29  CCSM case name
+#  30 -  31  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  35 -  49  Very brief description and/or PCMDI name (n/a if not applicable)
+#  50 -  51  Realization number (2 digits) (0 if not applicable)
+#  54 -  56  Is a CMIP3 (cm3) or CMIP5 (cm5) experiment?
+#  60 -  80  Parent CCSM case name 
+#  85 -  94  Branch date (yyyy-mm-dd, "none" if out-of-the-box)
+# 100 - 103  Year began
+# 105 - 108  Year ended
+# 110 - 118  Resolution
+# 120 - 129  Hardware
+# 130 - end  History file location on archive
 #
 if [ -f ./experiments.txt ] ; then
-  LOCATION=`egrep "^$CASE " experiments.txt | cut -c20-  | cut -d" " -f1`
-   DESCRIP=`egrep "^$CASE " experiments.txt | cut -c25-  | cut -d" " -f1`
-   REALIZN=`egrep "^$CASE " experiments.txt | cut -c40-  | cut -d" " -f1`
-   if [ `egrep "^$CASE " experiments.txt | cut -c44-46` != "   " ] ; then
-      CMIP=`egrep "^$CASE " experiments.txt | cut -c44-46`
+  LOCATION=`egrep "^$CASE " experiments.txt | cut -c30-  | cut -d" " -f1`
+   DESCRIP=`egrep "^$CASE " experiments.txt | cut -c35-  | cut -d" " -f1`
+   REALIZN=`egrep "^$CASE " experiments.txt | cut -c50-  | cut -d" " -f1`
+   if [ `egrep "^$CASE " experiments.txt | cut -c54-56` != "   " ] ; then
+      CMIP=`egrep "^$CASE " experiments.txt | cut -c54-56`
    else
       CMIP="NOT"
    fi
-    PARENT=`egrep "^$CASE " experiments.txt | cut -c50-  | cut -d" " -f1`
-    BRANCH=`egrep "^$CASE " experiments.txt | cut -c65-  | cut -d" " -f1`
-   YEARBEG=`egrep "^$CASE " experiments.txt | cut -c80-  | cut -d" " -f1`
-   YEAREND=`egrep "^$CASE " experiments.txt | cut -c85-  | cut -d" " -f1`
-       RES=`egrep "^$CASE " experiments.txt | cut -c90-  | cut -d" " -f1`
-  HARDWARE=`egrep "^$CASE " experiments.txt | cut -c100- | cut -d" " -f1`
-  HISTBASE=`egrep "^$CASE " experiments.txt | cut -c110- | cut -d" " -f1`
+    PARENT=`egrep "^$CASE " experiments.txt | cut -c60-  | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " experiments.txt | cut -c85-  | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " experiments.txt | cut -c100- | cut -d" " -f1`
+   YEAREND=`egrep "^$CASE " experiments.txt | cut -c105- | cut -d" " -f1`
+       RES=`egrep "^$CASE " experiments.txt | cut -c110- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " experiments.txt | cut -c120- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " experiments.txt | cut -c130- | cut -d" " -f1`
 else
   echo "Cannot find experiments.txt. HELP"
   exit 1
