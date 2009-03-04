@@ -35,11 +35,7 @@ if [ -f ./experiments.txt ] ; then
   LOCATION=`egrep "^$CASE " experiments.txt | cut -c30-  | cut -d" " -f1`
    DESCRIP=`egrep "^$CASE " experiments.txt | cut -c35-  | cut -d" " -f1`
    REALIZN=`egrep "^$CASE " experiments.txt | cut -c50-  | cut -d" " -f1`
-   if [ `egrep "^$CASE " experiments.txt | cut -c54-56` != "   " ] ; then
       CMIP=`egrep "^$CASE " experiments.txt | cut -c54-56`
-   else
-      CMIP="NOT"
-   fi
     PARENT=`egrep "^$CASE " experiments.txt | cut -c60-  | cut -d" " -f1`
     BRANCH=`egrep "^$CASE " experiments.txt | cut -c85-  | cut -d" " -f1`
    YEARBEG=`egrep "^$CASE " experiments.txt | cut -c100- | cut -d" " -f1`
@@ -280,7 +276,7 @@ fi
 echo "            Location : "$LOCATION ; export LOCATION
 echo "         Description : "$DESCRIP  ; export DESCRIP
 echo "         Realization : "$REALIZN  ; export REALIZN
-if [ "$CMIP" != "NOT" ] ; then
+if [ "$CMIP" != "---" ] ; then
   echo "         CMIP version: "$CMIP     ; export CMIP
 fi
 echo "         Parent case : "$PARENT   ; export PARENT
