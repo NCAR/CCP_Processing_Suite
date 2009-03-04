@@ -15,11 +15,15 @@ fi
 #
 # Deduce files to read
 #
-CHEK=`echo $CASE | cut -d"." -f3 | cut -c1-2`
-if [ ! $CHEK ] ; then
-  DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f5-`
+if [ `echo $CASE | cut -d"_" -f1` = "cam3t42" ] ; then
+  DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f4-`
 else
-  DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f6-`
+  CHEK=`echo $CASE | cut -d"." -f3 | cut -c1-2`
+  if [ ! $CHEK ] ; then
+    DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f5-`
+  else
+    DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f6-`
+  fi
 fi
 #
 LST=`echo $DAT | sed -e "s/ /,/g"`

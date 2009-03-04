@@ -7,11 +7,11 @@
 # --------------------------------------------------------------------------------
 # Case(s)
 #
-CASELIST="b30.004"
+CASELIST="cam3t42_lgccsm3_sstghg_01 cam3t42_lgccsm3_sstghg_02 cam3t42_lgccsm3_sstghg_03"
 #
 # Type(s) - one of "atmm atmd lndm ocnm icem"
 #
-TYPELIST="atmm"
+TYPELIST="atmm lndm"
 #
 # Whether or not to do IPCC processing (zero means DO NOT, non-zero means DO)
 #
