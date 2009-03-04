@@ -20,43 +20,27 @@ if [ ! $NCRCAT ] ; then
    fi
 fi
 #
-CHEK=`ls b*.*.h*.*.????.nc | cut -d"." -f3 | cut -c1-2 | uniq`
-for m in $CHEK ; do
+KIND=` *.????-??.nc | cut -c1-1 | uniq`
+if [ $KIND = "b" ] ; then
+  CHEK=`ls b*.????-??.nc | cut -d"." -f3 | cut -c1-2 | uniq`
   if [ $m = "ES" ] ; then
     FC=3 ; FV=6 ; FT=7 ; FD=4 ; FE=5
   else
     FC=2 ; FV=5 ; FT=6 ; FD=3 ; FE=4
   fi
-  COMP=`ls b*.*.*.h*.*.????.nc | cut -d"." -f${FD}-${FE} | uniq`
-  for p in $COMP ; do
-    VARS=`ls b*.*.${p}.*.????.nc | cut -d"." -f${FV} | uniq`
-    for v in $VARS ; do
-      CASES=`ls b*.${p}.${v}.????.nc | cut -d"." -f1-${FC} | uniq`
-      for c in $CASES ; do
-        if [ $YRCOUNT ] ; then
-          NUM=`ls ${c}.${p}.${v}.????.nc | wc -l`
-          if [ $NUM = $YRCOUNT ] ; then
-            Y0=`ls ${c}.${p}.${v}.????.nc | head -1 | cut -d"." -f${FT}`
-            Y1=`ls ${c}.${p}.${v}.????.nc | tail -1 | cut -d"." -f${FT}`
-            if [ $p = "cam2.h1" ] ; then
-              DF=${c}.${p}.${v}.${Y0}-01-01_cat_${Y1}-12-31.nc
-            else
-              DF=${c}.${p}.${v}.${Y0}-01_cat_${Y1}-12.nc
-            fi
-            $NCRCAT -O ${c}.${p}.${v}.????.nc $DF
-            if [ $? = 0 ] ; then
-              rm -f ${c}.${p}.${v}.????.nc
-              echo "Concatenated "$DF" and checked year count: "$YRCOUNT
-            else
-              echo "Failure on concat of "${c}"."${p}"."${v}" files"
-              exit 1
-            fi
-          else
-            echo "Missing year(s) from "${c}"."${p}"."${v}" files"
-            echo "Count is "$NUM" should be "$YRCOUNT
-            exit 1
-          fi
-        else
+else
+  FC=1 ; FV=4 ; FT=5 ; FD=3 ; FE=4
+fi
+#
+COMP=`ls *.????.nc | cut -d"." -f${FD}-${FE} | uniq`
+for p in $COMP ; do
+  VARS=`ls *.${p}.*.????.nc | cut -d"." -f${FV} | uniq`
+  for v in $VARS ; do
+    CASES=`ls *.${p}.${v}.????.nc | cut -d"." -f1-${FC} | uniq`
+    for c in $CASES ; do
+      if [ $YRCOUNT ] ; then
+        NUM=`ls ${c}.${p}.${v}.????.nc | wc -l`
+        if [ $NUM = $YRCOUNT ] ; then
           Y0=`ls ${c}.${p}.${v}.????.nc | head -1 | cut -d"." -f${FT}`
           Y1=`ls ${c}.${p}.${v}.????.nc | tail -1 | cut -d"." -f${FT}`
           if [ $p = "cam2.h1" ] ; then
@@ -67,13 +51,33 @@ for m in $CHEK ; do
           $NCRCAT -O ${c}.${p}.${v}.????.nc $DF
           if [ $? = 0 ] ; then
             rm -f ${c}.${p}.${v}.????.nc
-            echo "Concatenated "$DF" and WITHOUT checking year count"
+            echo "Concatenated "$DF" and checked year count: "$YRCOUNT
           else
             echo "Failure on concat of "${c}"."${p}"."${v}" files"
             exit 1
           fi
+        else
+          echo "Missing year(s) from "${c}"."${p}"."${v}" files"
+          echo "Count is "$NUM" should be "$YRCOUNT
+          exit 1
         fi
-      done
+      else
+        Y0=`ls ${c}.${p}.${v}.????.nc | head -1 | cut -d"." -f${FT}`
+        Y1=`ls ${c}.${p}.${v}.????.nc | tail -1 | cut -d"." -f${FT}`
+        if [ $p = "cam2.h1" ] ; then
+          DF=${c}.${p}.${v}.${Y0}-01-01_cat_${Y1}-12-31.nc
+        else
+          DF=${c}.${p}.${v}.${Y0}-01_cat_${Y1}-12.nc
+        fi
+        $NCRCAT -O ${c}.${p}.${v}.????.nc $DF
+        if [ $? = 0 ] ; then
+          rm -f ${c}.${p}.${v}.????.nc
+          echo "Concatenated "$DF" and WITHOUT checking year count"
+        else
+          echo "Failure on concat of "${c}"."${p}"."${v}" files"
+          exit 1
+        fi
+      fi
     done
   done
 done
