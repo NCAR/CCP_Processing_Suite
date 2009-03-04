@@ -20,46 +20,6 @@
 #234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 #CCSM case                   LC   Description    nn  CMP   parent case              branch date    beg  end  res       hardware  history file archive location
 #------------------------    --   -------------- --  ---   ---------------------    -----------    --------- --------- --------- -----------------------------------
-cam3t42_lgccsm3_ghg_01       NC   A1BAMIP_ghg    1         eul64x128_d63iamip_01    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_ghg_02       NC   A1BAMIP_ghg    2         eul64x128_d63iamip_01    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_ghg_03       NC   A1BAMIP_ghg    3         eul64x128_d63iamip_02    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_ghg_04       NC   A1BAMIP_ghg    4         eul64x128_d63iamip_02    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_ghg_05       NC   A1BAMIP_ghg    5         eul64x128_d63iamip_03    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_ghg_06       NC   A1BAMIP_ghg    6         eul64x128_d63iamip_03    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_ghg_07       NC   A1BAMIP_ghg    7         eul64x128_d63iamip_04    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_ghg_08       NC   A1BAMIP_ghg    8         eul64x128_d63iamip_04    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_ghg_09       NC   A1BAMIP_ghg    9         eul64x128_d63iamip_05    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_ghg_10       NC   A1BAMIP_ghg    10        eul64x128_d63iamip_05    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstTOGA_01   NC   A1BAMIP_TOGA   1         eul64x128_d63iamip_01    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstTOGA_02   NC   A1BAMIP_TOGA   2         eul64x128_d63iamip_01    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstTOGA_03   NC   A1BAMIP_TOGA   3         eul64x128_d63iamip_02    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstTOGA_04   NC   A1BAMIP_TOGA   4         eul64x128_d63iamip_02    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstTOGA_05   NC   A1BAMIP_TOGA   5         eul64x128_d63iamip_03    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstTOGA_06   NC   A1BAMIP_TOGA   6         eul64x128_d63iamip_03    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstTOGA_07   NC   A1BAMIP_TOGA   7         eul64x128_d63iamip_04    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstTOGA_08   NC   A1BAMIP_TOGA   8         eul64x128_d63iamip_04    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstTOGA_09   NC   A1BAMIP_TOGA   9         eul64x128_d63iamip_05    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstTOGA_10   NC   A1BAMIP_TOGA   10        eul64x128_d63iamip_05    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sst_01       NC   A1BAMIP_sst    1         eul64x128_d63iamip_01    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sst_02       NC   A1BAMIP_sst    2         eul64x128_d63iamip_01    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sst_03       NC   A1BAMIP_sst    3         eul64x128_d63iamip_02    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sst_04       NC   A1BAMIP_sst    4         eul64x128_d63iamip_02    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sst_05       NC   A1BAMIP_sst    5         eul64x128_d63iamip_03    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sst_06       NC   A1BAMIP_sst    6         eul64x128_d63iamip_03    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sst_07       NC   A1BAMIP_sst    7         eul64x128_d63iamip_04    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sst_08       NC   A1BAMIP_sst    8         eul64x128_d63iamip_04    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sst_09       NC   A1BAMIP_sst    9         eul64x128_d63iamip_05    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sst_10       NC   A1BAMIP_sst    10        eul64x128_d63iamip_05    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstghg_01    NC   A1BAMIP_ghgsst 1         eul64x128_d63iamip_01    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstghg_02    NC   A1BAMIP_ghgsst 2         eul64x128_d63iamip_01    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstghg_03    NC   A1BAMIP_ghgsst 3         eul64x128_d63iamip_02    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstghg_04    NC   A1BAMIP_ghgsst 4         eul64x128_d63iamip_02    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstghg_05    NC   A1BAMIP_ghgsst 5         eul64x128_d63iamip_03    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstghg_06    NC   A1BAMIP_ghgsst 6         eul64x128_d63iamip_03    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstghg_07    NC   A1BAMIP_ghgsst 7         eul64x128_d63iamip_04    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstghg_08    NC   A1BAMIP_ghgsst 8         eul64x128_d63iamip_04    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstghg_09    NC   A1BAMIP_ghgsst 9         eul64x128_d63iamip_05    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
-cam3t42_lgccsm3_sstghg_10    NC   A1BAMIP_ghgsst 10        eul64x128_d63iamip_05    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
 b30.004                      NC   PDcntrl        1         none                     0000-01-01     0001 0499 T42_gx1   bluesky   /CCSM/csm
 b30.009                      NC   PDcntrl        1   cm3   none                     0000-01-01     0100 0699 T85_gx1   bluesky   /CCSM/csm
 b30.013                      NC   PIcntrl        0         none                     0000-01-01     0001 0230 T85_gx1   bluesky   /CCSM/csm
@@ -182,6 +142,46 @@ b30.075-37                   OR   SRESA1B        37  cm3   b30.074a             
 b30.075-38                   OR   SRESA1B        38  cm3   b30.074a                 2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
 b30.075-39                   OR   SRESA1B        39  cm3   b30.074a                 2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
 b30.075-40                   OR   SRESA1B        40  cm3   b30.074a                 2000-01-01     2000 2060 T42_gx1   jaguar    /f2/hteng/ccsm
+cam3t42_lgccsm3_ghg_01       NC   A1BAMIP_ghg    1         eul64x128_d63iamip_01    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_ghg_02       NC   A1BAMIP_ghg    2         eul64x128_d63iamip_01    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_ghg_03       NC   A1BAMIP_ghg    3         eul64x128_d63iamip_02    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_ghg_04       NC   A1BAMIP_ghg    4         eul64x128_d63iamip_02    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_ghg_05       NC   A1BAMIP_ghg    5         eul64x128_d63iamip_03    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_ghg_06       NC   A1BAMIP_ghg    6         eul64x128_d63iamip_03    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_ghg_07       NC   A1BAMIP_ghg    7         eul64x128_d63iamip_04    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_ghg_08       NC   A1BAMIP_ghg    8         eul64x128_d63iamip_04    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_ghg_09       NC   A1BAMIP_ghg    9         eul64x128_d63iamip_05    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_ghg_10       NC   A1BAMIP_ghg    10        eul64x128_d63iamip_05    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstTOGA_01   NC   A1BAMIP_TOGA   1         eul64x128_d63iamip_01    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstTOGA_02   NC   A1BAMIP_TOGA   2         eul64x128_d63iamip_01    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstTOGA_03   NC   A1BAMIP_TOGA   3         eul64x128_d63iamip_02    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstTOGA_04   NC   A1BAMIP_TOGA   4         eul64x128_d63iamip_02    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstTOGA_05   NC   A1BAMIP_TOGA   5         eul64x128_d63iamip_03    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstTOGA_06   NC   A1BAMIP_TOGA   6         eul64x128_d63iamip_03    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstTOGA_07   NC   A1BAMIP_TOGA   7         eul64x128_d63iamip_04    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstTOGA_08   NC   A1BAMIP_TOGA   8         eul64x128_d63iamip_04    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstTOGA_09   NC   A1BAMIP_TOGA   9         eul64x128_d63iamip_05    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstTOGA_10   NC   A1BAMIP_TOGA   10        eul64x128_d63iamip_05    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sst_01       NC   A1BAMIP_sst    1         eul64x128_d63iamip_01    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sst_02       NC   A1BAMIP_sst    2         eul64x128_d63iamip_01    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sst_03       NC   A1BAMIP_sst    3         eul64x128_d63iamip_02    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sst_04       NC   A1BAMIP_sst    4         eul64x128_d63iamip_02    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sst_05       NC   A1BAMIP_sst    5         eul64x128_d63iamip_03    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sst_06       NC   A1BAMIP_sst    6         eul64x128_d63iamip_03    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sst_07       NC   A1BAMIP_sst    7         eul64x128_d63iamip_04    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sst_08       NC   A1BAMIP_sst    8         eul64x128_d63iamip_04    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sst_09       NC   A1BAMIP_sst    9         eul64x128_d63iamip_05    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sst_10       NC   A1BAMIP_sst    10        eul64x128_d63iamip_05    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstghg_01    NC   A1BAMIP_ghgsst 1         eul64x128_d63iamip_01    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstghg_02    NC   A1BAMIP_ghgsst 2         eul64x128_d63iamip_01    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstghg_03    NC   A1BAMIP_ghgsst 3         eul64x128_d63iamip_02    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstghg_04    NC   A1BAMIP_ghgsst 4         eul64x128_d63iamip_02    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstghg_05    NC   A1BAMIP_ghgsst 5         eul64x128_d63iamip_03    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstghg_06    NC   A1BAMIP_ghgsst 6         eul64x128_d63iamip_03    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstghg_07    NC   A1BAMIP_ghgsst 7         eul64x128_d63iamip_04    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstghg_08    NC   A1BAMIP_ghgsst 8         eul64x128_d63iamip_04    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstghg_09    NC   A1BAMIP_ghgsst 9         eul64x128_d63iamip_05    1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
+cam3t42_lgccsm3_sstghg_10    NC   A1BAMIP_ghgsst 10        eul64x128_d63iamip_05    2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
 b30.090a                     OR   20C3M_anthro   1   cm3   b30.020                  0360-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
 b30.090b                     OR   20C3M_anthro   2   cm3   b30.020                  0380-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
 b30.090c                     OR   20C3M_anthro   3   cm3   b30.020                  0400-01-01     1870 1999 T85_gx1   phoenix   /f2/adrianne/ccsm
