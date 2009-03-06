@@ -7,7 +7,7 @@
 # --------------------------------------------------------------------------------
 # Case(s)
 #
-CASELIST="cam3t42_lgccsm3_sstghg_01 cam3t42_lgccsm3_sstghg_02 cam3t42_lgccsm3_sstghg_03"
+CASELIST="cam3t42_lgccsm3_sstghg_04 cam3t42_lgccsm3_sstghg_05 cam3t42_lgccsm3_sstghg_06"
 #
 # Type(s) - one of "atmm atmd lndm ocnm icem"
 #

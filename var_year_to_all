@@ -20,9 +20,9 @@ if [ ! $NCRCAT ] ; then
    fi
 fi
 #
-KIND=`ls *.????-??.nc | cut -c1-1 | uniq`
+KIND=`ls *.????.nc | cut -c1-1 | uniq`
 if [ $KIND = "b" ] ; then
-  CHEK=`ls b*.????-??.nc | cut -d"." -f3 | cut -c1-2 | uniq`
+  CHEK=`ls b*.????.nc | cut -d"." -f3 | cut -c1-2 | uniq`
   if [ $m = "ES" ] ; then
     FC=3 ; FV=6 ; FT=7 ; FD=4 ; FE=5
   else
