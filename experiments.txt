@@ -76,6 +76,7 @@ b30.042c                     NE   SRESA2         3   cm3   b30.030c             
 b30.042d                     NE   SRESA2         4   cm3   b30.030d                 2000-01-01     2000 2099 T85_gx1   seaborg   /nersc/h/hteng/ccsm
 b30.042e                     NE   SRESA2         5   cm3   b30.030e                 2000-01-01     2000 2099 T85_gx1   seaborg   /nersc/h/hteng/ccsm
 b30.042g                     OR   SRESA1B        10  cm3   b30.030g.ES01            2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
+b30.043                      NC   PIcntrl        1   ---   none                     0400-01-01     0400 0700 T42_gx1   bluesky   /CCSM/csm
 b30.044a                     OR   SRESA1B        1   cm3   b30.040a                 2100-01-01     2100 2199 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
 b30.044b                     NC   SRESA1B        2   cm3   b30.040b                 2100-01-01     2100 2199 T85_gx1   JAMSTEC   /CCSM/csm
 b30.044c                     NC   SRESA1B        3   cm3   b30.040c                 2100-01-01     2100 2199 T85_gx1   bluesky   /CCSM/csm
