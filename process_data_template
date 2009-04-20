@@ -335,6 +335,9 @@ if [ $DO_IPCC -ne 0 ] ; then
   ln -s -f $BASEDIR/create_ipcc_data    .
   ln -s -f $BASEDIR/CCSM_${TYPE}_${CMIP}.ncl   .
   ln -s -f $BASEDIR/attributes_ccsm.ncl .
+  ln -s -f $BASEDIR/mss_list   .
+  ln -s -f $BASEDIR/mss_read   .
+  ln -s -f $BASEDIR/mss_write  .
   cd $PROCDIR/IPCC
   ln -s -f $BASEDIR/mss_list   .
   ln -s -f $BASEDIR/mss_read   .
