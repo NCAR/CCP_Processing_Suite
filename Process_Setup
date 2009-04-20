@@ -71,12 +71,12 @@ case "$LOCATION" in
                                 | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxIPCCxxx/$IPCC/g" \
                                 >> $CCPS_SCRIPT ;;
   NE )                                        # NERSC experiments
-    cat ./batch_cmds_NERSC > $CCPS_SCRIPT
+    cat ./batch_cmds_NERSC      >> $CCPS_SCRIPT
     cat ./process_data_template | sed -e "s/xxxCASExxx/$CASE/g" | sed -e "s/xxxTYPExxx/$TYPE/g" \
                                 | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxIPCCxxx/$IPCC/g" \
                                 >> $CCPS_SCRIPT ;;
   OR )                                        # ORNL experiments
-    cat ./batch_cmds_NERSC > $CCPS_SCRIPT
+    cat ./batch_cmds_ORNL       >> $CCPS_SCRIPT
     cat ./process_data_template | sed -e "s/xxxCASExxx/$CASE/g" | sed -e "s/xxxTYPExxx/$TYPE/g" \
                                 | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxIPCCxxx/$IPCC/g" \
                                 >> $CCPS_SCRIPT ;;

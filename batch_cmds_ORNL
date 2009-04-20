@@ -2,10 +2,7 @@
 #PBS -A cli017ccp
 #PBS -l nodes=1:ppn=1
 #PBS -l walltime=12:00:00
-#PBS -o CCPS_OUT
-#PBS -e CCPS_ERR
 #PBS -m abe
-#PBS -N CCPS_JOB
 #PBS -S /usr/bin/sh
 #PBS -V
 #
