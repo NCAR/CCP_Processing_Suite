@@ -1,0 +1,10 @@
+#
+#PBS -A mp9
+#PBS -l mem=48gb,ncpus=1,walltime=12:00:00
+#PBS -o CCPS_OUT
+#PBS -e CCPS_ERR
+#PBS -m abe
+#PBS -N CCPS_JOB
+#PBS -S /usr/bin/sh
+#PBS -V
+#
