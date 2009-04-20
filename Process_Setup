@@ -47,7 +47,7 @@ fi
 # 120 - 129  Hardware
 # 130 - end  History file location on archive
 #
-EXPFILE = ${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
   LOCATION=`egrep "^$CASE " $EXPFILE | cut -c30-  | cut -d" " -f1`
 else
