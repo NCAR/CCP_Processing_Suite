@@ -23,25 +23,26 @@ DO_IPCC=xxxIPCCxxx ; export DO_IPCC
 # 120 - 129  Hardware
 # 130 - end  History file location on archive
 #
-if [ -f ./experiments.txt ] ; then
-  LOCATION=`egrep "^$CASE " experiments.txt | cut -c30-  | cut -d" " -f1`
-   DESCRIP=`egrep "^$CASE " experiments.txt | cut -c35-  | cut -d" " -f1`
-   REALIZN=`egrep "^$CASE " experiments.txt | cut -c50-  | cut -d" " -f1`
-      CMIP=`egrep "^$CASE " experiments.txt | cut -c54-56`
-    PARENT=`egrep "^$CASE " experiments.txt | cut -c60-  | cut -d" " -f1`
-    BRANCH=`egrep "^$CASE " experiments.txt | cut -c85-  | cut -d" " -f1`
-   YEARBEG=`egrep "^$CASE " experiments.txt | cut -c100- | cut -d" " -f1`
-   YEAREND=`egrep "^$CASE " experiments.txt | cut -c105- | cut -d" " -f1`
-       RES=`egrep "^$CASE " experiments.txt | cut -c110- | cut -d" " -f1`
-  HARDWARE=`egrep "^$CASE " experiments.txt | cut -c120- | cut -d" " -f1`
-  HISTBASE=`egrep "^$CASE " experiments.txt | cut -c130- | cut -d" " -f1`
+EXPFILE = ${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if [ -f $EXPFILE ] ; then
+  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c30-  | cut -d" " -f1`
+   DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c35-  | cut -d" " -f1`
+   REALIZN=`egrep "^$CASE " $EXPFILE | cut -c50-  | cut -d" " -f1`
+      CMIP=`egrep "^$CASE " $EXPFILE | cut -c54-56`
+    PARENT=`egrep "^$CASE " $EXPFILE | cut -c60-  | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c85-  | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c100- | cut -d" " -f1`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c105- | cut -d" " -f1`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c110- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c120- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c130- | cut -d" " -f1`
 else
-  echo "Cannot find experiments.txt. EXIT"
+  echo "Cannot find $EXPFILE. EXIT"
   exit 1
 fi
 #
 if ! [ $LOCATION ] ; then
-  echo "Unable to set variables because "$CASE" not found in experiments.txt"
+  echo "Unable to set variables because "$CASE" not found in $EXPFILE"
   exit 1
 fi
 #
@@ -58,7 +59,7 @@ case "$LOCATION" in
     MSSBASE=/f2/wgstrand/CCSM/csm/$CASE
     PROCHOST="lens0"    ;;
   * )
-    echo "Unable to set variables because "$LOCATION" not found in experiments.txt"
+    echo "Unable to set variables because "$LOCATION" not found in "$EXPFILE
     exit 1 ;;
 esac
 #

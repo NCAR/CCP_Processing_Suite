@@ -47,15 +47,16 @@ fi
 # 120 - 129  Hardware
 # 130 - end  History file location on archive
 #
-if [ -f ./experiments.txt ] ; then
-  LOCATION=`egrep "^$CASE " experiments.txt | cut -c30-  | cut -d" " -f1`
+EXPFILE = ${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if [ -f $EXPFILE ] ; then
+  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c30-  | cut -d" " -f1`
 else
-  echo "Cannot find experiments.txt. EXIT"
+  echo "Cannot find "$EXPFILE". EXIT"
   exit 1
 fi
 #
 if ! [ $LOCATION ] ; then
-  echo "Unable to build script because case '"$CASE"' not found in experiments.txt"
+  echo "Unable to build script because case '"$CASE"' not found in "$EXPFILE
   exit 1
 fi
 #
@@ -81,7 +82,7 @@ case "$LOCATION" in
                                 | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxIPCCxxx/$IPCC/g" \
                                 >> $CCPS_SCRIPT ;;
   * )
-    echo "Unable to build script because "$LOCATION" not found in experiments.txt"
+    echo "Unable to build script because "$LOCATION" not found in "$EXPFILE
     exit 1 ;;
 esac
 #
