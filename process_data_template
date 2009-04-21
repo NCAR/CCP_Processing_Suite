@@ -46,6 +46,9 @@ if ! [ $LOCATION ] ; then
   exit 1
 fi
 #
+YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
+MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
+#
 # Processed data archival locations
 #
 case "$LOCATION" in
