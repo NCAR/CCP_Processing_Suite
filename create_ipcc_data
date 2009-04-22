@@ -31,6 +31,10 @@ if [ ! $NCARG_ROOT ] ; then
     NCARG_ROOT=/sw/analysis-x64/ncl/5.0.0/sl5.0_binary
     export NCARG_ROOT
   fi
+  if [ "$LOCATION" = "NE" ] ; then
+    NCARG_ROOT=/usr/common/usg/ncar/5.0.0
+    export NCARG_ROOT
+  fi
 else
   echo "NCARG_ROOT UNDEFINED"
   exit 1
