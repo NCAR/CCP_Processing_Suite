@@ -1,8 +1,7 @@
 #
-#PBS -A mp9
-#PBS -l mem=48gb,ncpus=1,walltime=12:00:00
+#PBS -l mem=24gb,ncpus=1,walltime=8:00:00
 #PBS -m abe
 #PBS -j eo
-#PBS -S /usr/bin/sh
+#PBS -S /bin/sh
 #PBS -V
 #
