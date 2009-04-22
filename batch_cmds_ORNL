@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 #PBS -A cli017ccp
 #PBS -l nodes=1:ppn=1
