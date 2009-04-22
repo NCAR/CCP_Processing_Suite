@@ -293,12 +293,49 @@ begin
   end if
   if (description.eq."CCSP_Overshoot") then
     glbAtt@experiment_id  = "CCSP overshoot experiment (CCSP_Overshoot)"
+    glbAtt@experiment_id  = "CCSP overshoot experiment"
+    forcing = "ozone forcing    : ozone_Overshoot_128x64_L18_1990-2100_c070425.nc"+n1+\
+              "                 : ozone_Overshoot_128x64_L18_2100-2300_c081210.nc"+n1+\
+              "aerosol optics   : AerosolOptics_c040105.nc"+n1+\
+              "aerosol MMR      : AerosolMass_V_128x256_clim_c031022.nc"+n1+\
+              "carbon scaling   : carbonscaling_Overshoot_1765-2300_c070515.nc"+n1+\
+              "solar forcing    : scon_lean_1870-2100_c040123.nc (2005 value ONLY)"+n1+\
+              "GHGs             : ghg_Overshoot_1765-2300_c070425.nc"+n1+\
+              "GHG loss rates   : noaamisc.r8.nc"+n1+\
+              "DMS emissions    : DMS_emissions_128x256_clim_c040122.nc"+n1+\
+              "oxidants         : oxid_128x256_L26_clim_c040112.nc"+n1+\
+              "SOx emissions    : SOx_emissions_Overshoot_256x128L2_1990-2100_c070608.nc"+n1+\
+              "                 : SOx_emissions_Overshoot_256x128L2_2100-2300_c081208.nc"
   end if
   if (description.eq."CCSP_Reference") then
     glbAtt@experiment_id  = "CCSP reference (CO2 1000 ppm @ 2300) experiment (CCSP_Reference)"
+    forcing = "ozone forcing    : ozone_Reference_128x64_L18_1990-2100_c070425.nc"+n1+\
+              "                 : ozone_Reference_128x64_L18_2100-2300_c081210.nc"+n1+\
+              "aerosol optics   : AerosolOptics_c040105.nc"+n1+\
+              "aerosol MMR      : AerosolMass_V_128x256_clim_c031022.nc"+n1+\
+              "carbon scaling   : carbonscaling_Reference_1765-2300_c070515.nc"+n1+\
+              "solar forcing    : scon_lean_1870-2100_c040123.nc (2005 value ONLY)"+n1+\
+              "GHGs             : ghg_Reference_1765-2300_c070425.nc"+n1+\
+              "GHG loss rates   : noaamisc.r8.nc"+n1+\
+              "DMS emissions    : DMS_emissions_128x256_clim_c040122.nc"+n1+\
+              "oxidants         : oxid_128x256_L26_clim_c040112.nc"+n1+\
+              "SOx emissions    : SOx_emissions_Reference_256x128L2_1990-2100_c070608.nc"+n1+\
+              "                 : SOx_emissions_Reference_256x128L2_2100-2300_c081208.nc"
   end if
   if (description.eq."CCSP_Stab450") then
     glbAtt@experiment_id  = "CCSP stabilization (CO2 max 450ppm) experiment (CCSP_Stab450)"
+    forcing = "ozone forcing    : ozone_Stab450_128x64_L18_1990-2100_c070425.nc"+n1+\
+              "                 : ozone_Stab450_128x64_L18_2100-2300_c081210.nc"+n1+\
+              "aerosol optics   : AerosolOptics_c040105.nc"+n1+\
+              "aerosol MMR      : AerosolMass_V_128x256_clim_c031022.nc"+n1+\
+              "carbon scaling   : carbonscaling_Stab450_1765-2300_c070515.nc"+n1+\
+              "solar forcing    : scon_lean_1870-2100_c040123.nc (2005 value ONLY)"+n1+\
+              "GHGs             : ghg_Stab450_1765-2300_c070425.nc"+n1+\
+              "GHG loss rates   : noaamisc.r8.nc"+n1+\
+              "DMS emissions    : DMS_emissions_128x256_clim_c040122.nc"+n1+\
+              "oxidants         : oxid_128x256_L26_clim_c040112.nc"+n1+\
+              "SOx emissions    : SOx_emissions_Stab450_256x128L2_1990-2100_c070608.nc"+n1+\
+              "                 : SOx_emissions_Stab450_256x128L2_2100-2300_c081208.nc"
   end if
   if (description.eq."Commit") then
     glbAtt@experiment_id  = "committed climate change experiment"
