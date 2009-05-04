@@ -19,31 +19,31 @@ if [ ! $NCRCAT ] ; then
    fi
 fi
 #
- TABLE=`ls | egrep '\.nc$' | cut -d"_" -f2 | cut -d"." -f1 | sort | uniq`
-EXPIDS=`ls | egrep '\.nc$' | cut -d"." -f2 | sort | uniq`
- MODEL=`ls | egrep '\.nc$' | cut -d"." -f3 | sort | uniq`
-  COMP=`ls | egrep '\.nc$' | cut -d"." -f4 | sort | uniq`
+ TABLE=`ls | egrep '\.....\.nc$' | cut -d"_" -f2 | cut -d"." -f1 | sort | uniq`
+EXPIDS=`ls | egrep '\.....\.nc$' | cut -d"." -f2 | sort | uniq`
+ MODEL=`ls | egrep '\.....\.nc$' | cut -d"." -f3 | sort | uniq`
+  COMP=`ls | egrep '\.....\.nc$' | cut -d"." -f4 | sort | uniq`
 #
 for m in $MODEL ; do
   for c in $COMP ; do
     for t in $TABLE ; do
-      VARS=`ls *_${t}.*.${m}.${c}.????_c??????.nc | cut -d"_" -f1 | uniq`
+      VARS=`ls | egrep "_${t}\." | egrep "\.${m}\." | egrep "\.${c}\." | egrep '\.....\.nc$' | cut -d"_" -f1 | uniq`
       for v in $VARS ; do
         for e in $EXPIDS ; do
           if [ $YRCOUNT ] ; then
-            NUM=`ls ${v}_${t}.${e}.${m}.${c}.????_c??????.nc | wc -l`
+            NUM=`ls | egrep "^${v}" | egrep "_${t}\." | egrep "\.${m}\." | egrep "\.${c}\." | egrep '\.....\.nc$' | wc -l`
             if [ $NUM = $YRCOUNT ] ; then
               TS=`date '+%y%m%d'`
-              Y1=`ls ${v}_${t}.${e}.${m}.${c}.????_c??????.nc | head -1 | cut -d"." -f5 | cut -d"_" -f1`
-              Y2=`ls ${v}_${t}.${e}.${m}.${c}.????_c??????.nc | tail -1 | cut -d"." -f5 | cut -d"_" -f1`
+              Y1=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | head -1 | cut -d"." -f5 | cut -d"_" -f1`
+              Y2=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | tail -1 | cut -d"." -f5 | cut -d"_" -f1`
               if [ "$t" == "A2" ] ; then
                 DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01-01_cat_${Y2}-12-31_c${TS}.nc
               else
                 DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01_cat_${Y2}-12_c${TS}.nc
               fi
-              $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????_c??????.nc $DF
+              $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????.nc $DF
               if [ $? -eq 0 ] ; then
-                rm -f ${v}_${t}.${e}.${m}.${c}.????_c??????.nc
+                rm -f ${v}_${t}.${e}.${m}.${c}.????.nc
                 echo "Concatenated "$DF" and checked year count: "$YRCOUNT
               else
                 echo "Failure on concat of "${c}"."${p}"."${v}" files"
@@ -56,16 +56,16 @@ for m in $MODEL ; do
             fi
           else
             TS=`date '+%y%m%d'`
-            Y1=`ls ${v}_${t}.${e}.${m}.${c}.????_c??????.nc | head -1 | cut -d"." -f5 | cut -d"_" -f1`
-            Y2=`ls ${v}_${t}.${e}.${m}.${c}.????_c??????.nc | tail -1 | cut -d"." -f5 | cut -d"_" -f1`
+            Y1=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | head -1 | cut -d"." -f5 | cut -d"_" -f1`
+            Y2=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | tail -1 | cut -d"." -f5 | cut -d"_" -f1`
             if [ "$t" == "A2" ] ; then
               DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01-01_cat_${Y2}-12-31_c${TS}.nc
             else
               DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01_cat_${Y2}-12_c${TS}.nc
             fi
-            $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????_c??????.nc $DF
+            $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????.nc $DF
             if [ $? -eq 0 ] ; then
-              rm -f ${v}_${t}.${e}.${m}.${c}.????_c??????.nc
+              rm -f ${v}_${t}.${e}.${m}.${c}.????.nc
               echo "Concatenated "$DF" WITHOUT checking year count"
             else
               echo "Failure on concat of "${c}"."${p}"."${v}" files"

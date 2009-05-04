@@ -140,8 +140,7 @@ begin
 ; Create output file
 ; [file name as per requirements document]
 ;--------------------------------------------------------------------
-     now = systemfunc("date '+%y%m%d'")
-     nccf = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+type+"."+tval+"_c"+now+".nc"
+     nccf = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+type+"."+tval+".nc"
      system("csh -c 'rm -f "+nccf+"'")
      cf_file = addfile(nccf, "c")
      fileattdef(cf_file, glbAtt)
