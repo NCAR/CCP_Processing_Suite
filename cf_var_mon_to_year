@@ -33,7 +33,7 @@ if [ $? -eq 0 ] ; then
         for y in $YEARS ; do
           for m in $MODEL ; do
             for c in $COMP ; do
-              NUM=`ls ${v}_${t}.${e}.${m}.${c}.${y}-??_c??????.nc | wc -l`
+              NUM=`ls ${v}_${t}.${e}.${m}.${c}.${y}-??.nc | wc -l`
               if [ $NUM -eq 12 ] ; then
                 DF=${v}_${t}.${e}.${m}.${c}.${y}.nc
                 $NCRCAT -h -O ${v}_${t}.${e}.${m}.${c}.${y}-??.nc $DF
