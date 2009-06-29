@@ -12,13 +12,13 @@ ifeq ($(HOST),lens0)
   NCLIBS = $(NCDIRL) $(NCINCF)
 endif
 #
-# 'mineral' at NCAR/CGD
-ifeq ($(HOST),mineral)
+# 'copper' at NCAR/CGD
+ifeq ($(HOST),copper.cgd.ucar.edu)
   FC     = pgf95
   FFLAGS = -c
-  NCDIRI = -I/usr/local/include
+  NCDIRI = -I/usr/local/netcdf-3.6.3-pgi-hpf-cc-7.2-5/include
   NCINCF = -lnetcdf
-  NCDIRL = -L/usr/local/lib
+  NCDIRL = -L/usr/local/netcdf-3.6.3-pgi-hpf-cc-7.2-5/lib
   NCLIBS = $(NCDIRL) $(NCINCF)
 endif
 #

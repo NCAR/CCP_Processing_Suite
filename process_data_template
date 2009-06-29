@@ -54,7 +54,7 @@ MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 case "$LOCATION" in
   NC )                                        # NCAR experiments
     MSSBASE=/CCSM/csm/$CASE
-    PROCHOST="mineral"  ;;
+    PROCHOST="copper"  ;;
   NE )                                        # NERSC experiments
     MSSBASE=/nersc/mp9/strandwg/CCSM/csm/$CASE
     PROCHOST="davinci"  ;;
@@ -68,7 +68,7 @@ esac
 #
 # Check PROCHOST against LOCATION
 #
-if [ "$PROCHOST" = "mineral" ] || [ "$PROCHOST" = "lens0" ] ; then
+if [ "$PROCHOST" = "copper" ] || [ "$PROCHOST" = "lens0" ] ; then
   if [ "$LOCATION" = "NE" ] ; then
     echo "Using incorrect "$PROCHOST" for location "$LOCATION
     exit 1
@@ -80,7 +80,7 @@ if [ "$PROCHOST" = "davinci" ] || [ "$PROCHOST" = "lens0" ] ; then
     exit 1
   fi
 fi
-if [ "$PROCHOST" = "mineral" ] || [ "$PROCHOST" = "davinci" ] ; then
+if [ "$PROCHOST" = "copper" ] || [ "$PROCHOST" = "davinci" ] ; then
   if [ "$LOCATION" = "OR" ] ; then
     echo "Using incorrect "$PROCHOST" for location "$LOCATION
     exit 1
@@ -123,8 +123,8 @@ esac
 # resolve machine/site dependencies
 #
 case "$PROCHOST" in 
-  mineral* )                                # mineral @ CGD/NCAR
-    BASEDIR=/home/strandwg/data/CCP_Processing_Suite
+  copper* )                                # copper @ CGD/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/local/bin/ncks ; export NCKS
     NCRCAT=/usr/local/bin/ncrcat ; export NCRCAT
     NCL=/contrib/bin/ncl ; export NCL
@@ -137,7 +137,7 @@ case "$PROCHOST" in
         if [ $DO_IPCC -ne 0 ] ; then
           REGRDIR=/project/ccr/strandwg/IPCC_Processing/ocn/CCSM ; export REGRDIR
           NAMLDIR=$BASEDIR/regridding                            ; export NAMLDIR
-          OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.mineral       ; export OREGRID
+          OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.copper.cgd.ucar.edu       ; export OREGRID
           if [ ! -f $OREGRID ] ; then
             echo "Need to build OCN regridding code. Do that and re-run."
             exit 1
@@ -148,7 +148,7 @@ case "$PROCHOST" in
         if [ $DO_IPCC -ne 0 ] ; then
           REGRDIR=/project/ccr/strandwg/IPCC_Processing/ice/CCSM ; export REGRDIR
           NAMLDIR=$BASEDIR/regridding                            ; export NAMLDIR
-          IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.mineral       ; export IREGRID
+          IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.copper.cgd.ucar.edu       ; export IREGRID
           if [ ! -f $IREGRID ] ; then
             echo "Need to build ICE regridding code. Do that and re-run."
             exit 1
@@ -160,7 +160,7 @@ case "$PROCHOST" in
     esac ;;
 
   davinci* )                                # davinci @ NERSC
-    BASEDIR=/usr/common/homes/s/strandwg/CCP_Processing_Suite
+    BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/common/homes/s/strandwg/bin/ncks ; export NCKS
     NCRCAT=/usr/common/homes/s/strandwg/bin/ncrcat ; export NCRCAT
     NCL=/usr/common/usg/ncar/5.0.0/bin/ncl ; export NCL
@@ -196,7 +196,7 @@ case "$PROCHOST" in
     esac ;;
 
   lens* )                                # lens @ ORNL
-    BASEDIR=/ccs/home/wgstrand/CCP_Processing_Suite
+    BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/ccs/home/wgstrand/bin/ncks ; export NCKS
     NCRCAT=/ccs/home/wgstrand/bin/ncrcat ; export NCRCAT
     case "$TYPE" in
