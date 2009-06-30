@@ -30,15 +30,16 @@ fi
 if [ `echo $CASE | cut -d"_" -f1` = "cam3t42" ] ; then
   DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f4-`
 else
-  CHEK=`echo $CASE | cut -d"." -f3 | cut -c1-2`
-  if [ ! $CHEK ] ; then
-    DAT=`egrep "${HISTNAM}\.${YEARNOW}" $MSSLIST | cut -d"." -f5-`
-  else
+  CHEK=`echo $CASE | egrep "\.ES"`
+  if [ $? -eq 0 ] ; then
     DAT=`egrep "${HISTNAM}\.${YEARNOW}" $MSSLIST | cut -d"." -f6-`
+  else
+    DAT=`egrep "${HISTNAM}\.${YEARNOW}" $MSSLIST | cut -d"." -f5-`
   fi
 fi
 #
 LST=`echo $DAT | sed -e "s/ /,/g"`
+#
 if [ `echo $LST | cut -d"." -f2` = "tar" ] ; then
   MSSFILES=$CASE.$HISTNAM.${LST}
 else
