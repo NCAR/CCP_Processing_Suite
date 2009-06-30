@@ -1,16 +1,28 @@
 #!/bin/sh
 # Read file(s) from a archival system
 #
-if [ $# -ne 1 ] ; then
-  echo "Usage: mss_read MSSLIST"
-  echo "Requires YEARNOW CASE HISTNAM TYPE be defined"
+if [ $# -ne 2 ] ; then
+  echo "Usage: mss_read MSSLIST YEARNOW"
+  echo "Requires MSSLIST and YEARNOW"
+  echo "CASE HISTNAM MSSHIST must be defined"
   exit 1
 else
   MSSLIST=$1
+  YEARNOW=$2
 fi
+#
 if ! [ -f $MSSLIST ] ; then
   echo "mss_read: No "$MSSLIST" file found. Exit."
   exit 1
+fi
+if [ ! $CASE ] ; then
+  echo "mss_read: CASE undefined. Exit."
+fi
+if [ ! $HISTNAM ] ; then
+  echo "mss_read: HISTNAM undefined. Exit."
+fi
+if [ ! $MSSHIST ] ; then
+  echo "mss_read: MSSHIST undefined. Exit."
 fi
 #
 # Deduce files to read
@@ -20,9 +32,9 @@ if [ `echo $CASE | cut -d"_" -f1` = "cam3t42" ] ; then
 else
   CHEK=`echo $CASE | cut -d"." -f3 | cut -c1-2`
   if [ ! $CHEK ] ; then
-    DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f5-`
+    DAT=`egrep "${HISTNAM}\.${YEARNOW}" $MSSLIST | cut -d"." -f5-`
   else
-    DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f6-`
+    DAT=`egrep "${HISTNAM}\.${YEARNOW}" $MSSLIST | cut -d"." -f6-`
   fi
 fi
 #
