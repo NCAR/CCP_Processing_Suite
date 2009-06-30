@@ -380,7 +380,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
       echo "Getting archival list of "$CASE" "$HISTNAM
       ./mss_list $MSSLIST
     fi
-    ./mss_read $MSSLIST
+    ./mss_read $MSSLIST $YEARNOW
     if [ $? -ne 0 ] ; then
       echo "Error from mss_read"
       exit 1
