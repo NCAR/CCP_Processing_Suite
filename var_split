@@ -38,23 +38,41 @@ if [ ! $NCKS ] ; then
    fi
 fi
 #
-# Parse filenams
+# Parse filename
 #
-if [ ! $CASE ] ; then
-  CHEK=`echo $FILE | cut -d"." -f3 | cut -c1-2`
-  if [ "$CHEK" = "ES" ] ; then
-    OUTPFX=`echo $FILE | cut -d"." -f1-5`
-    OUTSFX=`echo $FILE | cut -d"." -f6-`
-  else
-    OUTPFX=`echo $FILE | cut -d"." -f1-4`
-    OUTSFX=`echo $FILE | cut -d"." -f5-`
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
   fi
-else
-  if [ `echo $CASE | cut -d"_" -f1` = "cam3t42" ] ; then
-    OUTPFX=`echo $FILE | cut -d"." -f1-3`
-    OUTSFX=`echo $FILE | cut -d"." -f4-`
-  fi
-fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DPFX=1
+DSFX=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+    clm2 )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+    pop )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+    csim )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
+OUTSFX=`echo $FILE | cut -d"." -f${DSFX}-`
 #
 D0VARS=`$NCKS -m $FILE | egrep "# dim\. = 0" | cut -d":" -f1`
 D1VARS=`$NCKS -m $FILE | egrep "# dim\. = 1" | cut -d":" -f1`
