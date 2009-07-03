@@ -22,7 +22,7 @@ fi
 #
 #
 # If NCAR MSS msrcp command exists, use it.
-TEST4MSRCP=`which msrcp 2<&1 >& /dev/null`
+TEST4MSRCP=`which msrcp 2<&1`
 if [ $? -eq 0 ] ; then
   MSRCP=`which msrcp`
   $MSRCP -project 93300014 -pe 3652 -class reliability=economy -srcdelete $MSSF "mss:${MSSD}/${MSSF}"
@@ -35,7 +35,7 @@ if [ $? -eq 0 ] ; then
 else
 #
 # If NERSC/ORNL hsi command exists, use it.
-  TEST4HSI=`which hsi 2<&1 >& /dev/null`
+  TEST4HSI=`which hsi 2<&1`
   if [ $? -eq 0 ] ; then
     HSI=`which hsi`
     $HSI -q "mkdir -m 775 -p $MSSD ; put -U ${MSSD}/${MSSF}" >& /dev/null

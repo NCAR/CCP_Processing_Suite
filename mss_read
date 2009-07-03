@@ -48,7 +48,7 @@ fi
 #echo $MSSFILES
 #
 # If NCAR MSS msrcp command exists, use it.
-TEST4MSRCP=`which msrcp 2<&1 >& /dev/null`
+TEST4MSRCP=`which msrcp 2<&1`
 if [ $? -eq 0 ] ; then
    MSRCP=`which msrcp`
    $MSRCP -project 93300014 -overwrite sizemismatch mss:"$MSSHIST/$MSSFILES" .
@@ -59,12 +59,12 @@ if [ $? -eq 0 ] ; then
 #
 # If NERSC/ORNL hsi command exists, use it.
 else
-  TEST4HSI=`which hsi 2<&1 >& /dev/null`
+  TEST4HSI=`which hsi 2<&1`
   if [ $? -eq 0 ] ; then
     if [ `echo $LST | cut -d"." -f2` = "tar" ] ; then
       htar -x -f $MSSHIST/$MSSFILES
       if [ $? -ne 0 ] ; then
-        hsi -q "get -U $MSSHIST/$MSSFILES" >& /dev/null
+        hsi -q "get -U $MSSHIST/$MSSFILES"
         if [ $? -eq 0 ] ; then
           tar xf $MSSFILES
           if [ $? -ne 0 ] ; then
