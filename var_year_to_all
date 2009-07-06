@@ -10,14 +10,12 @@ fi
 # 
 # Check for ncrcat
 #
-if [ ! $NCRCAT ] ; then
-   TEST4NCRCAT=`which ncrcat 2<&1 >& /dev/null`
-   if [ $? -eq 0 ] ; then
-     NCRCAT=`which ncrcat`
-   else
-     echo "NCRCAT not in PATH - UNDEFINED"
-     exit 1
-   fi
+TEST4NCRCAT=`which ncrcat 2>&1`
+if [ $? -eq 0 ] ; then
+  NCRCAT=`which ncrcat`
+else
+  echo "NCRCAT not in PATH - UNDEFINED"
+  exit 1
 fi
 #
 KIND=`ls *.????.nc | cut -c1-1 | uniq`

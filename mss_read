@@ -79,7 +79,7 @@ else
         fi
       fi
     else
-      hsi -q "get $MSSHIST/$MSSFILES" >& /dev/null
+      hsi -q "get $MSSHIST/$MSSFILES" 2>&1
       if [ $? -ne 0 ] ; then
         echo "Error on hsi get of "$MSSHIST"/"$MSSFILES
         exit 1

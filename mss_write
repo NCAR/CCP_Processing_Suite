@@ -38,12 +38,12 @@ else
   TEST4HSI=`which hsi 2<&1`
   if [ $? -eq 0 ] ; then
     HSI=`which hsi`
-    $HSI -q "mkdir -m 775 -p $MSSD ; put -U ${MSSD}/${MSSF}" >& /dev/null
+    $HSI -q "mkdir -m 775 -p $MSSD ; put -U ${MSSD}/${MSSF}" 2>&1
     if [ $? -eq 0 ] ; then
       echo ${MSSF}" written to "${MSSD}" and erased."
       rm -f $MSSF
     else
-      $HSI -q "put ${MSSF}" >& /dev/null
+      $HSI -q "put ${MSSF}" 2>&1
       if [ $? -eq 0 ] ; then
         echo ${MSSF}" written to your HPSS HOME and erased."
         rm -f $MSSF

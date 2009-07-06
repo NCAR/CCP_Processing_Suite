@@ -14,14 +14,12 @@ fi
 # 
 # Check for NCL
 #
-if [ ! $NCL ] ; then
-  TEST4NCL=`which ncl 2<&1 >& /dev/null`
-  if [ $? -eq 0 ] ; then
-    NCL=`which ncl`
-  else
-    echo "NCL not in PATH - UNDEFINED"
-    exit 1
-  fi
+TEST4NCL=`which ncl 2>&1`
+if [ $? -eq 0 ] ; then
+  NCL=`which ncl`
+else
+  echo "NCL not in PATH - UNDEFINED"
+  exit 1
 fi
 #
 # Check for NCARG_ROOT
@@ -70,8 +68,8 @@ fi
 #
 export NCL_TVAL
 NCL_VERSION=`$NCL -V` ; export NCL_VERSION
-#$NCL < $NCL_SCRIPT 2<&1 >& /dev/null
-$NCL < $NCL_SCRIPT
+#
+$NCL < $NCL_SCRIPT 2>&1
 if [ $? -ne 0 ] ; then
    echo "NCL ERROR on "$NCL_FILE
    exit 1

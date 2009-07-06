@@ -28,14 +28,12 @@ fi
 # 
 # Check for ncks
 #
-if [ ! $NCKS ] ; then
-   TEST4NCKS=`which ncks 2<&1 >& /dev/null`
-   if [ $? -eq 0 ] ; then
-     NCKS=`which ncks`
-   else
-     echo "NCKS not in PATH - UNDEFINED"
-     exit 1
-   fi
+TEST4NCKS=`which ncks 2>&1`
+if [ $? -eq 0 ] ; then
+  NCKS=`which ncks`
+else
+  echo "NCKS not in PATH - UNDEFINED"
+  exit 1
 fi
 #
 # Parse filename
