@@ -1,4 +1,4 @@
-#!/bin/sh -xv
+#!/bin/sh
 #
 if [ $# = 1 ] ; then
   NCL_FILE=$1
