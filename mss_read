@@ -40,24 +40,51 @@ fi
 #
 LST=`echo $DAT | sed -e "s/ /,/g"`
 #
-if [ `echo $LST | cut -d"." -f2` = "tar" ] ; then
+if [ "`echo $LST | cut -d"." -f2`" = "tar" ] ; then
   MSSFILES=$CASE.$HISTNAM.${LST}
 else
   MSSFILES=$CASE.$HISTNAM."{"${LST}"}"
 fi
-#echo $MSSFILES
 #
 # If NCAR MSS msrcp command exists, use it.
 TEST4MSRCP=`which msrcp 2<&1`
 if [ $? -eq 0 ] ; then
    MSRCP=`which msrcp`
-   $MSRCP -project 93300014 -overwrite sizemismatch mss:"$MSSHIST/$MSSFILES" .
+   $MSRCP -overwrite sizemismatch mss:"$MSSHIST/$MSSFILES" .
    if [ $? -ne 0 ] ; then
      echo "Error on msrcp -overwrite sizemismatch mss:"$MSSHIST"/"$MSSFILES
      exit 1
+   else
+#
+# Parse filename(s) and untar if necessary
+#
+     for FILE in `echo $MSSFILES` ; do
+       FLEN=`echo $FILE | wc -c`
+       NDOT=0
+       CSTR=1
+       while [ $CSTR -le $FLEN ] ; do
+         CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+         if [ "$CURC" = "." ] ; then
+           NDOT=`expr '(' $NDOT ')' '+' '1'`
+         fi
+         CSTR=`expr '(' $CSTR ')' '+' '1'`
+       done
+       NDOT=`expr '(' $NDOT ')' '+' '1'`
+       CURC=`echo $FILE | cut -d "." -f${NDOT}-${NDOT}`
+       if [ "$CURC" = "tar" ] ; then
+         tar xf $FILE
+         if [ $? -ne 0 ] ; then
+           echo "tar extraction failed on "$FILE
+           exit 1
+         else
+          rm -f  $FILE
+         fi
+       fi
+     done
    fi
 #
 # If NERSC/ORNL hsi command exists, use it.
+#
 else
   TEST4HSI=`which hsi 2<&1`
   if [ $? -eq 0 ] ; then
