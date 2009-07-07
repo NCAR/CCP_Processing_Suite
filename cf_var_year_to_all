@@ -29,7 +29,7 @@ for m in $MODEL ; do
       for v in $VARS ; do
         for e in $EXPIDS ; do
           if [ $YRCOUNT ] ; then
-            NUM=`ls | egrep "^${v}\." | egrep "_${t}\." | egrep "\.${m}\." | egrep "\.${c}\." | egrep '\.....\.nc$' | wc -l`
+            NUM=`ls | egrep "^${v}_" | egrep "_${t}\." | egrep "\.${m}\." | egrep "\.${c}\." | egrep '\.....\.nc$' | wc -l`
             if [ $NUM = $YRCOUNT ] ; then
               TS=`date '+%y%m%d'`
               Y1=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | head -1 | cut -d"." -f5 | cut -d"_" -f1`
