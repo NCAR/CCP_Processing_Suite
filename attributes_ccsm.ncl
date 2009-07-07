@@ -339,17 +339,31 @@ begin
   end if
   if (description.eq."Commit") then
     glbAtt@experiment_id  = "committed climate change experiment"
-    forcing = "ozone forcing    : mozart.o3.128x64_L18_2000_c040526.nc"+n1+\
-              "aerosol optics   : AerosolOptics_c040105.nc"+n1+\
-              "aerosol MMR      : AerosolMass_V_128x256_clim_c031022.nc"+n1+\
-              "carbon scaling   : carbonscaling_1870-2000_c040225.nc"+n1+\
-              "solar forcing    : Fixed at 1366.5 W m-2"+n1+\
-              "GHGs             : ghg_1870_2100_c040122.nc"+n1+\
-              "GHG loss rates   : noaamisc.r8.nc"+n1+\
-              "volcanic forcing : none"+n1+\
-              "DMS emissions    : DMS_emissions_128x256_clim_c040122.nc"+n1+\
-              "oxidants         : oxid_128x256_L26_clim_c040112.nc"+n1+\
-              "SOx emissions    : SOx_emissions_128x256_L2_1850-2000_c040321.nc"
+    if (resolution.eq."T85_gx1") then
+      forcing = "ozone forcing    : mozart.o3.128x64_L18_2000_c040526.nc"+n1+\
+                "aerosol optics   : AerosolOptics_c040105.nc"+n1+\
+                "aerosol MMR      : AerosolMass_V_128x256_clim_c031022.nc"+n1+\
+                "carbon scaling   : carbonscaling_1870-2000_c040225.nc"+n1+\
+                "solar forcing    : Fixed at 1366.5 W m-2"+n1+\
+                "GHGs             : ghg_1870_2100_c040122.nc"+n1+\
+                "GHG loss rates   : noaamisc.r8.nc"+n1+\
+                "volcanic forcing : none"+n1+\
+                "DMS emissions    : DMS_emissions_128x256_clim_c040122.nc"+n1+\
+                "oxidants         : oxid_128x256_L26_clim_c040112.nc"+n1+\
+                "SOx emissions    : SOx_emissions_128x256_L2_1850-2000_c040321.nc"
+    end if
+    if (resolution.eq."T42_gx1") then
+      forcing = "ozone forcing    : A1B.ozone.128x64_L18_1991-2100_c040521.nc, 2000 value only"+n1+\
+                "aerosol optics   : AerosolOptics_c040105.nc"+n1+\
+                "aerosol MMR      : AerosolMass_V_64x128_clim_c031022.nc"+n1+\
+                "carbon scaling   : carbonscaling_A1B_1990-2100_c040609.nc, 2000 value only"+n1+\
+                "solar forcing    : scon_lean_1870-2100_c040123.nc, 2000 value only"+n1+\
+                "GHGs             : ghg_ipcc_A1B_1870-2100_c040521.nc, 2000 values only"+n1+\
+                "GHG loss rates   : noaamisc.r8.nc"+n1+\
+                "DMS emissions    : DMS_emissions_64x128_c030722.nc"+n1+\
+                "oxidants         : oxid_64x128_L26_clim_c050816.nc"+n1+\
+                "SOx emissions    : SOx_emissions_A1_64x128_L2_1990-2100_c050912.nc, 2000 values only"
+    end if
   end if
   if (description.eq."Geoengineering") then
   end if

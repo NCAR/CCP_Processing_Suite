@@ -69,7 +69,7 @@ fi
 export NCL_TVAL
 NCL_VERSION=`$NCL -V` ; export NCL_VERSION
 #
-$NCL < $NCL_SCRIPT 2>&1
+$NCL < $NCL_SCRIPT 2>&1 > /dev/null
 if [ $? -ne 0 ] ; then
    echo "NCL ERROR on "$NCL_FILE
    exit 1
