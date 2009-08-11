@@ -163,8 +163,8 @@ b30.275-17                   NC   Commit         17  cm3   b30.074a             
 b30.275-18                   NC   Commit         18  cm3   b30.074a                 1999-12-26     2000 2061 T42_gx1   bluefire  /CCSM/csm
 b30.275-19                   NC   Commit         19  cm3   b30.074a                 1999-12-27     2000 2061 T42_gx1   bluefire  /CCSM/csm
 b30.275-20                   NC   Commit         20  cm3   b30.074a                 1999-12-28     2000 2061 T42_gx1   bluefire  /CCSM/csm
-b30.275-21                   NC   Commit         21  cm3   b30.074a                 1999-12-29     2000 2061 T42_gx1   bluefire  /CCSM/csm
-b30.275-22                   NC   Commit         22  cm3   b30.074a                 1999-12-30     2000 2061 T42_gx1   bluefire  /CCSM/csm
+b30.275-21                   OR   Commit         21  cm3   b30.074a                 1999-12-29     2000 2061 T42_gx1   jaguar    /f2/hteng/ccsm
+b30.275-22                   OR   Commit         22  cm3   b30.074a                 1999-12-30     2000 2061 T42_gx1   jaguar    /f2/hteng/ccsm
 b30.275-23                   NC   Commit         23  cm3   b30.074a                 1999-12-31     2000 2061 T42_gx1   bluefire  /CCSM/csm
 b30.275-24                   NC   Commit         24  cm3   b30.074a                 2000-01-02     2000 2061 T42_gx1   bluefire  /CCSM/csm
 b30.275-25                   NC   Commit         25  cm3   b30.074a                 2000-01-04     2000 2061 T42_gx1   bluefire  /CCSM/csm
