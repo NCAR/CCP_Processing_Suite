@@ -27,6 +27,36 @@ else
   exit 1
 fi
 #
+# Parse filename
+#
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DPFX=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 )
+      DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
+    clm2 )
+      DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
+    pop )
+      DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
+    csim )
+      DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
+#
 NT=`$NCKS -M $FILE | egrep "Record" | cut -d"=" -f3`
 #
 IT=1
@@ -34,7 +64,7 @@ while [ $IT -le $NT ] ; do
   TM=`$NCKS -s "%8.8i\n" -F -H -C -v date    -d time,${IT},${IT} $FILE`
   DS=`$NCKS -s "%5.5i\n" -F -H -C -v datesec -d time,${IT},${IT} $FILE`
   DT=${TM}"-"${DS}
-  OF=$CASE.$HISTNAM.$DT.nc
+  OF=$OUTPFX.$DT.nc
   $NCKS -h -O -F -d time,${IT},${IT} $FILE $OF
   if [ $? -eq  0 ] ; then
     IT=`expr $IT '+' '1'`
