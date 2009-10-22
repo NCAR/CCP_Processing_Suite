@@ -1,0 +1,379 @@
+CASE=xxxCASExxx ; export CASE
+TYPE=xxxTYPExxx ; export TYPE
+DO_PROC=xxxPROCxxx ; export DO_PROC
+DO_IPCC=xxxIPCCxxx ; export DO_IPCC
+#
+# Template for processing CCSM history netCDF files into single-field format 
+# and/or IPCC format
+#
+#
+# Extract information from "experiments.txt"
+#
+#  Columns   Field
+#   1 -  29  CCSM case name
+#  30 -  31  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  35 -  49  Very brief description and/or PCMDI name (n/a if not applicable)
+#  50 -  51  Realization number (2 digits) (0 if not applicable)
+#  54 -  56  Is a CMIP3 (cm3) or CMIP5 (cm5) experiment?
+#  60 -  80  Parent CCSM case name 
+#  85 -  94  Branch date (yyyy-mm-dd, "none" if out-of-the-box)
+# 100 - 103  Year began
+# 105 - 108  Year ended
+# 110 - 118  Resolution
+# 120 - 129  Hardware
+# 130 - end  History file location on archive
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if [ -f $EXPFILE ] ; then
+  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c30-  | cut -d" " -f1`
+   DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c35-  | cut -d" " -f1`
+   REALIZN=`egrep "^$CASE " $EXPFILE | cut -c50-  | cut -d" " -f1`
+      CMIP=`egrep "^$CASE " $EXPFILE | cut -c54-56`
+    PARENT=`egrep "^$CASE " $EXPFILE | cut -c60-  | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c85-  | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c100- | cut -d" " -f1`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c105- | cut -d" " -f1`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c110- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c120- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c130- | cut -d" " -f1`
+else
+  echo "Cannot find $EXPFILE. EXIT"
+  exit 1
+fi
+#
+if ! [ $LOCATION ] ; then
+  echo "Unable to set variables because "$CASE" not found in $EXPFILE"
+  exit 1
+fi
+#
+YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
+MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
+#
+# Processed data archival locations
+#
+case "$LOCATION" in
+  NC )                                        # NCAR experiments
+    MSSBASE=/CCSM/csm/$CASE
+    PROCHOST="copper"  ;;
+  NE )                                        # NERSC experiments
+    MSSBASE=/nersc/mp9/strandwg/CCSM/csm/$CASE
+    PROCHOST="davinci"  ;;
+  OR )                                        # ORNL experiments
+    MSSBASE=/f2/wgstrand/CCSM/csm/$CASE
+    PROCHOST="lens0"    ;;
+  * )
+    echo "Unable to set variables because "$LOCATION" not found in "$EXPFILE
+    exit 1 ;;
+esac
+#
+# Check PROCHOST against LOCATION
+#
+if [ "$PROCHOST" = "copper" ] || [ "$PROCHOST" = "lens0" ] ; then
+  if [ "$LOCATION" = "NE" ] ; then
+    echo "Using incorrect "$PROCHOST" for location "$LOCATION
+    exit 1
+  fi
+fi
+if [ "$PROCHOST" = "davinci" ] || [ "$PROCHOST" = "lens0" ] ; then
+  if [ "$LOCATION" = "NC" ] ; then
+    echo "Using incorrect "$PROCHOST" for location "$LOCATION
+    exit 1
+  fi
+fi
+if [ "$PROCHOST" = "copper" ] || [ "$PROCHOST" = "davinci" ] ; then
+  if [ "$LOCATION" = "OR" ] ; then
+    echo "Using incorrect "$PROCHOST" for location "$LOCATION
+    exit 1
+  fi
+fi
+#
+# History tape locations
+#
+case "$TYPE" in
+  atmm )
+    HISTNAM="cam2.h0"
+    MSSHIST=$HISTBASE/$CASE/atm/hist
+    MSSIPCC=$MSSBASE/atm/ipcc/tseries/monthly
+    MSSPROC=$MSSBASE/atm/proc/tseries/monthly  ;;
+  atmd )
+    HISTNAM="cam2.h1"
+    MSSHIST=$HISTBASE/$CASE/atm/hist
+    MSSIPCC=$MSSBASE/atm/ipcc/tseries/daily
+    MSSPROC=$MSSBASE/atm/proc/tseries/daily    ;;
+  lndm ) 
+    HISTNAM="clm2.h0"
+    MSSHIST=$HISTBASE/$CASE/lnd/hist
+    MSSIPCC=$MSSBASE/lnd/ipcc/tseries/monthly
+    MSSPROC=$MSSBASE/lnd/proc/tseries/monthly  ;;
+  ocnm ) 
+    HISTNAM="pop.h"
+    MSSHIST=$HISTBASE/$CASE/ocn/hist
+    MSSIPCC=$MSSBASE/ocn/ipcc/tseries/monthly
+    MSSPROC=$MSSBASE/ocn/proc/tseries/monthly  ;;
+  icem ) 
+    HISTNAM="csim.h"
+    MSSHIST=$HISTBASE/$CASE/ice/hist
+    MSSIPCC=$MSSBASE/ice/ipcc/tseries/monthly
+    MSSPROC=$MSSBASE/ice/proc/tseries/monthly  ;;
+  * ) 
+    echo "Unable to continue because "$TYPE" not known."
+    exit 1 ;;
+esac
+#
+# resolve machine/site dependencies
+#
+case "$PROCHOST" in 
+  copper* )                                # copper @ CGD/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/usr/local/bin/ncks ; export NCKS
+    NCRCAT=/usr/local/bin/ncrcat ; export NCRCAT
+    NCL=/contrib/bin/ncl ; export NCL
+    case "$TYPE" in
+      atmm ) PROCDIR=/datalocal/ccpg/$USER/$CASE/atm/mon ;;
+      atmd ) PROCDIR=/datalocal/ccpg/$USER/$CASE/atm/day ;;
+      lndm ) PROCDIR=/datalocal/ccpg/$USER/$CASE/lnd/mon ;;
+      ocnm ) PROCDIR=/datalocal/ccpg/$USER/$CASE/ocn/mon ;;
+      icem ) PROCDIR=/datalocal/ccpg/$USER/$CASE/ice/mon ;;
+      * ) 
+        echo "Unable to continue because "$TYPE" not known."
+        exit 1 ;;
+    esac ;;
+
+  davinci* )                                # davinci @ NERSC
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/usr/common/homes/s/strandwg/bin/ncks ; export NCKS
+    NCRCAT=/usr/common/homes/s/strandwg/bin/ncrcat ; export NCRCAT
+    NCL=/usr/common/usg/ncar/5.0.0/bin/ncl ; export NCL
+    case "$TYPE" in
+      atmm ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/atm/mon ;;
+      atmd ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/atm/day ;;
+      lndm ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/lnd/mon ;;
+      ocnm ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/ocn/mon ;;
+      icem ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/ice/mon ;;
+      * ) 
+        echo "Unable to continue because "$TYPE" not known."
+        exit 1 ;;
+    esac ;;
+
+  lens* )                                # lens @ ORNL
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/ccs/home/wgstrand/bin/ncks ; export NCKS
+    NCRCAT=/ccs/home/wgstrand/bin/ncrcat ; export NCRCAT
+    case "$TYPE" in
+      atmm ) PROCDIR=/tmp/work/$USER/$CASE/atm/mon ;;
+      atmd ) PROCDIR=/tmp/work/$USER/$CASE/atm/day ;;
+      lndm ) PROCDIR=/tmp/work/$USER/$CASE/lnd/mon ;;
+      ocnm ) PROCDIR=/tmp/work/$USER/$CASE/ocn/mon ;;
+      icem ) PROCDIR=/tmp/work/$USER/$CASE/ice/mon ;;
+      * ) 
+        echo "Unable to continue because "$TYPE" not known."
+        exit 1 ;;
+    esac ;;
+  * ) 
+    echo "Unable to continue because "$PROCHOST" not known."
+    exit 1 ;;
+esac
+CACHEDIR=${PROCDIR}/to_archive
+#
+# Print out values
+#
+echo "           Case name : "$CASE     ; export CASE
+echo "     Processing type : "$TYPE     ; export TYPE
+if [ $DO_PROC -ne 0 ] ; then
+  echo "   by var processing : YES"
+else
+  echo "   by var processing : NO"
+fi
+if [ $DO_IPCC -ne 0 ] ; then
+  echo "     IPCC processing : YES"
+else
+  echo "     IPCC processing : NO"
+fi
+if [ "$LOCATION" = "NC" ] ; then
+  HARDWARE=${HARDWARE}".ucar.edu"
+fi
+if [ "$LOCATION" = "NE" ] ; then
+  HARDWARE=${HARDWARE}".nersc.gov"
+fi
+if [ "$LOCATION" = "OR" ] ; then
+  HARDWARE=${HARDWARE}".ccs.ornl.gov"
+fi
+echo "            Location : "$LOCATION ; export LOCATION
+echo "         Description : "$DESCRIP  ; export DESCRIP
+echo "         Realization : "$REALIZN  ; export REALIZN
+if [ "$CMIP" != "---" ] ; then
+  echo "         CMIP version: "$CMIP     ; export CMIP
+fi
+echo "         Parent case : "$PARENT   ; export PARENT
+echo "         Branch date : "$BRANCH   ; export BRANCH
+echo "          Resolution : "$RES      ; export RES
+echo "            Hardware : "$HARDWARE ; export HARDWARE
+echo "          Begin year : "$YEARBEG  ; export YEARBEG
+echo "            End year : "$YEAREND  ; export YEAREND
+echo "          Year count : "$YRCOUNT  ; export YRCOUNT
+echo "        Months count : "$MNCOUNT  ; export MNCOUNT
+echo ""
+echo "       History files : "$MSSHIST  ; export MSSHIST
+echo "       History names : "$HISTNAM  ; export HISTNAM
+echo "   Archival base dir : "$MSSBASE  ; export MSSBASE
+echo "   IPCC format files : "$MSSIPCC  ; export MSSIPCC
+echo "     Processed files : "$MSSPROC  ; export MSSPROC
+echo ""
+echo "     Processing host : "$PROCHOST ; export PROCHOST
+echo "      Processing dir : "$PROCDIR  ; export PROCDIR
+echo "   Archive cache dir : "$CACHEDIR ; export CACHEDIR
+echo " Processing code dir : "$BASEDIR  ; export BASEDIR
+#  
+if [ ! -d $PROCDIR ] ; then 
+  mkdir -p $PROCDIR 
+fi
+if [ ! -d $CACHEDIR ] ; then 
+  mkdir -p $CACHEDIR 
+fi
+cd $PROCDIR
+#
+if [ $DO_IPCC -ne 0 ] ; then
+  if [ ! -d $PROCDIR/CMIP5_data ] ; then
+     mkdir -p $PROCDIR/CMIP5_data
+  fi
+  if [ "$TYPE" = "atmd" ] ; then
+    ln -s -f $BASEDIR/time_split    .
+    ln -s -f $BASEDIR/days_to_month .
+  fi
+  cd $PROCDIR
+  ln -s -f $BASEDIR/create_${CMIP}_data    .
+  ln -s -f $BASEDIR/CCSM_${TYPE}_${CMIP}.ncl   .
+  ln -s -f $BASEDIR/attributes_ccsm.ncl .
+  ln -s -f $BASEDIR/mss_list   .
+  ln -s -f $BASEDIR/mss_read   .
+  ln -s -f $BASEDIR/mss_write  .
+  cd $PROCDIR/CMIP5_data
+  ln -s -f $BASEDIR/mss_list   .
+  ln -s -f $BASEDIR/mss_read   .
+  ln -s -f $BASEDIR/mss_write  .
+  ln -s -f $BASEDIR/cm5_var_mon_to_year .
+  ln -s -f $BASEDIR/cm5_var_year_to_all .
+  cd $PROCDIR
+fi
+#
+if [ $DO_PROC -ne 0 ] ; then
+  if [ "$TYPE" = "atmd" ] ; then
+    ln -s -f $BASEDIR/time_split    .
+    ln -s -f $BASEDIR/days_to_month .
+  fi
+  ln -s -f $BASEDIR/mss_list   .
+  ln -s -f $BASEDIR/mss_read   .
+  ln -s -f $BASEDIR/mss_write  .
+  ln -s -f $BASEDIR/var_split  .
+  ln -s -f $BASEDIR/var_mon_to_year .
+  ln -s -f $BASEDIR/var_year_to_all .
+fi
+#
+ln -s -f $BASEDIR/concatenate_data .
+ln -s -f $BASEDIR/store_to_archive .
+#
+CURDIR=$PWD
+#
+cd $PROCDIR
+YEARNOW=$YEARBEG;export YEARNOW
+while [ $YEARNOW -le $YEAREND ] ; do
+  YRCHECK=.comp.$CASE.$HISTNAM.$YEARNOW
+  if [ ! -f $YRCHECK ] ; then
+    echo "Processing "$CASE"."$HISTNAM"."$YEARNOW" at "`date`
+    MSSLIST=MSS.$CASE.$TYPE
+    if [ ! -f $MSSLIST ] ; then
+      echo "Getting archival list of "$CASE" "$HISTNAM
+      ./mss_list $MSSLIST
+    fi
+    ./mss_read $MSSLIST $YEARNOW
+    if [ $? -ne 0 ] ; then
+      echo "Error from mss_read"
+      exit 1
+    else
+      if [ "$TYPE" != "atmd" ] ; then
+        for FILE in `ls $CASE.$HISTNAM.${YEARNOW}-??.nc` ; do
+          if [ $DO_IPCC -ne 0 ] ; then
+            ./create_${CMIP}_data $FILE
+            if [ $? -ne 0 ] ; then
+              echo "Error from create_${CMIP}_data on file "$FILE
+              exit 1
+            else
+              touch .ipcc.$FILE
+              if [ $DO_PROC -eq 0 ] ; then
+                rm -f $FILE
+              fi
+            fi
+          fi
+          if [ $DO_PROC -ne 0 ] ; then
+            ./var_split $FILE erase
+            if [ $? -ne 0 ] ; then
+              echo "Error from var_split on file "$FILE
+              exit 1
+            else
+              touch .proc.$FILE
+            fi
+          fi
+          if [ -f .proc.$FILE ] || [ -f .ipcc.$FILE ] ; then
+            touch .comp.$FILE
+            rm -f .proc.$FILE .ipcc.$FILE
+          fi
+        done
+      else
+        for FILE in `ls $CASE.$HISTNAM.${YEARNOW}-??-??-?????.nc` ; do
+          ./time_split $FILE erase
+        done
+        ./days_to_month erase
+        for FILE in `ls $CASE.$HISTNAM.????-??.nc` ; do
+          if [ $DO_IPCC -ne 0 ] ; then
+            ./create_${CMIP}_data $FILE
+            if [ $? -ne 0 ] ; then
+              echo "Error from create_${CMIP}_data on file "$FILE
+              exit 1
+            else
+              touch .ipcc.$FILE
+            fi
+          fi
+          if [ $DO_PROC -ne 0 ] ; then
+            ./var_split $FILE erase
+            if [ $? -ne 0 ] ; then
+              echo "Error from var_split on file "$FILE
+              exit 1
+            else
+              touch .proc.$FILE
+            fi
+          fi
+          if [ -f .proc.$FILE ] || [-f .ipcc.$FILE ] ; then
+            touch .comp.$FILE
+          fi
+        done
+      fi
+    fi
+    if [ `ls .comp.$CASE.$HISTNAM.${YEARNOW}-??.nc | wc -l` -eq 12 ] ; then
+      touch $YRCHECK
+      rm .????.$CASE.$HISTNAM.${YEARNOW}-??.nc
+    fi
+  fi
+  YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
+  if [ $YEARNOW -lt 1000 ] ; then
+    YEARNOW=0${YEARNOW}
+  fi
+  if [ $YEARNOW -lt 100 ] ; then
+    YEARNOW=0${YEARNOW}
+  fi
+  if [ $YEARNOW -lt 10 ] ; then
+    YEARNOW=0${YEARNOW}
+  fi
+done
+#
+# Concatenate months -> years, years -> all (if possible)
+#
+./concatenate_data
+#if [ $? -eq 0 ] ; then
+#
+# Store completed data on archival system
+#
+#  ./store_to_archive
+#else
+#  echo "Error from concatenate_data"
+#  exit 1
+fi

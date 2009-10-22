@@ -1,0 +1,89 @@
+#!/bin/sh
+#
+if [ $# = 1 ] ; then
+  NCL_FILE=$1
+else
+  echo "Usage: create_ipcc_data file"
+  exit 1
+fi
+#
+if [ ! -f $NCL_FILE ] ; then
+  echo $NCL_FILE "not found. Exit."
+  exit 1
+fi
+# 
+# Check for NCL
+#
+TEST4NCL=`which ncl 2>&1`
+if [ $? -eq 0 ] ; then
+  NCL=`which ncl`
+else
+  echo "NCL not in PATH - UNDEFINED"
+  exit 1
+fi
+#
+# Check for NCARG_ROOT
+#
+if [ ! $NCARG_ROOT ] ; then
+  if [ "$LOCATION" = "OR" ] ; then
+    NCARG_ROOT=/sw/analysis-x64/ncl/5.0.0/sl5.0_binary
+    export NCARG_ROOT
+  fi
+  if [ "$LOCATION" = "NE" ] ; then
+    NCARG_ROOT=/usr/common/usg/ncar/5.0.0
+    export NCARG_ROOT
+  fi
+fi
+#
+export NCL_FILE
+#
+# Parse filename
+#
+FLEN=`echo $NCL_FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $NCL_FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DPFX=1
+DSFX=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $NCL_FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+    clm2 )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+    pop )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+    csim )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+IDOT=`expr '(' $IDOT ')' '-' '1'`
+#
+NCL_TVAL=`echo $NCL_FILE | cut -d"." -f${IDOT} | sed -e "s/\-//g"`
+NCL_SCRIPT=CCSM_${TYPE}_${CMIP}.ncl ; export NCL_SCRIPT
+#
+if [ ! -d ./CMIP5_data ] ; then
+   mkdir ./CMIP5_data
+fi
+#
+export NCL_TVAL
+NCL_VERSION=`$NCL -V` ; export NCL_VERSION
+#
+$NCL < $NCL_SCRIPT
+if [ $? -ne 0 ] ; then
+   echo "NCL ERROR on "$NCL_FILE
+   exit 1
+fi

@@ -346,8 +346,8 @@ if [ $DO_IPCC -ne 0 ] ; then
   ln -s -f $BASEDIR/mss_list   .
   ln -s -f $BASEDIR/mss_read   .
   ln -s -f $BASEDIR/mss_write  .
-  ln -s -f $BASEDIR/cf_var_mon_to_year .
-  ln -s -f $BASEDIR/cf_var_year_to_all .
+  ln -s -f $BASEDIR/cm3_var_mon_to_year .
+  ln -s -f $BASEDIR/cm3_var_year_to_all .
   cd $PROCDIR
 fi
 #
