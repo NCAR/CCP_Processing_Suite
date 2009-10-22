@@ -50,6 +50,7 @@ fi
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
   LOCATION=`egrep "^$CASE " $EXPFILE | cut -c30-  | cut -d" " -f1`
+      CMIP=`egrep "^$CASE " $EXPFILE | cut -c54-56`
 else
   echo "Cannot find "$EXPFILE". EXIT"
   exit 1
@@ -68,19 +69,19 @@ rm -f $CCPS_SCRIPT
 case "$LOCATION" in
   NC )                                        # NCAR experiments
     echo "#!/bin/sh" > $CCPS_SCRIPT
-    cat ./process_data_template | sed -e "s/xxxCASExxx/$CASE/g" | sed -e "s/xxxTYPExxx/$TYPE/g" \
-                                | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxIPCCxxx/$IPCC/g" \
-                                >> $CCPS_SCRIPT ;;
+    cat ./process_${CMIP}_template | sed -e "s/xxxCASExxx/$CASE/g" | sed -e "s/xxxTYPExxx/$TYPE/g" \
+                                   | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxIPCCxxx/$IPCC/g" \
+                                   >> $CCPS_SCRIPT ;;
   NE )                                        # NERSC experiments
-    cat ./batch_cmds_NERSC      >> $CCPS_SCRIPT
-    cat ./process_data_template | sed -e "s/xxxCASExxx/$CASE/g" | sed -e "s/xxxTYPExxx/$TYPE/g" \
-                                | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxIPCCxxx/$IPCC/g" \
-                                >> $CCPS_SCRIPT ;;
+    cat ./batch_cmds_NERSC         >> $CCPS_SCRIPT
+    cat ./process_${CMIP}_template | sed -e "s/xxxCASExxx/$CASE/g" | sed -e "s/xxxTYPExxx/$TYPE/g" \
+                                   | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxIPCCxxx/$IPCC/g" \
+                                   >> $CCPS_SCRIPT ;;
   OR )                                        # ORNL experiments
-    cat ./batch_cmds_ORNL       >> $CCPS_SCRIPT
-    cat ./process_data_template | sed -e "s/xxxCASExxx/$CASE/g" | sed -e "s/xxxTYPExxx/$TYPE/g" \
-                                | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxIPCCxxx/$IPCC/g" \
-                                >> $CCPS_SCRIPT ;;
+    cat ./batch_cmds_ORNL          >> $CCPS_SCRIPT
+    cat ./process_${CMIP}_template | sed -e "s/xxxCASExxx/$CASE/g" | sed -e "s/xxxTYPExxx/$TYPE/g" \
+                                   | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxIPCCxxx/$IPCC/g" \
+                                   >> $CCPS_SCRIPT ;;
   * )
     echo "Unable to build script because "$LOCATION" not found in "$EXPFILE
     exit 1 ;;

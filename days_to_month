@@ -10,7 +10,7 @@ else
   exit 1
 fi
 #
-CHEK=`ls | egrep '\.${HISTNAM}\.........\-.....\.nc$' | cut -d"." -f3-4 | sort | uniq`
+CHEK=`ls | egrep "\.${HISTNAM}\." | egrep '\-00000\.nc$' | cut -d"." -f3-4 | sort | uniq`
 if [ $? -eq 0 ] ; then
   ISES=`echo $CHEK | cut -c1-2`
   if [ "$ISES" = "ES" ] ; then

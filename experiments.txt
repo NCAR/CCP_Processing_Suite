@@ -274,3 +274,4 @@ iamip.ES01                   NC   AMIP           2   cm3   none                 
 iamip.ES03                   NC   AMIP           3   cm3   none                     0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
 iamip.ES04                   NC   AMIP           4   cm3   none                     0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
 iamip.ES05                   NC   AMIP           5   cm3   none                     0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
+b40.20th.track1.1deg.003     NC   historical     1   cm5   b40.1850.track1.1deg.006 0251-01-01     1850 1850 FV1_gx1v6 bluefire  /CCSM/csm

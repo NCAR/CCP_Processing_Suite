@@ -30,12 +30,22 @@ fi
 if [ `echo $CASE | cut -d"_" -f1` = "cam3t42" ] ; then
   DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f4-`
 else
-  CHEK=`echo $CASE | egrep "\.ES"`
-  if [ $? -eq 0 ] ; then
-    DAT=`egrep "${HISTNAM}\.${YEARNOW}" $MSSLIST | cut -d"." -f6-`
-  else
-    DAT=`egrep "${HISTNAM}\.${YEARNOW}" $MSSLIST | cut -d"." -f5-`
-  fi
+#
+# Parse casename
+#
+  TSTR=${CASE}.${HISTNAM}
+  FLEN=`echo $TSTR | wc -c`
+  NDOT=0
+  CSTR=1
+  while [ $CSTR -le $FLEN ] ; do
+    CURC=`echo $TSTR | cut -c${CSTR}-${CSTR}`
+    if [ "$CURC" = "." ] ; then
+       NDOT=`expr '(' $NDOT ')' '+' '1'`
+    fi
+    CSTR=`expr '(' $CSTR ')' '+' '1'`
+  done
+  NDOT=`expr '(' $NDOT ')' '+' '2'`
+  DAT=`egrep "${HISTNAM}\.${YEARNOW}" $MSSLIST | cut -d"." -f${NDOT}-`
 fi
 #
 LST=`echo $DAT | sed -e "s/ /,/g"`
