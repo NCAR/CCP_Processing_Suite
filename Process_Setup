@@ -49,8 +49,8 @@ fi
 #
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
-  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c30-  | cut -d" " -f1`
-      CMIP=`egrep "^$CASE " $EXPFILE | cut -c54-56`
+  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c40- | cut -d" " -f1`
+      CMIP=`egrep "^$CASE " $EXPFILE | cut -c70- | cut -d" " -f1`
 else
   echo "Cannot find "$EXPFILE". EXIT"
   exit 1
