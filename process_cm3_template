@@ -335,7 +335,7 @@ if [ $DO_IPCC -ne 0 ] ; then
     fi
   fi
   cd $PROCDIR
-  ln -s -f $BASEDIR/create_ipcc_data    .
+  ln -s -f $BASEDIR/create_cm3_data    .
   ln -s -f $BASEDIR/CCSM_${TYPE}_${CMIP}.ncl   .
   ln -s -f $BASEDIR/attributes_ccsm.ncl .
   ln -s -f $BASEDIR/mss_list   .
@@ -394,9 +394,9 @@ while [ $YEARNOW -le $YEAREND ] ; do
                 exit 1
               else
                 for FINT in `ls $CASE.$HISTNAM.*.${YEARNOW}-??.nc` ; do
-                  ./create_ipcc_data $FINT
+                  ./create_cm3_data $FINT
                   if [ $? -ne 0 ] ; then
-                    echo "Error from create_ipcc_data on file "$FINT
+                    echo "Error from create_cm3_data on file "$FINT
                     exit 1
                   else
                     rm -f $FINT
@@ -405,9 +405,9 @@ while [ $YEARNOW -le $YEAREND ] ; do
                 touch .ipcc.$FILE
               fi
             else
-              ./create_ipcc_data $FILE
+              ./create_cm3_data $FILE
               if [ $? -ne 0 ] ; then
-                echo "Error from create_ipcc_data on file "$FILE
+                echo "Error from create_cm3_data on file "$FILE
                 exit 1
               else
                 touch .ipcc.$FILE
@@ -438,9 +438,9 @@ while [ $YEARNOW -le $YEAREND ] ; do
         ./days_to_month erase
         for FILE in `ls $CASE.$HISTNAM.????-??.nc` ; do
           if [ $DO_IPCC -ne 0 ] ; then
-            ./create_ipcc_data $FILE
+            ./create_cm3_data $FILE
             if [ $? -ne 0 ] ; then
-              echo "Error from create_ipcc_data on file "$FILE
+              echo "Error from create_cm3_data on file "$FILE
               exit 1
             else
               touch .ipcc.$FILE
