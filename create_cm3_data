@@ -50,8 +50,8 @@ fi
 NCL_TVAL=`echo $NCL_FILE | cut -d"." -f${F_TVAL}`
 NCL_SCRIPT=CCSM_${TYPE}_${CMIP}.ncl ; export NCL_SCRIPT
 #
-if [ ! -d ./IPCC ] ; then
-   mkdir ./IPCC
+if [ ! -d ./CMIP ] ; then
+   mkdir ./CMIP
 fi
 #
 if [ "$TYPE" = "icem" ] || [ "$TYPE" = "ocnm" ] ; then # We are processing regridded ocean/ice data

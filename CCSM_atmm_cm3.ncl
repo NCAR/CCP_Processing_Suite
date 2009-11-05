@@ -675,7 +675,7 @@ begin
 ; Create output file
 ; [file name as per requirements document]
 ;--------------------------------------------------------------------
-      nccf = "./IPCC/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+type+"."+tval+".nc"
+      nccf = "./CMIP/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+type+"."+tval+".nc"
       system("csh -c 'rm -f "+nccf+"'")
       cf_file = addfile(nccf, "c")
       fileattdef(cf_file, glbAtt)
