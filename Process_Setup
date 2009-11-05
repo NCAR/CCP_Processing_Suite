@@ -73,17 +73,17 @@ case "$LOCATION" in
   NC )                                        # NCAR experiments
     echo "#!/bin/sh" > $CCPS_SCRIPT
     cat ./process_${CMIP}_template | sed -e "s/xxxCASExxx/$CASE/g" | sed -e "s/xxxTYPExxx/$TYPE/g" \
-                                   | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxCMIPxxx/$CMIP/g" \
+                                   | sed -e "s/xxxPROCxxx/$IPROC/g" | sed -e "s/xxxCMIPxxx/$ICMIP/g" \
                                    >> $CCPS_SCRIPT ;;
   NE )                                        # NERSC experiments
     cat ./batch_cmds_NERSC         >> $CCPS_SCRIPT
     cat ./process_${CMIP}_template | sed -e "s/xxxCASExxx/$CASE/g" | sed -e "s/xxxTYPExxx/$TYPE/g" \
-                                   | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxCMIPxxx/$CMIP/g" \
+                                   | sed -e "s/xxxPROCxxx/$IPROC/g" | sed -e "s/xxxCMIPxxx/$ICMIP/g" \
                                    >> $CCPS_SCRIPT ;;
   OR )                                        # ORNL experiments
     cat ./batch_cmds_ORNL          >> $CCPS_SCRIPT
     cat ./process_${CMIP}_template | sed -e "s/xxxCASExxx/$CASE/g" | sed -e "s/xxxTYPExxx/$TYPE/g" \
-                                   | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxCMIPxxx/$CMIP/g" \
+                                   | sed -e "s/xxxPROCxxx/$IPROC/g" | sed -e "s/xxxCMIPxxx/$ICMIP/g" \
                                    >> $CCPS_SCRIPT ;;
   * )
     echo "Unable to build script because "$LOCATION" not found in "$EXPFILE
