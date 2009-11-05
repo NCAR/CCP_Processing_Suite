@@ -1,10 +1,10 @@
 CASE=xxxCASExxx ; export CASE
 TYPE=xxxTYPExxx ; export TYPE
 DO_PROC=xxxPROCxxx ; export DO_PROC
-DO_IPCC=xxxIPCCxxx ; export DO_IPCC
+DO_CMIP=xxxCMIPxxx ; export DO_CMIP
 #
 # Template for processing CCSM history netCDF files into single-field format 
-# and/or IPCC format
+# and/or CMIP format
 #
 # Extract information from "experiments.txt"
 #
@@ -92,27 +92,27 @@ case "$TYPE" in
   atmm )
     HISTNAM="cam2.h0"
     MSSHIST=$HISTBASE/$CASE/atm/hist
-    MSSIPCC=$MSSBASE/atm/ipcc/tseries/monthly
+    MSSCMIP=$MSSBASE/atm/ipcc/tseries/monthly
     MSSPROC=$MSSBASE/atm/proc/tseries/monthly  ;;
   atmd )
     HISTNAM="cam2.h1"
     MSSHIST=$HISTBASE/$CASE/atm/hist
-    MSSIPCC=$MSSBASE/atm/ipcc/tseries/daily
+    MSSCMIP=$MSSBASE/atm/ipcc/tseries/daily
     MSSPROC=$MSSBASE/atm/proc/tseries/daily    ;;
   lndm ) 
     HISTNAM="clm2.h0"
     MSSHIST=$HISTBASE/$CASE/lnd/hist
-    MSSIPCC=$MSSBASE/lnd/ipcc/tseries/monthly
+    MSSCMIP=$MSSBASE/lnd/ipcc/tseries/monthly
     MSSPROC=$MSSBASE/lnd/proc/tseries/monthly  ;;
   ocnm ) 
     HISTNAM="pop.h"
     MSSHIST=$HISTBASE/$CASE/ocn/hist
-    MSSIPCC=$MSSBASE/ocn/ipcc/tseries/monthly
+    MSSCMIP=$MSSBASE/ocn/ipcc/tseries/monthly
     MSSPROC=$MSSBASE/ocn/proc/tseries/monthly  ;;
   icem ) 
     HISTNAM="csim.h"
     MSSHIST=$HISTBASE/$CASE/ice/hist
-    MSSIPCC=$MSSBASE/ice/ipcc/tseries/monthly
+    MSSCMIP=$MSSBASE/ice/ipcc/tseries/monthly
     MSSPROC=$MSSBASE/ice/proc/tseries/monthly  ;;
   * ) 
     echo "Unable to continue because "$TYPE" not known."
@@ -133,8 +133,8 @@ case "$PROCHOST" in
       lndm ) PROCDIR=/datalocal/ccpg/$USER/$CASE/lnd/mon ;;
       ocnm ) 
         PROCDIR=/datalocal/ccpg/$USER/$CASE/ocn/mon
-        if [ $DO_IPCC -ne 0 ] ; then
-          REGRDIR=/project/ccr/strandwg/IPCC_Processing/ocn/CCSM ; export REGRDIR
+        if [ $DO_CMIP -ne 0 ] ; then
+          REGRDIR=/project/ccr/strandwg/CMIP_Processing/ocn/CCSM ; export REGRDIR
           NAMLDIR=$BASEDIR/regridding                            ; export NAMLDIR
           OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.copper.cgd.ucar.edu       ; export OREGRID
           if [ ! -f $OREGRID ] ; then
@@ -144,8 +144,8 @@ case "$PROCHOST" in
         fi ;;
       icem ) 
         PROCDIR=/datalocal/ccpg/$USER/$CASE/ice/mon
-        if [ $DO_IPCC -ne 0 ] ; then
-          REGRDIR=/project/ccr/strandwg/IPCC_Processing/ice/CCSM ; export REGRDIR
+        if [ $DO_CMIP -ne 0 ] ; then
+          REGRDIR=/project/ccr/strandwg/CMIP_Processing/ice/CCSM ; export REGRDIR
           NAMLDIR=$BASEDIR/regridding                            ; export NAMLDIR
           IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.copper.cgd.ucar.edu       ; export IREGRID
           if [ ! -f $IREGRID ] ; then
@@ -169,7 +169,7 @@ case "$PROCHOST" in
       lndm ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/lnd/mon ;;
       ocnm ) 
         PROCDIR=/scratch/scratchdirs/$USER/$CASE/ocn/mon
-        if [ $DO_IPCC -ne 0 ] ; then
+        if [ $DO_CMIP -ne 0 ] ; then
           REGRDIR=/nersc/mp9/strandwg/CCP_Processing_Suite/ocn/CCSM ; export REGRDIR
           NAMLDIR=$BASEDIR/regridding                               ; export NAMLDIR
           OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.davinci	    ; export OREGRID
@@ -180,7 +180,7 @@ case "$PROCHOST" in
         fi ;;
       icem ) 
         PROCDIR=/scratch/scratchdirs/$USER/$CASE/ice/mon
-        if [ $DO_IPCC -ne 0 ] ; then
+        if [ $DO_CMIP -ne 0 ] ; then
           REGRDIR=/nersc/mp9/strandwg/CCP_Processing_Suite/ice/CCSM ; export REGRDIR
           NAMLDIR=$BASEDIR/regridding                               ; export NAMLDIR
           IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.davinci	    ; export IREGRID
@@ -204,7 +204,7 @@ case "$PROCHOST" in
       lndm ) PROCDIR=/tmp/work/$USER/$CASE/lnd/mon ;;
       ocnm ) 
         PROCDIR=/tmp/work/$USER/$CASE/ocn/mon
-        if [ $DO_IPCC -ne 0 ] ; then
+        if [ $DO_CMIP -ne 0 ] ; then
           REGRDIR=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM ; export REGRDIR
           NAMLDIR=$BASEDIR/regridding                        ; export NAMLDIR
           OREGRID=$BASEDIR/regridding/ccsm_ocn_rgd.lens0     ; export IREGRID
@@ -215,7 +215,7 @@ case "$PROCHOST" in
         fi ;;
       icem ) 
         PROCDIR=/tmp/work/$USER/$CASE/ice/mon
-        if [ $DO_IPCC -ne 0 ] ; then
+        if [ $DO_CMIP -ne 0 ] ; then
           REGRDIR=/f2/wgstrand/CCP_Processing_Suite/ocn/CCSM ; export REGRDIR
           NAMLDIR=$BASEDIR/regridding                        ; export NAMLDIR
           IREGRID=$BASEDIR/regridding/ccsm_ice_rgd.lens0     ; export IREGRID
@@ -243,8 +243,8 @@ if [ $DO_PROC -ne 0 ] ; then
 else
   echo "   by var processing : NO"
 fi
-if [ $DO_IPCC -ne 0 ] ; then
-  echo "     IPCC processing : YES"
+if [ $DO_CMIP -ne 0 ] ; then
+  echo "     CMIP processing : YES"
   if [ "$TYPE" = "ocnm" ] ; then
     echo "regridding directory : "$REGRDIR
     echo "   regridding binary : "$OREGRID
@@ -253,7 +253,7 @@ if [ $DO_IPCC -ne 0 ] ; then
     echo "   regridding binary : "$IREGRID
   fi
 else
-  echo "     IPCC processing : NO"
+  echo "     CMIP processing : NO"
 fi
 if [ "$LOCATION" = "NC" ] ; then
   HARDWARE=${HARDWARE}".ucar.edu"
@@ -282,7 +282,7 @@ echo ""
 echo "       History files : "$MSSHIST  ; export MSSHIST
 echo "       History names : "$HISTNAM  ; export HISTNAM
 echo "   Archival base dir : "$MSSBASE  ; export MSSBASE
-echo "   IPCC format files : "$MSSIPCC  ; export MSSIPCC
+echo "   CMIP format files : "$MSSCMIP  ; export MSSCMIP
 echo "     Processed files : "$MSSPROC  ; export MSSPROC
 echo ""
 echo "     Processing host : "$PROCHOST ; export PROCHOST
@@ -298,9 +298,9 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $PROCDIR
 #
-if [ $DO_IPCC -ne 0 ] ; then
-  if [ ! -d $PROCDIR/IPCC ] ; then
-     mkdir -p $PROCDIR/IPCC
+if [ $DO_CMIP -ne 0 ] ; then
+  if [ ! -d $PROCDIR/CMIP ] ; then
+     mkdir -p $PROCDIR/CMIP
   fi
   if [ "$TYPE" = "atmd" ] ; then
     ln -s -f $BASEDIR/time_split    .
@@ -341,7 +341,7 @@ if [ $DO_IPCC -ne 0 ] ; then
   ln -s -f $BASEDIR/mss_list   .
   ln -s -f $BASEDIR/mss_read   .
   ln -s -f $BASEDIR/mss_write  .
-  cd $PROCDIR/IPCC
+  cd $PROCDIR/CMIP
   ln -s -f $BASEDIR/mss_list   .
   ln -s -f $BASEDIR/mss_read   .
   ln -s -f $BASEDIR/mss_write  .
@@ -386,7 +386,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
     else
       if [ "$TYPE" != "atmd" ] ; then
         for FILE in `ls $CASE.$HISTNAM.${YEARNOW}-??.nc` ; do
-          if [ $DO_IPCC -ne 0 ] ; then
+          if [ $DO_CMIP -ne 0 ] ; then
             if [ "$TYPE" = "ocnm" ] || [ "$TYPE" = "icem" ] ; then
               ./regrid_data $FILE
               if [ $? -ne 0 ] ; then
@@ -402,7 +402,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
                     rm -f $FINT
                   fi
                 done
-                touch .ipcc.$FILE
+                touch .cmip.$FILE
               fi
             else
               ./create_cm3_data $FILE
@@ -410,7 +410,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
                 echo "Error from create_cm3_data on file "$FILE
                 exit 1
               else
-                touch .ipcc.$FILE
+                touch .cmip.$FILE
                 if [ $DO_PROC -eq 0 ] ; then
                   rm -f $FILE
                 fi
@@ -426,9 +426,9 @@ while [ $YEARNOW -le $YEAREND ] ; do
               touch .proc.$FILE
             fi
           fi
-          if [ -f .proc.$FILE ] || [ -f .ipcc.$FILE ] ; then
+          if [ -f .proc.$FILE ] || [ -f .cmip.$FILE ] ; then
             touch .comp.$FILE
-            rm -f .proc.$FILE .ipcc.$FILE
+            rm -f .proc.$FILE .cmip.$FILE
           fi
         done
       else
@@ -437,13 +437,13 @@ while [ $YEARNOW -le $YEAREND ] ; do
         done
         ./days_to_month erase
         for FILE in `ls $CASE.$HISTNAM.????-??.nc` ; do
-          if [ $DO_IPCC -ne 0 ] ; then
+          if [ $DO_CMIP -ne 0 ] ; then
             ./create_cm3_data $FILE
             if [ $? -ne 0 ] ; then
               echo "Error from create_cm3_data on file "$FILE
               exit 1
             else
-              touch .ipcc.$FILE
+              touch .cmip.$FILE
             fi
           fi
           if [ $DO_PROC -ne 0 ] ; then
@@ -455,7 +455,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
               touch .proc.$FILE
             fi
           fi
-          if [ -f .proc.$FILE ] || [-f .ipcc.$FILE ] ; then
+          if [ -f .proc.$FILE ] || [-f .cmip.$FILE ] ; then
             touch .comp.$FILE
           fi
         done

@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 if [ $# -ne 4 ] ; then
-   echo "Usage: ./Process_Setup CASE TYPE DO_PROC DO_IPCC"
+   echo "Usage: ./Process_Setup CASE TYPE DO_PROC DO_CMIP"
    echo "All four arguments REQUIRED:"
    echo "1: Case name"
    echo "2: Type must be one of [atmm atmd lndm ocnm icem]"
@@ -11,8 +11,8 @@ if [ $# -ne 4 ] ; then
 elif [ $# -eq 4 ] ; then
    CASE=$1 ; export CASE
    TYPE=$2 ; export TYPE
-   PROC=$3 ; export PROC
-   IPCC=$4 ; export IPCC
+  IPROC=$3 ; export IPROC
+  ICMIP=$4 ; export ICMIP
 fi
 #
 # Set up a bunch of stuff
@@ -34,23 +34,26 @@ fi
 # Extract information from "experiments.txt"
 #
 #  Columns   Field
-#   1 -  29  CCSM case name
-#  30 -  31  Location (NC = NCAR; NE = NERSC; OR = ORNL)
-#  35 -  49  Very brief description and/or PCMDI name (n/a if not applicable)
-#  50 -  51  Realization number (2 digits) (0 if not applicable)
-#  54 -  56  Is a CMIP3 (cm3) or CMIP5 (cm5) experiment?
-#  60 -  80  Parent CCSM case name 
-#  85 -  94  Branch date (yyyy-mm-dd, "none" if out-of-the-box)
-# 100 - 103  Year began
-# 105 - 108  Year ended
-# 110 - 118  Resolution
-# 120 - 129  Hardware
-# 130 - end  History file location on archive
+#   1 -  39  CCSM case name
+#  40 -  41  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  45 -  64  Very brief description and/or PCMDI name (n/a if not applicable)
+#  65 -  69  Realization number (<=4 digits) (0 if not applicable)
+#  70 -  72  Is a CMIP3 (cm3), CMIP5 (cm5), or ByVar-only (N/A) experiment?
+#  75 - 100  Parent CCSM case name
+# 105 - 114  Branch date (yyyy-mm-dd, "none" if out-of-the-box)
+# 120 - 123  Year began
+# 125 - 128  Year ended
+# 130 - 138  Resolution
+# 140 - 149  Hardware
+# 150 - end  History file location on archive
 #
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
   LOCATION=`egrep "^$CASE " $EXPFILE | cut -c40- | cut -d" " -f1`
       CMIP=`egrep "^$CASE " $EXPFILE | cut -c70- | cut -d" " -f1`
+  if [ "$CMIP" = "N/A" ] ; then
+      CMIP="byv";export $CMIP
+  fi
 else
   echo "Cannot find "$EXPFILE". EXIT"
   exit 1
@@ -70,17 +73,17 @@ case "$LOCATION" in
   NC )                                        # NCAR experiments
     echo "#!/bin/sh" > $CCPS_SCRIPT
     cat ./process_${CMIP}_template | sed -e "s/xxxCASExxx/$CASE/g" | sed -e "s/xxxTYPExxx/$TYPE/g" \
-                                   | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxIPCCxxx/$IPCC/g" \
+                                   | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxCMIPxxx/$CMIP/g" \
                                    >> $CCPS_SCRIPT ;;
   NE )                                        # NERSC experiments
     cat ./batch_cmds_NERSC         >> $CCPS_SCRIPT
     cat ./process_${CMIP}_template | sed -e "s/xxxCASExxx/$CASE/g" | sed -e "s/xxxTYPExxx/$TYPE/g" \
-                                   | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxIPCCxxx/$IPCC/g" \
+                                   | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxCMIPxxx/$CMIP/g" \
                                    >> $CCPS_SCRIPT ;;
   OR )                                        # ORNL experiments
     cat ./batch_cmds_ORNL          >> $CCPS_SCRIPT
     cat ./process_${CMIP}_template | sed -e "s/xxxCASExxx/$CASE/g" | sed -e "s/xxxTYPExxx/$TYPE/g" \
-                                   | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxIPCCxxx/$IPCC/g" \
+                                   | sed -e "s/xxxPROCxxx/$PROC/g" | sed -e "s/xxxCMIPxxx/$CMIP/g" \
                                    >> $CCPS_SCRIPT ;;
   * )
     echo "Unable to build script because "$LOCATION" not found in "$EXPFILE
