@@ -10,63 +10,79 @@ else
   exit 1
 fi
 #
-CHEK=`ls | egrep "\.${HISTNAM}\." | egrep '\-00000\.nc$' | cut -d"." -f3-4 | sort | uniq`
-if [ $? -eq 0 ] ; then
-  ISES=`echo $CHEK | cut -c1-2`
-  if [ "$ISES" = "ES" ] ; then
-    FC=3 ; FT=6
-  else
-    FC=2 ; FT=5
-  fi
-else
-  echo "Error from days_to_month. Exit."
-  exit 1
-fi
+# Parse first filename
 #
-CASES=`ls *.${HISTNAM}.????????-?????.nc | cut -d"." -f1-${FC} | sort | uniq`
-for c in $CASES ; do
-  YEARS=`ls ${c}.${HISTNAM}.????????-?????.nc | cut -d"." -f${FT} | cut -c1-4 | sort | uniq`
-  for y in $YEARS ; do
-    MON=`ls ${c}.${HISTNAM}.${y}????-?????.nc | cut -d"." -f${FT} | cut -c5-6 | uniq`
-    for m in $MON ; do
-    # Jan, Mar, May, Jul, Aug, Oct, Dec
-      if [ "$m" = "01" ] || [ "$m" = "03" ] || [ "$m" = "05" ] || [ "$m" = "07" ] || [ "$m" = "08" ] || [ "$m" = "10" ] || [ "$m" = "12" ] ; then
-        if [ "$HISTNAM" = "cam2.h1" ] ; then
-          NDAY=31
-        fi
-        if [ "$HISTNAM" = "cam2.h3" ] ; then
-          NDAY=124
+FILE=`ls | egrep "*.${HISTNAM}.*" | egrep '\-00000\.nc$' | head -1`
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DPFX=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 )
+      DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
+    clm2 )
+      DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
+    pop )
+      DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
+    csim )
+      DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
+FT=`expr '(' $DPFX ')' '+' '1'`
+#
+YEARS=`ls ${OUTPFX}.????????-?????.nc | cut -d"." -f${FT} | cut -c1-4 | sort | uniq`
+for y in $YEARS ; do
+  MON=`ls ${OUTPFX}.${y}????-?????.nc | cut -d"." -f${FT} | cut -c5-6 | uniq`
+  for m in $MON ; do
+  # Jan, Mar, May, Jul, Aug, Oct, Dec
+    if [ "$m" = "01" ] || [ "$m" = "03" ] || [ "$m" = "05" ] || [ "$m" = "07" ] || [ "$m" = "08" ] || [ "$m" = "10" ] || [ "$m" = "12" ] ; then
+      if [ "$HISTNAM" = "cam2.h1" ] ; then
+        NDAY=31
+      fi
+      if [ "$HISTNAM" = "cam2.h3" ] ; then
+        NDAY=124
+      fi
+    fi
+  # Apr, Jun, Sep, Nov
+    if [ "$m" = "04" ] || [ "$m" = "06" ] || [ "$m" = "09" ] || [ "$m" = "11" ] ; then
+      if [ "$HISTNAM" = "cam2.h1" ] ; then
+        NDAY=30
+      fi
+      if [ "$HISTNAM" = "cam2.h3" ] ; then
+        NDAY=120
+      fi
+    fi
+  # Feb
+    if [ "$m" = "02" ] ; then
+      if [ "$HISTNAM" = "cam2.h1" ] ; then
+        NDAY=28
+      fi
+      if [ "$HISTNAM" = "cam2.h3" ] ; then
+        NDAY=112
+      fi
+    fi
+    MDAY=`ls ${OUTPFX}.${y}${m}??-?????.nc | wc -l`
+    if [ $MDAY -eq $NDAY ] ; then
+      MONFIL=${OUTPFX}.${y}-${m}.nc
+      $NCRCAT -O ${OUTPFX}.${y}${m}??-?????.nc $MONFIL
+      if [ $? -eq 0 ] ; then
+        if [ $# -eq 1 ] ; then
+           rm -f ${OUTPFX}.${y}${m}??-?????.nc
         fi
       fi
-    # Apr, Jun, Sep, Nov
-      if [ "$m" = "04" ] || [ "$m" = "06" ] || [ "$m" = "09" ] || [ "$m" = "11" ] ; then
-        if [ "$HISTNAM" = "cam2.h1" ] ; then
-          NDAY=30
-        fi
-        if [ "$HISTNAM" = "cam2.h3" ] ; then
-          NDAY=120
-        fi
-      fi
-    # Feb
-      if [ "$m" = "02" ] ; then
-        if [ "$HISTNAM" = "cam2.h1" ] ; then
-          NDAY=28
-        fi
-        if [ "$HISTNAM" = "cam2.h3" ] ; then
-          NDAY=112
-        fi
-      fi
-      MDAY=`ls $c.$HISTNAM.${y}${m}??-?????.nc | wc -l`
-      if [ $MDAY -eq $NDAY ] ; then
-        MONFIL=${c}.$HISTNAM.${y}-${m}.nc
-        $NCRCAT -O ${c}.$HISTNAM.${y}${m}??-?????.nc $MONFIL
-        if [ $? -eq 0 ] ; then
-          if [ $# -eq 1 ] ; then
-             rm -f $c.$HISTNAM.${y}${m}??-?????.nc
-          fi
-        fi
-      fi
-    done
+    fi
   done
 done
 #
