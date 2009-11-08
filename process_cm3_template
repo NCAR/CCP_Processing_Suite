@@ -403,6 +403,9 @@ while [ $YEARNOW -le $YEAREND ] ; do
                   fi
                 done
                 touch .cmip.$FILE
+                if [ $DO_PROC -eq 0 ] ; then
+                  rm -f $FILE
+                fi
               fi
             else
               ./create_cm3_data $FILE
