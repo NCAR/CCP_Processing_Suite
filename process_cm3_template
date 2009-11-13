@@ -448,6 +448,9 @@ while [ $YEARNOW -le $YEAREND ] ; do
             else
               touch .cmip.$FILE
             fi
+            if [ $DO_PROC -eq 0 ] ; then
+              rm -f $FILE
+            fi
           fi
           if [ $DO_PROC -ne 0 ] ; then
             ./var_split $FILE erase
