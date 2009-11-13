@@ -458,7 +458,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
               touch .proc.$FILE
             fi
           fi
-          if [ -f .proc.$FILE ] || [-f .cmip.$FILE ] ; then
+          if [ -f .proc.$FILE ] || [ -f .cmip.$FILE ] ; then
             touch .comp.$FILE
           fi
         done
