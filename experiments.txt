@@ -33,7 +33,7 @@ b30.026a.ES01                          NC   1%_to2x             1    cm3  b30.02
 b30.026b                               NC   1%_to4x             1    cm3  b30.026.ES01                  0549-01-01     0550 0699 T85_gx1   JAMSTEC   /CCSM/csm
 b30.026.ES01                           NC   1%_to2x             1    cm3  b30.009                       0400-01-01     0410 0479 T85_gx1   JAMSTEC   /CCSM/csm
 b30.026.ES01                           NC   1%_to4x             1    cm3  b30.009                       0400-01-01     0410 0549 T85_gx1   JAMSTEC   /CCSM/csm
-b30.030a                               NC   20C3M               1    cm3  b30.020                       0360-01-01     1870 1999 T85_gx1   bluesky   /CCSM/csm
+b30.030a                               NC   20C3M               1    cm3  b30.020                       0360-01-01     1870 1871 T85_gx1   bluesky   /CCSM/csm
 b30.030b                               OR   20C3M               2    cm3  b30.020                       0380-01-01     1870 1999 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
 b30.030c                               NC   20C3M               3    cm3  b30.020                       0400-01-01     1870 1999 T85_gx1   bluesky   /CCSM/csm
 b30.030d                               OR   20C3M               4    cm3  b30.020                       0420-01-01     1870 1999 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
@@ -76,7 +76,7 @@ b30.042c                               NE   SRESA2              3    cm3  b30.03
 b30.042d                               NE   SRESA2              4    cm3  b30.030d                      2000-01-01     2000 2099 T85_gx1   seaborg   /nersc/h/hteng/ccsm
 b30.042e                               NE   SRESA2              5    cm3  b30.030e                      2000-01-01     2000 2099 T85_gx1   seaborg   /nersc/h/hteng/ccsm
 b30.042g                               OR   SRESA1B             10   cm3  b30.030g.ES01                 2000-01-01     2000 2099 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
-b30.043                                NC   PIcntrl             1    N/A  none                          0400-01-01     0400 0700 T42_gx1   bluesky   /CCSM/csm
+b30.043                                NC   PIcntrl             1    N/A  b30.100.02                    0400-01-01     0400 0700 T42_gx1   bluesky   /CCSM/csm
 b30.044a                               OR   SRESA1B             1    cm3  b30.040a                      2100-01-01     2100 2199 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
 b30.044b                               NC   SRESA1B             2    cm3  b30.040b                      2100-01-01     2100 2199 T85_gx1   JAMSTEC   /CCSM/csm
 b30.044c                               NC   SRESA1B             3    cm3  b30.040c                      2100-01-01     2100 2199 T85_gx1   bluesky   /CCSM/csm
@@ -85,6 +85,7 @@ b30.044e                               NC   SRESA1B             5    cm3  b30.04
 b30.044b.ES01                          NC   SRESA1B             6    cm3  b30.040b.ES01                 2100-01-01     2100 2449 T85_gx1   JAMSTEC   /CCSM/csm
 b30.044f.ES01                          NC   SRESA1B             7    cm3  b30.040f.ES01                 2100-01-01     2100 2349 T85_gx1   JAMSTEC   /CCSM/csm
 b30.044g.ES01                          NC   SRESA1B             8    cm3  b30.040g.ES01                 2100-01-01     2100 2349 T85_gx1   JAMSTEC   /CCSM/csm
+b30.044g                               OR   SRESA1B             9    cm3  b30.040g                      2100-01-01     2100 2199 T85_gx1   jaguar    /f2/hteng/mss/CCSM/csm
 b30.045a                               OR   SRESB1              1    cm3  b30.041a                      2100-01-01     2100 2199 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
 b30.045b                               NC   SRESB1              2    cm3  b30.041b                      2100-01-01     2100 2199 T85_gx1   bluesky   /CCSM/csm
 b30.045c                               OR   SRESB1              3    cm3  b30.041c                      2100-01-01     2100 2199 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
@@ -294,6 +295,10 @@ iamip.ES01                             NC   AMIP                2    cm3  none  
 iamip.ES03                             NC   AMIP                3    cm3  none                          0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
 iamip.ES04                             NC   AMIP                4    cm3  none                          0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
 iamip.ES05                             NC   AMIP                5    cm3  none                          0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
-b40.20th.track1.1deg.003               NC   historical          1    cm5  b40.1850.track1.1deg.006      0251-01-01     1850 1850 f09_g16   bluefire  /CCSM/csm
+b40.20th.track1.1deg.003               NC   historical          0    cm5  b40.1850.track1.1deg.006      0251-01-01     1850 1850 f09_g16   bluefire  /CCSM/csm
 b40.1850.track1.1deg.006               NC   pi-control          1    cm5  1850_f09_g16_c090901          0000-01-01     0001 1000 f09_g16   bluefire  /CCSM/csm
 b40.1850_ramp.track1.1deg.001          NC   1pct-co2            1    cm5  b40.1850.track1.1deg.006      0251-01-01     1850 1990 f09_g16   bluefire  /CCSM/csm
+b40.20th.track1.1deg.004               NC   historical          1    cm3  b40.1850.track1.1deg.006      0863-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
+b40.20th.track1.1deg.005               NC   historical          2    cm3  b40.1850.track1.1deg.006      0863-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
+b40.20th.track1.1deg.006               NC   historical          3    cm3  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
+b40.20th.track1.1deg.007               NC   historical          4    cm3  b40.1850.track1.1deg.006      0983-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
