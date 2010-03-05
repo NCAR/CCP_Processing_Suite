@@ -1,5 +1,6 @@
-CASE=xxxCASExxx ; export CASE
-TYPE=xxxTYPExxx ; export TYPE
+   CASE=xxxCASExxx ; export CASE
+   HIST=xxxHISTxxx ; export HIST
+   TPER=xxxTPERxxx ; export TPER
 DO_PROC=xxxPROCxxx ; export DO_PROC
 DO_CMIP=xxxCMIPxxx ; export DO_CMIP
 #
@@ -52,70 +53,76 @@ MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
 case "$LOCATION" in
   NC )                                        # NCAR experiments
-    MSSBASE=/CCSM/csm/$CASE
-    PROCHOST="copper"  ;;
+    MSSBASE=/CCSM/csm               ;;
   NE )                                        # NERSC experiments
-    MSSBASE=/nersc/mp9/strandwg/CCSM/csm/$CASE
-    PROCHOST="davinci"  ;;
+    MSSBASE=/home/projects/CCSM/csm ;;
   OR )                                        # ORNL experiments
-    MSSBASE=/f2/wgstrand/CCSM/csm/$CASE
-    PROCHOST="lens0"    ;;
+    MSSBASE=/f2/ccsm/csm            ;;
   * )
     echo "Unable to set variables because "$LOCATION" not found in "$EXPFILE
     exit 1 ;;
 esac
+export MSSBASE
+MSSCMIP=$MSSBASE/CMIP5
 #
 # Check PROCHOST against LOCATION
 #
-if [ "$PROCHOST" = "copper" ] || [ "$PROCHOST" = "lens0" ] ; then
-  if [ "$LOCATION" = "NE" ] ; then
-    echo "Using incorrect "$PROCHOST" for location "$LOCATION
+PROCHOST=`hostname`;export PROCHOST
+#
+if [ "$LOCATION" = "NE" ] ; then
+  if [ "$PROCHOST" != "davinci" ] ; then
+    echo "Add "$PROCHOST" for location "$LOCATION
     exit 1
   fi
 fi
-if [ "$PROCHOST" = "davinci" ] || [ "$PROCHOST" = "lens0" ] ; then
-  if [ "$LOCATION" = "NC" ] ; then
-    echo "Using incorrect "$PROCHOST" for location "$LOCATION
+if [ "$LOCATION" = "NC" ] ; then
+  if [ "$PROCHOST" != "copper.cgd.ucar.edu" ] ; then
+    echo "Add "$PROCHOST" for location "$LOCATION
     exit 1
   fi
 fi
-if [ "$PROCHOST" = "copper" ] || [ "$PROCHOST" = "davinci" ] ; then
-  if [ "$LOCATION" = "OR" ] ; then
-    echo "Using incorrect "$PROCHOST" for location "$LOCATION
+if [ "$LOCATION" = "OR" ] ; then
+  if [ "$PROCHOST" != "lens0" ] ; then
+    echo "Add "$PROCHOST" for location "$LOCATION
     exit 1
   fi
 fi
 #
-# History tape locations
+# Strip off first part of $HIST
 #
-case "$TYPE" in
-  atmm )
-    HISTNAM="cam2.h0"
+HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
+#
+# File archival locations
+#
+case "$HTYP" in
+  cam2 )
     MSSHIST=$HISTBASE/$CASE/atm/hist
-    MSSCMIP=$MSSBASE/atm/ipcc/tseries/monthly
-    MSSPROC=$MSSBASE/atm/proc/tseries/monthly  ;;
-  atmd )
-    HISTNAM="cam2.h1"
-    MSSHIST=$HISTBASE/$CASE/atm/hist
-    MSSCMIP=$MSSBASE/atm/ipcc/tseries/daily
-    MSSPROC=$MSSBASE/atm/proc/tseries/daily    ;;
-  lndm ) 
-    HISTNAM="clm2.h0"
+    MSSPROC=$MSSBASE/$CASE/atm/proc/tseries  ;;
+  clm2 ) 
     MSSHIST=$HISTBASE/$CASE/lnd/hist
-    MSSCMIP=$MSSBASE/lnd/ipcc/tseries/monthly
-    MSSPROC=$MSSBASE/lnd/proc/tseries/monthly  ;;
-  ocnm ) 
-    HISTNAM="pop.h"
+    MSSPROC=$MSSBASE/$CASE/lnd/proc/tseries  ;;
+  pop  ) 
     MSSHIST=$HISTBASE/$CASE/ocn/hist
-    MSSCMIP=$MSSBASE/ocn/ipcc/tseries/monthly
-    MSSPROC=$MSSBASE/ocn/proc/tseries/monthly  ;;
-  icem ) 
-    HISTNAM="csim.h"
+    MSSPROC=$MSSBASE/$CASE/ocn/proc/tseries  ;;
+  csim | cice ) 
     MSSHIST=$HISTBASE/$CASE/ice/hist
-    MSSCMIP=$MSSBASE/ice/ipcc/tseries/monthly
-    MSSPROC=$MSSBASE/ice/proc/tseries/monthly  ;;
+    MSSPROC=$MSSBASE/$CASE/ice/proc/tseries  ;;
   * ) 
-    echo "Unable to continue because "$TYPE" not known."
+    echo "Unable to continue because "$HIST" not known."
+    exit 1 ;;
+esac
+#
+case "$TPER" in
+  mon )
+    MSSPROC=${MSSPROC}/monthly  ;;
+  day )
+    MSSPROC=${MSSPROC}/daily    ;;
+  hr6 )
+    MSSPROC=${MSSPROC}/hourly6  ;;
+  hr3 )
+    MSSPROC=${MSSPROC}/hourly3  ;;
+  * ) 
+    echo "Unable to continue because "$TPER" not known."
     exit 1 ;;
 esac
 #
@@ -124,67 +131,127 @@ esac
 case "$PROCHOST" in 
   copper* )                                # copper @ CGD/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/local/bin/ncks ; export NCKS
-    NCRCAT=/usr/local/bin/ncrcat ; export NCRCAT
-    NCL=/contrib/bin/ncl ; export NCL
-    case "$TYPE" in
-      atmm ) PROCDIR=/datalocal/ccpg/$USER/$CASE/atm/mon ;;
-      atmd ) PROCDIR=/datalocal/ccpg/$USER/$CASE/atm/day ;;
-      lndm ) PROCDIR=/datalocal/ccpg/$USER/$CASE/lnd/mon ;;
-      ocnm ) PROCDIR=/datalocal/ccpg/$USER/$CASE/ocn/mon ;;
-      icem ) PROCDIR=/datalocal/ccpg/$USER/$CASE/ice/mon ;;
-      * ) 
-        echo "Unable to continue because "$TYPE" not known."
-        exit 1 ;;
-    esac ;;
+    UUID=/home/strandwg/bin/uuid         ; export UUID
+    NCKS=/home/strandwg/bin/ncks         ; export NCKS
+    NCRCAT=/home/strandwg/bin/ncrcat     ; export NCRCAT
+    NCATTED=/home/strandwg/bin/ncatted   ; export NCATTED
+    NCARG_ROOT=/contrib/ncarg            ; export NCARG_ROOT
+    PROCBASE=/datalocal/ccpg/$USER/$CASE ; export PROCBASE
+    ;;
 
   davinci* )                                # davinci @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/common/homes/s/strandwg/bin/ncks ; export NCKS
+    UUID=/usr/common/homes/s/strandwg/bin/ncks     ; export UUID
+    NCKS=/usr/common/homes/s/strandwg/bin/ncks     ; export NCKS
     NCRCAT=/usr/common/homes/s/strandwg/bin/ncrcat ; export NCRCAT
-    NCL=/usr/common/usg/ncar/5.0.0/bin/ncl ; export NCL
-    case "$TYPE" in
-      atmm ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/atm/mon ;;
-      atmd ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/atm/day ;;
-      lndm ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/lnd/mon ;;
-      ocnm ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/ocn/mon ;;
-      icem ) PROCDIR=/scratch/scratchdirs/$USER/$CASE/ice/mon ;;
-      * ) 
-        echo "Unable to continue because "$TYPE" not known."
-        exit 1 ;;
-    esac ;;
+    NCATTED=/usr/common/homes/s/strandwg/bin/ncatted ; export NCATTED
+    NCARG_ROOT=/usr/common/usg/ncar/5.0.0          ; export NCARG_ROOT
+    PROCBASE=/scratch/scratchdirs/$USER/$CASE      ; export PROCBASE
+    ;;
 
   lens* )                                # lens @ ORNL
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/ccs/home/wgstrand/bin/ncks ; export NCKS
-    NCRCAT=/ccs/home/wgstrand/bin/ncrcat ; export NCRCAT
-    case "$TYPE" in
-      atmm ) PROCDIR=/tmp/work/$USER/$CASE/atm/mon ;;
-      atmd ) PROCDIR=/tmp/work/$USER/$CASE/atm/day ;;
-      lndm ) PROCDIR=/tmp/work/$USER/$CASE/lnd/mon ;;
-      ocnm ) PROCDIR=/tmp/work/$USER/$CASE/ocn/mon ;;
-      icem ) PROCDIR=/tmp/work/$USER/$CASE/ice/mon ;;
-      * ) 
-        echo "Unable to continue because "$TYPE" not known."
-        exit 1 ;;
-    esac ;;
+    UUID=/ccs/home/wgstrand/bin/ncks                   ; export UUID
+    NCKS=/ccs/home/wgstrand/bin/ncks                   ; export NCKS
+    NCRCAT=/ccs/home/wgstrand/bin/ncrcat               ; export NCRCAT
+    NCATTED=/ccs/home/wgstrand/bin/ncatted             ; export NCATTED
+    NCARG_ROOT=/sw/analysis-x64/ncl/5.0.0/sl5.0_binary ; export NCARG_ROOT
+    PROCBASE=/tmp/work/$USER/$CASE                     ; export PROCBASE
+    ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
     exit 1 ;;
 esac
+#
+case "$HTYP" in
+  cam2 ) PROCDIR=$PROCBASE/atm ;;
+  clm2 ) PROCDIR=$PROCBASE/lnd ;;
+  pop  ) PROCDIR=$PROCBASE/ocn ;;
+  csim ) PROCDIR=$PROCBASE/ice ;;
+  cice ) PROCDIR=$PROCBASE/ice ;;
+  * ) 
+    echo "Unable to continue because "$HIST" not known."
+    exit 1 ;;
+esac
+#
+# For CMIP processing, get NCL script name
+#
+if [ $DO_CMIP -ne 0 ] ; then
+  NCL=${NCARG_ROOT}/bin/ncl ; export NCL
+  NCL_VERSION=`$NCL -V`     ; export NCL_VERSION
+ case "$HTYP" in
+    cam2 ) 
+      case "$TPER" in
+        mon ) NCL_SCRIPT=CCSM_Amon_${CMIP}.ncl ;;
+        day ) NCL_SCRIPT=CCSM_da_${CMIP}.ncl   ;;
+        hr6 ) NCL_SCRIPT=CCSM_atm6_${CMIP}.ncl ;;
+        hr3 ) NCL_SCRIPT=CCSM_atm3_${CMIP}.ncl ;;
+        *   ) 
+          echo "Unable to continue because "$TPER" not known for NCL_SCRIPT."
+          exit 1 ;;
+      esac ;;
+    clm2 ) 
+      case "$TPER" in
+        mon ) NCL_SCRIPT=CCSM_Lmon_${CMIP}.ncl ;;
+        day ) NCL_SCRIPT=CCSM_lndd_${CMIP}.ncl ;;
+        hr6 ) NCL_SCRIPT=CCSM_lnd6_${CMIP}.ncl ;;
+        hr3 ) NCL_SCRIPT=CCSM_lnd3_${CMIP}.ncl ;;
+        *   ) 
+          echo "Unable to continue because "$TPER" not known for NCL_SCRIPT."
+          exit 1 ;;
+      esac ;;
+    pop  ) 
+      case "$TPER" in
+        mon ) NCL_SCRIPT=CCSM_Omon_${CMIP}.ncl ;;
+        day ) NCL_SCRIPT=CCSM_ocnd_${CMIP}.ncl ;;
+        hr6 ) NCL_SCRIPT=CCSM_ocn6_${CMIP}.ncl ;;
+        hr3 ) NCL_SCRIPT=CCSM_ocn3_${CMIP}.ncl ;;
+        *   ) 
+          echo "Unable to continue because "$TPER" not known for NCL_SCRIPT."
+          exit 1 ;;
+      esac ;;
+    cice | csim  ) 
+      case "$TPER" in
+        mon ) NCL_SCRIPT=CCSM_LImon_${CMIP}.ncl ;;
+        day ) NCL_SCRIPT=CCSM_iced_${CMIP}.ncl ;;
+        hr6 ) NCL_SCRIPT=CCSM_ice6_${CMIP}.ncl ;;
+        hr3 ) NCL_SCRIPT=CCSM_ice3_${CMIP}.ncl ;;
+        *   ) 
+          echo "Unable to continue because "$TPER" not known for NCL_SCRIPT."
+          exit 1 ;;
+      esac ;;
+    *   ) 
+      echo "Unable to continue because "$HTYP" not known for NCL_SCRIPT."
+      exit 1 ;;
+  esac
+  export NCL_SCRIPT
+  if [ ! -f ${BASEDIR}/${NCL_SCRIPT} ] ; then
+    echo "Unable to continue because "${BASEDIR}/${NCL_SCRIPT}" not found."
+    exit 1
+  fi
+fi
+#
+PROCDIR=${PROCDIR}/${TPER}
 CACHEDIR=${PROCDIR}/to_archive
 #
 # Print out values
 #
-echo "           Case name : "$CASE     ; export CASE
-echo "     Processing type : "$TYPE     ; export TYPE
+echo "           Case name : "$CASE ; export CASE
+echo "   History file type : "$HIST ; export HIST
 if [ $DO_PROC -ne 0 ] ; then
   echo "   by var processing : YES"
+  echo "     Processed files : "$MSSPROC  ; export MSSPROC
 else
   echo "   by var processing : NO"
 fi
 if [ $DO_CMIP -ne 0 ] ; then
-  echo "     CMIP processing : YES"
+  if [ "$CMIP" != "---" ] ; then
+    echo "         CMIP format : "$CMIP        ; export CMIP
+    echo "                 NCL : "$NCL         ; export NCL
+    echo "         NCL version : "$NCL_VERSION ; export NCL_VERSION
+    echo "     NCL script name : "$NCL_SCRIPT  ; export NCL_SCRIPT
+    echo "   CMIP format files : "$MSSCMIP     ; export MSSCMIP
+  fi
 else
   echo "     CMIP processing : NO"
 fi
@@ -200,9 +267,6 @@ fi
 echo "            Location : "$LOCATION ; export LOCATION
 echo "         Description : "$DESCRIP  ; export DESCRIP
 echo "         Realization : "$REALIZN  ; export REALIZN
-if [ "$CMIP" != "---" ] ; then
-  echo "         CMIP version: "$CMIP     ; export CMIP
-fi
 echo "         Parent case : "$PARENT   ; export PARENT
 echo "         Branch date : "$BRANCH   ; export BRANCH
 echo "          Resolution : "$RES      ; export RES
@@ -213,10 +277,8 @@ echo "          Year count : "$YRCOUNT  ; export YRCOUNT
 echo "        Months count : "$MNCOUNT  ; export MNCOUNT
 echo ""
 echo "       History files : "$MSSHIST  ; export MSSHIST
-echo "       History names : "$HISTNAM  ; export HISTNAM
+echo "       History names : "$HIST     ; export HIST
 echo "   Archival base dir : "$MSSBASE  ; export MSSBASE
-echo "   CMIP format files : "$MSSCMIP  ; export MSSCMIP
-echo "     Processed files : "$MSSPROC  ; export MSSPROC
 echo ""
 echo "     Processing host : "$PROCHOST ; export PROCHOST
 echo "      Processing dir : "$PROCDIR  ; export PROCDIR
@@ -232,21 +294,26 @@ fi
 cd $PROCDIR
 #
 if [ $DO_CMIP -ne 0 ] ; then
-  if [ ! -d $PROCDIR/CMIP5_data ] ; then
-     mkdir -p $PROCDIR/CMIP5_data
+  if [ ! -f ${BASEDIR}/${NCL_SCRIPT} ] ; then
+    echo "Unable to continue because "$NCL_SCRIPT" not found."
+    exit 1
   fi
-  if [ "$TYPE" = "atmd" ] ; then
+#
+  if [ ! -d $PROCDIR/CMIP ] ; then
+     mkdir -p $PROCDIR/CMIP
+  fi
+  if [ "$TPER" != "mon" ] ; then
     ln -s -f $BASEDIR/time_split    .
     ln -s -f $BASEDIR/days_to_month .
   fi
   cd $PROCDIR
-  ln -s -f $BASEDIR/create_${CMIP}_data    .
-  ln -s -f $BASEDIR/CCSM_${TYPE}_${CMIP}.ncl   .
+  ln -s -f $BASEDIR/create_cm5_data     .
+  ln -s -f ${BASEDIR}/${NCL_SCRIPT}     .
   ln -s -f $BASEDIR/attributes_ccsm.ncl .
   ln -s -f $BASEDIR/mss_list   .
   ln -s -f $BASEDIR/mss_read   .
   ln -s -f $BASEDIR/mss_write  .
-  cd $PROCDIR/CMIP5_data
+  cd $PROCDIR/CMIP
   ln -s -f $BASEDIR/mss_list   .
   ln -s -f $BASEDIR/mss_read   .
   ln -s -f $BASEDIR/mss_write  .
@@ -256,7 +323,7 @@ if [ $DO_CMIP -ne 0 ] ; then
 fi
 #
 if [ $DO_PROC -ne 0 ] ; then
-  if [ "$TYPE" = "atmd" ] ; then
+  if [ "$TPER" != "mon" ] ; then
     ln -s -f $BASEDIR/time_split    .
     ln -s -f $BASEDIR/days_to_month .
   fi
@@ -276,12 +343,12 @@ CURDIR=$PWD
 cd $PROCDIR
 YEARNOW=$YEARBEG;export YEARNOW
 while [ $YEARNOW -le $YEAREND ] ; do
-  YRCHECK=.comp.$CASE.$HISTNAM.$YEARNOW
+  YRCHECK=.comp.$CASE.$HIST.$YEARNOW
   if [ ! -f $YRCHECK ] ; then
-    echo "Processing "$CASE"."$HISTNAM"."$YEARNOW" at "`date`
-    MSSLIST=MSS.$CASE.$TYPE
+    echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
+    MSSLIST=MSS.$CASE.$HIST
     if [ ! -f $MSSLIST ] ; then
-      echo "Getting archival list of "$CASE" "$HISTNAM
+      echo "Getting archival list of "$CASE" "$HIST
       ./mss_list $MSSLIST
     fi
     ./mss_read $MSSLIST $YEARNOW
@@ -289,19 +356,18 @@ while [ $YEARNOW -le $YEAREND ] ; do
       echo "Error from mss_read"
       exit 1
     else
-      if [ "$TYPE" != "atmd" ] ; then
-        for FILE in `ls $CASE.$HISTNAM.${YEARNOW}-??.nc` ; do
+      if [ "$TPER" = "mon" ] ; then
+        for FILE in `ls $CASE.$HIST.${YEARNOW}-??.nc` ; do
           if [ $DO_CMIP -ne 0 ] ; then
-            ./create_${CMIP}_data $FILE
+            ./create_cm5_data $FILE
             if [ $? -ne 0 ] ; then
-              echo "Error from create_${CMIP}_data on file "$FILE
+              echo "Error from create_cm5_data on file "$FILE
               exit 1
-            else
-              touch .cmip.$FILE
-              if [ $DO_PROC -eq 0 ] ; then
-                rm -f $FILE
-              fi
             fi
+            touch .cmip.$FILE
+#            if [ $DO_PROC -eq 0 ] ; then
+#              rm -f $FILE
+#            fi
           fi
           if [ $DO_PROC -ne 0 ] ; then
             ./var_split $FILE erase
@@ -318,18 +384,21 @@ while [ $YEARNOW -le $YEAREND ] ; do
           fi
         done
       else
-        for FILE in `ls $CASE.$HISTNAM.${YEARNOW}-??-??-?????.nc` ; do
+        for FILE in `ls $CASE.$HIST.${YEARNOW}-??-??-?????.nc` ; do
           ./time_split $FILE erase
         done
         ./days_to_month erase
-        for FILE in `ls $CASE.$HISTNAM.????-??.nc` ; do
+        for FILE in `ls $CASE.$HIST.????-??.nc` ; do
           if [ $DO_CMIP -ne 0 ] ; then
-            ./create_${CMIP}_data $FILE
+            ./create_cm5_data $FILE
             if [ $? -ne 0 ] ; then
-              echo "Error from create_${CMIP}_data on file "$FILE
+              echo "Error from create_cm5_data on file "$FILE
               exit 1
             else
               touch .cmip.$FILE
+            fi
+            if [ $DO_PROC -eq 0 ] ; then
+              rm -f $FILE
             fi
           fi
           if [ $DO_PROC -ne 0 ] ; then
@@ -341,15 +410,15 @@ while [ $YEARNOW -le $YEAREND ] ; do
               touch .proc.$FILE
             fi
           fi
-          if [ -f .proc.$FILE ] || [-f .cmip.$FILE ] ; then
+          if [ -f .proc.$FILE ] || [ -f .cmip.$FILE ] ; then
             touch .comp.$FILE
           fi
         done
       fi
     fi
-    if [ `ls .comp.$CASE.$HISTNAM.${YEARNOW}-??.nc | wc -l` -eq 12 ] ; then
+    if [ `ls .comp.$CASE.$HIST.${YEARNOW}-??.nc | wc -l` -eq 12 ] ; then
       touch $YRCHECK
-      rm .????.$CASE.$HISTNAM.${YEARNOW}-??.nc
+      rm .????.$CASE.$HIST.${YEARNOW}-??.nc
     fi
   fi
   YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
@@ -367,12 +436,12 @@ done
 # Concatenate months -> years, years -> all (if possible)
 #
 ./concatenate_data
-#if [ $? -eq 0 ] ; then
+if [ $? -eq 0 ] ; then
 #
 # Store completed data on archival system
 #
-#  ./store_to_archive
-#else
-#  echo "Error from concatenate_data"
-#  exit 1
-fi
+  ./store_to_archive
+else
+  echo "Error from concatenate_data"
+  exit 1
+#fi

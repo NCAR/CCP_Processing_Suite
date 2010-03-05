@@ -18,61 +18,82 @@ else
   exit 1
 fi
 #
-KIND=`ls *.????.nc | cut -c1-1 | uniq`
-if [ "$KIND" = "b" ] ; then
-  CHEK=`ls b*.????.nc | cut -d"." -f3 | cut -c1-2 | uniq`
-  if [ "$CHEK" = "ES" ] ; then
-    FC=3 ; FV=6 ; FT=7 ; FD=4 ; FE=5
-  else
-    FC=2 ; FV=5 ; FT=6 ; FD=3 ; FE=4
-  fi
-else
-    FC=1 ; FV=4 ; FT=5 ; FD=2 ; FE=3
-fi
+# Parse first filename
 #
-COMP=`ls *.????.nc | cut -d"." -f${FD}-${FE} | uniq`
-for p in $COMP ; do
-  VARS=`ls *.${p}.*.????.nc | cut -d"." -f${FV} | uniq`
-  for v in $VARS ; do
-    CASES=`ls *.${p}.${v}.????.nc | cut -d"." -f1-${FC} | uniq`
-    for c in $CASES ; do
+FILE=`ls | egrep '\.....\.nc$' | head -1`
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DCAS=1
+DVAR=1
+DHT1=1
+DHT2=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 | clm2 | pop | csim | cice )
+      DCAS=`expr '(' $IDOT ')' '-' '1'`
+      DVAR=`expr '(' $IDOT ')' '+' '1'`
+      DHT1=$IDOT ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+DHT2=`expr '(' $DHT1 ')' '+' '1'`
+DVAR=`expr '(' $DVAR ')' '+' '1'`
+DTIM=`expr '(' $DVAR ')' '+' '1'`
+#
+CASES=`ls | egrep '\.....\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
+ VARS=`ls | egrep '\.....\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+ HTAP=`ls | egrep '\.....\.nc$' | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
+#
+for c in $CASES ; do
+  for h in $HTAP ; do
+    for v in $VARS ; do
       if [ $YRCOUNT ] ; then
-        NUM=`ls ${c}.${p}.${v}.????.nc | wc -l`
+        NUM=`ls ${c}.${h}.${v}.????.nc | wc -l`
         if [ $NUM = $YRCOUNT ] ; then
-          Y0=`ls ${c}.${p}.${v}.????.nc | head -1 | cut -d"." -f${FT}`
-          Y1=`ls ${c}.${p}.${v}.????.nc | tail -1 | cut -d"." -f${FT}`
-          if [ $p = "cam2.h1" ] ; then
-            DF=${c}.${p}.${v}.${Y0}-01-01_cat_${Y1}-12-31.nc
+          Y0=`ls ${c}.${h}.${v}.????.nc | head -1 | cut -d"." -f${DTIM}`
+          Y1=`ls ${c}.${h}.${v}.????.nc | tail -1 | cut -d"." -f${DTIM}`
+          if [ $h = "cam2.h1" ] ; then
+            DF=${c}.${h}.${v}.${Y0}-01-01_cat_${Y1}-12-31.nc
           else
-            DF=${c}.${p}.${v}.${Y0}-01_cat_${Y1}-12.nc
+            DF=${c}.${h}.${v}.${Y0}-01_cat_${Y1}-12.nc
           fi
-          $NCRCAT -O ${c}.${p}.${v}.????.nc $DF
+          $NCRCAT -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
           if [ $? = 0 ] ; then
-            rm -f ${c}.${p}.${v}.????.nc
+            rm -f ${c}.${h}.${v}.????.nc
             echo "Concatenated "$DF" and checked year count: "$YRCOUNT
           else
-            echo "Failure on concat of "${c}"."${p}"."${v}" files"
+            echo "Failure on concat of "${c}"."${h}"."${v}" files"
             exit 1
           fi
         else
-          echo "Missing year(s) from "${c}"."${p}"."${v}" files"
+          echo "Missing year(s) from "${c}"."${h}"."${v}" files"
           echo "Count is "$NUM" should be "$YRCOUNT
           exit 1
         fi
       else
-        Y0=`ls ${c}.${p}.${v}.????.nc | head -1 | cut -d"." -f${FT}`
-        Y1=`ls ${c}.${p}.${v}.????.nc | tail -1 | cut -d"." -f${FT}`
-        if [ $p = "cam2.h1" ] ; then
-          DF=${c}.${p}.${v}.${Y0}-01-01_cat_${Y1}-12-31.nc
+        Y0=`ls ${c}.${h}.${v}.????.nc | head -1 | cut -d"." -f${DTIM}`
+        Y1=`ls ${c}.${h}.${v}.????.nc | tail -1 | cut -d"." -f${DTIM}`
+        if [ $h = "cam2.h1" ] ; then
+          DF=${c}.${h}.${v}.${Y0}-01-01_cat_${Y1}-12-31.nc
         else
-          DF=${c}.${p}.${v}.${Y0}-01_cat_${Y1}-12.nc
+          DF=${c}.${h}.${v}.${Y0}-01_cat_${Y1}-12.nc
         fi
-        $NCRCAT -O ${c}.${p}.${v}.????.nc $DF
+        $NCRCAT -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
         if [ $? = 0 ] ; then
-          rm -f ${c}.${p}.${v}.????.nc
+          rm -f ${c}.${h}.${v}.????.nc
           echo "Concatenated "$DF" and WITHOUT checking year count"
         else
-          echo "Failure on concat of "${c}"."${p}"."${v}" files"
+          echo "Failure on concat of "${c}"."${h}"."${v}" files"
           exit 1
         fi
       fi

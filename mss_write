@@ -20,38 +20,39 @@ if [ ! -f $MSSF ] ; then
   exit 1
 fi
 #
+# If hsi command exists, use it.
 #
-# If NCAR MSS msrcp command exists, use it.
-TEST4MSRCP=`which msrcp 2<&1`
+TEST4HSI=`which hsi 2<&1`
 if [ $? -eq 0 ] ; then
-  MSRCP=`which msrcp`
-  $MSRCP -project 93300014 -pe 3652 -class reliability=economy -srcdelete $MSSF "mss:${MSSD}/${MSSF}"
+  HSI=`which hsi`
+  $HSI -q "mkdir -m 775 -p $MSSD ; put -U ${MSSD}/${MSSF}" 2>&1
   if [ $? -eq 0 ] ; then
-    echo $MSSF" written to "${MSSD}/${MSSF}" and erased."
+    echo ${MSSF}" written to "${MSSD}" and erased."
+    rm -f $MSSF
   else
-    echo "Problem with storing "${MSSF}" to "${MSSD}". Stopping."
-    exit 1
-  fi
-else
-#
-# If NERSC/ORNL hsi command exists, use it.
-  TEST4HSI=`which hsi 2<&1`
-  if [ $? -eq 0 ] ; then
-    HSI=`which hsi`
-    $HSI -q "mkdir -m 775 -p $MSSD ; put -U ${MSSD}/${MSSF}" 2>&1
+    $HSI -q "put ${MSSF}" 2>&1
     if [ $? -eq 0 ] ; then
-      echo ${MSSF}" written to "${MSSD}" and erased."
+      echo ${MSSF}" written to your HPSS HOME and erased."
       rm -f $MSSF
     else
-      $HSI -q "put ${MSSF}" 2>&1
-      if [ $? -eq 0 ] ; then
-        echo ${MSSF}" written to your HPSS HOME and erased."
-        rm -f $MSSF
-      else
-        echo "Problem with HPSS on "${MSSF}". Stopping"
-        exit 1
-      fi
-    fi      
+      echo "Problem with HPSS on "${MSSF}". Stopping"
+      exit 1
+    fi
+  fi      
+else
+#
+# If NCAR MSS msrcp command exists, use it.
+#
+  TEST4MSRCP=`which msrcp 2<&1`
+  if [ $? -eq 0 ] ; then
+    MSRCP=`which msrcp`
+    $MSRCP -pe 3652 -class reliability=economy -srcdelete $MSSF "mss:${MSSD}/${MSSF}"
+    if [ $? -eq 0 ] ; then
+      echo $MSSF" written to "${MSSD}/${MSSF}" and erased."
+    else
+      echo "Problem with storing "${MSSF}" to "${MSSD}". Stopping."
+      exit 1
+    fi
   else
     echo "Neither msrcp nor hsi exist."
     exit 1

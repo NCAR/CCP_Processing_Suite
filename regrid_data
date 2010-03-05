@@ -1,4 +1,4 @@
-#!/bin/sh -xv
+#!/bin/sh
 #
 # Regrid CCSM POP/CSIM data to regular-ish grid using SCRIP weights (predefined)
 #
@@ -13,14 +13,47 @@ else
   fi
 fi
 #
-CHEK=`echo $FILE | cut -d"." -f3 | cut -c1-2 | uniq`
-if [ "$CHEK" = "ES" ] ; then
-  F_COMP=4 ; F_TIME=6
-else
-  F_COMP=3 ; F_TIME=5
-fi
+# Parse filename
+#
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DPFX=1
+DSFX=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+    clm2 )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+    pop )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+    csim )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+    cice )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+F_COMP=`expr '(' $DPFX ')' '-' '1'`
+F_TIME=${DSFX}
+#
 COMP=`echo $FILE | cut -d"." -f${F_COMP}`
-TVAL=`echo $FILE | cut -d"." -f${F_TIME} | cut -d"." -f1`
+TVAL=`echo $FILE | cut -d"." -f${F_TIME}`
 #
 # POP regrid
 #
@@ -33,23 +66,23 @@ if [ "$COMP" = "pop" ] ; then
                        sed -e "s/TTTT/${TVAL}/g" > input_nml_T
   cat NML_ccsm_ocn_U | sed -e "s/CASE/${CASE}/g" | \
                        sed -e "s/TTTT/${TVAL}/g" > input_nml_U
-  ./ccsm_ocn_regrid < input_nml_1
+  ./ccsm_ocn_regrid < input_nml_1 2>&1 > /dev/null
   if [ $? -eq 0 ] ; then
-    ./ccsm_ocn_regrid < input_nml_T
+    ./ccsm_ocn_regrid < input_nml_T 2>&1 > /dev/null
     if [ $? -eq 0 ] ; then
-      ./ccsm_ocn_regrid < input_nml_U
+      ./ccsm_ocn_regrid < input_nml_U 2>&1 > /dev/null
       if [ $? -eq 0 ] ; then
         echo "regrid_data ocn COMPLETE"
       else
-        echo "regrid_data ocn U regrid FAILED"
+        echo "regrid_data ocn U regrid FAILED on "${FILE}
         exit 1
       fi
     else
-      echo "regrid_data ocn T regrid FAILED"
+      echo "regrid_data ocn T regrid FAILED on "${FILE}
       exit 1
     fi
   else
-    echo "regrid_data ocn 1 regrid FAILED"
+    echo "regrid_data ocn 1 regrid FAILED on "${FILE}
     exit 1
   fi
 fi
@@ -63,17 +96,17 @@ if [ "$COMP" = "csim" ] ; then
                        sed -e "s/TTTT/${TVAL}/g" > input_nml_T
   cat NML_ccsm_ice_U | sed -e "s/CASE/${CASE}/g" | \
                        sed -e "s/TTTT/${TVAL}/g" > input_nml_U
-  ./ccsm_ice_regrid < input_nml_T
+  ./ccsm_ice_regrid < input_nml_T 2>&1 > /dev/null
   if [ $? -eq 0 ] ; then
-    ./ccsm_ice_regrid < input_nml_U
+    ./ccsm_ice_regrid < input_nml_U 2>&1 > /dev/null
     if [ $? -eq 0 ] ; then
       echo "regrid_data ice COMPLETE"
     else
-      echo "regrid_data U ice regrid FAILED"
+      echo "regrid_data U ice regrid FAILED on "${FILE}
       exit 1
     fi
   else
-    echo "regrid_data T ice regrid FAILED"
+    echo "regrid_data T ice regrid FAILED on "${FILE}
     exit 1
   fi
 fi

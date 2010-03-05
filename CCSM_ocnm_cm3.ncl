@@ -20,7 +20,6 @@ begin
 ;--------------------------------------------------------------------
   ncin       = getenv("NCL_FILE")
   case       = getenv("CASE")
-  type       = getenv("TYPE")
   tval       = getenv("NCL_TVAL")
   nclscript  = getenv("NCL_SCRIPT")
   nclversion = getenv("NCL_VERSION")
@@ -187,7 +186,7 @@ begin
 ; Create output file
 ; [file name as per requirements document]
 ;--------------------------------------------------------------------
-     nccf = "./CMIP/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM."+type+"."+tval+".nc"
+     nccf = "./CMIP/"+ipcc_vars(v)+"_"+table+"."+expid+".CCSM.ocnm."+tval+".nc"
      system("csh -c 'rm -f "+nccf+"'")
      cf_file = addfile(nccf, "c")
      fileattdef(cf_file, glbAtt)

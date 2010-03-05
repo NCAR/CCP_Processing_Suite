@@ -12,7 +12,7 @@ fi
 #
 # Parse first filename
 #
-FILE=`ls | egrep "*.${HISTNAM}.*" | egrep '\-00000\.nc$' | head -1`
+FILE=`ls | egrep "*.${HIST}.*" | egrep '\-00000\.nc$' | head -1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1
@@ -48,30 +48,36 @@ for y in $YEARS ; do
   for m in $MON ; do
   # Jan, Mar, May, Jul, Aug, Oct, Dec
     if [ "$m" = "01" ] || [ "$m" = "03" ] || [ "$m" = "05" ] || [ "$m" = "07" ] || [ "$m" = "08" ] || [ "$m" = "10" ] || [ "$m" = "12" ] ; then
-      if [ "$HISTNAM" = "cam2.h1" ] ; then
-        NDAY=31
-      fi
-      if [ "$HISTNAM" = "cam2.h3" ] ; then
-        NDAY=124
-      fi
+      case "$TPER" in
+        day )
+          NDAY=31  ;;
+        hr6 )
+          NDAY=124 ;;
+        hr3 )
+          NDAY=248 ;;
+      esac
     fi
   # Apr, Jun, Sep, Nov
     if [ "$m" = "04" ] || [ "$m" = "06" ] || [ "$m" = "09" ] || [ "$m" = "11" ] ; then
-      if [ "$HISTNAM" = "cam2.h1" ] ; then
-        NDAY=30
-      fi
-      if [ "$HISTNAM" = "cam2.h3" ] ; then
-        NDAY=120
-      fi
+      case "$TPER" in
+        day )
+          NDAY=30  ;;
+        hr6 )
+          NDAY=120 ;;
+        hr3 )
+          NDAY=240 ;;
+      esac
     fi
   # Feb
     if [ "$m" = "02" ] ; then
-      if [ "$HISTNAM" = "cam2.h1" ] ; then
-        NDAY=28
-      fi
-      if [ "$HISTNAM" = "cam2.h3" ] ; then
-        NDAY=112
-      fi
+      case "$TPER" in
+        day )
+          NDAY=28  ;;
+        hr6 )
+          NDAY=112 ;;
+        hr3 )
+          NDAY=224 ;;
+      esac
     fi
     MDAY=`ls ${OUTPFX}.${y}${m}??-?????.nc | wc -l`
     if [ $MDAY -eq $NDAY ] ; then
@@ -85,4 +91,3 @@ for y in $YEARS ; do
     fi
   done
 done
-#

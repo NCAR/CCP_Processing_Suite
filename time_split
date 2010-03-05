@@ -56,23 +56,44 @@ while [ $IDOT -le $NDOT ] ; do
   IDOT=`expr '(' $IDOT ')' '+' '1'`
 done
 OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
+DCMP=`expr '(' $DPFX ')' '-' '1'`
+COMP=`echo $FILE | cut -d"." -f${DCMP}`
 #
 NT=`$NCKS -M $FILE | egrep "Record" | cut -d"=" -f3`
 #
-IT=1
-while [ $IT -le $NT ] ; do
-  TM=`$NCKS -s "%8.8i\n" -F -H -C -v date    -d time,${IT},${IT} $FILE`
-  DS=`$NCKS -s "%5.5i\n" -F -H -C -v datesec -d time,${IT},${IT} $FILE`
-  DT=${TM}"-"${DS}
-  OF=$OUTPFX.$DT.nc
-  $NCKS -h -O -F -d time,${IT},${IT} $FILE $OF
-  if [ $? -eq  0 ] ; then
-    IT=`expr $IT '+' '1'`
-  else
-    echo "Error on "$NCKS" -O -F -d time,"$IT","$IT" "$FILE" "$OF
-    exit 1
-  fi
-done
+if [ "$COMP" = "cam2" ] ; then
+  IT=1
+  while [ $IT -le $NT ] ; do
+    TM=`$NCKS -s "%8.8i\n" -F -H -C -v date    -d time,${IT},${IT} $FILE`
+    DS=`$NCKS -s "%5.5i\n" -F -H -C -v datesec -d time,${IT},${IT} $FILE`
+    DT=${TM}"-"${DS}
+    OF=$OUTPFX.$DT.nc
+    $NCKS -h -O -F -d time,${IT},${IT} $FILE $OF
+    if [ $? -eq  0 ] ; then
+      IT=`expr $IT '+' '1'`
+    else
+      echo "Error on "$NCKS" -O -F -d time,"$IT","$IT" "$FILE" "$OF
+      exit 1
+    fi
+  done
+fi
+#
+if [ "$COMP" = "clm2" ] ; then
+  IT=1
+  while [ $IT -le $NT ] ; do
+    TM=`$NCKS -s "%8.8i\n" -F -H -C -v mcdate -d time,${IT},${IT} $FILE`
+    DS=`$NCKS -s "%5.5i\n" -F -H -C -v mcsec  -d time,${IT},${IT} $FILE`
+    DT=${TM}"-"${DS}
+    OF=$OUTPFX.$DT.nc
+    $NCKS -h -O -F -d time,${IT},${IT} $FILE $OF
+    if [ $? -eq  0 ] ; then
+      IT=`expr $IT '+' '1'`
+    else
+      echo "Error on "$NCKS" -O -F -d time,"$IT","$IT" "$FILE" "$OF
+      exit 1
+    fi
+  done
+fi
 if [ $# -eq 2 ] ; then
   rm -f $FILE
 fi

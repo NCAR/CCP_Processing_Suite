@@ -31,18 +31,10 @@ for m in $MODEL ; do
           if [ $YRCOUNT ] ; then
             NUM=`ls | egrep "^${v}_${t}_${m}_${e}_${r}_" | egrep '_[0-9][0-9][0-9][0-9]\.nc$' | wc -l`
             if [ $NUM = $YRCOUNT ] ; then
-              TS=`date '+%y%m%d'`
+#              TS=`date '+%y%m%d'`
               Y1=`ls ${v}_${t}_${m}_${e}_${r}_????.nc | head -1 | cut -d"_" -f6 | cut -c1-4`
               Y2=`ls ${v}_${t}_${m}_${e}_${r}_????.nc | tail -1 | cut -d"_" -f6 | cut -c1-4`
-              case "$t" in
-                Amon | Lmon | Omon | LImon | OImon | Oclim | Oyr | aero | cfMon | cfOff )
-                  DF=${v}_${t}_${m}_${e}_${r}_${Y1}01-${Y2}12_v${TS}.nc ;;
-                da | 6hrPlev | 6hrLev | 3hr | cfDa | cf3hr | cf30min )
-                  DF=${v}_${t}_${m}_${e}_${r}_${Y1}0101-_${Y2}1231_v${TS}.nc ;;
-                * )
-                  echo "Unable to concatenate because "$t" is unknown TABLE"
-                  exit 1 ;;
-              esac
+              DF=${v}_${t}_${m}_${e}_${r}_${Y1}01-${Y2}12.nc
               $NCRCAT -O ${v}_${t}_${m}_${e}_${r}_????.nc $DF
               if [ $? -eq 0 ] ; then
                 rm -f ${v}_${t}_${m}_${e}_${r}_????.nc

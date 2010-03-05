@@ -4,7 +4,7 @@
 if [ $# -ne 2 ] ; then
   echo "Usage: mss_read MSSLIST YEARNOW"
   echo "Requires MSSLIST and YEARNOW"
-  echo "CASE HISTNAM MSSHIST must be defined"
+  echo "CASE HIST MSSHIST must be defined"
   exit 1
 else
   MSSLIST=$1
@@ -18,45 +18,39 @@ fi
 if [ ! $CASE ] ; then
   echo "mss_read: CASE undefined. Exit."
 fi
-if [ ! $HISTNAM ] ; then
-  echo "mss_read: HISTNAM undefined. Exit."
+if [ ! $HIST ] ; then
+  echo "mss_read: HIST undefined. Exit."
 fi
 if [ ! $MSSHIST ] ; then
   echo "mss_read: MSSHIST undefined. Exit."
 fi
 #
-# Deduce files to read
+# Parse case and hist to deduce time(s) to read
 #
-if [ `echo $CASE | cut -d"_" -f1` = "cam3t42" ] ; then
-  DAT=`/bin/egrep "$HISTNAM.$YEARNOW" $MSSLIST | cut -d"." -f4-`
-else
-#
-# Parse casename
-#
-  TSTR=${CASE}.${HISTNAM}
-  FLEN=`echo $TSTR | wc -c`
-  NDOT=0
-  CSTR=1
-  while [ $CSTR -le $FLEN ] ; do
-    CURC=`echo $TSTR | cut -c${CSTR}-${CSTR}`
-    if [ "$CURC" = "." ] ; then
-       NDOT=`expr '(' $NDOT ')' '+' '1'`
-    fi
-    CSTR=`expr '(' $CSTR ')' '+' '1'`
-  done
-  NDOT=`expr '(' $NDOT ')' '+' '2'`
-  DAT=`egrep "${HISTNAM}\.${YEARNOW}" $MSSLIST | cut -d"." -f${NDOT}-`
-fi
+TSTR=${CASE}.${HIST}
+FLEN=`echo $TSTR | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $TSTR | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+NDOT=`expr '(' $NDOT ')' '+' '2'`
+DAT=`egrep "${HIST}\.${YEARNOW}" $MSSLIST | cut -d"." -f${NDOT}-`
 #
 LST=`echo $DAT | sed -e "s/ /,/g"`
 #
 if [ "`echo $LST | cut -d"." -f2`" = "tar" ] ; then
-  MSSFILES=$CASE.$HISTNAM.${LST}
+  MSSFILES=$CASE.$HIST.${LST}
 else
-  MSSFILES=$CASE.$HISTNAM."{"${LST}"}"
+  MSSFILES=$CASE.$HIST."{"${LST}"}"
 fi
 #
 # If NCAR MSS msrcp command exists, use it.
+#
 TEST4MSRCP=`which msrcp 2<&1`
 if [ $? -eq 0 ] ; then
    MSRCP=`which msrcp`

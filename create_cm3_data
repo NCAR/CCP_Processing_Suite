@@ -18,52 +18,58 @@ TEST4NCL=`which ncl 2>&1`
 if [ $? -eq 0 ] ; then
   NCL=`which ncl`
 else
-  echo "NCL not in PATH - UNDEFINED"
+  echo "ncl UNDEFINED"
   exit 1
 fi
 #
-# Check for NCARG_ROOT
-#
-if [ ! $NCARG_ROOT ] ; then
-  if [ "$LOCATION" = "OR" ] ; then
-    NCARG_ROOT=/sw/analysis-x64/ncl/5.0.0/sl5.0_binary
-    export NCARG_ROOT
-  fi
-  if [ "$LOCATION" = "NE" ] ; then
-    NCARG_ROOT=/usr/common/usg/ncar/5.0.0
-    export NCARG_ROOT
-  fi
-#else
-#  echo "NCARG_ROOT UNDEFINED"
-#  exit 1
-fi
+# Parse filename
 #
 export NCL_FILE
-#
-CHEK=`ls $NCL_FILE | cut -d"." -f3 | cut -c1-2 | uniq`
-if [ $CHEK == "ES" ] ; then
-  F_TVAL=6
-else
-  F_TVAL=5
-fi
+FLEN=`echo $NCL_FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $NCL_FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DPFX=1
+DSFX=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $NCL_FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+    clm2 )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+    pop )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+    csim )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+    cice )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+F_TVAL=${DSFX}
 #
 NCL_TVAL=`echo $NCL_FILE | cut -d"." -f${F_TVAL}`
-NCL_SCRIPT=CCSM_${TYPE}_${CMIP}.ncl ; export NCL_SCRIPT
 #
 if [ ! -d ./CMIP ] ; then
    mkdir ./CMIP
 fi
 #
-if [ "$TYPE" = "icem" ] || [ "$TYPE" = "ocnm" ] ; then # We are processing regridded ocean/ice data
-  F_TVAL=`expr $F_TVAL + 1`
+if [ "$HTYP" == "pop" ] || [ "$HTYP" == "csim" ] || [ "$HTYP" == "cice" ] ; then # We are processing regridded ocean/ice data
+  F_TVAL=`expr '(' $F_TVAL ')' '+' '1'`
   NCL_TVAL=`echo $NCL_FILE | cut -d"." -f${F_TVAL}`
-  if [ "$TYPE" = "ocnm" ] ; then
-    if [ "$NCL_TVAL" = "nc" ] ; then # We are processing an original ocean file for transports
-      F_TVAL=`expr $F_TVAL - 1`
-      NCL_TVAL=`echo $NCL_FILE | cut -d"." -f${F_TVAL}`
-      NCL_SCRIPT=CCSM_trans_${CMIP}.ncl ; export NCL_SCRIPT
-    fi
-  fi
 fi
 #
 export NCL_TVAL

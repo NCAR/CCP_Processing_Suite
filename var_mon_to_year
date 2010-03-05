@@ -17,33 +17,53 @@ else
   exit 1
 fi
 #
-KIND=`ls | egrep '\.....\-..\.nc$' | cut -c1-1 | uniq`
-if [ "$KIND" = "b" ] ; then
-  CHEK=`ls | egrep '^b' | egrep '\.....\-..\.nc$' | cut -d"." -f3 | cut -c1-2 | uniq`
-  if [ "$CHEK" = "ES" ] ; then
-    FC=3 ; FV=6 ; FT=7 ; FD=4 ; FE=5
-  else
-    FC=2 ; FV=5 ; FT=6 ; FD=3 ; FE=4
-  fi
-else
-    FC=1 ; FV=4 ; FT=5 ; FD=2 ; FE=3
-fi
+# Parse first filename
 #
-COMP=`ls | egrep '\.....\-..\.nc$' | cut -d"." -f${FD}-${FE} | uniq`
-for p in $COMP ; do
-  VARS=`ls | egrep '\.....\-..\.nc$' | egrep "\.${p}\." | cut -d"." -f${FV} | uniq`
-  for v in $VARS ; do
-    CASES=`ls | egrep '\.....\-..\.nc$' | egrep "\.${p}\.${v}\." | cut -d"." -f1-${FC} | uniq`
-    for c in $CASES ; do      
-      YEARS=`ls | egrep "${c}\.${p}\.${v}\.....\-..\.nc" | cut -d"." -f${FT} | cut -c1-4 | uniq`
+FILE=`ls | egrep "*.${HIST}.*" | head -1`
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DCAS=1
+DVAR=1
+DHT1=1
+DHT2=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 | clm2 | pop | csim | cice )
+      DCAS=`expr '(' $IDOT ')' '-' '1'`
+      DVAR=`expr '(' $IDOT ')' '+' '1'`
+      DHT1=$IDOT ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+DHT2=`expr '(' $DHT1 ')' '+' '1'`
+DVAR=`expr '(' $DVAR ')' '+' '1'`
+DTIM=`expr '(' $DVAR ')' '+' '1'`
+#
+CASES=`ls | egrep '\.....\-..\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
+ VARS=`ls | egrep '\.....\-..\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+ HIST=`ls | egrep '\.....\-..\.nc$' | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
+for c in $CASES ; do      
+  for h in $HIST ; do
+    for v in $VARS ; do
+      YEARS=`ls | egrep "${c}\.${h}\.${v}\.....\-..\.nc" | cut -d"." -f${DTIM} | cut -c1-4 | uniq`
       for y in $YEARS ; do
-        NUM=`ls ${c}\.${p}\.${v}\.${y}-??\.nc | wc -l`
+        NUM=`ls ${c}\.${h}\.${v}\.${y}-??\.nc | wc -l`
         if [ $NUM -eq 12 ] ; then
-          DF=${c}.${p}.${v}.${y}.nc
+          DF=${c}.${h}.${v}.${y}.nc
           if [ $DF ] ; then
-            $NCRCAT -O ${c}.${p}.${v}.${y}-??.nc $DF
+            $NCRCAT -O ${c}.${h}.${v}.${y}-??.nc $DF
             if [ $? -eq 0 ] ; then
-              rm -f ${c}.${p}.${v}.${y}-??.nc
+              rm -f ${c}.${h}.${v}.${y}-??.nc
             fi
           else
             echo "Undefined DF: "$DF

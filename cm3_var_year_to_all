@@ -39,7 +39,7 @@ for m in $MODEL ; do
               else
                 DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01_cat_${Y2}-12_c${TS}.nc
               fi
-              $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????.nc $DF
+              $NCRCAT -O -4 -L 1 ${v}_${t}.${e}.${m}.${c}.????.nc $DF
               if [ $? -eq 0 ] ; then
                 rm -f ${v}_${t}.${e}.${m}.${c}.????.nc
                 echo "Concatenated "$DF" and checked year count: "$YRCOUNT
@@ -61,7 +61,7 @@ for m in $MODEL ; do
             else
               DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01_cat_${Y2}-12_c${TS}.nc
             fi
-            $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????.nc $DF
+            $NCRCAT -O -4 -L 1 ${v}_${t}.${e}.${m}.${c}.????.nc $DF
             if [ $? -eq 0 ] ; then
               rm -f ${v}_${t}.${e}.${m}.${c}.????.nc
               echo "Concatenated "$DF" WITHOUT checking year count"

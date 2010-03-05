@@ -16,7 +16,7 @@ if [ $? -eq 0 ] ; then
    rm -f ABCXYZ
    msls -project 93300014 -1R "$MSSHIST" >& ABCXYZ
    if [ $? -eq 0 ] ; then
-     egrep "$HISTNAM" ABCXYZ >& $MSSL
+     egrep "$HIST" ABCXYZ >& $MSSL
      rm -f ABCXYZ
    else
      echo "Error on mss_list from "$MSSHIST
@@ -30,7 +30,7 @@ else
     rm -f ABCXYZ
     hsi -q "cd $MSSHIST; ls -Fl" >& ABCXYZ
     if [ $? -eq 0 ] ; then
-      egrep "$HISTNAM" ABCXYZ | cut -c60- >& $MSSL
+      egrep "$HIST" ABCXYZ | cut -c60- >& $MSSL
       rm -f ABCXYZ
     else
       echo "Error on mss_list from "$MSSHIST

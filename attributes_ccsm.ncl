@@ -22,6 +22,21 @@ begin
   parent      = getenv("PARENT")
   branch      = getenv("BRANCH")
   description = getenv("DESCRIP")
+  nclscript  = getenv("NCL_SCRIPT")
+  nclversion = getenv("NCL_VERSION")
+  prochost   = getenv("PROCHOST") 
+;--------------------------------------------------------------------
+  print("hardware: "+hardware)
+  print("location: "+location)
+  print("realization: "+realization)
+  print("resolution: "+resolution)
+  print("cmip: "+cmip)
+  print("parent: "+parent)
+  print("branch: "+branch)
+  print("description: "+description)
+  print("nclscript: "+nclscript)
+  print("nclversion: "+nclversion)
+  print("prochost: "+prochost)
 ;--------------------------------------------------------------------
 ; CMIP3 experiment-invariant global attributes
 ;--------------------------------------------------------------------
@@ -79,7 +94,7 @@ begin
     glbAtt@title          = "model output prepared for CMIP5"
     glbAtt@institution    = "NCAR (National Center for Atmospheric Research, Boulder, CO, USA)"
     machine = hardware
-    glbAtt@source = "CCSM4.0, version beta31 (2009): "+n1+\
+    glbAtt@source = "CCSM4.0, version beta41 (2010): "+n1+\
                     "atmosphere: CAM4.0;"+n1+\
                     "ocean     : POP2"+n1+\
                     "sea ice   : CICE"+n1+\
@@ -129,8 +144,9 @@ begin
 ;--------------------------------------------------------------------
     glbAtt@history        = "Created from CCSM4 case "+case+n1+\
                             " by "+systemfunc("whoami")+n1+\
-                            " on "+systemfunc("date")+n1+\
-                            " "+n1+\
+                            " at "+systemfunc("date")+n1+\
+                            " on machine "+prochost+n1+\
+                            " using NCL script "+nclscript+" (NCL version "+nclversion+")"+n1+\
                             " For all data, added CMIP5 requested metadata"
     glbAtt@comment        = "This simulation was initiated from date "+branch+" of "+n1+\
                             " CCSM4 model run "+parent+" and executed on "+n1+\

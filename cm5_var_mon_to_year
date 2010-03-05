@@ -1,4 +1,4 @@
-#!/bin/sh -xv
+#!/bin/sh
 #
 # Concatenate months of IPCC netCDF files into years
 #
