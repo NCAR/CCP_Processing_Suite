@@ -10,13 +10,14 @@ fi
 # 
 # Check for ncrcat
 #
-TEST4NCRCAT=`which ncrcat 2>&1`
-if [ $? -eq 0 ] ; then
-  NCRCAT=`which ncrcat`
-else
-  echo "NCRCAT not in PATH - UNDEFINED"
-  exit 1
-fi
+#TEST4NCRCAT=`which ncrcat 2>&1`
+#if [ $? -eq 0 ] ; then
+    NCRCAT=/home/strandwg/bin/ncrcat     ; export NCRCAT
+#  NCRCAT=`which ncrcat`
+#else
+#  echo "NCRCAT not in PATH - UNDEFINED"
+#  exit 1
+#fi
 #
 # Parse first filename
 #

@@ -301,7 +301,7 @@ b40.1850.track1.1deg.006               NC   pi-control          1    cm5  1850_f
 b40.1850_ramp.track1.1deg.001          NC   1pct-co2            1    cm5  b40.1850.track1.1deg.006      0251-01-01     1850 1990 f09_g16   bluefire  /CCSM/csm
 b40.20th.track1.1deg.004               NC   historical          1    cm5  b40.1850.track1.1deg.006      0863-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
 b40.20th.track1.1deg.005               NC   historical          2    cm5  b40.1850.track1.1deg.006      0863-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
-b40.20th.track1.1deg.006               NC   historical          3    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 1859 f09_g16   bluefire  /CCSM/csm
+b40.20th.track1.1deg.006               NC   historical          3    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
 b40.20th.track1.1deg.007               NC   historical          4    cm5  b40.1850.track1.1deg.006      0983-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
 b40.20th.track1.1deg.008               NC   historical          5    cm5  b40.1850.track1.1deg.006      0937-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
 b40.20th.track1.1deg.009               NC   historical          6    cm5  b40.1850.track1.1deg.006      1031-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
