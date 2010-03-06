@@ -365,9 +365,9 @@ while [ $YEARNOW -le $YEAREND ] ; do
               exit 1
             fi
             touch .cmip.$FILE
-#            if [ $DO_PROC -eq 0 ] ; then
-#              rm -f $FILE
-#            fi
+            if [ $DO_PROC -eq 0 ] ; then
+              rm -f $FILE
+            fi
           fi
           if [ $DO_PROC -ne 0 ] ; then
             ./var_split $FILE erase
@@ -444,4 +444,4 @@ if [ $? -eq 0 ] ; then
 else
   echo "Error from concatenate_data"
   exit 1
-#fi
+fi
