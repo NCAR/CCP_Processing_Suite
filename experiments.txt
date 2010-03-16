@@ -305,3 +305,4 @@ b40.20th.track1.1deg.006               NC   historical          3    cm5  b40.18
 b40.20th.track1.1deg.007               NC   historical          4    cm5  b40.1850.track1.1deg.006      0983-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
 b40.20th.track1.1deg.008               NC   historical          5    cm5  b40.1850.track1.1deg.006      0937-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
 b40.20th.track1.1deg.009               NC   historical          6    cm5  b40.1850.track1.1deg.006      1031-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
+b40.rcp8_5.1deg.001                    NC   rcp8.5              1    cm5  b40.1850.track1.1deg.008      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
