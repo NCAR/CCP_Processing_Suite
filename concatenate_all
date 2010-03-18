@@ -1,0 +1,47 @@
+#!/bin/sh
+#
+# Concatenate months -> years (as needed), years -> all
+#
+if [ $# -ne 0 ] ; then
+  echo "Usage: concatenate_all"
+  exit 1
+fi
+#
+cd $PROCDIR
+#
+if [ $DO_PROC -ne 0 ] ; then
+  cd ${PROCDIR}
+  for e in `ls -d *d.d` ; do
+    cd ${PROCDIR}/${e}
+    ../var_mon_to_year
+    ../var_year_to_all
+    if [ $? -eq 0 ] ; then
+      mv *.${YEARBEG}*cat*${YEAREND}*.nc $CACHEDIR
+    else
+      echo "Error from var_year_to_all"
+      exit 1
+    fi
+    cd ${PROCDIR}
+  done
+  cd ${PROCDIR}
+fi
+#
+if [ $DO_CMIP -ne 0 ] ; then
+  cd ${PROCDIR}/CMIP
+  ./${CMIP}_var_mon_to_year
+  ./${CMIP}_var_year_to_all
+  if [ $? -eq 0 ] ; then
+    if [ "$CMIP" = "cm3" ] ; then
+      mv *.${YEARBEG}*${YEAREND}*.nc $CACHEDIR
+    fi
+    if [ "$CMIP" = "cm5" ] ; then
+      for FILE in `ls *_${YEARBEG}??-${YEAREND}??.nc` ; do
+         $NCATTED -a tracking_number,global,c,c,`$UUID` $FILE
+      done
+      mv *_${YEARBEG}??-${YEAREND}??.nc $CACHEDIR
+    fi
+  else
+    echo "Error from "${CMIP}"_var_year_to_all"
+    exit 1
+  fi
+fi
