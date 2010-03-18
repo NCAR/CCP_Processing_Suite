@@ -421,6 +421,11 @@ while [ $YEARNOW -le $YEAREND ] ; do
       rm .????.$CASE.$HIST.${YEARNOW}-??.nc
     fi
   fi
+  CHECKDEC=`expr $YEARNOW % 10`;export CHECKDEC
+  if [ $CHECKDEC -eq 0 ] ; then
+    echo "Concatenating years at "`date`
+    ./concatenate_year
+  fi
   YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
   if [ $YEARNOW -lt 1000 ] ; then
     YEARNOW=0${YEARNOW}
@@ -435,7 +440,8 @@ done
 #
 # Concatenate months -> years, years -> all (if possible)
 #
-./concatenate_data
+echo "Final concatenating of "$CASE"."$HIST" at "`date`
+./concatenate_all
 if [ $? -eq 0 ] ; then
 #
 # Store completed data on archival system

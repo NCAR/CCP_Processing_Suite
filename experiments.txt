@@ -20,7 +20,7 @@
 #234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 #CCSM case                             LC   Description         nnnn CMP  parent case                   branch date    beg  end  res       hardware  history file archive location
 #----------------------------------    --   ------------------- ---- ---  --------------------------    -----------    --------- --------- --------- -----------------------------------
-b30.004                                NC   PDcntrl             1    N/A  none                          0000-01-01     0001 0499 T42_gx1   bluesky   /CCSM/csm
+b30.004                                NC   PDcntrl             1    N/A  none                          0000-01-01     0001 0275 T42_gx1   bluesky   /CCSM/csm
 b30.009                                NC   PDcntrl             1    cm3  none                          0000-01-01     0100 0699 T85_gx1   bluesky   /CCSM/csm
 b30.013                                NC   PIcntrl             0    N/A  none                          0000-01-01     0001 0230 T85_gx1   bluesky   /CCSM/csm
 b30.017                                NC   PIcntrl             0    N/A  b30.013                       0231-01-01     0231 0279 T85_gx1   bluesky   /CCSM/csm
