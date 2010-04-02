@@ -51,6 +51,7 @@ else
 #
     TOTLEN=`echo ${MSSD}"/"${MSSF} | wc -c`
     if [ $TOTLEN -gt 128 ] ; then
+      echo "Total MSS pathname too long (over 128 characters) trimming characters from "${MSSF}
       MSSF=`echo $MSSF | sed -e 's/track1\.//g' | sed -e 's/\-01_cat_/01\-/g' | sed -e 's/\-12\.nc/12\.nc/g'`
     fi
     $MSRCP -pe 3652 -class reliability=economy -srcdelete $MSSF "mss:${MSSD}/${MSSF}"
