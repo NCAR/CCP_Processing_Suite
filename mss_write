@@ -49,16 +49,18 @@ else
 #
 # Check for total length > 128 characters and attempt to modify
 #
+    MSSR=${MSSF}
     TOTLEN=`echo ${MSSD}"/"${MSSF} | wc -c`
     if [ $TOTLEN -gt 128 ] ; then
-      echo "Total MSS pathname too long (over 128 characters) trimming characters from "${MSSF}
-      MSSF=`echo $MSSF | sed -e 's/track1\.//g' | sed -e 's/\-01_cat_/01\-/g' | sed -e 's/\-12\.nc/12\.nc/g'`
+      MSSR=`echo $MSSF | sed -e 's/track1\.//g'`
+      echo "Total MSS pathname too long (over 128 characters)"
+      echo "Renaming to "${MSSR}
     fi
-    $MSRCP -pe 3652 -class reliability=economy -srcdelete $MSSF "mss:${MSSD}/${MSSF}"
+    $MSRCP -pe 3652 -class reliability=economy -srcdelete $MSSF "mss:${MSSD}/${MSSR}"
     if [ $? -eq 0 ] ; then
-      echo $MSSF" written to "${MSSD}/${MSSF}" and erased."
+      echo $MSSR" written to "${MSSD}/${MSSR}" and erased."
     else
-      echo "Problem with storing "${MSSF}" to "${MSSD}". Stopping."
+      echo "Problem with storing "${MSSR}" to "${MSSD}". Stopping."
       exit 1
     fi
   else
