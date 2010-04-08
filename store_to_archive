@@ -12,9 +12,9 @@ ln -s -f ${BASEDIR}/mss_write .
 #
 #
 if [ $DO_PROC -ne 0 ] ; then
-  LAST=`ls -1 $CASE.*cat*nc | tail -1`
+  LAST=`ls -1 $CASE.*nc | tail -1`
   while [ -f $LAST ] ; do
-    for g in `ls $CASE.*cat*nc | head -5` ; do
+    for g in `ls $CASE.*nc | head -5` ; do
       ./mss_write $g $MSSPROC &
     done
     wait
@@ -32,9 +32,9 @@ if [ $DO_CMIP -ne 0 ] ; then
     done
   fi
   if [ "$CMIP" = "cm3" ] ; then
-    LAST=`ls *cat*nc | tail -1`
+    LAST=`ls *nc | tail -1`
     while [ -f $LAST ] ; do
-      for g in `ls *cat*nc | head -5` ; do
+      for g in `ls *nc | head -5` ; do
         ./mss_write $g $MSSCMIP &
       done
       wait
