@@ -47,6 +47,7 @@ while [ $IDOT -le $NDOT ] ; do
   esac
   IDOT=`expr '(' $IDOT ')' '+' '1'`
 done
+DCMP=$DHT1
 DHT2=`expr '(' $DHT1 ')' '+' '1'`
 DVAR=`expr '(' $DVAR ')' '+' '1'`
 DTIM=`expr '(' $DVAR ')' '+' '1'`
@@ -54,6 +55,7 @@ DTIM=`expr '(' $DVAR ')' '+' '1'`
 CASES=`ls | egrep '\.....\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
  VARS=`ls | egrep '\.....\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
  HTAP=`ls | egrep '\.....\.nc$' | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
+ COMP=`ls | egrep '\.....\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
 #
 for c in $CASES ; do
   for h in $HTAP ; do
@@ -68,13 +70,33 @@ for c in $CASES ; do
           else
             DF=${c}.${h}.${v}.${Y0}01-${Y1}12.nc
           fi
-          $NCRCAT -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
-          if [ $? = 0 ] ; then
-            rm -f ${c}.${h}.${v}.????.nc
-            echo "Concatenated "$DF" and checked year count: "$YRCOUNT
+          if [ "$COMP" = "cice" ] ; then
+            DF=${c}.${h}.${v}_nh.${Y0}01-${Y1}12.nc
+            $NCRCAT -d nj,280,383 -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
+            if [ $? = 0 ] ; then
+              echo "Concatenated "$DF" and checked year count: "$YRCOUNT
+              DF=${c}.${h}.${v}_sh.${Y0}01-${Y1}12.nc
+              $NCRCAT -d nj,0,75 -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
+              if [ $? = 0 ] ; then
+                echo "Concatenated "$DF" and checked year count: "$YRCOUNT
+                rm -f ${c}.${h}.${v}.????.nc
+              else 
+                echo "Failure on concat of "${c}"."${h}"."${v}" SH files"
+                exit 1
+              fi
+            else 
+              echo "Failure on concat of "${c}"."${h}"."${v}" NH files"
+              exit 1
+            fi
           else
-            echo "Failure on concat of "${c}"."${h}"."${v}" files"
-            exit 1
+            $NCRCAT -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
+            if [ $? = 0 ] ; then
+              rm -f ${c}.${h}.${v}.????.nc
+              echo "Concatenated "$DF" and checked year count: "$YRCOUNT
+            else
+              echo "Failure on concat of "${c}"."${h}"."${v}" files"
+              exit 1
+            fi
           fi
         else
           echo "Missing year(s) from "${c}"."${h}"."${v}" files"
@@ -89,13 +111,33 @@ for c in $CASES ; do
         else
           DF=${c}.${h}.${v}.${Y0}01-${Y1}12.nc
         fi
-        $NCRCAT -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
-        if [ $? = 0 ] ; then
-          rm -f ${c}.${h}.${v}.????.nc
-          echo "Concatenated "$DF" and WITHOUT checking year count"
+        if [ "$COMP" = "cice" ] ; then
+          DF=${c}.${h}.${v}_nh.${Y0}01-${Y1}12.nc
+          $NCRCAT -d nj,280,383 -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
+          if [ $? = 0 ] ; then
+            echo "Concatenated "$DF" and WITHOUT checking year count"
+            DF=${c}.${h}.${v}_sh.${Y0}01-${Y1}12.nc
+            $NCRCAT -d nj,0,75 -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
+            if [ $? = 0 ] ; then
+              echo "Concatenated "$DF" and WITHOUT checking year count"
+              rm -f ${c}.${h}.${v}.????.nc
+            else 
+              echo "Failure on concat of "${c}"."${h}"."${v}" SH files"
+              exit 1
+            fi
+          else 
+            echo "Failure on concat of "${c}"."${h}"."${v}" NH files"
+            exit 1
+          fi
         else
-          echo "Failure on concat of "${c}"."${h}"."${v}" files"
-          exit 1
+          $NCRCAT -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
+          if [ $? = 0 ] ; then
+            rm -f ${c}.${h}.${v}.????.nc
+            echo "Concatenated "$DF" and WITHOUT checking year count"
+          else
+            echo "Failure on concat of "${c}"."${h}"."${v}" files"
+            exit 1
+          fi
         fi
       fi
     done
