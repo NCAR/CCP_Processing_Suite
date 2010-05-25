@@ -10,14 +10,13 @@ fi
 # 
 # Check for ncrcat
 #
-#TEST4NCRCAT=`which ncrcat 2>&1`
-#if [ $? -eq 0 ] ; then
-    NCRCAT=/home/strandwg/bin/ncrcat     ; export NCRCAT
-#  NCRCAT=`which ncrcat`
-#else
-#  echo "NCRCAT not in PATH - UNDEFINED"
-#  exit 1
-#fi
+TEST4NCRCAT=`which ncrcat 2>&1`
+if [ $? -eq 0 ] ; then
+  NCRCAT=`which ncrcat`
+else
+  echo "NCRCAT not in PATH - UNDEFINED"
+  exit 1
+fi
 #
 # Parse first filename
 #
@@ -72,11 +71,11 @@ for c in $CASES ; do
           fi
           if [ "$COMP" = "cice" ] ; then
             DF=${c}.${h}.${v}_nh.${Y0}01-${Y1}12.nc
-            $NCRCAT -d nj,280,383 -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
+            $NCRCAT -d nj,280,383 -O ${c}.${h}.${v}.????.nc $DF
             if [ $? = 0 ] ; then
               echo "Concatenated "$DF" and checked year count: "$YRCOUNT
               DF=${c}.${h}.${v}_sh.${Y0}01-${Y1}12.nc
-              $NCRCAT -d nj,0,75 -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
+              $NCRCAT -d nj,0,75 -O ${c}.${h}.${v}.????.nc $DF
               if [ $? = 0 ] ; then
                 echo "Concatenated "$DF" and checked year count: "$YRCOUNT
                 rm -f ${c}.${h}.${v}.????.nc
@@ -89,7 +88,7 @@ for c in $CASES ; do
               exit 1
             fi
           else
-            $NCRCAT -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
+            $NCRCAT -O ${c}.${h}.${v}.????.nc $DF
             if [ $? = 0 ] ; then
               rm -f ${c}.${h}.${v}.????.nc
               echo "Concatenated "$DF" and checked year count: "$YRCOUNT
@@ -113,11 +112,11 @@ for c in $CASES ; do
         fi
         if [ "$COMP" = "cice" ] ; then
           DF=${c}.${h}.${v}_nh.${Y0}01-${Y1}12.nc
-          $NCRCAT -d nj,280,383 -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
+          $NCRCAT -d nj,280,383 -O ${c}.${h}.${v}.????.nc $DF
           if [ $? = 0 ] ; then
             echo "Concatenated "$DF" and WITHOUT checking year count"
             DF=${c}.${h}.${v}_sh.${Y0}01-${Y1}12.nc
-            $NCRCAT -d nj,0,75 -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
+            $NCRCAT -d nj,0,75 -O ${c}.${h}.${v}.????.nc $DF
             if [ $? = 0 ] ; then
               echo "Concatenated "$DF" and WITHOUT checking year count"
               rm -f ${c}.${h}.${v}.????.nc
@@ -130,7 +129,7 @@ for c in $CASES ; do
             exit 1
           fi
         else
-          $NCRCAT -O -4 -L 1 ${c}.${h}.${v}.????.nc $DF
+          $NCRCAT -O ${c}.${h}.${v}.????.nc $DF
           if [ $? = 0 ] ; then
             rm -f ${c}.${h}.${v}.????.nc
             echo "Concatenated "$DF" and WITHOUT checking year count"
