@@ -296,8 +296,9 @@ iamip.ES01                             NC   AMIP                2    cm3  none  
 iamip.ES03                             NC   AMIP                3    cm3  none                          0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
 iamip.ES04                             NC   AMIP                4    cm3  none                          0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
 iamip.ES05                             NC   AMIP                5    cm3  none                          0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
+b40.1850.track1.2deg.003               NC   pi-control          1    cm5  1850_f19_g16_c091124          0001-01-01     0001 1000 f19_g16   bluefire  /CCSM/csm
 b40.20th.track1.1deg.003               NC   historical          0    cm5  b40.1850.track1.1deg.006      0251-01-01     1850 1850 f09_g16   bluefire  /CCSM/csm
-b40.1850.track1.1deg.006               NC   pi-control          1    cm5  1850_f09_g16_c090901          0000-01-01     1200 1300 f09_g16   bluefire  /CCSM/csm
+b40.1850.track1.1deg.006               NC   pi-control          1    cm5  1850_f09_g16_c090901          0001-01-01     1200 1300 f09_g16   bluefire  /CCSM/csm
 b40.1850_ramp.track1.1deg.001          NC   1pct-co2            1    cm5  b40.1850.track1.1deg.006      0251-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
 b40.1850_ramp.track1.2deg.001          NC   1pct-co2            1    cm5  b40.1850.track1.2deg.003      0501-01-01     1850 1997 f19_g16   bluefire  /CCSM/csm
 b40.20th.track1.1deg.004               NC   historical          1    cm5  b40.1850.track1.1deg.006      0863-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
@@ -326,3 +327,11 @@ b40.rcp4_5.1deg.002                    NC   rcp4.5              2    cm5  b40.20
 b40.rcp4_5.1deg.003                    NC   rcp4.5              3    cm5  b40.20th.track1.1deg.005      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp4_5.1deg.004                    NC   rcp4.5              4    cm5  b40.20th.track1.1deg.006      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp4_5.1deg.005                    NC   rcp4.5              5    cm5  b40.20th.track1.1deg.007      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
+b40.20th.aero.1deg.006                 NE   historicalSD        1    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
+b40.20th.anthro.1deg.006               NE   historicalAnt       1    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
+b40.20th.nat.1deg.006                  NE   historicalNat       1    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
+b40.20th.oz.1deg.006                   NE   historicalOz        1    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
+b40.20th_SFland.1deg.001               NE   historicalLU        1    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
+b40.20th.solar.1deg.006                NE   historicalSl        1    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
+b40.20th.volc.1deg.006                 NE   historicalVl        1    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
+b40.20th.ghg.1deg.006                  NE   historicalGHG       1    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
