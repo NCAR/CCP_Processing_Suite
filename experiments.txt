@@ -298,7 +298,7 @@ iamip.ES04                             NC   AMIP                4    cm3  none  
 iamip.ES05                             NC   AMIP                5    cm3  none                          0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
 b40.1850.track1.2deg.003               NC   pi-control          1    cm5  1850_f19_g16_c091124          0001-01-01     0001 1000 f19_g16   bluefire  /CCSM/csm
 b40.20th.track1.1deg.003               NC   historical          0    cm5  b40.1850.track1.1deg.006      0251-01-01     1850 1850 f09_g16   bluefire  /CCSM/csm
-b40.1850.track1.1deg.006               NC   pi-control          1    cm5  1850_f09_g16_c090901          0001-01-01     1200 1300 f09_g16   bluefire  /CCSM/csm
+b40.1850.track1.1deg.006               NC   pi-control          1    cm5  1850_f09_g16_c090901          0001-01-01     0600 0799 f09_g16   bluefire  /CCSM/csm
 b40.1850_ramp.track1.1deg.001          NC   1pct-co2            1    cm5  b40.1850.track1.1deg.006      0251-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
 b40.1850_ramp.track1.2deg.001          NC   1pct-co2            1    cm5  b40.1850.track1.2deg.003      0501-01-01     1850 1997 f19_g16   bluefire  /CCSM/csm
 b40.20th.track1.1deg.004               NC   historical          1    cm5  b40.1850.track1.1deg.006      0863-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm

@@ -134,7 +134,7 @@ case "$PROCHOST" in
     NCKS=/usr/local/bin/ncks ; export NCKS
     NCRCAT=/usr/local/bin/ncrcat ; export NCRCAT
     NCL=/contrib/bin/ncl ; export NCL
-    PROCBASE=/datalocal/ccpg/$USER/$CASE ; export PROCBASE ;;
+    PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE ;;
   davinci* )                                # davinci @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/common/homes/s/strandwg/bin/ncks ; export NCKS

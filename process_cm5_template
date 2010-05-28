@@ -136,7 +136,7 @@ case "$PROCHOST" in
     NCRCAT=/home/strandwg/bin/ncrcat     ; export NCRCAT
     NCATTED=/home/strandwg/bin/ncatted   ; export NCATTED
     NCARG_ROOT=/contrib/ncarg            ; export NCARG_ROOT
-    PROCBASE=/datalocal/ccpg/$USER/$CASE ; export PROCBASE
+    PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
     ;;
 
   davinci* )                                # davinci @ NERSC
