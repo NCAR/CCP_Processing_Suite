@@ -55,7 +55,7 @@ case "$LOCATION" in
     PROCHOST="copper"  ;;
   NE )                                        # NERSC experiments
     MSSBASE=/nersc/mp9/strandwg/CCSM/csm/$CASE
-    PROCHOST="davinci"  ;;
+    PROCHOST="euclid"  ;;
   OR )                                        # ORNL experiments
     MSSBASE=/f2/ccsm/CCSM/csm/$CASE
     PROCHOST="lens0"    ;;
@@ -72,13 +72,13 @@ if [ "$PROCHOST" = "copper" ] || [ "$PROCHOST" = "lens0" ] ; then
     exit 1
   fi
 fi
-if [ "$PROCHOST" = "davinci" ] || [ "$PROCHOST" = "lens0" ] ; then
+if [ "$PROCHOST" = "euclid" ] || [ "$PROCHOST" = "lens0" ] ; then
   if [ "$LOCATION" = "NC" ] ; then
     echo "Using incorrect "$PROCHOST" for location "$LOCATION
     exit 1
   fi
 fi
-if [ "$PROCHOST" = "copper" ] || [ "$PROCHOST" = "davinci" ] ; then
+if [ "$PROCHOST" = "copper" ] || [ "$PROCHOST" = "euclid" ] ; then
   if [ "$LOCATION" = "OR" ] ; then
     echo "Using incorrect "$PROCHOST" for location "$LOCATION
     exit 1
@@ -135,7 +135,7 @@ case "$PROCHOST" in
     NCRCAT=/usr/local/bin/ncrcat ; export NCRCAT
     NCL=/contrib/bin/ncl ; export NCL
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE ;;
-  davinci* )                                # davinci @ NERSC
+  euclid* )                                # euclid @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/common/homes/s/strandwg/bin/ncks ; export NCKS
     NCRCAT=/usr/common/homes/s/strandwg/bin/ncrcat ; export NCRCAT
@@ -260,10 +260,16 @@ while [ $YEARNOW -le $YEAREND ] ; do
         done
       else
         for FILE in `ls $CASE.$HIST.${YEARNOW}-??-??-?????.nc` ; do
-          ./time_split $FILE erase
+          NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
+          if [ $NTIMES -ne 365 ] ; then
+            ./time_split $FILE erase
+            ./days_to_month erase
+          else
+            TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g' | sed -e 's/\-01\-02\-00000//g'`
+            mv $FILE $TRIMD
+          fi
         done
-        ./days_to_month erase
-        for FILE in `ls $CASE.$HIST.????-??.nc` ; do
+        for FILE in `ls $CASE.$HIST.????-??.nc $CASE.$HIST.????.nc` ; do
           ./var_split $FILE erase
           if [ $? -ne 0 ] ; then
             echo "Error from var_split on file "$FILE

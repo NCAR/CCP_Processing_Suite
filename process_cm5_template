@@ -70,7 +70,7 @@ MSSCMIP=$MSSBASE/CMIP5
 PROCHOST=`hostname`;export PROCHOST
 #
 if [ "$LOCATION" = "NE" ] ; then
-  if [ "$PROCHOST" != "davinci" ] ; then
+  if [ "$PROCHOST" != "euclid" ] ; then
     echo "Add "$PROCHOST" for location "$LOCATION
     exit 1
   fi
@@ -132,14 +132,14 @@ case "$PROCHOST" in
   copper* )                                # copper @ CGD/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
     UUID=/home/strandwg/bin/uuid         ; export UUID
-    NCKS=/home/strandwg/bin/ncks         ; export NCKS
-    NCRCAT=/home/strandwg/bin/ncrcat     ; export NCRCAT
-    NCATTED=/home/strandwg/bin/ncatted   ; export NCATTED
+    NCKS=/usr/local/bin/ncks         ; export NCKS
+    NCRCAT=/usr/local/bin/ncrcat     ; export NCRCAT
+    NCATTED=/usr/local/bin/ncatted   ; export NCATTED
     NCARG_ROOT=/contrib/ncarg            ; export NCARG_ROOT
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
     ;;
 
-  davinci* )                                # davinci @ NERSC
+  euclid* )                                # euclid @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
     UUID=/usr/common/homes/s/strandwg/bin/ncks     ; export UUID
     NCKS=/usr/common/homes/s/strandwg/bin/ncks     ; export NCKS
@@ -386,10 +386,16 @@ while [ $YEARNOW -le $YEAREND ] ; do
         done
       else
         for FILE in `ls $CASE.$HIST.${YEARNOW}-??-??-?????.nc` ; do
-          ./time_split $FILE erase
+          NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
+          if [ $NTIMES -ne 365 ] ; then
+            ./time_split $FILE erase
+            ./days_to_month erase
+          else
+            TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g' | sed -e 's/\-01\-02\-00000//g'`
+            mv $FILE $TRIMD
+          fi
         done
-        ./days_to_month erase
-        for FILE in `ls $CASE.$HIST.????-??.nc` ; do
+        for FILE in `ls $CASE.$HIST.????-??.nc $CASE.$HIST.????.nc` ; do
           if [ $DO_CMIP -ne 0 ] ; then
             ./create_cm5_data $FILE
             if [ $? -ne 0 ] ; then
@@ -426,6 +432,9 @@ while [ $YEARNOW -le $YEAREND ] ; do
   if [ $CHECKDEC -eq 0 ] ; then
     echo "Concatenating years at "`date`
     ./concatenate_year
+    if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
+      ./concatenate_decades
+    fi
   fi
   YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
   if [ $YEARNOW -lt 1000 ] ; then

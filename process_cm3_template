@@ -57,7 +57,7 @@ case "$LOCATION" in
     PROCHOST="copper"  ;;
   NE )                                        # NERSC experiments
     MSSBASE=/nersc/mp9/strandwg/CCSM/csm/$CASE
-    PROCHOST="davinci"  ;;
+    PROCHOST="euclid"  ;;
   OR )                                        # ORNL experiments
     MSSBASE=/f2/ccsm/CCSM/csm/$CASE
     PROCHOST="lens0"    ;;
@@ -74,13 +74,13 @@ if [ "$PROCHOST" = "copper" ] || [ "$PROCHOST" = "lens0" ] ; then
     exit 1
   fi
 fi
-if [ "$PROCHOST" = "davinci" ] || [ "$PROCHOST" = "lens0" ] ; then
+if [ "$PROCHOST" = "euclid" ] || [ "$PROCHOST" = "lens0" ] ; then
   if [ "$LOCATION" = "NC" ] ; then
     echo "Using incorrect "$PROCHOST" for location "$LOCATION
     exit 1
   fi
 fi
-if [ "$PROCHOST" = "copper" ] || [ "$PROCHOST" = "davinci" ] ; then
+if [ "$PROCHOST" = "copper" ] || [ "$PROCHOST" = "euclid" ] ; then
   if [ "$LOCATION" = "OR" ] ; then
     echo "Using incorrect "$PROCHOST" for location "$LOCATION
     exit 1
@@ -167,7 +167,7 @@ case "$PROCHOST" in
       fi
     fi ;;
 
-  davinci* )                                # davinci @ NERSC
+  euclid* )                                # euclid @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/common/homes/s/strandwg/bin/ncks     ; export NCKS
     NCRCAT=/usr/common/homes/s/strandwg/bin/ncrcat ; export NCRCAT
@@ -178,14 +178,14 @@ case "$PROCHOST" in
         REGRDIR=/nersc/mp9/strandwg/CCP_Processing_Suite/ocn/CCSM ; export REGRDIR
         NAMLDIR=$BASEDIR/regridding                               ; export NAMLDIR
         if [ "$HTYP" == "pop" ] ; then
-          REGRID=$BASEDIR/regridding/ccsm_ocn_rgd.davinci ; export REGRID
+          REGRID=$BASEDIR/regridding/ccsm_ocn_rgd.euclid ; export REGRID
           if [ ! -f $REGRID ] ; then
             echo "Need to build OCN regridding code. Do that and re-run."
             exit 1
           fi
         fi
         if [ "$HTYP" == "csim" ] || [ "$HTYP" == "cice" ] ; then
-          REGRID=$BASEDIR/regridding/ccsm_ice_rgd.davinci ; export REGRID
+          REGRID=$BASEDIR/regridding/ccsm_ice_rgd.euclid ; export REGRID
           if [ ! -f $REGRID ] ; then
             echo "Need to build ICE regridding code. Do that and re-run."
             exit 1
