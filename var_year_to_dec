@@ -1,0 +1,76 @@
+#!/bin/sh
+#
+# Concatenate months of by-field netCDF files into years
+#
+if [ $# -ne 0 ] ; then
+  echo "Usage: var_year_to_dec"
+  exit 1
+fi
+# 
+# Check for ncrcat
+#
+#TEST4NCRCAT=`which ncrcat 2>&1`
+#if [ $? -eq 0 ] ; then
+  NCRCAT=/usr/local/bin/ncrcat
+#else
+#  echo "NCRCAT not in PATH - UNDEFINED"
+#  exit 1
+#fi
+#
+# Parse first filename
+#
+FILE=`ls | egrep "*.${HIST}.*" | head -1`
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DCAS=1
+DVAR=1
+DHT1=1
+DHT2=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 | clm2 | pop | csim | cice )
+      DCAS=`expr '(' $IDOT ')' '-' '1'`
+      DVAR=`expr '(' $IDOT ')' '+' '1'`
+      DHT1=$IDOT ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+DHT2=`expr '(' $DHT1 ')' '+' '1'`
+DVAR=`expr '(' $DVAR ')' '+' '1'`
+DTIM=`expr '(' $DVAR ')' '+' '1'`
+#
+CASES=`ls | egrep '\.....\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
+ VARS=`ls | egrep '\.....\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+ HIST=`ls | egrep '\.....\.nc$' | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
+for c in $CASES ; do      
+  for h in $HIST ; do
+    for v in $VARS ; do
+      DECS=`ls | egrep "${c}\.${h}\.${v}\.....\.nc" | cut -d"." -f${DTIM} | cut -c1-3 | sort | uniq`
+      for d in $DECS ; do
+        NUM=`ls ${c}\.${h}\.${v}\.${d}?\.nc | wc -l`
+        if [ $NUM -eq 10 ] ; then
+          DF=${c}.${h}.${v}.${d}001-${d}912.nc
+          if [ $DF ] ; then
+            $NCRCAT -O ${c}.${h}.${v}.${d}?.nc $DF
+            if [ $? -eq 0 ] ; then
+              rm -f ${c}.${h}.${v}.${d}?.nc
+            fi
+          else
+            echo "Undefined DF: "$DF
+            exit 1
+          fi
+        fi
+      done
+    done
+  done
+done

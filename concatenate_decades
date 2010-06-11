@@ -1,0 +1,35 @@
+#!/bin/sh
+#
+# Concatenate years -> decades
+#
+if [ $# -ne 0 ] ; then
+  echo "Usage: concatenate_decades"
+  exit 1
+fi
+#
+cd $PROCDIR
+#
+if [ $DO_PROC -ne 0 ] ; then
+  cd ${PROCDIR}
+  for e in `ls -d *4d.d` ; do
+    cd ${PROCDIR}/${e}
+    ../var_year_to_dec
+    if [ $? -eq 0 ] ; then
+      mv ${CASE}.${HIST}.*.??????-??????.nc $CACHEDIR
+    else
+      echo "Error from var_year_to_dec"
+      exit 1
+    fi
+    cd ${PROCDIR}
+  done
+  cd ${PROCDIR}
+fi
+#
+if [ $DO_CMIP -ne 0 ] ; then
+  cd ${PROCDIR}/CMIP
+  ./${CMIP}_var_year_to_dec
+  if [ $? -ne 0 ] ; then
+    echo "Error from "${CMIP}"_var_year_to_dec"
+    exit 1
+  fi
+fi
