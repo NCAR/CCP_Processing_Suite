@@ -175,6 +175,16 @@ b30.275-27                             NC   Commit              27   cm3  b30.07
 b30.275-28                             NC   Commit              28   cm3  b30.074a                      2000-01-10     2000 2061 T42_gx1   bluefire  /CCSM/csm
 b30.275-29                             NC   Commit              29   cm3  b30.074a                      2000-01-12     2000 2061 T42_gx1   bluefire  /CCSM/csm
 b30.275-30                             NC   Commit              30   cm3  b30.074a                      2000-01-14     2000 2061 T42_gx1   bluefire  /CCSM/csm
+b30.275-31                             NC   Commit              31   cm3  b30.074a                      2000-01-01     2000 2061 T42_gx1   jaguar    /home/hteng/ccsm
+b30.275-32                             NC   Commit              32   cm3  b30.074a                      1999-12-03     2000 2061 T42_gx1   jaguar    /home/hteng/ccsm
+b30.275-33                             NC   Commit              33   cm3  b30.074a                      1999-12-05     2000 2061 T42_gx1   jaguar    /home/hteng/ccsm
+b30.275-34                             NC   Commit              34   cm3  b30.074a                      1999-12-07     2000 2061 T42_gx1   jaguar    /home/hteng/ccsm
+b30.275-35                             NC   Commit              35   cm3  b30.074a                      1999-12-09     2000 2061 T42_gx1   jaguar    /home/hteng/ccsm
+b30.275-36                             NC   Commit              36   cm3  b30.074a                      1999-12-11     2000 2061 T42_gx1   jaguar    /home/amai
+b30.275-37                             NC   Commit              37   cm3  b30.074a                      1999-12-13     2000 2061 T42_gx1   jaguar    /home/amai
+b30.275-38                             NC   Commit              38   cm3  b30.074a                      1999-12-15     2000 2061 T42_gx1   jaguar    /home/amai
+b30.275-39                             NC   Commit              39   cm3  b30.074a                      1999-12-17     2000 2061 T42_gx1   jaguar    /home/amai
+b30.275-40                             NC   Commit              40   cm3  b30.074a                      1999-12-18     2000 2061 T42_gx1   jaguar    /home/amai
 cam3t42_lgccsm3_ghg_01                 NC   A1BAMIP_ghg         1    N/A  eul64x128_d63iamip_01         1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
 cam3t42_lgccsm3_ghg_02                 NC   A1BAMIP_ghg         2    N/A  eul64x128_d63iamip_01         2000-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
 cam3t42_lgccsm3_ghg_03                 NC   A1BAMIP_ghg         3    N/A  eul64x128_d63iamip_02         1999-01-01     2000 2060 T42_gx1   bluefire  /HTENG/csm
@@ -298,7 +308,7 @@ iamip.ES04                             NC   AMIP                4    cm3  none  
 iamip.ES05                             NC   AMIP                5    cm3  none                          0000-01-01     1979 2000 T85_gx1   JAMSTEC   /CCSM/csm
 b40.1850.track1.2deg.003               NC   pi-control          1    cm5  1850_f19_g16_c091124          0001-01-01     0001 1000 f19_g16   bluefire  /CCSM/csm
 b40.20th.track1.1deg.003               NC   historical          0    cm5  b40.1850.track1.1deg.006      0251-01-01     1850 1850 f09_g16   bluefire  /CCSM/csm
-b40.1850.track1.1deg.006               NC   pi-control          1    cm5  1850_f09_g16_c090901          0001-01-01     0200 0399 f09_g16   bluefire  /CCSM/csm
+b40.1850.track1.1deg.006               NC   pi-control          1    cm5  1850_f09_g16_c090901          0001-01-01     0001 0199 f09_g16   bluefire  /CCSM/csm
 b40.1850_ramp.track1.1deg.001          NC   1pct-co2            1    cm5  b40.1850.track1.1deg.006      0251-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
 b40.1850_ramp.track1.2deg.001          NC   1pct-co2            1    cm5  b40.1850.track1.2deg.003      0501-01-01     1850 1997 f19_g16   bluefire  /CCSM/csm
 b40.20th.track1.1deg.004               NC   historical          1    cm5  b40.1850.track1.1deg.006      0863-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
@@ -335,3 +345,23 @@ b40.20th_SFland.1deg.001               NE   historicalLU        1    cm5  b40.18
 b40.20th.solar.1deg.006                NE   historicalSl        1    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
 b40.20th.volc.1deg.006                 NE   historicalVl        1    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
 b40.20th.ghg.1deg.006                  NE   historicalGHG       1    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
+b40.dp.i1970.1deg.001                  OR   decadalXXX          1    cm5  unknown                       YYYY-MM-DD     1970 1979 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i1970.1deg.002                  OR   decadalXXX          2    cm5  unknown                       YYYY-MM-DD     1970 1979 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i1970.1deg.003                  OR   decadalXXX          3    cm5  unknown                       YYYY-MM-DD     1970 1979 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i1970.1deg.004                  OR   decadalXXX          4    cm5  unknown                       YYYY-MM-DD     1970 1979 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i1980.1deg.001                  OR   decadalXXX          1    cm5  unknown                       YYYY-MM-DD     1980 2005 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i1980.1deg.002                  OR   decadalXXX          2    cm5  unknown                       YYYY-MM-DD     1980 2005 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i1980.1deg.003                  OR   decadalXXX          3    cm5  unknown                       YYYY-MM-DD     1980 2005 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i1980.1deg.004                  OR   decadalXXX          4    cm5  unknown                       YYYY-MM-DD     1980 2005 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i1990.1deg.001                  OR   decadalXXX          1    cm5  unknown                       YYYY-MM-DD     1990 1999 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i1990.1deg.002                  OR   decadalXXX          2    cm5  unknown                       YYYY-MM-DD     1990 1999 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i1990.1deg.003                  OR   decadalXXX          3    cm5  unknown                       YYYY-MM-DD     1990 1999 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i1990.1deg.004                  OR   decadalXXX          4    cm5  unknown                       YYYY-MM-DD     1990 1999 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i2000.1deg.001                  OR   decadalXXX          1    cm5  unknown                       YYYY-MM-DD     2000 2005 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i2000.1deg.002                  OR   decadalXXX          2    cm5  unknown                       YYYY-MM-DD     2000 2005 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i2000.1deg.003                  OR   decadalXXX          3    cm5  unknown                       YYYY-MM-DD     2000 2005 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.dp.i2000.1deg.004                  OR   decadalXXX          4    cm5  unknown                       YYYY-MM-DD     2000 2005 fNN_NNN   jaguar    /f2/ccsm/csm
+b40.coup_carb.004                      NC   picntrl             1    cm5  unknown                       YYYY-MM-DD               f09_g16   bluefire  /KLINDSAY/csm
+b40.prescribed_carb.001                NC   picntrl             1    cm5  unknown                       YYYY-MM-DD               f09_g16   bluefire  /KLINDSAY/csm
+trk1_1deg_chm_1850_b55.01              NC   picntrl             1    cm5  unknown                       YYYY-MM-DD               f09_g16   bluefire  /FVITT/csm
+b40.1850.track1.2deg.wcm.007           NC   picntrl             1    cm5  unknown                       YYYY-MM-DD               f19_g16   bluefire  /CCSM/csm

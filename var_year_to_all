@@ -100,7 +100,7 @@ for c in $CASES ; do
         else
           echo "Missing year(s) from "${c}"."${h}"."${v}" files"
           echo "Count is "$NUM" should be "$YRCOUNT
-          exit 1
+#          exit 1
         fi
       else
         Y0=`ls ${c}.${h}.${v}.????.nc | head -1 | cut -d"." -f${DTIM}`

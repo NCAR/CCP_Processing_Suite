@@ -423,9 +423,14 @@ while [ $YEARNOW -le $YEAREND ] ; do
         done
       fi
     fi
-    if [ `ls .comp.$CASE.$HIST.${YEARNOW}-??.nc | wc -l` -eq 12 ] ; then
+    if [ `ls .comp.$CASE.$HIST.${YEARNOW}.nc | wc -l` -eq 1 ] ; then
       touch $YRCHECK
-      rm .????.$CASE.$HIST.${YEARNOW}-??.nc
+      rm .????.$CASE.$HIST.${YEARNOW}.nc
+    else
+      if [ `ls .comp.$CASE.$HIST.${YEARNOW}-??.nc | wc -l` -eq 12 ] ; then
+        touch $YRCHECK
+        rm .????.$CASE.$HIST.${YEARNOW}-??.nc
+      fi
     fi
   fi
   CHECKDEC=`expr $YEARNOW % 10`;export CHECKDEC
