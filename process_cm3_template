@@ -430,7 +430,8 @@ if [ $DO_PROC -ne 0 ] ; then
   ln -s -f $BASEDIR/var_year_to_all .
 fi
 #
-ln -s -f $BASEDIR/concatenate_data .
+ln -s -f $BASEDIR/concatenate_year .
+ln -s -f $BASEDIR/concatenate_all  .
 ln -s -f $BASEDIR/store_to_archive .
 #
 CURDIR=$PWD
@@ -549,17 +550,21 @@ while [ $YEARNOW -le $YEAREND ] ; do
   if [ $YEARNOW -lt 10 ] ; then
     YEARNOW=0${YEARNOW}
   fi
+#
+# Concatenate months -> years
+#
+  ./concatenate_year
 done
 #
-# Concatenate months -> years, years -> all (if possible)
+# Concatenate years -> all (if possible)
 #
-./concatenate_data
+./concatenate_all
 if [ $? -eq 0 ] ; then
 #
 # Store completed data on archival system
 #
   ./store_to_archive
 else
-  echo "Error from concatenate_data"
+  echo "Error from concatenate_all"
   exit 1
 fi
