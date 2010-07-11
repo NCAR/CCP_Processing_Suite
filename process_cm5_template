@@ -440,6 +440,9 @@ while [ $YEARNOW -le $YEAREND ] ; do
     if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
       ./concatenate_decades
     fi
+    if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
+      ./concatenate_decades
+    fi
   fi
   YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
   if [ $YEARNOW -lt 1000 ] ; then
