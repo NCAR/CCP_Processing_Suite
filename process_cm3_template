@@ -59,7 +59,7 @@ case "$LOCATION" in
     MSSBASE=/nersc/mp9/strandwg/CCSM/csm/$CASE
     PROCHOST="euclid"  ;;
   OR )                                        # ORNL experiments
-    MSSBASE=/f2/ccsm/CCSM/csm/$CASE
+    MSSBASE=/f2/ccsm/csm/$CASE
     PROCHOST="lens0"    ;;
   * )
     echo "Unable to set variables because "$LOCATION" not found in "$EXPFILE
