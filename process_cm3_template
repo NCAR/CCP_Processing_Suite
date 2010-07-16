@@ -300,11 +300,16 @@ CACHEDIR=${PROCDIR}/to_archive
 #
 echo "           Case name : "$CASE ; export CASE
 echo "   History file type : "$HIST ; export HIST
+echo ""
 if [ $DO_PROC -ne 0 ] ; then
   echo "   by var processing : YES"
 else
   echo "   by var processing : NO"
 fi
+echo "                ncks : "$NCKS
+echo "              ncrcat : "$NCRCAT
+echo "             ncatted : "$NCATTED
+echo ""
 if [ $DO_CMIP -ne 0 ] ; then
   echo "     CMIP processing : YES"
   echo "                 NCL : "$NCL

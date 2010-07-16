@@ -28,11 +28,15 @@ fi
 # 
 # Check for ncks
 #
-TEST4NCKS=`which ncks 2>&1`
-if [ $? -eq 0 ] ; then
-  NCKS=`which ncks`
-else
-  echo "NCKS not in PATH - UNDEFINED"
+if [ ! $NCKS ] ; then
+  TEST4NCKS=`which ncks 2>&1`
+  if [ $? -eq 0 ] ; then
+    NCKS=`which ncks`
+  else
+    echo "NCKS not in PATH - UNDEFINED"
+    exit 1
+  fi
+  echo "NCKS undefined"
   exit 1
 fi
 #

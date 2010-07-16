@@ -9,17 +9,22 @@ fi
 # 
 # Check for ncrcat
 #
-#TEST4NCRCAT=`which ncrcat 2>&1`
-#if [ $? -eq 0 ] ; then
-  NCRCAT=/usr/local/bin/ncrcat
-#else
-#  echo "NCRCAT not in PATH - UNDEFINED"
-#  exit 1
-#fi
+if [ ! $NCRCAT ] ; then
+  TEST4NCRCAT=`which ncrcat 2>&1`
+  if [ $? -eq 0 ] ; then
+    NCRCAT=`which ncrcat`
+  else
+    echo "NCRCAT not in PATH - UNDEFINED"
+    exit 1
+  fi
+else
+  echo "NCRCAT undefined"
+  exit 1
+fi
 #
 # Parse first filename
 #
-FILE=`ls | egrep "*.${HIST}.*" | head -1`
+FILE=`ls | egrep "*.${HIST}.*.nc" | head -1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1

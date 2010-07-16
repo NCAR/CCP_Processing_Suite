@@ -10,11 +10,16 @@ fi
 # 
 # Check for ncrcat
 #
-TEST4NCRCAT=`which ncrcat 2>&1`
-if [ $? -eq 0 ] ; then
-  NCRCAT=`which ncrcat`
+if [ ! $NCRCAT ] ; then
+  TEST4NCRCAT=`which ncrcat 2>&1`
+  if [ $? -eq 0 ] ; then
+    NCRCAT=`which ncrcat`
+  else
+    echo "NCRCAT not in PATH - UNDEFINED"
+    exit 1
+  fi
 else
-  echo "NCRCAT not in PATH - UNDEFINED"
+  echo "NCRCAT undefined"
   exit 1
 fi
 #

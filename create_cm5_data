@@ -12,13 +12,18 @@ if [ ! -f $NCL_FILE ] ; then
   exit 1
 fi
 # 
-# Check for NCL
+# Check for ncl
 #
-TEST4NCL=`which ncl 2>&1`
-if [ $? -eq 0 ] ; then
-  NCL=`which ncl`
+if [ ! $NCL ] ; then
+  TEST4NCL=`which ncl 2>&1`
+  if [ $? -eq 0 ] ; then
+    NCL=`which ncl`
+  else
+    echo "NCL not in PATH - UNDEFINED"
+    exit 1
+  fi
 else
-  echo "NCL not in PATH - UNDEFINED"
+  echo "NCL undefined"
   exit 1
 fi
 #
