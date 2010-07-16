@@ -222,9 +222,10 @@ ln -s -f $BASEDIR/var_split  .
 ln -s -f $BASEDIR/var_mon_to_year .
 ln -s -f $BASEDIR/var_year_to_all .
 #
-ln -s -f $BASEDIR/concatenate_year .
-ln -s -f $BASEDIR/concatenate_all  .
-ln -s -f $BASEDIR/store_to_archive .
+ln -s -f $BASEDIR/concatenate_year    .
+ln -s -f $BASEDIR/concatenate_decades .
+ln -s -f $BASEDIR/concatenate_all     .
+ln -s -f $BASEDIR/store_to_archive    .
 #
 CURDIR=$PWD
 #
