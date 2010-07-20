@@ -27,8 +27,6 @@ if [ ! $NCKS ] ; then
     echo "NCKS not in PATH - UNDEFINED"
     exit 1
   fi
-  echo "NCKS undefined"
-  exit 1
 fi
 #
 # Parse filename

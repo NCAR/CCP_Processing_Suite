@@ -17,9 +17,6 @@ if [ `echo $NCRCAT | wc -c` -eq 0 ] ; then
     echo "NCRCAT not in PATH - UNDEFINED"
     exit 1
   fi
-else
-  echo "NCRCAT undefined"
-  exit 1
 fi
 #
  TABLE=`ls | egrep '_[0-9][0-9][0-9][0-9]\.nc$' | cut -d"_" -f2 | sort | uniq`

@@ -22,9 +22,6 @@ if [ ! $NCL ] ; then
     echo "NCL not in PATH - UNDEFINED"
     exit 1
   fi
-else
-  echo "NCL undefined"
-  exit 1
 fi
 #
 # Parse filename

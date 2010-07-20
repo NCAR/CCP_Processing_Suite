@@ -17,9 +17,6 @@ if [ ! $NCRCAT ] ; then
     echo "NCRCAT not in PATH - UNDEFINED"
     exit 1
   fi
-else
-  echo "NCRCAT undefined"
-  exit 1
 fi
 #
 # Parse first filename
