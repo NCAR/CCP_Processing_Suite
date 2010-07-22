@@ -1,0 +1,81 @@
+#!/bin/sh
+#
+# Concatenate data as needed by argument
+#
+if [ $# -eq 0 ] ; then
+  echo "Usage: concatenate_data [Y|D|5|A] (required)"
+  echo " Y: concatenate years     (from months)"
+  echo " D: concatenate decades   (from years)"
+  echo " 5: concatenate 5-years   (from years)"
+  echo " A: concatenate all years (from years)"
+  exit 1
+fi
+if [ $# -eq 1 ] ; then
+  TCAT=$1
+  if [ "$TCAT" != "Y" ] ; then
+    if [ "$TCAT" != "D" ] ; then
+      if [ "$TCAT" != "5" ] ; then
+        if [ "$TCAT" != "A" ] ; then
+          echo $TCAT" not defined argument"
+          echo "Usage: concatenate_data [Y|D|5|A] (required)"
+          echo " Y: concatenate years     (from months)"
+          echo " D: concatenate decades   (from years)"
+          echo " 5: concatenate 5-years   (from years)"
+          echo " A: concatenate all years (from years)"
+          exit 1
+        fi
+      fi
+    fi
+  fi
+fi
+#
+cd $PROCDIR
+#
+if [ $DO_PROC -ne 0 ] ; then
+  cd ${PROCDIR}
+  for e in `ls -d *d.d` ; do
+    cd ${PROCDIR}/${e}
+    if [ "$TCAT" = "Y" ] ; then
+      ../var_mon_to_year
+      if [ $? -ne 0 ] ; then
+        echo "Error from var_mon_to_year"
+        exit 1
+      fi
+    fi
+    if [ "$TCAT" = "D" ] ; then
+      ../var_year_to_dec
+      mv ${CASE}.${HIST}.*.*-*.nc $CACHEDIR
+      if [ $? -ne 0 ] ; then
+        echo "Error from var_year_to_dec"
+        exit 1
+      fi
+    fi
+    if [ "$TCAT" = "5" ] ; then
+      ../var_year_to_5yr
+      mv ${CASE}.${HIST}.*.*-*.nc $CACHEDIR
+      if [ $? -ne 0 ] ; then
+        echo "Error from var_year_to_5yr"
+        exit 1
+      fi
+    fi
+    if [ "$TCAT" = "A" ] ; then
+      ../var_year_to_all
+      mv ${CASE}.${HIST}.*.*-*.nc $CACHEDIR
+      if [ $? -ne 0 ] ; then
+        echo "Error from var_year_to_all"
+        exit 1
+      fi
+    fi
+    cd ${PROCDIR}
+  done
+  cd ${PROCDIR}
+fi
+#
+if [ $DO_CMIP -ne 0 ] ; then
+  cd ${PROCDIR}/CMIP
+  ./${CMIP}_var_mon_to_year
+  if [ $? -ne 0 ] ; then
+    echo "Error from "${CMIP}"_var_mon_to_year"
+    exit 1
+  fi
+fi

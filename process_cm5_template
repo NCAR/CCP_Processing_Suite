@@ -335,9 +335,7 @@ if [ $DO_PROC -ne 0 ] ; then
   ln -s -f $BASEDIR/var_year_to_all .
 fi
 #
-ln -s -f $BASEDIR/concatenate_year    .
-ln -s -f $BASEDIR/concatenate_decades .
-ln -s -f $BASEDIR/concatenate_all     .
+ln -s -f $BASEDIR/concatenate_data    .
 ln -s -f $BASEDIR/store_to_archive    .
 #
 CURDIR=$PWD
@@ -437,12 +435,12 @@ while [ $YEARNOW -le $YEAREND ] ; do
   CHECKDEC=`expr $YEARNOW % 10`;export CHECKDEC
   if [ $CHECKDEC -eq 0 ] ; then
     echo "Concatenating years at "`date`
-    ./concatenate_year
+    ./concatenate_data Y
     if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
-      ./concatenate_decades
+      ./concatenate_data D
     fi
     if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
-      ./concatenate_decades
+      ./concatenate_data D
     fi
   fi
   YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
@@ -460,7 +458,7 @@ done
 # Concatenate months -> years, years -> all (if possible)
 #
 echo "Final concatenating of "$CASE"."$HIST" at "`date`
-./concatenate_all
+./concatenate_data A
 if [ $? -eq 0 ] ; then
 #
 # Store completed data on archival system
