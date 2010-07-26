@@ -367,3 +367,5 @@ b40.prescribed_carb.001                NC   picntrl             1    cm5  unknow
 trk1_1deg_chm_1850_b55.01              NC   picntrl             1    cm5  unknown                       YYYY-MM-DD               f09_g16   bluefire  /FVITT/csm
 b40.1850.track1.2deg.wcm.007           NC   picntrl             1    cm5  unknown                       YYYY-MM-DD               f19_g16   bluefire  /CCSM/csm
 b40.rcp2_6.1deg.solar                  OR   rcp2.6X             1    cm5  unknown                       YYYY-MM-DD     2005 2100 f19_g16   jaguar    /home/slevis/csm
+f40.1979_amip.track1.1deg.001          NC   amip                1    cm5  unknown                       YYYY-MM-DD     1979 2005 f09_g16   bluefire  /CCSM/csm
+f40.1979_amip.track1.2deg.001          NC   amip                1    cm5  unknown                       YYYY-MM-DD     1979 2005 f19_g16   bluefire  /CCSM/csm
