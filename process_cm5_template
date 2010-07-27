@@ -82,7 +82,7 @@ if [ "$LOCATION" = "NC" ] ; then
   fi
 fi
 if [ "$LOCATION" = "OR" ] ; then
-  if [ "$PROCHOST" != "lens0" ] ; then
+  if [ "`echo $PROCHOST | cut -c1-4`" != "lens" ] ; then
     echo "Add "$PROCHOST" for location "$LOCATION
     exit 1
   fi
