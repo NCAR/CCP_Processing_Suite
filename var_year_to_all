@@ -67,16 +67,16 @@ for c in $CASES ; do
           Y0=`ls ${c}.${h}.${v}.????.nc | head -1 | cut -d"." -f${DTIM}`
           Y1=`ls ${c}.${h}.${v}.????.nc | tail -1 | cut -d"." -f${DTIM}`
           if [ $h = "cam2.h1" ] ; then
-            DF=${c}.${h}.${v}.${Y0}0101-${Y1}1231.nc
+            DF=CAT.${c}.${h}.${v}.${Y0}0101-${Y1}1231.nc
           else
-            DF=${c}.${h}.${v}.${Y0}01-${Y1}12.nc
+            DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
           fi
           if [ "$COMP" = "cice" ] ; then
-            DF=${c}.${h}.${v}_nh.${Y0}01-${Y1}12.nc
+            DF=CAT.${c}.${h}.${v}_nh.${Y0}01-${Y1}12.nc
             $NCRCAT -d nj,280,383 -O ${c}.${h}.${v}.????.nc $DF
             if [ $? = 0 ] ; then
               echo "Concatenated "$DF" and checked year count: "$YRCOUNT
-              DF=${c}.${h}.${v}_sh.${Y0}01-${Y1}12.nc
+              DF=CAT.${c}.${h}.${v}_sh.${Y0}01-${Y1}12.nc
               $NCRCAT -d nj,0,75 -O ${c}.${h}.${v}.????.nc $DF
               if [ $? = 0 ] ; then
                 echo "Concatenated "$DF" and checked year count: "$YRCOUNT
@@ -108,16 +108,16 @@ for c in $CASES ; do
         Y0=`ls ${c}.${h}.${v}.????.nc | head -1 | cut -d"." -f${DTIM}`
         Y1=`ls ${c}.${h}.${v}.????.nc | tail -1 | cut -d"." -f${DTIM}`
         if [ $h = "cam2.h1" ] ; then
-          DF=${c}.${h}.${v}.${Y0}0101-${Y1}1231.nc
+          DF=CAT.${c}.${h}.${v}.${Y0}0101-${Y1}1231.nc
         else
-          DF=${c}.${h}.${v}.${Y0}01-${Y1}12.nc
+          DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
         fi
         if [ "$COMP" = "cice" ] ; then
-          DF=${c}.${h}.${v}_nh.${Y0}01-${Y1}12.nc
+          DF=CAT.${c}.${h}.${v}_nh.${Y0}01-${Y1}12.nc
           $NCRCAT -d nj,280,383 -O ${c}.${h}.${v}.????.nc $DF
           if [ $? = 0 ] ; then
             echo "Concatenated "$DF" and WITHOUT checking year count"
-            DF=${c}.${h}.${v}_sh.${Y0}01-${Y1}12.nc
+            DF=CAT.${c}.${h}.${v}_sh.${Y0}01-${Y1}12.nc
             $NCRCAT -d nj,0,75 -O ${c}.${h}.${v}.????.nc $DF
             if [ $? = 0 ] ; then
               echo "Concatenated "$DF" and WITHOUT checking year count"

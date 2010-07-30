@@ -61,7 +61,7 @@ for c in $CASES ; do
       for d in $DECS ; do
         NUM=`ls ${c}\.${h}\.${v}\.${d}?\.nc | wc -l`
         if [ $NUM -eq 10 ] ; then
-          DF=${c}.${h}.${v}.${d}001-${d}912.nc
+          DF=CAT.${c}.${h}.${v}.${d}001-${d}912.nc
           if [ $DF ] ; then
             $NCRCAT -O ${c}.${h}.${v}.${d}?.nc $DF
             if [ $? -eq 0 ] ; then

@@ -14,8 +14,10 @@ ln -s -f ${BASEDIR}/mss_write .
 if [ $DO_PROC -ne 0 ] ; then
   LAST=`ls -1 $CASE.*nc | tail -1`
   while [ -f $LAST ] ; do
-    for g in `ls $CASE.*nc | head -5` ; do
-      ./mss_write $g $MSSPROC &
+    for cfile in `ls CAT.${CASE}.*nc | head -5` ; do
+      SFILE=`echo $cfile | sed -e 's/^CAT\.//g'`
+      mv $cfile $SFILE
+      ./mss_write $SFILE $MSSPROC &
     done
     wait
   done
@@ -25,8 +27,8 @@ if [ $DO_CMIP -ne 0 ] ; then
   if [ "$CMIP" = "cm5" ] ; then
     LAST=`ls -1 *-*.nc | tail -1`
     while [ -f $LAST ] ; do
-      for g in `ls *-*.nc | head -5` ; do
-        ./mss_write $g $MSSCMIP &
+      for cfile in `ls *-*.nc | head -5` ; do
+        ./mss_write $cfile $MSSCMIP &
       done
       wait
     done
@@ -34,8 +36,8 @@ if [ $DO_CMIP -ne 0 ] ; then
   if [ "$CMIP" = "cm3" ] ; then
     LAST=`ls *nc | tail -1`
     while [ -f $LAST ] ; do
-      for g in `ls *nc | head -5` ; do
-        ./mss_write $g $MSSCMIP &
+      for cfile in `ls *nc | head -5` ; do
+        ./mss_write $cfile $MSSCMIP &
       done
       wait
     done

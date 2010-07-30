@@ -544,20 +544,19 @@ while [ $YEARNOW -le $YEAREND ] ; do
       rm .????.$CASE.$HIST.${YEARNOW}-??.nc
     fi
   fi
+  CHECKDEC=`expr $YEARNOW % 10`
+  if [ $CHECKDEC -eq 0 ] ; then
+    echo "Concatenating years at "${YEARNOW}" at "`date`
+    ./concatenate_data Y
+  fi
+  if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
+    ./concatenate_data D
+  fi
+  if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
+    ./concatenate_data D
+  fi
   YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
-  if [ $YEARNOW -lt 1000 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
-  if [ $YEARNOW -lt 100 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
-  if [ $YEARNOW -lt 10 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
-#
-# Concatenate months -> years
-#
-  ./concatenate_data Y
+  YEARNOW=0${YEARNOW}
 done
 #
 # Concatenate years -> all (if possible)

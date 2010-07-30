@@ -63,7 +63,7 @@ for c in $CASES ; do
         if [ $NUM -eq 5 ] ; then
           Y0=`ls ${c}.${h}.${v}.${d}[0-4].nc | head -1 | cut -d"." -f${DTIM}`
           Y1=`ls ${c}.${h}.${v}.${d}[0-4].nc | tail -1 | cut -d"." -f${DTIM}`
-          DF=${c}.${h}.${v}.${Y0}01-${Y1}12.nc
+          DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
           if [ $DF ] ; then
             $NCRCAT -O ${c}.${h}.${v}.${d}[0-4].nc $DF
             if [ $? -eq 0 ] ; then
@@ -78,7 +78,7 @@ for c in $CASES ; do
         if [ $NUM -eq 5 ] ; then
           Y0=`ls ${c}.${h}.${v}.${d}[5-9].nc | head -1 | cut -d"." -f${DTIM}`
           Y1=`ls ${c}.${h}.${v}.${d}[5-9].nc | tail -1 | cut -d"." -f${DTIM}`
-          DF=${c}.${h}.${v}.${Y0}01-${Y1}12.nc
+          DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
           if [ $DF ] ; then
             $NCRCAT -O ${c}.${h}.${v}.${d}[5-9].nc $DF
             if [ $? -eq 0 ] ; then

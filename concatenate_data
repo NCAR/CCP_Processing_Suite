@@ -33,41 +33,50 @@ cd $PROCDIR
 #
 if [ $DO_PROC -ne 0 ] ; then
   cd ${PROCDIR}
-  for e in `ls -d *d.d` ; do
-    cd ${PROCDIR}/${e}
-    if [ "$TCAT" = "Y" ] ; then
-      ../var_mon_to_year
-      if [ $? -ne 0 ] ; then
-        echo "Error from var_mon_to_year"
-        exit 1
+  if [ "$TCAT" = "Y" ] ; then
+    for e in `ls -d *d.d` ; do
+      cd ${PROCDIR}/${e}
+        ../var_mon_to_year
+        if [ $? -ne 0 ] ; then
+          echo "Error from var_mon_to_year"
+          exit 1
+        fi
       fi
-    fi
-    if [ "$TCAT" = "D" ] ; then
+    done
+  fi
+  if [ "$TCAT" = "D" ] ; then
+    for e in `ls -d *4d.d` ; do
+      cd ${PROCDIR}/${e}
       ../var_year_to_dec
-      mv ${CASE}.${HIST}.*.*-*.nc $CACHEDIR
+      mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
       if [ $? -ne 0 ] ; then
         echo "Error from var_year_to_dec"
         exit 1
       fi
-    fi
-    if [ "$TCAT" = "5" ] ; then
+    done
+  fi
+  if [ "$TCAT" = "5" ] ; then
+    for e in `ls -d *d.d` ; do
+      cd ${PROCDIR}/${e}
       ../var_year_to_5yr
-      mv ${CASE}.${HIST}.*.*-*.nc $CACHEDIR
+      mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
       if [ $? -ne 0 ] ; then
-        echo "Error from var_year_to_5yr"
+        echo "Error from var_year_to_dec"
         exit 1
       fi
-    fi
-    if [ "$TCAT" = "A" ] ; then
+    done
+  fi
+  if [ "$TCAT" = "A" ] ; then
+    for e in `ls -d *d.d` ; do
+      cd ${PROCDIR}/${e}
       ../var_year_to_all
-      mv ${CASE}.${HIST}.*.*-*.nc $CACHEDIR
+      mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
       if [ $? -ne 0 ] ; then
         echo "Error from var_year_to_all"
         exit 1
       fi
-    fi
-    cd ${PROCDIR}
-  done
+    done
+  fi
   cd ${PROCDIR}
 fi
 #

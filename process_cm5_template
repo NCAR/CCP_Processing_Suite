@@ -351,76 +351,85 @@ while [ $YEARNOW -le $YEAREND ] ; do
       echo "Getting archival list of "$CASE" "$HIST
       ./mss_list $MSSLIST
     fi
-    ./mss_read $MSSLIST $YEARNOW
-    if [ $? -ne 0 ] ; then
-      echo "Error from mss_read"
-      exit 1
-    else
-      if [ "$TPER" = "mon" ] ; then
-        for FILE in `ls $CASE.$HIST.${YEARNOW}-??.nc` ; do
-          if [ $DO_CMIP -ne 0 ] ; then
-            ./create_cm5_data $FILE
-            if [ $? -ne 0 ] ; then
-              echo "Error from create_cm5_data on file "$FILE
-              exit 1
-            fi
-            touch .cmip.$FILE
-            if [ $DO_PROC -eq 0 ] ; then
-              rm -f $FILE
-            fi
-          fi
-          if [ $DO_PROC -ne 0 ] ; then
-            ./var_split $FILE erase
-            if [ $? -ne 0 ] ; then
-              echo "Error from var_split on file "$FILE
-              exit 1
-            else
-              touch .proc.$FILE
-            fi
-          fi
-          if [ -f .proc.$FILE ] || [ -f .cmip.$FILE ] ; then
-            touch .comp.$FILE
-            rm -f .proc.$FILE .cmip.$FILE
-          fi
-        done
-      else
-        for FILE in `ls $CASE.$HIST.${YEARNOW}-??-??-?????.nc` ; do
-          NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
-          if [ $NTIMES -ne 365 ] ; then
-            ./time_split $FILE erase
-            ./days_to_month erase
-          else
-            TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g' | sed -e 's/\-01\-02\-00000//g'`
-            mv $FILE $TRIMD
-          fi
-        done
-        for FILE in `ls $CASE.$HIST.????-??.nc $CASE.$HIST.????.nc` ; do
-          if [ $DO_CMIP -ne 0 ] ; then
-            ./create_cm5_data $FILE
-            if [ $? -ne 0 ] ; then
-              echo "Error from create_cm5_data on file "$FILE
-              exit 1
-            else
-              touch .cmip.$FILE
-            fi
-            if [ $DO_PROC -eq 0 ] ; then
-              rm -f $FILE
-            fi
-          fi
-          if [ $DO_PROC -ne 0 ] ; then
-            ./var_split $FILE erase
-            if [ $? -ne 0 ] ; then
-              echo "Error from var_split on file "$FILE
-              exit 1
-            else
-              touch .proc.$FILE
-            fi
-          fi
-          if [ -f .proc.$FILE ] || [ -f .cmip.$FILE ] ; then
-            touch .comp.$FILE
-          fi
-        done
+    if [ "$TPER" = "mon" ] ; then
+      if [ `ls ${CASE}.${HIST}.${YEARNOW}-??.nc | wc -l` -ne 12 ] ; then
+        ./mss_read $MSSLIST $YEARNOW
+        if [ $? -ne 0 ] ; then
+          echo "Error from mss_read"
+          exit 1
+        fi
       fi
+    else
+      ./mss_read $MSSLIST $YEARNOW
+      if [ $? -ne 0 ] ; then
+        echo "Error from mss_read"
+        exit 1
+      fi
+    fi
+    if [ "$TPER" = "mon" ] ; then
+      for FILE in `ls $CASE.$HIST.${YEARNOW}-??.nc` ; do
+        if [ $DO_CMIP -ne 0 ] ; then
+          ./create_cm5_data $FILE
+          if [ $? -ne 0 ] ; then
+            echo "Error from create_cm5_data on file "$FILE
+            exit 1
+          fi
+          touch .cmip.$FILE
+          if [ $DO_PROC -eq 0 ] ; then
+            rm -f $FILE
+          fi
+        fi
+        if [ $DO_PROC -ne 0 ] ; then
+          ./var_split $FILE erase
+          if [ $? -ne 0 ] ; then
+            echo "Error from var_split on file "$FILE
+            exit 1
+          else
+            touch .proc.$FILE
+          fi
+        fi
+        if [ -f .proc.$FILE ] || [ -f .cmip.$FILE ] ; then
+          touch .comp.$FILE
+          rm -f .proc.$FILE .cmip.$FILE
+        fi
+      done
+    else
+      for FILE in `ls $CASE.$HIST.${YEARNOW}-??-??-?????.nc` ; do
+        NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
+        if [ $NTIMES -ne 365 ] ; then
+          ./time_split $FILE erase
+          ./days_to_month erase
+        else
+          TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g' | sed -e 's/\-01\-02\-00000//g'`
+          mv $FILE $TRIMD
+        fi
+      done
+      for FILE in `ls $CASE.$HIST.????-??.nc $CASE.$HIST.????.nc` ; do
+        if [ $DO_CMIP -ne 0 ] ; then
+          ./create_cm5_data $FILE
+          if [ $? -ne 0 ] ; then
+            echo "Error from create_cm5_data on file "$FILE
+            exit 1
+          else
+            touch .cmip.$FILE
+          fi
+          if [ $DO_PROC -eq 0 ] ; then
+            rm -f $FILE
+          fi
+        fi
+        if [ $DO_PROC -ne 0 ] ; then
+          ./var_split $FILE erase
+          if [ $? -ne 0 ] ; then
+            echo "Error from var_split on file "$FILE
+            exit 1
+          else
+            touch .proc.$FILE
+          fi
+        fi
+        if [ -f .proc.$FILE ] || [ -f .cmip.$FILE ] ; then
+          touch .comp.$FILE
+        fi
+      done
     fi
     if [ `ls .comp.$CASE.$HIST.${YEARNOW}.nc | wc -l` -eq 1 ] ; then
       touch $YRCHECK
@@ -432,27 +441,19 @@ while [ $YEARNOW -le $YEAREND ] ; do
       fi
     fi
   fi
-  CHECKDEC=`expr $YEARNOW % 10`;export CHECKDEC
+  CHECKDEC=`expr $YEARNOW % 10`
   if [ $CHECKDEC -eq 0 ] ; then
-    echo "Concatenating years at "`date`
+    echo "Concatenating years at "${YEARNOW}" at "`date`
     ./concatenate_data Y
-    if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
-      ./concatenate_data D
-    fi
-    if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
-      ./concatenate_data D
-    fi
+  fi
+  if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
+    ./concatenate_data D
+  fi
+  if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
+    ./concatenate_data D
   fi
   YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
-  if [ $YEARNOW -lt 1000 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
-  if [ $YEARNOW -lt 100 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
-  if [ $YEARNOW -lt 10 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
+  YEARNOW=0${YEARNOW}
 done
 #
 # Concatenate months -> years, years -> all (if possible)
