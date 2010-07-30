@@ -556,7 +556,6 @@ while [ $YEARNOW -le $YEAREND ] ; do
     ./concatenate_data D
   fi
   YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
-  YEARNOW=0${YEARNOW}
 done
 #
 # Concatenate years -> all (if possible)

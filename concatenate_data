@@ -36,11 +36,10 @@ if [ $DO_PROC -ne 0 ] ; then
   if [ "$TCAT" = "Y" ] ; then
     for e in `ls -d *d.d` ; do
       cd ${PROCDIR}/${e}
-        ../var_mon_to_year
-        if [ $? -ne 0 ] ; then
-          echo "Error from var_mon_to_year"
-          exit 1
-        fi
+      ../var_mon_to_year
+      if [ $? -ne 0 ] ; then
+        echo "Error from var_mon_to_year"
+        exit 1
       fi
     done
   fi
