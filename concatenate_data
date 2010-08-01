@@ -47,10 +47,14 @@ if [ $DO_PROC -ne 0 ] ; then
     for e in `ls -d *4d.d` ; do
       cd ${PROCDIR}/${e}
       ../var_year_to_dec
-      mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
       if [ $? -ne 0 ] ; then
         echo "Error from var_year_to_dec"
+        echo $CASE" "${HIST}" "${e}
         exit 1
+      else
+        if [ `ls CAT.${CASE}.${HIST}.*nc | wc -l` -ne 0 ] ; then
+          mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
+        fi
       fi
     done
   fi
@@ -58,10 +62,14 @@ if [ $DO_PROC -ne 0 ] ; then
     for e in `ls -d *d.d` ; do
       cd ${PROCDIR}/${e}
       ../var_year_to_5yr
-      mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
       if [ $? -ne 0 ] ; then
         echo "Error from var_year_to_dec"
+        echo $CASE" "${HIST}" "${e}
         exit 1
+      else
+        if [ `ls CAT.${CASE}.${HIST}.*nc | wc -l` -ne 0 ] ; then
+          mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
+        fi
       fi
     done
   fi
@@ -69,10 +77,14 @@ if [ $DO_PROC -ne 0 ] ; then
     for e in `ls -d *d.d` ; do
       cd ${PROCDIR}/${e}
       ../var_year_to_all
-      mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
       if [ $? -ne 0 ] ; then
         echo "Error from var_year_to_all"
+        echo $CASE" "${HIST}" "${e}
         exit 1
+      else
+        if [ `ls CAT.${CASE}.${HIST}.*nc | wc -l` -ne 0 ] ; then
+          mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
+        fi
       fi
     done
   fi
