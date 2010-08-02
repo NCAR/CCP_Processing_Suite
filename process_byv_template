@@ -220,6 +220,8 @@ ln -s -f $BASEDIR/mss_read   .
 ln -s -f $BASEDIR/mss_write  .
 ln -s -f $BASEDIR/var_split  .
 ln -s -f $BASEDIR/var_mon_to_year .
+ln -s -f $BASEDIR/var_year_to_dec .
+ln -s -f $BASEDIR/var_year_to_5yr .
 ln -s -f $BASEDIR/var_year_to_all .
 #
 ln -s -f $BASEDIR/concatenate_year    .
