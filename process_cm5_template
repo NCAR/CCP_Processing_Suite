@@ -433,7 +433,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
         fi
       done
     fi
-    if [ `ls .comp.$CASE.$HIST.${YEARNOW}.nc | wc -l` -eq 1 ] ; then
+    if [ `ls .comp.$CASE.$HIST.${YEARNOW} | wc -l` -eq 1 ] ; then
       touch $YRCHECK
       rm .????.$CASE.$HIST.${YEARNOW}.nc
     else
