@@ -169,9 +169,9 @@ case "$PROCHOST" in
 
   euclid* )                                # euclid @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/common/homes/s/strandwg/bin/ncks     ; export NCKS
-    NCRCAT=/usr/common/homes/s/strandwg/bin/ncrcat ; export NCRCAT
-    NCARG_ROOT=/usr/common/usg/ncar/5.0.0          ; export NCARG_ROOT
+    NCKS=/global/u2/s/strandwg/bin/ncks     ; export NCKS
+    NCRCAT=/global/u2/s/strandwg/bin/ncrcat ; export NCRCAT
+    NCARG_ROOT=/usr/common/usg/ncar/5.2.0          ; export NCARG_ROOT
     PROCBASE=/global/scratch/sd/$USER/$CASE      ; export PROCBASE
     if [ $DO_CMIP -ne 0 ] ; then
       if [ "$HTYP" == "pop" ] || [ "$HTYP" == "csim" ] || [ "$HTYP" == "cice" ] ; then

@@ -141,11 +141,11 @@ case "$PROCHOST" in
 
   euclid* )                                # euclid @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
-    UUID=/usr/common/homes/s/strandwg/bin/ncks     ; export UUID
-    NCKS=/usr/common/homes/s/strandwg/bin/ncks     ; export NCKS
-    NCRCAT=/usr/common/homes/s/strandwg/bin/ncrcat ; export NCRCAT
-    NCATTED=/usr/common/homes/s/strandwg/bin/ncatted ; export NCATTED
-    NCARG_ROOT=/usr/common/usg/ncar/5.0.0          ; export NCARG_ROOT
+    UUID=/global/u2/s/strandwg/bin/ncks     ; export UUID
+    NCKS=/global/u2/s/strandwg/bin/ncks     ; export NCKS
+    NCRCAT=/global/u2/s/strandwg/bin/ncrcat ; export NCRCAT
+    NCATTED=/global/u2/s/strandwg/bin/ncatted ; export NCATTED
+    NCARG_ROOT=/usr/common/usg/ncar/5.2.0          ; export NCARG_ROOT
     PROCBASE=/global/scratch/sd/$USER/$CASE      ; export PROCBASE
     ;;
 
