@@ -172,7 +172,7 @@ case "$PROCHOST" in
     NCKS=/usr/common/homes/s/strandwg/bin/ncks     ; export NCKS
     NCRCAT=/usr/common/homes/s/strandwg/bin/ncrcat ; export NCRCAT
     NCARG_ROOT=/usr/common/usg/ncar/5.0.0          ; export NCARG_ROOT
-    PROCBASE=/scratch/scratchdirs/$USER/$CASE      ; export PROCBASE
+    PROCBASE=/global/scratch/sd/$USER/$CASE      ; export PROCBASE
     if [ $DO_CMIP -ne 0 ] ; then
       if [ "$HTYP" == "pop" ] || [ "$HTYP" == "csim" ] || [ "$HTYP" == "cice" ] ; then
         REGRDIR=/nersc/mp9/strandwg/CCP_Processing_Suite/ocn/CCSM ; export REGRDIR

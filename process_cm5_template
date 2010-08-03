@@ -70,7 +70,7 @@ MSSCMIP=$MSSBASE/CMIP5
 PROCHOST=`hostname`;export PROCHOST
 #
 if [ "$LOCATION" = "NE" ] ; then
-  if [ "$PROCHOST" != "euclid" ] ; then
+  if [ "`echo $PROCHOST | cut -c1-6`" != "euclid" ] ; then
     echo "Add "$PROCHOST" for location "$LOCATION
     exit 1
   fi
@@ -146,7 +146,7 @@ case "$PROCHOST" in
     NCRCAT=/usr/common/homes/s/strandwg/bin/ncrcat ; export NCRCAT
     NCATTED=/usr/common/homes/s/strandwg/bin/ncatted ; export NCATTED
     NCARG_ROOT=/usr/common/usg/ncar/5.0.0          ; export NCARG_ROOT
-    PROCBASE=/scratch/scratchdirs/$USER/$CASE      ; export PROCBASE
+    PROCBASE=/global/scratch/sd/$USER/$CASE      ; export PROCBASE
     ;;
 
   lens* )                                # lens @ ORNL
