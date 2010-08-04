@@ -473,12 +473,13 @@ if [ $? -eq 0 ] ; then
           exit 1
         fi
       fi
-    if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
-       ./concatenate_data $YEAREND
-       if [ $? -ne 0 ] ; then
-         echo "concatenate_data "${YEAREND}" failed"
-         exit 1
-       fi
+      if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
+        ./concatenate_data $YEAREND
+        if [ $? -ne 0 ] ; then
+          echo "concatenate_data "${YEAREND}" failed"
+          exit 1
+        fi
+      fi
     fi
   else
     echo "concatenate_data A failed"
