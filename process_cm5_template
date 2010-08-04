@@ -55,7 +55,7 @@ case "$LOCATION" in
   NC )                                        # NCAR experiments
     MSSBASE=/CCSM/csm               ;;
   NE )                                        # NERSC experiments
-    MSSBASE=/home/projects/CCSM/csm ;;
+    MSSBASE=/home/c/ccsm/csm        ;;
   OR )                                        # ORNL experiments
     MSSBASE=/f2/ccsm/csm            ;;
   * )
