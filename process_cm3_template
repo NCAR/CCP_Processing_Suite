@@ -562,6 +562,8 @@ done
 #
 # Concatenate years -> all (if possible)
 #
+echo "Final concatenating of "$CASE"."$HIST" at "`date`
+./concatenate_data Y
 ./concatenate_data A
 if [ $? -eq 0 ] ; then
 #
