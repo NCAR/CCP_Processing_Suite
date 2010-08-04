@@ -335,6 +335,7 @@ if [ $DO_PROC -ne 0 ] ; then
   ln -s -f $BASEDIR/var_year_to_dec .
   ln -s -f $BASEDIR/var_year_to_5yr .
   ln -s -f $BASEDIR/var_year_to_all .
+  ln -s -f $BASEDIR/add_year        .
 fi
 #
 ln -s -f $BASEDIR/concatenate_data    .
@@ -461,13 +462,37 @@ done
 #
 echo "Final concatenating of "$CASE"."$HIST" at "`date`
 ./concatenate_data Y
-./concatenate_data A
 if [ $? -eq 0 ] ; then
+  ./concatenate_data A
+  if [ $? -eq 0 ] ; then
+    if [ "$YEAREND" = "2100" ] || [ "$YEAREND" = "2005" ] ; then
+      if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
+        ./concatenate_data $YEAREND
+        if [ $? -ne 0 ] ; then
+          echo "concatenate_data "${YEAREND}" failed"
+          exit 1
+        fi
+      fi
+    if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
+       ./concatenate_data $YEAREND
+       if [ $? -ne 0 ] ; then
+         echo "concatenate_data "${YEAREND}" failed"
+         exit 1
+       fi
+    fi
+  else
+    echo "concatenate_data A failed"
+    exit 1
+  fi
+else
+  echo "concatenate_data Y failed"
+  exit 1
+fi
 #
 # Store completed data on archival system
 #
-  ./store_to_archive
-else
-  echo "Error from concatenate_all"
+./store_to_archive
+if [ $? -ne 0 ] ; then
+  echo "store_to_archive failed"
   exit 1
 fi

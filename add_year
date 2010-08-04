@@ -1,0 +1,136 @@
+#!/bin/sh
+#
+# Add year of by-field CCSM netCDF to previous N year chunk
+# Assumes concatenated data already exists
+#
+if [ $# -ne 1 ] ; then
+  echo "Usage: add_year YEAR"
+  echo "YEAR required"
+  exit 1
+fi
+AYEAR=$1
+# 
+# Check for ncrcat
+#
+if [ ! $NCRCAT ] ; then
+  TEST4NCRCAT=`which ncrcat 2>&1`
+  if [ $? -eq 0 ] ; then
+    NCRCAT=`which ncrcat`
+  else
+    echo "NCRCAT not in PATH - UNDEFINED"
+    exit 1
+  fi
+fi
+#
+# Parse filenames as needed
+#
+if [ "$AYEAR" = "2100" ] ; then
+  FILE=`ls | egrep "^CAT\." | egrep '\.209001\-209912\.nc$' | head -1`
+  FLEN=`echo $FILE | wc -c`
+  NDOT=0
+  CSTR=1
+  while [ $CSTR -le $FLEN ] ; do
+    CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+    if [ "$CURC" = "." ] ; then
+       NDOT=`expr '(' $NDOT ')' '+' '1'`
+    fi
+    CSTR=`expr '(' $CSTR ')' '+' '1'`
+  done
+  IDOT=1
+  DCAS=1
+  DVAR=1
+  DHT1=1
+  DHT2=1
+  while [ $IDOT -le $NDOT ] ; do
+    CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+    case "$CURC" in
+      cam2 | clm2 | pop | csim | cice )
+        DCAS=`expr '(' $IDOT ')' '-' '1'`
+        DVAR=`expr '(' $IDOT ')' '+' '1'`
+        DHT1=$IDOT ;;
+    esac
+    IDOT=`expr '(' $IDOT ')' '+' '1'`
+  done
+  DCMP=$DHT1
+  DHT2=`expr '(' $DHT1 ')' '+' '1'`
+  DVAR=`expr '(' $DVAR ')' '+' '1'`
+  DTIM=`expr '(' $DVAR ')' '+' '1'`
+#
+  CASES=`ls | egrep '\.209001\-209912\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
+   VARS=`ls | egrep '\.209001\-209912\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+   HTAP=`ls | egrep '\.209001\-209912\.nc$' | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
+   COMP=`ls | egrep '\.209001\-209912\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
+#
+  for c in $CASES ; do
+    for h in $HTAP ; do
+      for v in $VARS ; do
+        DF=CAT.${c}.${h}.${v}.209001-210012.nc
+        $NCRCAT -O CAT.${c}.${h}.${v}.209001-209912.nc ${c}.${h}.${v}.2100.nc $DF
+        if [ $? = 0 ] ; then
+          rm -f CAT.${c}.${h}.${v}.209001-209912.nc ${c}.${h}.${v}.2100.nc
+          echo "Concatenated "$DF
+        else
+          echo "Failure on concat of "${DF}
+          exit 1
+        fi
+      done
+    done
+  done
+fi
+#
+# Parse filenames as needed
+#
+if [ "$AYEAR" = "2005" ] ; then
+  FILE=`ls | egrep "^CAT\." | egrep '\.200001\-200412\.nc$' | head -1`
+  FLEN=`echo $FILE | wc -c`
+  NDOT=0
+  CSTR=1
+  while [ $CSTR -le $FLEN ] ; do
+    CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+    if [ "$CURC" = "." ] ; then
+       NDOT=`expr '(' $NDOT ')' '+' '1'`
+    fi
+    CSTR=`expr '(' $CSTR ')' '+' '1'`
+  done
+  IDOT=1
+  DCAS=1
+  DVAR=1
+  DHT1=1
+  DHT2=1
+  while [ $IDOT -le $NDOT ] ; do
+    CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+    case "$CURC" in
+      cam2 | clm2 | pop | csim | cice )
+        DCAS=`expr '(' $IDOT ')' '-' '1'`
+        DVAR=`expr '(' $IDOT ')' '+' '1'`
+        DHT1=$IDOT ;;
+    esac
+    IDOT=`expr '(' $IDOT ')' '+' '1'`
+  done
+  DCMP=$DHT1
+  DHT2=`expr '(' $DHT1 ')' '+' '1'`
+  DVAR=`expr '(' $DVAR ')' '+' '1'`
+  DTIM=`expr '(' $DVAR ')' '+' '1'`
+#
+  CASES=`ls | egrep '\.200001\-200412\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
+   VARS=`ls | egrep '\.200001\-200412\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+   HTAP=`ls | egrep '\.200001\-200412\.nc$' | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
+   COMP=`ls | egrep '\.200001\-200412\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
+#
+  for c in $CASES ; do
+    for h in $HTAP ; do
+      for v in $VARS ; do
+        DF=CAT.${c}.${h}.${v}.200001-200512.nc
+        $NCRCAT -O CAT.${c}.${h}.${v}.200001-200412.nc ${c}.${h}.${v}.2005.nc $DF
+        if [ $? = 0 ] ; then
+          rm -f CAT.${c}.${h}.${v}.200001-200412.nc ${c}.${h}.${v}.2005.nc
+          echo "Concatenated "$DF
+        else
+          echo "Failure on concat of "${DF}
+          exit 1
+        fi
+      done
+    done
+  done
+fi
+#
