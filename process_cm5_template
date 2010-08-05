@@ -441,6 +441,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
       fi
     fi
   fi
+  YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
   CHECKDEC=`expr $YEARNOW % 10`
   if [ $CHECKDEC -eq 0 ] ; then
     echo "Concatenating years at "${YEARNOW}" at "`date`
@@ -452,7 +453,6 @@ while [ $YEARNOW -le $YEAREND ] ; do
   if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
     ./concatenate_data D
   fi
-  YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
 done
 #
 # Concatenate months -> years, years -> all (if possible)
