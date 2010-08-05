@@ -12,7 +12,7 @@ ln -s -f ${BASEDIR}/mss_write .
 #
 #
 if [ $DO_PROC -ne 0 ] ; then
-  LAST=`ls -1 | egrep "^CAT\" | egrep "\.${CASE}\." | egrep '\.nc$' | tail -1`
+  LAST=`ls -1 | egrep "^CAT\." | egrep "\.${CASE}\." | egrep '\.nc$' | tail -1`
   while [ -f $LAST ] ; do
     for cfile in `ls CAT.${CASE}.*nc | head -5` ; do
       SFILE=`echo $cfile | sed -e 's/^CAT\.//g'`

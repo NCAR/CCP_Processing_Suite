@@ -397,17 +397,14 @@ while [ $YEARNOW -le $YEAREND ] ; do
         fi
       done
     else
-      for FILE in `ls $CASE.$HIST.${YEARNOW}-??-??-?????.nc` ; do
+      for FILE in `ls $CASE.$HIST.${YEARNOW}*.nc` ; do
         NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
         if [ $NTIMES -ne 365 ] ; then
           ./time_split $FILE erase
           ./days_to_month erase
-        else
-          TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g' | sed -e 's/\-01\-02\-00000//g'`
-          mv $FILE $TRIMD
         fi
       done
-      for FILE in `ls $CASE.$HIST.????-??.nc $CASE.$HIST.????.nc` ; do
+      for FILE in `ls $CASE.$HIST.${YEARNOW}*.nc` ; do
         if [ $DO_CMIP -ne 0 ] ; then
           ./create_cm5_data $FILE
           if [ $? -ne 0 ] ; then
@@ -434,13 +431,13 @@ while [ $YEARNOW -le $YEAREND ] ; do
         fi
       done
     fi
-    if [ `ls .comp.$CASE.$HIST.${YEARNOW} | wc -l` -eq 1 ] ; then
+    if [ `ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 1 ] ; then
       touch $YRCHECK
-      rm .????.$CASE.$HIST.${YEARNOW}.nc
+      rm .????.$CASE.$HIST.${YEARNOW}*.nc
     else
-      if [ `ls .comp.$CASE.$HIST.${YEARNOW}-??.nc | wc -l` -eq 12 ] ; then
+      if [ `ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 12 ] ; then
         touch $YRCHECK
-        rm .????.$CASE.$HIST.${YEARNOW}-??.nc
+        rm .????.$CASE.$HIST.${YEARNOW}*.nc
       fi
     fi
   fi
