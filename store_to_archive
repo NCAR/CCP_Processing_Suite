@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -xv
 #
 # Store data on archival system
 #
