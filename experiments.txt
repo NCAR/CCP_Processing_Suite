@@ -370,5 +370,6 @@ f40.1979_amip.track1.1deg.001          NC   amip                1    cm5  unknow
 f40.1979_amip.track1.2deg.001          NC   amip                1    cm5  unknown                       YYYY-MM-DD     1979 2005 f19_g16   bluefire  /CCSM/csm
 b40.rcp2_6.1deg.solar                  OR   rcp2.6X             1    cm5  unknown                       YYYY-MM-DD     2005 2100 f19_g16   jaguar    /home/slevis/csm
 b40.rcp2_6.1deg.desurbsp               OR   rcp2.6X             2    cm5  unknown                       YYYY-MM-DD     2005 2100 f19_g16   jaguar    /home/slevis/csm
-b40.rcp2_6.1deg.refdesurbsp            OR   rcp2.6X             3    cm5  unknown                       YYYY-MM-DD     2005 2100 f19_g16   jaguar    /home/slevis/csm
+b40.rcp2_6.1deg.refsop                 OR   rcp2.6X             3    cm5  unknown                       YYYY-MM-DD     2005 2100 f19_g16   jaguar    /home/slevis/csm
+b40.rcp2_6.1deg.refdesurbsp            OR   rcp2.6X             4    cm5  unknown                       YYYY-MM-DD     2005 2100 f19_g16   jaguar    /home/slevis/csm
 b40.f05x1.017                          NC   unknown             1    cm5  unknown                       YYYY-MM-DD     2005 2100 f05_g16   jaguar    /CCSM/csm
