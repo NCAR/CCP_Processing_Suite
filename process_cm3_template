@@ -174,7 +174,7 @@ case "$PROCHOST" in
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/fs/local/bin/ncks         ; export NCKS
     NCRCAT=/fs/local/bin/ncrcat     ; export NCRCAT
-    NCARG_ROOT=/fs/local/apps/ncl            ; export NCARG_ROOT
+    NCARG_ROOT=/fs/local/apps/ncl-5.2.0            ; export NCARG_ROOT
     PROCBASE=/ptmp/$USER/$CASE ; export PROCBASE
     if [ $DO_CMIP -ne 0 ] ; then
       if [ "$HTYP" == "pop" ] || [ "$HTYP" == "csim" ] || [ "$HTYP" == "cice" ] ; then
@@ -201,7 +201,7 @@ case "$PROCHOST" in
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/fs/local/bin/ncks         ; export NCKS
     NCRCAT=/fs/local/bin/ncrcat     ; export NCRCAT
-    NCARG_ROOT=/fs/local/apps/ncl            ; export NCARG_ROOT
+    NCARG_ROOT=/fs/local/apps/ncl-5.2.0            ; export NCARG_ROOT
     PROCBASE=/ptmp/$USER/$CASE ; export PROCBASE
     if [ $DO_CMIP -ne 0 ] ; then
       if [ "$HTYP" == "pop" ] || [ "$HTYP" == "csim" ] || [ "$HTYP" == "cice" ] ; then
