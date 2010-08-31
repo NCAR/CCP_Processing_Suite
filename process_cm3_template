@@ -53,11 +53,11 @@ MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
 case "$LOCATION" in
   NC )                                        # NCAR experiments
-    MSSBASE=/CCSM/csm/$CASE
+    MSSBASE=/CCSM/csm/$CASE ;;
   NE )                                        # NERSC experiments
-    MSSBASE=/nersc/mp9/strandwg/CCSM/csm/$CASE
+    MSSBASE=/nersc/mp9/strandwg/CCSM/csm/$CASE ;;
   OR )                                        # ORNL experiments
-    MSSBASE=/f2/ccsm/csm/$CASE
+    MSSBASE=/f2/ccsm/csm/$CASE ;;
   * )
     echo "Unable to set variables because "$LOCATION" not found in "$EXPFILE
     exit 1 ;;
