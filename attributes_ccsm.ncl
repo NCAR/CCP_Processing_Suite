@@ -563,6 +563,19 @@ begin
                 "oxidants         : oxid_128x256_L26_clim_c040112.nc"+n1+\
                 "SOx emissions    : SOx_emissions_B1_128x256_L2_1990-2100_c040608.nc"
     end if
+    if (description.eq."A1BAMIP_sstghg") then
+      glbAtt@experiment_id  = "720 ppm stabilization experiment (SRES A1B, AMIP style)"
+      forcing = "ozone forcing    : A1B.ozone.128x64_L18_1991-2100_c040528.nc"+n1+\
+                "aerosol optics   : AerosolOptics_c040105.nc"+n1+\
+                "aerosol MMR      : AerosolMass_V_128x256_clim_c031022.nc"+n1+\
+                "carbon scaling   : carbonscaling_A1B_1990-2100_c040609.nc"+n1+\
+                "solar forcing    : Fixed at 1366.5 W m-2"+n1+\
+                "GHGs             : ghg_ipcc_A1B_1870-2100_c040521.nc"+n1+\
+                "GHG loss rates   : noaamisc.r8.nc"+n1+\
+                "DMS emissions    : DMS_emissions_64x128_c030722.nc"+n1+\
+                "oxidants         : oxid_64x128_L26_clim_c050816.nc"+n1+\
+                "SOx emissions    : SOx_emissions_A1_64x128_L2_1990-2100_c050912.nc"
+    end if
 ;--------------------------------------------------------------------
 ; additional experiment-invariant global attributes
 ;--------------------------------------------------------------------
