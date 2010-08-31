@@ -59,95 +59,104 @@ case "$LOCATION" in
   OR )                                        # ORNL experiments
     MSSBASE=/f2/ccsm/csm/$CASE ;;
   * )
-    echo "Unable to set variables because "$LOCATION" not found in "$EXPFILE
-    exit 1 ;;
-esac
-export MSSBASE
-#
-# Check PROCHOST against LOCATION
-#
-PROCHOST=`hostname`;export PROCHOST
-#
-if [ "$LOCATION" = "NE" ] ; then
+    echo "Unable to set variables because "$LOCATION" not found in
+"$EXPFILE
+    exit 1 ;; esac export MSSBASE # # Check PROCHOST against LOCATION
+# PROCHOST=`hostname`;export PROCHOST # if [ "$LOCATION" = "NE" ] ;
+then
   if [ "`echo $PROCHOST | cut -c1-6`" != "euclid" ] ; then
     echo "Add "$PROCHOST" for location "$LOCATION
     exit 1
-  fi
-fi
-if [ "$LOCATION" = "NC" ] ; then
+  fi fi if [ "$LOCATION" = "NC" ] ; then
   if [ "$PROCHOST" != "copper.cgd.ucar.edu" ] && \
      [ "$PROCHOST" != "breeze" ] && \
      [ "$PROCHOST" != "gale" ] ; then
     echo "Add "$PROCHOST" for location "$LOCATION
     exit 1
-  fi
-fi
-if [ "$LOCATION" = "OR" ] ; then
+  fi fi if [ "$LOCATION" = "OR" ] ; then
   if [ "`echo $PROCHOST | cut -c1-4`" != "lens" ] ; then
     echo "Add "$PROCHOST" for location "$LOCATION
     exit 1
-  fi
-fi
-#
-# Strip off first part of $HIST
-#
-HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
-#
-# File archival locations
-#
-case "$HTYP" in
+  fi fi # # Strip off first part of $HIST # HTYP=`echo $HIST | cut
+-d'.' -f1` ; export HTYP # # File archival locations # case "$HTYP" in
   cam2 )
     MSSHIST=$HISTBASE/$CASE/atm/hist
     MSSCMIP=$MSSBASE/atm/ipcc/tseries
-    MSSPROC=$MSSBASE/atm/proc/tseries  ;;
-  clm2 ) 
+    MSSPROC=$MSSBASE/atm/proc/tseries ;;
+  clm2 )
     MSSHIST=$HISTBASE/$CASE/lnd/hist
     MSSCMIP=$MSSBASE/lnd/ipcc/tseries
-    MSSPROC=$MSSBASE/lnd/proc/tseries  ;;
-  pop  ) 
+    MSSPROC=$MSSBASE/lnd/proc/tseries ;;
+  pop )
     MSSHIST=$HISTBASE/$CASE/ocn/hist
     MSSCMIP=$MSSBASE/ocn/ipcc/tseries
-    MSSPROC=$MSSBASE/ocn/proc/tseries  ;;
-  csim ) 
+    MSSPROC=$MSSBASE/ocn/proc/tseries ;;
+  csim )
     MSSHIST=$HISTBASE/$CASE/ice/hist
     MSSCMIP=$MSSBASE/ice/ipcc/tseries
-    MSSPROC=$MSSBASE/ice/proc/tseries  ;;
-  cice ) 
+    MSSPROC=$MSSBASE/ice/proc/tseries ;;
+  cice )
     MSSHIST=$HISTBASE/$CASE/ice/hist
     MSSCMIP=$MSSBASE/ice/ipcc/tseries
-    MSSPROC=$MSSBASE/ice/proc/tseries  ;;
-  * ) 
+    MSSPROC=$MSSBASE/ice/proc/tseries ;;
+  * )
     echo "Unable to continue because "$HIST" not known."
-    exit 1 ;;
-esac
-#
-case "$TPER" in
+    exit 1 ;; esac # case "$TPER" in
   mon )
     MSSCMIP=${MSSCMIP}/monthly
-    MSSPROC=${MSSPROC}/monthly  ;;
+    MSSPROC=${MSSPROC}/monthly ;;
   day )
     MSSCMIP=${MSSCMIP}/daily
-    MSSPROC=${MSSPROC}/daily    ;;
+    MSSPROC=${MSSPROC}/daily ;;
   hr6 )
     MSSCMIP=${MSSCMIP}/hourly6
-    MSSPROC=${MSSPROC}/hourly6  ;;
+    MSSPROC=${MSSPROC}/hourly6 ;;
   hr3 )
     MSSCMIP=${MSSCMIP}/hourly3
-    MSSPROC=${MSSPROC}/hourly3  ;;
-  * ) 
+    MSSPROC=${MSSPROC}/hourly3 ;;
+  * )
     echo "Unable to continue because "$TPER" not known."
-    exit 1 ;;
-esac
-#
-# resolve machine/site dependencies
-#
-case "$PROCHOST" in 
-  copper* )                                # copper @ CGD/NCAR
+    exit 1 ;; esac # # resolve machine/site dependencies # case
+"$PROCHOST" in
+  copper* ) # copper @ CGD/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/local/bin/ncks         ; export NCKS
-    NCRCAT=/usr/local/bin/ncrcat     ; export NCRCAT
-    NCARG_ROOT=/contrib/ncarg            ; export NCARG_ROOT
+    NCKS=/usr/local/bin/ncks ; export NCKS
+    NCRCAT=/usr/local/bin/ncrcat ; export NCRCAT
+    NCARG_ROOT=/contrib/ncarg ; export NCARG_ROOT
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
+    if [ $DO_CMIP -ne 0 ] ; then
+      if [ "$HTYP" == "pop" ] || [ "$HTYP" == "csim" ] || [ "$HTYP" ==
+"cice" ] ; then
+        REGRDIR=/project/ccr/strandwg/CCP_Processing_Suite/ocn/CCSM ;
+export REGRDIR
+        NAMLDIR=$BASEDIR/regridding ; export NAMLDIR
+        if [ "$HTYP" == "pop" ] ; then
+          REGRID=$BASEDIR/regridding/ccsm_ocn_rgd.copper.cgd.ucar.edu
+; export REGRID
+          if [ ! -f $REGRID ] ; then
+            echo "Need to build OCN regridding code. Do that and
+re-run."
+            exit 1
+          fi
+        fi
+        if [ "$HTYP" == "csim" ] || [ "$HTYP" == "cice" ] ; then
+          REGRID=$BASEDIR/regridding/ccsm_ice_rgd.copper.cgd.ucar.edu
+; export REGRID
+          if [ ! -f $REGRID ] ; then
+            echo "Need to build ICE regridding code. Do that and
+re-run."
+            exit 1
+          fi
+        fi
+      fi
+    fi ;;
+
+  breeze* ) # gale/breeze @ CISL/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/fs/local/bin/ncks ; export NCKS
+    NCRCAT=/fs/local/bin/ncrcat ; export NCRCAT
+    NCARG_ROOT=/fs/local/apps/ncl   ; export NCARG_ROOT
+    PROCBASE=/ptmp/$USER/$CASE      ; export PROCBASE
     if [ $DO_CMIP -ne 0 ] ; then
       if [ "$HTYP" == "pop" ] || [ "$HTYP" == "csim" ] || [ "$HTYP" == "cice" ] ; then
         REGRDIR=/project/ccr/strandwg/CCP_Processing_Suite/ocn/CCSM ; export REGRDIR
@@ -169,10 +178,10 @@ case "$PROCHOST" in
       fi
     fi ;;
 
-  gale* breeze* )                                # gale/breeze @ CISL/NCAR
+  gale* ) # gale/breeze @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/fs/local/bin/ncks         ; export NCKS
-    NCRCAT=/fs/local/bin/ncrcat     ; export NCRCAT
+    NCKS=/fs/local/bin/ncks ; export NCKS
+    NCRCAT=/fs/local/bin/ncrcat ; export NCRCAT
     NCARG_ROOT=/fs/local/apps/ncl   ; export NCARG_ROOT
     PROCBASE=/ptmp/$USER/$CASE      ; export PROCBASE
     if [ $DO_CMIP -ne 0 ] ; then
