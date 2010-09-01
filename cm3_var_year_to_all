@@ -33,13 +33,12 @@ for m in $MODEL ; do
           if [ $YRCOUNT ] ; then
             NUM=`ls | egrep "^${v}_" | egrep "_${t}\." | egrep "\.${m}\." | egrep "\.${c}\." | egrep '\.....\.nc$' | wc -l`
             if [ $NUM = $YRCOUNT ] ; then
-              TS=`date '+%y%m%d'`
               Y1=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | head -1 | cut -d"." -f5 | cut -d"_" -f1`
               Y2=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | tail -1 | cut -d"." -f5 | cut -d"_" -f1`
               if [ "$t" == "A2" ] ; then
-                DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01-01_cat_${Y2}-12-31_c${TS}.nc
+                DF=${v}_${t}.${e}.${m}.${c}.${Y1}0101-${Y2}1231.nc
               else
-                DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01_cat_${Y2}-12_c${TS}.nc
+                DF=${v}_${t}.${e}.${m}.${c}.${Y1}01-${Y2}12.nc
               fi
               $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????.nc $DF
               if [ $? -eq 0 ] ; then
@@ -55,13 +54,12 @@ for m in $MODEL ; do
               exit 1
             fi
           else
-            TS=`date '+%y%m%d'`
             Y1=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | head -1 | cut -d"." -f5 | cut -d"_" -f1`
             Y2=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | tail -1 | cut -d"." -f5 | cut -d"_" -f1`
             if [ "$t" == "A2" ] ; then
-              DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01-01_cat_${Y2}-12-31_c${TS}.nc
+              DF=${v}_${t}.${e}.${m}.${c}.${Y1}0101-${Y2}1231.nc
             else
-              DF=${v}_${t}.${e}.${m}.${c}.${Y1}-01_cat_${Y2}-12_c${TS}.nc
+              DF=${v}_${t}.${e}.${m}.${c}.${Y1}01-${Y2}12.nc
             fi
             $NCRCAT -O ${v}_${t}.${e}.${m}.${c}.????.nc $DF
             if [ $? -eq 0 ] ; then

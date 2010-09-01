@@ -114,9 +114,18 @@ fi
 #
 if [ $DO_CMIP -ne 0 ] ; then
   cd ${PROCDIR}/CMIP
-  ./${CMIP}_var_mon_to_year
-  if [ $? -ne 0 ] ; then
-    echo "Error from "${CMIP}"_var_mon_to_year"
-    exit 1
+  if [ "$TCAT" = "Y" ] ; then
+    ./${CMIP}_var_mon_to_year
+    if [ $? -ne 0 ] ; then
+      echo "Error from "${CMIP}"_var_mon_to_year"
+      exit 1
+    fi
+  fi
+  if [ "$TCAT" = "A" ] ; then
+    ./${CMIP}_year_to_all
+    if [ $? -ne 0 ] ; then
+      echo "Error from "${CMIP}"_var_mon_to_year"
+      exit 1
+    fi
   fi
 fi

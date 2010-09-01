@@ -626,8 +626,9 @@ if [ $? -eq 0 ] ; then
 #
 # Store completed data on archival system
 #
-  ./store_to_archive
-else
-  echo "Error from concatenate_data A"
-  exit 1
+    ./store_to_archive
+  else
+    echo "Error from concatenate_data A"
+    exit 1
+  fi
 fi
