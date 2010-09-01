@@ -157,7 +157,9 @@ begin
                 "prw","huss","rsdt","snd","hfls","hfss",\
                 "rsut","rlut","rtmt","rsdscs","rsuscs","rldscs","rlutcs",\
                 "rsutcs","clt","clwvi","clivi",\
-                "cl","ta","ua","va","hus","wap","zg","hur","tro3"/)
+                "cl",\
+                "ta","ua","va","hus","wap","zg","hur","tro3",\
+                "taE","uaE","vaE","husE","wapE","zgE","hurE","tro3E"/)
   nvars = dimsizes(ipcc_vars)
   do v = 0,nvars - 1
     if (ipcc_vars(v).eq."psl") then
@@ -523,6 +525,27 @@ begin
       raw@units          = "K"
       raw@history        = "Interpolated T with NCL 'vinth2p_ecmwf'"
     end if
+   if (ipcc_vars(v).eq."taE") then
+      if (isfilevar(in_file, "TEMP")) then
+        raw = in_file->TEMP
+      end if
+      if (isfilevar(in_file, "T")) then
+        raw = in_file->T
+      end if
+      rawp = vinth2p_ecmwf(raw,hyam,hybm,plev,ps,1,P0mb,1,True,1,tbot,phis)
+      delete(raw)
+      raw                = rawp
+      delete(rawp)
+      delete(raw&plev)
+      raw&plev           = plev
+      raw&plev		 = plev
+      raw&plev           = plev*100.
+      raw@standard_name  = "air_temperature"
+      raw@original_name  = "T"
+      raw@original_units = "K"
+      raw@units          = "K"
+      raw@history        = "Interpolated T with NCL 'vinth2p_ecmwf', extrapolation below ground"
+    end if
     if (ipcc_vars(v).eq."cl") then
       if (isfilevar(in_file, "CLOUD")) then
         raw                = in_file->CLOUD(:,::-1,:,:)
@@ -544,7 +567,7 @@ begin
     if (ipcc_vars(v).eq."ua") then
       if (isfilevar(in_file,"U")) then
         raw = in_file->U
-        rawp = vinth2p_ecmwf(raw,hyam,hybm,plev,ps,1,P0mb,1,False,-1,tbot,phis)
+        rawp = vinth2p_ecmwf(raw,hyam,hybm,plev,ps,1,P0mb,1,False,0,tbot,phis)
         delete(raw)
         raw                = rawp
         delete(rawp)
@@ -556,6 +579,23 @@ begin
         raw@original_units = "m s-1"
         raw@units          = "m s-1"
         raw@history        = "Interpolated U with NCL 'vinth2p_ecmwf'"
+      end if
+    end if
+    if (ipcc_vars(v).eq."uaE") then
+      if (isfilevar(in_file,"U")) then
+        raw = in_file->U
+        rawp = vinth2p_ecmwf(raw,hyam,hybm,plev,ps,1,P0mb,1,True,0,tbot,phis)
+        delete(raw)
+        raw                = rawp
+        delete(rawp)
+        delete(raw&plev)
+        raw&plev		 = plev
+        raw&plev		 = plev*100.
+        raw@standard_name  = "eastward_wind"
+        raw@original_name  = "U"
+        raw@original_units = "m s-1"
+        raw@units          = "m s-1"
+        raw@history        = "Interpolated U with NCL 'vinth2p_ecmwf', extrapolation below ground"
       end if
     end if
     if (ipcc_vars(v).eq."va") then
@@ -575,8 +615,25 @@ begin
         raw@history        = "Interpolated V with NCL 'vinth2p_ecmwf'"
       end if
     end if
-    if (ipcc_vars(v).eq."hus") then
+    if (ipcc_vars(v).eq."vaE") then
       if (isfilevar(in_file,"V")) then
+        raw = in_file->V
+        rawp = vinth2p_ecmwf(raw,hyam,hybm,plev,ps,1,P0mb,1,True,0,tbot,phis)
+        delete(raw)
+        raw                = rawp
+        delete(rawp)
+        delete(raw&plev)
+        raw&plev		 = plev
+        raw&plev		 = plev*100.
+        raw@standard_name  = "northward_wind"
+        raw@original_name  = "V"
+        raw@original_units = "m s-1"
+        raw@units          = "m s-1"
+        raw@history        = "Interpolated V with NCL 'vinth2p_ecmwf', extrapolation below ground"
+      end if
+    end if
+    if (ipcc_vars(v).eq."hus") then
+      if (isfilevar(in_file,"Q")) then
         raw = in_file->Q
         rawp = vinth2p_ecmwf(raw,hyam,hybm,plev,ps,1,P0mb,1,False,0,tbot,phis)
         delete(raw)
@@ -590,6 +647,23 @@ begin
         raw@original_units = "kg kg-1"
         raw@units          = "1"
         raw@history        = "Interpolated Q with NCL 'vinth2p_ecmwf'"
+      end if
+    end if
+    if (ipcc_vars(v).eq."husE") then
+      if (isfilevar(in_file,"Q")) then
+        raw = in_file->Q
+        rawp = vinth2p_ecmwf(raw,hyam,hybm,plev,ps,1,P0mb,1,True,0,tbot,phis)
+        delete(raw)
+        raw                = rawp
+        delete(rawp)
+        delete(raw&plev)
+        raw&plev		 = plev
+        raw&plev		 = plev*100.
+        raw@standard_name  = "specific_humidity"
+        raw@original_name  = "Q"
+        raw@original_units = "kg kg-1"
+        raw@units          = "1"
+        raw@history        = "Interpolated Q with NCL 'vinth2p_ecmwf', extrapolation below ground"
       end if
     end if
     if (ipcc_vars(v).eq."wap") then
@@ -609,6 +683,23 @@ begin
         raw@history        = "Interpolated OMEGA with NCL 'vinth2p_ecmwf'"
       end if
     end if
+    if (ipcc_vars(v).eq."wapE") then
+      if (isfilevar(in_file,"OMEGA")) then
+        raw = in_file->OMEGA
+        rawp = vinth2p_ecmwf(raw,hyam,hybm,plev,ps,1,P0mb,1,True,0,tbot,phis)
+        delete(raw)
+        raw                = rawp
+        delete(rawp)
+        delete(raw&plev)
+        raw&plev		 = plev
+        raw&plev		 = plev*100.
+        raw@standard_name  = "lagrangian_tendency_of_air_pressure"
+        raw@original_name  = "OMEGA"
+        raw@original_units = "Pa s-1"
+        raw@units          = "Pa s-1"
+        raw@history        = "Interpolated OMEGA with NCL 'vinth2p_ecmwf', extrapolation below ground"
+      end if
+    end if
     if (ipcc_vars(v).eq."zg") then
       if (isfilevar(in_file,"Z3")) then
         raw = in_file->Z3
@@ -624,6 +715,23 @@ begin
         raw@original_units = "m"
         raw@units          = "m"
         raw@history        = "Interpolated Z3 with NCL 'vinth2p_ecmwf'"
+      end if
+    end if
+    if (ipcc_vars(v).eq."zgE") then
+      if (isfilevar(in_file,"Z3")) then
+        raw = in_file->Z3
+        rawp = vinth2p_ecmwf(raw,hyam,hybm,plev,ps,1,P0mb,1,True,-1,tbot,phis)
+        delete(raw)
+        raw                = rawp
+        delete(rawp)
+        delete(raw&plev)
+        raw&plev		 = plev
+        raw&plev		 = plev*100.
+        raw@standard_name  = "geopotential_height"
+        raw@original_name  = "Z3"
+        raw@original_units = "m"
+        raw@units          = "m"
+        raw@history        = "Interpolated Z3 with NCL 'vinth2p_ecmwf', extrapolation below ground"
       end if
     end if
     if (ipcc_vars(v).eq."hur") then
@@ -643,6 +751,23 @@ begin
         raw@history        = "Interpolated RELHUM with NCL 'vinth2p_ecmwf'"
       end if
     end if
+    if (ipcc_vars(v).eq."hurE") then
+      if (isfilevar(in_file,"RELHUM")) then
+        raw = in_file->RELHUM
+        rawp = vinth2p_ecmwf(raw,hyam,hybm,plev,ps,1,P0mb,1,True,0,tbot,phis)
+        delete(raw)
+        raw                = rawp
+        delete(rawp)
+        delete(raw&plev)
+        raw&plev		 = plev
+        raw&plev		 = plev*100.
+        raw@standard_name  = "relative_humidity"
+        raw@original_name  = "RELHUM"
+        raw@original_units = "percent"
+        raw@units          = "percent"
+        raw@history        = "Interpolated RELHUM with NCL 'vinth2p_ecmwf', extrapolation below ground"
+      end if
+    end if
     if (ipcc_vars(v).eq."tro3") then
       if (isfilevar(in_file,"O3")) then
         raw = in_file->O3
@@ -658,6 +783,23 @@ begin
         raw@original_units = "fraction"
         raw@units          = "1e-9"
         raw@history        = "Interpolated O3 with NCL 'vinth2p_ecmwf'"
+      end if
+    end if
+    if (ipcc_vars(v).eq."tro3E") then
+      if (isfilevar(in_file,"O3")) then
+        raw = in_file->O3
+        rawp = vinth2p_ecmwf(raw,hyam,hybm,plev,ps,1,P0mb,1,True,0,tbot,phis)
+        delete(raw)
+        raw                = rawp
+        delete(rawp)
+        delete(raw&plev)
+        raw&plev		 = plev
+        raw&plev		 = plev*100.
+        raw@standard_name  = "mole_fraction_of_o3_in_air"
+        raw@original_name  = "O3VMR"
+        raw@original_units = "fraction"
+        raw@units          = "1e-9"
+        raw@history        = "Interpolated O3 with NCL 'vinth2p_ecmwf', extrapolation below ground"
       end if
     end if
 
