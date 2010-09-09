@@ -22,7 +22,7 @@ else
 fi
 #
 if [ ! -f $FILE ] ; then
-   echo $FILE "not found. Exit."
+   echo $file "not found. Exit."
    exit 1
 fi
 # 
@@ -37,7 +37,6 @@ if [ ! $NCKS ] ; then
     exit 1
   fi
 fi
-echo $NCKS
 #
 # Parse filename
 #
