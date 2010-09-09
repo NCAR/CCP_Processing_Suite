@@ -49,3 +49,5 @@ if [ $DO_CMIP -ne 0 ] ; then
     fi
   fi
 fi
+#
+cd $PROCDIR

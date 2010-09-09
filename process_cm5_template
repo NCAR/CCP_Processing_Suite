@@ -449,9 +449,11 @@ while [ $YEARNOW -le $YEAREND ] ; do
   fi
   if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
     ./concatenate_data D
+    ./store_to_archive &
   fi
   if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
     ./concatenate_data D
+    ./store_to_archive &
   fi
 done
 #
@@ -462,20 +464,11 @@ echo "Final concatenating of "$CASE"."$HIST" at "`date`
 if [ $? -eq 0 ] ; then
   ./concatenate_data A
   if [ $? -eq 0 ] ; then
-    if [ "$YEAREND" = "2100" ] || [ "$YEAREND" = "2005" ] ; then
-      if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
-        ./concatenate_data $YEAREND
-        if [ $? -ne 0 ] ; then
-          echo "concatenate_data "${YEAREND}" failed"
-          exit 1
-        fi
-      fi
-      if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
-        ./concatenate_data $YEAREND
-        if [ $? -ne 0 ] ; then
-          echo "concatenate_data "${YEAREND}" failed"
-          exit 1
-        fi
+    if [ "$YEAREND" = "2100" ] || [ "$YEAREND" = "2005" ] || [ "$YEAREND" = "2060" ] ; then
+      ./concatenate_data $YEAREND
+      if [ $? -ne 0 ] ; then
+        echo "concatenate_data "${YEAREND}" failed"
+        exit 1
       fi
     fi
   else

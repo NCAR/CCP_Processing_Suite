@@ -61,7 +61,10 @@ for c in $CASES ; do
       for d in $DECS ; do
         NUM=`ls ${c}\.${h}\.${v}\.${d}?\.nc | wc -l`
         if [ $NUM -eq 10 ] ; then
-          DF=CAT.${c}.${h}.${v}.${d}001-${d}912.nc
+          if [ "$TPER" = "mon" ] DF=CAT.${c}.${h}.${v}.${d}001-${d}912.nc
+          if [ "$TPER" = "day" ] DF=CAT.${c}.${h}.${v}.${d}00101-${d}91231.nc
+          if [ "$TPER" = "hr6" ] DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123118Z.nc
+          if [ "$TPER" = "hr3" ] DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123121Z.nc
           if [ $DF ] ; then
             $NCRCAT -O ${c}.${h}.${v}.${d}?.nc $DF
             if [ $? -eq 0 ] ; then

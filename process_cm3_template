@@ -610,9 +610,11 @@ while [ $YEARNOW -le $YEAREND ] ; do
   fi
   if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
     ./concatenate_data D
+    ./store_to_archive &
   fi
   if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
     ./concatenate_data D
+    ./store_to_archive &
   fi
   YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
 done
@@ -621,14 +623,29 @@ done
 #
 echo "Final concatenating of "$CASE"."$HIST" at "`date`
 ./concatenate_data Y
-./concatenate_data A
 if [ $? -eq 0 ] ; then
+  ./concatenate_data A
+  if [ $? -eq 0 ] ; then
+    if [ "$YEAREND" = "2100" ] || [ "$YEAREND" = "2005" ] || [ "$YEAREND" = "2060" ] ; then
+      ./concatenate_data $YEAREND
+      if [ $? -ne 0 ] ; then
+        echo "concatenate_data "${YEAREND}" failed"
+        exit 1
+      fi
+    fi
+  else
+    echo "concatenate_data A failed"
+    exit 1
+  fi
+else
+  echo "concatenate_data Y failed"
+  exit 1
+fi
 #
 # Store completed data on archival system
 #
-    ./store_to_archive
-  else
-    echo "Error from concatenate_data A"
-    exit 1
-  fi
+./store_to_archive
+if [ $? -ne 0 ] ; then
+  echo "store_to_archive failed"
+  exit 1
 fi

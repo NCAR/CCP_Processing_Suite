@@ -37,6 +37,7 @@ if [ ! $NCKS ] ; then
     exit 1
   fi
 fi
+echo $NCKS
 #
 # Parse filename
 #
@@ -51,17 +52,30 @@ while [ $CSTR -le $FLEN ] ; do
   CSTR=`expr '(' $CSTR ')' '+' '1'`
 done
 IDOT=1
+DCAS=1
+DVAR=1
+DHT1=1
+DHT2=1
 DPFX=1
 DSFX=1
 while [ $IDOT -le $NDOT ] ; do
   CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
   case "$CURC" in
     cam2 | clm2 | pop | csim | cice )
+      DCAS=`expr '(' $IDOT ')' '-' '1'`
+      DVAR=`expr '(' $IDOT ')' '+' '1'`
       DPFX=`expr '(' $IDOT ')' '+' '1'`
-      DSFX=`expr '(' $DPFX ')' '+' '1'` ;;
+      DSFX=`expr '(' $DPFX ')' '+' '1'`
+      DHT1=$IDOT ;;
   esac
   IDOT=`expr '(' $IDOT ')' '+' '1'`
 done
+DCMP=$DHT1
+DHT2=`expr '(' $DHT1 ')' '+' '1'`
+DVAR=`expr '(' $DVAR ')' '+' '1'`
+DTIM=`expr '(' $DVAR ')' '+' '1'`
+#
+COMP=`echo $FILE | cut -d"." -f${DCMP}`
 OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
 OUTSFX=`echo $FILE | cut -d"." -f${DSFX}-`
 #
@@ -136,11 +150,17 @@ if [ `echo $FIELDS3D | wc -w` -ne 0 ] ; then
     if [ ! -d ${f}_3d.d ] ; then
       mkdir ${f}_3d.d
     fi
-    OUT=${f}_3d.d/${OUTPFX}.${f}.${OUTSFX}
-    $NCKS -O -v ${HEADER},${f} $FILE $OUT
-    if [ $? -ne 0 ] ; then
-      echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
-      exit 1
+    if [ "$COMP" = "cice" ] ; then
+      OUT=${f}_3d.d/${OUTPFX}.${f}_nh.${OUTSFX}
+      $NCKS -O -d nj,280,383 -v ${HEADER},${f} $FILE $OUT
+      OUT=${f}_3d.d/${OUTPFX}.${f}_sh.${OUTSFX}
+      $NCKS -O -d nj,0,75 -v ${HEADER},${f} $FILE $OUT
+    else
+      OUT=${f}_3d.d/${OUTPFX}.${f}.${OUTSFX}
+      if [ $? -ne 0 ] ; then
+        echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
+        exit 1
+      fi
     fi
   done
 fi
