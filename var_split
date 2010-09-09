@@ -156,6 +156,7 @@ if [ `echo $FIELDS3D | wc -w` -ne 0 ] ; then
       $NCKS -O -d nj,0,75 -v ${HEADER},${f} $FILE $OUT
     else
       OUT=${f}_3d.d/${OUTPFX}.${f}.${OUTSFX}
+      $NCKS -O -v ${HEADER},${f} $FILE $OUT
       if [ $? -ne 0 ] ; then
         echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
         exit 1
