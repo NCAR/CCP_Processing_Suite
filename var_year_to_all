@@ -19,6 +19,13 @@ if [ ! $NCRCAT ] ; then
     exit 1
   fi
 fi
+# 
+# Check for ncrcat
+#
+if [ ! $TPER ] ; then
+  echo "TPER undefined. Assume monthly"
+  TPER="mon" ; export TPER
+fi
 #
 # Parse first filename
 #
@@ -67,16 +74,16 @@ for c in $CASES ; do
           Y0=`ls ${c}.${h}.${v}.????.nc | head -1 | cut -d"." -f${DTIM}`
           Y1=`ls ${c}.${h}.${v}.????.nc | tail -1 | cut -d"." -f${DTIM}`
           if [ "$TPER" = "mon" ] ; then 
-            DF=CAT.${c}.${h}.${v}.${d}001-${d}912.nc
+            DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
           fi
           if [ "$TPER" = "day" ] ; then 
-            DF=CAT.${c}.${h}.${v}.${d}00101-${d}91231.nc
+            DF=CAT.${c}.${h}.${v}.${Y0}0101-${Y1}1231.nc
           fi
           if [ "$TPER" = "hr6" ] ; then 
-            DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123118Z.nc
+            DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123118Z.nc
           fi
           if [ "$TPER" = "hr3" ] ; then 
-            DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123121Z.nc
+            DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123121Z.nc
           fi
           $NCRCAT -O ${c}.${h}.${v}.????.nc $DF
           if [ $? = 0 ] ; then
@@ -94,16 +101,16 @@ for c in $CASES ; do
         Y0=`ls ${c}.${h}.${v}.????.nc | head -1 | cut -d"." -f${DTIM}`
         Y1=`ls ${c}.${h}.${v}.????.nc | tail -1 | cut -d"." -f${DTIM}`
         if [ "$TPER" = "mon" ] ; then 
-          DF=CAT.${c}.${h}.${v}.${d}001-${d}912.nc
+          DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
         fi
         if [ "$TPER" = "day" ] ; then 
-          DF=CAT.${c}.${h}.${v}.${d}00101-${d}91231.nc
+          DF=CAT.${c}.${h}.${v}.${Y0}0101-${Y1}1231.nc
         fi
         if [ "$TPER" = "hr6" ] ; then 
-          DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123118Z.nc
+          DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123118Z.nc
         fi
         if [ "$TPER" = "hr3" ] ; then 
-          DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123121Z.nc
+          DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123121Z.nc
         fi
         $NCRCAT -O ${c}.${h}.${v}.????.nc $DF
         if [ $? = 0 ] ; then
