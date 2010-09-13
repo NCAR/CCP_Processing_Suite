@@ -66,81 +66,52 @@ for c in $CASES ; do
         if [ $NUM = $YRCOUNT ] ; then
           Y0=`ls ${c}.${h}.${v}.????.nc | head -1 | cut -d"." -f${DTIM}`
           Y1=`ls ${c}.${h}.${v}.????.nc | tail -1 | cut -d"." -f${DTIM}`
-          if [ "$TPER" = "mon" ] DF=CAT.${c}.${h}.${v}.${d}001-${d}912.nc
-          if [ "$TPER" = "day" ] DF=CAT.${c}.${h}.${v}.${d}00101-${d}91231.nc
-          if [ "$TPER" = "hr6" ] DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123118Z.nc
-          if [ "$TPER" = "hr3" ] DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123121Z.nc
-          if [ "$COMP" = "cice" ] ; then
-            if [ "$TPER" = "mon" ] DF=CAT.${c}.${h}.${v}_nh.${d}001-${d}912.nc
-            if [ "$TPER" = "day" ] DF=CAT.${c}.${h}.${v}_nh.${d}00101-${d}91231.nc
-            $NCRCAT -d nj,280,383 -O ${c}.${h}.${v}.????.nc $DF
-            if [ $? = 0 ] ; then
-              echo "Concatenated "$DF" and checked year count: "$YRCOUNT
-              if [ "$TPER" = "mon" ] DF=CAT.${c}.${h}.${v}_sh.${d}001-${d}912.nc
-              if [ "$TPER" = "day" ] DF=CAT.${c}.${h}.${v}_sh.${d}00101-${d}91231.nc
-              $NCRCAT -d nj,0,75 -O ${c}.${h}.${v}.????.nc $DF
-              if [ $? = 0 ] ; then
-                echo "Concatenated "$DF" and checked year count: "$YRCOUNT
-                rm -f ${c}.${h}.${v}.????.nc
-              else 
-                echo "Failure on concat of "${c}"."${h}"."${v}" SH files"
-                exit 1
-              fi
-            else 
-              echo "Failure on concat of "${c}"."${h}"."${v}" NH files"
-              exit 1
-            fi
-          else
-            $NCRCAT -O ${c}.${h}.${v}.????.nc $DF
-            if [ $? = 0 ] ; then
-              rm -f ${c}.${h}.${v}.????.nc
-              echo "Concatenated "$DF" and checked year count: "$YRCOUNT
-            else
-              echo "Failure on concat of "${c}"."${h}"."${v}" files"
-              exit 1
-            fi
+          if [ "$TPER" = "mon" ] ; then 
+            DF=CAT.${c}.${h}.${v}.${d}001-${d}912.nc
           fi
-        else
-          echo "Missing year(s) from "${c}"."${h}"."${v}" files"
-          echo "Count is "$NUM" should be "$YRCOUNT
-#          exit 1
-        fi
-      else
-        Y0=`ls ${c}.${h}.${v}.????.nc | head -1 | cut -d"." -f${DTIM}`
-        Y1=`ls ${c}.${h}.${v}.????.nc | tail -1 | cut -d"." -f${DTIM}`
-        if [ "$TPER" = "mon" ] DF=CAT.${c}.${h}.${v}.${d}001-${d}912.nc
-        if [ "$TPER" = "day" ] DF=CAT.${c}.${h}.${v}.${d}00101-${d}91231.nc
-        if [ "$TPER" = "hr6" ] DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123118Z.nc
-        if [ "$TPER" = "hr3" ] DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123121Z.nc
-        if [ "$COMP" = "cice" ] ; then
-          if [ "$TPER" = "mon" ] DF=CAT.${c}.${h}.${v}_nh.${d}001-${d}912.nc
-          if [ "$TPER" = "day" ] DF=CAT.${c}.${h}.${v}_nh.${d}00101-${d}91231.nc
-          $NCRCAT -d nj,280,383 -O ${c}.${h}.${v}.????.nc $DF
-          if [ $? = 0 ] ; then
-            echo "Concatenated "$DF" and WITHOUT checking year count"
-            if [ "$TPER" = "mon" ] DF=CAT.${c}.${h}.${v}_sh.${d}001-${d}912.nc
-            if [ "$TPER" = "day" ] DF=CAT.${c}.${h}.${v}_sh.${d}00101-${d}91231.nc
-            $NCRCAT -d nj,0,75 -O ${c}.${h}.${v}.????.nc $DF
-            if [ $? = 0 ] ; then
-              echo "Concatenated "$DF" and WITHOUT checking year count"
-              rm -f ${c}.${h}.${v}.????.nc
-            else 
-              echo "Failure on concat of "${c}"."${h}"."${v}" SH files"
-              exit 1
-            fi
-          else 
-            echo "Failure on concat of "${c}"."${h}"."${v}" NH files"
-            exit 1
+          if [ "$TPER" = "day" ] ; then 
+            DF=CAT.${c}.${h}.${v}.${d}00101-${d}91231.nc
           fi
-        else
+          if [ "$TPER" = "hr6" ] ; then 
+            DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123118Z.nc
+          fi
+          if [ "$TPER" = "hr3" ] ; then 
+            DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123121Z.nc
+          fi
           $NCRCAT -O ${c}.${h}.${v}.????.nc $DF
           if [ $? = 0 ] ; then
             rm -f ${c}.${h}.${v}.????.nc
-            echo "Concatenated "$DF" and WITHOUT checking year count"
+            echo "Concatenated "$DF" and checked year count: "$YRCOUNT
           else
             echo "Failure on concat of "${c}"."${h}"."${v}" files"
             exit 1
           fi
+        else
+          echo "Missing year(s) from "${c}"."${h}"."${v}" files"
+          echo "Count is "$NUM" should be "$YRCOUNT
+        fi
+      else
+        Y0=`ls ${c}.${h}.${v}.????.nc | head -1 | cut -d"." -f${DTIM}`
+        Y1=`ls ${c}.${h}.${v}.????.nc | tail -1 | cut -d"." -f${DTIM}`
+        if [ "$TPER" = "mon" ] ; then 
+          DF=CAT.${c}.${h}.${v}.${d}001-${d}912.nc
+        fi
+        if [ "$TPER" = "day" ] ; then 
+          DF=CAT.${c}.${h}.${v}.${d}00101-${d}91231.nc
+        fi
+        if [ "$TPER" = "hr6" ] ; then 
+          DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123118Z.nc
+        fi
+        if [ "$TPER" = "hr3" ] ; then 
+          DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123121Z.nc
+        fi
+        $NCRCAT -O ${c}.${h}.${v}.????.nc $DF
+        if [ $? = 0 ] ; then
+          rm -f ${c}.${h}.${v}.????.nc
+          echo "Concatenated "$DF" and WITHOUT checking year count"
+        else
+          echo "Failure on concat of "${c}"."${h}"."${v}" files"
+          exit 1
         fi
       fi
     done
