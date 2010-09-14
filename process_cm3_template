@@ -603,11 +603,13 @@ echo "Final concatenating of "$CASE"."$HIST" at "`date`
 if [ $? -eq 0 ] ; then
   ./concatenate_data A
   if [ $? -eq 0 ] ; then
-    if [ "$YEAREND" = "2100" ] || [ "$YEAREND" = "2005" ] || [ "$YEAREND" = "2060" ] ; then
-      ./concatenate_data $YEAREND
-      if [ $? -ne 0 ] ; then
-        echo "concatenate_data "${YEAREND}" failed"
-        exit 1
+    if [ "$HIST" = "pop.h" ] ; then
+      if [ "$YEAREND" = "2100" ] || [ "$YEAREND" = "2005" ] || [ "$YEAREND" = "2060" ] ; then
+        ./concatenate_data $YEAREND
+        if [ $? -ne 0 ] ; then
+          echo "concatenate_data "${YEAREND}" failed"
+          exit 1
+        fi
       fi
     fi
   else
