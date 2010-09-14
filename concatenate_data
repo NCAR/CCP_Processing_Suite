@@ -3,7 +3,7 @@
 # Concatenate data as needed by argument
 #
 if [ $# -eq 0 ] ; then
-  echo "Usage: concatenate_data [Y|D|5|A|2100|2005] (required)"
+  echo "Usage: concatenate_data [Y|D|5|A|2100|2005|2060|2061] (required)"
   echo " Y: concatenate years     (from months)"
   echo " D: concatenate decades   (from years)"
   echo " 5: concatenate 5-years   (from years)"
@@ -19,14 +19,18 @@ if [ $# -eq 1 ] ; then
         if [ "$TCAT" != "A" ] ; then
           if [ "$TCAT" != "2100" ] ; then
             if [ "$TCAT" != "2005" ] ; then
-              echo $TCAT" not defined argument"
-              echo "Usage: concatenate_data [Y|D|5|A] (required)"
-              echo " Y: concatenate years     (from months)"
-              echo " D: concatenate decades   (from years)"
-              echo " 5: concatenate 5-years   (from years)"
-              echo " A: concatenate all years (from years)"
-              echo " #: add year # to pre-existing concatenated data"
-              exit 1
+              if [ "$TCAT" != "2060" ] ; then
+                if [ "$TCAT" != "2061" ] ; then
+                  echo $TCAT" not defined argument"
+                  echo "Usage: concatenate_data [Y|D|5|A|2100|2005|2060|2061] (required)"
+                  echo " Y: concatenate years     (from months)"
+                  echo " D: concatenate decades   (from years)"
+                  echo " 5: concatenate 5-years   (from years)"
+                  echo " A: concatenate all years (from years)"
+                  echo " #: add year # to pre-existing concatenated data"
+                  exit 1
+                fi
+              fi
             fi
           fi
         fi
