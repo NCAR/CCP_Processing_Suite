@@ -177,7 +177,7 @@ case "$PROCHOST" in
       fi
     fi ;;
 
-  tramhill* hurricane* )                                # tramhill/hurricane @ CGD/NCAR
+  tramhill* | hurricane* )                                # tramhill/hurricane @ CGD/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/local/bin/ncks         ; export NCKS
     NCRCAT=/usr/local/bin/ncrcat     ; export NCRCAT
