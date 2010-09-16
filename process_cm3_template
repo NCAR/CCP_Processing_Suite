@@ -78,7 +78,7 @@ case "$LOCATION" in
      esac ;;
   NC ) 
     case "$PROCHOST" in
-      copper* | breeze* | gale* | gust* | hail* | tramhill* | mirage* )
+      copper* | breeze* | gale* | gust* | hail* | tramhill* | mirage* | hurricane* )
         ;;
       * )
         echo "Add "$PROCHOST" for location "$LOCATION
@@ -177,7 +177,7 @@ case "$PROCHOST" in
       fi
     fi ;;
 
-  tramhill* )                                # tramhill @ CGD/NCAR
+  tramhill* hurricane* )                                # tramhill/hurricane @ CGD/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/local/bin/ncks         ; export NCKS
     NCRCAT=/usr/local/bin/ncrcat     ; export NCRCAT
