@@ -67,32 +67,35 @@ esac
 #
 PROCHOST=`hostname`;export PROCHOST
 #
-if [ "$LOCATION" = "NE" ] ; then
-  if [ "`echo $PROCHOST | cut -c1-6`" != "euclid" ] ; then
-    echo "Add "$PROCHOST" for location "$LOCATION
-    exit 1
-  fi
-fi
-if [ "$LOCATION" = "NC" ] ; then
-  if [ "$PROCHOST" != "copper.cgd.ucar.edu" ] ; then
-    if [ "$PROCHOST" != "breeze" ] ; then
-      if [ "$PROCHOST" != "gale" ] ; then
-        if [ "$PROCHOST" != "hail" ] ; then
-          if [ "$PROCHOST" != "gust" ] ; then
-            echo "Add "$PROCHOST" for location "$LOCATION
-            exit 1
-          fi
-        fi
-      fi
-    fi
-  fi
-fi
-if [ "$LOCATION" = "OR" ] ; then
-  if [ "`echo $PROCHOST | cut -c1-4`" != "lens" ] ; then
-    echo "Add "$PROCHOST" for location "$LOCATION
-    exit 1
-  fi
-fi
+case "$LOCATION" in
+  NE )
+    case "$PROCHOST" in
+      euclid* )
+        ;;
+      * )
+        echo "Add "$PROCHOST" for location "$LOCATION
+        exit 1
+     esac ;;
+  NC ) 
+    case "$PROCHOST" in
+      copper* | breeze* | gale* | gust* | hail* | tramhill* )
+        ;;
+      * )
+        echo "Add "$PROCHOST" for location "$LOCATION
+        exit 1
+      esac ;;
+  OR ) 
+    case "$PROCHOST" in
+      lens* )
+        ;;
+      * )
+        echo "Add "$PROCHOST" for location "$LOCATION
+        exit 1
+      esac ;;
+  * ) 
+    echo "Unable to continue because "$LOCATION" not known."
+    exit 1 ;;
+esac
 #
 # Strip off first part of $HIST
 #
@@ -153,6 +156,33 @@ case "$PROCHOST" in
     NCRCAT=/usr/local/bin/ncrcat     ; export NCRCAT
     NCARG_ROOT=/contrib/ncarg            ; export NCARG_ROOT
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
+    if [ $DO_CMIP -ne 0 ] ; then
+      if [ "$HTYP" == "pop" ] || [ "$HTYP" == "csim" ] || [ "$HTYP" == "cice" ] ; then
+        REGRDIR=/project/ccr/strandwg/CCP_Processing_Suite/ocn/CCSM ; export REGRDIR
+        NAMLDIR=$BASEDIR/regridding                            ; export NAMLDIR
+        if [ "$HTYP" == "pop" ] ; then
+          REGRID=$BASEDIR/regridding/ccsm_ocn_rgd.copper.cgd.ucar.edu ; export REGRID
+          if [ ! -f $REGRID ] ; then
+            echo "Need to build OCN regridding code. Do that and re-run."
+            exit 1
+          fi
+        fi
+        if [ "$HTYP" == "csim" ] || [ "$HTYP" == "cice" ] ; then
+          REGRID=$BASEDIR/regridding/ccsm_ice_rgd.copper.cgd.ucar.edu ; export REGRID
+          if [ ! -f $REGRID ] ; then
+            echo "Need to build ICE regridding code. Do that and re-run."
+            exit 1
+          fi
+        fi
+      fi
+    fi ;;
+
+  tramhill* )                                # tramhill @ CGD/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/usr/local/bin/ncks         ; export NCKS
+    NCRCAT=/usr/local/bin/ncrcat     ; export NCRCAT
+    NCARG_ROOT=/contrib/ncarg            ; export NCARG_ROOT
+    PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
     if [ $DO_CMIP -ne 0 ] ; then
       if [ "$HTYP" == "pop" ] || [ "$HTYP" == "csim" ] || [ "$HTYP" == "cice" ] ; then
         REGRDIR=/project/ccr/strandwg/CCP_Processing_Suite/ocn/CCSM ; export REGRDIR
