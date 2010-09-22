@@ -69,24 +69,35 @@ MSSCMIP=$MSSBASE/CMIP5
 #
 PROCHOST=`hostname`;export PROCHOST
 #
-if [ "$LOCATION" = "NE" ] ; then
-  if [ "`echo $PROCHOST | cut -c1-6`" != "euclid" ] ; then
-    echo "Add "$PROCHOST" for location "$LOCATION
-    exit 1
-  fi
-fi
-if [ "$LOCATION" = "NC" ] ; then
-  if [ "$PROCHOST" != "copper.cgd.ucar.edu" ] ; then
-    echo "Add "$PROCHOST" for location "$LOCATION
-    exit 1
-  fi
-fi
-if [ "$LOCATION" = "OR" ] ; then
-  if [ "`echo $PROCHOST | cut -c1-4`" != "lens" ] ; then
-    echo "Add "$PROCHOST" for location "$LOCATION
-    exit 1
-  fi
-fi
+case "$LOCATION" in
+  NE )
+    case "$PROCHOST" in
+      euclid* )
+        ;;
+      * )
+        echo "Add "$PROCHOST" for location "$LOCATION
+        exit 1
+     esac ;;
+  NC ) 
+    case "$PROCHOST" in
+      copper* | breeze* | gale* | gust* | hail* | tramhill* | mirage* | hurricane* )
+        ;;
+      * )
+        echo "Add "$PROCHOST" for location "$LOCATION
+        exit 1
+      esac ;;
+  OR ) 
+    case "$PROCHOST" in
+      lens* )
+        ;;
+      * )
+        echo "Add "$PROCHOST" for location "$LOCATION
+        exit 1
+      esac ;;
+  * ) 
+    echo "Unable to continue because "$LOCATION" not known."
+    exit 1 ;;
+esac
 #
 # Strip off first part of $HIST
 #
@@ -131,30 +142,40 @@ esac
 case "$PROCHOST" in 
   copper* )                                # copper @ CGD/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
-    UUID=/home/strandwg/bin/uuid         ; export UUID
     NCKS=/usr/local/bin/ncks         ; export NCKS
     NCRCAT=/usr/local/bin/ncrcat     ; export NCRCAT
-    NCATTED=/usr/local/bin/ncatted   ; export NCATTED
     NCARG_ROOT=/contrib/ncarg            ; export NCARG_ROOT
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
     ;;
 
+  tramhill* | hurricane* )                                # tramhill/hurricane @ CGD/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/usr/local/bin/ncks         ; export NCKS
+    NCRCAT=/usr/local/bin/ncrcat     ; export NCRCAT
+    NCARG_ROOT=/contrib/ncarg            ; export NCARG_ROOT
+    PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
+    ;;
+
+  breeze* | gale* | gust* | hail* | mirage* )                                # DASG @ CISL/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/fs/local/bin/ncks         ; export NCKS
+    NCRCAT=/fs/local/bin/ncrcat     ; export NCRCAT
+    NCARG_ROOT=/fs/local/apps/ncl-5.2.0            ; export NCARG_ROOT
+    PROCBASE=/ptmp/$USER/$CASE ; export PROCBASE
+    ;;
+
   euclid* )                                # euclid @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
-    UUID=/global/u2/s/strandwg/bin/ncks     ; export UUID
     NCKS=/global/u2/s/strandwg/bin/ncks     ; export NCKS
     NCRCAT=/global/u2/s/strandwg/bin/ncrcat ; export NCRCAT
-    NCATTED=/global/u2/s/strandwg/bin/ncatted ; export NCATTED
     NCARG_ROOT=/usr/common/usg/ncar/5.2.0          ; export NCARG_ROOT
     PROCBASE=/global/scratch/sd/$USER/$CASE      ; export PROCBASE
     ;;
 
   lens* )                                # lens @ ORNL
     BASEDIR=${HOME}/CCP_Processing_Suite
-    UUID=/ccs/home/wgstrand/bin/ncks                   ; export UUID
     NCKS=/ccs/home/wgstrand/bin/ncks                   ; export NCKS
     NCRCAT=/ccs/home/wgstrand/bin/ncrcat               ; export NCRCAT
-    NCATTED=/ccs/home/wgstrand/bin/ncatted             ; export NCATTED
     NCARG_ROOT=/sw/analysis-x64/ncl/5.0.0/sl5.0_binary ; export NCARG_ROOT
     PROCBASE=/tmp/work/$USER/$CASE                     ; export PROCBASE
     ;;
