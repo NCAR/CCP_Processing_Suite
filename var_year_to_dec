@@ -18,6 +18,13 @@ if [ ! $NCRCAT ] ; then
     exit 1
   fi
 fi
+# 
+# Check for TPER
+#
+if [ ! $TPER ] ; then
+  echo "TPER undefined. Assume daily"
+  TPER="day" ; export TPER
+fi
 #
 # Parse first filename
 #
@@ -59,12 +66,20 @@ for c in $CASES ; do
     for v in $VARS ; do
       DECS=`ls | egrep "${c}\.${h}\.${v}\.....\.nc" | cut -d"." -f${DTIM} | cut -c1-3 | sort | uniq`
       for d in $DECS ; do
-        NUM=`ls ${c}\.${h}\.${v}\.${d}?\.nc | wc -l`
+        NUM=`ls ${c}.${h}.${v}.${d}?.nc | wc -l`
         if [ $NUM -eq 10 ] ; then
-          if [ "$TPER" = "mon" ] DF=CAT.${c}.${h}.${v}.${d}001-${d}912.nc
-          if [ "$TPER" = "day" ] DF=CAT.${c}.${h}.${v}.${d}00101-${d}91231.nc
-          if [ "$TPER" = "hr6" ] DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123118Z.nc
-          if [ "$TPER" = "hr3" ] DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123121Z.nc
+          if [ "$TPER" = "mon" ] ; then 
+            DF=CAT.${c}.${h}.${v}.${d}001-${d}912.nc
+          fi
+          if [ "$TPER" = "day" ] ; then 
+            DF=CAT.${c}.${h}.${v}.${d}00101-${d}91231.nc
+          fi
+          if [ "$TPER" = "hr6" ] ; then 
+            DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123118Z.nc
+          fi
+          if [ "$TPER" = "hr3" ] ; then 
+            DF=CAT.${c}.${h}.${v}.${d}0010100Z-${d}9123121Z.nc
+          fi
           if [ $DF ] ; then
             $NCRCAT -O ${c}.${h}.${v}.${d}?.nc $DF
             if [ $? -eq 0 ] ; then
