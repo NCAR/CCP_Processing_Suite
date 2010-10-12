@@ -57,7 +57,7 @@ CASES=`ls | egrep '\.....\-..\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
 #
 if [ "$HIST" = "pop.h" ] ; then
   DYCK=`expr '(' $DHT2 ')' '+' '1'`
-  ODAY=`ls | egrep '\.....\-..\.nc$' | cut -d"." -f${ODAY} | sort | uniq`
+  ODAY=`ls | egrep '\.....\-..\.nc$' | cut -d"." -f${DYCK} | sort | uniq`
   if [ "$ODAY" = "nday1" ] ; then
     DHT2=`expr '(' $DHT2 ')' '+' '1'`
     DVAR=`expr '(' $DVAR ')' '+' '1'`
