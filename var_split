@@ -61,8 +61,6 @@ while [ $IDOT -le $NDOT ] ; do
   CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
   case "$CURC" in
     cam2 | clm2 | pop | csim | cice )
-      DCAS=`expr '(' $IDOT ')' '-' '1'`
-      DVAR=`expr '(' $IDOT ')' '+' '1'`
       DPFX=`expr '(' $IDOT ')' '+' '1'`
       DSFX=`expr '(' $DPFX ')' '+' '1'`
       DHT1=$IDOT ;;
@@ -70,11 +68,20 @@ while [ $IDOT -le $NDOT ] ; do
   IDOT=`expr '(' $IDOT ')' '+' '1'`
 done
 DCMP=$DHT1
-DHT2=`expr '(' $DHT1 ')' '+' '1'`
-DVAR=`expr '(' $DVAR ')' '+' '1'`
-DTIM=`expr '(' $DVAR ')' '+' '1'`
 #
 COMP=`echo $FILE | cut -d"." -f${DCMP}`
+#
+# Check to see if $FILE is a POP daily tape denoted by 'pop.h.nday1' string
+#
+if [ "$COMP" = "pop" ] ; then
+  DYCK=`expr '(' $DCMP ')' '+' '2'`
+  ODAY=`echo $FILE | cut -d"." -f${DYCK}`
+  if [ "$ODAY" = "nday1" ] ; then
+    DPFX=`expr '(' $DPFX ')' '+' '1'`
+    DSFX=`expr '(' $DSFX ')' '+' '1'`
+  fi
+fi
+#
 OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
 OUTSFX=`echo $FILE | cut -d"." -f${DSFX}-`
 #
