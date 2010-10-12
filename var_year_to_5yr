@@ -53,7 +53,21 @@ DTIM=`expr '(' $DVAR ')' '+' '1'`
 #
 CASES=`ls | egrep '\.....\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
  VARS=`ls | egrep '\.....\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
- HIST=`ls | egrep '\.....\.nc$' | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
+ HIST=`ls | egrep '\.....\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+#
+# Check for pop.h.nday1
+#
+if [ "$HIST" = "pop.h" ] ; then
+  DYCK=`expr '(' $DHT2 ')' '+' '1'`
+  ODAY=`ls | egrep '\.....\.nc$' | cut -d"." -f${DYCK} | sort | uniq`
+  if [ "$ODAY" = "nday1" ] ; then
+    DHT2=$DYCK
+    DVAR=`expr '(' $DVAR ')' '+' '1'`
+    DTIM=`expr '(' $DVAR ')' '+' '1'`
+    VARS=`ls | egrep '\.....\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+    HIST=`ls | egrep '\.....\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+  fi
+fi
 for c in $CASES ; do      
   for h in $HIST ; do
     for v in $VARS ; do
