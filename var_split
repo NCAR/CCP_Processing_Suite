@@ -85,12 +85,12 @@ fi
 OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
 OUTSFX=`echo $FILE | cut -d"." -f${DSFX}-`
 #
-D0VARS=`$NCKS -m $FILE | egrep "# dim\. = 0" | cut -d":" -f1`
-D1VARS=`$NCKS -m $FILE | egrep "# dim\. = 1" | cut -d":" -f1`
-D2VARS=`$NCKS -m $FILE | egrep "# dim\. = 2" | cut -d":" -f1`
-D3VARS=`$NCKS -m $FILE | egrep "# dim\. = 3" | cut -d":" -f1`
-D4VARS=`$NCKS -m $FILE | egrep "# dim\. = 4" | cut -d":" -f1`
-D5VARS=`$NCKS -m $FILE | egrep "# dim\. = 5" | cut -d":" -f1`
+D0VARS=`$NCKS -m $FILE | egrep "(0 dimensions|# dim\. = 0)" | cut -d":" -f1`
+D1VARS=`$NCKS -m $FILE | egrep "(1 dimensions|# dim\. = 1)" | cut -d":" -f1`
+D2VARS=`$NCKS -m $FILE | egrep "(2 dimensions|# dim\. = 2)" | cut -d":" -f1`
+D3VARS=`$NCKS -m $FILE | egrep "(3 dimensions|# dim\. = 3)" | cut -d":" -f1`
+D4VARS=`$NCKS -m $FILE | egrep "(4 dimensions|# dim\. = 4)" | cut -d":" -f1`
+D5VARS=`$NCKS -m $FILE | egrep "(5 dimensions|# dim\. = 5)" | cut -d":" -f1`
 #
 # Get auxiliary header fields
 #
