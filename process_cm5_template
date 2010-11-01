@@ -2,7 +2,6 @@
    HIST=xxxHISTxxx ; export HIST
    TPER=xxxTPERxxx ; export TPER
 DO_PROC=xxxPROCxxx ; export DO_PROC
-DO_CMIP=xxxCMIPxxx ; export DO_CMIP
 #
 # Template for processing CCSM history netCDF files into single-field format 
 # and/or CMIP format
@@ -156,7 +155,7 @@ case "$PROCHOST" in
     PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
     ;;
 
-  breeze* | gale* | gust* | hail* | mirage* )                                # DASG @ CISL/NCAR
+  mirage* )                                # DASG @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/fs/local/bin/ncks         ; export NCKS
     NCRCAT=/fs/local/bin/ncrcat     ; export NCRCAT
@@ -195,63 +194,6 @@ case "$HTYP" in
     exit 1 ;;
 esac
 #
-# For CMIP processing, get NCL script name
-#
-if [ $DO_CMIP -ne 0 ] ; then
-  NCL=${NCARG_ROOT}/bin/ncl ; export NCL
-  NCL_VERSION=`$NCL -V`     ; export NCL_VERSION
- case "$HTYP" in
-    cam2 ) 
-      case "$TPER" in
-        mon ) NCL_SCRIPT=CCSM_Amon_${CMIP}.ncl ;;
-        day ) NCL_SCRIPT=CCSM_da_${CMIP}.ncl   ;;
-        hr6 ) NCL_SCRIPT=CCSM_atm6_${CMIP}.ncl ;;
-        hr3 ) NCL_SCRIPT=CCSM_atm3_${CMIP}.ncl ;;
-        *   ) 
-          echo "Unable to continue because "$TPER" not known for NCL_SCRIPT."
-          exit 1 ;;
-      esac ;;
-    clm2 ) 
-      case "$TPER" in
-        mon ) NCL_SCRIPT=CCSM_Lmon_${CMIP}.ncl ;;
-        day ) NCL_SCRIPT=CCSM_lndd_${CMIP}.ncl ;;
-        hr6 ) NCL_SCRIPT=CCSM_lnd6_${CMIP}.ncl ;;
-        hr3 ) NCL_SCRIPT=CCSM_lnd3_${CMIP}.ncl ;;
-        *   ) 
-          echo "Unable to continue because "$TPER" not known for NCL_SCRIPT."
-          exit 1 ;;
-      esac ;;
-    pop  ) 
-      case "$TPER" in
-        mon ) NCL_SCRIPT=CCSM_Omon_${CMIP}.ncl ;;
-        day ) NCL_SCRIPT=CCSM_ocnd_${CMIP}.ncl ;;
-        hr6 ) NCL_SCRIPT=CCSM_ocn6_${CMIP}.ncl ;;
-        hr3 ) NCL_SCRIPT=CCSM_ocn3_${CMIP}.ncl ;;
-        *   ) 
-          echo "Unable to continue because "$TPER" not known for NCL_SCRIPT."
-          exit 1 ;;
-      esac ;;
-    cice | csim  ) 
-      case "$TPER" in
-        mon ) NCL_SCRIPT=CCSM_LImon_${CMIP}.ncl ;;
-        day ) NCL_SCRIPT=CCSM_iced_${CMIP}.ncl ;;
-        hr6 ) NCL_SCRIPT=CCSM_ice6_${CMIP}.ncl ;;
-        hr3 ) NCL_SCRIPT=CCSM_ice3_${CMIP}.ncl ;;
-        *   ) 
-          echo "Unable to continue because "$TPER" not known for NCL_SCRIPT."
-          exit 1 ;;
-      esac ;;
-    *   ) 
-      echo "Unable to continue because "$HTYP" not known for NCL_SCRIPT."
-      exit 1 ;;
-  esac
-  export NCL_SCRIPT
-  if [ ! -f ${BASEDIR}/${NCL_SCRIPT} ] ; then
-    echo "Unable to continue because "${BASEDIR}/${NCL_SCRIPT}" not found."
-    exit 1
-  fi
-fi
-#
 PROCDIR=${PROCDIR}/${TPER}
 CACHEDIR=${PROCDIR}/to_archive
 #
@@ -265,17 +207,7 @@ if [ $DO_PROC -ne 0 ] ; then
 else
   echo "   by var processing : NO"
 fi
-if [ $DO_CMIP -ne 0 ] ; then
-  if [ "$CMIP" != "---" ] ; then
-    echo "         CMIP format : "$CMIP        ; export CMIP
-    echo "                 NCL : "$NCL         ; export NCL
-    echo "         NCL version : "$NCL_VERSION ; export NCL_VERSION
-    echo "     NCL script name : "$NCL_SCRIPT  ; export NCL_SCRIPT
-    echo "   CMIP format files : "$MSSCMIP     ; export MSSCMIP
-  fi
-else
-  echo "     CMIP processing : NO"
-fi
+echo "     CMIP processing : NO"
 if [ "$LOCATION" = "NC" ] ; then
   HARDWARE=${HARDWARE}".ucar.edu"
 fi
@@ -314,35 +246,6 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $PROCDIR
 #
-if [ $DO_CMIP -ne 0 ] ; then
-  if [ ! -f ${BASEDIR}/${NCL_SCRIPT} ] ; then
-    echo "Unable to continue because "$NCL_SCRIPT" not found."
-    exit 1
-  fi
-#
-  if [ ! -d $PROCDIR/CMIP ] ; then
-     mkdir -p $PROCDIR/CMIP
-  fi
-  if [ "$TPER" != "mon" ] ; then
-    ln -s -f $BASEDIR/time_split    .
-    ln -s -f $BASEDIR/days_to_month .
-  fi
-  cd $PROCDIR
-  ln -s -f $BASEDIR/create_cm5_data     .
-  ln -s -f ${BASEDIR}/${NCL_SCRIPT}     .
-  ln -s -f $BASEDIR/attributes_ccsm.ncl .
-  ln -s -f $BASEDIR/mss_list   .
-  ln -s -f $BASEDIR/mss_read   .
-  ln -s -f $BASEDIR/mss_write  .
-  cd $PROCDIR/CMIP
-  ln -s -f $BASEDIR/mss_list   .
-  ln -s -f $BASEDIR/mss_read   .
-  ln -s -f $BASEDIR/mss_write  .
-  ln -s -f $BASEDIR/cm5_var_mon_to_year .
-  ln -s -f $BASEDIR/cm5_var_year_to_all .
-  cd $PROCDIR
-fi
-#
 if [ $DO_PROC -ne 0 ] ; then
   if [ "$TPER" != "mon" ] ; then
     ln -s -f $BASEDIR/time_split    .
@@ -375,34 +278,13 @@ while [ $YEARNOW -le $YEAREND ] ; do
       echo "Getting archival list of "$CASE" "$HIST
       ./mss_list $MSSLIST
     fi
-    if [ "$TPER" = "mon" ] ; then
-      if [ `ls ${CASE}.${HIST}.${YEARNOW}-??.nc | wc -l` -ne 12 ] ; then
-        ./mss_read $MSSLIST $YEARNOW
-        if [ $? -ne 0 ] ; then
-          echo "Error from mss_read"
-          exit 1
-        fi
-      fi
-    else
-      ./mss_read $MSSLIST $YEARNOW
-      if [ $? -ne 0 ] ; then
-        echo "Error from mss_read"
-        exit 1
-      fi
+    ./mss_read $MSSLIST $YEARNOW
+    if [ $? -ne 0 ] ; then
+      echo "Error from mss_read"
+      exit 1
     fi
     if [ "$TPER" = "mon" ] ; then
       for FILE in `ls $CASE.$HIST.${YEARNOW}-??.nc` ; do
-        if [ $DO_CMIP -ne 0 ] ; then
-          ./create_cm5_data $FILE
-          if [ $? -ne 0 ] ; then
-            echo "Error from create_cm5_data on file "$FILE
-            exit 1
-          fi
-          touch .cmip.$FILE
-          if [ $DO_PROC -eq 0 ] ; then
-            rm -f $FILE
-          fi
-        fi
         if [ $DO_PROC -ne 0 ] ; then
           ./var_split $FILE erase
           if [ $? -ne 0 ] ; then
@@ -412,9 +294,9 @@ while [ $YEARNOW -le $YEAREND ] ; do
             touch .proc.$FILE
           fi
         fi
-        if [ -f .proc.$FILE ] || [ -f .cmip.$FILE ] ; then
+        if [ -f .proc.$FILE ] ; then
           touch .comp.$FILE
-          rm -f .proc.$FILE .cmip.$FILE
+          rm -f .proc.$FILE
         fi
       done
     else
@@ -423,21 +305,12 @@ while [ $YEARNOW -le $YEAREND ] ; do
         if [ $NTIMES -ne 365 ] ; then
           ./time_split $FILE erase
           ./days_to_month erase
+        else
+          TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
+          mv $FILE $TRIMD
         fi
       done
       for FILE in `ls $CASE.$HIST.${YEARNOW}*.nc` ; do
-        if [ $DO_CMIP -ne 0 ] ; then
-          ./create_cm5_data $FILE
-          if [ $? -ne 0 ] ; then
-            echo "Error from create_cm5_data on file "$FILE
-            exit 1
-          else
-            touch .cmip.$FILE
-          fi
-          if [ $DO_PROC -eq 0 ] ; then
-            rm -f $FILE
-          fi
-        fi
         if [ $DO_PROC -ne 0 ] ; then
           ./var_split $FILE erase
           if [ $? -ne 0 ] ; then
@@ -447,7 +320,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
             touch .proc.$FILE
           fi
         fi
-        if [ -f .proc.$FILE ] || [ -f .cmip.$FILE ] ; then
+        if [ -f .proc.$FILE ] ; then
           touch .comp.$FILE
         fi
       done
@@ -470,11 +343,11 @@ while [ $YEARNOW -le $YEAREND ] ; do
   fi
   if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
     ./concatenate_data D
-    ./store_to_archive &
+    ./store_to_archive
   fi
   if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
     ./concatenate_data D
-    ./store_to_archive &
+    ./store_to_archive
   fi
 done
 #
