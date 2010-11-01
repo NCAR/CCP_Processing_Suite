@@ -306,8 +306,14 @@ while [ $YEARNOW -le $YEAREND ] ; do
           ./time_split $FILE erase
           ./days_to_month erase
         else
-          TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
-          mv $FILE $TRIMD
+          if [ "$HIST" = "cam2.h1" ] ; then
+            TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
+            mv $FILE $TRIMD
+          fi
+          if [ "$HIST" = "pop.h.nday1" ] ; then
+            TRIMD=`echo $FILE | sed -e 's/\-01\.nc/\.nc/g' | sed -e 's/\-02\.nc/\.nc/g'`
+            mv $FILE $TRIMD
+          fi
         fi
       done
       for FILE in `ls $CASE.$HIST.${YEARNOW}*.nc` ; do
