@@ -19,7 +19,7 @@ if [ $DO_PROC -ne 0 ] ; then
         else
           SFILE=`echo $cfile`
         fi
-        ../mss_write $SFILE $MSSPROC &
+        ../mss_write $SFILE $MSSPROC
       done
       wait
     done
@@ -33,7 +33,7 @@ if [ $DO_CMIP -ne 0 ] ; then
       LAST=`ls -1 *-*.nc | tail -1`
       while [ -f $LAST ] ; do
         for cfile in `ls *-*.nc | head -5` ; do
-          ../mss_write $cfile $MSSCMIP &
+          ../mss_write $cfile $MSSCMIP
         done
         wait
       done
@@ -42,7 +42,7 @@ if [ $DO_CMIP -ne 0 ] ; then
       LAST=`ls *nc | tail -1`
       while [ -f $LAST ] ; do
         for cfile in `ls *nc | head -5` ; do
-          ../mss_write $cfile $MSSCMIP &
+          ../mss_write $cfile $MSSCMIP
         done
         wait
       done
