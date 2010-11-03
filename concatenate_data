@@ -41,95 +41,99 @@ fi
 #
 cd $PROCDIR
 #
-if [ $DO_PROC -ne 0 ] ; then
-  cd ${PROCDIR}
-  if [ "$TCAT" = "Y" ] ; then
-    for e in `ls -d *d.d` ; do
-      cd ${PROCDIR}/${e}
-      ../var_mon_to_year
-      if [ $? -ne 0 ] ; then
-        echo "Error from var_mon_to_year"
-        exit 1
-      fi
-    done
-  fi
-  if [ "$TCAT" = "D" ] ; then
-    for e in `ls -d *4d.d` ; do
-      cd ${PROCDIR}/${e}
-      ../var_year_to_dec
-      if [ $? -ne 0 ] ; then
-        echo "Error from var_year_to_dec"
-        echo $CASE" "${HIST}" "${e}
-        exit 1
-      else
-        if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
-          mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
+if [ $DO_PROC ] ; then
+  if [ $DO_PROC -ne 0 ] ; then
+    cd ${PROCDIR}
+    if [ "$TCAT" = "Y" ] ; then
+      for e in `ls -d *d.d` ; do
+        cd ${PROCDIR}/${e}
+        ../var_mon_to_year
+        if [ $? -ne 0 ] ; then
+          echo "Error from var_mon_to_year"
+          exit 1
         fi
-      fi
-    done
-  fi
-  if [ "$TCAT" = "5" ] ; then
-    for e in `ls -d *d.d` ; do
-      cd ${PROCDIR}/${e}
-      ../var_year_to_5yr
-      if [ $? -ne 0 ] ; then
-        echo "Error from var_year_to_dec"
-        echo $CASE" "${HIST}" "${e}
-        exit 1
-      else
-        if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
-          mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
+      done
+    fi
+    if [ "$TCAT" = "D" ] ; then
+      for e in `ls -d *4d.d` ; do
+        cd ${PROCDIR}/${e}
+        ../var_year_to_dec
+        if [ $? -ne 0 ] ; then
+          echo "Error from var_year_to_dec"
+          echo $CASE" "${HIST}" "${e}
+          exit 1
+        else
+          if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
+            mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
+          fi
         fi
-      fi
-    done
-  fi
-  if [ "$TCAT" = "A" ] ; then
-    for e in `ls -d *d.d` ; do
-      cd ${PROCDIR}/${e}
-      ../var_year_to_all
-      if [ $? -ne 0 ] ; then
-        echo "Error from var_year_to_all"
-        echo $CASE" "${HIST}" "${e}
-        exit 1
-      else
-        if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
-          mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
+      done
+    fi
+    if [ "$TCAT" = "5" ] ; then
+      for e in `ls -d *d.d` ; do
+        cd ${PROCDIR}/${e}
+        ../var_year_to_5yr
+        if [ $? -ne 0 ] ; then
+          echo "Error from var_year_to_dec"
+          echo $CASE" "${HIST}" "${e}
+          exit 1
+        else
+          if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
+            mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
+          fi
         fi
-      fi
-    done
-  fi
-  if [ "$TCAT" = "2100" ] || [ "$TCAT" = "2005" ] || [ "$TCAT" = "2060" ] ; then
-    for e in `ls -d *d.d` ; do
-      cd ${PROCDIR}/${e}
-      ../add_year $TCAT
-      if [ $? -ne 0 ] ; then
-        echo "Error from add_year "${TCAT}
-        echo $CASE" "${HIST}" "${e}
-        exit 1
-      else
-        if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
-          mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
+      done
+    fi
+    if [ "$TCAT" = "A" ] ; then
+      for e in `ls -d *d.d` ; do
+        cd ${PROCDIR}/${e}
+        ../var_year_to_all
+        if [ $? -ne 0 ] ; then
+          echo "Error from var_year_to_all"
+          echo $CASE" "${HIST}" "${e}
+          exit 1
+        else
+          if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
+            mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
+          fi
         fi
-      fi
-    done
+      done
+    fi
+    if [ "$TCAT" = "2100" ] || [ "$TCAT" = "2005" ] || [ "$TCAT" = "2060" ] ; then
+      for e in `ls -d *d.d` ; do
+        cd ${PROCDIR}/${e}
+        ../add_year $TCAT
+        if [ $? -ne 0 ] ; then
+          echo "Error from add_year "${TCAT}
+          echo $CASE" "${HIST}" "${e}
+          exit 1
+        else
+          if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
+            mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
+          fi
+        fi
+      done
+    fi
+    cd ${PROCDIR}
   fi
-  cd ${PROCDIR}
 fi
 #
-if [ $DO_CMIP -ne 0 ] ; then
-  cd ${PROCDIR}/CMIP
-  if [ "$TCAT" = "Y" ] ; then
-    ./${CMIP}_var_mon_to_year
-    if [ $? -ne 0 ] ; then
-      echo "Error from "${CMIP}"_var_mon_to_year"
-      exit 1
+if [ $DO_CMIP ] ; then
+  if [ $DO_CMIP -ne 0 ] ; then
+    cd ${PROCDIR}/CMIP
+    if [ "$TCAT" = "Y" ] ; then
+      ./${CMIP}_var_mon_to_year
+      if [ $? -ne 0 ] ; then
+        echo "Error from "${CMIP}"_var_mon_to_year"
+        exit 1
+      fi
     fi
-  fi
-  if [ "$TCAT" = "A" ] ; then
-    ./${CMIP}_var_year_to_all
-    if [ $? -ne 0 ] ; then
-      echo "Error from "${CMIP}"_var_mon_to_year"
-      exit 1
+    if [ "$TCAT" = "A" ] ; then
+      ./${CMIP}_var_year_to_all
+      if [ $? -ne 0 ] ; then
+        echo "Error from "${CMIP}"_var_mon_to_year"
+        exit 1
+      fi
     fi
   fi
 fi

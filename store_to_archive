@@ -7,45 +7,49 @@ if [ $# -ne 0 ] ; then
   exit 1
 fi
 #
-if [ $DO_PROC -ne 0 ] ; then
-  cd $CACHEDIR
-  if [ `ls *.nc | wc -l` != 0 ] ; then
-    LAST=`ls -1 | egrep "\.${CASE}\." | egrep '\.nc$' | tail -1`
-    while [ -f $LAST ] ; do
-      for cfile in `ls *${CASE}.*nc | head -5` ; do
-        if [ `echo $cfile | cut -c1-4` == "CAT." ] ; then
-          SFILE=`echo $cfile | sed -e 's/^CAT\.//g'`
-          mv $cfile $SFILE
-        else
-          SFILE=`echo $cfile`
-        fi
-        ../mss_write $SFILE $MSSPROC
-      done
-      wait
-    done
-  fi
-fi
-#
-if [ $DO_CMIP -ne 0 ] ; then
-  cd $PROCDIR/CMIP
-  if [ `ls *.nc | wc -l` != 0 ] ; then
-    if [ "$CMIP" = "cm5" ] ; then
-      LAST=`ls -1 *-*.nc | tail -1`
+if [ $DO_PROC ] ; then
+  if [ $DO_PROC -ne 0 ] ; then
+    cd $CACHEDIR
+    if [ `ls *.nc | wc -l` != 0 ] ; then
+      LAST=`ls -1 | egrep "\.${CASE}\." | egrep '\.nc$' | tail -1`
       while [ -f $LAST ] ; do
-        for cfile in `ls *-*.nc | head -5` ; do
-          ../mss_write $cfile $MSSCMIP
+        for cfile in `ls *${CASE}.*nc | head -5` ; do
+          if [ `echo $cfile | cut -c1-4` == "CAT." ] ; then
+            SFILE=`echo $cfile | sed -e 's/^CAT\.//g'`
+            mv $cfile $SFILE
+          else
+            SFILE=`echo $cfile`
+          fi
+          ../mss_write $SFILE $MSSPROC
         done
         wait
       done
     fi
-    if [ "$CMIP" = "cm3" ] ; then
-      LAST=`ls *nc | tail -1`
-      while [ -f $LAST ] ; do
-        for cfile in `ls *nc | head -5` ; do
-          ../mss_write $cfile $MSSCMIP
+  fi
+fi
+#
+if [ $DO_CMIP ] ; then
+  if [ $DO_CMIP -ne 0 ] ; then
+    cd $PROCDIR/CMIP
+    if [ `ls *.nc | wc -l` != 0 ] ; then
+      if [ "$CMIP" = "cm5" ] ; then
+        LAST=`ls -1 *-*.nc | tail -1`
+        while [ -f $LAST ] ; do
+          for cfile in `ls *-*.nc | head -5` ; do
+            ../mss_write $cfile $MSSCMIP
+          done
+          wait
         done
-        wait
-      done
+      fi
+      if [ "$CMIP" = "cm3" ] ; then
+        LAST=`ls *nc | tail -1`
+        while [ -f $LAST ] ; do
+          for cfile in `ls *nc | head -5` ; do
+            ../mss_write $cfile $MSSCMIP
+          done
+          wait
+        done
+      fi
     fi
   fi
 fi

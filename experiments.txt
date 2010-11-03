@@ -20,14 +20,20 @@
 #234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 #CCSM case                             LC   Description         nnnn CMP  parent case                   branch date    beg  end  res       hardware  history file archive location
 #----------------------------------    --   ------------------- ---- ---  --------------------------    -----------    --------- --------- --------- -----------------------------------
+b30.031                                NC   PDcntrl             1    N/A  none                          0359-01-01     0359 0880 T31_gx3   bluesky   /CCSM/csm
 b30.004                                NC   PDcntrl             1    N/A  none                          0000-01-01     0001 0275 T42_gx1   bluesky   /CCSM/csm
 b30.009                                NC   PDcntrl             1    cm3  none                          0000-01-01     0100 0699 T85_gx1   bluesky   /CCSM/csm
 b30.013                                NC   PIcntrl             0    N/A  none                          0000-01-01     0001 0230 T85_gx1   bluesky   /CCSM/csm
 b30.017                                NC   PIcntrl             0    N/A  b30.013                       0231-01-01     0231 0279 T85_gx1   bluesky   /CCSM/csm
+b30.048                                NC   PIcntrl             1    N/A  none                          0400-01-01     0400 0553 T31_gx3   bluesky   /CCSM/csm
 b30.020                                NC   PIcntrl             1    cm3  b30.017                       0280-01-01     0280 0509 T85_gx1   bluesky   /CCSM/csm
 b30.020.ES01                           NC   PIcntrl             2    cm3  b30.020                       0300-01-01     0300 0429 T85_gx1   JAMSTEC   /CCSM/csm
 b30.020.ES02                           NC   PIcntrl             2    cm3  b30.020.ES01                  0430-01-01     0430 0799 T85_gx1   JAMSTEC   /CCSM/csm
 b30.025a.ES01                          NC   1%_to2x             1    N/A  b30.004                       0479-01-01     0479 0779 T42_gx1   JAMSTEC   /CCSM/csm
+b30.025b.ES01                          NC   1%_to4x             1    N/A  b30.025a.ES01                 0549-01-01     0549 0849 T42_gx1   JAMSTEC   /CCSM/csm
+b30.032                                NC   1%_to2x             1    N/A  b30.031                       0479-01-01     0479 0779 T31_gx1   bluesky   /CCSM/csm
+b30.032a                               NC   1%_to2x             1    N/A  b30.031                       0479-01-01     0479 0779 T31_gx1   bluesky   /CCSM/csm
+b30.032b                               NC   1%_to4x             1    N/A  b30.031                       0479-01-01     0479 0779 T31_gx1   bluesky   /CCSM/csm
 b30.025b.ES01                          NC   1%_to4x             1    N/A  b30.025a.ES01                 0549-01-01     0549 0849 T42_gx1   JAMSTEC   /CCSM/csm
 b30.026a.ES01                          NC   1%_to2x             1    cm3  b30.026.ES01                  0479-01-01     0480 0629 T85_gx1   JAMSTEC   /CCSM/csm
 b30.026b                               NC   1%_to4x             1    cm3  b30.026.ES01                  0549-01-01     0550 0699 T85_gx1   JAMSTEC   /CCSM/csm
@@ -44,7 +50,6 @@ b30.030f.ES01                          NC   20C3M               7    cm3  b30.02
 b30.030g.ES01                          NC   20C3M               8    cm3  b30.020.ES01                  0460-01-01     1870 1999 T85_gx1   JAMSTEC   /CCSM/csm
 b30.030h.ES01                          NC   20C3M               9    cm3  b30.020b.ES01                 0540-01-01     1870 1999 T85_gx1   JAMSTEC   /CCSM/csm
 b30.030h                               OR   20C3M               10   cm3  b20.020                       0540-01-01     1870 1999 T85_gx1   cheetah   /home/buja/mss/CCSM/csm
-b30.031                                NC   PDcntrl             1    N/A  none                          0359-01-01     0359 0880 T31_gx3   bluesky   /CCSM/csm
 b30.036a                               NC   Commit              1    cm3  b30.030a                      2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
 b30.036b                               NC   Commit              2    cm3  b30.030b                      2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
 b30.036c                               NC   Commit              3    cm3  b30.030c                      2000-01-01     2000 2099 T85_gx1   bluesky   /CCSM/csm
@@ -93,7 +98,6 @@ b30.045c                               OR   SRESB1              3    cm3  b30.04
 b30.045b.ES01                          NC   SRESB1              6    cm3  b30.041b.ES01                 2100-01-01     2100 2449 T85_gx1   JAMSTEC   /CCSM/csm
 b30.045f.ES01                          NC   SRESB1              7    cm3  b30.041f.ES01                 2100-01-01     2100 2349 T85_gx1   JAMSTEC   /CCSM/csm
 b30.045g.ES01                          NC   SRESB1              8    cm3  b30.041g.ES01                 2100-01-01     2100 2349 T85_gx1   JAMSTEC   /CCSM/csm
-b30.048                                NC   PIcntrl             1    N/A  none                          0400-01-01     0400 0553 T31_gx3   bluesky   /CCSM/csm
 b30.053a                               NE   20C3M_bc            1    cm3  b30.020                       0360-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
 b30.053b                               NE   20C3M_bc            2    cm3  b30.020                       0380-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
 b30.053c                               NE   20C3M_bc            3    cm3  b30.020                       0400-01-01     1870 1999 T85_gx1   seaborg   /nersc/mp9/adrianne/ccsm
