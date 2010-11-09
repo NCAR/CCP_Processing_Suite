@@ -310,7 +310,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
             TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
             mv $FILE $TRIMD
           fi
-          if [ "$HIST" = "pop.h.nday1" ] ; then
+          if [ "$HIST" = "pop.h.nday1" ] || [ "$HIST" = "pop.h2" ] ; then
             TRIMD=`echo $FILE | sed -e 's/\-01\.nc/\.nc/g' | sed -e 's/\-02\.nc/\.nc/g'`
             mv $FILE $TRIMD
           fi
