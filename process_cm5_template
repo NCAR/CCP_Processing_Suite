@@ -37,11 +37,19 @@ if [ -f $EXPFILE ] ; then
   HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
 else
   echo "Cannot find $EXPFILE. EXIT"
+#
+# ASB - procstat
+#
+  ./procstat.sh
   exit 1
 fi
 #
 if ! [ $LOCATION ] ; then
   echo "Unable to set variables because "$CASE" not found in $EXPFILE"
+#
+# ASB - procstat
+#
+  ./procstat.sh
   exit 1
 fi
 #
@@ -59,6 +67,10 @@ case "$LOCATION" in
     MSSBASE=/f2/ccsm/csm            ;;
   * )
     echo "Unable to set variables because "$LOCATION" not found in "$EXPFILE
+#
+# ASB - procstat
+#
+    ./procstat.sh
     exit 1 ;;
 esac
 export MSSBASE
@@ -75,6 +87,10 @@ case "$LOCATION" in
         ;;
       * )
         echo "Add "$PROCHOST" for location "$LOCATION
+#
+# ASB - procstat
+#
+        ./procstat.sh
         exit 1
      esac ;;
   NC ) 
@@ -83,6 +99,10 @@ case "$LOCATION" in
         ;;
       * )
         echo "Add "$PROCHOST" for location "$LOCATION
+#
+# ASB - procstat
+#
+        ./procstat.sh
         exit 1
       esac ;;
   OR ) 
@@ -91,10 +111,18 @@ case "$LOCATION" in
         ;;
       * )
         echo "Add "$PROCHOST" for location "$LOCATION
+#
+# ASB - procstat
+#
+        ./procstat.sh
         exit 1
       esac ;;
   * ) 
     echo "Unable to continue because "$LOCATION" not known."
+#
+# ASB - procstat
+#
+    ./procstat.sh
     exit 1 ;;
 esac
 #
@@ -119,6 +147,10 @@ case "$HTYP" in
     MSSPROC=$MSSBASE/$CASE/ice/proc/tseries  ;;
   * ) 
     echo "Unable to continue because "$HIST" not known."
+#
+# ASB - procstat
+#
+    ./procstat.sh
     exit 1 ;;
 esac
 #
@@ -133,6 +165,10 @@ case "$TPER" in
     MSSPROC=${MSSPROC}/hourly3  ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
+#
+# ASB - procstat
+#
+    ./procstat.sh
     exit 1 ;;
 esac
 #
@@ -180,6 +216,10 @@ case "$PROCHOST" in
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
+#
+# ASB - procstat
+#
+    ./procstat.sh
     exit 1 ;;
 esac
 #
@@ -191,6 +231,10 @@ case "$HTYP" in
   cice ) PROCDIR=$PROCBASE/ice ;;
   * ) 
     echo "Unable to continue because "$HIST" not known."
+#
+# ASB - procstat
+#
+    ./procstat.sh
     exit 1 ;;
 esac
 #
@@ -264,12 +308,18 @@ fi
 #
 ln -s -f $BASEDIR/concatenate_data    .
 ln -s -f $BASEDIR/store_to_archive    .
+ln -s -f $BASEDIR/procstat.sh         .
 #
 CURDIR=$PWD
 #
 cd $PROCDIR
 YEARNOW=$YEARBEG;export YEARNOW
 while [ $YEARNOW -le $YEAREND ] ; do
+#
+# ASB - procstat
+#
+  ./procstat.sh
+
   YRCHECK=.comp.$CASE.$HIST.$YEARNOW
   if [ ! -f $YRCHECK ] ; then
     echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
@@ -281,6 +331,10 @@ while [ $YEARNOW -le $YEAREND ] ; do
     ./mss_read $MSSLIST $YEARNOW
     if [ $? -ne 0 ] ; then
       echo "Error from mss_read"
+#
+# ASB - procstat
+#
+      ./procstat.sh
       exit 1
     fi
     if [ "$TPER" = "mon" ] ; then
@@ -289,6 +343,10 @@ while [ $YEARNOW -le $YEAREND ] ; do
           ./var_split $FILE erase
           if [ $? -ne 0 ] ; then
             echo "Error from var_split on file "$FILE
+#
+# ASB - procstat
+#
+            ./procstat.sh
             exit 1
           else
             touch .proc.$FILE
@@ -302,14 +360,15 @@ while [ $YEARNOW -le $YEAREND ] ; do
     else
       for FILE in `ls $CASE.$HIST.${YEARNOW}*.nc` ; do
         NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
-        if [ $NTIMES -ne 365 ] ; then
-          ./time_split $FILE erase
-          ./days_to_month erase
-        else
-          if [ "$HIST" = "cam2.h1" ] ; then
+        if [ "$HIST" = "cam2.h1" ] ; then
+          if [ $NTIMES -ne 365 ] ; then
+            ./time_split $FILE erase
+            ./days_to_month erase
+          else
             TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
             mv $FILE $TRIMD
           fi
+        else
           if [ "$HIST" = "pop.h.nday1" ] || [ "$HIST" = "pop.h2" ] ; then
             TRIMD=`echo $FILE | sed -e 's/\-01\.nc/\.nc/g' | sed -e 's/\-02\.nc/\.nc/g'`
             mv $FILE $TRIMD
@@ -321,6 +380,10 @@ while [ $YEARNOW -le $YEAREND ] ; do
           ./var_split $FILE erase
           if [ $? -ne 0 ] ; then
             echo "Error from var_split on file "$FILE
+#
+# ASB - procstat
+#
+            ./procstat.sh
             exit 1
           else
             touch .proc.$FILE
@@ -368,15 +431,27 @@ if [ $? -eq 0 ] ; then
       ./concatenate_data $YEAREND
       if [ $? -ne 0 ] ; then
         echo "concatenate_data "${YEAREND}" failed"
+#
+# ASB - procstat
+#
+        ./procstat.sh
         exit 1
       fi
     fi
   else
     echo "concatenate_data A failed"
+#
+# ASB - procstat
+#
+    ./procstat.sh
     exit 1
   fi
 else
   echo "concatenate_data Y failed"
+#
+# ASB - procstat
+#
+  ./procstat.sh
   exit 1
 fi
 #
@@ -385,5 +460,16 @@ fi
 ./store_to_archive
 if [ $? -ne 0 ] ; then
   echo "store_to_archive failed"
+#
+# ASB - procstat
+#
+  ./procstat.sh
   exit 1
 fi
+#
+# ASB - procstat
+#
+echo "COMPLETE : procstat"
+./procstat.sh
+
+
