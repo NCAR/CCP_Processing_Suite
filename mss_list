@@ -10,11 +10,12 @@ else
   MSSL=$1
 fi
 #
-# If NCAR MSS msrcp command exists, use it.
-TEST4MSRCP=`which msrcp 2<&1`
+# If NCAR MSS 'msls' command exists, use it.
+#
+TEST4MSLS=`which msls 2<&1`
 if [ $? -eq 0 ] ; then
    rm -f ABCXYZ
-   msls -project 93300014 -1R "$MSSHIST" >& ABCXYZ
+   msls -1 "$MSSHIST" >& ABCXYZ
    if [ $? -eq 0 ] ; then
      egrep "\.${HIST}\." ABCXYZ >& $MSSL
      rm -f ABCXYZ
@@ -24,6 +25,7 @@ if [ $? -eq 0 ] ; then
    fi
 #
 # If NERSC/ORNL hsi command exists, use it.
+#
 else
   TEST4HSI=`which hsi 2<&1`
   if [ $? -eq 0 ] ; then
@@ -37,7 +39,7 @@ else
       exit 1
     fi
   else
-    echo "Neither msrcp nor hsi exist."
+    echo "Neither msls nor hsi exist."
     exit 1
   fi
 fi

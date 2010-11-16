@@ -468,8 +468,9 @@ b40.rcp2_6.1deg.refdesurbsp            OR   rcp2.6X             4    cm5  unknow
 b40.f05x1.017                          NC   unknown             1    cm5  unknown                       YYYY-MM-DD     2005 2100 f05_g16   jaguar    /CCSM/csm
 b40.1955-2005.2deg.wcm.002             NC   historical          1    cm5  b40.20th.track1.2deg.wcm.007  1955-01-01     1955 2005 f19_g16   bluefire  /CCSM/csm
 b40.1955-2005.2deg.wcm.003             NC   historical          2    cm5  b40.20th.track1.2deg.wcm.007  1955-01-01     1955 2005 f19_g16   bluefire  /CCSM/csm
-b40.20th.1deg.fschem.003               NC   historical          1    cm5  trk1_1deg_chm_1850_b55.01     0150-01-01     1955 2005 f09_g16   bluefire  /CCSM/csm
-b40.20th.1deg.fschem.004               NC   historical          2    cm5  trk1_1deg_chm_1850_b55.01     0250-01-01     1955 2005 f09_g16   bluefire  /CCSM/csm
+b40.20th.1deg.fschem.002               NC   historical          1    cm5  trk1_1deg_chm_1850_b55.01     0150-01-01     1955 2005 f09_g16   bluefire  /CCSM/csm
+b40.20th.1deg.fschem.003               NC   historical          2    cm5  trk1_1deg_chm_1850_b55.01     0150-01-01     1955 2005 f09_g16   bluefire  /CCSM/csm
+b40.20th.1deg.fschem.004               NC   historical          3    cm5  trk1_1deg_chm_1850_b55.01     0250-01-01     1955 2005 f09_g16   bluefire  /CCSM/csm
 b40.20th.track1.2deg.wcm.007           NC   historical          1    cm5  b40.1850.track1.2deg.wcm.007  0156-01-01     1850 2005 f19_g16   bluefire  /CCSM/csm
 b40.abrupt4xco2.1deg.001               NC   abrupt4xCO2         1    cm5  b40.1850.track1.1deg.006      0251-01-01     1850 2000 f09_g16   bluefire  /CCSM/csm
 b40.lm850-1850.1deg.001                NC   past1000            1    cm5  b40.850hf.1deg.001            0953-01-01     0850 1849 f09_g16   bluefire  /CCSM/csm

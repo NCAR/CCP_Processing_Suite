@@ -100,6 +100,26 @@ case "$LOCATION" in
 esac
 #
 chmod +x $CCPS_SCRIPT
+echo ""
 echo $CCPS_SCRIPT" ready to run"
+echo ""
 #
-exit
+echo "Run script now? (Y only, all else NO)"
+read DORUN
+#
+if [ "$DORUN" = "Y" ] ; then
+  echo "Running "${CCPS_SCRIPT}
+  case "$LOCATION" in
+    NC )
+      ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
+    NE )
+      ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
+    OR ) 
+      ( /usr/bin/qsub ./${CCPS_SCRIPT} ) ;;
+    * )
+      echo "Unable to run script because "$LOCATION" not found in "$EXPFILE
+      exit 1 ;;
+  esac
+else
+  echo "Will not run "${CCPS_SCRIPT}
+fi

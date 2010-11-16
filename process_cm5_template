@@ -95,7 +95,7 @@ case "$LOCATION" in
      esac ;;
   NC ) 
     case "$PROCHOST" in
-      copper* | breeze* | gale* | gust* | hail* | tramhill* | mirage* | hurricane* )
+      copper* | tramhill* | mirage* | hurricane* )
         ;;
       * )
         echo "Add "$PROCHOST" for location "$LOCATION
