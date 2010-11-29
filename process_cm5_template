@@ -409,14 +409,20 @@ while [ $YEARNOW -le $YEAREND ] ; do
   if [ $CHECKDEC -eq 0 ] ; then
     echo "Concatenating years at "${YEARNOW}" at "`date`
     ./concatenate_data Y
-  fi
-  if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
-    ./concatenate_data D
-    ./store_to_archive
-  fi
-  if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
-    ./concatenate_data D
-    ./store_to_archive
+    if [ "$TPER" = "mon" ] ; then
+      if [ "$HIST" = "pop.h" ] ; then
+        ./concatenate_data D
+        ./store_to_archive
+      fi
+      if [ "$HIST" = "cam2.h0" ] ; then
+        ./concatenate_data D
+        ./store_to_archive
+      fi
+    fi
+    if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
+      ./concatenate_data D
+      ./store_to_archive
+    fi
   fi
 done
 #
