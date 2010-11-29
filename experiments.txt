@@ -473,7 +473,7 @@ b40.20th.1deg.fschem.003               NC   historical          2    cm5  trk1_1
 b40.20th.1deg.fschem.004               NC   historical          3    cm5  trk1_1deg_chm_1850_b55.01     0250-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
 b40.20th.track1.2deg.wcm.007           NC   historical          1    cm5  b40.1850.track1.2deg.wcm.007  0156-01-01     1850 2005 f19_g16   bluefire  /CCSM/csm
 b40.abrupt4xco2.1deg.001               NC   abrupt4xCO2         1    cm5  b40.1850.track1.1deg.006      0251-01-01     1850 2000 f09_g16   bluefire  /CCSM/csm
-b40.lm850-1850.1deg.001                NC   past1000            1    cm5  b40.850hf.1deg.001            0953-01-01     0850 1849 f09_g16   bluefire  /CCSM/csm
+b40.lm850-1850.1deg.001                NC   past1000            1    cm5  b40.850hf.1deg.001            0953-01-01     0850 1850 f09_g16   bluefire  /CCSM/csm
 b40.mh6ka.1deg.003                     NC   midHolocene         1    cm5  b40.1850.track1.1deg.006      0801-01-01     0801 1300 f09_g16   bluefire  /CCSM/csm
 b40.rcp4_5.2deg.wcm.001                NC   rcp4.5              1    cm5  b40.1955-2005.2deg.wcm.003    2005-01-01     2005 2050 f19_g16   bluefire  /CCSM/csm
 b40.rcp4_5.2deg.wcm.002                NC   rcp4.5              2    cm5  b40.1955-2005.2deg.wcm.003    2005-01-01     2005 2050 f19_g16   bluefire  /CCSM/csm
