@@ -404,7 +404,11 @@ while [ $YEARNOW -le $YEAREND ] ; do
       fi
     fi
   fi
-  YEARNOW=`expr $YEARNOW + 1`;export YEARNOW
+  YEARNOW=`expr $YEARNOW + 1`
+  if [ $YEARNOW -le 1000 ] ; then
+    YEARNOW=0${YEARNOW}
+  fi
+  export YEARNOW
   CHECKDEC=`expr $YEARNOW % 10`
   if [ $CHECKDEC -eq 0 ] ; then
     echo "Concatenating years at "${YEARNOW}" at "`date`
@@ -477,5 +481,3 @@ fi
 #
 echo "COMPLETE : procstat"
 ./procstat.sh
-
-
