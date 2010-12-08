@@ -405,7 +405,13 @@ while [ $YEARNOW -le $YEAREND ] ; do
     fi
   fi
   YEARNOW=`expr $YEARNOW + 1`
-  if [ $YEARNOW -le 1000 ] ; then
+  if [ $YEARNOW -lt 1000 ] ; then
+    YEARNOW=0${YEARNOW}
+  fi
+  if [ $YEARNOW -lt 100 ] ; then
+    YEARNOW=0${YEARNOW}
+  fi
+  if [ $YEARNOW -lt 10 ] ; then
     YEARNOW=0${YEARNOW}
   fi
   export YEARNOW
