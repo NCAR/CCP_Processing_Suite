@@ -453,7 +453,7 @@ b40.rcp2_6.1deg.solar                  OR   rcp2.6X             1    cm5  unknow
 b40.rcp2_6.1deg.desurbsp               OR   rcp2.6X             2    cm5  unknown                       YYYY-MM-DD     2005 2100 f09_g16   jaguar    /home/slevis/csm
 b40.rcp2_6.1deg.refsp                  OR   rcp2.6X             3    cm5  unknown                       YYYY-MM-DD     2005 2100 f09_g16   jaguar    /home/slevis/csm
 b40.rcp2_6.1deg.refdesurbsp            OR   rcp2.6X             4    cm5  unknown                       YYYY-MM-DD     2005 2100 f09_g16   jaguar    /home/slevis/csm
-b40.f05x1.017                          NC   unknown             1    cm5  unknown                       YYYY-MM-DD     2005 2100 f05_g16   jaguar    /CCSM/csm
+b40.f05x1.017                          NC   unknown             1    cm5  unknown                       YYYY-MM-DD     2005 2100 f05_g16   bluefire  /CCSM/csm
 b40.1955-2005.2deg.wcm.002             NC   historical          1    cm5  b40.20th.track1.2deg.wcm.007  1955-01-01     1955 2005 f19_g16   bluefire  /CCSM/csm
 b40.1955-2005.2deg.wcm.003             NC   historical          2    cm5  b40.20th.track1.2deg.wcm.007  1955-01-01     1955 2005 f19_g16   bluefire  /CCSM/csm
 b40.20th.1deg.fschem.002               NC   historical          1    cm5  trk1_1deg_chm_1850_b55.01     0150-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
@@ -466,142 +466,116 @@ b40.mh6ka.1deg.003                     NC   midHolocene         1    cm5  b40.18
 b40.rcp4_5.2deg.wcm.001                NC   rcp4.5              1    cm5  b40.1955-2005.2deg.wcm.003    2005-01-01     2005 2050 f19_g16   bluefire  /CCSM/csm
 b40.rcp4_5.2deg.wcm.002                NC   rcp4.5              2    cm5  b40.1955-2005.2deg.wcm.003    2005-01-01     2005 2050 f19_g16   bluefire  /CCSM/csm
 #----------------------------------    --   ------------------- ---- ---  --------------------------    -----------    --------- --------- --------- -----------------------------------
-b40.dp.hd-1961.20C.1d.001              OR   decadalXX           1    cm5  g.b29.01                      0194-01-01     1961 1990
-b40.dp.hd-1961.20C.1d.002              OR   decadalXX           2    cm5  g.b29.01                      0194-01-01     1961 1990
-b40.dp.hd-1961.20C.1d.003              OR   decadalXX           3    cm5  g.b29.01                      0194-01-01     1961 1990
-b40.dp.hd-1961.20C.1d.004              OR   decadalXX           4    cm5  g.b29.01                      0194-01-01     1961 1990
-b40.dp.hd-1961.20C.1d.005              OR   decadalXX           5    cm5  g.b29.01                      0194-01-01     1961 1990
-b40.dp.hd-1961.20C.1d.006              OR   decadalXX           6    cm5  g.b29.01                      0194-01-01     1961 1990
-b40.dp.hd-1961.20C.1d.007              OR   decadalXX           7    cm5  g.b29.01                      0194-01-01     1961 1990
-b40.dp.hd-1961.20C.1d.008              OR   decadalXX           8    cm5  g.b29.01                      0194-01-01     1961 1990
-b40.dp.hd-1961.20C.1d.009              OR   decadalXX           9    cm5  g.b29.01                      0194-01-01     1961 1990
-b40.dp.hd-1961.20C.1d.010              OR   decadalXX           10   cm5  g.b29.01                      0194-01-01     1961 1990
-b40.dp.hd-1966.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1966-01-01
-b40.dp.hd-1966.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1966-01-01
-b40.dp.hd-1966.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1966-01-01
-b40.dp.hd-1966.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1966-01-01
-b40.dp.hd-1966.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1966-01-01
-b40.dp.hd-1966.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1966-01-01
-b40.dp.hd-1966.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1966-01-01
-b40.dp.hd-1966.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1966-01-01
-b40.dp.hd-1966.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1966-01-01
-b40.dp.hd-1966.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1966-01-01
-b40.dp.hd-1971.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1971-01-01
-b40.dp.hd-1971.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1971-01-01
-b40.dp.hd-1971.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1971-01-01
-b40.dp.hd-1971.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1971-01-01
-b40.dp.hd-1971.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1971-01-01
-b40.dp.hd-1971.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1971-01-01
-b40.dp.hd-1971.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1971-01-01
-b40.dp.hd-1971.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1971-01-01
-b40.dp.hd-1971.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1971-01-01
-b40.dp.hd-1971.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1971-01-01
-b40.dp.hd-1976.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1976-01-01
-b40.dp.hd-1976.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1976-01-01
-b40.dp.hd-1976.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1976-01-01
-b40.dp.hd-1976.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1976-01-01
-b40.dp.hd-1976.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1976-01-01
-b40.dp.hd-1976.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1976-01-01
-b40.dp.hd-1976.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1976-01-01
-b40.dp.hd-1976.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1976-01-01
-b40.dp.hd-1976.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1976-01-01
-b40.dp.hd-1976.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1976-01-01
-b40.dp.hd-1981.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1981-01-01
-b40.dp.hd-1981.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1981-01-01
-b40.dp.hd-1981.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1981-01-01
-b40.dp.hd-1981.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1981-01-01
-b40.dp.hd-1981.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1981-01-01
-b40.dp.hd-1981.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1981-01-01
-b40.dp.hd-1981.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1981-01-01
-b40.dp.hd-1981.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1981-01-01
-b40.dp.hd-1981.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1981-01-01
-b40.dp.hd-1981.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1981-01-01
-b40.dp.hd-1986.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1986-01-01
-b40.dp.hd-1986.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1986-01-01
-b40.dp.hd-1986.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1986-01-01
-b40.dp.hd-1986.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1986-01-01
-b40.dp.hd-1986.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1986-01-01
-b40.dp.hd-1986.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1986-01-01
-b40.dp.hd-1986.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1986-01-01
-b40.dp.hd-1986.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1986-01-01
-b40.dp.hd-1986.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1986-01-01
-b40.dp.hd-1986.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1986-01-01
-b40.dp.hd-1991.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1991-01-01
-b40.dp.hd-1991.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1991-01-01
-b40.dp.hd-1991.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1991-01-01
-b40.dp.hd-1991.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1991-01-01
-b40.dp.hd-1991.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1991-01-01
-b40.dp.hd-1991.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1991-01-01
-b40.dp.hd-1991.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1991-01-01
-b40.dp.hd-1991.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1991-01-01
-b40.dp.hd-1991.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1991-01-01
-b40.dp.hd-1991.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1991-01-01
-b40.dp.hd-1996.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1996-01-01
-b40.dp.hd-1996.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1996-01-01
-b40.dp.hd-1996.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1996-01-01
-b40.dp.hd-2001.20C.1d.001              OR   decadalXX           1    cm5  unknown                       2001-01-01
-b40.dp.hd-2001.20C.1d.002              OR   decadalXX           2    cm5  unknown                       2001-01-01
-b40.dp.hd-2001.20C.1d.003              OR   decadalXX           3    cm5  unknown                       2001-01-01
-b40.dp.hd-2001.20C.1d.004              OR   decadalXX           4    cm5  unknown                       2001-01-01
-b40.dp.hd-2001.20C.1d.005              OR   decadalXX           5    cm5  unknown                       2001-01-01
-b40.dp.hd-2001.20C.1d.006              OR   decadalXX           6    cm5  unknown                       2001-01-01
-b40.dp.hd-2001.20C.1d.007              OR   decadalXX           7    cm5  unknown                       2001-01-01
-b40.dp.hd-2001.20C.1d.008              OR   decadalXX           8    cm5  unknown                       2001-01-01
-b40.dp.hd-2001.20C.1d.009              OR   decadalXX           9    cm5  unknown                       2001-01-01
-b40.dp.hd-2001.20C.1d.010              OR   decadalXX           10   cm5  unknown                       2001-01-01
-b40.dp.hd-1981.rcp4_5.1d.001
-b40.dp.hd-1981.rcp4_5.1d.002
-b40.dp.hd-1981.rcp4_5.1d.003
-b40.dp.hd-1981.rcp4_5.1d.004
-b40.dp.hd-1981.rcp4_5.1d.005
-b40.dp.hd-1981.rcp4_5.1d.006
-b40.dp.hd-1981.rcp4_5.1d.007
-b40.dp.hd-1981.rcp4_5.1d.008
-b40.dp.hd-1981.rcp4_5.1d.009
-b40.dp.hd-1981.rcp4_5.1d.010
-b40.dp.hd-2001.rcp4_5.1d.001
-b40.dp.hd-2001.rcp4_5.1d.002
-b40.dp.hd-2001.rcp4_5.1d.003
-b40.dp.hd-2001.rcp4_5.1d.004
-b40.dp.hd-2001.rcp4_5.1d.005
-b40.dp.hd-2001.rcp4_5.1d.006
-b40.dp.hd-2001.rcp4_5.1d.007
-b40.dp.hd-2001.rcp4_5.1d.008
-b40.dp.hd-2001.rcp4_5.1d.009
-b40.dp.hd-2001.rcp4_5.1d.010
-b40.dp.hd-2006.rcp4_5.1d.001
-b40.dp.hd-2006.rcp4_5.1d.002
-b40.dp.hd-2006.rcp4_5.1d.003
-b40.dp.hd-2006.rcp4_5.1d.004
-b40.dp.hd-2006.rcp4_5.1d.005
-b40.dp.hd-2006.rcp4_5.1d.006
-b40.dp.hd-2006.rcp4_5.1d.007
-b40.dp.hd-2006.rcp4_5.1d.008
-b40.dp.hd-2006.rcp4_5.1d.009
-b40.dp.hd-2006.rcp4_5.1d.010
-b40.dp.i1970.1deg.001
-b40.dp.i1970.1deg.002
-b40.dp.i1970.1deg.003
-b40.dp.i1970.1deg.004
-b40.dp.i1980.1deg.001
-b40.dp.i1980.1deg.002
-b40.dp.i1980.1deg.003
-b40.dp.i1980.1deg.004
-b40.dp.i1990.1deg.001
-b40.dp.i1990.1deg.002
-b40.dp.i1990.1deg.003
-b40.dp.i1990.1deg.004
-b40.dp.i2000.1deg.001
-b40.dp.i2000.1deg.002
-b40.dp.i2000.1deg.003
-b40.dp.i2000.1deg.004
-b40.dp.i2000.1deg.005
-b40.dp.i2000.1deg.006
-b40.dp.i2000.1deg.007
-b40.dp.i2000.1deg.008
-b40.dp.i2000.rcp4_5.1deg.005
-b40.dp.i2000.rcp4_5.1deg.006
-b40.dp.i2000.rcp4_5.1deg.007
-b40.dp.i2000.rcp4_5.1deg.008
-b40.dp-lvts.i2000.1deg.005
-b40.dp-lvts.i2000.rcp4_5.1deg.005
+b40.dp.hd-1961.20C.1d.001              OR   decadalXX           1    cm5  b40.20th.track1.1deg.011      1961-01-01     1961 1990 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1961.20C.1d.002              OR   decadalXX           2    cm5  b40.20th.track1.1deg.011      1961-01-01     1961 1990 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1961.20C.1d.003              OR   decadalXX           3    cm5  b40.20th.track1.1deg.011      1961-01-01     1961 1990 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1961.20C.1d.004              OR   decadalXX           4    cm5  b40.20th.track1.1deg.011      1961-01-01     1961 1990 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1961.20C.1d.005              OR   decadalXX           5    cm5  b40.20th.track1.1deg.011      1961-01-01     1961 1990 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1961.20C.1d.006              OR   decadalXX           6    cm5  b40.20th.track1.1deg.011      1961-01-01     1961 1990 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1961.20C.1d.007              OR   decadalXX           7    cm5  b40.20th.track1.1deg.011      1961-01-01     1961 1990 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1961.20C.1d.008              OR   decadalXX           8    cm5  b40.20th.track1.1deg.011      1961-01-01     1961 1990 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1961.20C.1d.009              OR   decadalXX           9    cm5  b40.20th.track1.1deg.011      1961-01-01     1961 1990 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1961.20C.1d.010              OR   decadalXX           10   cm5  b40.20th.track1.1deg.011      1961-01-01     1961 1990 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1966.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1966-01-01     1966 1975 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1966.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1966-01-01     1966 1975 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1966.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1966-01-01     1966 1975 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1966.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1966-01-01     1966 1975 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1966.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1966-01-01     1966 1975 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1966.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1966-01-01     1966 1975 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1966.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1966-01-01     1966 1975 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1966.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1966-01-01     1966 1975 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1966.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1966-01-01     1966 1975 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1966.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1966-01-01     1966 1975 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1971.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1971-01-01     1971 1980 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1971.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1971-01-01     1971 1980 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1971.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1971-01-01     1971 1980 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1971.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1971-01-01     1971 1980 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1971.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1971-01-01     1971 1980 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1971.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1971-01-01     1971 1980 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1971.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1971-01-01     1971 1980 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1971.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1971-01-01     1971 1980 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1971.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1971-01-01     1971 1980 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1971.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1971-01-01     1971 1980 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1976.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1976-01-01     1976 1985 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1976.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1976-01-01     1976 1985 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1976.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1976-01-01     1976 1985 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1976.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1976-01-01     1976 1985 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1976.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1976-01-01     1976 1985 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1976.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1976-01-01     1976 1985 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1976.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1976-01-01     1976 1985 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1976.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1976-01-01     1976 1985 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1976.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1976-01-01     1976 1985 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1976.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1976-01-01     1976 1985 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1981-01-01     1966 1975 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1981-01-01     1981 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1981-01-01     1981 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1981-01-01     1981 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1981-01-01     1981 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1981-01-01     1981 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1981-01-01     1981 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1981-01-01     1981 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1981-01-01     1981 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1981-01-01     1981 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1986.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1986-01-01     1986 1995 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1986.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1986-01-01     1986 1995 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1986.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1986-01-01     1986 1995 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1986.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1986-01-01     1986 1995 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1986.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1986-01-01     1986 1995 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1986.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1986-01-01     1986 1995 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1986.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1986-01-01     1986 1995 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1986.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1986-01-01     1986 1995 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1986.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1986-01-01     1986 1995 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1986.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1986-01-01     1986 1995 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1991.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1991-01-01     1991 2000 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1991.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1991-01-01     1991 2000 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1991.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1991-01-01     1991 2000 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1991.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1991-01-01     1991 2000 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1991.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1991-01-01     1991 2000 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1991.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1991-01-01     1991 2000 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1991.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1991-01-01     1991 2000 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1991.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1991-01-01     1991 2000 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1991.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1991-01-01     1991 2000 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1991.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1991-01-01     1991 2000 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1996.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1996-01-01     1996 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1996.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1996-01-01     1996 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1996.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1996-01-01     1996 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.20C.1d.001              OR   decadalXX           1    cm5  unknown                       2001-01-01     2001 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.20C.1d.002              OR   decadalXX           2    cm5  unknown                       2001-01-01     2001 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.20C.1d.003              OR   decadalXX           3    cm5  unknown                       2001-01-01     2001 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.20C.1d.004              OR   decadalXX           4    cm5  unknown                       2001-01-01     2001 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.20C.1d.005              OR   decadalXX           5    cm5  unknown                       2001-01-01     2001 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.20C.1d.006              OR   decadalXX           6    cm5  unknown                       2001-01-01     2001 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.20C.1d.007              OR   decadalXX           7    cm5  unknown                       2001-01-01     2001 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.20C.1d.008              OR   decadalXX           8    cm5  unknown                       2001-01-01     2001 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.20C.1d.009              OR   decadalXX           9    cm5  unknown                       2001-01-01     2001 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.20C.1d.010              OR   decadalXX           10   cm5  unknown                       2001-01-01     2001 2005 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.rcp4_5.1d.001           OR   decadalXX           1    cm5  b40.dp.hd-1981-20C.1d.001     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.rcp4_5.1d.002           OR   decadalXX           2    cm5  b40.dp.hd-1981-20C.1d.002     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.rcp4_5.1d.003           OR   decadalXX           3    cm5  b40.dp.hd-1981-20C.1d.003     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.rcp4_5.1d.004           OR   decadalXX           4    cm5  b40.dp.hd-1981-20C.1d.004     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.rcp4_5.1d.005           OR   decadalXX           5    cm5  b40.dp.hd-1981-20C.1d.005     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.rcp4_5.1d.006           OR   decadalXX           6    cm5  b40.dp.hd-1981-20C.1d.006     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.rcp4_5.1d.007           OR   decadalXX           7    cm5  b40.dp.hd-1981-20C.1d.007     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.rcp4_5.1d.008           OR   decadalXX           8    cm5  b40.dp.hd-1981-20C.1d.008     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.rcp4_5.1d.009           OR   decadalXX           9    cm5  b40.dp.hd-1981-20C.1d.009     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-1981.rcp4_5.1d.010           OR   decadalXX           10   cm5  b40.dp.hd-1981-20C.1d.010     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.rcp4_5.1d.001           OR   decadalXX           1    cm5  b40.dp.hd-2001-20C.1d.001     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.rcp4_5.1d.002           OR   decadalXX           2    cm5  b40.dp.hd-2001-20C.1d.002     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.rcp4_5.1d.003           OR   decadalXX           3    cm5  b40.dp.hd-2001-20C.1d.003     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.rcp4_5.1d.004           OR   decadalXX           4    cm5  b40.dp.hd-2001-20C.1d.004     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.rcp4_5.1d.005           OR   decadalXX           5    cm5  b40.dp.hd-2001-20C.1d.005     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.rcp4_5.1d.006           OR   decadalXX           6    cm5  b40.dp.hd-2001-20C.1d.006     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.rcp4_5.1d.007           OR   decadalXX           7    cm5  b40.dp.hd-2001-20C.1d.007     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.rcp4_5.1d.008           OR   decadalXX           8    cm5  b40.dp.hd-2001-20C.1d.008     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.rcp4_5.1d.009           OR   decadalXX           9    cm5  b40.dp.hd-2001-20C.1d.009     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2001.rcp4_5.1d.010           OR   decadalXX           10   cm5  b40.dp.hd-2001-20C.1d.010     2005-01-01     2005 2010 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2006.rcp4_5.1d.001           OR   decadalXX           1    cm5  b40.dp.hd-1981-20C.1d.001     2006-01-01     2006 2035 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2006.rcp4_5.1d.002           OR   decadalXX           2    cm5  b40.dp.hd-1981-20C.1d.002     2006-01-01     2006 2035 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2006.rcp4_5.1d.003           OR   decadalXX           3    cm5  b40.dp.hd-1981-20C.1d.003     2006-01-01     2006 2035 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2006.rcp4_5.1d.004           OR   decadalXX           4    cm5  b40.dp.hd-1981-20C.1d.004     2006-01-01     2006 2035 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2006.rcp4_5.1d.005           OR   decadalXX           5    cm5  b40.dp.hd-1981-20C.1d.005     2006-01-01     2006 2035 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2006.rcp4_5.1d.006           OR   decadalXX           6    cm5  b40.dp.hd-1981-20C.1d.006     2006-01-01     2006 2035 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2006.rcp4_5.1d.007           OR   decadalXX           7    cm5  b40.dp.hd-1981-20C.1d.007     2006-01-01     2006 2035 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2006.rcp4_5.1d.008           OR   decadalXX           8    cm5  b40.dp.hd-1981-20C.1d.008     2006-01-01     2006 2035 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2006.rcp4_5.1d.009           OR   decadalXX           9    cm5  b40.dp.hd-1981-20C.1d.009     2006-01-01     2006 2035 f09_g16   jaguar    /f2/ccsm/csm
+b40.dp.hd-2006.rcp4_5.1d.010           OR   decadalXX           10   cm5  b40.dp.hd-1981-20C.1d.010     2006-01-01     2006 2035 f09_g16   jaguar    /f2/ccsm/csm
