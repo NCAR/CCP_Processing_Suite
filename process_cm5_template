@@ -336,9 +336,20 @@ while [ $YEARNOW -le $YEAREND ] ; do
 #
       ./procstat.sh
       exit 1
+    else
+      if [ `/bin/ls $CASE.$HIST.*.tar | wc -l` ne 0 ] ; then
+        for TARFILE in `/bin/ls $CASE.$HIST.*.tar` ; do
+          tar xf $TARFILE
+          if [ $? -ne 0 ] ; then
+            echo "Error untarring "$TARFILE
+          else
+            rm -f $TARFILE
+          fi
+        done
+      fi
     fi
     if [ "$TPER" = "mon" ] ; then
-      for FILE in `ls $CASE.$HIST.${YEARNOW}-??.nc` ; do
+      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??.nc` ; do
         if [ $DO_PROC -ne 0 ] ; then
           ./var_split $FILE erase
           if [ $? -ne 0 ] ; then
@@ -358,7 +369,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
         fi
       done
     else
-      for FILE in `ls $CASE.$HIST.${YEARNOW}*.nc` ; do
+      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}*.nc` ; do
         NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
         if [ "$HIST" = "cam2.h1" ] ; then
           if [ $NTIMES -ne 365 ] ; then
@@ -375,7 +386,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
           fi
         fi
       done
-      for FILE in `ls $CASE.$HIST.${YEARNOW}*.nc` ; do
+      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}*.nc` ; do
         if [ $DO_PROC -ne 0 ] ; then
           ./var_split $FILE erase
           if [ $? -ne 0 ] ; then
@@ -394,11 +405,11 @@ while [ $YEARNOW -le $YEAREND ] ; do
         fi
       done
     fi
-    if [ `ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 1 ] ; then
+    if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 1 ] ; then
       touch $YRCHECK
       rm .????.$CASE.$HIST.${YEARNOW}*.nc
     else
-      if [ `ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 12 ] ; then
+      if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 12 ] ; then
         touch $YRCHECK
         rm .????.$CASE.$HIST.${YEARNOW}*.nc
       fi

@@ -442,22 +442,6 @@ b40.20th.ghg.1deg.006                  NE   historicalGHG       1    cm5  b40.18
 b40.20th.ghg.1deg.007                  NE   historicalGHG       2    cm5  b40.1850.track1.1deg.006      0983-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
 b40.20th.ghg.1deg.008                  NE   historicalGHG       3    cm5  b40.1850.track1.1deg.006      0937-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
 b40.20th.ghg.1deg.011                  NE   historicalGHG       4    cm5  b40.1850.track1.1deg.006      0910-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
-b40.dp.i1970.1deg.001                  OR   decadalXXX          1    cm5  unknown                       YYYY-MM-DD     1970 1979 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i1970.1deg.002                  OR   decadalXXX          2    cm5  unknown                       YYYY-MM-DD     1970 1979 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i1970.1deg.003                  OR   decadalXXX          3    cm5  unknown                       YYYY-MM-DD     1970 1979 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i1970.1deg.004                  OR   decadalXXX          4    cm5  unknown                       YYYY-MM-DD     1970 1979 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i1980.1deg.001                  OR   decadalXXX          1    cm5  unknown                       YYYY-MM-DD     1980 2005 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i1980.1deg.002                  OR   decadalXXX          2    cm5  unknown                       YYYY-MM-DD     1980 2005 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i1980.1deg.003                  OR   decadalXXX          3    cm5  unknown                       YYYY-MM-DD     1980 2005 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i1980.1deg.004                  OR   decadalXXX          4    cm5  unknown                       YYYY-MM-DD     1980 2005 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i1990.1deg.001                  OR   decadalXXX          1    cm5  unknown                       YYYY-MM-DD     1990 1999 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i1990.1deg.002                  OR   decadalXXX          2    cm5  unknown                       YYYY-MM-DD     1990 1999 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i1990.1deg.003                  OR   decadalXXX          3    cm5  unknown                       YYYY-MM-DD     1990 1999 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i1990.1deg.004                  OR   decadalXXX          4    cm5  unknown                       YYYY-MM-DD     1990 1999 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i2000.1deg.001                  OR   decadalXXX          1    cm5  unknown                       YYYY-MM-DD     2000 2005 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i2000.1deg.002                  OR   decadalXXX          2    cm5  unknown                       YYYY-MM-DD     2000 2005 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i2000.1deg.003                  OR   decadalXXX          3    cm5  unknown                       YYYY-MM-DD     2000 2005 f09_g16   jaguar    /f2/ccsm/csm
-b40.dp.i2000.1deg.004                  OR   decadalXXX          4    cm5  unknown                       YYYY-MM-DD     2000 2005 f09_g16   jaguar    /f2/ccsm/csm
 b40.coup_carb.004                      NC   pi-control          1    cm5  unknown                       YYYY-MM-DD     0001 0778 f09_g16   bluefire  /KLINDSAY/csm
 b40.prescribed_carb.001                NC   pi-control          1    cm5  unknown                       YYYY-MM-DD     0001 0730 f09_g16   bluefire  /KLINDSAY/csm
 trk1_1deg_chm_1850_b55.01              NC   pi-control          1    cm5  unknown                       YYYY-MM-DD     0070 0291 f09_g16   bluefire  /FVITT/csm
@@ -481,3 +465,143 @@ b40.lm850-1850.1deg.001                NC   past1000            1    cm5  b40.85
 b40.mh6ka.1deg.003                     NC   midHolocene         1    cm5  b40.1850.track1.1deg.006      0801-01-01     0801 1300 f09_g16   bluefire  /CCSM/csm
 b40.rcp4_5.2deg.wcm.001                NC   rcp4.5              1    cm5  b40.1955-2005.2deg.wcm.003    2005-01-01     2005 2050 f19_g16   bluefire  /CCSM/csm
 b40.rcp4_5.2deg.wcm.002                NC   rcp4.5              2    cm5  b40.1955-2005.2deg.wcm.003    2005-01-01     2005 2050 f19_g16   bluefire  /CCSM/csm
+#----------------------------------    --   ------------------- ---- ---  --------------------------    -----------    --------- --------- --------- -----------------------------------
+b40.dp.hd-1961.20C.1d.001              OR   decadalXX           1    cm5  g.b29.01                      0194-01-01     1961 1990
+b40.dp.hd-1961.20C.1d.002              OR   decadalXX           2    cm5  g.b29.01                      0194-01-01     1961 1990
+b40.dp.hd-1961.20C.1d.003              OR   decadalXX           3    cm5  g.b29.01                      0194-01-01     1961 1990
+b40.dp.hd-1961.20C.1d.004              OR   decadalXX           4    cm5  g.b29.01                      0194-01-01     1961 1990
+b40.dp.hd-1961.20C.1d.005              OR   decadalXX           5    cm5  g.b29.01                      0194-01-01     1961 1990
+b40.dp.hd-1961.20C.1d.006              OR   decadalXX           6    cm5  g.b29.01                      0194-01-01     1961 1990
+b40.dp.hd-1961.20C.1d.007              OR   decadalXX           7    cm5  g.b29.01                      0194-01-01     1961 1990
+b40.dp.hd-1961.20C.1d.008              OR   decadalXX           8    cm5  g.b29.01                      0194-01-01     1961 1990
+b40.dp.hd-1961.20C.1d.009              OR   decadalXX           9    cm5  g.b29.01                      0194-01-01     1961 1990
+b40.dp.hd-1961.20C.1d.010              OR   decadalXX           10   cm5  g.b29.01                      0194-01-01     1961 1990
+b40.dp.hd-1966.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1966-01-01
+b40.dp.hd-1966.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1966-01-01
+b40.dp.hd-1966.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1966-01-01
+b40.dp.hd-1966.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1966-01-01
+b40.dp.hd-1966.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1966-01-01
+b40.dp.hd-1966.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1966-01-01
+b40.dp.hd-1966.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1966-01-01
+b40.dp.hd-1966.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1966-01-01
+b40.dp.hd-1966.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1966-01-01
+b40.dp.hd-1966.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1966-01-01
+b40.dp.hd-1971.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1971-01-01
+b40.dp.hd-1971.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1971-01-01
+b40.dp.hd-1971.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1971-01-01
+b40.dp.hd-1971.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1971-01-01
+b40.dp.hd-1971.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1971-01-01
+b40.dp.hd-1971.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1971-01-01
+b40.dp.hd-1971.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1971-01-01
+b40.dp.hd-1971.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1971-01-01
+b40.dp.hd-1971.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1971-01-01
+b40.dp.hd-1971.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1971-01-01
+b40.dp.hd-1976.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1976-01-01
+b40.dp.hd-1976.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1976-01-01
+b40.dp.hd-1976.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1976-01-01
+b40.dp.hd-1976.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1976-01-01
+b40.dp.hd-1976.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1976-01-01
+b40.dp.hd-1976.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1976-01-01
+b40.dp.hd-1976.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1976-01-01
+b40.dp.hd-1976.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1976-01-01
+b40.dp.hd-1976.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1976-01-01
+b40.dp.hd-1976.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1976-01-01
+b40.dp.hd-1981.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1981-01-01
+b40.dp.hd-1981.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1981-01-01
+b40.dp.hd-1981.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1981-01-01
+b40.dp.hd-1981.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1981-01-01
+b40.dp.hd-1981.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1981-01-01
+b40.dp.hd-1981.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1981-01-01
+b40.dp.hd-1981.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1981-01-01
+b40.dp.hd-1981.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1981-01-01
+b40.dp.hd-1981.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1981-01-01
+b40.dp.hd-1981.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1981-01-01
+b40.dp.hd-1986.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1986-01-01
+b40.dp.hd-1986.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1986-01-01
+b40.dp.hd-1986.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1986-01-01
+b40.dp.hd-1986.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1986-01-01
+b40.dp.hd-1986.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1986-01-01
+b40.dp.hd-1986.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1986-01-01
+b40.dp.hd-1986.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1986-01-01
+b40.dp.hd-1986.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1986-01-01
+b40.dp.hd-1986.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1986-01-01
+b40.dp.hd-1986.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1986-01-01
+b40.dp.hd-1991.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1991-01-01
+b40.dp.hd-1991.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1991-01-01
+b40.dp.hd-1991.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1991-01-01
+b40.dp.hd-1991.20C.1d.004              OR   decadalXX           4    cm5  unknown                       1991-01-01
+b40.dp.hd-1991.20C.1d.005              OR   decadalXX           5    cm5  unknown                       1991-01-01
+b40.dp.hd-1991.20C.1d.006              OR   decadalXX           6    cm5  unknown                       1991-01-01
+b40.dp.hd-1991.20C.1d.007              OR   decadalXX           7    cm5  unknown                       1991-01-01
+b40.dp.hd-1991.20C.1d.008              OR   decadalXX           8    cm5  unknown                       1991-01-01
+b40.dp.hd-1991.20C.1d.009              OR   decadalXX           9    cm5  unknown                       1991-01-01
+b40.dp.hd-1991.20C.1d.010              OR   decadalXX           10   cm5  unknown                       1991-01-01
+b40.dp.hd-1996.20C.1d.001              OR   decadalXX           1    cm5  unknown                       1996-01-01
+b40.dp.hd-1996.20C.1d.002              OR   decadalXX           2    cm5  unknown                       1996-01-01
+b40.dp.hd-1996.20C.1d.003              OR   decadalXX           3    cm5  unknown                       1996-01-01
+b40.dp.hd-2001.20C.1d.001              OR   decadalXX           1    cm5  unknown                       2001-01-01
+b40.dp.hd-2001.20C.1d.002              OR   decadalXX           2    cm5  unknown                       2001-01-01
+b40.dp.hd-2001.20C.1d.003              OR   decadalXX           3    cm5  unknown                       2001-01-01
+b40.dp.hd-2001.20C.1d.004              OR   decadalXX           4    cm5  unknown                       2001-01-01
+b40.dp.hd-2001.20C.1d.005              OR   decadalXX           5    cm5  unknown                       2001-01-01
+b40.dp.hd-2001.20C.1d.006              OR   decadalXX           6    cm5  unknown                       2001-01-01
+b40.dp.hd-2001.20C.1d.007              OR   decadalXX           7    cm5  unknown                       2001-01-01
+b40.dp.hd-2001.20C.1d.008              OR   decadalXX           8    cm5  unknown                       2001-01-01
+b40.dp.hd-2001.20C.1d.009              OR   decadalXX           9    cm5  unknown                       2001-01-01
+b40.dp.hd-2001.20C.1d.010              OR   decadalXX           10   cm5  unknown                       2001-01-01
+b40.dp.hd-1981.rcp4_5.1d.001
+b40.dp.hd-1981.rcp4_5.1d.002
+b40.dp.hd-1981.rcp4_5.1d.003
+b40.dp.hd-1981.rcp4_5.1d.004
+b40.dp.hd-1981.rcp4_5.1d.005
+b40.dp.hd-1981.rcp4_5.1d.006
+b40.dp.hd-1981.rcp4_5.1d.007
+b40.dp.hd-1981.rcp4_5.1d.008
+b40.dp.hd-1981.rcp4_5.1d.009
+b40.dp.hd-1981.rcp4_5.1d.010
+b40.dp.hd-2001.rcp4_5.1d.001
+b40.dp.hd-2001.rcp4_5.1d.002
+b40.dp.hd-2001.rcp4_5.1d.003
+b40.dp.hd-2001.rcp4_5.1d.004
+b40.dp.hd-2001.rcp4_5.1d.005
+b40.dp.hd-2001.rcp4_5.1d.006
+b40.dp.hd-2001.rcp4_5.1d.007
+b40.dp.hd-2001.rcp4_5.1d.008
+b40.dp.hd-2001.rcp4_5.1d.009
+b40.dp.hd-2001.rcp4_5.1d.010
+b40.dp.hd-2006.rcp4_5.1d.001
+b40.dp.hd-2006.rcp4_5.1d.002
+b40.dp.hd-2006.rcp4_5.1d.003
+b40.dp.hd-2006.rcp4_5.1d.004
+b40.dp.hd-2006.rcp4_5.1d.005
+b40.dp.hd-2006.rcp4_5.1d.006
+b40.dp.hd-2006.rcp4_5.1d.007
+b40.dp.hd-2006.rcp4_5.1d.008
+b40.dp.hd-2006.rcp4_5.1d.009
+b40.dp.hd-2006.rcp4_5.1d.010
+b40.dp.i1970.1deg.001
+b40.dp.i1970.1deg.002
+b40.dp.i1970.1deg.003
+b40.dp.i1970.1deg.004
+b40.dp.i1980.1deg.001
+b40.dp.i1980.1deg.002
+b40.dp.i1980.1deg.003
+b40.dp.i1980.1deg.004
+b40.dp.i1990.1deg.001
+b40.dp.i1990.1deg.002
+b40.dp.i1990.1deg.003
+b40.dp.i1990.1deg.004
+b40.dp.i2000.1deg.001
+b40.dp.i2000.1deg.002
+b40.dp.i2000.1deg.003
+b40.dp.i2000.1deg.004
+b40.dp.i2000.1deg.005
+b40.dp.i2000.1deg.006
+b40.dp.i2000.1deg.007
+b40.dp.i2000.1deg.008
+b40.dp.i2000.rcp4_5.1deg.005
+b40.dp.i2000.rcp4_5.1deg.006
+b40.dp.i2000.rcp4_5.1deg.007
+b40.dp.i2000.rcp4_5.1deg.008
+b40.dp-lvts.i2000.1deg.005
+b40.dp-lvts.i2000.rcp4_5.1deg.005
