@@ -33,8 +33,8 @@ for m in $MODEL ; do
           if [ $YRCOUNT ] ; then
             NUM=`ls | egrep "^${v}_" | egrep "_${t}\." | egrep "\.${m}\." | egrep "\.${c}\." | egrep '\.....\.nc$' | wc -l`
             if [ $NUM = $YRCOUNT ] ; then
-              Y1=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | head -1 | cut -d"." -f5 | cut -d"_" -f1`
-              Y2=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | tail -1 | cut -d"." -f5 | cut -d"_" -f1`
+              Y1=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | head -n 1 | cut -d"." -f5 | cut -d"_" -f1`
+              Y2=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | tail -n 1 | cut -d"." -f5 | cut -d"_" -f1`
               if [ "$t" == "A2" ] ; then
                 DF=${v}_${t}.${e}.${m}.${c}.${Y1}0101-${Y2}1231.nc
               else
@@ -54,8 +54,8 @@ for m in $MODEL ; do
               exit 1
             fi
           else
-            Y1=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | head -1 | cut -d"." -f5 | cut -d"_" -f1`
-            Y2=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | tail -1 | cut -d"." -f5 | cut -d"_" -f1`
+            Y1=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | head -n 1 | cut -d"." -f5 | cut -d"_" -f1`
+            Y2=`ls ${v}_${t}.${e}.${m}.${c}.????.nc | tail -n 1 | cut -d"." -f5 | cut -d"_" -f1`
             if [ "$t" == "A2" ] ; then
               DF=${v}_${t}.${e}.${m}.${c}.${Y1}0101-${Y2}1231.nc
             else

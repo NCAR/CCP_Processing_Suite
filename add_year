@@ -23,7 +23,7 @@ if [ ! $NCRCAT ] ; then
 fi
 #
 if [ "$AYEAR" = "2100" ] ; then
-  FILE=`ls | egrep "^CAT\." | egrep '\.209001\-209912\.nc$' | head -1`
+  FILE=`ls | egrep "^CAT\." | egrep '\.209001\-209912\.nc$' | head -n 1`
   FLEN=`echo $FILE | wc -c`
   NDOT=0
   CSTR=1
@@ -77,7 +77,7 @@ if [ "$AYEAR" = "2100" ] ; then
 fi
 #
 if [ "$AYEAR" = "2060" ] ; then
-  FILE=`ls | egrep "^CAT\." | egrep '\.205001\-205912\.nc$' | head -1`
+  FILE=`ls | egrep "^CAT\." | egrep '\.205001\-205912\.nc$' | head -n 1`
   FLEN=`echo $FILE | wc -c`
   NDOT=0
   CSTR=1
@@ -133,7 +133,7 @@ fi
 # Parse filenames as needed
 #
 if [ "$AYEAR" = "2005" ] ; then
-  FILE=`ls | egrep "^CAT\." | egrep '\.200001\-200412\.nc$' | head -1`
+  FILE=`ls | egrep "^CAT\." | egrep '\.200001\-200412\.nc$' | head -n 1`
   FLEN=`echo $FILE | wc -c`
   NDOT=0
   CSTR=1

@@ -21,7 +21,7 @@ fi
 #
 # Parse first filename
 #
-FILE=`ls | egrep "*.${HIST}.*" | head -1`
+FILE=`ls | egrep "*.${HIST}.*" | head -n 1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1
@@ -75,8 +75,8 @@ for c in $CASES ; do
       for d in $DECS ; do
         NUM=`ls ${c}\.${h}\.${v}\.${d}[0-4]\.nc | wc -l`
         if [ $NUM -eq 5 ] ; then
-          Y0=`ls ${c}.${h}.${v}.${d}[0-4].nc | head -1 | cut -d"." -f${DTIM}`
-          Y1=`ls ${c}.${h}.${v}.${d}[0-4].nc | tail -1 | cut -d"." -f${DTIM}`
+          Y0=`ls ${c}.${h}.${v}.${d}[0-4].nc | head -n 1 | cut -d"." -f${DTIM}`
+          Y1=`ls ${c}.${h}.${v}.${d}[0-4].nc | tail -n 1 | cut -d"." -f${DTIM}`
           DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
           if [ $DF ] ; then
             $NCRCAT -O ${c}.${h}.${v}.${d}[0-4].nc $DF
@@ -90,8 +90,8 @@ for c in $CASES ; do
         fi
         NUM=`ls ${c}\.${h}\.${v}\.${d}[5-9]\.nc | wc -l`
         if [ $NUM -eq 5 ] ; then
-          Y0=`ls ${c}.${h}.${v}.${d}[5-9].nc | head -1 | cut -d"." -f${DTIM}`
-          Y1=`ls ${c}.${h}.${v}.${d}[5-9].nc | tail -1 | cut -d"." -f${DTIM}`
+          Y0=`ls ${c}.${h}.${v}.${d}[5-9].nc | head -n 1 | cut -d"." -f${DTIM}`
+          Y1=`ls ${c}.${h}.${v}.${d}[5-9].nc | tail -n 1 | cut -d"." -f${DTIM}`
           DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
           if [ $DF ] ; then
             $NCRCAT -O ${c}.${h}.${v}.${d}[5-9].nc $DF

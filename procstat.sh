@@ -61,7 +61,7 @@ case "$LOCATION" in
 esac
 
 date > ${FILELOG}
-tail -40 ${LOGFILE} >> ${FILELOG}
+tail -n 40 ${LOGFILE} >> ${FILELOG}
 
 date > ${FILEDF}
 df -h >> ${FILEDF}

@@ -11,9 +11,9 @@ if [ $DO_PROC ] ; then
   if [ $DO_PROC -ne 0 ] ; then
     cd $CACHEDIR
     if [ `ls *.nc | wc -l` != 0 ] ; then
-      LAST=`ls -1 | egrep "\.${CASE}\." | egrep '\.nc$' | tail -1`
+      LAST=`ls -1 | egrep "\.${CASE}\." | egrep '\.nc$' | tail -n 1`
       while [ -f $LAST ] ; do
-        for cfile in `ls *${CASE}.*nc | head -5` ; do
+        for cfile in `ls *${CASE}.*nc | head -n 5` ; do
           if [ `echo $cfile | cut -c1-4` == "CAT." ] ; then
             SFILE=`echo $cfile | sed -e 's/^CAT\.//g'`
             mv $cfile $SFILE
@@ -33,18 +33,18 @@ if [ $DO_CMIP ] ; then
     cd $PROCDIR/CMIP
     if [ `ls *.nc | wc -l` != 0 ] ; then
       if [ "$CMIP" = "cm5" ] ; then
-        LAST=`ls -1 *-*.nc | tail -1`
+        LAST=`ls -1 *-*.nc | tail -n 1`
         while [ -f $LAST ] ; do
-          for cfile in `ls *-*.nc | head -5` ; do
+          for cfile in `ls *-*.nc | head -n 5` ; do
             ../mss_write $cfile $MSSCMIP
           done
           wait
         done
       fi
       if [ "$CMIP" = "cm3" ] ; then
-        LAST=`ls *nc | tail -1`
+        LAST=`ls *nc | tail -n 1`
         while [ -f $LAST ] ; do
-          for cfile in `ls *nc | head -5` ; do
+          for cfile in `ls *nc | head -n 5` ; do
             ../mss_write $cfile $MSSCMIP
           done
           wait

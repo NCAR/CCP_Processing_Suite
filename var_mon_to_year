@@ -21,7 +21,7 @@ fi
 #
 # Parse first filename
 #
-FILE=`ls | egrep '\.nc$' | head -1`
+FILE=`ls | egrep '\.nc$' | head -n 1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1

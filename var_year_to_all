@@ -29,7 +29,7 @@ fi
 #
 # Parse first filename
 #
-FILE=`ls | egrep '\.....\.nc$' | head -1`
+FILE=`ls | egrep '\.....\.nc$' | head -n 1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1
@@ -85,8 +85,8 @@ for c in $CASES ; do
       if [ $YRCOUNT ] ; then
         NUM=`ls ${c}.${h}.${v}.????.nc | wc -l`
         if [ $NUM = $YRCOUNT ] ; then
-          Y0=`ls ${c}.${h}.${v}.????.nc | head -1 | cut -d"." -f${DTIM}`
-          Y1=`ls ${c}.${h}.${v}.????.nc | tail -1 | cut -d"." -f${DTIM}`
+          Y0=`ls ${c}.${h}.${v}.????.nc | head -n 1 | cut -d"." -f${DTIM}`
+          Y1=`ls ${c}.${h}.${v}.????.nc | tail -n 1 | cut -d"." -f${DTIM}`
           if [ "$TPER" = "mon" ] ; then 
             DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
           fi
@@ -112,8 +112,8 @@ for c in $CASES ; do
           echo "Count is "$NUM" should be "$YRCOUNT
         fi
       else
-        Y0=`ls ${c}.${h}.${v}.????.nc | head -1 | cut -d"." -f${DTIM}`
-        Y1=`ls ${c}.${h}.${v}.????.nc | tail -1 | cut -d"." -f${DTIM}`
+        Y0=`ls ${c}.${h}.${v}.????.nc | head -n 1 | cut -d"." -f${DTIM}`
+        Y1=`ls ${c}.${h}.${v}.????.nc | tail -n 1 | cut -d"." -f${DTIM}`
         if [ "$TPER" = "mon" ] ; then 
           DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
         fi

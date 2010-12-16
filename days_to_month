@@ -14,7 +14,7 @@ fi
 #
 # Parse first filename
 #
-FILE=`ls | egrep "*.${HIST}.*" | egrep '\-00000\.nc$' | head -1`
+FILE=`ls | egrep "*.${HIST}.*" | egrep '\-00000\.nc$' | head -n 1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1
