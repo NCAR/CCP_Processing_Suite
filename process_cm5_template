@@ -107,7 +107,7 @@ case "$LOCATION" in
       esac ;;
   OR ) 
     case "$PROCHOST" in
-      lens* )
+      lens* | mirage* )
         ;;
       * )
         echo "Add "$PROCHOST" for location "$LOCATION
@@ -316,7 +316,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
 # If we're on mirage, and the data is already on disk, just softlink it over - avoid MSS entirely
     case "$PROCHOST" in
       mirage* )
-        if [ -d /glade/data01/CMIP5/proc/${CASE}/${COMPTYP}/hist ] ; then 
+        if [ -d /glade/data01/CMIP5/CCSM/csm/${CASE}/${COMPTYP}/hist ] ; then 
           ln -s -f /glade/data01/CMIP5/proc/${CASE}/${COMPTYP}/hist/${CASE}.${HIST}.* .
         fi
         if [ -d /glade/data01/CMIP5/csm/${CASE}/${COMPTYP}/hist ] ; then 
