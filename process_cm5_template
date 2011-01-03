@@ -134,15 +134,19 @@ HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
 #
 case "$HTYP" in
   cam2 )
+    COMPNAM=atm
     MSSHIST=$HISTBASE/$CASE/atm/hist
     MSSPROC=$MSSBASE/$CASE/atm/proc/tseries  ;;
   clm2 ) 
+    COMPNAM=lnd
     MSSHIST=$HISTBASE/$CASE/lnd/hist
     MSSPROC=$MSSBASE/$CASE/lnd/proc/tseries  ;;
   pop  ) 
+    COMPNAM=ocn
     MSSHIST=$HISTBASE/$CASE/ocn/hist
     MSSPROC=$MSSBASE/$CASE/ocn/proc/tseries  ;;
   csim | cice ) 
+    COMPNAM=ice
     MSSHIST=$HISTBASE/$CASE/ice/hist
     MSSPROC=$MSSBASE/$CASE/ice/proc/tseries  ;;
   * ) 
@@ -196,7 +200,7 @@ case "$PROCHOST" in
     NCKS=/fs/local/bin/ncks         ; export NCKS
     NCRCAT=/fs/local/bin/ncrcat     ; export NCRCAT
     NCARG_ROOT=/fs/local/apps/ncl-5.2.0            ; export NCARG_ROOT
-    PROCBASE=/ptmp/$USER/$CASE ; export PROCBASE
+    PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE
     ;;
 
   euclid* )                                # euclid @ NERSC
@@ -223,22 +227,7 @@ case "$PROCHOST" in
     exit 1 ;;
 esac
 #
-case "$HTYP" in
-  cam2 ) PROCDIR=$PROCBASE/atm ;;
-  clm2 ) PROCDIR=$PROCBASE/lnd ;;
-  pop  ) PROCDIR=$PROCBASE/ocn ;;
-  csim ) PROCDIR=$PROCBASE/ice ;;
-  cice ) PROCDIR=$PROCBASE/ice ;;
-  * ) 
-    echo "Unable to continue because "$HIST" not known."
-#
-# ASB - procstat
-#
-    ./procstat.sh
-    exit 1 ;;
-esac
-#
-PROCDIR=${PROCDIR}/${TPER}
+PROCDIR=${PROCDIR}/${COMPTYP}/${TPER}
 CACHEDIR=${PROCDIR}/to_archive
 #
 # Print out values
@@ -323,20 +312,35 @@ while [ $YEARNOW -le $YEAREND ] ; do
   YRCHECK=.comp.$CASE.$HIST.$YEARNOW
   if [ ! -f $YRCHECK ] ; then
     echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
-    MSSLIST=MSS.$CASE.$HIST
-    if [ ! -f $MSSLIST ] ; then
-      echo "Getting archival list of "$CASE" "$HIST
-      ./mss_list $MSSLIST
-    fi
-    ./mss_read $MSSLIST $YEARNOW
-    if [ $? -ne 0 ] ; then
-      echo "Error from mss_read"
 #
-# ASB - procstat
+# If we're on mirage, and the data is already on disk, just softlink it over - avoid MSS entirely
+    case "$PROCHOST" in
+      mirage* )
+        if [ -d /glade/data01/CMIP5/proc/${CASE}/${COMPTYP}/hist ] ; then 
+          ln -s -f /glade/data01/CMIP5/proc/${CASE}/${COMPTYP}/hist/${CASE}.${HIST}.* .
+        fi
+        if [ -d /glade/data01/CMIP5/csm/${CASE}/${COMPTYP}/hist ] ; then 
+          ln -s -f /glade/data01/CMIP5/csm/${CASE}/${COMPTYP}/hist/${CASE}.${HIST}.* .
+        fi
+        ;;
+      * ) 
+        MSSLIST=MSS.$CASE.$HIST
+        if [ ! -f $MSSLIST ] ; then
+          echo "Getting archival list of "$CASE" "$HIST
+          ./mss_list $MSSLIST
+        fi
+        ./mss_read $MSSLIST $YEARNOW
+        if [ $? -ne 0 ] ; then
+          echo "Error from mss_read"
+          ./procstat.sh
+          exit 1
+        fi
+        ;;
+    esac
 #
-      ./procstat.sh
-      exit 1
-    else
+# Begin actual processing
+#
+    if [ "$TPER" = "mon" ] ; then
       if [ `/bin/ls $CASE.$HIST.*.tar | wc -l` -ne 0 ] ; then
         for TARFILE in `/bin/ls $CASE.$HIST.*.tar` ; do
           tar xf $TARFILE
@@ -347,16 +351,11 @@ while [ $YEARNOW -le $YEAREND ] ; do
           fi
         done
       fi
-    fi
-    if [ "$TPER" = "mon" ] ; then
       for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??.nc` ; do
         if [ $DO_PROC -ne 0 ] ; then
           ./var_split $FILE erase
           if [ $? -ne 0 ] ; then
             echo "Error from var_split on file "$FILE
-#
-# ASB - procstat
-#
             ./procstat.sh
             exit 1
           else
