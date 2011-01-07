@@ -42,16 +42,12 @@ USER=`whoami`
 # need to follow a naming convention for the logfiles
 # execute and save to files
 #
-case "$LOCATION" in
-  NC )                                        # NCAR experiments
+case "$PROCHOST" in
+  copper* | mirage* | tramhill* | hurricane* | euclid* ) 
     LOGFILE=`ls ~/CCP_Processing_Suite/log*${CASE}*${HIST}*`
     date > ${FILEPS}
     ps auwx | grep ${USER} >> ${FILEPS} ;;
-  NE )                                        # NERSC experiments
-    LOGFILE=`ls ~/CCP_Processing_Suite/log*${CASE}*${HIST}*` 
-    date > ${FILEPS}
-    ps auwx | grep ${USER} >> ${FILEPS} ;;
-  OR )                                        # ORNL experiments
+  lens* )
     LOGFILE=`ls ~/CCP_Processing_Suite/*.ER`
     date > ${FILEPS}
     qstat >> ${FILEPS}  ;;
@@ -72,7 +68,7 @@ df -h >> ${FILEDF}
 #
 # If NCAR ARCHIVE_ msrcp command exists, use it.
 date > $FILEHSI
-TEST4MSRCP=`which msrcp 2<&1`
+TEST4MSLS=`which msls 2<&1`
 if [ $? -eq 0 ] ; then
    rm -f tossme
    msls -l -project 93300014 -1R "$ARCHIVE_PROC" >& tossme
@@ -113,6 +109,6 @@ mail -s "procstat ${FILELOG}" ${MAILTO} < ${FILELOG}
 mail -s "procstat ${FILEDF}" ${MAILTO} < ${FILEDF}
 mail -s "procstat ${FILEHSI}" ${MAILTO} < ${FILEHSI}
 
-_DEBUG="off"
+DEBUG="off"
 
 #echo "procstat : finish"
