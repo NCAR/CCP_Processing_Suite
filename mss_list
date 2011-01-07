@@ -7,20 +7,20 @@ if [ $# -ne 1 ] ; then
   echo "Usage: mss_list local_list - REQUIRED"
   exit 1
 else
-  MSSL=$1
+  ARCHIVE_L=$1
 fi
 #
-# If NCAR MSS 'msls' command exists, use it.
+# If NCAR ARCHIVE_ 'msls' command exists, use it.
 #
 TEST4MSLS=`which msls 2<&1`
 if [ $? -eq 0 ] ; then
    rm -f ABCXYZ
-   msls -1 "$MSSHIST" >& ABCXYZ
+   msls -1 "$ARCHIVE_HIST" >& ABCXYZ
    if [ $? -eq 0 ] ; then
-     egrep "\.${HIST}\." ABCXYZ >& $MSSL
+     egrep "\.${HIST}\." ABCXYZ >& $ARCHIVE_L
      rm -f ABCXYZ
    else
-     echo "Error on mss_list from "$MSSHIST
+     echo "Error on mss_list from "$ARCHIVE_HIST
      exit 1
    fi
 #
@@ -30,12 +30,12 @@ else
   TEST4HSI=`which hsi 2<&1`
   if [ $? -eq 0 ] ; then
     rm -f ABCXYZ
-    hsi -q "cd $MSSHIST; ls -Fl" >& ABCXYZ
+    hsi -q "cd $ARCHIVE_HIST; ls -Fl" >& ABCXYZ
     if [ $? -eq 0 ] ; then
-      egrep "\.${HIST}\." ABCXYZ | cut -c60- >& $MSSL
+      egrep "\.${HIST}\." ABCXYZ | cut -c60- >& $ARCHIVE_L
       rm -f ABCXYZ
     else
-      echo "Error on mss_list from "$MSSHIST
+      echo "Error on mss_list from "$ARCHIVE_HIST
       exit 1
     fi
   else

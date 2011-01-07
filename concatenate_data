@@ -3,50 +3,38 @@
 # Concatenate data as needed by argument
 #
 if [ $# -eq 0 ] ; then
-  echo "Usage: concatenate_data [Y|D|5|A|2100|2005|2060|2061] (required)"
-  echo " Y: concatenate years     (from months)"
-  echo " D: concatenate decades   (from years)"
-  echo " 5: concatenate 5-years   (from years)"
-  echo " A: concatenate all years (from years)"
-  echo " #: add year # to pre-existing concatenated data"
+  echo "Usage: concatenate_data [M2Y|Y2D|Y2A|D2C] (required)"
+  echo " M2Y: concatenate months to years"
+  echo " Y2D: concatenate years to decades"
+  echo " Y2A: concatenate years to all years"
+  echo " D2C: concatenate decades to centuries"
   exit 1
 fi
 if [ $# -eq 1 ] ; then
   TCAT=$1
-  if [ "$TCAT" != "Y" ] ; then
-    if [ "$TCAT" != "D" ] ; then
-      if [ "$TCAT" != "5" ] ; then
-        if [ "$TCAT" != "A" ] ; then
-          if [ "$TCAT" != "2100" ] ; then
-            if [ "$TCAT" != "2005" ] ; then
-              if [ "$TCAT" != "2060" ] ; then
-                if [ "$TCAT" != "2061" ] ; then
-                  echo $TCAT" not defined argument"
-                  echo "Usage: concatenate_data [Y|D|5|A|2100|2005|2060|2061] (required)"
-                  echo " Y: concatenate years     (from months)"
-                  echo " D: concatenate decades   (from years)"
-                  echo " 5: concatenate 5-years   (from years)"
-                  echo " A: concatenate all years (from years)"
-                  echo " #: add year # to pre-existing concatenated data"
-                  exit 1
-                fi
-              fi
-            fi
-          fi
+  if [ "$TCAT" != "M2Y" ] ; then
+    if [ "$TCAT" != "Y2D" ] ; then
+      if [ "$TCAT" != "Y2A" ] ; then
+        if [ "$TCAT" != "D2C" ] ; then
+          echo "Usage: concatenate_data [M2Y|Y2D|Y2A|D2C] (required)"
+          echo " M2Y: concatenate months to years"
+          echo " Y2D: concatenate years to decades"
+          echo " Y2A: concatenate years to all years"
+          echo " D2C: concatenate decades to centuries"
         fi
       fi
     fi
   fi
 fi
 #
-cd $PROCDIR
+cd $LOCAL_PROC
 #
 if [ $DO_PROC ] ; then
   if [ $DO_PROC -ne 0 ] ; then
-    cd ${PROCDIR}
-    if [ "$TCAT" = "Y" ] ; then
+    cd ${LOCAL_PROC}
+    if [ "$TCAT" = "M2Y" ] ; then
       for e in `ls -d *d.d` ; do
-        cd ${PROCDIR}/${e}
+        cd ${LOCAL_PROC}/${e}
         ../var_mon_to_year
         if [ $? -ne 0 ] ; then
           echo "Error from var_mon_to_year"
@@ -54,9 +42,9 @@ if [ $DO_PROC ] ; then
         fi
       done
     fi
-    if [ "$TCAT" = "D" ] ; then
+    if [ "$TCAT" = "Y2D" ] ; then
       for e in `ls -d *4d.d` ; do
-        cd ${PROCDIR}/${e}
+        cd ${LOCAL_PROC}/${e}
         ../var_year_to_dec
         if [ $? -ne 0 ] ; then
           echo "Error from var_year_to_dec"
@@ -69,24 +57,9 @@ if [ $DO_PROC ] ; then
         fi
       done
     fi
-    if [ "$TCAT" = "5" ] ; then
+    if [ "$TCAT" = "Y2A" ] ; then
       for e in `ls -d *d.d` ; do
-        cd ${PROCDIR}/${e}
-        ../var_year_to_5yr
-        if [ $? -ne 0 ] ; then
-          echo "Error from var_year_to_dec"
-          echo $CASE" "${HIST}" "${e}
-          exit 1
-        else
-          if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
-            mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
-          fi
-        fi
-      done
-    fi
-    if [ "$TCAT" = "A" ] ; then
-      for e in `ls -d *d.d` ; do
-        cd ${PROCDIR}/${e}
+        cd ${LOCAL_PROC}/${e}
         ../var_year_to_all
         if [ $? -ne 0 ] ; then
           echo "Error from var_year_to_all"
@@ -99,12 +72,12 @@ if [ $DO_PROC ] ; then
         fi
       done
     fi
-    if [ "$TCAT" = "2100" ] || [ "$TCAT" = "2005" ] || [ "$TCAT" = "2060" ] ; then
+    if [ "$TCAT" = "D2C" ] ; then
       for e in `ls -d *d.d` ; do
-        cd ${PROCDIR}/${e}
-        ../add_year $TCAT
+        cd ${LOCAL_PROC}/${e}
+        ../var_dec_to_cen
         if [ $? -ne 0 ] ; then
-          echo "Error from add_year "${TCAT}
+          echo "Error from var_dec_to_cen"
           echo $CASE" "${HIST}" "${e}
           exit 1
         else
@@ -114,21 +87,21 @@ if [ $DO_PROC ] ; then
         fi
       done
     fi
-    cd ${PROCDIR}
+    cd ${LOCAL_PROC}
   fi
 fi
 #
 if [ $DO_CMIP ] ; then
   if [ $DO_CMIP -ne 0 ] ; then
-    cd ${PROCDIR}/CMIP
-    if [ "$TCAT" = "Y" ] ; then
+    cd ${LOCAL_PROC}/CMIP
+    if [ "$TCAT" = "M2Y" ] ; then
       ./${CMIP}_var_mon_to_year
       if [ $? -ne 0 ] ; then
         echo "Error from "${CMIP}"_var_mon_to_year"
         exit 1
       fi
     fi
-    if [ "$TCAT" = "A" ] ; then
+    if [ "$TCAT" = "Y2A" ] ; then
       ./${CMIP}_var_year_to_all
       if [ $? -ne 0 ] ; then
         echo "Error from "${CMIP}"_var_mon_to_year"

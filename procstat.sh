@@ -19,7 +19,7 @@ function DEBUG()
 #DO_PROC=1
 #DO_CMIP=0
 #LOCATION=NC
-#MSSPROC=/CCSM/csm/b40.rcp2_6.2deg.001/ocn/proc/tseries/monthly
+#ARCHIVE_PROC=/CCSM/csm/b40.rcp2_6.2deg.001/ocn/proc/tseries/monthly
 #
 # generate a base filename
 #
@@ -67,20 +67,20 @@ date > ${FILEDF}
 df -h >> ${FILEDF}
 
 #
-# get the mass store listing to see where we are in the processing using $MSSPROC
+# get the mass store listing to see where we are in the processing using $ARCHIVE_PROC
 #
 #
-# If NCAR MSS msrcp command exists, use it.
+# If NCAR ARCHIVE_ msrcp command exists, use it.
 date > $FILEHSI
 TEST4MSRCP=`which msrcp 2<&1`
 if [ $? -eq 0 ] ; then
    rm -f tossme
-   msls -l -project 93300014 -1R "$MSSPROC" >& tossme
+   msls -l -project 93300014 -1R "$ARCHIVE_PROC" >& tossme
    if [ $? -eq 0 ] ; then
      egrep "\.${HIST}\." tossme >> $FILEHSI
      rm -f tossme
    else
-     echo "procstat : (files may not have been written yet) Error on msls from "$MSSPROC >> $FILEHSI
+     echo "procstat : (files may not have been written yet) Error on msls from "$ARCHIVE_PROC >> $FILEHSI
      rm -f tossme
    fi
 #
@@ -89,12 +89,12 @@ else
   TEST4HSI=`which hsi 2<&1`
   if [ $? -eq 0 ] ; then
     rm -f tossme
-    hsi -q "cd $MSSPROC; ls -Fl" >& tossme
+    hsi -q "cd $ARCHIVE_PROC; ls -Fl" >& tossme
     if [ $? -eq 0 ] ; then
       egrep "\.${HIST}\." tossme | cut -c60- >> $FILEHSI
       rm -f tossme
     else
-      echo "procstat : (files may not have been written yet) Error on hsi from "$MSSPROC >> $FILEHSI
+      echo "procstat : (files may not have been written yet) Error on hsi from "$ARCHIVE_PROC >> $FILEHSI
       rm -f tossme
     fi
   else

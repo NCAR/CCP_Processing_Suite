@@ -61,11 +61,11 @@ MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
 case "$LOCATION" in
   NC )                                        # NCAR experiments
-    MSSBASE=/CCSM/csm/$CASE ;;
+    ARCHIVE_BASE=/CCSM/csm/$CASE ;;
   NE )                                        # NERSC experiments
-    MSSBASE=/nersc/mp9/strandwg/CCSM/csm/$CASE ;;
+    ARCHIVE_BASE=/nersc/mp9/strandwg/CCSM/csm/$CASE ;;
   OR )                                        # ORNL experiments
-    MSSBASE=/f2/ccsm/csm/$CASE ;;
+    ARCHIVE_BASE=/f2/ccsm/csm/$CASE ;;
   * )
     echo "Unable to set variables because "$LOCATION" not found in "$EXPFILE
 #
@@ -133,25 +133,25 @@ HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
 #
 case "$HTYP" in
   cam2 )
-    MSSHIST=$HISTBASE/$CASE/atm/hist
-    MSSCMIP=$MSSBASE/atm/ipcc/tseries
-    MSSPROC=$MSSBASE/atm/proc/tseries  ;;
+    ARCHIVE_HIST=$HISTBASE/$CASE/atm/hist
+    ARCHIVE_CMIP=$ARCHIVE_BASE/atm/ipcc/tseries
+    ARCHIVE_PROC=$ARCHIVE_BASE/atm/proc/tseries  ;;
   clm2 ) 
-    MSSHIST=$HISTBASE/$CASE/lnd/hist
-    MSSCMIP=$MSSBASE/lnd/ipcc/tseries
-    MSSPROC=$MSSBASE/lnd/proc/tseries  ;;
+    ARCHIVE_HIST=$HISTBASE/$CASE/lnd/hist
+    ARCHIVE_CMIP=$ARCHIVE_BASE/lnd/ipcc/tseries
+    ARCHIVE_PROC=$ARCHIVE_BASE/lnd/proc/tseries  ;;
   pop  ) 
-    MSSHIST=$HISTBASE/$CASE/ocn/hist
-    MSSCMIP=$MSSBASE/ocn/ipcc/tseries
-    MSSPROC=$MSSBASE/ocn/proc/tseries  ;;
+    ARCHIVE_HIST=$HISTBASE/$CASE/ocn/hist
+    ARCHIVE_CMIP=$ARCHIVE_BASE/ocn/ipcc/tseries
+    ARCHIVE_PROC=$ARCHIVE_BASE/ocn/proc/tseries  ;;
   csim ) 
-    MSSHIST=$HISTBASE/$CASE/ice/hist
-    MSSCMIP=$MSSBASE/ice/ipcc/tseries
-    MSSPROC=$MSSBASE/ice/proc/tseries  ;;
+    ARCHIVE_HIST=$HISTBASE/$CASE/ice/hist
+    ARCHIVE_CMIP=$ARCHIVE_BASE/ice/ipcc/tseries
+    ARCHIVE_PROC=$ARCHIVE_BASE/ice/proc/tseries  ;;
   cice ) 
-    MSSHIST=$HISTBASE/$CASE/ice/hist
-    MSSCMIP=$MSSBASE/ice/ipcc/tseries
-    MSSPROC=$MSSBASE/ice/proc/tseries  ;;
+    ARCHIVE_HIST=$HISTBASE/$CASE/ice/hist
+    ARCHIVE_CMIP=$ARCHIVE_BASE/ice/ipcc/tseries
+    ARCHIVE_PROC=$ARCHIVE_BASE/ice/proc/tseries  ;;
   * ) 
     echo "Unable to continue because "$HIST" not known."
 #
@@ -163,17 +163,17 @@ esac
 #
 case "$TPER" in
   mon )
-    MSSCMIP=${MSSCMIP}/monthly
-    MSSPROC=${MSSPROC}/monthly  ;;
+    ARCHIVE_CMIP=${ARCHIVE_CMIP}/monthly
+    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly  ;;
   day )
-    MSSCMIP=${MSSCMIP}/daily
-    MSSPROC=${MSSPROC}/daily    ;;
+    ARCHIVE_CMIP=${ARCHIVE_CMIP}/daily
+    ARCHIVE_PROC=${ARCHIVE_PROC}/daily    ;;
   hr6 )
-    MSSCMIP=${MSSCMIP}/hourly6
-    MSSPROC=${MSSPROC}/hourly6  ;;
+    ARCHIVE_CMIP=${ARCHIVE_CMIP}/hourly6
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6  ;;
   hr3 )
-    MSSCMIP=${MSSCMIP}/hourly3
-    MSSPROC=${MSSPROC}/hourly3  ;;
+    ARCHIVE_CMIP=${ARCHIVE_CMIP}/hourly3
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly3  ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
 #
@@ -518,11 +518,11 @@ echo "            End year : "$YEAREND  ; export YEAREND
 echo "          Year count : "$YRCOUNT  ; export YRCOUNT
 echo "        Months count : "$MNCOUNT  ; export MNCOUNT
 echo ""
-echo "       History files : "$MSSHIST  ; export MSSHIST
+echo "       History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
 echo "       History names : "$HIST     ; export HIST
-echo "   Archival base dir : "$MSSBASE  ; export MSSBASE
-echo "   CMIP format files : "$MSSCMIP  ; export MSSCMIP
-echo "     Processed files : "$MSSPROC  ; export MSSPROC
+echo "   Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo "   CMIP format files : "$ARCHIVE_CMIP  ; export ARCHIVE_CMIP
+echo "     Processed files : "$ARCHIVE_PROC  ; export ARCHIVE_PROC
 echo ""
 echo "     Processing host : "$PROCHOST ; export PROCHOST
 echo "      Processing dir : "$PROCDIR  ; export PROCDIR
@@ -630,12 +630,12 @@ while [ $YEARNOW -le $YEAREND ] ; do
   YRCHECK=.comp.$CASE.$HIST.$YEARNOW
   if [ ! -f $YRCHECK ] ; then
     echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
-    MSSLIST=MSS.$CASE.$HIST
-    if [ ! -f $MSSLIST ] ; then
+    ARCHIVE_LIST=ARCHIVE_.$CASE.$HIST
+    if [ ! -f $ARCHIVE_LIST ] ; then
       echo "Getting archival list of "$CASE" "$HIST
-      ./mss_list $MSSLIST
+      ./mss_list $ARCHIVE_LIST
     fi
-    ./mss_read $MSSLIST $YEARNOW
+    ./mss_read $ARCHIVE_LIST $YEARNOW
     if [ $? -ne 0 ] ; then
       echo "Error from mss_read"
 #

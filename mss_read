@@ -2,17 +2,17 @@
 # Read file(s) from a archival system
 #
 if [ $# -ne 2 ] ; then
-  echo "Usage: mss_read MSSLIST YEARNOW"
-  echo "Requires MSSLIST and YEARNOW"
-  echo "CASE HIST MSSHIST must be defined"
+  echo "Usage: mss_read ARCHIVE_LIST YEARNOW"
+  echo "Requires ARCHIVE_LIST and YEARNOW"
+  echo "CASE HIST ARCHIVE_HIST must be defined"
   exit 1
 else
-  MSSLIST=$1
+  ARCHIVE_LIST=$1
   YEARNOW=$2
 fi
 #
-if ! [ -f $MSSLIST ] ; then
-  echo "mss_read: No "$MSSLIST" file found. Exit."
+if ! [ -f $ARCHIVE_LIST ] ; then
+  echo "mss_read: No "$ARCHIVE_LIST" file found. Exit."
   exit 1
 fi
 if [ ! $CASE ] ; then
@@ -21,8 +21,8 @@ fi
 if [ ! $HIST ] ; then
   echo "mss_read: HIST undefined. Exit."
 fi
-if [ ! $MSSHIST ] ; then
-  echo "mss_read: MSSHIST undefined. Exit."
+if [ ! $ARCHIVE_HIST ] ; then
+  echo "mss_read: ARCHIVE_HIST undefined. Exit."
 fi
 #
 # Parse case and hist to deduce time(s) to read
@@ -39,30 +39,30 @@ while [ $CSTR -le $FLEN ] ; do
   CSTR=`expr '(' $CSTR ')' '+' '1'`
 done
 NDOT=`expr '(' $NDOT ')' '+' '2'`
-DAT=`egrep "${HIST}\.${YEARNOW}" $MSSLIST | cut -d"." -f${NDOT}-`
+DAT=`egrep "${HIST}\.${YEARNOW}" $ARCHIVE_LIST | cut -d"." -f${NDOT}-`
 #
 LST=`echo $DAT | sed -e "s/ /,/g"`
 #
 if [ "`echo $LST | cut -d"." -f2`" = "tar" ] ; then
-  MSSFILES=$CASE.$HIST.${LST}
+  ARCHIVE_FILES=$CASE.$HIST.${LST}
 else
-  MSSFILES=$CASE.$HIST."{"${LST}"}"
+  ARCHIVE_FILES=$CASE.$HIST."{"${LST}"}"
 fi
 #
-# If NCAR MSS msrcp command exists, use it.
+# If NCAR ARCHIVE_ msrcp command exists, use it.
 #
 TEST4MSRCP=`which msrcp 2<&1`
 if [ $? -eq 0 ] ; then
    MSRCP=`which msrcp`
-   $MSRCP -overwrite sizemismatch mss:"$MSSHIST/$MSSFILES" .
+   $MSRCP -overwrite sizemismatch mss:"$ARCHIVE_HIST/$ARCHIVE_FILES" .
    if [ $? -ne 0 ] ; then
-     echo "Error on msrcp -overwrite sizemismatch mss:"$MSSHIST"/"$MSSFILES
+     echo "Error on msrcp -overwrite sizemismatch mss:"$ARCHIVE_HIST"/"$ARCHIVE_FILES
      exit 1
    else
 #
 # Parse filename(s) and untar if necessary
 #
-     for FILE in `echo $MSSFILES` ; do
+     for FILE in `echo $ARCHIVE_FILES` ; do
        FLEN=`echo $FILE | wc -c`
        NDOT=0
        CSTR=1
@@ -93,26 +93,26 @@ else
   TEST4HSI=`which hsi 2<&1`
   if [ $? -eq 0 ] ; then
     if [ `echo $LST | cut -d"." -f2` = "tar" ] ; then
-      htar -x -f $MSSHIST/$MSSFILES
+      htar -x -f $ARCHIVE_HIST/$ARCHIVE_FILES
       if [ $? -ne 0 ] ; then
-        hsi -q "get -U $MSSHIST/$MSSFILES"
+        hsi -q "get -U $ARCHIVE_HIST/$ARCHIVE_FILES"
         if [ $? -eq 0 ] ; then
-          tar xf $MSSFILES
+          tar xf $ARCHIVE_FILES
           if [ $? -ne 0 ] ; then
-            echo "htar and tar extraction failed on "$MSSFILES
+            echo "htar and tar extraction failed on "$ARCHIVE_FILES
             exit 1
           else
-            rm -f  $MSSFILES
+            rm -f  $ARCHIVE_FILES
           fi
         else
-          echo "Error on hsi get of "$MSSHIST"/"$MSSFILES
+          echo "Error on hsi get of "$ARCHIVE_HIST"/"$ARCHIVE_FILES
           exit 1
         fi
       fi
     else
-      hsi -q "get $MSSHIST/$MSSFILES" 2>&1
+      hsi -q "get $ARCHIVE_HIST/$ARCHIVE_FILES" 2>&1
       if [ $? -ne 0 ] ; then
-        echo "Error on hsi get of "$MSSHIST"/"$MSSFILES
+        echo "Error on hsi get of "$ARCHIVE_HIST"/"$ARCHIVE_FILES
         exit 1
       fi
     fi

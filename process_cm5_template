@@ -37,18 +37,12 @@ if [ -f $EXPFILE ] ; then
   HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
 else
   echo "Cannot find $EXPFILE. EXIT"
-#
-# ASB - procstat
-#
   ./procstat.sh
   exit 1
 fi
 #
 if ! [ $LOCATION ] ; then
   echo "Unable to set variables because "$CASE" not found in $EXPFILE"
-#
-# ASB - procstat
-#
   ./procstat.sh
   exit 1
 fi
@@ -56,159 +50,50 @@ fi
 YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
 MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
-# Processed data archival locations
-#
-case "$LOCATION" in
-  NC )                                        # NCAR experiments
-    MSSBASE=/CCSM/csm               ;;
-  NE )                                        # NERSC experiments
-    MSSBASE=/home/c/ccsm/csm        ;;
-  OR )                                        # ORNL experiments
-    MSSBASE=/f2/ccsm/csm            ;;
-  * )
-    echo "Unable to set variables because "$LOCATION" not found in "$EXPFILE
-#
-# ASB - procstat
-#
-    ./procstat.sh
-    exit 1 ;;
-esac
-export MSSBASE
-MSSCMIP=$MSSBASE/CMIP5
-#
-# Check PROCHOST against LOCATION
+# Acquire PROCHOST
 #
 PROCHOST=`hostname`;export PROCHOST
-#
-case "$LOCATION" in
-  NE )
-    case "$PROCHOST" in
-      euclid* )
-        ;;
-      * )
-        echo "Add "$PROCHOST" for location "$LOCATION
-#
-# ASB - procstat
-#
-        ./procstat.sh
-        exit 1
-     esac ;;
-  NC ) 
-    case "$PROCHOST" in
-      copper* | tramhill* | mirage* | hurricane* )
-        ;;
-      * )
-        echo "Add "$PROCHOST" for location "$LOCATION
-#
-# ASB - procstat
-#
-        ./procstat.sh
-        exit 1
-      esac ;;
-  OR ) 
-    case "$PROCHOST" in
-      lens* | mirage* )
-        ;;
-      * )
-        echo "Add "$PROCHOST" for location "$LOCATION
-#
-# ASB - procstat
-#
-        ./procstat.sh
-        exit 1
-      esac ;;
-  * ) 
-    echo "Unable to continue because "$LOCATION" not known."
-#
-# ASB - procstat
-#
-    ./procstat.sh
-    exit 1 ;;
-esac
-#
-# Strip off first part of $HIST
-#
-HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
-#
-# File archival locations
-#
-case "$HTYP" in
-  cam2 )
-    COMPNAM=atm
-    MSSHIST=$HISTBASE/$CASE/atm/hist
-    MSSPROC=$MSSBASE/$CASE/atm/proc/tseries  ;;
-  clm2 ) 
-    COMPNAM=lnd
-    MSSHIST=$HISTBASE/$CASE/lnd/hist
-    MSSPROC=$MSSBASE/$CASE/lnd/proc/tseries  ;;
-  pop  ) 
-    COMPNAM=ocn
-    MSSHIST=$HISTBASE/$CASE/ocn/hist
-    MSSPROC=$MSSBASE/$CASE/ocn/proc/tseries  ;;
-  csim | cice ) 
-    COMPNAM=ice
-    MSSHIST=$HISTBASE/$CASE/ice/hist
-    MSSPROC=$MSSBASE/$CASE/ice/proc/tseries  ;;
-  * ) 
-    echo "Unable to continue because "$HIST" not known."
-#
-# ASB - procstat
-#
-    ./procstat.sh
-    exit 1 ;;
-esac
-#
-case "$TPER" in
-  mon )
-    MSSPROC=${MSSPROC}/monthly  ;;
-  day )
-    MSSPROC=${MSSPROC}/daily    ;;
-  hr6 )
-    MSSPROC=${MSSPROC}/hourly6  ;;
-  hr3 )
-    MSSPROC=${MSSPROC}/hourly3  ;;
-  * ) 
-    echo "Unable to continue because "$TPER" not known."
-#
-# ASB - procstat
-#
-    ./procstat.sh
-    exit 1 ;;
-esac
 #
 # resolve machine/site dependencies
 #
 case "$PROCHOST" in 
   copper* )                                # copper @ CGD/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/local/bin/ncks         ; export NCKS
-    NCRCAT=/usr/local/bin/ncrcat     ; export NCRCAT
+    NCKS=/usr/local/bin/ncks             ; export NCKS
+    NCRCAT=/usr/local/bin/ncrcat         ; export NCRCAT
     NCARG_ROOT=/contrib/ncarg            ; export NCARG_ROOT
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/datalocal/proc/$CASE       ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
     ;;
 
   tramhill* | hurricane* )                                # tramhill/hurricane @ CGD/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/local/bin/ncks         ; export NCKS
-    NCRCAT=/usr/local/bin/ncrcat     ; export NCRCAT
-    NCARG_ROOT=/contrib/ncarg            ; export NCARG_ROOT
+    NCKS=/usr/local/bin/ncks              ; export NCKS
+    NCRCAT=/usr/local/bin/ncrcat          ; export NCRCAT
+    NCARG_ROOT=/contrib/ncarg             ; export NCARG_ROOT
     PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
+    ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
     ;;
 
   mirage* )                                # DASG @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/fs/local/bin/ncks         ; export NCKS
-    NCRCAT=/fs/local/bin/ncrcat     ; export NCRCAT
-    NCARG_ROOT=/fs/local/apps/ncl-5.2.0            ; export NCARG_ROOT
+    NCKS=/fs/local/bin/ncks                       ; export NCKS
+    NCRCAT=/fs/local/bin/ncrcat                   ; export NCRCAT
+    NCARG_ROOT=/fs/local/apps/ncl-5.2.0           ; export NCARG_ROOT
     PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/glade/data01/CMIP5/CCSM/csm/$CASE   ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
     ;;
 
   euclid* )                                # euclid @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/global/u2/s/strandwg/bin/ncks     ; export NCKS
     NCRCAT=/global/u2/s/strandwg/bin/ncrcat ; export NCRCAT
-    NCARG_ROOT=/usr/common/usg/ncar/5.2.0          ; export NCARG_ROOT
-    PROCBASE=/global/scratch/sd/$USER/$CASE      ; export PROCBASE
+    NCARG_ROOT=/usr/common/usg/ncar/5.2.0   ; export NCARG_ROOT
+    PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/global/scratch/sd/$USER/$CASE ; export LOCALDSK
+    ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
     ;;
 
   lens* )                                # lens @ ORNL
@@ -217,18 +102,60 @@ case "$PROCHOST" in
     NCRCAT=/ccs/home/wgstrand/bin/ncrcat               ; export NCRCAT
     NCARG_ROOT=/sw/analysis-x64/ncl/5.0.0/sl5.0_binary ; export NCARG_ROOT
     PROCBASE=/tmp/work/$USER/$CASE                     ; export PROCBASE
+    LOCALDSK=/tmp/work/$USER/$CASE                     ; export LOCALDSK
+    ARCHIVE_BASE=/f2/ccsm/csm                          ; export ARCHIVE_BASE
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
-#
-# ASB - procstat
-#
     ./procstat.sh
     exit 1 ;;
 esac
 #
-PROCDIR=${PROCDIR}/${COMPTYP}/${TPER}
-CACHEDIR=${PROCDIR}/to_archive
+# Strip off first part of $HIST
+#
+HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
+#
+# Convert history type to component name
+#
+case "$HTYP" in
+  cam2 )
+    COMP_NAME=atm ;;
+  clm2 ) 
+    COMP_NAME=lnd ;;
+  pop  ) 
+    COMP_NAME=ocn ;;
+  csim | cice ) 
+    COMP_NAME=ice ;;
+  * ) 
+    echo "Unable to continue because "$HIST" not known."
+    ./procstat.sh
+    exit 1 ;;
+esac
+#
+# Set up local names and archival names
+#
+LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
+LOCAL_PROC=$PROCBASE/$COMP_NAME
+ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
+ARCHIVE_PROC=$ARCHIVE_BASE/$CASE/$COMP_NAME/proc/tseries
+#
+case "$TPER" in
+  mon )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly  ;;
+  day )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/daily    ;;
+  hr6 )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6  ;;
+  hr3 )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly3  ;;
+  * ) 
+    echo "Unable to continue because "$TPER" not known."
+    ./procstat.sh
+    exit 1 ;;
+esac
+#
+LOCAL_PROC=${LOCAL_PROC}/${TPER}
+CACHEDIR=${LOCAL_PROC}/to_archive
 #
 # Print out values
 #
@@ -236,7 +163,7 @@ echo "           Case name : "$CASE ; export CASE
 echo "   History file type : "$HIST ; export HIST
 if [ $DO_PROC -ne 0 ] ; then
   echo "   by var processing : YES"
-  echo "     Processed files : "$MSSPROC  ; export MSSPROC
+  echo "     Processed files : "$ARCHIVE_PROC  ; export ARCHIVE_PROC
 else
   echo "   by var processing : NO"
 fi
@@ -262,22 +189,23 @@ echo "            End year : "$YEAREND  ; export YEAREND
 echo "          Year count : "$YRCOUNT  ; export YRCOUNT
 echo "        Months count : "$MNCOUNT  ; export MNCOUNT
 echo ""
-echo "       History files : "$MSSHIST  ; export MSSHIST
-echo "       History names : "$HIST     ; export HIST
-echo "   Archival base dir : "$MSSBASE  ; export MSSBASE
+echo "   Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo "       History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
+echo "       History names : "$HIST          ; export HIST
 echo ""
-echo "     Processing host : "$PROCHOST ; export PROCHOST
-echo "      Processing dir : "$PROCDIR  ; export PROCDIR
-echo "   Archive cache dir : "$CACHEDIR ; export CACHEDIR
-echo " Processing code dir : "$BASEDIR  ; export BASEDIR
+echo "     Processing host : "$PROCHOST      ; export PROCHOST
+echo " Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
+echo "      Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
+echo "   Archive cache dir : "$CACHEDIR      ; export CACHEDIR
+echo " Processing code dir : "$BASEDIR       ; export BASEDIR
 #  
-if [ ! -d $PROCDIR ] ; then 
-  mkdir -p $PROCDIR 
+if [ ! -d $LOCAL_PROC ] ; then 
+  mkdir -p $LOCAL_PROC 
 fi
 if [ ! -d $CACHEDIR ] ; then 
   mkdir -p $CACHEDIR 
 fi
-cd $PROCDIR
+cd $LOCAL_PROC
 #
 if [ $DO_PROC -ne 0 ] ; then
   if [ "$TPER" != "mon" ] ; then
@@ -299,58 +227,46 @@ ln -s -f $BASEDIR/concatenate_data    .
 ln -s -f $BASEDIR/store_to_archive    .
 ln -s -f $BASEDIR/procstat.sh         .
 #
-CURDIR=$PWD
+cd $LOCAL_PROC
 #
-cd $PROCDIR
+# Start actual processing, one year at a time
+#
 YEARNOW=$YEARBEG;export YEARNOW
 while [ $YEARNOW -le $YEAREND ] ; do
-#
-# ASB - procstat
-#
   ./procstat.sh
-
   YRCHECK=.comp.$CASE.$HIST.$YEARNOW
   if [ ! -f $YRCHECK ] ; then
     echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
-#
-# If we're on mirage, and the data is already on disk, just softlink it over - avoid MSS entirely
-    case "$PROCHOST" in
-      mirage* )
-        if [ -d /glade/data01/CMIP5/CCSM/csm/${CASE}/${COMPTYP}/hist ] ; then 
-          ln -s -f /glade/data01/CMIP5/proc/${CASE}/${COMPTYP}/hist/${CASE}.${HIST}.* .
-        fi
-        if [ -d /glade/data01/CMIP5/csm/${CASE}/${COMPTYP}/hist ] ; then 
-          ln -s -f /glade/data01/CMIP5/csm/${CASE}/${COMPTYP}/hist/${CASE}.${HIST}.* .
-        fi
-        ;;
-      * ) 
-        MSSLIST=MSS.$CASE.$HIST
-        if [ ! -f $MSSLIST ] ; then
-          echo "Getting archival list of "$CASE" "$HIST
-          ./mss_list $MSSLIST
-        fi
-        ./mss_read $MSSLIST $YEARNOW
+    ARCHIVE_LIST=ARCHIVE_.$CASE.$HIST
+    if [ ! -f $ARCHIVE_LIST ] ; then
+      echo "Getting archival list of "$CASE" "$HIST
+      ./mss_list $ARCHIVE_LIST
+    fi
+    if [ -d $LOCAL_HIST ] ; then
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* | wc -l`
+      if [ $NHISTF -ne 0 ] ; then
+        echo ${CASE}"."${HIST}"."${YEARNOW}" files on disk, softlinking."
+        ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* .
+      else
+        ./mss_read $ARCHIVE_LIST $YEARNOW
         if [ $? -ne 0 ] ; then
           echo "Error from mss_read"
-          ./procstat.sh
-          exit 1
+         ./procstat.sh
+         exit 1
         fi
-        ;;
-    esac
-#
-# Begin actual processing
-#
-    if [ "$TPER" = "mon" ] ; then
-      if [ `/bin/ls $CASE.$HIST.*.tar | wc -l` -ne 0 ] ; then
-        for TARFILE in `/bin/ls $CASE.$HIST.*.tar` ; do
-          tar xf $TARFILE
-          if [ $? -ne 0 ] ; then
-            echo "Error untarring "$TARFILE
-          else
-            rm -f $TARFILE
-          fi
-        done
       fi
+    fi
+    if [ `/bin/ls $CASE.$HIST.$YEARNOW*tar | wc -l` -ne 0 ] ; then
+      for TARFILE in `/bin/ls $CASE.$HIST.$YEARNOW*tar` ; do
+        tar xf $TARFILE
+        if [ $? -ne 0 ] ; then
+          echo "Error untarring "$TARFILE
+        else
+          rm -f $TARFILE
+        fi
+      done
+    fi
+    if [ "$TPER" = "mon" ] ; then
       for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??.nc` ; do
         if [ $DO_PROC -ne 0 ] ; then
           ./var_split $FILE erase
@@ -390,9 +306,6 @@ while [ $YEARNOW -le $YEAREND ] ; do
           ./var_split $FILE erase
           if [ $? -ne 0 ] ; then
             echo "Error from var_split on file "$FILE
-#
-# ASB - procstat
-#
             ./procstat.sh
             exit 1
           else
@@ -414,6 +327,12 @@ while [ $YEARNOW -le $YEAREND ] ; do
       fi
     fi
   fi
+#
+# Concatenate all months into respective years, at every year done 
+#
+  echo "Concatenating years at "${YEARNOW}" at "`date`
+  ./concatenate_data M2Y
+#
   YEARNOW=`expr $YEARNOW + 1`
   if [ $YEARNOW -lt 1000 ] ; then
     YEARNOW=0${YEARNOW}
@@ -425,22 +344,23 @@ while [ $YEARNOW -le $YEAREND ] ; do
     YEARNOW=0${YEARNOW}
   fi
   export YEARNOW
+#
+# Concatenate years into decades as appropriate every decade or so
+#
   CHECKDEC=`expr $YEARNOW % 10`
   if [ $CHECKDEC -eq 0 ] ; then
-    echo "Concatenating years at "${YEARNOW}" at "`date`
-    ./concatenate_data Y
     if [ "$TPER" = "mon" ] ; then
       if [ "$HIST" = "pop.h" ] ; then
-        ./concatenate_data D
+        ./concatenate_data Y2D
         ./store_to_archive
       fi
       if [ "$HIST" = "cam2.h0" ] ; then
-        ./concatenate_data D
+        ./concatenate_data Y2D
         ./store_to_archive
       fi
     fi
     if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
-      ./concatenate_data D
+      ./concatenate_data Y2D
       ./store_to_archive
     fi
   fi
@@ -449,51 +369,16 @@ done
 # Concatenate months -> years, years -> all (if possible)
 #
 echo "Final concatenating of "$CASE"."$HIST" at "`date`
-./concatenate_data Y
-if [ $? -eq 0 ] ; then
-  ./concatenate_data A
-  if [ $? -eq 0 ] ; then
-    if [ "$YEAREND" = "2100" ] || [ "$YEAREND" = "2005" ] || [ "$YEAREND" = "2060" ] ; then
-      ./concatenate_data $YEAREND
-      if [ $? -ne 0 ] ; then
-        echo "concatenate_data "${YEAREND}" failed"
-#
-# ASB - procstat
-#
-        ./procstat.sh
-        exit 1
-      fi
-    fi
-  else
-    echo "concatenate_data A failed"
-#
-# ASB - procstat
-#
-    ./procstat.sh
-    exit 1
-  fi
-else
-  echo "concatenate_data Y failed"
-#
-# ASB - procstat
-#
-  ./procstat.sh
-  exit 1
-fi
+./concatenate_data M2Y
+./concatenate_data Y2A
 #
 # Store completed data on archival system
 #
 ./store_to_archive
 if [ $? -ne 0 ] ; then
   echo "store_to_archive failed"
-#
-# ASB - procstat
-#
   ./procstat.sh
   exit 1
 fi
-#
-# ASB - procstat
-#
 echo "COMPLETE : procstat"
 ./procstat.sh

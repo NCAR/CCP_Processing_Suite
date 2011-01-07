@@ -6,8 +6,8 @@
 # 2 directory on archival system to write file to
 #
 if [ $# = 2 ] ; then
-  MSSF=$1
-  MSSD=$2
+  ARCHIVE_F=$1
+  ARCHIVE_D=$2
 else
   echo "I need two arguments:"
   echo "1) file to write"
@@ -15,12 +15,12 @@ else
   exit 1
 fi
 #
-if [ ! -f $MSSF ] ; then
+if [ ! -f $ARCHIVE_F ] ; then
   echo $MMSF" not present, cannot write to the archival system"
   exit 1
 fi
 #
-# If NCAR MSS msrcp command exists, use it.
+# If NCAR ARCHIVE_ msrcp command exists, use it.
 # Must check for msrcp first, to avoid using hsi at NCAR too early
 #
 TEST4MSRCP=`which msrcp 2<&1`
@@ -29,18 +29,18 @@ if [ $? -eq 0 ] ; then
 #
 # Check for total length > 128 characters and attempt to modify
 #
-  MSSR=${MSSF}
-  TOTLEN=`echo ${MSSD}"/"${MSSF} | wc -c`
+  ARCHIVE_R=${ARCHIVE_F}
+  TOTLEN=`echo ${ARCHIVE_D}"/"${ARCHIVE_F} | wc -c`
   if [ $TOTLEN -gt 128 ] ; then
-    MSSR=`echo $MSSF | sed -e 's/track1\.//g'`
-    echo "Total MSS pathname too long (over 128 characters)"
-    echo "Renaming to "${MSSR}
+    ARCHIVE_R=`echo $ARCHIVE_F | sed -e 's/track1\.//g'`
+    echo "Total ARCHIVE_ pathname too long (over 128 characters)"
+    echo "Renaming to "${ARCHIVE_R}
   fi
-  $MSRCP -pe 3652 -class reliability=economy -srcdelete $MSSF "mss:${MSSD}/${MSSR}"
+  $MSRCP -pe 3652 -class reliability=economy -srcdelete $ARCHIVE_F "mss:${ARCHIVE_D}/${ARCHIVE_R}"
   if [ $? -eq 0 ] ; then
-    echo $MSSR" written to "${MSSD}/${MSSR}" and erased."
+    echo $ARCHIVE_R" written to "${ARCHIVE_D}/${ARCHIVE_R}" and erased."
   else
-    echo "Problem with storing "${MSSR}" to "${MSSD}". Stopping."
+    echo "Problem with storing "${ARCHIVE_R}" to "${ARCHIVE_D}". Stopping."
     exit 1
   fi
 else
@@ -50,15 +50,15 @@ else
   TEST4HSI=`which hsi 2<&1`
   if [ $? -eq 0 ] ; then
     HSI=`which hsi`
-    $HSI -q "mkdir -m 775 -p $MSSD ; put -d -U ${MSSD}/${MSSF}" 2>&1
+    $HSI -q "mkdir -m 775 -p $ARCHIVE_D ; put -d -U ${ARCHIVE_D}/${ARCHIVE_F}" 2>&1
     if [ $? -eq 0 ] ; then
-      echo ${MSSF}" written to "${MSSD}" and erased."
+      echo ${ARCHIVE_F}" written to "${ARCHIVE_D}" and erased."
     else
-      $HSI -q "put -d ${MSSF}" 2>&1
+      $HSI -q "put -d ${ARCHIVE_F}" 2>&1
       if [ $? -eq 0 ] ; then
-        echo ${MSSF}" written to your HPSS HOME and erased."
+        echo ${ARCHIVE_F}" written to your HPSS HOME and erased."
       else
-        echo "Problem with HPSS on "${MSSF}". Stopping"
+        echo "Problem with HPSS on "${ARCHIVE_F}". Stopping"
         exit 1
       fi
     fi      
