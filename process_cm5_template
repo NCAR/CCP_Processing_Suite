@@ -218,8 +218,8 @@ if [ $DO_PROC -ne 0 ] ; then
   ln -s -f $BASEDIR/var_split  .
   ln -s -f $BASEDIR/var_mon_to_year .
   ln -s -f $BASEDIR/var_year_to_dec .
-  ln -s -f $BASEDIR/var_year_to_5yr .
   ln -s -f $BASEDIR/var_year_to_all .
+  ln -s -f $BASEDIR/var_dec_to_cen  .
   ln -s -f $BASEDIR/add_year        .
 fi
 #
@@ -237,7 +237,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
   YRCHECK=.comp.$CASE.$HIST.$YEARNOW
   if [ ! -f $YRCHECK ] ; then
     echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
-    ARCHIVE_LIST=ARCHIVE_.$CASE.$HIST
+    ARCHIVE_LIST=archive.$CASE.$HIST
     if [ ! -f $ARCHIVE_LIST ] ; then
       echo "Getting archival list of "$CASE" "$HIST
       ./mss_list $ARCHIVE_LIST
@@ -345,23 +345,24 @@ while [ $YEARNOW -le $YEAREND ] ; do
   fi
   export YEARNOW
 #
-# Concatenate years into decades as appropriate every decade or so
+# Concatenate years into decadal segments if more than 31 years of data
 #
-  CHECKDEC=`expr $YEARNOW % 10`
   if [ $CHECKDEC -eq 0 ] ; then
-    if [ "$TPER" = "mon" ] ; then
-      if [ "$HIST" = "pop.h" ] ; then
+    if [ $YRCOUNT -gt 31 ] ; then
+      if [ "$TPER" = "mon" ] ; then
+        if [ "$HIST" = "pop.h" ] ; then
+          ./concatenate_data Y2D
+          ./store_to_archive
+        fi
+        if [ "$HIST" = "cam2.h0" ] ; then
+          ./concatenate_data Y2D
+          ./store_to_archive
+        fi
+      fi
+      if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
         ./concatenate_data Y2D
         ./store_to_archive
       fi
-      if [ "$HIST" = "cam2.h0" ] ; then
-        ./concatenate_data Y2D
-        ./store_to_archive
-      fi
-    fi
-    if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
-      ./concatenate_data Y2D
-      ./store_to_archive
     fi
   fi
 done
