@@ -347,6 +347,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
 #
 # Concatenate years into decadal segments if more than 31 years of data
 #
+  CHECKDEC=`expr $YEARNOW % 10`
   if [ $CHECKDEC -eq 0 ] ; then
     if [ $YRCOUNT -gt 31 ] ; then
       if [ "$TPER" = "mon" ] ; then
