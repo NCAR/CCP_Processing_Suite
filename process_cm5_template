@@ -236,12 +236,12 @@ while [ $YEARNOW -le $YEAREND ] ; do
   ./procstat.sh
   YRCHECK=.comp.$CASE.$HIST.$YEARNOW
   if [ ! -f $YRCHECK ] ; then
-    echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
     ARCHIVE_LIST=archive.$CASE.$HIST
     if [ ! -f $ARCHIVE_LIST ] ; then
       echo "Getting archival list of "$CASE" "$HIST
       ./mss_list $ARCHIVE_LIST
     fi
+    echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
     if [ -d $LOCAL_HIST ] ; then
       NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* | wc -l`
       if [ $NHISTF -ne 0 ] ; then
@@ -256,8 +256,8 @@ while [ $YEARNOW -le $YEAREND ] ; do
         fi
       fi
     fi
-    if [ `/bin/ls $CASE.$HIST.$YEARNOW*tar | wc -l` -ne 0 ] ; then
-      for TARFILE in `/bin/ls $CASE.$HIST.$YEARNOW*tar` ; do
+    if [ -f $CASE.$HIST.$YEARNOW*.tar ] ; then
+      for TARFILE in `/bin/ls $CASE.$HIST.$YEARNOW.tar` ; do
         tar xf $TARFILE
         if [ $? -ne 0 ] ; then
           echo "Error untarring "$TARFILE
@@ -350,15 +350,10 @@ while [ $YEARNOW -le $YEAREND ] ; do
   CHECKDEC=`expr $YEARNOW % 10`
   if [ $CHECKDEC -eq 0 ] ; then
     if [ $YRCOUNT -gt 31 ] ; then
-      if [ "$TPER" = "mon" ] ; then
-        if [ "$HIST" = "pop.h" ] ; then
-          ./concatenate_data Y2D
-          ./store_to_archive
-        fi
-        if [ "$HIST" = "cam2.h0" ] ; then
-          ./concatenate_data Y2D
-          ./store_to_archive
-        fi
+      echo $YRCOUNT
+      if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
+        ./concatenate_data Y2D
+        ./store_to_archive
       fi
       if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
         ./concatenate_data Y2D
