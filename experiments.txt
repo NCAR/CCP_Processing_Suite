@@ -404,11 +404,13 @@ b40.rcp2_6.1deg.002                    NC   rcp2.6              2    cm5  b40.20
 b40.rcp2_6.1deg.003                    NC   rcp2.6              3    cm5  b40.20th.track1.1deg.005      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp2_6.1deg.004                    NC   rcp2.6              4    cm5  b40.20th.track1.1deg.006      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp2_6.1deg.005                    NC   rcp2.6              5    cm5  b40.20th.track1.1deg.007      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
+b40.rcp2_6.1deg.006                    NC   rcp2.6              6    cm5  b40.20th.track1.1deg.011      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp4_5.1deg.001                    NC   rcp4.5              1    cm5  b40.20th.track1.1deg.008      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp4_5.1deg.002                    NC   rcp4.5              2    cm5  b40.20th.track1.1deg.009      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp4_5.1deg.003                    NC   rcp4.5              3    cm5  b40.20th.track1.1deg.005      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp4_5.1deg.004                    NC   rcp4.5              4    cm5  b40.20th.track1.1deg.006      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp4_5.1deg.005                    NC   rcp4.5              5    cm5  b40.20th.track1.1deg.007      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
+b40.rcp4_5.1deg.006                    NC   rcp4.5              6    cm5  b40.20th.track1.1deg.011      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp4_5.2300.001                    OR   rcp4.5              1    cm5  b40.rpc4_5.1deg.001           2101-01-01     2101 2299 f09_g16   jaguar    /f2/ccsm/csm
 b40.rcp2_6.2300.001                    OR   rcp2.6              1    cm5  b40.rpc2_6.1deg.001           2101-01-01     2101 2299 f09_g16   jaguar    /f2/ccsm/csm
 b40.rcp8_5.2300.001                    OR   rcp8.5              1    cm5  b40.rpc8_5.1deg.001           2101-01-01     2101 2299 f09_g16   jaguar    /f2/ccsm/csm
@@ -455,6 +457,7 @@ b40.1850.track1.2deg.wcm.007           NC   pi-control          1    cm5  unknow
 f40.1979_amip.track1.1deg.001          NC   amip                1    cm5  unknown                       YYYY-MM-DD     1979 2005 f09_g16   bluefire  /CCSM/csm
 f40.1979_amip.track1.2deg.001          NC   amip                1    cm5  unknown                       YYYY-MM-DD     1979 2005 f19_g16   bluefire  /CCSM/csm
 f40.1990_amip.track1.1deg.001          NC   amip                1    cm5  unknown                       YYYY-MM-DD     1990 2005 f09_g16   bluefire  /CCSM/csm
+f40_amip_cam5_c03_78b                  NC   amip                1    cm5  unknown                       YYYY-MM-DD     1990 2005 f19_g16   bluefire  /HANNAY/csm
 b40.rcp2_6.1deg.solar                  OR   rcp2.6X             1    cm5  unknown                       YYYY-MM-DD     2005 2100 f09_g16   jaguar    /home/slevis/csm
 b40.rcp2_6.1deg.desurbsp               OR   rcp2.6X             2    cm5  unknown                       YYYY-MM-DD     2005 2100 f09_g16   jaguar    /home/slevis/csm
 b40.rcp2_6.1deg.refsp                  OR   rcp2.6X             3    cm5  unknown                       YYYY-MM-DD     2005 2100 f09_g16   jaguar    /home/slevis/csm
