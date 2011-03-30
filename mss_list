@@ -5,41 +5,28 @@
 #
 if [ $# -ne 1 ] ; then
   echo "Usage: mss_list local_list - REQUIRED"
+  ./procstat.sh error mss_list
   exit 1
 else
   ARCHIVE_L=$1
 fi
 #
-# If NCAR ARCHIVE_ 'msls' command exists, use it.
+# If hsi command exists, use it.
 #
-TEST4MSLS=`which msls 2<&1`
+TEST4HSI=`which hsi 2<&1`
 if [ $? -eq 0 ] ; then
-   rm -f ABCXYZ
-   msls -1 "$ARCHIVE_HIST" >& ABCXYZ
-   if [ $? -eq 0 ] ; then
-     egrep "\.${HIST}\." ABCXYZ >& $ARCHIVE_L
-     rm -f ABCXYZ
-   else
-     echo "Error on mss_list from "$ARCHIVE_HIST
-     exit 1
-   fi
-#
-# If NERSC/ORNL hsi command exists, use it.
-#
-else
-  TEST4HSI=`which hsi 2<&1`
+  rm -f ABCXYZ
+  hsi -q "cd $ARCHIVE_HIST; ls -Fl" >& ABCXYZ
   if [ $? -eq 0 ] ; then
+    egrep "\.${HIST}\." ABCXYZ | cut -c60- >& $ARCHIVE_L
     rm -f ABCXYZ
-    hsi -q "cd $ARCHIVE_HIST; ls -Fl" >& ABCXYZ
-    if [ $? -eq 0 ] ; then
-      egrep "\.${HIST}\." ABCXYZ | cut -c60- >& $ARCHIVE_L
-      rm -f ABCXYZ
-    else
-      echo "Error on mss_list from "$ARCHIVE_HIST
-      exit 1
-    fi
   else
-    echo "Neither msls nor hsi exist."
+    echo "Error on mss_list from "$ARCHIVE_HIST
+    ./procstat.sh error mss_list
     exit 1
   fi
+else
+  echo "Cannot find hsi command."
+  ./procstat.sh error mss_list
+  exit 1
 fi

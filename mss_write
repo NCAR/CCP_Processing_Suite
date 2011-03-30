@@ -12,58 +12,36 @@ else
   echo "I need two arguments:"
   echo "1) file to write"
   echo "2) directory on archival system to write file to"
+  ./procstat.sh error mss_write
   exit 1
 fi
 #
 if [ ! -f $ARCHIVE_F ] ; then
   echo $MMSF" not present, cannot write to the archival system"
+  ./procstat.sh error mss_write
   exit 1
 fi
 #
-# If NCAR ARCHIVE_ msrcp command exists, use it.
-# Must check for msrcp first, to avoid using hsi at NCAR too early
-#
-TEST4MSRCP=`which msrcp 2<&1`
-if [ $? -eq 0 ] ; then
-  MSRCP=`which msrcp`
-#
-# Check for total length > 128 characters and attempt to modify
-#
-  ARCHIVE_R=${ARCHIVE_F}
-  TOTLEN=`echo ${ARCHIVE_D}"/"${ARCHIVE_F} | wc -c`
-  if [ $TOTLEN -gt 128 ] ; then
-    ARCHIVE_R=`echo $ARCHIVE_F | sed -e 's/track1\.//g'`
-    echo "Total ARCHIVE_ pathname too long (over 128 characters)"
-    echo "Renaming to "${ARCHIVE_R}
-  fi
-  $MSRCP -pe 3652 -class reliability=economy -srcdelete $ARCHIVE_F "mss:${ARCHIVE_D}/${ARCHIVE_R}"
-  if [ $? -eq 0 ] ; then
-    echo $ARCHIVE_R" written to "${ARCHIVE_D}/${ARCHIVE_R}" and erased."
-  else
-    echo "Problem with storing "${ARCHIVE_R}" to "${ARCHIVE_D}". Stopping."
-    exit 1
-  fi
-else
-#
 # If hsi command exists, use it.
 #
-  TEST4HSI=`which hsi 2<&1`
+TEST4HSI=`which hsi 2<&1`
+if [ $? -eq 0 ] ; then
+  HSI=`which hsi`
+  $HSI -q "mkdir -m 775 -p $ARCHIVE_D ; put -d -U ${ARCHIVE_D}/${ARCHIVE_F}" 2>&1
   if [ $? -eq 0 ] ; then
-    HSI=`which hsi`
-    $HSI -q "mkdir -m 775 -p $ARCHIVE_D ; put -d -U ${ARCHIVE_D}/${ARCHIVE_F}" 2>&1
-    if [ $? -eq 0 ] ; then
-      echo ${ARCHIVE_F}" written to "${ARCHIVE_D}" and erased."
-    else
-      $HSI -q "put -d ${ARCHIVE_F}" 2>&1
-      if [ $? -eq 0 ] ; then
-        echo ${ARCHIVE_F}" written to your HPSS HOME and erased."
-      else
-        echo "Problem with HPSS on "${ARCHIVE_F}". Stopping"
-        exit 1
-      fi
-    fi      
+    echo ${ARCHIVE_F}" written to "${ARCHIVE_D}" and erased."
   else
-    echo "Neither msrcp nor hsi exist. DIE."
-    exit 1
-  fi
+    $HSI -q "put -d ${ARCHIVE_F}" 2>&1
+    if [ $? -eq 0 ] ; then
+      echo ${ARCHIVE_F}" written to your HPSS HOME and erased."
+    else
+      echo "Problem with HPSS on "${ARCHIVE_F}". Stopping"
+	./procstat.sh error mss_write
+      exit 1
+    fi
+  fi      
+else
+  echo "Cannot find hsi command."
+  ./procstat.sh error mss_write
+  exit 1
 fi

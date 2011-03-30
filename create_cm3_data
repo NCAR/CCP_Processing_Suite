@@ -4,11 +4,13 @@ if [ $# = 1 ] ; then
   NCL_FILE=$1
 else
   echo "Usage: create_ipcc_data file"
+  ./procstat.sh error create_cm3_data
   exit 1
 fi
 #
 if [ ! -f $NCL_FILE ] ; then
   echo $NCL_FILE "not found. Exit."
+  ./procstat.sh error create_cm3_data
   exit 1
 fi
 # 
@@ -20,6 +22,7 @@ if [ ! $NCL ] ; then
     NCL=`which ncl`
   else
     echo "NCL not in PATH - UNDEFINED"
+    ./procstat.sh error create_cm3_data
     exit 1
   fi
 fi
@@ -80,5 +83,6 @@ NCL_VERSION=`$NCL -V` ; export NCL_VERSION
 $NCL < $NCL_SCRIPT
 if [ $? -ne 0 ] ; then
    echo "NCL ERROR on "$NCL_FILE
+   ./procstat.sh error create_cm3_data
    exit 1
 fi

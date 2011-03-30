@@ -22,6 +22,12 @@ DO_PROC=xxxPROCxxx ; export DO_PROC
 # 140 - 149  Hardware
 # 150 - end  History file location on archive
 #
+#
+# ASB - procstat
+#
+echo "BEGIN : procstat"
+./procstat.sh start
+
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
   LOCATION=`egrep "^$CASE " $EXPFILE | cut -c40-  | cut -d" " -f1`
@@ -37,13 +43,13 @@ if [ -f $EXPFILE ] ; then
   HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
 else
   echo "Cannot find $EXPFILE. EXIT"
-  ./procstat.sh
+  ./procstat.sh error process_cm5_template
   exit 1
 fi
 #
 if ! [ $LOCATION ] ; then
   echo "Unable to set variables because "$CASE" not found in $EXPFILE"
-  ./procstat.sh
+  ./procstat.sh error process_cm5_template
   exit 1
 fi
 #
@@ -65,6 +71,7 @@ case "$PROCHOST" in
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
     LOCALDSK=/datalocal/proc/$CASE       ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
+    alias hsi='/contrib/hpss/bin/hsi'    ;
     ;;
 
   tramhill* | hurricane* )                                # tramhill/hurricane @ CGD/NCAR
@@ -74,6 +81,7 @@ case "$PROCHOST" in
     NCARG_ROOT=/contrib/ncarg             ; export NCARG_ROOT
     PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
+    alias hsi='/contrib/hpss/bin/hsi'    ;
     ;;
 
   mirage* )                                # DASG @ CISL/NCAR
@@ -107,7 +115,7 @@ case "$PROCHOST" in
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
-    ./procstat.sh
+    ./procstat.sh error process_cm5_template
     exit 1 ;;
 esac
 #
@@ -128,7 +136,7 @@ case "$HTYP" in
     COMP_NAME=ice ;;
   * ) 
     echo "Unable to continue because "$HIST" not known."
-    ./procstat.sh
+    ./procstat.sh error process_cm5_template
     exit 1 ;;
 esac
 #
@@ -150,7 +158,7 @@ case "$TPER" in
     ARCHIVE_PROC=${ARCHIVE_PROC}/hourly3  ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
-    ./procstat.sh
+    ./procstat.sh error process_cm5_template
     exit 1 ;;
 esac
 #
@@ -251,7 +259,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
         ./mss_read $ARCHIVE_LIST $YEARNOW
         if [ $? -ne 0 ] ; then
           echo "Error from mss_read"
-         ./procstat.sh
+         ./procstat.sh error process_cm5_template
          exit 1
         fi
       fi
@@ -272,7 +280,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
           ./var_split $FILE erase
           if [ $? -ne 0 ] ; then
             echo "Error from var_split on file "$FILE
-            ./procstat.sh
+            ./procstat.sh error process_cm5_template
             exit 1
           else
             touch .proc.$FILE
@@ -306,7 +314,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
           ./var_split $FILE erase
           if [ $? -ne 0 ] ; then
             echo "Error from var_split on file "$FILE
-            ./procstat.sh
+            ./procstat.sh error process_cm5_template
             exit 1
           else
             touch .proc.$FILE
@@ -374,8 +382,8 @@ echo "Final concatenating of "$CASE"."$HIST" at "`date`
 ./store_to_archive
 if [ $? -ne 0 ] ; then
   echo "store_to_archive failed"
-  ./procstat.sh
+  ./procstat.sh error process_cm5_template
   exit 1
 fi
 echo "COMPLETE : procstat"
-./procstat.sh
+./procstat.sh complete

@@ -23,6 +23,12 @@ DO_CMIP=xxxCMIPxxx ; export DO_CMIP
 # 140 - 149  Hardware
 # 150 - end  History file location on archive
 #
+#
+# ASB - procstat
+#
+echo "BEGIN : procstat"
+./procstat.sh start
+
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
   LOCATION=`egrep "^$CASE " $EXPFILE | cut -c40-  | cut -d" " -f1`
@@ -41,7 +47,7 @@ else
 #
 # ASB - procstat
 #
-  ./procstat.sh
+  ./procstat.sh error process_cm3_template
   exit 1
 fi
 #
@@ -50,7 +56,7 @@ if ! [ $LOCATION ] ; then
 #
 # ASB - procstat
 #
-  ./procstat.sh
+  ./procstat.sh error process_cm3_template
   exit 1
 fi
 #
@@ -71,7 +77,7 @@ case "$LOCATION" in
 #
 # ASB - procstat
 #
-    ./procstat.sh
+    ./procstat.sh error process_cm3_template
     exit 1 ;;
 esac
 #
@@ -89,7 +95,7 @@ case "$LOCATION" in
 #
 # ASB - procstat
 #
-        ./procstat.sh
+        ./procstat.sh error process_cm3_template
         exit 1
      esac ;;
   NC ) 
@@ -101,7 +107,7 @@ case "$LOCATION" in
 #
 # ASB - procstat
 #
-        ./procstat.sh
+        ./procstat.sh error process_cm3_template
         exit 1
       esac ;;
   OR ) 
@@ -113,7 +119,7 @@ case "$LOCATION" in
 #
 # ASB - procstat
 #
-        ./procstat.sh
+        ./procstat.sh error process_cm3_template
         exit 1
       esac ;;
   * ) 
@@ -121,7 +127,7 @@ case "$LOCATION" in
 #
 # ASB - procstat
 #
-    ./procstat.sh
+    ./procstat.sh error process_cm3_template
     exit 1 ;;
 esac
 #
@@ -157,7 +163,7 @@ case "$HTYP" in
 #
 # ASB - procstat
 #
-    ./procstat.sh
+    ./procstat.sh error process_cm3_template
     exit 1 ;;
 esac
 #
@@ -179,7 +185,7 @@ case "$TPER" in
 #
 # ASB - procstat
 #
-    ./procstat.sh
+    ./procstat.sh error process_cm3_template
     exit 1 ;;
 esac
 #
@@ -203,7 +209,7 @@ case "$PROCHOST" in
 #
 # ASB - procstat
 #
-            ./procstat.sh
+            ./procstat.sh error process_cm3_template
             exit 1
           fi
         fi
@@ -214,7 +220,7 @@ case "$PROCHOST" in
 #
 # ASB - procstat
 #
-            ./procstat.sh
+            ./procstat.sh error process_cm3_template
             exit 1
           fi
         fi
@@ -238,7 +244,7 @@ case "$PROCHOST" in
 #
 # ASB - procstat
 #
-            ./procstat.sh
+            ./procstat.sh error process_cm3_template
             exit 1
           fi
         fi
@@ -249,7 +255,7 @@ case "$PROCHOST" in
 #
 # ASB - procstat
 #
-            ./procstat.sh
+            ./procstat.sh error process_cm3_template
             exit 1
           fi
         fi
@@ -273,7 +279,7 @@ case "$PROCHOST" in
 #
 # ASB - procstat
 #
-            ./procstat.sh
+            ./procstat.sh error process_cm3_template
             exit 1
           fi
         fi
@@ -284,7 +290,7 @@ case "$PROCHOST" in
 #
 # ASB - procstat
 #
-            ./procstat.sh
+            ./procstat.sh error process_cm3_template
             exit 1
           fi
         fi
@@ -308,7 +314,7 @@ case "$PROCHOST" in
 #
 # ASB - procstat
 #
-            ./procstat.sh
+            ./procstat.sh error process_cm3_template
             exit 1
           fi
         fi
@@ -319,7 +325,7 @@ case "$PROCHOST" in
 #
 # ASB - procstat
 #
-            ./procstat.sh
+            ./procstat.sh error process_cm3_template
             exit 1
           fi
         fi
@@ -343,7 +349,7 @@ case "$PROCHOST" in
 #
 # ASB - procstat
 #
-            ./procstat.sh
+            ./procstat.sh error process_cm3_template
             exit 1
           fi
         fi
@@ -354,7 +360,7 @@ case "$PROCHOST" in
 #
 # ASB - procstat
 #
-            ./procstat.sh
+            ./procstat.sh error process_cm3_template
             exit 1
           fi
         fi
@@ -365,7 +371,7 @@ case "$PROCHOST" in
 #
 # ASB - procstat
 #
-    ./procstat.sh
+    ./procstat.sh error process_cm3_template
     exit 1 ;;
 esac
 #
@@ -380,7 +386,7 @@ case "$HTYP" in
 #
 # ASB - procstat
 #
-    ./procstat.sh
+    ./procstat.sh error process_cm3_template
     exit 1 ;;
 esac
 #
@@ -401,7 +407,7 @@ if [ $DO_CMIP -ne 0 ] ; then
 #
 # ASB - procstat
 #
-          ./procstat.sh
+          ./procstat.sh error process_cm3_template
           exit 1 ;;
       esac ;;
     clm2 ) 
@@ -415,7 +421,7 @@ if [ $DO_CMIP -ne 0 ] ; then
 #
 # ASB - procstat
 #
-          ./procstat.sh
+          ./procstat.sh error process_cm3_template
           exit 1 ;;
       esac ;;
     pop  ) 
@@ -429,7 +435,7 @@ if [ $DO_CMIP -ne 0 ] ; then
 #
 # ASB - procstat
 #
-          ./procstat.sh
+          ./procstat.sh error process_cm3_template
           exit 1 ;;
       esac ;;
     cice | csim  ) 
@@ -443,7 +449,7 @@ if [ $DO_CMIP -ne 0 ] ; then
 #
 # ASB - procstat
 #
-          ./procstat.sh
+          ./procstat.sh error process_cm3_template
           exit 1 ;;
       esac ;;
     *   ) 
@@ -451,7 +457,7 @@ if [ $DO_CMIP -ne 0 ] ; then
 #
 # ASB - procstat
 #
-      ./procstat.sh
+      ./procstat.sh error process_cm3_template
       exit 1 ;;
   esac
   export NCL_SCRIPT
@@ -460,7 +466,7 @@ if [ $DO_CMIP -ne 0 ] ; then
 #
 # ASB - procstat
 #
-    ./procstat.sh
+    ./procstat.sh error process_cm3_template
     exit 1
   fi
 fi
@@ -543,7 +549,7 @@ if [ $DO_CMIP -ne 0 ] ; then
 #
 # ASB - procstat
 #
-    ./procstat.sh
+    ./procstat.sh error process_cm3_template
     exit 1
   fi
 #
@@ -641,7 +647,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
 #
 # ASB - procstat
 #
-      ./procstat.sh
+      ./procstat.sh error process_cm3_template
       exit 1
     else
       if [ "$HIST" != "cam2.h1" ] ; then
@@ -654,7 +660,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
 #
 # ASB - procstat
 #
-                ./procstat.sh
+                ./procstat.sh error process_cm3_template
                 exit 1
               else
                 for FINT in `ls $CASE.$HIST.*.${YEARNOW}-??.nc` ; do
@@ -664,7 +670,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
 #
 # ASB - procstat
 #
-                    ./procstat.sh
+                    ./procstat.sh error process_cm3_template
                     exit 1
                   else
                     rm -f $FINT
@@ -682,7 +688,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
 #
 # ASB - procstat
 #
-                ./procstat.sh
+                ./procstat.sh error process_cm3_template
                 exit 1
               else
                 touch .cmip.$FILE
@@ -699,7 +705,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
 #
 # ASB - procstat
 #
-              ./procstat.sh
+              ./procstat.sh error process_cm3_template
               exit 1
             else
               touch .proc.$FILE
@@ -723,7 +729,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
 #
 # ASB - procstat
 #
-              ./procstat.sh
+              ./procstat.sh error process_cm3_template
               exit 1
             else
               touch .cmip.$FILE
@@ -739,7 +745,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
 #
 # ASB - procstat
 #
-              ./procstat.sh
+              ./procstat.sh error process_cm3_template
               exit 1
             else
               touch .proc.$FILE
@@ -787,7 +793,7 @@ if [ $? -eq 0 ] ; then
 #
 # ASB - procstat
 #
-          ./procstat.sh
+          ./procstat.sh error process_cm3_template
           exit 1
         fi
       fi
@@ -797,7 +803,7 @@ if [ $? -eq 0 ] ; then
 #
 # ASB - procstat
 #
-    ./procstat.sh
+    ./procstat.sh error process_cm3_template
     exit 1
   fi
 else
@@ -805,7 +811,7 @@ else
 #
 # ASB - procstat
 #
-  ./procstat.sh
+  ./procstat.sh error process_cm3_template
   exit 1
 fi
 #
@@ -817,13 +823,13 @@ if [ $? -ne 0 ] ; then
 #
 # ASB - procstat
 #
-  ./procstat.sh
+  ./procstat.sh error process_cm3_template
   exit 1
 fi
 #
 # ASB - procstat
 #
 echo "COMPLETE : procstat"
-./procstat.sh
+./procstat.sh complete
 
 

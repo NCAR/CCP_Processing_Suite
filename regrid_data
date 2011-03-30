@@ -4,11 +4,13 @@
 #
 if [ $# -ne 1 ] ; then
   echo "Usage: regrid_data file"
+  ./procstat.sh error regrid_data
   exit 1
 else
   FILE=$1
   if [ ! -f $FILE ] ; then
     echo "regrid_data: "$FILE" does not exist. Exit."
+    ./procstat.sh error regrid_data
     exit 1
   fi
 fi
@@ -75,14 +77,17 @@ if [ "$COMP" = "pop" ] ; then
         echo "regrid_data ocn COMPLETE"
       else
         echo "regrid_data ocn U regrid FAILED on "${FILE}
+	./procstat.sh error regrid_data
         exit 1
       fi
     else
       echo "regrid_data ocn T regrid FAILED on "${FILE}
+      ./procstat.sh error regrid_data
       exit 1
     fi
   else
     echo "regrid_data ocn 1 regrid FAILED on "${FILE}
+    ./procstat.sh error regrid_data
     exit 1
   fi
 fi
@@ -103,10 +108,12 @@ if [ "$COMP" = "csim" ] ; then
       echo "regrid_data ice COMPLETE"
     else
       echo "regrid_data U ice regrid FAILED on "${FILE}
+      ./procstat.sh error regrid_data
       exit 1
     fi
   else
     echo "regrid_data T ice regrid FAILED on "${FILE}
+    ./procstat.sh error regrid_data
     exit 1
   fi
 fi

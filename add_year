@@ -6,6 +6,7 @@
 if [ $# -ne 1 ] ; then
   echo "Usage: add_year YEAR"
   echo "YEAR required"
+  ./procstat.sh error add_year
   exit 1
 fi
 AYEAR=$1
@@ -18,6 +19,7 @@ if [ ! $NCRCAT ] ; then
     NCRCAT=`which ncrcat`
   else
     echo "NCRCAT not in PATH - UNDEFINED"
+    ./procstat.sh error add_year
     exit 1
   fi
 fi
@@ -69,6 +71,7 @@ if [ "$AYEAR" = "2100" ] ; then
           echo "Concatenated "$DF
         else
           echo "Failure on concat of "${DF}
+	  ./procstat.sh error add_year
           exit 1
         fi
       done
@@ -123,6 +126,7 @@ if [ "$AYEAR" = "2060" ] ; then
           echo "Concatenated "$DF
         else
           echo "Failure on concat of "${DF}
+	  ./procstat.sh error add_year
           exit 1
         fi
       done
@@ -179,6 +183,7 @@ if [ "$AYEAR" = "2005" ] ; then
           echo "Concatenated "$DF
         else
           echo "Failure on concat of "${DF}
+	  ./procstat.sh error add_year
           exit 1
         fi
       done

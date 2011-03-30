@@ -8,6 +8,7 @@ if [ ! $NCRCAT ] ; then
     NCRCAT=`which ncrcat`
   else
     echo "NCRCAT not in PATH - UNDEFINED"
+    ./procstat.sh error days_to_month
     exit 1
   fi
 fi

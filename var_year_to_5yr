@@ -4,6 +4,7 @@
 #
 if [ $# -ne 0 ] ; then
   echo "Usage: var_year_to_dec"
+  ./procstat.sh error var_year_to_5yr
   exit 1
 fi
 # 
@@ -15,6 +16,7 @@ if [ ! $NCRCAT ] ; then
     NCRCAT=`which ncrcat`
   else
     echo "NCRCAT not in PATH - UNDEFINED"
+    ./procstat.sh error var_year_to_5yr
     exit 1
   fi
 fi
@@ -85,6 +87,7 @@ for c in $CASES ; do
             fi
           else
             echo "Undefined DF: "$DF
+	    ./procstat.sh error var_year_to_5yr
             exit 1
           fi
         fi
@@ -100,6 +103,7 @@ for c in $CASES ; do
             fi
           else
             echo "Undefined DF: "$DF
+	    ./procstat.sh error var_year_to_5yr
             exit 1
           fi
         fi

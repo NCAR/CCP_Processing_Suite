@@ -4,6 +4,7 @@
 #
 if [ $# -ne 0 ] ; then
    echo "Usage: cf_var_year_to_all"
+   ./procstat.sh error cm3_var_year_to_all
    exit 1
 fi
 # 
@@ -15,6 +16,7 @@ if [ ! $NCRCAT ] ; then
     NCRCAT=`which ncrcat`
   else
     echo "NCRCAT not in PATH - UNDEFINED"
+    ./procstat.sh error cm3_var_year_to_all
     exit 1
   fi
 fi
@@ -46,11 +48,13 @@ for m in $MODEL ; do
                 echo "Concatenated "$DF" and checked year count: "$YRCOUNT
               else
                 echo "Failure on concat of "${c}"."${p}"."${v}" files"
+		./procstat.sh error cm3_var_year_to_all
                 exit 1
               fi
             else
               echo "Missing year(s) from "${v}"."${t}"."${e}" files"
               echo "Count is "$NUM" should be "$YRCOUNT
+	      ./procstat.sh error cm3_var_year_to_all
               exit 1
             fi
           else
@@ -67,6 +71,7 @@ for m in $MODEL ; do
               echo "Concatenated "$DF" WITHOUT checking year count"
             else
               echo "Failure on concat of "${c}"."${p}"."${v}" files"
+	      ./procstat.sh error cm3_var_year_to_all
               exit 1
             fi
           fi

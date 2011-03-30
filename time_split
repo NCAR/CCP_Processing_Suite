@@ -3,17 +3,20 @@
 if [ $# -eq 0 ] ; then
    echo "Usage: time_split file [erase]"
    echo "2 args means erase file after data split by time."
+   ./procstat.sh error time_split
    exit 1
 elif [ $# -eq 1 ] || [ $# -eq 2 ] ; then
    FILE=$1
 else
    echo "Usage: time_split file [erase]"
    echo "2 args means erase file after data split by time."
+   ./procstat.sh error time_split
    exit 1
 fi
 #
 if [ ! -f $FILE ] ; then
   echo "File "$FILE" does not exist. Exit."
+  ./procstat.sh error time_split
   exit 1
 fi
 # 
@@ -25,6 +28,7 @@ if [ ! $NCKS ] ; then
     NCKS=`which ncks`
   else
     echo "NCKS not in PATH - UNDEFINED"
+    ./procstat.sh error time_split
     exit 1
   fi
 fi
@@ -75,6 +79,7 @@ if [ "$COMP" = "cam2" ] ; then
       IT=`expr $IT '+' '1'`
     else
       echo "Error on "$NCKS" -O -F -d time,"$IT","$IT" "$FILE" "$OF
+      ./procstat.sh error time_split
       exit 1
     fi
   done
@@ -92,6 +97,7 @@ if [ "$COMP" = "clm2" ] ; then
       IT=`expr $IT '+' '1'`
     else
       echo "Error on "$NCKS" -O -F -d time,"$IT","$IT" "$FILE" "$OF
+      ./procstat.sh error time_split
       exit 1
     fi
   done
