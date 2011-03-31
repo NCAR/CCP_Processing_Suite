@@ -71,7 +71,6 @@ case "$PROCHOST" in
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
     LOCALDSK=/datalocal/proc/$CASE       ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
-    alias hsi='/contrib/hpss/bin/hsi'    ;
     ;;
 
   tramhill* | hurricane* )                                # tramhill/hurricane @ CGD/NCAR
@@ -81,7 +80,6 @@ case "$PROCHOST" in
     NCARG_ROOT=/contrib/ncarg             ; export NCARG_ROOT
     PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
-    alias hsi='/contrib/hpss/bin/hsi'    ;
     ;;
 
   mirage* )                                # DASG @ CISL/NCAR
