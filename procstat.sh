@@ -13,14 +13,14 @@ function DEBUG()
 
 # for debugging, hardcode - will get these from env. vars.
 #
-#CASE=b40.rcp8_5.2deg.001
-#HIST=pop.h.nday1
-#TPER=day
-#HTYP=pop
+#CASE=b40.1850.track1.1deg.006a
+#HIST=cam2.h0
+#TPER=mon
+#HTYP=atm
 #DO_PROC=1
 #DO_CMIP=0
 #LOCATION=NC
-#MSSPROC=/CCSM/csm/b40.rcp8_5.2deg.001/ocn/proc/tseries/daily
+#MSSPROC=/CCSM/csm/b40.1850.track1.1deg.006a/atm/proc/tseries/monthly
 
 #
 # generate a base filename
@@ -46,26 +46,30 @@ HOSTNAME=`hostname`
 # need to follow a naming convention for the logfiles
 # execute and save to files
 #
-case "$LOCATION" in
+case "${LOCATION}" in
   NC )                                        # NCAR experiments
     LOGFILE=`ls ~/CCP_Processing_Suite/log*${CASE}*${HIST}*`
     date > ${FILEPS}
-    ps auwx | grep ${USER} >> ${FILEPS} ;;
+    ps auwx | grep ${USER} >> ${FILEPS}
+    date > ${FILELOG}
+    tail -40 ${LOGFILE} >> ${FILELOG} ;;
   NE )                                        # NERSC experiments
     LOGFILE=`ls ~/CCP_Processing_Suite/log*${CASE}*${HIST}*` 
     date > ${FILEPS}
-    ps auwx | grep ${USER} >> ${FILEPS} ;;
+    ps auwx | grep ${USER} >> ${FILEPS}
+    date > ${FILELOG}
+    tail -40 ${LOGFILE} >> ${FILELOG} ;;
   OR )                                        # ORNL experiments
     LOGFILE=`ls ~/CCP_Processing_Suite/*.ER`
     date > ${FILEPS}
-    qstat >> ${FILEPS}  ;;
+    qstat >> ${FILEPS}
+    date > ${FILELOG}
+    tail -40 ${LOGFILE} >> ${FILELOG} ;;
   * )
-#    echo "procstat : LOGFILE does not exist for "$LOCATION" - "$FILEBASE >>& $FILELOG
+    date > ${FILELOG}
+    echo "procstat : LOGFILE does not exist for "${LOCATION}" - "${FILEBASE} >> ${FILELOG}
     ;;
 esac
-
-date > ${FILELOG}
-tail -40 ${LOGFILE} >> ${FILELOG}
 
 date > ${FILEDF}
 df -h >> ${FILEDF}
@@ -75,23 +79,12 @@ df -h >> ${FILEDF}
 #
 #
 # If NCAR MSS msrcp command exists, use it.
-date > $FILEHSI
-TEST4MSRCP=`which msrcp 2<&1`
-if [ $? -eq 0 ] ; then
-   rm -f tossme
-   msls -l -project 93300014 -1R "$MSSPROC" >& tossme
-   if [ $? -eq 0 ] ; then
-     egrep "\.${HIST}\." tossme >> $FILEHSI
-     rm -f tossme
-   else
-     echo "procstat : (files may not have been written yet) Error on msls from "$MSSPROC >> $FILEHSI
-     rm -f tossme
-   fi
+date > ${FILEHSI}
+
 #
-# If NERSC/ORNL hsi command exists, use it.
-else
-  TEST4HSI=`which hsi 2<&1`
-  if [ $? -eq 0 ] ; then
+# all sites should be using hsi
+TEST4HSI=`which hsi 2<&1`
+if [ $? -eq 0 ] ; then
     rm -f tossme
     hsi -q "cd $MSSPROC; ls -Fl" >& tossme
     if [ $? -eq 0 ] ; then
@@ -101,11 +94,9 @@ else
       echo "procstat : (files may not have been written yet) Error on hsi from "$MSSPROC >> $FILEHSI
       rm -f tossme
     fi
-  else
-    echo "Neither msrcp nor hsi exist." >> $FILEHSI
-  fi
+else
+    echo "procstat.sh: cannot find hsi command." >> $FILEHSI
 fi
-
 
 #
 # create the mail messages
