@@ -22,11 +22,6 @@ DO_PROC=xxxPROCxxx ; export DO_PROC
 # 140 - 149  Hardware
 # 150 - end  History file location on archive
 #
-#
-# ASB - procstat
-#
-echo "BEGIN : procstat"
-./procstat.sh start
 
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
@@ -238,6 +233,12 @@ cd $LOCAL_PROC
 # Start actual processing, one year at a time
 #
 YEARNOW=$YEARBEG;export YEARNOW
+#
+# ASB - procstat
+#
+echo "BEGIN : procstat"
+./procstat.sh start
+
 while [ $YEARNOW -le $YEAREND ] ; do
   ./procstat.sh
   YRCHECK=.comp.$CASE.$HIST.$YEARNOW

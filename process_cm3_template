@@ -23,11 +23,6 @@ DO_CMIP=xxxCMIPxxx ; export DO_CMIP
 # 140 - 149  Hardware
 # 150 - end  History file location on archive
 #
-#
-# ASB - procstat
-#
-echo "BEGIN : procstat"
-./procstat.sh start
 
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
@@ -627,6 +622,12 @@ CURDIR=$PWD
 #
 cd $PROCDIR
 YEARNOW=$YEARBEG;export YEARNOW
+#
+# ASB - procstat
+#
+echo "BEGIN : procstat"
+./procstat.sh start
+
 while [ $YEARNOW -le $YEAREND ] ; do
 #
 # ASB - procstat
