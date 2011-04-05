@@ -403,6 +403,7 @@ b40.rcp8_5.1deg.003                    NC   rcp85               3    cm5  b40.20
 b40.rcp8_5.1deg.004                    NC   rcp85               4    cm5  b40.20th.track1.1deg.006      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp8_5.1deg.005                    NC   rcp85               5    cm5  b40.20th.track1.1deg.007      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp8_5.1deg.006                    NC   rcp85               6    cm5  b40.20th.track1.1deg.011      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
+b40.rcp8_5.1deg.007                    NC   rcp85               7    cm5  b40.20th.track1.1deg.012      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp2_6.1deg.001                    NC   rcp26               1    cm5  b40.20th.track1.1deg.008      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp2_6.1deg.002                    NC   rcp26               2    cm5  b40.20th.track1.1deg.009      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
 b40.rcp2_6.1deg.003                    NC   rcp26               3    cm5  b40.20th.track1.1deg.005      2005-01-01     2005 2100 f09_g16   bluefire  /CCSM/csm
