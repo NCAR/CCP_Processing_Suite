@@ -15,12 +15,8 @@ fi
 #
 TEST4HSI=`which hsi 2<&1`
 if [ $? -eq 0 ] ; then
-  rm -f ABCXYZ
-  hsi -q "cd $ARCHIVE_HIST; ls -Fl" >& ABCXYZ
-  if [ $? -eq 0 ] ; then
-    egrep "\.${HIST}\." ABCXYZ | cut -c60- >& $ARCHIVE_L
-    rm -f ABCXYZ
-  else
+  hsi -q "cd $ARCHIVE_HIST; ls -1" |& egrep "\.${HIST}\." >& $ARCHIVE_L
+  if [ $? -ne 0 ] ; then
     echo "Error on mss_list from "$ARCHIVE_HIST
     ./procstat.sh error mss_list
     exit 1

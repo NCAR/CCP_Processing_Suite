@@ -233,21 +233,21 @@ cd $LOCAL_PROC
 # Start actual processing, one year at a time
 #
 YEARNOW=$YEARBEG;export YEARNOW
-#
-# ASB - procstat
-#
 echo "BEGIN : procstat"
 ./procstat.sh start
-
+#
+# Get archive listing
+#
+ARCHIVE_LIST=archive.$CASE.$HIST
+if [ ! -f $ARCHIVE_LIST ] ; then
+  echo "Getting archival list of "$CASE" "$HIST
+  ./mss_list $ARCHIVE_LIST
+fi
+#
 while [ $YEARNOW -le $YEAREND ] ; do
   ./procstat.sh
   YRCHECK=.comp.$CASE.$HIST.$YEARNOW
   if [ ! -f $YRCHECK ] ; then
-    ARCHIVE_LIST=archive.$CASE.$HIST
-    if [ ! -f $ARCHIVE_LIST ] ; then
-      echo "Getting archival list of "$CASE" "$HIST
-      ./mss_list $ARCHIVE_LIST
-    fi
     echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
     if [ -d $LOCAL_HIST ] ; then
       NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* | wc -l`
