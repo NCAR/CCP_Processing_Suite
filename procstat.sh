@@ -52,19 +52,19 @@ case "${LOCATION}" in
     date > ${FILEPS}
     ps auwx | grep ${USER} >> ${FILEPS}
     date > ${FILELOG}
-    tail -40 ${LOGFILE} >> ${FILELOG} ;;
+    tail -n 40 ${LOGFILE} >> ${FILELOG} ;;
   NE )                                        # NERSC experiments
     LOGFILE=`ls ~/CCP_Processing_Suite/log*${CASE}*${HIST}*` 
     date > ${FILEPS}
     ps auwx | grep ${USER} >> ${FILEPS}
     date > ${FILELOG}
-    tail -40 ${LOGFILE} >> ${FILELOG} ;;
+    tail -n 40 ${LOGFILE} >> ${FILELOG} ;;
   OR )                                        # ORNL experiments
     LOGFILE=`ls ~/CCP_Processing_Suite/*.ER`
     date > ${FILEPS}
     qstat >> ${FILEPS}
     date > ${FILELOG}
-    tail -40 ${LOGFILE} >> ${FILELOG} ;;
+    tail -n 40 ${LOGFILE} >> ${FILELOG} ;;
   * )
     date > ${FILELOG}
     echo "procstat : LOGFILE does not exist for "${LOCATION}" - "${FILEBASE} >> ${FILELOG}

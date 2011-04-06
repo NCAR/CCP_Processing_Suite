@@ -254,13 +254,13 @@ while [ $YEARNOW -le $YEAREND ] ; do
       if [ $NHISTF -ne 0 ] ; then
         echo ${CASE}"."${HIST}"."${YEARNOW}" files on disk, softlinking."
         ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* .
-      else
-        ./mss_read $ARCHIVE_LIST $YEARNOW
-        if [ $? -ne 0 ] ; then
-          echo "Error from mss_read"
-         ./procstat.sh error process_cm5_template
-         exit 1
-        fi
+      fi
+    else
+      ./mss_read $ARCHIVE_LIST $YEARNOW
+      if [ $? -ne 0 ] ; then
+        echo "Error from mss_read"
+       ./procstat.sh error process_cm5_template
+       exit 1
       fi
     fi
     if [ -f $CASE.$HIST.$YEARNOW*.tar ] ; then
