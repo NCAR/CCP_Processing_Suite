@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -xv
 # Read file(s) from a archival system
 #
 if [ $# -ne 2 ] ; then
@@ -27,60 +27,15 @@ if [ ! $ARCHIVE_HIST ] ; then
   echo "mss_read: ARCHIVE_HIST undefined. Exit."
 fi
 #
-# Parse case and hist to deduce time(s) to read
-#
-TSTR=${CASE}.${HIST}
-FLEN=`echo $TSTR | wc -c`
-NDOT=0
-CSTR=1
-while [ $CSTR -le $FLEN ] ; do
-  CURC=`echo $TSTR | cut -c${CSTR}-${CSTR}`
-  if [ "$CURC" = "." ] ; then
-     NDOT=`expr '(' $NDOT ')' '+' '1'`
-  fi
-  CSTR=`expr '(' $CSTR ')' '+' '1'`
-done
-NDOT=`expr '(' $NDOT ')' '+' '2'`
-DAT=`egrep "${HIST}\.${YEARNOW}" $ARCHIVE_LIST | cut -d"." -f${NDOT}-`
-#
-LST=`echo $DAT | sed -e "s/ /,/g"`
-#
-if [ "`echo $LST | cut -d"." -f2`" = "tar" ] ; then
-  ARCHIVE_FILES=$CASE.$HIST.${LST}
-else
-  ARCHIVE_FILES=$CASE.$HIST."{"${LST}"}"
-fi
-#
-# If NERSC/ORNL hsi command exists, use it.
+# Get files - check if hsi exists first
 #
 TEST4HSI=`which hsi 2<&1`
 if [ $? -eq 0 ] ; then
-  if [ `echo $LST | cut -d"." -f2` = "tar" ] ; then
-    htar -x -f $ARCHIVE_HIST/$ARCHIVE_FILES
-    if [ $? -ne 0 ] ; then
-      hsi -q "get -U $ARCHIVE_HIST/$ARCHIVE_FILES"
-      if [ $? -eq 0 ] ; then
-        tar xf $ARCHIVE_FILES
-        if [ $? -ne 0 ] ; then
-          echo "htar and tar extraction failed on "$ARCHIVE_FILES
-	    ./procstat.sh error mss_read
-          exit 1
-        else
-          rm -f  $ARCHIVE_FILES
-        fi
-      else
-        echo "Error on hsi get of "$ARCHIVE_HIST"/"$ARCHIVE_FILES
-	  ./procstat.sh error mss_read
-        exit 1
-      fi
-    fi
-  else
-    hsi -q "get $ARCHIVE_HIST/$ARCHIVE_FILES" 2>&1
-    if [ $? -ne 0 ] ; then
-      echo "Error on hsi get of "$ARCHIVE_HIST"/"$ARCHIVE_FILES
-	./procstat.sh error mss_read
-      exit 1
-    fi
+  hsi -q "cget -u ${ARCHIVE_HIST}/${CASE}.${HIST}.${YEARNOW}*"
+  if [ $? -ne 0 ] ; then
+    echo "Error on hsi get of "$ARCHIVE_HIST"/"$ARCHIVE_FILES
+    ./procstat.sh error mss_read
+    exit 1
   fi
 else
   echo "Cannot find hsi command."
