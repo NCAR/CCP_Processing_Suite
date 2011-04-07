@@ -263,8 +263,9 @@ while [ $YEARNOW -le $YEAREND ] ; do
        exit 1
       fi
     fi
-    if [ -f $CASE.$HIST.$YEARNOW*.tar ] ; then
-      for TARFILE in `/bin/ls $CASE.$HIST.$YEARNOW.tar` ; do
+    NTARFL=`/bin/ls $CASE.$HIST.$YEARNOW*.tar | wc -l`
+    if [ $NTARFL -ne 0 ] ; then
+      for TARFILE in `/bin/ls $CASE.$HIST.$YEARNOW*.tar` ; do
         tar xf $TARFILE
         if [ $? -ne 0 ] ; then
           echo "Error untarring "$TARFILE
