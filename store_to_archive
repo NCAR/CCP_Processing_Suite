@@ -11,20 +11,12 @@ fi
 if [ $DO_PROC ] ; then
   if [ $DO_PROC -ne 0 ] ; then
     cd $CACHEDIR
-    if [ `ls *.nc | wc -l` != 0 ] ; then
-      LAST=`ls -1 | egrep "\.${CASE}\." | egrep '\.nc$' | tail -n 1`
-      while [ -f $LAST ] ; do
-        for cfile in `ls *${CASE}.*nc | head -n 5` ; do
-          if [ `echo $cfile | cut -c1-4` == "CAT." ] ; then
-            SFILE=`echo $cfile | sed -e 's/^CAT\.//g'`
-            mv $cfile $SFILE
-          else
-            SFILE=`echo $cfile`
-          fi
-          ../mss_write $SFILE $ARCHIVE_PROC
-        done
-        wait
+    if [ `ls CAT.*.nc | wc -l` != 0 ] ; then
+      for cfile in `ls CAT.*.nc` ; do
+        SFILE=`echo $cfile | sed -e 's/^CAT\.//g'`
+        mv $cfile $SFILE
       done
+      ../mss_write $ARCHIVE_PROC
     fi
   fi
 fi
@@ -33,24 +25,7 @@ if [ $DO_CMIP ] ; then
   if [ $DO_CMIP -ne 0 ] ; then
     cd $LOCAL_PROC/CMIP
     if [ `ls *.nc | wc -l` != 0 ] ; then
-      if [ "$CMIP" = "cm5" ] ; then
-        LAST=`ls -1 *-*.nc | tail -n 1`
-        while [ -f $LAST ] ; do
-          for cfile in `ls *-*.nc | head -n 5` ; do
-            ../mss_write $cfile $ARCHIVE_CMIP
-          done
-          wait
-        done
-      fi
-      if [ "$CMIP" = "cm3" ] ; then
-        LAST=`ls *nc | tail -n 1`
-        while [ -f $LAST ] ; do
-          for cfile in `ls *nc | head -n 5` ; do
-            ../mss_write $cfile $ARCHIVE_CMIP
-          done
-          wait
-        done
-      fi
+      ../mss_write $ARCHIVE_CMIP
     fi
   fi
 fi

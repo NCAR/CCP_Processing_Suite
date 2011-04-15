@@ -334,12 +334,12 @@ while [ $YEARNOW -le $YEAREND ] ; do
         rm .????.$CASE.$HIST.${YEARNOW}*.nc
       fi
     fi
-  fi
 #
 # Concatenate all months into respective years, at every year done 
 #
-  echo "Concatenating years at "${YEARNOW}" at "`date`
-  ./concatenate_data M2Y
+    echo "Concatenating years at "${YEARNOW}" at "`date`
+    ./concatenate_data M2Y
+  fi
 #
   YEARNOW=`expr $YEARNOW + 1`
   if [ $YEARNOW -lt 1000 ] ; then
@@ -358,7 +358,6 @@ while [ $YEARNOW -le $YEAREND ] ; do
   CHECKDEC=`expr $YEARNOW % 10`
   if [ $CHECKDEC -eq 0 ] ; then
     if [ $YRCOUNT -gt 31 ] ; then
-      echo $YRCOUNT
       if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
         ./concatenate_data Y2D
         ./store_to_archive

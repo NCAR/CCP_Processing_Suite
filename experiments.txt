@@ -334,7 +334,7 @@ b30.245a                               OR   CCSP_Stab450        1    cm3  b30.20
 b30.209b                               OR   CCSP_Stab450        2    cm3  b30.030b                      2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
 b30.209c                               OR   CCSP_Stab450        3    cm3  b30.030c                      2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
 b30.209d                               OR   CCSP_Stab450        4    cm3  b30.030d                      2000-01-01     2000 2099 T85_gx1   jaguar    /f2/adrianne/ccsm
-b30.210a                               OR   T170_PIcntrl        0         none                          0000-01-01     0000 0019 T170_gx1  jaguar    /f2/adrianne/ccsm
+b30.210a                               OR   T170_PIcntrl        0    N/A  none                          0000-01-01     0000 0019 T170_gx1  jaguar    /f2/adrianne/ccsm
 b30.216a                               NE   20C3M_gg            1    cm3  b30.020                       0360-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
 b30.216b                               NE   20C3M_gg            2    cm3  b30.020                       0380-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
 b30.217a                               NE   20C3M_sl            1    cm3  b30.020                       0360-01-01     1870 1999 T85_gx1   bassi     /nersc/mp9/adrianne/ccsm
@@ -485,7 +485,10 @@ b40.20th.track1.2deg.wcm.007           NC   historical          1    cm5  b40.18
 b40.abrupt4xco2.1deg.001               NC   abrupt4xCO2         1    cm5  b40.1850.track1.1deg.006      0251-01-01     1850 2000 f09_g16   bluefire  /CCSM/csm
 b40.lm850-1850.1deg.001                NC   past1000            1    cm5  b40.850hf.1deg.001            0953-01-01     0850 1850 f09_g16   bluefire  /CCSM/csm
 b40.lm1850-2005.1deg.001               NC   historical          1    cm5  b40.lm850-1850.1deg.001       1850-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
-b40.1850.lgmco2.1deg.001               NC   lgm-co2             1    cm5  unknown                       YYYY-MM-DD     0301 1400 f09_g16   bluefire  /CCSM/csm
+b40.lm1850-2005.1deg.002               NC   historical          1    cm5  b40.lm850-1850.1deg.001       1850-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
+b40.1850.lgmco2.1deg.001               NC   unknown             1    cm5  unknown                       YYYY-MM-DD     0301 1400 f09_g16   bluefire  /CCSM/csm
+b40.lgm21ka.1deg.002                   NC   lgm                 1    cm5  b40.1850.lgmco2.1deg.001      0900-01-01     0900 1498 f09_g16   bluefire  /CCSM/csm
+b40.lgm21ka.1deg.003                   NC   lgm                 1    cm5  b40.lgm21ka.1deg.002          1499-01-01     1499 1899 f09_g16   bluefire  /CCSM/csm
 b40.mh6ka.1deg.003                     NC   midHolocene         1    cm5  b40.1850.track1.1deg.006      0801-01-01     0801 1300 f09_g16   bluefire  /CCSM/csm
 b40.rcp4_5.2deg.wcm.001                NC   rcp45               1    cm5  b40.1955-2005.2deg.wcm.003    2005-01-01     2005 2050 f19_g16   bluefire  /CCSM/csm
 b40.rcp4_5.2deg.wcm.002                NC   rcp45               2    cm5  b40.1955-2005.2deg.wcm.003    2005-01-01     2005 2050 f19_g16   bluefire  /CCSM/csm

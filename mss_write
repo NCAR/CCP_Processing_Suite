@@ -2,22 +2,13 @@
 # Write a file to a mass store
 #
 # Arguments:
-# 1 file to write
-# 2 directory on archival system to write file to
+# 1 directory on archival system to write file to
 #
-if [ $# = 2 ] ; then
-  ARCHIVE_F=$1
-  ARCHIVE_D=$2
+if [ $# = 1 ] ; then
+  ARCHIVE_D=$1
 else
-  echo "I need two arguments:"
-  echo "1) file to write"
-  echo "2) directory on archival system to write file to"
-  ./procstat.sh error mss_write
-  exit 1
-fi
-#
-if [ ! -f $ARCHIVE_F ] ; then
-  echo $MMSF" not present, cannot write to the archival system"
+  echo "I need an arguments:"
+  echo "Directory on archival system to write file to"
   ./procstat.sh error mss_write
   exit 1
 fi
@@ -27,15 +18,15 @@ fi
 TEST4HSI=`which hsi 2<&1`
 if [ $? -eq 0 ] ; then
   HSI=`which hsi`
-  $HSI -q "mkdir -m 775 -p $ARCHIVE_D ; put -d -U ${ARCHIVE_D}/${ARCHIVE_F}" 2>&1
+  $HSI -q "mkdir -m 775 -p $ARCHIVE_D ; put -d -U *.nc ${ARCHIVE_D}"
   if [ $? -eq 0 ] ; then
-    echo ${ARCHIVE_F}" written to "${ARCHIVE_D}" and erased."
+    echo "Files written to "${ARCHIVE_D}" and erased."
   else
-    $HSI -q "put -d ${ARCHIVE_F}" 2>&1
+    $HSI -q "put -d *.nc"
     if [ $? -eq 0 ] ; then
-      echo ${ARCHIVE_F}" written to your HPSS HOME and erased."
+      echo "Files written to your HPSS HOME and erased."
     else
-      echo "Problem with HPSS on "${ARCHIVE_F}". Stopping"
+      echo "Problem with HPSS on write. Stopping"
 	./procstat.sh error mss_write
       exit 1
     fi
