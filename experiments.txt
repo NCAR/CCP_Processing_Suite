@@ -376,17 +376,17 @@ b40.1850.track1.1deg.006a              NC   pi-control          1    cm5  b40.18
 b40.t31x3.037                          NC   pi-control          1    cm5  unknown                       0001-01-01     0001 0199 T31_gx3   bluefire  /SHIELDS/csm
 b40.1850_ramp.track1.1deg.001          NC   1pct-co2            1    cm5  b40.1850.track1.1deg.006      0251-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
 b40.1850_ramp.track1.2deg.001          NC   1pct-co2            1    cm5  b40.1850.track1.2deg.003      0501-01-01     1850 1997 f19_g16   bluefire  /CCSM/csm
-b40.20th.track1.1deg.004               NC   historical          1    cm5  b40.1850.track1.1deg.006      0863-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
+b40.20th.track1.1deg.004               NC   historical          0    cm5  b40.1850.track1.1deg.006      0863-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
 b40.20th.so4chg1950.1deg.004           OR   historical-so4chg   1    cm5  b40.1850.track1.1deg.006      0863-01-01     1850 2005 f09_g16   jaguar    /f2/ccsm/csm
 b40.20th.so4dbl1950.1deg.004           OR   historical-so4dbl   1    cm5  b40.1850.track1.1deg.006      0863-01-01     1850 2005 f09_g16   jaguar    /f2/ccsm/csm
-b40.20th.track1.1deg.005               NC   historical          2    cm5  b40.1850.track1.1deg.006      0863-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
-b40.20th.track1.1deg.006               NC   historical          3    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
-b40.20th.track1.1deg.007               NC   historical          4    cm5  b40.1850.track1.1deg.006      0983-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
-b40.20th.track1.1deg.008               NC   historical          5    cm5  b40.1850.track1.1deg.006      0937-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
-b40.20th.track1.1deg.009               NC   historical          6    cm5  b40.1850.track1.1deg.006      1031-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
-b40.20th.track1.1deg.010               NE   historical          7    cm5  b40.1850.track1.1deg.006      1031-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
-b40.20th.track1.1deg.011               NC   historical          8    cm5  b40.1850.track1.1deg.006      0910-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
-b40.20th.track1.1deg.012               NC   historical          9    cm5  b40.1850.track1.1deg.006      0953-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
+b40.20th.track1.1deg.005               NC   historical          1    cm5  b40.1850.track1.1deg.006      0863-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
+b40.20th.track1.1deg.006               NC   historical          2    cm5  b40.1850.track1.1deg.006      0893-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
+b40.20th.track1.1deg.007               NC   historical          3    cm5  b40.1850.track1.1deg.006      0983-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
+b40.20th.track1.1deg.008               NC   historical          4    cm5  b40.1850.track1.1deg.006      0937-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
+b40.20th.track1.1deg.009               NC   historical          5    cm5  b40.1850.track1.1deg.006      1031-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
+b40.20th.track1.1deg.010               NE   historical          0    cm5  b40.1850.track1.1deg.006      1031-01-01     1850 2005 f09_g16   franklin  /home/c/ccsm/csm
+b40.20th.track1.1deg.011               NC   historical          6    cm5  b40.1850.track1.1deg.006      0910-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
+b40.20th.track1.1deg.012               NC   historical          7    cm5  b40.1850.track1.1deg.006      0953-01-01     1850 2005 f09_g16   bluefire  /CCSM/csm
 b40.20th.track1.2deg.001               NC   historical          1    cm5  b40.1850.track1.2deg.003      0501-01-01     1850 2005 f19_g16   bluefire  /CCSM/csm
 b40.rcp8_5.2deg.001                    NC   rcp85               1    cm5  b40.20th.track1.2deg.001      2005-01-01     2005 2100 f19_g16   bluefire  /CCSM/csm
 b40.rcp2_6.2deg.001                    NC   rcp26               1    cm5  b40.20th.track1.2deg.001      2005-01-01     2005 2100 f19_g16   bluefire  /CCSM/csm
@@ -607,3 +607,11 @@ b40.dp.hd-2006.rcp4_5.1d.008           OR   decadalXX           8    cm5  b40.dp
 b40.dp.hd-2006.rcp4_5.1d.009           OR   decadalXX           9    cm5  b40.dp.hd-1981-20C.1d.009     2006-01-01     2006 2035 f09_g16   jaguar    /f2/ccsm/csm
 b40.dp.hd-2006.rcp4_5.1d.010           OR   decadalXX           10   cm5  b40.dp.hd-1981-20C.1d.010     2006-01-01     2006 2035 f09_g16   jaguar    /f2/ccsm/csm
 b40_1850_1d_b08c5cn_138j               NC   esm-control         1    cm5  unknown                       0001-01-01     0001 0320 f09_g16   bluefire  /CCSM/csm
+e40.1850.1deg.tr1.1xco2.002            NC                       1    cm5  unknown                       0001-01-01     0001 0060 f09_g16   bluefire  /CCSM/csm
+e40.1850.1deg.tr1.2xco2.002            NC                       1    cm5  unknown                       0001-01-01     0001 0061 f09_g16   bluefire  /CCSM/csm
+e40.1850.2deg.tr1.1xco2.008            NC                       1    cm5  unknown                       0001-01-01     0001 0066 f09_g16   bluefire  /CCSM/csm
+e40.1850.2deg.tr1.2xco2.006            NC                       1    cm5  unknown                       0001-01-01     0001 0063 f09_g16   bluefire  /CCSM/csm
+
+
+
+
