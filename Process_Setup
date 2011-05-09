@@ -30,7 +30,6 @@ if [ $TPER != "mon" ] ; then
   fi
 fi
 #
-#
 # Extract information from "experiments.txt"
 #
 #  Columns   Field
@@ -38,15 +37,16 @@ fi
 #  40 -  41  Location (NC = NCAR; NE = NERSC; OR = ORNL)
 #  45 -  64  Very brief description and/or PCMDI name (n/a if not applicable)
 #  65 -  69  Realization number (<=4 digits) (0 if not applicable)
-#  70 -  72  Is a CMIP3 (cm3), CMIP5 (cm5), or ByVar-only (N/A) experiment?
-#  75 - 100  Parent CCSM case name
-# 105 - 114  Branch date (yyyy-mm-dd, "none" if out-of-the-box)
-# 120 - 123  Year began
-# 125 - 128  Year ended
-# 130 - 138  Resolution
-# 140 - 149  Hardware
-# 150 - end  History file location on archive
+#  70 -  72  Is a CMIP3 (cm3) or CMIP5 (cm5) experiment?
+#  75 - 114  Parent CCSM case name
+# 115 - 124  Branch date (yyyy-mm-dd, "none" if out-of-the-box)
+# 130 - 133  Year began
+# 135 - 138  Year ended
+# 140 - 148  Resolution
+# 150 - 159  Hardware
+# 160 - end  History file location on archive
 #
+
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
   LOCATION=`egrep "^$CASE " $EXPFILE | cut -c40- | cut -d" " -f1`

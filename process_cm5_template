@@ -12,15 +12,15 @@ DO_PROC=xxxPROCxxx ; export DO_PROC
 #   1 -  39  CCSM case name
 #  40 -  41  Location (NC = NCAR; NE = NERSC; OR = ORNL)
 #  45 -  64  Very brief description and/or PCMDI name (n/a if not applicable)
-#  65 -  69  Realization number (2 digits) (0 if not applicable)
+#  65 -  69  Realization number (<=4 digits) (0 if not applicable)
 #  70 -  72  Is a CMIP3 (cm3) or CMIP5 (cm5) experiment?
-#  75 - 100  Parent CCSM case name
-# 105 - 114  Branch date (yyyy-mm-dd, "none" if out-of-the-box)
-# 120 - 123  Year began
-# 125 - 128  Year ended
-# 130 - 138  Resolution
-# 140 - 149  Hardware
-# 150 - end  History file location on archive
+#  75 - 114  Parent CCSM case name
+# 115 - 124  Branch date (yyyy-mm-dd, "none" if out-of-the-box)
+# 130 - 133  Year began
+# 135 - 138  Year ended
+# 140 - 148  Resolution
+# 150 - 159  Hardware
+# 160 - end  History file location on archive
 #
 
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
@@ -30,12 +30,12 @@ if [ -f $EXPFILE ] ; then
    REALIZN=`egrep "^$CASE " $EXPFILE | cut -c65-  | cut -d" " -f1`
       CMIP=`egrep "^$CASE " $EXPFILE | cut -c70-  | cut -d" " -f1`
     PARENT=`egrep "^$CASE " $EXPFILE | cut -c75-  | cut -d" " -f1`
-    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c105- | cut -d" " -f1`
-   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c120- | cut -d" " -f1`
-   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c125- | cut -d" " -f1`
-       RES=`egrep "^$CASE " $EXPFILE | cut -c130- | cut -d" " -f1`
-  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c140- | cut -d" " -f1`
-  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c115- | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c130- | cut -d" " -f1`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c135- | cut -d" " -f1`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c140- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c160- | cut -d" " -f1`
 else
   echo "Cannot find $EXPFILE. EXIT"
   ./procstat.sh error process_cm5_template
