@@ -35,24 +35,24 @@ fi
 #  Columns   Field
 #   1 -  45  CCSM case name
 #  46 -  47  Location (NC = NCAR; NE = NERSC; OR = ORNL)
-#  55 -  74  Very brief description and/or PCMDI name (N/A if not applicable)
-#  75 -  76  Realization number (<=2 digits) (0 if not applicable)
-#  80 -  82  Is a CMIP3 (cm3) or CMIP5 (cm5) experiment?
-#  85 - 124  RUN_REFCASE (parent CCSM case)
-# 130 - 139  RUN_REFDATE (branch date, yyyy-mm-dd)
-# 145 - 148  Year began or YYYY if unknown
-# 150 - 153  Year ended or YYYY if unknown
-# 155-  174  GRID (resolution)
-# 175 - 194  COMPSET (all "-" if missing)
-# 195 - 224  REPOTAG (all "-" if missing)
-# 225 - 239  MACH (hardware)
-# 240 - end  DOUT_L_MSROOT (history file location on archive)
+#  50 -  64  Official MIP name, or very brief description (N/A if not applicable)
+#  65 -  74  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+#  75 -  79  MIP (cm3 or cm5) experiment (N/A if not applicable)
+#  80 - 124  RUN_REFCASE (parent case)
+# 125 - 139  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 140 - 149  years of experiment (YYYY if unknown)
+# 150 - 159  GRID (resolution)
+# 160 - 179  COMPSET (N/A if not applicable)
+# 180 - 199  REPOTAG (N/A if not applicable)
+# 200 - 219  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 220 - 229  MACH (hardware)
+# 230 - end  DOUT_L_MSROOT (history file location on archive)
 #
 
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
   LOCATION=`egrep "^$CASE " $EXPFILE | cut -c46- | cut -d" " -f1`
-      CMIP=`egrep "^$CASE " $EXPFILE | cut -c80- | cut -d" " -f1`
+      CMIP=`egrep "^$CASE " $EXPFILE | cut -c75- | cut -d" " -f1`
   if [ "$CMIP" = "N/A" ] ; then
       CMIP="byv";export $CMIP
   fi
