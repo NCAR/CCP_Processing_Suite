@@ -9,37 +9,37 @@ DO_PROC=xxxPROCxxx ; export DO_PROC
 # Extract information from "experiments.txt"
 #
 #  Columns   Field
-#   1 -  45  CCSM case name
-#  46 -  47  Location (NC = NCAR; NE = NERSC; OR = ORNL)
-#  50 -  64  Official MIP name, or very brief description (N/A if not applicable)
-#  65 -  74  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
-#  75 -  79  MIP (cm3 or cm5) experiment (N/A if not applicable)
-#  80 - 124  RUN_REFCASE (parent case)
-# 125 - 139  RUN_REFDATE (branch date, yyyy-mm-dd)
-# 140 - 149  years of experiment (YYYY if unknown)
-# 150 - 159  GRID (resolution)
-# 160 - 179  COMPSET (N/A if not applicable)
-# 180 - 199  REPOTAG (N/A if not applicable)
-# 200 - 219  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
-# 220 - 229  MACH (hardware)
-# 230 - end  DOUT_L_MSROOT (history file location on archive)
+#   1 -  40  CCSM case name
+#  45 -  59  model_id (CCSM4, CESM1, CCSM4-BGC, CCSM4-FSCHEM, CCSM4-WACCM, etc)
+#  60 -  61  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  65 -  79  Official MIP name, or very brief description (N/A if not applicable)
+#  80 -  89  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+#  90 -  94  MIP (cm3 or cm5) experiment (N/A if not applicable)
+#  95 - 134  RUN_REFCASE (parent case)
+# 135 - 149  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 150 - 159  years of experiment (YYYY if unknown)
+# 160 - 169  GRID (resolution)
+# 170 - 199  COMPSET (N/A if not applicable)
+# 190 - 209  REPOTAG (N/A if not applicable)
+# 210 - 229  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 230 - 239  MACH (hardware)
+# 240 - end  DOUT_L_MSROOT (history file location on archive)
 #
-
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
-  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c46-  | cut -d" " -f1`
-   DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c50-  | cut -d" " -f1`
-   REALIZN=`egrep "^$CASE " $EXPFILE | cut -c65-  | cut -d" " -f1`
-      CMIP=`egrep "^$CASE " $EXPFILE | cut -c75-  | cut -d" " -f1`
-    PARENT=`egrep "^$CASE " $EXPFILE | cut -c80-  | cut -d" " -f1`
-    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c125- | cut -d" " -f1`
-   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c140-143`
-   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c145-148`
-       RES=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
-   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c160- | cut -d" " -f1`
-   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c180- | cut -d" " -f1`
-  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c220- | cut -d" " -f1`
-  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c230- | cut -d" " -f1`
+  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c60-  | cut -d" " -f1`
+   DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c65-  | cut -d" " -f1`
+   REALIZN=`egrep "^$CASE " $EXPFILE | cut -c80-  | cut -d" " -f1`
+      CMIP=`egrep "^$CASE " $EXPFILE | cut -c90-  | cut -d" " -f1`
+    PARENT=`egrep "^$CASE " $EXPFILE | cut -c95-  | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c135- | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c150-153`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c155-158`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c160- | cut -d" " -f1`
+   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c170- | cut -d" " -f1`
+   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c190- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c230- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c240- | cut -d" " -f1`
 else
   echo "Cannot find $EXPFILE. EXIT"
   ./procstat.sh error process_cm5_template
@@ -184,11 +184,13 @@ if [ "$LOCATION" = "OR" ] ; then
 fi
 echo "            Location : "$LOCATION ; export LOCATION
 echo "         Description : "$DESCRIP  ; export DESCRIP
-echo "         Realization : "$REALIZN  ; export REALIZN
+echo "     Realization/RIP : "$REALIZN  ; export REALIZN
 echo "         Parent case : "$PARENT   ; export PARENT
 echo "         Branch date : "$BRANCH   ; export BRANCH
 echo "          Resolution : "$RES      ; export RES
 echo "            Hardware : "$HARDWARE ; export HARDWARE
+echo "             Compset : "$COMPSET  ; export COMPSET
+echo "      Repository tag : "$REPOTAG  ; export REPOTAG
 echo "          Begin year : "$YEARBEG  ; export YEARBEG
 echo "            End year : "$YEAREND  ; export YEAREND
 echo "          Year count : "$YRCOUNT  ; export YRCOUNT
