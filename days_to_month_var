@@ -42,7 +42,7 @@ while [ $IDOT -le $NDOT ] ; do
   esac
   IDOT=`expr '(' $IDOT ')' '+' '1'`
 done
-DPFX=`expr '(' $DPFX ')' '+' '1'` ;;
+DPFX=`expr '(' $DPFX ')' '+' '1'`
 #
 OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
 FT=`expr '(' $DPFX ')' '+' '1'`
