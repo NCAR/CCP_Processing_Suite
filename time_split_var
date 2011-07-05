@@ -71,9 +71,6 @@ DPFX=`expr '(' $DPFX ')' '+' '1'`
 OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
 DCMP=`expr '(' $DPFX ')' '-' '2'`
 COMP=`echo $FILE | cut -d"." -f${DCMP}`
-echo $OUTPFX
-echo $COMP
-exit
 #
 NT=`$NCKS -M $FILE | egrep "Record" | cut -d"=" -f3`
 #
