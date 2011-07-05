@@ -1,25 +1,24 @@
 #!/bin/sh
 #
-# Split history files into one file per day
-#
+# Split ByVar format files into one file per day
 #
 if [ $# -eq 0 ] ; then
-   echo "Usage: time_split file [erase]"
+   echo "Usage: time_split_var file [erase]"
    echo "2 args means erase file after data split by time."
-   ./procstat.sh error time_split
+   ./procstat.sh error time_split_var
    exit 1
 elif [ $# -eq 1 ] || [ $# -eq 2 ] ; then
    FILE=$1
 else
-   echo "Usage: time_split file [erase]"
+   echo "Usage: time_split_var file [erase]"
    echo "2 args means erase file after data split by time."
-   ./procstat.sh error time_split
+   ./procstat.sh error time_split_var
    exit 1
 fi
 #
 if [ ! -f $FILE ] ; then
   echo "File "$FILE" does not exist. Exit."
-  ./procstat.sh error time_split
+  ./procstat.sh error time_split_var
   exit 1
 fi
 # 
@@ -31,7 +30,7 @@ if [ ! $NCKS ] ; then
     NCKS=`which ncks`
   else
     echo "NCKS not in PATH - UNDEFINED"
-    ./procstat.sh error time_split
+    ./procstat.sh error time_split_var
     exit 1
   fi
 fi
@@ -64,9 +63,17 @@ while [ $IDOT -le $NDOT ] ; do
   esac
   IDOT=`expr '(' $IDOT ')' '+' '1'`
 done
+#
+# Add one dot to account for variable name
+#
+DPFX=`expr '(' $DPFX ')' '+' '1'`
+#
 OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
-DCMP=`expr '(' $DPFX ')' '-' '1'`
+DCMP=`expr '(' $DPFX ')' '-' '2'`
 COMP=`echo $FILE | cut -d"." -f${DCMP}`
+echo $OUTPFX
+echo $COMP
+exit
 #
 NT=`$NCKS -M $FILE | egrep "Record" | cut -d"=" -f3`
 #
@@ -81,7 +88,7 @@ if [ "$COMP" = "cam2" ] ; then
     $NCKS -h -O -F -d time,${D0},${D1} $FILE $OF
     if [ $? -ne  0 ] ; then
       echo "Error on "$NCKS" -O -F -d time,"$D0","$DT" "$FILE" "$OF
-      ./procstat.sh error time_split
+      ./procstat.sh error time_split_var
       exit 1
     fi
   done
@@ -100,7 +107,7 @@ if [ "$COMP" = "clm2" ] ; then
       IT=`expr $IT '+' '1'`
     else
       echo "Error on "$NCKS" -O -F -d time,"$IT","$IT" "$FILE" "$OF
-      ./procstat.sh error time_split
+      ./procstat.sh error time_split_var
       exit 1
     fi
   done
