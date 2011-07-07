@@ -6,20 +6,17 @@
 if [ $# -eq 0 ] ; then
    echo "Usage: time_split file [erase]"
    echo "2 args means erase file after data split by time."
-   ./procstat.sh error time_split
    exit 1
 elif [ $# -eq 1 ] || [ $# -eq 2 ] ; then
    FILE=$1
 else
    echo "Usage: time_split file [erase]"
    echo "2 args means erase file after data split by time."
-   ./procstat.sh error time_split
    exit 1
 fi
 #
 if [ ! -f $FILE ] ; then
   echo "File "$FILE" does not exist. Exit."
-  ./procstat.sh error time_split
   exit 1
 fi
 # 
@@ -31,7 +28,6 @@ if [ ! $NCKS ] ; then
     NCKS=`which ncks`
   else
     echo "NCKS not in PATH - UNDEFINED"
-    ./procstat.sh error time_split
     exit 1
   fi
 fi
@@ -71,21 +67,20 @@ COMP=`echo $FILE | cut -d"." -f${DCMP}`
 NT=`$NCKS -M $FILE | egrep "Record" | cut -d"=" -f3`
 #
 if [ "$COMP" = "cam2" ] ; then
-  $NCKS -s "%8.8i\n" -F -H -C -v date $FILE | head -n ${NT} > T.${FILE}
-  LT=`cat T.${FILE} | uniq`
-  for it in $LT ; do
-    D0=`egrep -n ${it} T.${FILE} | head -1 | cut -d":" -f1`
-    D1=`egrep -n ${it} T.${FILE} | tail -1 | cut -d":" -f1`
-    DT=${it}
+  IT=1
+  while [ $IT -le $NT ] ; do
+    TM=`$NCKS -s "%8.8i\n" -F -H -C -v date    -d time,${IT},${IT} $FILE`
+    DS=`$NCKS -s "%5.5i\n" -F -H -C -v datesec -d time,${IT},${IT} $FILE`
+    DT=${TM}"-"${DS}
     OF=$OUTPFX.$DT.nc
-    $NCKS -h -O -F -d time,${D0},${D1} $FILE $OF
-    if [ $? -ne  0 ] ; then
-      echo "Error on "$NCKS" -O -F -d time,"$D0","$DT" "$FILE" "$OF
-      ./procstat.sh error time_split
+    $NCKS -h -O -F -d time,${IT},${IT} $FILE $OF
+    if [ $? -eq  0 ] ; then
+      IT=`expr $IT '+' '1'`
+    else
+      echo "Error on "$NCKS" -O -F -d time,"$IT","$IT" "$FILE" "$OF
       exit 1
     fi
   done
-  rm -f T.${FILE}
 fi
 #
 if [ "$COMP" = "clm2" ] ; then
@@ -100,7 +95,6 @@ if [ "$COMP" = "clm2" ] ; then
       IT=`expr $IT '+' '1'`
     else
       echo "Error on "$NCKS" -O -F -d time,"$IT","$IT" "$FILE" "$OF
-      ./procstat.sh error time_split
       exit 1
     fi
   done
