@@ -310,7 +310,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
             mv $FILE $TRIMD
           fi
         else
-          if "$TPER" = "hr6" ] || [ "$TPER" = "hr3" ] ; then
+          if [ "$TPER" = "hr6" ] || [ "$TPER" = "hr3" ] ; then
             ./time_split $FILE erase
             ./days_to_month erase
           fi
