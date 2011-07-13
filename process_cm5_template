@@ -166,6 +166,7 @@ CACHEDIR=${LOCAL_PROC}/to_archive
 #
 echo "           Case name : "$CASE ; export CASE
 echo "   History file type : "$HIST ; export HIST
+echo "         Time period : "$TPER ; export TPER
 if [ $DO_PROC -ne 0 ] ; then
   echo "   by var processing : YES"
   echo "     Processed files : "$ARCHIVE_PROC  ; export ARCHIVE_PROC
@@ -309,8 +310,10 @@ while [ $YEARNOW -le $YEAREND ] ; do
             TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
             mv $FILE $TRIMD
           fi
+          echo "time_split not required on "$FILE
         else
           if [ "$TPER" = "hr6" ] || [ "$TPER" = "hr3" ] ; then
+            echo "time_split-ting on "$FILE
             ./time_split $FILE erase
             ./days_to_month erase
           fi
