@@ -315,6 +315,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
           if [ "$TPER" = "hr6" ] || [ "$TPER" = "hr3" ] ; then
             echo "time_split-ting on "$FILE
             ./time_split $FILE erase
+            echo "Attempting to concatenate months"
             ./days_to_month erase
           fi
         fi
