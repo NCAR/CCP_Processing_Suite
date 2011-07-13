@@ -103,6 +103,7 @@ for y in $YEARS ; do
         if [ $# -eq 1 ] ; then
            rm -f ${OUTPFX}.${y}${m}??-?????.nc
         fi
+        echo "Created "$MONFIL
       fi
     fi
   done
