@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -xv
 # 
 # Check for ncl
 #
@@ -11,10 +11,24 @@ if [ ! $NCRCAT ] ; then
     exit 1
   fi
 fi
+# 
+# Check for TPER
+#
+if [ ! $TPER ] ; then
+  echo "TPER undefined. Assume daily"
+  TPER="day" ; export TPER
+fi
+# 
+# Check for HIST
+#
+if [ ! $HIST ] ; then
+  echo "HIST undefined. Assume cam2.h1"
+  HIST="cam2.h1" ; export HIST
+fi
 #
 # Parse first filename
 #
-FILE=`ls | egrep "*.${HIST}.*" | egrep '\-00000\.nc$' | head -n 1`
+FILE=`ls | egrep "*.${HIST}.*" | egrep '\-[0-9][0-9][0-9][0-9][0-9]\.nc$' | head -n 1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1
