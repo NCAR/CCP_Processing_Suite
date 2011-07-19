@@ -27,8 +27,8 @@ UIDLIB  = -L${UIDDIR}/lib -luuid
 FC	= /usr/local/pgi/linux86/bin/pgf95
 FFLAGS	= -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -module ${CMRDIR}
 #
-SRCDIR  = .
-EXEDIR  = .
+SRCDIR  = $(HOME)/CCP_Processing_Suite/CMOR2
+EXEDIR  = $(HOME)/bin
 OBJ	= handle_err.o module_netcdf.o netcdf_jfl.o kinds_mod.o load_expt.o load_table.o load_xwalk.o parse_rip.o parse_ncfile.o get_atm_grid.o
 
 all:	  Amon_CMOR
