@@ -28,8 +28,8 @@ UIDLIB  = -L${UIDDIR}/lib -luuid
 #
 FC	= /usr/bin/gfortran
 FFLAGS	= -ffree-line-length-none
-SRCDIR  = .
-EXEDIR  = .
+SRCDIR  = $(HOME)/CCP_Processing_Suite/CMOR2
+EXEDIR  = $(HOME)/bin
 OBJ	= handle_err.o module_netcdf.o netcdf_jfl.o mymods.o load_expt.o load_table.o load_xwalk.o parse_rip.o parse_ncfile.o get_atm_grid.o
 
 all:	  Amon_CMOR

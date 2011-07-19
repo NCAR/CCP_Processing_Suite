@@ -81,7 +81,7 @@ PROGRAM Amon_CMOR
   !
   ! Get experiment information
   !
-  exp_file = '~/CCP_Processing_Suite/experiments.txt'
+  exp_file = 'experiments.txt'
   call load_exp(exp_file)
   write(*,'(''Number of experiments loaded: '',i5)') num_exp
   !
