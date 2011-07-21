@@ -1,10 +1,8 @@
    CASE=xxxCASExxx ; export CASE
    HIST=xxxHISTxxx ; export HIST
    TPER=xxxTPERxxx ; export TPER
-DO_PROC=xxxPROCxxx ; export DO_PROC
 #
 # Template for processing CCSM history netCDF files into single-field format 
-# and/or CMIP format
 #
 # Extract information from "experiments.txt"
 #
@@ -30,7 +28,6 @@ if [ -f $EXPFILE ] ; then
   LOCATION=`egrep "^$CASE " $EXPFILE | cut -c60-  | cut -d" " -f1`
    DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c65-  | cut -d" " -f1`
    REALIZN=`egrep "^$CASE " $EXPFILE | cut -c80-  | cut -d" " -f1`
-      CMIP=`egrep "^$CASE " $EXPFILE | cut -c90-  | cut -d" " -f1`
     PARENT=`egrep "^$CASE " $EXPFILE | cut -c95-  | cut -d" " -f1`
     BRANCH=`egrep "^$CASE " $EXPFILE | cut -c135- | cut -d" " -f1`
    YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c150-153`
@@ -42,13 +39,13 @@ if [ -f $EXPFILE ] ; then
   HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c240- | cut -d" " -f1`
 else
   echo "Cannot find $EXPFILE. EXIT"
-  ./procstat.sh error process_cm5_template
+  ./procstat.sh error process_template
   exit 1
 fi
 #
 if ! [ $LOCATION ] ; then
   echo "Unable to set variables because "$CASE" not found in $EXPFILE"
-  ./procstat.sh error process_cm5_template
+  ./procstat.sh error process_template
   exit 1
 fi
 #
@@ -112,7 +109,7 @@ case "$PROCHOST" in
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
-    ./procstat.sh error process_cm5_template
+    ./procstat.sh error process_template
     exit 1 ;;
 esac
 #
@@ -133,7 +130,7 @@ case "$HTYP" in
     COMP_NAME=ice ;;
   * ) 
     echo "Unable to continue because "$HIST" not known."
-    ./procstat.sh error process_cm5_template
+    ./procstat.sh error process_template
     exit 1 ;;
 esac
 #
@@ -155,7 +152,7 @@ case "$TPER" in
     ARCHIVE_PROC=${ARCHIVE_PROC}/hourly3  ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
-    ./procstat.sh error process_cm5_template
+    ./procstat.sh error process_template
     exit 1 ;;
 esac
 #
@@ -167,13 +164,8 @@ CACHEDIR=${LOCAL_PROC}/to_archive
 echo "           Case name : "$CASE ; export CASE
 echo "   History file type : "$HIST ; export HIST
 echo "         Time period : "$TPER ; export TPER
-if [ $DO_PROC -ne 0 ] ; then
-  echo "   by var processing : YES"
-  echo "     Processed files : "$ARCHIVE_PROC  ; export ARCHIVE_PROC
-else
-  echo "   by var processing : NO"
-fi
-echo "     CMIP processing : NO"
+echo "   by var processing : YES"
+echo "     Processed files : "$ARCHIVE_PROC  ; export ARCHIVE_PROC
 if [ "$LOCATION" = "NC" ] ; then
   HARDWARE=${HARDWARE}".ucar.edu"
 fi
@@ -215,25 +207,22 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
-if [ $DO_PROC -ne 0 ] ; then
-  if [ "$TPER" != "mon" ] ; then
-    ln -s -f $BASEDIR/time_split    .
-    ln -s -f $BASEDIR/days_to_month .
-  fi
-  ln -s -f $BASEDIR/mss_list   .
-  ln -s -f $BASEDIR/mss_read   .
-  ln -s -f $BASEDIR/mss_write  .
-  ln -s -f $BASEDIR/var_split  .
-  ln -s -f $BASEDIR/var_mon_to_year .
-  ln -s -f $BASEDIR/var_year_to_dec .
-  ln -s -f $BASEDIR/var_year_to_all .
-  ln -s -f $BASEDIR/var_dec_to_cen  .
-  ln -s -f $BASEDIR/add_year        .
+if [ "$TPER" != "mon" ] ; then
+  ln -s -f $BASEDIR/time_split     .
+  ln -s -f $BASEDIR/days_to_month  .
 fi
-#
-ln -s -f $BASEDIR/concatenate_data    .
-ln -s -f $BASEDIR/store_to_archive    .
-ln -s -f $BASEDIR/procstat.sh         .
+ln -s -f $BASEDIR/mss_list         .
+ln -s -f $BASEDIR/mss_read         .
+ln -s -f $BASEDIR/mss_write        .
+ln -s -f $BASEDIR/var_split        .
+ln -s -f $BASEDIR/var_mon_to_year  .
+ln -s -f $BASEDIR/var_year_to_dec  .
+ln -s -f $BASEDIR/var_year_to_all  .
+ln -s -f $BASEDIR/var_dec_to_cen   .
+ln -s -f $BASEDIR/add_year         .
+ln -s -f $BASEDIR/concatenate_data .
+ln -s -f $BASEDIR/store_to_archive .
+ln -s -f $BASEDIR/procstat.sh      .
 #
 cd $LOCAL_PROC
 #
@@ -266,7 +255,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
       ./mss_read $ARCHIVE_LIST $YEARNOW
       if [ $? -ne 0 ] ; then
         echo "Error from mss_read"
-       ./procstat.sh error process_cm5_template
+       ./procstat.sh error process_template
        exit 1
       fi
     fi
@@ -281,60 +270,68 @@ while [ $YEARNOW -le $YEAREND ] ; do
         fi
       done
     fi
-    if [ "$TPER" = "mon" ] ; then
-      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??.nc` ; do
-        if [ $DO_PROC -ne 0 ] ; then
-          ./var_split $FILE erase
-          if [ $? -ne 0 ] ; then
-            echo "Error from var_split on file "$FILE
-            ./procstat.sh error process_cm5_template
-            exit 1
-          else
-            touch .proc.$FILE
-          fi
-        fi
-        if [ -f .proc.$FILE ] ; then
-          touch .comp.$FILE
-          rm -f .proc.$FILE
-        fi
-      done
-    else
-      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}*.nc` ; do
-        NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
-        if [ $NTIMES -eq 365 ] ; then
-          if [ "$HIST" = "pop.h.nday1" ] || [ "$HIST" = "pop.h2" ] ; then
-            TRIMD=`echo $FILE | cut -d"-" -f1-2`
-            mv $FILE ${TRIMD}.nc
-          fi
-          if [ "$HIST" = "cam2.h1" ] ; then
+#
+# Check on data type to see if it needs time splitting and reconcatenating first
+#
+    case "$HIST" in
+      cam2.h1 | cam2.h2 | cam2.h3 | cam2.h4 | cam2.h5 )
+        for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??-?????.nc` ; do
+          NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
+          if [ $NTIMES -eq 365 ] ; then
             TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
             mv $FILE $TRIMD
-          fi
-          echo "time_split not required on "$FILE
-        else
-          if [ "$TPER" = "hr6" ] || [ "$TPER" = "hr3" ] ; then
+            echo "time_split not required on "$FILE" 1 year length already."
+          else
             echo "time_split-ting on "$FILE
             ./time_split $FILE erase
             ./days_to_month erase
           fi
-        fi
-      done
-      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}*.nc` ; do
-        if [ $DO_PROC -ne 0 ] ; then
-          ./var_split $FILE erase
-          if [ $? -ne 0 ] ; then
-            echo "Error from var_split on file "$FILE
-            ./procstat.sh error process_cm5_template
-            exit 1
+        done ;;
+      clm2.h1 | clm2.h2 )
+        for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??-00000.nc` ; do
+          NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
+          if [ $NTIMES -eq 365 ] ; then
+            TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
+            mv $FILE $TRIMD
+            echo "time_split not required on "$FILE" 1 year length already."
           else
-            touch .proc.$FILE
+            echo "time_split-ting on "$FILE
+            ./time_split $FILE erase
+            ./days_to_month erase
           fi
-        fi
-        if [ -f .proc.$FILE ] ; then
-          touch .comp.$FILE
-        fi
-      done
-    fi
+        done ;;
+      cice.h1 )
+        for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??.nc` ; do
+          echo "time_split-ting on "$FILE
+          ./time_split $FILE erase
+          ./days_to_month erase
+        done ;;
+      pop.h2 | pop.h.nday1 )
+        for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-01.nc` ; do
+          TRIMD=`echo $FILE | sed -e 's/\-01\.nc/\.nc/g'| sed -e 's/\-02\.nc/\.nc/g'`
+          mv $FILE $TRIMD
+          echo "time_split not required on "$FILE" 1 month already."
+        done ;;
+    esac
+    ./days_to_month erase
+#
+# All time splitting should be done now, ready for var_splitting
+#
+    for FILE in `/bin/ls $CASE.$HIST.????-??.nc` ; do
+      ./var_split $FILE erase
+      if [ $? -ne 0 ] ; then
+        echo "Error from var_split on file "$FILE
+        ./procstat.sh error process_template
+        exit 1
+      else
+        touch .proc.$FILE
+      fi
+      if [ -f .proc.$FILE ] ; then
+        touch .comp.$FILE
+        rm -f .proc.$FILE
+      fi
+    done
+#
     if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 1 ] ; then
       touch $YRCHECK
       rm .????.$CASE.$HIST.${YEARNOW}*.nc
@@ -391,7 +388,7 @@ echo "Final concatenating of "$CASE"."$HIST" at "`date`
 ./store_to_archive
 if [ $? -ne 0 ] ; then
   echo "store_to_archive failed"
-  ./procstat.sh error process_cm5_template
+  ./procstat.sh error process_template
   exit 1
 fi
 echo "COMPLETE : procstat"
