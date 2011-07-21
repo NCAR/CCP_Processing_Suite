@@ -17,8 +17,6 @@ function DEBUG()
 #HIST=cam2.h0
 #TPER=mon
 #HTYP=atm
-#DO_PROC=1
-#DO_CMIP=0
 #LOCATION=NC
 #MSSPROC=/CCSM/csm/b40.1850.track1.1deg.006a/atm/proc/tseries/monthly
 
@@ -141,8 +139,6 @@ if [ $# -ge 1 ] ; then
 	    echo "CASE = ${CASE}" >> tossme
 	    echo "HIST = ${HIST}" >> tossme
 	    echo "TPER = ${TPER}" >> tossme
-	    echo "DO_PROC = ${DO_PROC}" >> tossme
-	    echo "DO_CMIP = ${DO_CMIP}" >> tossme
 	    echo "LOCATION = ${LOCATION}" >> tossme
 	    echo "HTYP = ${HTYP}" >> tossme
 	    echo "PP_HOST = ${HOSTNAME}" >> tossme
@@ -158,8 +154,6 @@ if [ $# -ge 1 ] ; then
 	    echo "CASE = ${CASE}" >> tossme
 	    echo "HIST = ${HIST}" >> tossme
 	    echo "TPER = ${TPER}" >> tossme
-	    echo "DO_PROC = ${DO_PROC}" >> tossme
-	    echo "DO_CMIP = ${DO_CMIP}" >> tossme
 	    echo "LOCATION = ${LOCATION}" >> tossme
 	    echo "HTYP = ${HTYP}" >> tossme
 	    echo "PP_HOST = ${HOSTNAME}" >> tossme
@@ -176,8 +170,6 @@ if [ $# -ge 1 ] ; then
 	    echo "CASE = ${CASE}" >> tossme
 	    echo "HIST = ${HIST}" >> tossme
 	    echo "TPER = ${TPER}" >> tossme
-	    echo "DO_PROC = ${DO_PROC}" >> tossme
-	    echo "DO_CMIP = ${DO_CMIP}" >> tossme
 	    echo "LOCATION = ${LOCATION}" >> tossme
 	    echo "HTYP = ${HTYP}" >> tossme
 	    echo "PP_HOST = ${HOSTNAME}" >> tossme

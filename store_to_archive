@@ -8,26 +8,13 @@ if [ $# -ne 0 ] ; then
   exit 1
 fi
 #
-if [ $DO_PROC ] ; then
-  if [ $DO_PROC -ne 0 ] ; then
-    cd $CACHEDIR
-    if [ `ls CAT.*.nc | wc -l` != 0 ] ; then
-      for cfile in `ls CAT.*.nc` ; do
-        SFILE=`echo $cfile | sed -e 's/^CAT\.//g'`
-        mv $cfile $SFILE
-      done
-      ../mss_write $ARCHIVE_PROC
-    fi
-  fi
-fi
-#
-if [ $DO_CMIP ] ; then
-  if [ $DO_CMIP -ne 0 ] ; then
-    cd $LOCAL_PROC/CMIP
-    if [ `ls *.nc | wc -l` != 0 ] ; then
-      ../mss_write $ARCHIVE_CMIP
-    fi
-  fi
+cd $CACHEDIR
+if [ `ls CAT.*.nc | wc -l` != 0 ] ; then
+  for cfile in `ls CAT.*.nc` ; do
+    SFILE=`echo $cfile | sed -e 's/^CAT\.//g'`
+    mv $cfile $SFILE
+  done
+  ../mss_write $ARCHIVE_PROC
 fi
 #
 cd $LOCAL_PROC
