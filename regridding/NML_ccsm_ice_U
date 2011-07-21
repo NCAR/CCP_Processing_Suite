@@ -1,8 +1,0 @@
-&ccsm_ice_rgd_nml
-  src_file       = 'CASE.csim.h.TTTT.nc'
-  out_form       = 'CASE.csim.h.src_var.TTTT.nc'
-  dst_lclobber   = .true.
-  src_var        = 'u','v'
-  map_file       = 'maps/map_gx1v3_k01_U_to_gx1R_distwgt.nc'
-  nk		 = 1
-/
