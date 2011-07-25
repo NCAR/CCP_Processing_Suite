@@ -58,9 +58,9 @@ done
 OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
 FT=`expr '(' $DPFX ')' '+' '1'`
 #
-YEARS=`ls ${OUTPFX}.????????-?????.nc | cut -d"." -f${FT} | cut -c1-4 | sort | uniq`
+YEARS=`ls ${OUTPFX}.*-[0-9][0-9][0-9][0-9][0-9].nc | cut -d"." -f${FT} | cut -c1-4 | sort | uniq`
 for y in $YEARS ; do
-  MON=`ls ${OUTPFX}.${y}????-?????.nc | cut -d"." -f${FT} | cut -c5-6 | uniq`
+  MON=`ls ${OUTPFX}.${y}????-[0-9][0-9][0-9][0-9][0-9].nc | cut -d"." -f${FT} | cut -c5-6 | uniq`
   for m in $MON ; do
   # Jan, Mar, May, Jul, Aug, Oct, Dec
     if [ "$m" = "01" ] || [ "$m" = "03" ] || [ "$m" = "05" ] || [ "$m" = "07" ] || [ "$m" = "08" ] || [ "$m" = "10" ] || [ "$m" = "12" ] ; then
@@ -95,13 +95,13 @@ for y in $YEARS ; do
           NDAY=224 ;;
       esac
     fi
-    MDAY=`ls ${OUTPFX}.${y}${m}??-?????.nc | wc -l`
+    MDAY=`ls ${OUTPFX}.${y}${m}??-[0-9][0-9][0-9][0-9][0-9].nc | wc -l`
     if [ $MDAY -eq $NDAY ] ; then
       MONFIL=${OUTPFX}.${y}-${m}.nc
-      $NCRCAT -O ${OUTPFX}.${y}${m}??-?????.nc $MONFIL
+      $NCRCAT -O ${OUTPFX}.${y}${m}??-[0-9][0-9][0-9][0-9][0-9].nc $MONFIL
       if [ $? -eq 0 ] ; then
         if [ $# -eq 1 ] ; then
-           rm -f ${OUTPFX}.${y}${m}??-?????.nc
+           rm -f ${OUTPFX}.${y}${m}??-[0-9][0-9][0-9][0-9][0-9].nc
         fi
         echo "Created "$MONFIL
       fi

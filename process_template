@@ -317,7 +317,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
 #
 # All time splitting should be done now, ready for var_splitting
 #
-    for FILE in `/bin/ls $CASE.$HIST.????-??.nc` ; do
+    for FILE in `/bin/ls $CASE.$HIST.????-??.nc $CASE.$HIST.????.nc` ; do
       ./var_split $FILE erase
       if [ $? -ne 0 ] ; then
         echo "Error from var_split on file "$FILE
