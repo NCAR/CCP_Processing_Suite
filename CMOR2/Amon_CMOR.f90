@@ -69,12 +69,7 @@ PROGRAM Amon_CMOR
   !
   write(*,*) len_trim(ack_NC),' ',len_trim(ack_NE),' ',len_trim(ack_OR)
   !
-  ! ================================
-  !  Execution begins here:
-  ! ================================
-  !
-  read(*,*) ncfile
-  call parse_ncfile(ncfile,case,comp,svar,tstr)
+  ! GO!
   !
   table_file = 'Tables/CMIP5_Amon'
   call load_table(table_file)
@@ -84,6 +79,9 @@ PROGRAM Amon_CMOR
   exp_file = 'experiments.txt'
   call load_exp(exp_file)
   write(*,'(''Number of experiments loaded: '',i5)') num_exp
+  !
+  read(*,*) ncfile
+  call parse_ncfile(ncfile,case,comp,svar,tstr)
   !
   exp_found = 0
   do iexp = 1,num_exp
