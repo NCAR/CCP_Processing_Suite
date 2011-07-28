@@ -16,9 +16,13 @@
 !!$  !
 !!$end program driver
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-subroutine parse_rip(rip,realization,initialization_method,physics_version)
-  ! 
+subroutine parse_rip
+  !
   ! Parse RIP code into its components
+  ! 
+  use cmor_info
+  use exp_info
+  implicit none
   !
   ! Accepts one- or two-digit R, I, and P, i.e., one of:
   ! 123456789
@@ -31,17 +35,11 @@ subroutine parse_rip(rip,realization,initialization_method,physics_version)
   ! r99i99p1
   ! r99i99p99
   !
-  implicit none
-  !
-  character(len=512),intent(in)::rip
-  integer,intent(out)::realization,initialization_method,physics_version
-  !
   character(len=512)::work
   integer::i,len
   !
-  write(*,*) 'parse_rip: ',rip(1:len_trim(rip))
   work(1:) = ' '
-  work(1:) = adjustl(rip(1:len_trim(rip)))
+  work(1:) = adjustl(exp(exp_found)%rip_code(1:len_trim(exp(exp_found)%rip_code)))
   len      = len_trim(work)
   !
   do i = 1,len
@@ -49,5 +47,5 @@ subroutine parse_rip(rip,realization,initialization_method,physics_version)
   enddo
   !
   write(*,*) 'WORK: ',work(1:len_trim(work))
-  read(work,*) realization,initialization_method,physics_version
+  read(work,*) cmor%realization,cmor%initialization_method,cmor%physics_version
 end subroutine parse_rip

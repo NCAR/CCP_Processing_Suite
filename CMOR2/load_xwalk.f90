@@ -6,7 +6,7 @@
 !!$  !
 !!$  xw(:)%varin2d(1:) = ' '
 !!$  xw(:)%units2d(1:) = ' '
-!!$!  xw(:)%positive2d(1:) = ' '
+!!$  xw(:)%positive2d(1:) = ' '
 !!$  xw(:)%entry2d(1:) = ' '
 !!$  !
 !!$  read(*,*) xw_file
@@ -57,6 +57,15 @@ subroutine load_xwalk(xw_file)
      endif
   enddo
 !  ixw = ixw - 1
+!!$  select case (trim(adjustl(var_info(n)%name)))
+!!$  case ('FSDTOA','FSN200','FSN200C','FSNIRTOA','FSNRTOAC','FSNRTOAS','FLUT','FLUTC','FSNS','FSNSC','FSNT','FSNTC','FSNTOA','FSNTOAC','FSUTOA')
+!!$     positive = 'up'
+!!$     write(*,*) trim(adjustl(var_info(n)%name)),' up'
+!!$  case ('FSDS','FSDSC','FDL','FDLC','FLDS','FLDSC','FLN200','FLN200C','FLNS','FLNSC','FLNT','FLNTC','FUL','FULC')
+!!$     positive = 'down'
+!!$     write(*,*) trim(adjustl(var_info(n)%name)),' down'
+!!$  case default
+!!$  end select
   num_xw = ixw
   close(20)
 !!$  do i = 1,ixw

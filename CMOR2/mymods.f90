@@ -8,7 +8,7 @@ module max_parms
   !
 end module max_parms
 !
-! define module with table structure definitions
+! CMOR "table" information
 !
 module table_info
   use max_parms
@@ -19,11 +19,11 @@ module table_info
      character(len=512)::required_global_attributes,standard_name,stored_direction,table_date,table_id,tolerance,type,units,valid_max,valid_min,value
      character(len=512)::requested,requested_bounds,variable_entry,z_bounds_factors,z_factors
   end type TableInfo
-  integer::num_tab
+  integer::num_tab,tab_found
   type(TableInfo),dimension(0:max_entries)::table
 end module table_info
 !
-! define module with experiment structure definitions
+! CESM experiment information
 !
 module exp_info
   !
@@ -33,13 +33,32 @@ module exp_info
      character(len=512)::case,loc,model_id,expt_id,rip_code,cmip,run_refcase,run_refdate
      character(len=512)::begin_end,grid,compset,repotag,start_fin,mach,dout,forcing
   end type SimInfo
-  integer::num_exp
+  integer::num_exp,exp_found,parent_found
   !
   type(SimInfo),dimension(max_entries)::exp
   !
 end module exp_info
 !
-! define module with xwalk structure definitions
+! CMOR arguments information
+!
+module cmor_info
+  !
+  use max_parms
+  !
+  type CMORInfo
+     character(len=256)::table_file,outpath,experiment_id,institution,source,calendar,contact,history
+     character(len=256)::comment,references,model_id,forcing,institute_id
+     character(len=256)::parent_experiment_id,parent_experiment_rip,positive
+     character(len=512)::ack_NC,ack_OR,ack_NE,forcing_note
+     integer::realization,initialization_method,physics_version
+     double precision::branch_time
+  end type CMORInfo
+  !
+  type(CMORInfo)::cmor
+  !
+end module cmor_info
+!
+! Crosswalk (xwalk) information
 !
 module xwalk_info
   !
@@ -48,13 +67,13 @@ module xwalk_info
   type XWInfo
      character(len=512)::varin2d,units2d,entry2d
   end type XWInfo
-  integer::num_xw
+  integer::num_xw,xw_found
   !
   type(XWInfo),dimension(max_entries)::xw
   !
 end module xwalk_info
 !
-!
+! Grid information
 !
 module atm_grid_info
   double precision,dimension(:), allocatable::alats,alons,slon,slat,plevs,zlevs,zlev_bnds

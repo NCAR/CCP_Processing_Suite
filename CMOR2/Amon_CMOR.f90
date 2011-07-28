@@ -12,6 +12,7 @@ PROGRAM Amon_CMOR
   use table_info
   use xwalk_info
   use atm_grid_info
+  use cmor_info
   !
   implicit none
   !
@@ -28,101 +29,21 @@ PROGRAM Amon_CMOR
   DOUBLE PRECISION,DIMENSION(1)  ::tval
   DOUBLE PRECISION,DIMENSION(2,1)::tbnd
   !
-  ! CMOR-needed variables
-  !
-  CHARACTER(len=256)::table_file,outpath,experiment_id,institution,source,calendar,contact,history
-  CHARACTER(len=256)::comment,references,model_id,forcing,institute_id
-  CHARACTER(len=256)::parent_experiment_id,parent_experiment_rip,positive
-  INTEGER::realization,initialization_method,physics_version
-  DOUBLE PRECISION::branch_time
-  !
-  ! other variables:
+  ! Other variables
   !
   character(len=256)::time_units,exp_file,xwalk_file,ncfile
-  character(len=256)::case,comp,svar,tstr
-  character(len=512)::ack_NC,ack_OR,ack_NE,forcing_note
-  integer::i,j,n,tcount,it,m,length,iexp,jexp,exp_found,parent_found,xw_found,var_found,tab_found
-  integer::ncid,ntimes
+  character(len=256)::case_read,comp_read,svar,tstr
+  integer::i,j,n,tcount,it,m,length,iexp,jexp,var_found
+  integer::ncid,ntimes,nsamps_read
   integer::ilon,ilat,ipres,ilev,itim,itim2,ilon2,ilat2
   !
   allmax = -1.e36
   allmin =  1.e36
-  realization           = -99
-  initialization_method = -99
-  physics_version       = -99
-  !
-  ack_NC = 'The CESM project is supported by the National Science Foundation and the Office of Science (BER) of the U.S. Department of Energy.\n'//&
-       'NCAR is sponsored by the National Science Foundation.\n'//&
-       'Computing resources were provided by the Climate Simulation Laboratory at the NCAR Computational and Information Systems Laboratory (CISL),\n'//&
-       'sponsored by the National Science Foundation and other agencies.'
-  ack_NE = 'The CESM project is supported by the National Science Foundation and the Office of Science (BER) of the U.S. Department of Energy.\n'//&
-       'NCAR is sponsored by the National Science Foundation.\n'//&
-       'This research used resources of the National Energy Research Scientific Computing Center, which is supported by the Office of Science (BER)\n'//&
-       'of the U.S. Department of Energy under Contract No. DE-AC02-05CH11231'
-  ack_OR = 'The CESM project is supported by the National Science Foundation and the Office of Science (BER) of the U.S. Department of Energy.\n'//&
-       'NCAR is sponsored by the National Science Foundation.\n'//&
-       'This research used resources of the Oak Ridge Leadership Computing Facility, located in the National Center for Computational Sciences\n'//&
-       'at Oak Ridge National Laboratory, which is supported by the Office of Science (BER) of the Department of Energy under Contract DE-AC05-00OR22725.'
-  !
-  forcing_note = 'Additional information on the external forcings used in this experiment can be found at\n'//&
-       'http://www.cesm.ucar.edu/CMIP5/forcing_information'
-  !
-  write(*,*) len_trim(ack_NC),' ',len_trim(ack_NE),' ',len_trim(ack_OR)
   !
   ! GO!
   !
-  table_file = 'Tables/CMIP5_Amon'
-  call load_table(table_file)
-  !
-  ! Get experiment information
-  !
-  exp_file = 'experiments.txt'
-  call load_exp(exp_file)
-  write(*,'(''Number of experiments loaded: '',i5)') num_exp
-  !
-  read(*,*) ncfile
-  call parse_ncfile(ncfile,case,comp,svar,tstr)
-  !
-  exp_found = 0
-  do iexp = 1,num_exp
-     if (trim(exp(iexp)%case) == trim(case)) then
-        exp_found = iexp
-     endif
-  enddo
-  if (exp_found /= 0) then
-     write(*,*) 'MATCH experiment: ',trim(exp(exp_found)%case),' ',trim(case),' ',trim(exp(exp_found)%model_id)
-     write(*,*) trim(exp(exp_found)%run_refcase),' ',trim(exp(exp_found)%repotag),' ',trim(exp(exp_found)%compset),' ',trim(exp(exp_found)%rip_code)
-  else
-     write(*,*) 'case ',case(1:len_trim(case)),' NOT FOUND. Dying.'
-     stop
-  endif
-  !
-  parent_found = 0
-  do iexp = 1,num_exp
-     if (trim(exp(exp_found)%run_refcase) == trim(exp(iexp)%case)) then
-        parent_found = iexp
-     endif
-  enddo
-  if (parent_found /= 0) then
-     write(*,*) 'MATCH parent: ',trim(case),' ',trim(exp(parent_found)%case),' ',trim(exp(parent_found)%rip_code)
-     parent_experiment_id  = exp(parent_found)%expt_id(1:)
-     parent_experiment_rip = exp(parent_found)%rip_code(1:)
-     read(exp(exp_found)%run_refdate(1:4),'(f4.0)') branch_time
-  else
-     if (trim(exp(exp_found)%run_refcase) == "N/A") then
-        parent_experiment_id  = "N/A"
-        parent_experiment_rip = "N/A"
-        branch_time = 0.
-     else
-        write(*,*) 'parent ',case(1:len_trim(case)),' NOT FOUND. Dying.'
-        stop
-     endif
-  endif
-  !
-  ! Get grid information
-  !
-  call get_atm_grid
-  allocate(data2d(nlons,nlats))
+  cmor%table_file = 'Tables/CMIP5_Amon'
+  call load_table(cmor%table_file)
   !
   ! Get "crossxwalk" (xwalk) information
   !   Provides information on relationship between CMOR variables and
@@ -131,11 +52,35 @@ PROGRAM Amon_CMOR
   xwalk_file = 'xwalk_Amon.txt'
   call load_xwalk(xwalk_file)
   !
+  ! Get experiment information
+  !
+  exp_file = 'experiments.txt'
+  call load_exp(exp_file)
+  write(*,'(''Number of experiments loaded: '',i5)') num_exp
+  !
+  read(*,*) case_read
+  read(*,*) comp_read
+  read(*,*) nsamps_read
+  do i = 1,nsamps_read
+     read(*,*) tstr
+  enddo
+  !  call parse_ncfile(ncfile,case,comp,svar,tstr)
+  !
+  ! Get experiment metadata from exp table and input case information
+  !
+  call get_exp_metadata(case_read,comp_read,nsamps_read)
+  !
+  ! Get grid information
+  !
+  call get_atm_grid
+  !
   ! Parse RIP code into components
   !
-  write(*,'(''RIP 0: '',a,'' '',3i3)') trim(exp(exp_found)%rip_code),realization,initialization_method,physics_version
-  call parse_rip(exp(exp_found)%rip_code,realization,initialization_method,physics_version)
-  write(*,'(''RIP 1: '',a,'' '',3i3)') trim(exp(exp_found)%rip_code),realization,initialization_method,physics_version
+  call parse_rip
+  !
+  ! Set up CMOR subroutine arguments
+  !
+  call get_cmor_info
   !
   ! Open actual data file and get information
   !
@@ -161,31 +106,20 @@ PROGRAM Amon_CMOR
   enddo
   !
   var_found    = 0
-   xw_found    = 0
-  positive(1:) = ' '
-  do n = 1,var_counter
-     select case (trim(adjustl(var_info(n)%name)))
-     case ('FSDTOA','FSN200','FSN200C','FSNIRTOA','FSNRTOAC','FSNRTOAS','FLUT','FLUTC','FSNS','FSNSC','FSNT','FSNTC','FSNTOA','FSNTOAC','FSUTOA')
-        positive = 'up'
-        write(*,*) trim(adjustl(var_info(n)%name)),' up'
-     case ('FSDS','FSDSC','FDL','FDLC','FLDS','FLDSC','FLN200','FLN200C','FLNS','FLNSC','FLNT','FLNTC','FUL','FULC')
-        positive = 'down'
-        write(*,*) trim(adjustl(var_info(n)%name)),' down'
-     case default
-     end select
-     !
-     do j = 1,num_xw
+  xw_found     = 0
+  do j = 1,num_xw
+     do n = 1,var_counter
+        if ((trim(var_info(n)%name) == 'RHREFHT') .and. (trim(var_info(n)%units) == 'fraction')) var_info(n)%units = '%'
+        if ((trim(var_info(n)%name) == 'FREQZM')  .and. (trim(var_info(n)%units) == 'fraction')) var_info(n)%units = '1'
         if (trim(var_info(n)%name) == trim(xw(j)%varin2d)) then
            var_found = n
-            xw_found = j
-            if ((trim(var_info(n)%name) == 'RHREFHT') .and. (trim(var_info(n)%units) == 'fraction')) var_info(n)%units = '%'
-            if ((trim(var_info(n)%name) == 'FREQZM')  .and. (trim(var_info(n)%units) == 'fraction')) var_info(n)%units = '1'
+           xw_found = j
         endif
      enddo
   enddo
   if ((xw_found /= 0).and.(var_found /= 0)) then
      write(*,*) 'MATCH field: ',trim(var_info(var_found)%name),' ',trim(var_info(var_found)%units),' ',trim(xw(xw_found)%varin2d),&
-          ' ',var_info(var_found)%missing_value,' ',var_info(var_found)%FillValue,' ',positive
+          ' ',var_info(var_found)%missing_value,' ',var_info(var_found)%FillValue,' ',cmor%positive
   endif
   !
   tab_found = 0
@@ -202,69 +136,32 @@ PROGRAM Amon_CMOR
   !
   error_flag = cmor_setup(inpath='CMOR', netcdf_file_action='replace')
   !
-  ! Define arguments to 'cmor_dataset'
-  ! Set by load_exp and init routines above
-  !
-  model_id      = trim(exp(exp_found)%model_id)
-  outpath       = 'CMOR'
-  experiment_id = exp(exp_found)%expt_id(1:)
-  institution   = 'NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
-  source        = trim(exp(exp_found)%model_id)//' (repository tag: '//trim(exp(exp_found)%repotag)//' compset: '//trim(exp(exp_found)%compset)//')'
-  calendar      = 'noleap'
-  contact       = 'cesm_data@ucar.edu'
-  history       = ' '
-  comment       = ' '
-  !
-  ! References
-  !
-  select case (trim(adjustl(exp(exp_found)%model_id)))
-  case ('CCSM4')
-     references = 'Gent P. R., et.al. 2011: The Community Climate System Model version 4. J. Climate, doi: 10.1175/2011JCLI4083.1'
-  case ('CESM1')
-     references = 'TBD'
-  case ('CCSM4-BGC')
-     references = 'TBD'
-  case ('CCSM4-FSCHEM')
-     references = 'TBD'
-  case ('CCSM4-WACCM')
-     references = 'TBD'
-  case default
-     write(*,*) 'Unknown model_id: ',trim(adjustl(exp(exp_found)%model_id)),' Stopping.'
-     stop
-  end select
-  !leap_year    =
-  !leap_month   =
-  !month_lengths=
-  forcing       = exp(exp_found)%forcing(1:)
-  institute_id  = 'NCAR'
-  !
-  !
-  error_flag = cmor_dataset(                       &
-       outpath=outpath,                            &
-       experiment_id=experiment_id,                &
-       institution=institution,                    &
-       source=source,                              &
-       calendar=calendar,                          &
-       realization=realization,                    &
-       contact=contact,                            &
-       history=history,                            &
-       comment=comment,                            &
-       references=references,                      &
-       model_id=model_id,                          &
-       forcing=forcing,                            &
-       initialization_method=initialization_method,&
-       physics_version=physics_version,            &
-       institute_id=institute_id,                  &
-       parent_experiment_id=parent_experiment_id,  &
-       parent_experiment_rip=parent_experiment_rip,&
-       branch_time=branch_time)
+  error_flag = cmor_dataset(                            &
+       outpath=cmor%outpath,                            &
+       experiment_id=cmor%experiment_id,                &
+       institution=cmor%institution,                    &
+       source=cmor%source,                              &
+       calendar=cmor%calendar,                          &
+       realization=cmor%realization,                    &
+       contact=cmor%contact,                            &
+       history=cmor%history,                            &
+       comment=cmor%comment,                            &
+       references=cmor%references,                      &
+       model_id=cmor%model_id,                          &
+       forcing=cmor%forcing,                            &
+       initialization_method=cmor%initialization_method,&
+       physics_version=cmor%physics_version,            &
+       institute_id=cmor%institute_id,                  &
+       parent_experiment_id=cmor%parent_experiment_id,  &
+       parent_experiment_rip=cmor%parent_experiment_rip,&
+       branch_time=cmor%branch_time)
   !
   ! Add acknowledgements
   !
   write(*,*) exp(exp_found)%loc(1:2)
-  if (exp(exp_found)%loc(1:2) == 'NC') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(ack_NC))
-  if (exp(exp_found)%loc(1:2) == 'NE') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(ack_NE))
-  if (exp(exp_found)%loc(1:2) == 'OR') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(ack_OR))
+  if (exp(exp_found)%loc(1:2) == 'NC') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(cmor%ack_NC))
+  if (exp(exp_found)%loc(1:2) == 'NE') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(cmor%ack_NE))
+  if (exp(exp_found)%loc(1:2) == 'OR') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(cmor%ack_OR))
   !
   ! Add grid information
   !
@@ -272,12 +169,12 @@ PROGRAM Amon_CMOR
   !
   ! Add additional forcing information
   !
-  if (forcing_note(1:1) /= ' ') error_flag = cmor_set_cur_dataset_attribute("forcing_note",trim(adjustl(forcing_note)))
+  if (cmor%forcing_note(1:1) /= ' ') error_flag = cmor_set_cur_dataset_attribute("forcing_note",trim(adjustl(cmor%forcing_note)))
   !
   !  Define all axes that will be needed
   !
   ilat = cmor_axis(                  &
-       table=table_file,    &
+       table=cmor%table_file,    &
        table_entry='latitude',       &
        units='degrees_north',        &
        length=SIZE(alats),           &
@@ -285,7 +182,7 @@ PROGRAM Amon_CMOR
        cell_bounds=bnds_lat)
 
   ilon = cmor_axis(  &
-       table=table_file,    &
+       table=cmor%table_file,    &
        table_entry='longitude',      &
        length=SIZE(alons),           &
        units='degrees_east',         &
@@ -293,7 +190,7 @@ PROGRAM Amon_CMOR
        cell_bounds=bnds_lon)
 
 !  ipres = cmor_axis(  &
-!       table=table_file,    &
+!       table=cmor%table_file,    &
 !       table_entry='plevs',          &
 !       units='Pa',                   &
 !       length=SIZE(plevs),           &
@@ -304,7 +201,7 @@ PROGRAM Amon_CMOR
   !   cmor_write (later, below).
 
   itim = cmor_axis(  &
-       table=table_file,    &
+       table=cmor%table_file,    &
        table_entry='time',           &
        units=time_units,             &
        length=ntimes,                &
@@ -314,7 +211,7 @@ PROGRAM Amon_CMOR
   !    actually be replaced by a+b before writing the netCDF file)
 
 !!$  ilev = cmor_axis(  &
-!!$       table=table_file,    &
+!!$       table=cmor%table_file,    &
 !!$       table_entry='standard_hybrid_sigma',       &
 !!$       units='1', &
 !!$       length=SIZE(zlevs),           &
@@ -358,7 +255,7 @@ PROGRAM Amon_CMOR
 !!$  !    (appearing in IPCC table A1c)
 !!$
 !!$  var3d_ids(1) = cmor_variable(    &
-!!$       table=table_file,  &
+!!$       table=cmor%table_file,  &
 !!$       table_entry=entry3d(1),     &
 !!$       units=units3d(1),           &
 !!$       axis_ids=(/ ilon, ilat, ilev, itim /),  &
@@ -371,7 +268,7 @@ PROGRAM Amon_CMOR
 !!$
 !!$  DO m=2,n3d
 !!$     var3d_ids(m) = cmor_variable(    &
-!!$          table=table_file,  &
+!!$          table=cmor%table_file,  &
 !!$          table_entry=entry3d(m),     &
 !!$          units=units3d(m),           &
 !!$          axis_ids=(/ ilon, ilat, ipres, itim /), &
@@ -383,20 +280,20 @@ PROGRAM Amon_CMOR
 !!$  !  Define variables appearing in IPCC table A1a (2-d variables)
   DO m=1,1
      write(*,*) &
-          'table=',trim(table_file),'     ',                              &
+          'table=',trim(cmor%table_file),'     ',                         &
           'table_entry=',trim(xw(xw_found)%entry2d),'     ',              &
           'units=',trim(var_info(var_found)%units),'     ',               &
           'missing_value=',var_info(var_found)%missing_value,'     ',     &
-          'positive=',trim(positive),'     ',                             &
+          'positive=',trim(cmor%positive),'     ',                        &
           'original_name=',xw(xw_found)%varin2d
 
      var2d_ids(m) = cmor_variable(                        &
-          table=table_file,                               &
+          table=cmor%table_file,                          &
           table_entry=xw(xw_found)%entry2d,               &
           units=var_info(var_found)%units,                &
           axis_ids=(/ ilon, ilat, itim /),                &
           missing_value=var_info(var_found)%missing_value,&
-          positive=positive,                              &
+          positive=cmor%positive,                         &
           original_name=xw(xw_found)%varin2d)
   ENDDO
   PRINT*, ' '
@@ -407,7 +304,8 @@ PROGRAM Amon_CMOR
   !       but only a single month of data, averaged over the month).  Then
   !       extract fields of interest and write these to netCDF files (with
   !       one field per file, but all months included in the loop).
-
+  !
+  allocate(data2d(nlons,nlats))
   time_loop: DO it=1, ntimes
 
      ! Cycle through the 2-d fields, retrieve the requested variable and
