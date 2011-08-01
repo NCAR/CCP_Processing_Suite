@@ -20,7 +20,7 @@ subroutine parse_rip
   !
   ! Parse RIP code into its components
   ! 
-  use cmor_info
+  use mycmor_info
   use exp_info
   implicit none
   !
@@ -35,17 +35,17 @@ subroutine parse_rip
   ! r99i99p1
   ! r99i99p99
   !
-  character(len=512)::work
+  character(len=256)::work
   integer::i,len
   !
   work(1:) = ' '
-  work(1:) = adjustl(exp(exp_found)%rip_code(1:len_trim(exp(exp_found)%rip_code)))
+  work(1:) = exp(exp_found)%rip_code(1:len_trim(exp(exp_found)%rip_code))
   len      = len_trim(work)
   !
   do i = 1,len
      if ((work(i:i) == 'r').or.(work(i:i) == 'i').or.(work(i:i) == 'p')) work(i:i) = ' '
   enddo
   !
-  write(*,*) 'WORK: ',work(1:len_trim(work))
-  read(work,*) cmor%realization,cmor%initialization_method,cmor%physics_version
+  read(work,*) mycmor%realization,mycmor%initialization_method,mycmor%physics_version
+  write(*,*) 'parse_rip: ',mycmor%realization,mycmor%initialization_method,mycmor%physics_version
 end subroutine parse_rip

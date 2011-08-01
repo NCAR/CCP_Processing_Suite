@@ -13,11 +13,11 @@ end module max_parms
 module table_info
   use max_parms
   type TableInfo
-     character(len=512)::approx_interval,axis,axis_entry,baseURL,bounds_values,cell_measures,cell_methods,cf_version,climatology,cmor_version
-     character(len=512)::comment,coords_attrib,dimensions,expt_id_ok,forcings,formula,frequency,generic_levels,index_only,long_name,missing_value
-     character(len=512)::modeling_realm,must_call_cmor_grid,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,out_name,positive,product,project_id
-     character(len=512)::required_global_attributes,standard_name,stored_direction,table_date,table_id,tolerance,type,units,valid_max,valid_min,value
-     character(len=512)::requested,requested_bounds,variable_entry,z_bounds_factors,z_factors
+     character(len=256)::approx_interval,axis,axis_entry,baseURL,bounds_values,cell_measures,cell_methods,cf_version,climatology,cmor_version
+     character(len=256)::comment,coords_attrib,dimensions,expt_id_ok,forcings,formula,frequency,generic_levels,index_only,long_name,missing_value
+     character(len=256)::modeling_realm,must_call_cmor_grid,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,out_name,positive,product,project_id
+     character(len=256)::required_global_attributes,standard_name,stored_direction,table_date,table_id,tolerance,type,units,valid_max,valid_min,value
+     character(len=256)::requested,requested_bounds,variable_entry,z_bounds_factors,z_factors
   end type TableInfo
   integer::num_tab,tab_found
   type(TableInfo),dimension(0:max_entries)::table
@@ -30,8 +30,8 @@ module exp_info
   use max_parms
   !
   type SimInfo
-     character(len=512)::case,loc,model_id,expt_id,rip_code,cmip,run_refcase,run_refdate
-     character(len=512)::begin_end,grid,compset,repotag,start_fin,mach,dout,forcing
+     character(len=256)::case,loc,model_id,expt_id,rip_code,cmip,run_refcase,run_refdate
+     character(len=256)::begin_end,grid,compset,repotag,start_fin,mach,dout,forcing
   end type SimInfo
   integer::num_exp,exp_found,parent_found
   !
@@ -41,7 +41,7 @@ end module exp_info
 !
 ! CMOR arguments information
 !
-module cmor_info
+module mycmor_info
   !
   use max_parms
   !
@@ -49,14 +49,14 @@ module cmor_info
      character(len=256)::table_file,outpath,experiment_id,institution,source,calendar,contact,history
      character(len=256)::comment,references,model_id,forcing,institute_id
      character(len=256)::parent_experiment_id,parent_experiment_rip,positive
-     character(len=512)::ack_NC,ack_OR,ack_NE,forcing_note
+     character(len=256)::ack_NC,ack_OR,ack_NE,forcing_note
      integer::realization,initialization_method,physics_version
      double precision::branch_time
   end type CMORInfo
   !
-  type(CMORInfo)::cmor
+  type(CMORInfo)::mycmor
   !
-end module cmor_info
+end module mycmor_info
 !
 ! Crosswalk (xwalk) information
 !
@@ -65,7 +65,10 @@ module xwalk_info
   use max_parms
   !
   type XWInfo
-     character(len=512)::varin2d,units2d,entry2d
+     character(len=256)::table,entry,standard_name,realm
+     character(len=256),dimension(10)::cesm_vars
+     integer::ncesm_vars
+     real::priority
   end type XWInfo
   integer::num_xw,xw_found
   !

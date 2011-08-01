@@ -314,4 +314,5 @@ subroutine load_exp(exp_file)
         exp(i)%grid(1:) = 'unknown resolution'
      end select
   enddo
+  write(*,'(''Experiments loaded: '',i5,'' entries.'')') num_exp
 end subroutine load_exp

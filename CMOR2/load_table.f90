@@ -58,16 +58,14 @@
 !!$  !
 !!$end program driver
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-subroutine load_table(table_file)
+subroutine load_table
+  use mycmor_info
   use table_info
   implicit none
   !
-  character(len=256),intent(in)::table_file
-  !
   integer::iostat,i,j,id(10),ixw,ixt,icol,ibng
-  character(len=256)::instring,csv_file
-  !
-  csv_file = trim(table_file)//'.csv'
+  logical::does_exist
+  character(len=256)::instring
   !
   table(:)%variable_entry(1:) = ' '
   table(:)%axis_entry(1:) = ' '
@@ -119,7 +117,13 @@ subroutine load_table(table_file)
   !
   ! Get table information
   !
-  open(20,file=trim(adjustl(table_file)),form='formatted')
+  inquire(file=mycmor%table_file,exist=does_exist)
+  if (.not.(does_exist)) then
+     write(*,*) 'Cannot find ',trim(mycmor%table_file),'. Dying.'
+     stop
+  endif
+  !
+  open(20,file=mycmor%table_file,form='formatted')
   iostat = 0 ; ixt = 0
   do while (iostat == 0)
      instring(1:)  = ' '
@@ -432,8 +436,9 @@ subroutine load_table(table_file)
      endif
   enddo
   num_tab = ixt
+  write(*,'(''CMOR table loaded : '',i5,'' entries.'')') num_tab
   close(20)
-!!$  open(21,file=csv_file)
+!!$  open(21,file=mycmor%table_file(1:len_trim(mycmor%table_file))//'.csv')
 !!$  write(21,*) 'variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min'
 !!$  do i = 1,ixt
 !!$     if (table(i)%variable_entry(1:) == ' ') then

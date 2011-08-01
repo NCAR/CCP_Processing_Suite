@@ -71,6 +71,7 @@ subroutine get_atm_grid
   end do
   !
   call close_cdf(gridid)
+  write(*,'(''ATM grid loaded'')')
   !
 !!$  do j = 1,nlats
 !!$     write(*,*) bnds_lat(1,j),alats(j),bnds_lat(2,j)

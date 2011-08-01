@@ -1,4 +1,4 @@
-PROGRAM Amon_CMOR
+program Amon_CMOR
   ! Convert CCSM4 atmospheric monthly (cam2.h0) data from single-field format
   ! to CMOR-compliant format
   !
@@ -12,18 +12,16 @@ PROGRAM Amon_CMOR
   use table_info
   use xwalk_info
   use atm_grid_info
-  use cmor_info
+  use mycmor_info
   !
   implicit none
   !
   !  uninitialized variables used in communicating with CMOR:
   !
-  INTEGER::error_flag
-  INTEGER::znondim_id,zfactor_id
-  INTEGER,DIMENSION(1000)::var2d_ids
+  INTEGER::error_flag,var_ids
   REAL,DIMENSION(:,:),ALLOCATABLE::data2d
   REAL,DIMENSION(:,:,:),ALLOCATABLE::data3d
-  real::allmax,allmin
+  real::allmax,allmin,scale_factor
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::bnds_time
   DOUBLE PRECISION,DIMENSION(1)  ::tval
@@ -31,19 +29,17 @@ PROGRAM Amon_CMOR
   !
   ! Other variables
   !
-  character(len=256)::time_units,exp_file,xwalk_file,ncfile
+  character(len=256)::time_units,exp_file,xwalk_file,ncfile,table_file
   character(len=256)::case_read,comp_read,svar,tstr
-  integer::i,j,n,tcount,it,m,length,iexp,jexp,var_found
-  integer::ncid,ntimes,nsamps_read
+  integer::i,j,m,n,tcount,it,ivar,length,iexp,jexp,var_found
+  integer::ncid,ntimes,nsamps_read,itab,ixw
   integer::ilon,ilat,ipres,ilev,itim,itim2,ilon2,ilat2
-  !
-  allmax = -1.e36
-  allmin =  1.e36
+  logical::continue
   !
   ! GO!
   !
-  cmor%table_file = 'Tables/CMIP5_Amon'
-  call load_table(cmor%table_file)
+  mycmor%table_file = 'Tables/CMIP5_Amon'
+  call load_table
   !
   ! Get "crossxwalk" (xwalk) information
   !   Provides information on relationship between CMOR variables and
@@ -56,15 +52,10 @@ PROGRAM Amon_CMOR
   !
   exp_file = 'experiments.txt'
   call load_exp(exp_file)
-  write(*,'(''Number of experiments loaded: '',i5)') num_exp
   !
   read(*,*) case_read
   read(*,*) comp_read
   read(*,*) nsamps_read
-  do i = 1,nsamps_read
-     read(*,*) tstr
-  enddo
-  !  call parse_ncfile(ncfile,case,comp,svar,tstr)
   !
   ! Get experiment metadata from exp table and input case information
   !
@@ -73,281 +64,262 @@ PROGRAM Amon_CMOR
   ! Get grid information
   !
   call get_atm_grid
-  !
-  ! Parse RIP code into components
-  !
-  call parse_rip
+  write(*,*) 'GRID: ',size(alats),size(alons)
   !
   ! Set up CMOR subroutine arguments
   !
   call get_cmor_info
   !
-  ! Open actual data file and get information
+  ! Parse RIP code into components
   !
-  call open_cdf(ncid,'data/'//ncfile,.true.)
-  call get_dims(ncid)
-  call get_vars(ncid)
+  call parse_rip
   !
-  do n=1,dim_counter
-     length = len_trim(dim_info(n)%name)
-     if(dim_info(n)%name(:length).eq.'time') then
-        ntimes = dim_info(n)%length
-     endif
-  enddo
-  time_units(1:) = ' '
-  call read_att_text(ncid,'time','units',time_units)
+  ! Step through CMOR table entries to see what CESM fields we can read and in process, and if so, do it!
   !
-  ALLOCATE(time(ntimes),bnds_time(2,ntimes))
-  !
-  do n=1,ntimes
-     time_counter = n
-     call read_var(ncid,'time_bnds',bnds_time(:,n))
-     time(n) = (bnds_time(1,n)+bnds_time(2,n))/2.
-  enddo
-  !
-  var_found    = 0
-  xw_found     = 0
-  do j = 1,num_xw
-     do n = 1,var_counter
-        if ((trim(var_info(n)%name) == 'RHREFHT') .and. (trim(var_info(n)%units) == 'fraction')) var_info(n)%units = '%'
-        if ((trim(var_info(n)%name) == 'FREQZM')  .and. (trim(var_info(n)%units) == 'fraction')) var_info(n)%units = '1'
-        if (trim(var_info(n)%name) == trim(xw(j)%varin2d)) then
-           var_found = n
-           xw_found = j
+  do itab = 1,num_tab
+     do ixw = 1,num_xw
+        mycmor%positive = ' '
+        time_counter = 0
+        var_counter  = 0
+        error_flag   = 0
+        var_found    = 0
+        scale_factor = 1.
+        allmax       = -1.e36
+        allmin       =  1.e36
+        continue     = .false.
+        if (xw(ixw)%ncesm_vars == 1) then
+           if (xw(ixw)%entry == table(itab)%variable_entry) then
+              if (xw(ixw)%cesm_vars(1)(1:7) /= 'UNKNOWN') then
+                 if (xw(ixw)%cesm_vars(1)(1:12) /= 'UNAVAILABLE') then
+                    write(ncfile,'(''data/'',a,''.'',a,''.'',a,''.'',a,''01-'',a,''12.nc'')') &
+                         trim(case_read),&
+                         trim(comp_read),&
+                         trim(xw(ixw)%cesm_vars(1)),&
+                         exp(exp_found)%begin_end(1:4),&
+                         exp(exp_found)%begin_end(6:9)
+                    inquire(file=trim(ncfile),exist=continue)
+                    if (.not.(continue)) then
+                       write(ncfile,'(''data/'',a,''.'',a,''.'',a,''.'',a,''-01_cat_'',a,''-12.nc'')') &
+                            trim(case_read),&
+                            trim(comp_read),&
+                            trim(xw(ixw)%cesm_vars(1)),&
+                            exp(exp_found)%begin_end(1:4),&
+                            exp(exp_found)%begin_end(6:9)
+                       inquire(file=trim(ncfile),exist=continue)
+                    endif
+                    if (continue) then
+                       write(*,'('' GOOD TO GO : '',a,'' == '',a,'' from CESM file: '',a)') &
+                            trim(xw(ixw)%entry),&
+                            trim(table(itab)%variable_entry),&
+                         trim(ncfile)
+                    else
+                       write(*,*) trim(ncfile(1:)),' NOT FOUND.'
+                    endif
+                 else
+                    write(*,'('' UNAVAILABLE: '',a,'' == '',a)') &
+                         trim(xw(ixw)%entry),&
+                         trim(table(itab)%variable_entry)
+                 endif
+              else
+                 write(*,'('' UNKNOWN    : '',a,'' == '',a)') &
+                      trim(xw(ixw)%entry),&
+                      trim(table(itab)%variable_entry)
+              endif
+           endif
+           !
+           ! Open CESM file and get information
+           !
+           if (continue) then
+              call open_cdf(ncid,trim(ncfile),.true.)
+              write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfile),ncid
+              call get_dims(ncid)
+              call get_vars(ncid)
+              !
+              do n=1,dim_counter
+                 length = len_trim(dim_info(n)%name)
+                 if(dim_info(n)%name(:length).eq.'time') then
+                    ntimes = dim_info(n)%length
+                 endif
+              enddo
+              time_units(1:) = ' '
+              call read_att_text(ncid,'time','units',time_units)
+              !
+              do n=1,var_counter
+                 if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(1))) then
+                    var_found = n
+                 endif
+              enddo
+              if (var_found == 0) then
+                 write(*,*) trim(xw(ixw)%cesm_vars(1)),' NEVER FOUND. STOP.'
+                 stop
+              endif
+              !
+              ALLOCATE(time(ntimes),bnds_time(2,ntimes))
+              !
+              do n=1,ntimes
+                 time_counter = n
+                 call read_var(ncid,'time_bnds',bnds_time(:,n))
+                 time(n) = (bnds_time(1,n)+bnds_time(2,n))/2.
+              enddo
+              !
+              ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
+              !
+              error_flag = cmor_setup(inpath='CMOR',netcdf_file_action=CMOR_REPLACE,logfile='LOG_CMOR.'//trim(xw(ixw)%entry))
+              !
+              error_flag = cmor_dataset(                              &
+                   outpath=mycmor%outpath,                            &
+                   experiment_id=mycmor%experiment_id,                &
+                   institution=mycmor%institution,                    &
+                   source=mycmor%source,                              &
+                   calendar=mycmor%calendar,                          &
+                   realization=mycmor%realization,                    &
+                   contact=mycmor%contact,                            &
+                   history=mycmor%history,                            &
+                   comment=mycmor%comment,                            &
+                   references=mycmor%references,                      &
+                   model_id=mycmor%model_id,                          &
+                   forcing=mycmor%forcing,                            &
+                   initialization_method=mycmor%initialization_method,&
+                   physics_version=mycmor%physics_version,            &
+                   institute_id=mycmor%institute_id,                  &
+                   parent_experiment_id=mycmor%parent_experiment_id,  &
+                   parent_experiment_rip=mycmor%parent_experiment_rip,&
+                   branch_time=mycmor%branch_time)
+              !
+              ! Add acknowledgements
+              !
+              if (exp(exp_found)%loc(1:2) == 'NC') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(mycmor%ack_NC))
+              if (exp(exp_found)%loc(1:2) == 'NE') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(mycmor%ack_NE))
+              if (exp(exp_found)%loc(1:2) == 'OR') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(mycmor%ack_OR))
+              !
+              ! Add grid information
+              !
+              if (exp(exp_found)%grid(1:1) /= ' ') error_flag = cmor_set_cur_dataset_attribute("resolution",trim(adjustl(exp(exp_found)%grid)))
+              !
+              ! Add additional forcing information
+              !
+              if (mycmor%forcing_note(1:1) /= ' ') error_flag = cmor_set_cur_dataset_attribute("forcing_note",trim(adjustl(mycmor%forcing_note)))
+              !
+              ! Define all axes that will be needed
+              !
+              ilat = cmor_axis(                  &
+                   table=mycmor%table_file,  &
+                   table_entry='latitude',       &
+                   units='degrees_north',        &
+                   length=SIZE(alats),           &
+                   coord_vals=alats,             &
+                   cell_bounds=bnds_lat)
+
+              ilon = cmor_axis(  &
+                   table=mycmor%table_file,  &
+                   table_entry='longitude',      &
+                   length=SIZE(alons),           &
+                   units='degrees_east',         &
+                   coord_vals=alons,             &
+                   cell_bounds=bnds_lon)
+              !
+              ! Note that the time axis is defined next, but the time coordinate
+              ! values and bounds will be passed to cmor through function
+              ! cmor_write (later, below).
+              !
+              itim = cmor_axis(  &
+                   table=mycmor%table_file,      &
+                   table_entry='time',           &
+                   units=time_units,             &
+                   length=ntimes,                &
+                   interval='30 days')
+
+              write(*,*) 'CMOR axes defined'
+              ! 
+              ! Make manual alterations so that CMOR works. Silly code!
+              !
+              if (xw(ixw)%entry == 'hurs')   var_info(var_found)%units = '1'
+              if (xw(ixw)%entry == 'clt')    var_info(var_found)%units = '1'
+              if (xw(ixw)%entry == 'ci')     var_info(var_found)%units = '1'
+              if (xw(ixw)%entry == 'tauu')   mycmor%positive = 'up'
+              if (xw(ixw)%entry == 'tauv')   mycmor%positive = 'up'
+              if (xw(ixw)%entry == 'hfss')   mycmor%positive = 'up'
+              if (xw(ixw)%entry == 'rlds')   mycmor%positive = 'down'
+              if (xw(ixw)%entry == 'rlut')   mycmor%positive = 'up'
+              if (xw(ixw)%entry == 'rlutcs') mycmor%positive = 'up'
+              if (xw(ixw)%entry == 'rldscs') mycmor%positive = 'down'
+              if (xw(ixw)%entry == 'rsds')   mycmor%positive = 'down'
+              if (xw(ixw)%entry == 'rsdscs') mycmor%positive = 'down'
+              if (xw(ixw)%entry == 'rsdt')   mycmor%positive = 'down'
+              if (xw(ixw)%entry == 'hfls')   mycmor%positive = 'up'
+              if (xw(ixw)%entry == 'prc') then
+                 scale_factor = 1000.
+                 var_info(var_found)%units = 'kg m-2 s-1'
+              endif
+              !
+              write(*,*) &
+                   'table=',trim(mycmor%table_file),' ',                  &
+                   'table_entry=',trim(xw(ixw)%entry),' ',                &
+                   'units=',trim(var_info(var_found)%units),' ',          &
+                   'missing_value=',var_info(var_found)%missing_value,' ',&
+                   'positive=',trim(mycmor%positive),' ',                 &
+                   'original_name=',xw(ixw)%cesm_vars(1)
+              !
+              var_ids = cmor_variable(                     &
+                   table=mycmor%table_file,                  &
+                   table_entry=xw(ixw)%entry,               &
+                   units=var_info(var_found)%units,              &
+                   axis_ids=(/ ilon, ilat, itim /),              &
+                   missing_value=var_info(var_found)%missing_value,&
+                   positive=mycmor%positive,                       &
+                   original_name=xw(ixw)%cesm_vars(1))
+              !
+              allocate(data2d(nlons,nlats))
+              ! Cycle through time
+              time_loop: DO it=1, ntimes
+                 ! append each to the appropriate netCDF file.
+                 time_counter = it
+!                 write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found)%name),it
+                 call read_var(ncid,var_info(var_found)%name,data2d)
+                 tval(1)   = time(it)
+                 tbnd(1,1) = bnds_time(1,it)
+                 tbnd(2,1) = bnds_time(2,it)
+                 m = 1
+                 error_flag = cmor_write(      &
+                      var_id        = var_ids, &
+                      data          = data2d*scale_factor,  &
+                      ntimes_passed = 1,       &
+                      time_vals     = tval,    &
+                      time_bnds     = tbnd)
+                 !     write(*,'(i6,2g12.4)') it,minval(data2d),maxval(data2d)
+                 allmax = max(allmax,maxval(data2d))
+                 allmin = min(allmin,minval(data2d))
+
+                 if (error_flag < 0) then
+                    write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
+                    write(*,*) 'Processing time sample: ', time
+                    stop
+                 end if
+
+              end do time_loop
+              ivar = ivar + 1
+              !
+              ! Close all files opened by CMOR.
+              !
+              error_flag = cmor_close()
+              write(*,'(''********************************************************************************'')')
+              write(*,'(''********************************************************************************'')')
+              write(*,'(''CMOR executed to completion; T#: '',i5,'' X#: '',i5,'' EXT: '',2g10.4)') itab,ixw,allmin,allmax
+              write(*,'(''********************************************************************************'')')
+              write(*,'(''********************************************************************************'')')
+              call close_cdf(ncid)
+              time_counter = 0
+              var_counter  = 0
+              error_flag   = 0
+              var_found    = 0
+              scale_factor = 1.
+              allmax       = -1.e36
+              allmin       =  1.e36
+              continue     = .false.
+              mycmor%positive = ' '
+           endif
         endif
-     enddo
-  enddo
-  if ((xw_found /= 0).and.(var_found /= 0)) then
-     write(*,*) 'MATCH field: ',trim(var_info(var_found)%name),' ',trim(var_info(var_found)%units),' ',trim(xw(xw_found)%varin2d),&
-          ' ',var_info(var_found)%missing_value,' ',var_info(var_found)%FillValue,' ',cmor%positive
-  endif
-  !
-  tab_found = 0
-  do n = 1,num_tab
-     if (trim(adjustl(table(n)%out_name)) == trim(adjustl(xw(xw_found)%entry2d))) then
-        tab_found = n
-     endif
-  enddo
-  if (tab_found /= 0) then
-     write(*,*) 'MATCH table # ',trim(table(tab_found)%out_name),' ',trim(table(tab_found)%units),' ',trim(xw(xw_found)%entry2d)
-  endif
-  !
-  ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
-  !
-  error_flag = cmor_setup(inpath='CMOR', netcdf_file_action='replace')
-  !
-  error_flag = cmor_dataset(                            &
-       outpath=cmor%outpath,                            &
-       experiment_id=cmor%experiment_id,                &
-       institution=cmor%institution,                    &
-       source=cmor%source,                              &
-       calendar=cmor%calendar,                          &
-       realization=cmor%realization,                    &
-       contact=cmor%contact,                            &
-       history=cmor%history,                            &
-       comment=cmor%comment,                            &
-       references=cmor%references,                      &
-       model_id=cmor%model_id,                          &
-       forcing=cmor%forcing,                            &
-       initialization_method=cmor%initialization_method,&
-       physics_version=cmor%physics_version,            &
-       institute_id=cmor%institute_id,                  &
-       parent_experiment_id=cmor%parent_experiment_id,  &
-       parent_experiment_rip=cmor%parent_experiment_rip,&
-       branch_time=cmor%branch_time)
-  !
-  ! Add acknowledgements
-  !
-  write(*,*) exp(exp_found)%loc(1:2)
-  if (exp(exp_found)%loc(1:2) == 'NC') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(cmor%ack_NC))
-  if (exp(exp_found)%loc(1:2) == 'NE') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(cmor%ack_NE))
-  if (exp(exp_found)%loc(1:2) == 'OR') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(cmor%ack_OR))
-  !
-  ! Add grid information
-  !
-  if (exp(exp_found)%grid(1:1) /= ' ') error_flag = cmor_set_cur_dataset_attribute("resolution",trim(adjustl(exp(exp_found)%grid)))
-  !
-  ! Add additional forcing information
-  !
-  if (cmor%forcing_note(1:1) /= ' ') error_flag = cmor_set_cur_dataset_attribute("forcing_note",trim(adjustl(cmor%forcing_note)))
-  !
-  !  Define all axes that will be needed
-  !
-  ilat = cmor_axis(                  &
-       table=cmor%table_file,    &
-       table_entry='latitude',       &
-       units='degrees_north',        &
-       length=SIZE(alats),           &
-       coord_vals=alats,             &
-       cell_bounds=bnds_lat)
-
-  ilon = cmor_axis(  &
-       table=cmor%table_file,    &
-       table_entry='longitude',      &
-       length=SIZE(alons),           &
-       units='degrees_east',         &
-       coord_vals=alons,             &
-       cell_bounds=bnds_lon)
-
-!  ipres = cmor_axis(  &
-!       table=cmor%table_file,    &
-!       table_entry='plevs',          &
-!       units='Pa',                   &
-!       length=SIZE(plevs),           &
-!       coord_vals=plevs)
-
-  !   note that the time axis is defined next, but the time coordinate
-  !   values and bounds will be passed to cmor through function
-  !   cmor_write (later, below).
-
-  itim = cmor_axis(  &
-       table=cmor%table_file,    &
-       table_entry='time',           &
-       units=time_units,             &
-       length=ntimes,                &
-       interval='30 days')
-
-  !  define model eta levels (although these must be provided, they will
-  !    actually be replaced by a+b before writing the netCDF file)
-
-!!$  ilev = cmor_axis(  &
-!!$       table=cmor%table_file,    &
-!!$       table_entry='standard_hybrid_sigma',       &
-!!$       units='1', &
-!!$       length=SIZE(zlevs),           &
-!!$       coord_vals=zlevs,             &
-!!$       cell_bounds=zlev_bnds)
-!!$
-!!$  !   define z-factors needed to transform from model level to pressure
-!!$  call read_var(ncid,'P0',p0)
-!!$  p0 = p0 * 100
-!!$  call read_var(ncid,'hyam',a_coeff)
-!!$  call read_var(ncid,'hybm',b_coeff)
-!!$  call read_var(ncid,'hyai',a_coeff_bnds)
-!!$  call read_var(ncid,'hybi',b_coeff_bnds)
-!!$
-!!$  error_flag = cmor_zfactor(  &
-!!$       zaxis_id=ilev,                      &
-!!$       zfactor_name='p0',                  &
-!!$       units='Pa',                         &
-!!$       zfactor_values = p0)
-!!$
-!!$  error_flag = cmor_zfactor(  &
-!!$       zaxis_id=ilev,                       &
-!!$       zfactor_name='b',                    &
-!!$       axis_ids= (/ ilev /),                &
-!!$       zfactor_values = b_coeff,            &
-!!$       zfactor_bounds = b_coeff_bnds  )
-!!$
-!!$  error_flag = cmor_zfactor(  &
-!!$       zaxis_id=ilev,                       &
-!!$       zfactor_name='a',                    &
-!!$       axis_ids= (/ ilev /),                &
-!!$       zfactor_values = a_coeff,            &
-!!$       zfactor_bounds = a_coeff_bnds )
-!!$
-!!$  zfactor_id = cmor_zfactor(  &
-!!$       zaxis_id=ilev,                         &
-!!$       zfactor_name='ps',                     &
-!!$       axis_ids=(/ ilon, ilat, itim /),       &
-!!$       units='Pa' )
-!!$  !  Define the only field to be written that is a function of model level
-!!$  !    (appearing in IPCC table A1c)
-!!$
-!!$  var3d_ids(1) = cmor_variable(    &
-!!$       table=cmor%table_file,  &
-!!$       table_entry=entry3d(1),     &
-!!$       units=units3d(1),           &
-!!$       axis_ids=(/ ilon, ilat, ilev, itim /),  &
-!!$       missing_value=1.0e28, &
-!!$       original_name=varin3d(1))
-!!$
-
-!!$  !  Define variables appearing in IPCC table A1c that are a function of pressure
-!!$  !         (3-d variables)
-!!$
-!!$  DO m=2,n3d
-!!$     var3d_ids(m) = cmor_variable(    &
-!!$          table=cmor%table_file,  &
-!!$          table_entry=entry3d(m),     &
-!!$          units=units3d(m),           &
-!!$          axis_ids=(/ ilon, ilat, ipres, itim /), &
-!!$          missing_value=1.0e28,       &
-!!$          original_name=varin3d(m))
-!!$  ENDDO
-!!$
-!!$
-!!$  !  Define variables appearing in IPCC table A1a (2-d variables)
-  DO m=1,1
-     write(*,*) &
-          'table=',trim(cmor%table_file),'     ',                         &
-          'table_entry=',trim(xw(xw_found)%entry2d),'     ',              &
-          'units=',trim(var_info(var_found)%units),'     ',               &
-          'missing_value=',var_info(var_found)%missing_value,'     ',     &
-          'positive=',trim(cmor%positive),'     ',                        &
-          'original_name=',xw(xw_found)%varin2d
-
-     var2d_ids(m) = cmor_variable(                        &
-          table=cmor%table_file,                          &
-          table_entry=xw(xw_found)%entry2d,               &
-          units=var_info(var_found)%units,                &
-          axis_ids=(/ ilon, ilat, itim /),                &
-          missing_value=var_info(var_found)%missing_value,&
-          positive=cmor%positive,                         &
-          original_name=xw(xw_found)%varin2d)
-  ENDDO
-  PRINT*, ' '
-  PRINT*, 'completed everything up to writing output fields '
-  PRINT*, ' '
-
-  !  Loop through history files (each containing several different fields,
-  !       but only a single month of data, averaged over the month).  Then
-  !       extract fields of interest and write these to netCDF files (with
-  !       one field per file, but all months included in the loop).
-  !
-  allocate(data2d(nlons,nlats))
-  time_loop: DO it=1, ntimes
-
-     ! Cycle through the 2-d fields, retrieve the requested variable and
-     ! append each to the appropriate netCDF file.
-
-     ! The user must write the code that fills the arrays of data
-     ! that will be passed to CMOR.  The following line is simply a
-     ! a place-holder for the user's code, which should replace it.
-     !
-     ! append a single time sample of data for a single field to
-     ! the appropriate netCDF file.
-
-     time_counter = it
-     call read_var(ncid,var_info(var_found)%name,data2d)
-     tval(1)   = time(it)
-     tbnd(1,1) = bnds_time(1,it)
-     tbnd(2,1) = bnds_time(2,it)
-     m = 1
-     error_flag = cmor_write(                                  &
-          var_id        = var2d_ids(m),                        &
-          data          = data2d,                              &
-          ntimes_passed = 1,                                   &
-          time_vals     = tval,                                &
-          time_bnds     = tbnd)
-!     write(*,'(i6,2g12.4)') it,minval(data2d),maxval(data2d)
-     allmax = max(allmax,maxval(data2d))
-     allmin = min(allmin,minval(data2d))
-
-     IF (error_flag < 0) THEN
-        ! write diagnostic messages to standard output device
-        write(*,*) ' Error encountered writing IPCC Table A1a field ',xw(xw_found)%entry2d, ', which I call ', xw(xw_found)%varin2d
-        write(*,*) ' Was processing time sample: ', time
-     END IF
-
-  END DO time_loop
-  !
-  ! Close all files opened by CMOR.
-  !
-  error_flag = cmor_close()
-  write(*,*) '********************************************************************************'
-  write(*,*) 'code executed to completion '
-  write(*,*) allmin,allmax
-  write(*,*) '********************************************************************************'
-
-END PROGRAM Amon_CMOR
+        continue = .false.
+     end do
+  end do
+end program Amon_CMOR

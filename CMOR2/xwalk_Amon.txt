@@ -56,9 +56,9 @@ Amon:1.0:tro3:mole_fraction_of_ozone_in_air:atmos atmosChem:1:O3VMR
 Amon:1.0:tsAdjust:surface_temperature:atmos:1:UNKNOWN
 Amon:1.0:ts:surface_temperature:atmos:1:TS
 Amon:1.0:ua:eastward_wind:atmos:1:U
-Amon:1.0:uas:eastward_wind:atmos:1:UREFHT
+Amon:1.0:uas:eastward_wind:atmos:1:UNAVAILABLE
 Amon:1.0:va:northward_wind:atmos:1:V
-Amon:1.0:vas:northward_wind:atmos:1:VREFHT
+Amon:1.0:vas:northward_wind:atmos:1:UNAVAILABLE
 Amon:1.0:wap:lagrangian_tendency_of_air_pressure:atmos:1:OMEGA
 Amon:1.0:zg:geopotential_height:atmos:1:Z3
 Amon:3.0:cfc113global:mole_fraction_of_cfc113_in_air:atmos atmosChem:1:UNKNOWN
