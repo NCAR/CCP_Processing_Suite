@@ -29,7 +29,19 @@ FFLAGS	= -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -module ${CMRDIR}
 #
 SRCDIR  = $(HOME)/CCP_Processing_Suite/CMOR2
 EXEDIR  = $(HOME)/bin
-OBJ	= handle_err.o module_netcdf.o netcdf_jfl.o get_cmor_info.o get_exp_metadata.o load_expt.o load_table.o load_xwalk.o parse_rip.o parse_ncfile.o get_atm_grid.o
+OBJ	= mymods.o \
+	  handle_err.o \
+	  module_netcdf.o \
+	  netcdf_jfl.o \
+	  get_cmor_info.o \
+	  get_exp_metadata.o \
+	  load_expt.o \
+	  load_table.o \
+	  load_xwalk.o \
+	  add_global_metadata.o \
+	  parse_rip.o \
+	  parse_ncfile.o \
+	  get_atm_grid.o
 
 all:	  Amon_CMOR
 
@@ -45,6 +57,9 @@ get_cmor_info.o: get_cmor_info.f90 mymods.o
 
 get_exp_metadata.o: get_exp_metadata.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c get_exp_metadata.f90
+
+add_global_metadata.o: add_global_metadata.f90 mymods.o
+	$(FC) $(FFLAGS) $(NCFINC) -c add_global_metadata.f90
 
 load_expt.o: load_expt.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c load_expt.f90

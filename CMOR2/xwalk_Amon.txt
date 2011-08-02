@@ -3,11 +3,11 @@ Amon:1.0:cct:air_pressure_at_convective_cloud_top:atmos:1:CLDTOP
 Amon:1.0:ch4global:mole_fraction_of_methane_in_air:atmos atmosChem:1:UNKNOWN
 Amon:1.0:ch4:mole_fraction_of_methane_in_air:atmos atmosChem:1:ch4vmr
 Amon:1.0:ci:convection_time_fraction:atmos:1:FREQZM
-Amon:1.0:cl:cloud_area_fraction_in_atmosphere_layer:atmos:1:CLOUD
-Amon:1.0:cli:mass_fraction_of_cloud_ice_in_air:atmos:1:CLDICE
+Amon:1.0:cl:cloud_area_fraction_in_atmosphere_layer:atmos:2:CLOUD,PS
+Amon:1.0:cli:mass_fraction_of_cloud_ice_in_air:atmos:2:CLDICE,PS
 Amon:1.0:clivi:atmosphere_cloud_ice_content:atmos:1:TGCLDIWP
 Amon:1.0:clt:cloud_area_fraction:atmos:1:CLDTOT
-Amon:1.0:clw:mass_fraction_of_cloud_liquid_water_in_air:atmos:1:CLDLIQ
+Amon:1.0:clw:mass_fraction_of_cloud_liquid_water_in_air:atmos:2:CLDLIQ,PS
 Amon:1.0:clwvi:atmosphere_cloud_condensed_water_content:atmos:1:TGCLDLWP
 Amon:1.0:co2mass:atmosphere_mass_of_carbon_dioxide:atmos:1:UNKNOWN
 Amon:1.0:co2:mole_fraction_of_carbon_dioxide_in_air:atmos:1:co2vmr
@@ -17,11 +17,11 @@ Amon:1.0:fco2fos:tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed
 Amon:1.0:fco2nat:surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources:atmos:1:UNKNOWN
 Amon:1.0:hfls:surface_upward_latent_heat_flux:atmos:1:LHFLX
 Amon:1.0:hfss:surface_upward_sensible_heat_flux:atmos:1:SHFLX
-Amon:1.0:hur:relative_humidity:atmos:1:RELHUM
+Amon:1.0:hur:relative_humidity:atmos:2:RELHUM,PS
 Amon:1.0:hurs:relative_humidity:atmos:1:RHREFHT
-Amon:1.0:hus:specific_humidity:atmos:1:Q
+Amon:1.0:hus:specific_humidity:atmos:2:Q,PS
 Amon:1.0:huss:specific_humidity:atmos:1:QREFHT
-Amon:1.0:mc:atmosphere_net_upward_convective_mass_flux:atmos:2:CMFMC,CMFMCDZM
+Amon:1.0:mc:atmosphere_net_upward_convective_mass_flux:atmos:3:CMFMC,CMFMCDZM,PS
 Amon:1.0:n2oglobal:mole_fraction_of_nitrous_oxide_in_air:atmos atmosChem:1:UNKNOWN
 Amon:1.0:n2o:mole_fraction_of_nitrous_oxide_in_air:atmos atmosChem:1:n2ovmr
 Amon:1.0:prAdjust:precipitation_flux:atmos:1:UNKNOWN
@@ -52,15 +52,15 @@ Amon:1.0:tasmax:air_temperature:atmos:1:TREFMXAV
 Amon:1.0:tasmin:air_temperature:atmos:1:TREFMNAV
 Amon:1.0:tauu:surface_downward_eastward_stress:atmos:1:TAUX
 Amon:1.0:tauv:surface_downward_northward_stress:atmos:1:TAUY
-Amon:1.0:tro3:mole_fraction_of_ozone_in_air:atmos atmosChem:1:O3VMR
+Amon:1.0:tro3:mole_fraction_of_ozone_in_air:atmos atmosChem:2:O3VMR,PS
 Amon:1.0:tsAdjust:surface_temperature:atmos:1:UNKNOWN
 Amon:1.0:ts:surface_temperature:atmos:1:TS
-Amon:1.0:ua:eastward_wind:atmos:1:U
+Amon:1.0:ua:eastward_wind:atmos:2:U,PS
 Amon:1.0:uas:eastward_wind:atmos:1:UNAVAILABLE
-Amon:1.0:va:northward_wind:atmos:1:V
+Amon:1.0:va:northward_wind:atmos:2:V,PS
 Amon:1.0:vas:northward_wind:atmos:1:UNAVAILABLE
-Amon:1.0:wap:lagrangian_tendency_of_air_pressure:atmos:1:OMEGA
-Amon:1.0:zg:geopotential_height:atmos:1:Z3
+Amon:1.0:wap:lagrangian_tendency_of_air_pressure:atmos:2:OMEGA,PS
+Amon:1.0:zg:geopotential_height:atmos:2:Z3,PS
 Amon:3.0:cfc113global:mole_fraction_of_cfc113_in_air:atmos atmosChem:1:UNKNOWN
 Amon:3.0:cfc11global:mole_fraction_of_cfc11_in_air:atmos atmosChem:1:f11vmr
 Amon:3.0:cfc12global:mole_fraction_of_cfc12_in_air:atmos atmosChem:1:f12vmr

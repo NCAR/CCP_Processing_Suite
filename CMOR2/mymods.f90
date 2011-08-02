@@ -34,6 +34,7 @@ module exp_info
      character(len=256)::begin_end,grid,compset,repotag,start_fin,mach,dout,forcing
   end type SimInfo
   integer::num_exp,exp_found,parent_found
+  character(len=256)::case_read,comp_read
   !
   type(SimInfo),dimension(max_entries)::exp
   !
