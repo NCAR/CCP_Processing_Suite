@@ -27,7 +27,7 @@ program Amon_CMOR
   !
   ! Other variables
   !
-  character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,time_units
+  character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,time_units,original_name
   integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ntimes
   integer::ilon,ilat,ipres,ilev,itim,itim2,ilon2,ilat2
   logical::all_continue
@@ -75,8 +75,8 @@ program Amon_CMOR
   !
   ! Step through CMOR table entries to see what CESM fields we can read and in process, and if so, do it!
   !
-  do itab = 1,num_tab
-     do ixw = 1,num_xw
+  table_loop: do itab = 1,num_tab
+     xwalk_loop: do ixw = 1,num_xw
         mycmor%positive = ' '
         time_counter = 0
         var_counter  = 0
@@ -88,6 +88,7 @@ program Amon_CMOR
         all_continue = .true.
         continue(:)  = .false.
         time_units   = ' '
+        original_name= ' '
 !
 ! The meaty part
 !
@@ -244,47 +245,48 @@ program Amon_CMOR
               ! 
               ! Make manual alterations so that CMOR works. Silly code!
               !
-              do ivar = 1,xw(ixw)%ncesm_vars
-                 select case (xw(ixw)%entry)
-                 case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus')
-                    mycmor%positive = 'up'
-                 case ('rlds','rldscs','rsds','rsdscs','rsdt')
-                    mycmor%positive = 'down'
-                 case ('hurs','clt','ci')
-                    var_info(var_found(ivar))%units = '1'
-                 case ('prc','pr','prsn')
-                    var_info(var_found(ivar))%units = 'kg m-2 s-1'
-                 end select
-                 !
-                 var_ids = cmor_variable(                     &
-                      table=mycmor%table_file,                  &
-                      table_entry=xw(ixw)%entry,               &
-                      units=var_info(var_found(1))%units,              &
-                      axis_ids=(/ ilon, ilat, itim /),              &
-                      missing_value=var_info(var_found(1))%missing_value,&
-                      positive=mycmor%positive,                       &
-                      original_name=xw(ixw)%cesm_vars(1))
-                 !
-                 write(*,*) 'cmor_variable:'
-                 write(*,*) 'varids=',var_ids
-                 write(*,*) 'table=',trim(mycmor%table_file)
-                 write(*,*) 'table_entry=',trim(xw(ixw)%entry)
-                 write(*,*) 'units=',trim(var_info(var_found(ivar))%units)
-                 write(*,*) 'missing_value=',var_info(var_found(ivar))%missing_value
-                 write(*,*) 'positive=',trim(mycmor%positive)
-                 write(*,*) 'original_name=',(trim(xw(ixw)%cesm_vars(k)),k=1,xw(ixw)%ncesm_vars)
-                 !
-              enddo
               !
               if (xw(ixw)%ncesm_vars == 1) then
                  allocate(indat2a(nlons,nlats),cmordat(nlons,nlats))
+                 write(original_name,'(a)') xw(ixw)%cesm_vars(1)
               endif
               if (xw(ixw)%ncesm_vars == 2) then
                  allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),cmordat(nlons,nlats))
+                 write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
               endif
               if (xw(ixw)%ncesm_vars == 3) then
                  allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),indat2c(nlons,nlats),cmordat(nlons,nlats))
+                 write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
               endif
+              !
+              select case (xw(ixw)%entry)
+              case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs')
+                 mycmor%positive = 'up'
+              case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt')
+                 mycmor%positive = 'down'
+              case ('hurs','clt','ci')
+                 var_info(var_found(1))%units = '1'
+              case ('prc','pr','prsn')
+                 var_info(var_found(1))%units = 'kg m-2 s-1'
+              end select
+                 !
+              var_ids = cmor_variable(                     &
+                   table=mycmor%table_file,                  &
+                   table_entry=xw(ixw)%entry,               &
+                   units=var_info(var_found(1))%units,              &
+                   axis_ids=(/ ilon, ilat, itim /),              &
+                   missing_value=var_info(var_found(1))%missing_value,&
+                   positive=mycmor%positive,                       &
+                   original_name=original_name)
+              !
+              write(*,*) 'cmor_variable:'
+              write(*,*) 'varids=',var_ids
+              write(*,*) 'table=',trim(mycmor%table_file)
+              write(*,*) 'table_entry=',trim(xw(ixw)%entry)
+              write(*,*) 'units=',trim(var_info(var_found(ivar))%units)
+              write(*,*) 'missing_value=',var_info(var_found(ivar))%missing_value
+              write(*,*) 'positive=',trim(mycmor%positive)
+              write(*,*) 'original_name=',trim(original_name)
               !
               ! Cycle through time
               !
@@ -292,15 +294,15 @@ program Amon_CMOR
                  time_counter = it
                  if (xw(ixw)%ncesm_vars == 1) then
                     call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
-                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
+!                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
                     allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
                     cmordat = indat2a
                  endif
                  if (xw(ixw)%ncesm_vars == 2) then
                     call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
-                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
+!                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
                     call read_var(ncid(2),var_info(var_found(2))%name,indat2b)
-                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(2))%name),it
+!                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(2))%name),it
                     allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
                     allmax(2) = max(allmax(2),maxval(indat2b)) ; allmin(2) = min(allmin(2),minval(indat2b))
                     select case (xw(ixw)%entry)
@@ -309,6 +311,8 @@ program Amon_CMOR
                        cmordat = 1000.*(indat2a + indat2b)
                     case ('rlus')
                        cmordat = indat2a + indat2b
+                    case ('rsus','rsuscs','rsut','rsutcs','rtmt')
+                       cmordat = indat2a - indat2b
                     case default
                        cmordat = indat2a
                     end select
@@ -363,9 +367,14 @@ program Amon_CMOR
               allmin       =  1.e36
               continue(:)  = .false.
               mycmor%positive = ' '
+              original_name= ' '
+              !
+              if (xw(ixw)%ncesm_vars == 1) deallocate(indat2a,cmordat)
+              if (xw(ixw)%ncesm_vars == 2) deallocate(indat2a,indat2b,cmordat)
+              if (xw(ixw)%ncesm_vars == 3) deallocate(indat2a,indat2b,indat2c,cmordat)
            endif
         endif
-     enddo
-  enddo
+     enddo xwalk_loop
+  enddo table_loop
   error_flag = cmor_close()
 end program Amon_CMOR
