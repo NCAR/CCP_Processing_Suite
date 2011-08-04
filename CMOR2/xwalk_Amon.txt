@@ -41,7 +41,7 @@ Amon:1.0:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:atm
 Amon:1.0:rsds:surface_downwelling_shortwave_flux_in_air:atmos:1:FSDS
 Amon:1.0:rsdt:toa_incoming_shortwave_flux:atmos:1:SOLIN
 Amon:1.0:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:atmos:2:FSDSC,FSNSC
-Amon:1.0:rsus:surface_upwelling_shortwave_flux_in_air:atmos:2:FSNS,FSDS
+Amon:1.0:rsus:surface_upwelling_shortwave_flux_in_air:atmos:2:FSDS,FSNS
 Amon:1.0:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:atmos:2:SOLIN,FSNTOAC
 Amon:1.0:rsut:toa_outgoing_shortwave_flux:atmos:2:SOLIN,FSNTOA
 Amon:1.0:rtmt:net_downward_radiative_flux_at_top_of_atmosphere_model:atmos:2:FLNT,FSNT

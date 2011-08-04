@@ -21,7 +21,7 @@ program Amon_CMOR
   INTEGER::error_flag,var_ids
   REAL,DIMENSION(:,:),ALLOCATABLE::indat2a,indat2b,indat2c,cmordat
   double precision,dimension(:)  ,allocatable::time
-  double precision,dimension(:,:),allocatable::bnds_time
+  double precision,dimension(:,:),allocatable::time_bnds
   DOUBLE PRECISION,DIMENSION(1)  ::tval
   DOUBLE PRECISION,DIMENSION(2,1)::tbnd
   !
@@ -152,12 +152,12 @@ program Amon_CMOR
                     stop
                  endif
                  !
-                 allocate(time(ntimes),bnds_time(2,ntimes))
+                 allocate(time(ntimes),time_bnds(2,ntimes))
                  !
                  do n=1,ntimes
                     time_counter = n
-                    call read_var(ncid(ivar),'time_bnds',bnds_time(:,n))
-                    time(n) = (bnds_time(1,n)+bnds_time(2,n))/2.
+                    call read_var(ncid(ivar),'time_bnds',time_bnds(:,n))
+                    time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
                  enddo
               enddo
            endif
@@ -264,8 +264,10 @@ program Amon_CMOR
                  mycmor%positive = 'up'
               case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt')
                  mycmor%positive = 'down'
-              case ('hurs','clt','ci')
+              case ('clt','ci')
                  var_info(var_found(1))%units = '1'
+              case ('hurs')
+                 var_info(var_found(1))%units = '%'
               case ('prc','pr','prsn')
                  var_info(var_found(1))%units = 'kg m-2 s-1'
               end select
@@ -283,8 +285,8 @@ program Amon_CMOR
               write(*,*) 'varids=',var_ids
               write(*,*) 'table=',trim(mycmor%table_file)
               write(*,*) 'table_entry=',trim(xw(ixw)%entry)
-              write(*,*) 'units=',trim(var_info(var_found(ivar))%units)
-              write(*,*) 'missing_value=',var_info(var_found(ivar))%missing_value
+              write(*,*) 'units=',trim(var_info(var_found(1))%units)
+              write(*,*) 'missing_value=',var_info(var_found(1))%missing_value
               write(*,*) 'positive=',trim(mycmor%positive)
               write(*,*) 'original_name=',trim(original_name)
               !
@@ -331,8 +333,8 @@ program Amon_CMOR
                  endif
                  !
                  tval(1)   = time(it)
-                 tbnd(1,1) = bnds_time(1,it)
-                 tbnd(2,1) = bnds_time(2,it)
+                 tbnd(1,1) = time_bnds(1,it)
+                 tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(      &
                       var_id        = var_ids, &
                       data          = cmordat, &
@@ -369,9 +371,12 @@ program Amon_CMOR
               mycmor%positive = ' '
               original_name= ' '
               !
-              if (xw(ixw)%ncesm_vars == 1) deallocate(indat2a,cmordat)
-              if (xw(ixw)%ncesm_vars == 2) deallocate(indat2a,indat2b,cmordat)
-              if (xw(ixw)%ncesm_vars == 3) deallocate(indat2a,indat2b,indat2c,cmordat)
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
+              if (allocated(indat2a))   deallocate(indat2a)
+              if (allocated(indat2b))   deallocate(indat2b)
+              if (allocated(indat2c))   deallocate(indat2c)
+              if (allocated(cmordat))   deallocate(cmordat)
            endif
         endif
      enddo xwalk_loop
