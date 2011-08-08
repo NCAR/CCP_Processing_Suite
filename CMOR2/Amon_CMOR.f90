@@ -381,5 +381,4 @@ program Amon_CMOR
         endif
      enddo xwalk_loop
   enddo table_loop
-  error_flag = cmor_close()
 end program Amon_CMOR
