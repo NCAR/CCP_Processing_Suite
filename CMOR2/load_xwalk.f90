@@ -24,13 +24,13 @@ subroutine load_xwalk(xw_file)
   !
   ! Get crosswalk information
   !
-  xw(:)%table(1:)         = ' '
-  xw(:)%entry(1:)         = ' '
-  xw(:)%standard_name(1:) = ' '
-  xw(:)%realm(1:)         = ' '
-  xw(:)%priority          = -9999.
-  xw(:)%cesm_vars(:)(1:)  = ' '
-  xw(:)%ncesm_vars        = 0
+  xw(:)%table(1:)        = ' '
+  xw(:)%entry(1:)        = ' '
+!  xw(:)%dimensions(1:)   = ' '
+  xw(:)%realm(1:)        = ' '
+  xw(:)%priority         = -9999.
+  xw(:)%cesm_vars(:)(1:) = ' '
+  xw(:)%ncesm_vars       = 0
   !
   inquire(file=xw_file,exist=does_exist)
   if (.not.(does_exist)) then
@@ -48,12 +48,12 @@ subroutine load_xwalk(xw_file)
         !         1         2         3
         !123456789012345678901234567890
         !
-        !Amon:1.0:ccb:air_pressure_at_convective_cloud_base:atmos:1:CLDBOT
-        !Amon:1.0:cct:air_pressure_at_convective_cloud_top:atmos:1:CLDTOP
+        !Amon:1.0:ccb:atmos:1:CLDBOT
+        !Amon:1.0:cct:atmos:1:CLDTOP
         ![...]
-        !Amon:1.0:mc:atmosphere_net_upward_convective_mass_flux:atmos:2:CMFMC,CMFMCDZM
-        !Amon:1.0:pr:precipitation_flux:atmos:2:PRECC,PRECL
-        !Amon:1.0:prsn:snowfall_flux:atmos:2:PRECSC,PRECSL
+        !Amon:1.0:mc:atmos:3:CMFMC,CMFMCDZM,PS
+        !Amon:1.0:pr:atmos:2:PRECC,PRECL
+        !Amon:1.0:prsn:atmos:2:PRECSC,PRECSL
         !
         j = 1
         do i = 1,len_trim(adjustl(instring))
@@ -64,15 +64,14 @@ subroutine load_xwalk(xw_file)
         enddo
         xw(ixw)%table(1:)         = instring(1:icol(1)-1)
         xw(ixw)%entry(1:)         = instring(icol(2)+1:icol(3)-1)
-        xw(ixw)%standard_name(1:) = instring(icol(3)+1:icol(4)-1)
-        xw(ixw)%realm(1:)         = instring(icol(4)+1:icol(5)-1)
+        xw(ixw)%realm(1:)         = instring(icol(3)+1:icol(4)-1)
         read(instring(icol(1)+1:icol(2)-1),*) xw(ixw)%priority
-        read(instring(icol(5)+1:icol(6)-1),*) xw(ixw)%ncesm_vars
+        read(instring(icol(4)+1:icol(5)-1),*) xw(ixw)%ncesm_vars
         !
         if (xw(ixw)%ncesm_vars .gt. 1) then
-           icom(1) = icol(6)
+           icom(1) = icol(5)
            j = 2
-           do i = icol(6)+1,len_trim(instring)
+           do i = icol(5)+1,len_trim(instring)
               if (instring(i:i) == ',') then
                  icom(j) = i
                  j = j + 1
@@ -83,7 +82,7 @@ subroutine load_xwalk(xw_file)
               xw(ixw)%cesm_vars(i) = instring(icom(i)+1:icom(i+1)-1)
            enddo
         else
-           xw(ixw)%cesm_vars(1) = instring(icol(6)+1:len_trim(instring))
+           xw(ixw)%cesm_vars(1) = instring(icol(5)+1:len_trim(instring))
         endif
      endif
   enddo

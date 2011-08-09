@@ -66,7 +66,7 @@ module xwalk_info
   use max_parms
   !
   type XWInfo
-     character(len=256)::table,entry,standard_name,realm
+     character(len=256)::table,entry,realm,dimensions
      character(len=256),dimension(10)::cesm_vars
      integer::ncesm_vars
      real::priority
@@ -79,10 +79,11 @@ end module xwalk_info
 !
 ! Grid information
 !
-module atm_grid_info
+module grid_info
   double precision,dimension(:), allocatable::alats,alons,slon,slat,plevs,zlevs,zlev_bnds
   double precision,dimension(:), allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
   double precision,dimension(:,:),allocatable::bnds_lat,bnds_lon
   double precision::p0
-  integer::nlons,nlats,nlevs
+  integer::nlons,nlats,nlevs,ilon,ilat,ipres,ilev,itim,itim2,ilon2,ilat2,ntimes
+  character(len=256)::time_units
 end module

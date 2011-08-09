@@ -35,6 +35,7 @@ OBJ	= mymods.o \
 	  netcdf_jfl.o \
 	  get_cmor_info.o \
 	  get_exp_metadata.o \
+	  define_axes.o \
 	  load_expt.o \
 	  load_table.o \
 	  load_xwalk.o \
@@ -66,6 +67,9 @@ load_expt.o: load_expt.f90 mymods.o
 
 get_atm_grid.o: get_atm_grid.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c get_atm_grid.f90
+
+define_axes.o: define_axes.f90 mymods.o
+	$(FC) $(FFLAGS) $(NCFINC) -c define_axes.f90
 
 load_xwalk.o: load_xwalk.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c load_xwalk.f90

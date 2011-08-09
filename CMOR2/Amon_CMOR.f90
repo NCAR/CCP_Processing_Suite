@@ -11,7 +11,7 @@ program Amon_CMOR
   use exp_info
   use table_info
   use xwalk_info
-  use atm_grid_info
+  use grid_info
   use mycmor_info
   !
   implicit none
@@ -27,9 +27,8 @@ program Amon_CMOR
   !
   ! Other variables
   !
-  character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,time_units,original_name
-  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ntimes
-  integer::ilon,ilat,ipres,ilev,itim,itim2,ilon2,ilat2
+  character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile
+  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw
   logical::all_continue
   !
   character(len=256),dimension(10)::ncfile
@@ -113,11 +112,14 @@ program Amon_CMOR
                          exp(exp_found)%begin_end(6:9)
                     inquire(file=trim(ncfile(ivar)),exist=continue(ivar))
                  endif
-                 write(*,'('' GOOD TO GO : '',a,'' == '',a,'' from CESM file: '',a)') &
-                      trim(xw(ixw)%entry),&
-                      trim(table(itab)%variable_entry),&
-                      trim(ncfile(ivar))
-                 if (.not.(continue(ivar))) write(*,*) trim(ncfile(ivar)),' NOT FOUND.'
+                 if (.not.(continue(ivar))) then
+                    write(*,*) trim(ncfile(ivar)),' NOT FOUND.'
+                 else
+                    write(*,'('' GOOD TO GO : '',a,'' == '',a,'' from CESM file: '',a)') &
+                         trim(xw(ixw)%entry),&
+                         trim(table(itab)%variable_entry),&
+                         trim(ncfile(ivar))
+                 endif
               endif
               !
               ! Check and make sure all files available
@@ -165,7 +167,13 @@ program Amon_CMOR
               !
               ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
               !
-              error_flag = cmor_setup(inpath='CMOR',netcdf_file_action=CMOR_REPLACE,logfile='LOG_CMOR.'//trim(xw(ixw)%entry))
+              write(logfile,'(''log_cmor.'',a,''.'',a,''_'',a)') &
+                   trim(mycmor%experiment_id),&
+                   trim(exp(exp_found)%rip_code),&
+                   trim(xw(ixw)%entry)
+              error_flag = cmor_setup(inpath='CMOR',&
+                   netcdf_file_action=CMOR_REPLACE,&
+                   logfile=logfile)
               !
               error_flag = cmor_dataset(                              &
                    outpath=mycmor%outpath,                            &
@@ -212,39 +220,11 @@ program Amon_CMOR
               !
               call add_global_metadata
               !
-              ! Define all axes that will be needed
+              ! Define axes via 'cmor_axis'
               !
-              ilat = cmor_axis(                  &
-                   table=mycmor%table_file,  &
-                   table_entry='latitude',       &
-                   units='degrees_north',        &
-                   length=SIZE(alats),           &
-                   coord_vals=alats,             &
-                   cell_bounds=bnds_lat)
-
-              ilon = cmor_axis(  &
-                   table=mycmor%table_file,  &
-                   table_entry='longitude',      &
-                   length=SIZE(alons),           &
-                   units='degrees_east',         &
-                   coord_vals=alons,             &
-                   cell_bounds=bnds_lon)
-              !
-              ! Note that the time axis is defined next, but the time coordinate
-              ! values and bounds will be passed to cmor through function
-              ! cmor_write (later, below).
-              !
-              itim = cmor_axis(  &
-                   table=mycmor%table_file,      &
-                   table_entry='time',           &
-                   units=time_units,             &
-                   length=ntimes,                &
-                   interval='30 days')
-
-              write(*,*) 'CMOR axes defined'
+              call define_axes(table(itab)%dimensions)
               ! 
               ! Make manual alterations so that CMOR works. Silly code!
-              !
               !
               if (xw(ixw)%ncesm_vars == 1) then
                  allocate(indat2a(nlons,nlats),cmordat(nlons,nlats))
@@ -285,6 +265,7 @@ program Amon_CMOR
               write(*,*) 'varids=',var_ids
               write(*,*) 'table=',trim(mycmor%table_file)
               write(*,*) 'table_entry=',trim(xw(ixw)%entry)
+              write(*,*) 'dimensions=',trim(table(itab)%dimensions)
               write(*,*) 'units=',trim(var_info(var_found(1))%units)
               write(*,*) 'missing_value=',var_info(var_found(1))%missing_value
               write(*,*) 'positive=',trim(mycmor%positive)

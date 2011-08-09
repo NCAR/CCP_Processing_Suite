@@ -10,7 +10,7 @@ subroutine get_atm_grid
   use counters_netcdf_jfl
   use interfaces_netcdf_jfl
   use definitions_netcdf_jfl
-  use atm_grid_info
+  use grid_info
   !
   implicit none
   !

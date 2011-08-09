@@ -1,8 +1,8 @@
 !!$program driver
+!!$  use mycmor_info
 !!$  use table_info
 !!$  !
 !!$  implicit none
-!!$  character(len=256)::table_file
 !!$  !
 !!$  table(:)%variable_entry(1:) = ' '
 !!$  table(:)%axis_entry(1:) = ' '
@@ -52,9 +52,10 @@
 !!$  table(:)%z_bounds_factors(1:) = ' '
 !!$  table(:)%z_factors(1:) = ' '
 !!$  !
-!!$  read(*,*) table_file
+!!$  mycmor%table_file = 'Tables/CMIP5_Amon'
+!!$  !  read(*,*) table_file
 !!$  !
-!!$  call load_table(table_file)
+!!$  call load_table
 !!$  !
 !!$end program driver
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -438,51 +439,49 @@ subroutine load_table
   num_tab = ixt
   write(*,'(''CMOR table loaded : '',i5,'' entries.'')') num_tab
   close(20)
-!!$  open(21,file=mycmor%table_file(1:len_trim(mycmor%table_file))//'.csv')
-!!$  write(21,*) 'variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min'
-!!$  do i = 1,ixt
-!!$     if (table(i)%variable_entry(1:) == ' ') then
-!!$        write(20,'(50(a,'',''),a)') &
-!!$             'axis',&
-!!$             trim(adjustl(table(i)%axis_entry)),&
-!!$             trim(adjustl(table(i)%out_name)),&
-!!$             trim(adjustl(table(i)%standard_name)),&
-!!$             trim(adjustl(table(i)%long_name)),&
-!!$             trim(adjustl(table(i)%dimensions)),&
-!!$             trim(adjustl(table(i)%type)),&
-!!$             trim(adjustl(table(i)%units)),&
-!!$             trim(adjustl(table(i)%cell_measures)),&
-!!$             trim(adjustl(table(i)%cell_methods)),&
-!!$             trim(adjustl(table(i)%modeling_realm)),&
-!!$             trim(adjustl(table(i)%must_have_bounds)),&
-!!$             trim(adjustl(table(i)%ok_max_mean_abs)),&
-!!$             trim(adjustl(table(i)%ok_min_mean_abs)),&
-!!$             trim(adjustl(table(i)%positive)),&
-!!$             trim(adjustl(table(i)%stored_direction)),&
-!!$             trim(adjustl(table(i)%valid_max)),&
-!!$             trim(adjustl(table(i)%valid_min))
-!!$     else
-!!$        if (trim(adjustl(table(i)%positive)) /= ' ') then
-!!$           write(21,'(50(a,'',''),a)') &
-!!$                'variable',&
-!!$                trim(adjustl(table(i)%variable_entry)),&
-!!$                trim(adjustl(table(i)%out_name)),&
-!!$                trim(adjustl(table(i)%standard_name)),&
-!!$                trim(adjustl(table(i)%long_name)),&
-!!$                trim(adjustl(table(i)%dimensions)),&
-!!$                trim(adjustl(table(i)%type)),&
-!!$                trim(adjustl(table(i)%units)),&
-!!$                trim(adjustl(table(i)%cell_measures)),&
-!!$                trim(adjustl(table(i)%cell_methods)),&
-!!$                trim(adjustl(table(i)%modeling_realm)),&
-!!$                trim(adjustl(table(i)%must_have_bounds)),&
-!!$                trim(adjustl(table(i)%ok_max_mean_abs)),&
-!!$                trim(adjustl(table(i)%ok_min_mean_abs)),&
-!!$                trim(adjustl(table(i)%positive)),&
-!!$                trim(adjustl(table(i)%stored_direction)),&
-!!$                trim(adjustl(table(i)%valid_max)),&
-!!$                trim(adjustl(table(i)%valid_min))
-!!$        endif
-!!$     endif
-!!$  enddo
+  open(21,file=mycmor%table_file(1:len_trim(mycmor%table_file))//'.csv')
+  write(21,*) 'variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min'
+  do i = 1,ixt
+     if (table(i)%variable_entry(1:) == ' ') then
+        write(20,'(50(a,'',''),a)') &
+             'axis',&
+             trim(adjustl(table(i)%axis_entry)),&
+             trim(adjustl(table(i)%out_name)),&
+             trim(adjustl(table(i)%standard_name)),&
+             trim(adjustl(table(i)%long_name)),&
+             trim(adjustl(table(i)%dimensions)),&
+             trim(adjustl(table(i)%type)),&
+             trim(adjustl(table(i)%units)),&
+             trim(adjustl(table(i)%cell_measures)),&
+             trim(adjustl(table(i)%cell_methods)),&
+             trim(adjustl(table(i)%modeling_realm)),&
+             trim(adjustl(table(i)%must_have_bounds)),&
+             trim(adjustl(table(i)%ok_max_mean_abs)),&
+             trim(adjustl(table(i)%ok_min_mean_abs)),&
+             trim(adjustl(table(i)%positive)),&
+             trim(adjustl(table(i)%stored_direction)),&
+             trim(adjustl(table(i)%valid_max)),&
+             trim(adjustl(table(i)%valid_min))
+     else
+        write(21,'(50(a,'',''),a)') &
+             'variable',&
+             trim(adjustl(table(i)%variable_entry)),&
+             trim(adjustl(table(i)%out_name)),&
+             trim(adjustl(table(i)%standard_name)),&
+             trim(adjustl(table(i)%long_name)),&
+             trim(adjustl(table(i)%dimensions)),&
+             trim(adjustl(table(i)%type)),&
+             trim(adjustl(table(i)%units)),&
+             trim(adjustl(table(i)%cell_measures)),&
+             trim(adjustl(table(i)%cell_methods)),&
+             trim(adjustl(table(i)%modeling_realm)),&
+             trim(adjustl(table(i)%must_have_bounds)),&
+             trim(adjustl(table(i)%ok_max_mean_abs)),&
+             trim(adjustl(table(i)%ok_min_mean_abs)),&
+             trim(adjustl(table(i)%positive)),&
+             trim(adjustl(table(i)%stored_direction)),&
+             trim(adjustl(table(i)%valid_max)),&
+             trim(adjustl(table(i)%valid_min))
+     endif
+  enddo
 end subroutine load_table
