@@ -84,6 +84,7 @@ module grid_info
   double precision,dimension(:), allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
   double precision,dimension(:,:),allocatable::bnds_lat,bnds_lon
   double precision::p0
-  integer::nlons,nlats,nlevs,ilon,ilat,ipres,ilev,itim,itim2,ilon2,ilat2,ntimes
+  integer::nlons,nlats,nlevs,ntimes,naxes
+  integer,dimension(10)::dimids
   character(len=256)::time_units
 end module

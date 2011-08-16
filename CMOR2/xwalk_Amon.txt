@@ -1,7 +1,7 @@
 Amon:1.0:ccb:atmos:1:CLDBOT
 Amon:1.0:cct:atmos:1:CLDTOP
-Amon:1.0:ch4global:atmos atmosChem:1:UNKNOWN
-Amon:1.0:ch4:atmos atmosChem:1:ch4vmr
+Amon:1.0:ch4global:atmos atmosChem:1:ch4vmr
+Amon:1.0:ch4:atmos atmosChem:1:UNKNOWN
 Amon:1.0:ci:atmos:1:FREQZM
 Amon:1.0:cl:atmos:2:CLOUD,PS
 Amon:1.0:cli:atmos:2:CLDICE,PS
@@ -9,8 +9,8 @@ Amon:1.0:clivi:atmos:1:TGCLDIWP
 Amon:1.0:clt:atmos:1:CLDTOT
 Amon:1.0:clw:atmos:2:CLDLIQ,PS
 Amon:1.0:clwvi:atmos:1:TGCLDLWP
-Amon:1.0:co2mass:atmos:1:UNKNOWN
-Amon:1.0:co2:atmos:1:co2vmr
+Amon:1.0:co2mass:atmos:1:co2vmr
+Amon:1.0:co2:atmos:1:UNKNOWN
 Amon:1.0:evspsbl:atmos:1:QFLX
 Amon:1.0:fco2antt:atmos:1:UNKNOWN
 Amon:1.0:fco2fos:atmos:1:UNKNOWN
@@ -22,8 +22,8 @@ Amon:1.0:hurs:atmos:1:RHREFHT
 Amon:1.0:hus:atmos:2:Q,PS
 Amon:1.0:huss:atmos:1:QREFHT
 Amon:1.0:mc:atmos:3:CMFMC,CMFMCDZM,PS
-Amon:1.0:n2oglobal:atmos atmosChem:1:UNKNOWN
-Amon:1.0:n2o:atmos atmosChem:1:n2ovmr
+Amon:1.0:n2oglobal:atmos atmosChem:1:n2ovmr
+Amon:1.0:n2o:atmos atmosChem:1:UNKNOWN
 Amon:1.0:prAdjust:atmos:1:UNKNOWN
 Amon:1.0:prc:atmos:1:PRECC
 Amon:1.0:pr:atmos:2:PRECC,PRECL
