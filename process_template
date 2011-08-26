@@ -313,7 +313,9 @@ while [ $YEARNOW -le $YEAREND ] ; do
           echo "time_split not required on "$FILE" 1 month already."
         done ;;
     esac
-    ./days_to_month erase
+    if [ "$TPER" != "mon" ] ; then
+      ./days_to_month erase
+    fi
 #
 # All time splitting should be done now, ready for var_splitting
 #
