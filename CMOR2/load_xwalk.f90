@@ -26,7 +26,6 @@ subroutine load_xwalk(xw_file)
   !
   xw(:)%table(1:)        = ' '
   xw(:)%entry(1:)        = ' '
-!  xw(:)%dimensions(1:)   = ' '
   xw(:)%realm(1:)        = ' '
   xw(:)%priority         = -9999.
   xw(:)%cesm_vars(:)(1:) = ' '

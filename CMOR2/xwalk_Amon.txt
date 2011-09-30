@@ -61,6 +61,13 @@ Amon:1.0:va:atmos:2:V,PS
 Amon:1.0:vas:atmos:1:UNAVAILABLE
 Amon:1.0:wap:atmos:2:OMEGA,PS
 Amon:1.0:zg:atmos:2:Z3,PS
+Amon:3.0:tro3Clim:atmos atmosChem:1:UNKNOWN
+Amon:3.0:co2Clim:atmos:1:UNKNOWN
+Amon:3.0:co2massClim:atmos:1:UNKNOWN
+Amon:3.0:ch4Clim:atmos atmosChem:1:UNKNOWN
+Amon:3.0:ch4globalClim:atmos atmosChem:1:UNKNOWN
+Amon:3.0:n2oClim:atmos atmosChem:1:UNKNOWN
+Amon:3.0:n2oglobalClim:atmos atmosChem:1:UNKNOWN
 Amon:3.0:cfc113global:atmos atmosChem:1:UNKNOWN
 Amon:3.0:cfc11global:atmos atmosChem:1:f11vmr
 Amon:3.0:cfc12global:atmos atmosChem:1:f12vmr
