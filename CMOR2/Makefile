@@ -132,7 +132,7 @@ handle_err.o: handle_err.f90
 	$(FC) $(FFLAGS) $(NCFINC) -c handle_err.f90
 
 Amon_CMOR.o: Amon_CMOR.f90 $(OBJ)
-	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) -c Amon_CMOR.f90
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDDIR) -c Amon_CMOR.f90
 
 clean: 
 	/bin/rm -f *.o *.mod
