@@ -227,15 +227,18 @@ program Amon_CMOR
               ! Make manual alterations so that CMOR works. Silly code!
               !
               allocate(indat2a(nlons,nlats),cmordat(nlons,nlats))
+              write(*,*) 'allocate(indat2a(nlons,nlats),cmordat(nlons,nlats))'
               if (xw(ixw)%ncesm_vars == 1) then
                  write(original_name,'(a)') xw(ixw)%cesm_vars(1)
               endif
               if (xw(ixw)%ncesm_vars .ge. 2) then
                  allocate(indat2b(nlons,nlats))
+                 write(*,*) 'allocate(indat2b(nlons,nlats))'
                  write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
               endif
               if (xw(ixw)%ncesm_vars .ge. 3) then
                  allocate(indat2c(nlons,nlats))
+                 write(*,*) 'allocate(indat2c(nlons,nlats))'
                  write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
               endif
               !
@@ -352,12 +355,30 @@ program Amon_CMOR
               mycmor%positive = ' '
               original_name= ' '
               !
-              if (allocated(time))      deallocate(time)
-              if (allocated(time_bnds)) deallocate(time_bnds)
-              if (allocated(indat2a))   deallocate(indat2a)
-              if (allocated(indat2b))   deallocate(indat2b)
-              if (allocated(indat2c))   deallocate(indat2c)
-              if (allocated(cmordat))   deallocate(cmordat)
+              if (allocated(time)) then
+                 deallocate(time)
+                 write(*,*) 'deallocate(time)'
+              endif
+              if (allocated(time_bnds)) then
+                 deallocate(time_bnds)
+                 write(*,*) 'deallocate(time_bnds)'
+              endif
+              if (allocated(indat2a)) then
+                 deallocate(indat2a)
+                 write(*,*) 'deallocate(indat2a)'
+              endif
+              if (allocated(indat2b)) then
+                 deallocate(indat2b)
+                 write(*,*) 'deallocate(indat2b)'
+              endif
+              if (allocated(indat2c)) then
+                 deallocate(indat2c)
+                 write(*,*) 'deallocate(indat2c)'
+              endif
+              if (allocated(cmordat)) then
+                 deallocate(cmordat)
+                 write(*,*) 'deallocate(cmordat)'
+              endif
            endif
         endif
      enddo xwalk_loop
