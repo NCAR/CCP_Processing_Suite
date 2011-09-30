@@ -226,16 +226,16 @@ program Amon_CMOR
               ! 
               ! Make manual alterations so that CMOR works. Silly code!
               !
+              allocate(indat2a(nlons,nlats),cmordat(nlons,nlats))
               if (xw(ixw)%ncesm_vars == 1) then
-                 allocate(indat2a(nlons,nlats),cmordat(nlons,nlats))
                  write(original_name,'(a)') xw(ixw)%cesm_vars(1)
               endif
-              if (xw(ixw)%ncesm_vars == 2) then
-                 allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),cmordat(nlons,nlats))
+              if (xw(ixw)%ncesm_vars .ge. 2) then
+                 allocate(indat2b(nlons,nlats))
                  write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
               endif
-              if (xw(ixw)%ncesm_vars == 3) then
-                 allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),indat2c(nlons,nlats),cmordat(nlons,nlats))
+              if (xw(ixw)%ncesm_vars .ge. 3) then
+                 allocate(indat2c(nlons,nlats))
                  write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
               endif
               !
