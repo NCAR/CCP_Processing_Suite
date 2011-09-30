@@ -24,12 +24,14 @@ subroutine load_xwalk(xw_file)
   !
   ! Get crosswalk information
   !
-  xw(:)%table(1:)        = ' '
-  xw(:)%entry(1:)        = ' '
-  xw(:)%realm(1:)        = ' '
-  xw(:)%priority         = -9999.
-  xw(:)%cesm_vars(:)(1:) = ' '
-  xw(:)%ncesm_vars       = 0
+  do i = 1,max_entries
+     xw(i)%table(1:)        = ' '
+     xw(i)%entry(1:)        = ' '
+     xw(i)%realm(1:)        = ' '
+     xw(i)%priority         = -9999.
+     xw(i)%cesm_vars(:)(1:) = ' '
+     xw(i)%ncesm_vars       = 0
+  enddo
   !
   inquire(file=xw_file,exist=does_exist)
   if (.not.(does_exist)) then
