@@ -11,7 +11,7 @@ subroutine add_global_metadata
   implicit none
   integer::error_flag
   character(len=256)::whoami,ccps_rev,ccps_date,ccps_uuid,info_file
-  character(len=8)::date,time
+  character(len=10)::date,time
   logical::exists
   !
   ! Add acknowledgements

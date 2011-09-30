@@ -37,7 +37,11 @@ endif
 #
 # 'mirage' cluser in CISL
 ifeq ($(MACH),mirage)
-  NCFDIR  = /fs/local/apps/netcdf-4.1.3-beta1
+  FC	= /fs/local/bin/ifort
+#  FC	= /usr/bin/gfortran
+#  FFLAGS	= -ffree-line-length-none
+#
+  NCFDIR  = /fs/local/apps/netcdf-4.1.3_intel
   NCFINC  = -I${NCFDIR}/include -I./include
   NCFLIB  = -L${NCFDIR}/lib -lnetcdf -lnetcdff
 #
@@ -59,9 +63,6 @@ ifeq ($(MACH),mirage)
   UIDDIR  = /glade/home/strandwg/cmor2/uuid-1.6.2
   UIDINC  = -I${UIDDIR}/include
   UIDLIB  = -L${UIDDIR}/lib -luuid
-#
-  FC	= /usr/bin/gfortran
-  FFLAGS	= -ffree-line-length-none
 endif
 #
 LOCINC  = -I.
