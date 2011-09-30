@@ -154,8 +154,14 @@ program Amon_CMOR
                     stop
                  endif
                  !
-                 allocate(time(ntimes),time_bnds(2,ntimes))
-                 write(*,*) 'allocate(time(ntimes),time_bnds(2,ntimes))'
+                 if (.not.(allocated(time)))      then
+                    allocate(time(ntimes))
+                    write(*,*) 'allocate(time(ntimes))'
+                 endif
+                 if (.not.(allocated(time_bnds))) then
+                    allocate(time_bnds(2,ntimes))
+                    write(*,*) 'allocate(time_bnds(2,ntimes))'
+                 endif
                  !
                  do n=1,ntimes
                     time_counter = n
