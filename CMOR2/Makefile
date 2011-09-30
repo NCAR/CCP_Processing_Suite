@@ -86,8 +86,8 @@ OBJ	= mymods.o \
 all:	  Amon_CMOR
 
 Amon_CMOR: $(OBJ) Amon_CMOR.o
-	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Amon_CMOR.o \
-        $(NCFLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB) $(UIDLIB) -o $(EXEDIR)/Amon_CMOR
+        $(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Amon_CMOR.o \
+         -o $(EXEDIR)/Amon_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB)
 
 mymods.o: mymods.f90
 	$(FC) $(FFLAGS) $(NCFINC) -c mymods.f90
