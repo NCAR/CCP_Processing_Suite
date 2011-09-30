@@ -41,8 +41,6 @@ ifeq ($(MACH),mirage)
   NCFINC  = -I${NCFDIR}/include -I./include
   NCFLIB  = -L${NCFDIR}/lib -lnetcdf -lnetcdff
 #
-  LOCINC  = -I.
-#
   CMRDIR  = /glade/home/strandwg/cmor2/cmor
   CMRINC  = -I${CMRDIR}/include
   CMRLIB  = -L${CMRDIR}/lib -lcmor
@@ -65,6 +63,8 @@ ifeq ($(MACH),mirage)
   FC	= /usr/bin/gfortran
   FFLAGS	= -ffree-line-length-none
 endif
+#
+LOCINC  = -I.
 #
 SRCDIR  = $(HOME)/CCP_Processing_Suite/CMOR2
 EXEDIR  = $(HOME)/bin
@@ -93,34 +93,34 @@ mymods.o: mymods.f90
 	$(FC) $(FFLAGS) $(NCFINC) -c mymods.f90
 
 get_cmor_info.o: get_cmor_info.f90 mymods.o
-	$(FC) $(FFLAGS) $(NCFINC) -c get_cmor_info.f90
+	$(FC) $(FFLAGS) $(LOCINC) -c get_cmor_info.f90
 
 get_exp_metadata.o: get_exp_metadata.f90 mymods.o
-	$(FC) $(FFLAGS) $(NCFINC) -c get_exp_metadata.f90
+	$(FC) $(FFLAGS) $(LOCINC) -c get_exp_metadata.f90
 
 add_global_metadata.o: add_global_metadata.f90 mymods.o
-	$(FC) $(FFLAGS) $(NCFINC) -c add_global_metadata.f90
+	$(FC) $(FFLAGS) $(LOCINC) $(CMRINC) -c add_global_metadata.f90
 
 load_expt.o: load_expt.f90 mymods.o
-	$(FC) $(FFLAGS) $(NCFINC) -c load_expt.f90
+	$(FC) $(FFLAGS) $(LOCINC) -c load_expt.f90
 
 get_atm_grid.o: get_atm_grid.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c get_atm_grid.f90
 
 define_axes.o: define_axes.f90 mymods.o
-	$(FC) $(FFLAGS) $(NCFINC) -c define_axes.f90
+	$(FC) $(FFLAGS) $(LOCINC) $(CMRINC) -c define_axes.f90
 
 load_xwalk.o: load_xwalk.f90 mymods.o
-	$(FC) $(FFLAGS) $(NCFINC) -c load_xwalk.f90
+	$(FC) $(FFLAGS) $(LOCINC) -c load_xwalk.f90
 
 load_table.o: load_table.f90 mymods.o
-	$(FC) $(FFLAGS) $(NCFINC) -c load_table.f90
+	$(FC) $(FFLAGS) $(LOCINC) -c load_table.f90
 
 parse_rip.o: parse_rip.f90
-	$(FC) $(FFLAGS) $(NCFINC) -c parse_rip.f90
+	$(FC) $(FFLAGS) $(LOCINC) -c parse_rip.f90
 
 parse_ncfile.o: parse_ncfile.f90
-	$(FC) $(FFLAGS) $(NCFINC) -c parse_ncfile.f90
+	$(FC) $(FFLAGS) $(LOCINC) -c parse_ncfile.f90
 
 module_netcdf.o: module_netcdf.f90
 	$(FC) $(FFLAGS) $(NCFINC) -c module_netcdf.f90
@@ -132,7 +132,7 @@ handle_err.o: handle_err.f90
 	$(FC) $(FFLAGS) $(NCFINC) -c handle_err.f90
 
 Amon_CMOR.o: Amon_CMOR.f90 $(OBJ)
-	$(FC) $(FFLAGS) $(NCFINC) -c Amon_CMOR.f90
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) -c Amon_CMOR.f90
 
 clean: 
 	/bin/rm -f *.o *.mod
