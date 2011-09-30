@@ -155,6 +155,7 @@ program Amon_CMOR
                  endif
                  !
                  allocate(time(ntimes),time_bnds(2,ntimes))
+                 write(*,*) 'allocate(time(ntimes),time_bnds(2,ntimes))'
                  !
                  do n=1,ntimes
                     time_counter = n
