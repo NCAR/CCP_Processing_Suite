@@ -18,9 +18,9 @@ fi
 TEST4HSI=`which hsi 2<&1`
 if [ $? -eq 0 ] ; then
   HSI=`which hsi`
-  $HSI -q "mkdir $ARCHIVE_D"
+  $HSI -q "mkdir -p $ARCHIVE_D"
   $HSI -q "chmod 775 $ARCHIVE_D"
-  $HSI -q "cd $ARCHIVE_D ; put -d -U *.nc"
+  $HSI -q "cd $ARCHIVE_D ; put -d -U *.nc ; chmod 644 *.nc"
   if [ $? -eq 0 ] ; then
     echo "Files written to "${ARCHIVE_D}" and erased."
   else
