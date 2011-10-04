@@ -9,61 +9,48 @@ FC   = $(null)
 #
 ifeq ($(MACH),copper)
   NCFDIR  = /usr/local/netcdf-4.1.1-pgi-hpf-cc-7.5-2
+  UDUDIR  = /datalocal/ccpa/strandwg/software/udunits-2.1.21
+  UIDDIR  = /datalocal/ccpa/strandwg/software/uuid-1.6.2
+  CMRDIR  = /datalocal/ccpa/strandwg/CMIP5/CMOR2/current
+  HD5DIR  = /usr/local/hdf5
+  KRBDIR  = /usr/kerberos/lib64
+#
   NCFINC  = -I${NCFDIR}/include -I./include
   NCFLIB  = -L${NCFDIR}/lib -lnetcdf
-#
-  CMRDIR  = /datalocal/ccpa/strandwg/CMIP5/CMOR2/current
-  CMRINC  = -I${CMRDIR}/include
-  CMRLIB  = -L${CMRDIR}/lib -lcmor
-#
-  HD5DIR  = /usr/local/hdf5
-  HD5INC  = -I${HD5DIR}/include
-  HD5LIB  = -L${HD5DIR}/lib -lhdf5_hl -lhdf5 -lz -lm
-#
-  KRBDIR  = /usr/kerberos/lib64
-  KRBLIB  = -L${KRBDIR}/lib  -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lssl -lcrypto -lz
-#
-  UDUDIR  = /datalocal/ccpa/strandwg/software/udunits-2.1.21
+  KRBLIB  = -L${KRBDIR}/lib -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lssl -lcrypto -lz
   UDUINC  = -I${UDUDIR}/include
   UDULIB  = -L${UDUDIR}/lib -ludunits2 -lexpat
-#
-  UIDDIR  = /datalocal/ccpa/strandwg/software/uuid-1.6.2
   UIDINC  = -I${UIDDIR}/include
   UIDLIB  = -L${UIDDIR}/lib -luuid
-#
-  FC	= /usr/local/pgi/linux86/bin/pgf95
-  FFLAGS	= -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -module ${CMRDIR}
+  FC	  = /usr/local/pgi/linux86/bin/pgf95
+  FFLAGS  = -Wl,-rpath=${UDULIB -Wl,-rpath=${UIDLIB -module ${CMRDIR}
 endif
 #
 # 'mirage' cluser in CISL
 ifeq ($(MACH),mirage)
-  FC	= /fs/local/bin/ifort
-#  FC	= /usr/bin/gfortran
-#  FFLAGS	= -ffree-line-length-none
-#
   NCFDIR  = /fs/local/apps/netcdf-4.1.3_intel
+  UDUDIR  = /fs/local/apps/udunits-2.1.19
+  UIDDIR  = /glade/home/strandwg/cmor2/uuid-1.6.2
+  CMRDIR  = /glade/home/strandwg/cmor2/cmor
+  HD5DIR  = /fs/local/apps/hdf5-1.8.7
+  KRBDIR  = /usr/lib64
+#
   NCFINC  = -I${NCFDIR}/include -I./include
   NCFLIB  = -L${NCFDIR}/lib -lnetcdf -lnetcdff
-#
-  CMRDIR  = /glade/home/strandwg/cmor2/cmor
-  CMRINC  = -I${CMRDIR}/include
-  CMRLIB  = -L${CMRDIR}/lib -lcmor
-#
-  HD5DIR  = /fs/local/apps/hdf5-1.8.7
-  HD5INC  = -I${HD5DIR}/include
-  HD5LIB  = -L${HD5DIR}/lib -lhdf5_hl -lhdf5 -lz -lm
-#
-  KRBDIR  = /usr/lib64
-  KRBLIB  = -L${KRBDIR} -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lssl -lcrypto -lz
-#
-  UDUDIR  = /fs/local/apps/udunits-2.1.19
+  KRBLIB  = -L${KRBDIR}/lib -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lssl -lcrypto -lz
   UDUINC  = -I${UDUDIR}/include
   UDULIB  = -L${UDUDIR}/lib -ludunits2 -lexpat
-#
-  UIDDIR  = /glade/home/strandwg/cmor2/uuid-1.6.2
   UIDINC  = -I${UIDDIR}/include
   UIDLIB  = -L${UIDDIR}/lib -luuid
+  FC	  = /fs/local/bin/ifort
 endif
+#
+#
+CMRINC  = -I${CMRDIR}/include
+CMRLIB  = -L${CMRDIR}/lib -lcmor
+HD5INC  = -I${HD5DIR}/include
+HD5LIB  = -L${HD5DIR}/lib -lhdf5_hl -lhdf5 -lz -lm
+NCFINC  = -I${NCFDIR}/include -I./include
 #
 LOCINC  = -I.
 #
@@ -133,7 +120,7 @@ handle_err.o: handle_err.f90
 	$(FC) $(FFLAGS) $(NCFINC) -c handle_err.f90
 
 Amon_CMOR.o: Amon_CMOR.f90 $(OBJ)
-	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDDIR) -c Amon_CMOR.f90
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c Amon_CMOR.f90
 
 clean: 
 	/bin/rm -f *.o *.mod

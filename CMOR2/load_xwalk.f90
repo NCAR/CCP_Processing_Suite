@@ -28,6 +28,7 @@ subroutine load_xwalk(xw_file)
      xw(i)%table(1:)        = ' '
      xw(i)%entry(1:)        = ' '
      xw(i)%realm(1:)        = ' '
+     xw(i)%comment(1:)      = ' '
      xw(i)%priority         = -9999.
      xw(i)%cesm_vars(:)(1:) = ' '
      xw(i)%ncesm_vars       = 0
@@ -49,12 +50,12 @@ subroutine load_xwalk(xw_file)
         !         1         2         3
         !123456789012345678901234567890
         !
-        !Amon:1.0:ccb:atmos:1:CLDBOT
-        !Amon:1.0:cct:atmos:1:CLDTOP
+        !Amon:1.0:ccb:atmos:1:CLDBOT:CLDBOT no change
+        !Amon:1.0:cct:atmos:1:CLDTOP:CLDTOP no change
         ![...]
-        !Amon:1.0:mc:atmos:3:CMFMC,CMFMCDZM,PS
-        !Amon:1.0:pr:atmos:2:PRECC,PRECL
-        !Amon:1.0:prsn:atmos:2:PRECSC,PRECSL
+        !Amon:1.0:mc:atmos:3:CMFMC,CMFMCDZM,PS:CMFMC,CMFMCDZM,PS interpolate to standard plevs
+        !Amon:1.0:pr:atmos:2:PRECC,PRECL:PRECC + PRECL and unit conversion
+        !Amon:1.0:prsn:atmos:2:PRECSC,PRECSL:PRECSC + PRECSL and unit conversion
         !
         j = 1
         do i = 1,len_trim(adjustl(instring))
@@ -68,22 +69,23 @@ subroutine load_xwalk(xw_file)
         xw(ixw)%realm(1:)         = instring(icol(3)+1:icol(4)-1)
         read(instring(icol(1)+1:icol(2)-1),*) xw(ixw)%priority
         read(instring(icol(4)+1:icol(5)-1),*) xw(ixw)%ncesm_vars
+        xw(ixw)%comment(1:)       = instring(icol(6)+1:len_trim(instring))
         !
         if (xw(ixw)%ncesm_vars .gt. 1) then
            icom(1) = icol(5)
            j = 2
-           do i = icol(5)+1,len_trim(instring)
+           do i = icol(5)+1,icol(6)-1
               if (instring(i:i) == ',') then
                  icom(j) = i
                  j = j + 1
               endif
            enddo
-           icom(xw(ixw)%ncesm_vars+1) = len_trim(instring)+1
+           icom(xw(ixw)%ncesm_vars+1) = icol(6)
            do i = 1,xw(ixw)%ncesm_vars
               xw(ixw)%cesm_vars(i) = instring(icom(i)+1:icom(i+1)-1)
            enddo
         else
-           xw(ixw)%cesm_vars(1) = instring(icol(5)+1:len_trim(instring))
+           xw(ixw)%cesm_vars(1) = instring(icol(5)+1:icol(6)-1)
         endif
      endif
   enddo
@@ -91,10 +93,42 @@ subroutine load_xwalk(xw_file)
   num_xw = ixw
   write(*,'(''xwalk file loaded : '',i5,'' entries.'')') num_xw
 !!$  do i = 1,ixw
-!!$     write(*,'(a8,''|'',,a20,''|'',f3.1,''|'',i2,''|'',5(a12,'', ''))') &
-!!$          xw(i)%table(1:),&
-!!$          xw(i)%entry(1:),&
-!!$          xw(i)%priority,&
-!!$          xw(i)%ncesm_vars,(xw(i)%cesm_vars(j)(1:),j=1,xw(i)%ncesm_vars)
+!!$     select case (xw(i)%ncesm_vars)
+!!$        case ( 1 )
+!!$           write(*,'(a8,''|'',,a20,''|'',f3.1,''|'',i2,''|'',a12,''|'',a50)') &
+!!$                xw(i)%table(1:),&
+!!$                xw(i)%entry(1:),&
+!!$                xw(i)%priority,&
+!!$                xw(i)%ncesm_vars,(xw(i)%cesm_vars(j)(1:),j=1,xw(i)%ncesm_vars),&
+!!$                xw(i)%comment
+!!$        case ( 2 )
+!!$           write(*,'(a8,''|'',,a20,''|'',f3.1,''|'',i2,''|'',a12,'':'',a12,''|'',a50)') &
+!!$                xw(i)%table(1:),&
+!!$                xw(i)%entry(1:),&
+!!$                xw(i)%priority,&
+!!$                xw(i)%ncesm_vars,(xw(i)%cesm_vars(j)(1:),j=1,xw(i)%ncesm_vars),&
+!!$                xw(i)%comment
+!!$        case ( 3 )
+!!$           write(*,'(a8,''|'',,a20,''|'',f3.1,''|'',i2,''|'',2(a12,'':''),a12,''|'',a50)') &
+!!$                xw(i)%table(1:),&
+!!$                xw(i)%entry(1:),&
+!!$                xw(i)%priority,&
+!!$                xw(i)%ncesm_vars,(xw(i)%cesm_vars(j)(1:),j=1,xw(i)%ncesm_vars),&
+!!$                xw(i)%comment
+!!$        case ( 4 )
+!!$           write(*,'(a8,''|'',,a20,''|'',f3.1,''|'',i2,''|'',3(a12,'':''),a12,''|'',a50)') &
+!!$                xw(i)%table(1:),&
+!!$                xw(i)%entry(1:),&
+!!$                xw(i)%priority,&
+!!$                xw(i)%ncesm_vars,(xw(i)%cesm_vars(j)(1:),j=1,xw(i)%ncesm_vars),&
+!!$                xw(i)%comment
+!!$        case ( 5 )
+!!$           write(*,'(a8,''|'',,a20,''|'',f3.1,''|'',i2,''|'',4(a12,'':''),a12,''|'',a50)') &
+!!$                xw(i)%table(1:),&
+!!$                xw(i)%entry(1:),&
+!!$                xw(i)%priority,&
+!!$                xw(i)%ncesm_vars,(xw(i)%cesm_vars(j)(1:),j=1,xw(i)%ncesm_vars),&
+!!$                xw(i)%comment
+!!$        end select
 !!$  enddo
 end subroutine load_xwalk

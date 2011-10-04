@@ -269,7 +269,8 @@ program Amon_CMOR
                    axis_ids=(/ dimids(1), dimids(2), dimids(3) /),    &
                    missing_value=var_info(var_found(1))%missing_value,&
                    positive=mycmor%positive,                          &
-                   original_name=original_name)
+                   original_name=original_name,                       &
+                   comment=xw(ixw)%comment)
               !
               write(*,*) 'cmor_variable:'
               write(*,*) 'varids=',var_ids
