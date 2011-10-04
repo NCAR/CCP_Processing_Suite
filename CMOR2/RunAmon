@@ -28,10 +28,12 @@ echo $COMP >> Amon_in.${CASE}.${COMP}
 # Set up various tracking information to be read in and made global metadata
 #
 WHOAMI=`whoami`
+PRCHST=`hostname`
 SVNREV=`svn info $SVN | egrep "Rev:"`
 SVNDAT=`svn info $SVN | egrep "Date:"`
 SVNUID=`svn info $SVN | egrep "UUID:"`
 echo $WHOAMI >> Info_in.${CASE}.${COMP}
+echo $PRCHST >> Info_in.${CASE}.${COMP}
 echo $SVNREV >> Info_in.${CASE}.${COMP}
 echo $SVNDAT >> Info_in.${CASE}.${COMP}
 echo $SVNUID >> Info_in.${CASE}.${COMP}

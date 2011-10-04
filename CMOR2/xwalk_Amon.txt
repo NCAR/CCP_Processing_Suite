@@ -44,7 +44,7 @@ Amon:1.0:rsuscs:atmos:2:FSDSC,FSNSC:FSDSC + FSNSC
 Amon:1.0:rsus:atmos:2:FSDS,FSNS:FSDS - FSNS
 Amon:1.0:rsutcs:atmos:2:SOLIN,FSNTOAC:SOLIN - FSNTOAC
 Amon:1.0:rsut:atmos:2:SOLIN,FSNTOA:SOLIN - FSNTOA
-Amon:1.0:rtmt:atmos:2:FLNT,FSNT:FLNT - FSNT
+Amon:1.0:rtmt:atmos:2:FSNT,FLNT:FSNT - FLNT
 Amon:1.0:sbl:atmos:1:UNAVAILABLE:UNAVAILABLE
 Amon:1.0:sci:atmos:1:FREQSI:FREQSI no change
 Amon:1.0:tas:atmos:1:TREFHT:TREFHT no change
