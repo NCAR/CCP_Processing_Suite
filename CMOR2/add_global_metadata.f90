@@ -20,6 +20,10 @@ subroutine add_global_metadata
   if (exp(exp_found)%loc(1:2) == 'NE') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(mycmor%ack_NE))
   if (exp(exp_found)%loc(1:2) == 'OR') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(mycmor%ack_OR))
   !
+  ! Add case name
+  !
+  error_flag = cmor_set_cur_dataset_attribute("cesm_casename",trim(adjustl(exp(exp_found)%case)))
+  !
   ! Add grid information
   !
   if (exp(exp_found)%grid(1:1) /= ' ') error_flag = cmor_set_cur_dataset_attribute("resolution",trim(adjustl(exp(exp_found)%grid)))
