@@ -328,10 +328,11 @@ program fx_CMOR
                  tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(      &
                       var_id        = var_ids, &
-                      data          = cmordat, &
-                      ntimes_passed = 1,       &
-                      time_vals     = tval,    &
-                      time_bnds     = tbnd)
+                      data          = cmordat) &
+!                      data          = cmordat, &
+!                      ntimes_passed = 1,       &
+!                      time_vals     = tval,    &
+!                      time_bnds     = tbnd)
                  if (error_flag < 0) then
                     write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
                     write(*,*) 'Processing time sample: ', time
