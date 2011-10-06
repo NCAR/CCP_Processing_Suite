@@ -255,8 +255,8 @@ program fx_CMOR
                  mycmor%positive = 'down'
               case ('clt','ci')
                  var_info(var_found(1))%units = '1'
-              case ('hurs')
-                 var_info(var_found(1))%units = '%'
+              case ('sftlf')
+                 var_info(var_found(1))%units = '1'
               case ('prc','pr','prsn')
                  var_info(var_found(1))%units = 'kg m-2 s-1'
               end select
@@ -265,7 +265,7 @@ program fx_CMOR
                    table=mycmor%table_file,                           &
                    table_entry=xw(ixw)%entry,                         &
                    units=var_info(var_found(1))%units,                &
-                   axis_ids=(/ dimids(1), dimids(2), dimids(3) /),    &
+                   axis_ids=(/ dimids(1), dimids(2) /),    &
                    missing_value=var_info(var_found(1))%missing_value,&
                    positive=mycmor%positive,                          &
                    original_name=original_name,                       &
@@ -299,13 +299,8 @@ program fx_CMOR
                     allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
                     allmax(2) = max(allmax(2),maxval(indat2b)) ; allmin(2) = min(allmin(2),minval(indat2b))
                     select case (xw(ixw)%entry)
-                    case ('pr','prsn')
-                       var_info(var_found(ivar))%units = 'kg m-2 s-1'
-                       cmordat = 1000.*(indat2a + indat2b)
-                    case ('rlus')
-                       cmordat = indat2a + indat2b
-                    case ('rsus','rsuscs','rsut','rsutcs','rtmt')
-                       cmordat = indat2a - indat2b
+                    case ('sftlf')
+                       cmordat = indat2a * 100.
                     case default
                        cmordat = indat2a
                     end select
@@ -328,11 +323,7 @@ program fx_CMOR
                  tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(      &
                       var_id        = var_ids, &
-                      data          = cmordat) &
-!                      data          = cmordat, &
-!                      ntimes_passed = 1,       &
-!                      time_vals     = tval,    &
-!                      time_bnds     = tbnd)
+                      data          = cmordat)
                  if (error_flag < 0) then
                     write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
                     write(*,*) 'Processing time sample: ', time
