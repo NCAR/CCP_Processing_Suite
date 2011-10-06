@@ -71,7 +71,7 @@ OBJ	= mymods.o \
 	  parse_ncfile.o \
 	  get_atm_grid.o
 
-all:	  Amon_CMOR Amon_fx
+all:	  Amon_CMOR fx_CMOR
 
 Amon_CMOR: $(OBJ) Amon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Amon_CMOR.o \
