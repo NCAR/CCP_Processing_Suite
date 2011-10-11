@@ -71,7 +71,7 @@ OBJ	= mymods.o \
 	  parse_ncfile.o \
 	  get_atm_grid.o
 
-all:	  Amon_CMOR fx_CMOR
+all:	  Amon_CMOR fx_CMOR day_CMOR
 
 Amon_CMOR: $(OBJ) Amon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Amon_CMOR.o \
@@ -80,6 +80,10 @@ Amon_CMOR: $(OBJ) Amon_CMOR.o
 fx_CMOR: $(OBJ) fx_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) fx_CMOR.o \
 	-o $(EXEDIR)/fx_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB)
+
+day_CMOR: $(OBJ) day_CMOR.o
+	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) day_CMOR.o \
+	-o $(EXEDIR)/day_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB)
 
 mymods.o: mymods.f90
 	$(FC) $(FFLAGS) $(NCFINC) -c mymods.f90
@@ -128,6 +132,9 @@ Amon_CMOR.o: Amon_CMOR.f90 $(OBJ)
 
 fx_CMOR.o: fx_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c fx_CMOR.f90
+
+day_CMOR.o: day_CMOR.f90 $(OBJ)
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c day_CMOR.f90
 
 clean: 
 	/bin/rm -f *.o *.mod
