@@ -164,13 +164,15 @@ program day_CMOR
                     write(*,*) 'allocate(time_bnds(2,ntimes))'
                  endif
                  !
+                 write(*,*) 'time original : ',time(1),time(ntimes)
                  do n=1,ntimes
                     time_counter = n
                     call read_var(ncid(ivar),'time_bnds',time_bnds(:,n))
-                    time_bnds(1,n) = time_bnds(1,n) + (1850*365)
-                    time_bnds(2,n) = time_bnds(2,n) + (1850*365)
+                    time_bnds(1,n) = time_bnds(1,n) + (1850.*365.)
+                    time_bnds(2,n) = time_bnds(2,n) + (1850.*365.)
                     time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
                  enddo
+                 write(*,*) 'time corrected: ',time(1),time(ntimes)
               enddo
            endif
            if (all_continue) then
