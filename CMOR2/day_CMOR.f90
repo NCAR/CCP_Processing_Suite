@@ -143,6 +143,7 @@ program day_CMOR
                     endif
                  enddo
                  call read_att_text(ncid(1),'time','units',time_units)
+                 if (time_units == 'days since 1850-01-01 00:00:00') time_units = 'days since 0000-01-01 00:00:00'
                  !
                  do n=1,var_counter
                     if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
@@ -166,6 +167,8 @@ program day_CMOR
                  do n=1,ntimes
                     time_counter = n
                     call read_var(ncid(ivar),'time_bnds',time_bnds(:,n))
+                    time_bnds(1,n) = time_bnds(1,n) + (1850*365)
+                    time_bnds(2,n) = time_bnds(2,n) + (1850*365)
                     time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
                  enddo
               enddo
