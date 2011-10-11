@@ -15,8 +15,8 @@ day:1.0:rsds:atmos:1:FSDS:FSDS no change
 day:1.0:rsus:atmos:2:FSDS,FSNS:FSDS - FSNS
 day:1.0:ta:atmos:1:T,PS:Interpolate to standard plevs
 day:1.0:tas:atmos:1:TREFHT:TREFHT no change
-day:1.0:tasmax:atmos:1:TREFMXAV:TREFMXAV no change
-day:1.0:tasmin:atmos:1:TREFMNAV:TREFMNAV no change
+day:1.0:tasmax:atmos:1:TREFHTMX:TREFHTMX no change
+day:1.0:tasmin:atmos:1:TREFHTMN:TREFHTMN no change
 day:1.0:ua:atmos:2:U,PS:U,PS:Interpolate to standard plevs
 day:1.0:uas:atmos:1:UNAVAILABLE:UNAVAILABLE
 day:1.0:va:atmos:2:V,PS:V,PS:Interpolate to standard plevs
