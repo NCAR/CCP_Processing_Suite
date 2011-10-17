@@ -101,15 +101,17 @@ program day_CMOR
                       trim(comp_read),&
                       trim(xw(ixw)%cesm_vars(ivar)),&
                       exp(exp_found)%begin_end(1:4),&
-                      exp(exp_found)%begin_end(6:9)
+                      '1859'
+                 !                      exp(exp_found)%begin_end(6:9)
                  inquire(file=trim(ncfile(ivar)),exist=continue(ivar))
                  if (.not.(continue(ivar))) then
-                    write(ncfile(ivar),'(''data/'',a,''.'',a,''.'',a,''.'',a,''-0101_cat_'',a,''-1231.nc'')') &
+                    write(ncfile(ivar),'(''data/'',a,''.'',a,''.'',a,''.'',a,''0101_cat_'',a,''1231.nc'')') &
                          trim(case_read),&
                          trim(comp_read),&
                          trim(xw(ixw)%cesm_vars(ivar)),&
                          exp(exp_found)%begin_end(1:4),&
-                         exp(exp_found)%begin_end(6:9)
+                         '1859'
+!                         exp(exp_found)%begin_end(6:9)
                     inquire(file=trim(ncfile(ivar)),exist=continue(ivar))
                  endif
                  if (.not.(continue(ivar))) then
@@ -143,7 +145,7 @@ program day_CMOR
                     endif
                  enddo
                  call read_att_text(ncid(1),'time','units',time_units)
-                 if (time_units == 'days since 1850-01-01 00:00:00') time_units = 'days since 0000-01-01 00:00:00'
+                 if (time_units == 'days since 1850-01-01 00:00:00') time_units = 'days since 1849-12-31 00:00:00'
                  !
                  do n=1,var_counter
                     if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
@@ -164,15 +166,19 @@ program day_CMOR
                     write(*,*) 'allocate(time_bnds(2,ntimes))'
                  endif
                  !
-                 write(*,*) 'time original : ',time(1),time(ntimes)
                  do n=1,ntimes
                     time_counter = n
                     call read_var(ncid(ivar),'time_bnds',time_bnds(:,n))
-                    time_bnds(1,n) = time_bnds(1,n) + (1850.*365.)
-                    time_bnds(2,n) = time_bnds(2,n) + (1850.*365.)
                     time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
                  enddo
-                 write(*,*) 'time corrected: ',time(1),time(ntimes)
+                 write(*,'(''time original  1 : '',3f12.3)') time_bnds(1,1),time(1),time_bnds(2,1)
+                 write(*,'(''               N : '',3f12.3)') time_bnds(1,ntimes),time(ntimes),time_bnds(2,ntimes)
+                 time_bnds(1,1) = time_bnds(1,1) - 1.
+                 do n=1,ntimes
+                    time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+                 enddo
+                 write(*,'(''time corrected 1 : '',3f12.3)') time_bnds(1,1),time(1),time_bnds(2,1)
+                 write(*,'(''               N : '',3f12.3)') time_bnds(1,ntimes),time(ntimes),time_bnds(2,ntimes)
               enddo
            endif
            if (all_continue) then
