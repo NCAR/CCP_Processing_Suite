@@ -228,7 +228,7 @@ program fx_CMOR
               !
               ! Define axes via 'cmor_axis'
               !
-              call define_axes(table(itab)%dimensions)
+              call define_1d_axes(table(itab)%dimensions)
               ! 
               ! Make manual alterations so that CMOR works. Silly code!
               !

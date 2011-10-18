@@ -1,11 +1,7 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 subroutine get_atm_grid
   !
-  ! Read coordinate information from model into arrays that will be passed
-  !   to CMOR.
-  ! Read latitude, longitude, and pressure coordinate values into
-  !   alats, alons, and plevs, respectively.  Also generate latitude and
-  !   longitude bounds, and store in bnds_lat and bnds_lon, respectively.
+  ! Read coordinate information from model into arrays that will be passed to CMOR.
   !
   use counters_netcdf_jfl
   use interfaces_netcdf_jfl
@@ -32,14 +28,14 @@ subroutine get_atm_grid
         nlevs = dim_info(n)%length
      endif
   enddo
-  ALLOCATE(alons(nlons),alats(nlats),slon(nlons),slat(nlats-1))
+  ALLOCATE(alons1d(nlons),alats1d(nlats),blon1d(nlons),blat1d(nlats-1))
   ALLOCATE(zlevs(nlevs),zlev_bnds(nlevs+1))
   ALLOCATE(a_coeff(nlevs),b_coeff(nlevs),a_coeff_bnds(nlevs+1),b_coeff_bnds(nlevs+1))
-  ALLOCATE(bnds_lon(2,nlons),bnds_lat(2,nlats),plevs(17))
+  ALLOCATE(bnds_lon1d(2,nlons),bnds_lat1d(2,nlats),plevs(17))
   !
   call get_vars(gridid)
-  call read_var(gridid,'lon',alons)
-  call read_var(gridid,'lat',alats)
+  call read_var(gridid,'lon',alons1d)
+  call read_var(gridid,'lat',alats1d)
   call read_var(gridid,'lev',zlevs)
   !
   ! Convert zlevs from mb to hPa
@@ -50,33 +46,33 @@ subroutine get_atm_grid
   !
   ! Transfer bounds for lons and lats
   !
-  call read_var(gridid,'slon',slon)
-  call read_var(gridid,'slat',slat)
-  bnds_lat(1,1)     = -90.
-  bnds_lat(2,nlats) =  90.
+  call read_var(gridid,'slon',blon1d)
+  call read_var(gridid,'slat',blat1d)
+  bnds_lat1d(1,1)     = -90.
+  bnds_lat1d(2,nlats) =  90.
   do j = 1,nlats-1
-     bnds_lat(2,j) = slat(j)
+     bnds_lat1d(2,j) = blat1d(j)
   end do
   do j = 2,nlats
-     bnds_lat(1,j) =  bnds_lat(2,j-1)
+     bnds_lat1d(1,j) =  bnds_lat1d(2,j-1)
   end do
   !
-  bnds_lon(1,    1) = slon(1)
-  bnds_lon(2,nlons) = alons(nlons) + ((slon(nlons)-slon(nlons-1))/2.)
+  bnds_lon1d(1,    1) = blon1d(1)
+  bnds_lon1d(2,nlons) = alons1d(nlons) + ((blon1d(nlons)-blon1d(nlons-1))/2.)
   do i = 1,nlons-1
-     bnds_lon(2,i) = slon(i+1)
+     bnds_lon1d(2,i) = blon1d(i+1)
   end do
   do i = 2,nlons
-     bnds_lon(1,i) =  bnds_lon(2,i-1)
+     bnds_lon1d(1,i) =  bnds_lon1d(2,i-1)
   end do
   !
   call close_cdf(gridid)
   write(*,'(''ATM grid loaded'')')
   !
 !!$  do j = 1,nlats
-!!$     write(*,*) bnds_lat(1,j),alats(j),bnds_lat(2,j)
+!!$     write(*,*) bnds_lat1d(1,j),alats1d(j),bnds_lat1d(2,j)
 !!$  enddo
 !!$  do i = 1,nlons
-!!$     write(*,*) bnds_lon(1,i),alons(i),bnds_lon(2,i)
+!!$     write(*,*) bnds_lon1d(1,i),alons1d(i),bnds_lon1d(2,i)
 !!$  enddo
 end subroutine get_atm_grid

@@ -80,9 +80,10 @@ end module xwalk_info
 ! Grid information
 !
 module grid_info
-  double precision,dimension(:), allocatable::alats,alons,slon,slat,plevs,zlevs,zlev_bnds
-  double precision,dimension(:), allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
-  double precision,dimension(:,:),allocatable::bnds_lat,bnds_lon
+  double precision,dimension(:),  allocatable::alats1d,alons1d,blon1d,blat1d,plevs,zlevs,zlev_bnds
+  double precision,dimension(:,:),allocatable::alats2d,alons2d,blon2d,blat2d
+  double precision,dimension(:),  allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
+  double precision,dimension(:,:),allocatable::bnds_lat1d,bnds_lon1d
   double precision::p0
   integer::nlons,nlats,nlevs,ntimes,naxes
   integer,dimension(10)::dimids
