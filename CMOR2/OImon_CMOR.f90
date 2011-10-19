@@ -28,7 +28,7 @@ program OImon_CMOR
   ! Other variables
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile
-  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw
+  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,table_id,grid_id
   logical::all_continue
   !
   character(len=256),dimension(10)::ncfilenh,ncfilesh
@@ -265,6 +265,8 @@ program OImon_CMOR
               ! Define axes via 'cmor_axis'
               !
               call define_ice_axes(table(itab)%dimensions)
+              table_id = cmor_load_table(mycmor%table_file)
+              call cmor_set_table(table_id)
               ! 
               ! Make manual alterations so that CMOR works. Silly code!
               !

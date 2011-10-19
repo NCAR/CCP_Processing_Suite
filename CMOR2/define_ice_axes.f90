@@ -12,7 +12,7 @@ subroutine define_ice_axes(dimensions)
   implicit none
   character(len=256),intent(in)::dimensions
   !
-  integer::i,j,idim
+  integer::i,j,idim,status,table_id,grid_id
   integer,dimension(0:10)::idxb
   !
   character(len=256),dimension(10)::dimnames,dimunits
@@ -41,29 +41,26 @@ subroutine define_ice_axes(dimensions)
      write(*,*) 'DIMS: ',dimnames(i)(1:32),' UNITS: ',dimunits(i)(1:32)
   enddo
   dimids = 0 ; idim = 1
+  !
+  table_id = cmor_load_table('Tables/CMIP5_grids')
+  call cmor_set_table(table_id)
+  !
   do i = 1,naxes
      select case(dimnames(i))
      case ('latitude')
         dimids(idim) = cmor_axis(          &
-             table=mycmor%table_file,      &
-             table_entry=dimnames(i),      &
-             units=dimunits(i),            &
-             length=SIZE(ice_lats))
+             table_entry='grid_latitude',  &
+             units=dimunits(i))
 !             coord_vals=ice_lats)
-!             cell_bounds=ice_lats_bnds)
         idim = idim + 1
      case ('longitude')
         dimids(idim) = cmor_axis(          &
-             table=mycmor%table_file,      &
-             table_entry=dimnames(i),      &
-             length=SIZE(ice_lons),        &
+             table_entry='grid_longitude', &
              units=dimunits(i))
 !             coord_vals=ice_lons)
-!             cell_bounds=ice_lons_bnds)
         idim = idim + 1
      case ('time')
         dimids(idim) = cmor_axis(          &
-             table=mycmor%table_file,      &
              table_entry=dimnames(i),      &
              units=dimunits(i),            &
              length=ntimes,                &
@@ -72,4 +69,11 @@ subroutine define_ice_axes(dimensions)
      end select
   enddo
   write(*,*) 'CMOR axes defined, dimids: ',(dimids(i),i=1,naxes)
+  grid_id  = cmor_grid(                  &
+       axis_ids=(/dimids(1),dimids(2)/), &
+       latitude=ice_lats,                &
+       longitude=ice_lons,               &
+       latitude_vertices=ice_lats_bnds,  &
+       longitude_vertices=ice_lons_bnds, &
+       4)
 end subroutine define_ice_axes
