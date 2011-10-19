@@ -264,7 +264,7 @@ program OImon_CMOR
               !
               ! Define axes via 'cmor_axis'
               !
-              call define_2d_axes(table(itab)%dimensions)
+              call define_ice_axes(table(itab)%dimensions)
               ! 
               ! Make manual alterations so that CMOR works. Silly code!
               !

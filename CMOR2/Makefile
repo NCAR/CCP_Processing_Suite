@@ -62,8 +62,8 @@ OBJ	= mymods.o \
 	  netcdf_jfl.o \
 	  get_cmor_info.o \
 	  get_exp_metadata.o \
-	  define_1d_axes.o \
-	  define_2d_axes.o \
+	  define_atm_axes.o \
+	  define_ice_axes.o \
 	  load_expt.o \
 	  load_table.o \
 	  load_xwalk.o \
@@ -116,11 +116,11 @@ get_atm_grid.o: get_atm_grid.f90 mymods.o
 get_ice_grid.o: get_ice_grid.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c get_ice_grid.f90
 
-define_1d_axes.o: define_1d_axes.f90 mymods.o
-	$(FC) $(FFLAGS) $(LOCINC) $(CMRINC) -c define_1d_axes.f90
+define_atm_axes.o: define_atm_axes.f90 mymods.o
+	$(FC) $(FFLAGS) $(LOCINC) $(CMRINC) -c define_atm_axes.f90
 
-define_2d_axes.o: define_2d_axes.f90 mymods.o
-	$(FC) $(FFLAGS) $(LOCINC) $(CMRINC) -c define_2d_axes.f90
+define_ice_axes.o: define_ice_axes.f90 mymods.o
+	$(FC) $(FFLAGS) $(LOCINC) $(CMRINC) -c define_ice_axes.f90
 
 load_xwalk.o: load_xwalk.f90 mymods.o
 	$(FC) $(FFLAGS) $(LOCINC) -c load_xwalk.f90

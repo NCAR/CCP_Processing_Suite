@@ -10,6 +10,7 @@ subroutine get_atm_grid
   !
   implicit none
   !
+  double precision,allocatable,dimension(:)::slon,slat
   integer::gridid,i,j,n,length
   !
   call open_cdf(gridid,'atm_grid_f09.nc',.true.)
@@ -28,14 +29,14 @@ subroutine get_atm_grid
         nlevs = dim_info(n)%length
      endif
   enddo
-  ALLOCATE(alons1d(nlons),alats1d(nlats),blon1d(nlons),blat1d(nlats-1))
-  ALLOCATE(zlevs(nlevs),zlev_bnds(nlevs+1))
+  ALLOCATE(atm_lons(nlons),atm_lats(nlats),slon(nlons),slat(nlats))
+  ALLOCATE(zlevs(nlevs),zlev_bnds(nlevs+1),plevs(17))
   ALLOCATE(a_coeff(nlevs),b_coeff(nlevs),a_coeff_bnds(nlevs+1),b_coeff_bnds(nlevs+1))
-  ALLOCATE(bnds_lon1d(2,nlons),bnds_lat1d(2,nlats),plevs(17))
+  ALLOCATE(atm_lons_bnds(2,nlons),atm_lats_bnds(2,nlats))
   !
   call get_vars(gridid)
-  call read_var(gridid,'lon',alons1d)
-  call read_var(gridid,'lat',alats1d)
+  call read_var(gridid,'lon',atm_lons)
+  call read_var(gridid,'lat',atm_lats)
   call read_var(gridid,'lev',zlevs)
   !
   ! Convert zlevs from mb to hPa
@@ -46,33 +47,33 @@ subroutine get_atm_grid
   !
   ! Transfer bounds for lons and lats
   !
-  call read_var(gridid,'slon',blon1d)
-  call read_var(gridid,'slat',blat1d)
-  bnds_lat1d(1,1)     = -90.
-  bnds_lat1d(2,nlats) =  90.
+  call read_var(gridid,'slon',slon)
+  call read_var(gridid,'slat',slat)
+  atm_lats_bnds(1,1)     = -90.
+  atm_lats_bnds(2,nlats) =  90.
   do j = 1,nlats-1
-     bnds_lat1d(2,j) = blat1d(j)
+     atm_lats_bnds(2,j) = slat(j)
   end do
   do j = 2,nlats
-     bnds_lat1d(1,j) =  bnds_lat1d(2,j-1)
+     atm_lats_bnds(1,j) =  atm_lats_bnds(2,j-1)
   end do
   !
-  bnds_lon1d(1,    1) = blon1d(1)
-  bnds_lon1d(2,nlons) = alons1d(nlons) + ((blon1d(nlons)-blon1d(nlons-1))/2.)
+  atm_lons_bnds(1,    1) = slon(1)
+  atm_lons_bnds(2,nlons) = atm_lons(nlons) + ((slon(nlons)-slon(nlons-1))/2.)
   do i = 1,nlons-1
-     bnds_lon1d(2,i) = blon1d(i+1)
+     atm_lons_bnds(2,i) = slon(i+1)
   end do
   do i = 2,nlons
-     bnds_lon1d(1,i) =  bnds_lon1d(2,i-1)
+     atm_lons_bnds(1,i) =  atm_lons_bnds(2,i-1)
   end do
   !
   call close_cdf(gridid)
   write(*,'(''ATM grid loaded'')')
   !
 !!$  do j = 1,nlats
-!!$     write(*,*) bnds_lat1d(1,j),alats1d(j),bnds_lat1d(2,j)
+!!$     write(*,*) atm_lats_bnds(1,j),atm_lats(j),atm_lats_bnds(2,j)
 !!$  enddo
 !!$  do i = 1,nlons
-!!$     write(*,*) bnds_lon1d(1,i),alons1d(i),bnds_lon1d(2,i)
+!!$     write(*,*) atm_lons_bnds(1,i),atm_lons(i),atm_lons_bnds(2,i)
 !!$  enddo
 end subroutine get_atm_grid

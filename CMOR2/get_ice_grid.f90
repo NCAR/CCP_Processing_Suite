@@ -26,16 +26,24 @@ subroutine get_ice_grid
         nlons = dim_info(n)%length
      endif
   enddo
-  allocate(alons2d(nlons,nlats),alats2d(nlats,nlats),blon2d(nlons,nlats),blat2d(nlons,nlats))
+  allocate(ice_lons(nlons,nlats),ice_lats(nlons,nlats))
   !
   call get_vars(gridid)
-  call read_var(gridid,'TLON',alons2d)
-  call read_var(gridid,'TLAT',alats2d)
+  call read_var(gridid,'TLON',ice_lons)
+  call read_var(gridid,'TLAT',ice_lats)
+  write(*,*) 'LON, LAT SIZES: ',size(ice_lons),size(ice_lats)
   !
   ! Transfer bounds for lons and lats
   !
-!!$  call read_var(gridid,'slon',slon)
-!!$  call read_var(gridid,'slat',slat)
+!  allocate(blon2d(4,nlons,nlats),blat2d(4,nlons,nlats))
+!  allocate(bnd_lons_bogus(nlons*nlats,2),bnd_lats_bogus(nlons*nlats,2))
+!  call read_var(gridid,'lont_bounds',blon2d)
+!  call read_var(gridid,'latt_bounds',blat2d)
+!  write(*,*) 'BLON, BLAT SIZES: ',size(blon2d),size(blat2d)
+!  write(*,*) 'VERTEX EXTREMA: ',minval(blon2d(1,:,:)),minval(blon2d(2,:,:)),minval(blon2d(3,:,:)),minval(blon2d(4,:,:))
+!  write(*,*) 'VERTEX EXTREMA: ',maxval(blon2d(1,:,:)),maxval(blon2d(2,:,:)),maxval(blon2d(3,:,:)),maxval(blon2d(4,:,:))
+!  write(*,*) 'VERTEX EXTREMA: ',minval(blat2d(1,:,:)),minval(blat2d(2,:,:)),minval(blat2d(3,:,:)),minval(blat2d(4,:,:))
+!  write(*,*) 'VERTEX EXTREMA: ',maxval(blat2d(1,:,:)),maxval(blat2d(2,:,:)),maxval(blat2d(3,:,:)),maxval(blat2d(4,:,:))
 !!$  bnds_lat(1,1)     = -90.
 !!$  bnds_lat(2,nlats) =  90.
 !!$  do j = 1,nlats-1
