@@ -30,7 +30,7 @@ Lmon:1.0:gpp:land:1:GPP:GPP
 Lmon:1.0:grassFrac:land:1:PCTPFT:PCTPFT
 Lmon:1.0:lai:land:1:TLAI:TLAI
 Lmon:1.0:landCoverFrac:land:1:PCTPFT:PCTPFT
-Lmon:1.0:mrfso:land:landIce:1
+Lmon:1.0:mrfso:land landIce:1:SOILICE:SOILICE
 Lmon:1.0:mrlsl:land:2:SOILLIQ,SOILICE:SOILLIQ,SOILICE
 Lmon:1.0:mrro:land:3:QOVER,QDRAI,QRGWL:QOVER,QDRAI,QRGWL
 Lmon:1.0:mrros:land:1:QOVER:QOVER
