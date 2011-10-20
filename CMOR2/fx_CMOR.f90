@@ -265,7 +265,7 @@ program fx_CMOR
                    table=mycmor%table_file,                           &
                    table_entry=xw(ixw)%entry,                         &
                    units=var_info(var_found(1))%units,                &
-                   axis_ids=(/ dimids(1), dimids(2) /),    &
+                   axis_ids=(/ axis_ids(1), axis_ids(2) /),    &
                    missing_value=var_info(var_found(1))%missing_value,&
                    positive=mycmor%positive,                          &
                    original_name=original_name,                       &

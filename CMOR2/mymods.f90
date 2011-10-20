@@ -84,9 +84,9 @@ module grid_info
   double precision,dimension(:,:),  allocatable::atm_lats_bnds,atm_lons_bnds
   double precision,dimension(:),    allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
   real            ,dimension(:,:)  ,allocatable::ice_lats,ice_lons
-  real            ,dimension(:,:)  ,allocatable::ice_lats_bnds,ice_lons_bnds
+  real            ,dimension(:,:,:),allocatable::ice_lats_bnds,ice_lons_bnds
   double precision::p0
   integer::nlons,nlats,nlevs,ntimes,naxes
-  integer,dimension(10)::dimids
+  integer,dimension(10)::axis_ids
   character(len=256)::time_units
 end module

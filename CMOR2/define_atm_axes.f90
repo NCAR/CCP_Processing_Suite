@@ -40,11 +40,11 @@ subroutine define_atm_axes(dimensions)
   do i = 1,naxes
      write(*,*) 'DIMS: ',dimnames(i)(1:32),' UNITS: ',dimunits(i)(1:32)
   enddo
-  dimids = 0 ; idim = 1
+  axis_ids = 0 ; idim = 1
   do i = 1,naxes
      select case(dimnames(i))
      case ('latitude')
-        dimids(idim) = cmor_axis(          &
+        axis_ids(idim) = cmor_axis(          &
              table=mycmor%table_file,      &
              table_entry=dimnames(i),      &
              units=dimunits(i),            &
@@ -53,7 +53,7 @@ subroutine define_atm_axes(dimensions)
              cell_bounds=atm_lats_bnds)
         idim = idim + 1
      case ('longitude')
-        dimids(idim) = cmor_axis(          &
+        axis_ids(idim) = cmor_axis(          &
              table=mycmor%table_file,      &
              table_entry=dimnames(i),      &
              length=SIZE(atm_lons),        &
@@ -62,7 +62,7 @@ subroutine define_atm_axes(dimensions)
              cell_bounds=atm_lons_bnds)
         idim = idim + 1
      case ('time')
-        dimids(idim) = cmor_axis(          &
+        axis_ids(idim) = cmor_axis(          &
              table=mycmor%table_file,      &
              table_entry=dimnames(i),      &
              units=dimunits(i),            &
@@ -71,5 +71,5 @@ subroutine define_atm_axes(dimensions)
         idim = idim + 1
      end select
   enddo
-  write(*,*) 'CMOR axes defined, dimids: ',(dimids(i),i=1,naxes)
+  write(*,*) 'CMOR axes defined, axis_ids: ',(axis_ids(i),i=1,naxes)
 end subroutine define_atm_axes
