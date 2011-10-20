@@ -20,9 +20,11 @@ subroutine add_global_metadata
   if (exp(exp_found)%loc(1:2) == 'NE') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(mycmor%ack_NE))
   if (exp(exp_found)%loc(1:2) == 'OR') error_flag = cmor_set_cur_dataset_attribute("acknowledgements",trim(mycmor%ack_OR))
   !
-  ! Add case name
+  ! Add case name, repo tag, and compset
   !
   error_flag = cmor_set_cur_dataset_attribute("cesm_casename",trim(adjustl(exp(exp_found)%case)))
+  error_flag = cmor_set_cur_dataset_attribute("cesm_repotag" ,trim(adjustl(exp(exp_found)%repotag)))
+  error_flag = cmor_set_cur_dataset_attribute("cesm_compset" ,trim(adjustl(exp(exp_found)%compset)))
   !
   ! Add grid information
   !
@@ -46,14 +48,10 @@ subroutine add_global_metadata
      error_flag = cmor_set_cur_dataset_attribute("processed_by:",trim(whoami)//" on "//trim(prochost)//" at "//date//"-"//time)
      if (error_flag /= 0) then
         write(*,*) "Error globalMD: ",error_flag
-!     else
-!        write(*,*) "processed_by: ",trim(whoami)//" at "//date//"-"//time
      endif
      error_flag = cmor_set_cur_dataset_attribute("processing_code_information:",trim(ccps_rev)//"\n "//trim(ccps_date)//"\n "//trim(ccps_uuid))
      if (error_flag /= 0) then
         write(*,*) "Error globalMD: ",error_flag
-!     else
-!        write(*,*) "processing_code_information:",trim(ccps_rev)//"\n "//trim(ccps_date)//"\n "//trim(ccps_uuid)
      endif
   else
      write(*,*) "Information file: ",trim(info_file)," missing. Stop."

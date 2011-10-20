@@ -52,7 +52,7 @@ subroutine get_cmor_info
   mycmor%outpath       = 'CMOR'
   mycmor%experiment_id = exp(exp_found)%expt_id(1:)
   mycmor%institution   = 'NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
-  mycmor%source        = trim(exp(exp_found)%model_id)//' (repository tag: '//trim(exp(exp_found)%repotag)//' compset: '//trim(exp(exp_found)%compset)//')'
+  mycmor%source        = trim(exp(exp_found)%model_id)
   mycmor%calendar      = 'noleap'
   mycmor%contact       = 'cesm_data@ucar.edu'
   mycmor%history       = ' '

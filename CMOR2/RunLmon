@@ -1,0 +1,43 @@
+#!/bin/sh 
+#
+if [ $# -eq 0 ] ; then
+   echo "Usage: RunLmon case comp"
+   exit 1
+elif [ $# -eq 2 ] ; then
+   CASE=$1
+   COMP=$2
+else
+   echo "Usage: RunLmon case comp"
+   exit 1
+fi
+#
+if [ ! -d ./CMOR ] ; then
+  mkdir ./CMOR
+fi
+#
+ln -s -f ${HOME}/CCP_Processing_Suite/experiments.txt       .
+ln -s -f ${HOME}/CCP_Processing_Suite/CMOR2/Tables          .
+ln -s -f ${HOME}/CCP_Processing_Suite/CMOR2/xwalk_Lmon.txt  .
+ln -s -f ${HOME}/CCP_Processing_Suite/CMOR2/lnd_grid_f09.nc .
+#
+rm -f Lmon_in.${CASE}.${COMP} Info_in.${CASE}.${COMP}
+#
+echo $CASE >> Lmon_in.${CASE}.${COMP}
+echo $COMP >> Lmon_in.${CASE}.${COMP}
+#
+# Set up various tracking information to be read in and made global metadata
+#
+WHOAMI=`whoami`
+PRCHST=`hostname`
+SVNREV=`svn info $SVN | egrep "Rev:"`
+SVNDAT=`svn info $SVN | egrep "Date:"`
+SVNUID=`svn info $SVN | egrep "UUID:"`
+echo $WHOAMI >> Info_in.${CASE}.${COMP}
+echo $PRCHST >> Info_in.${CASE}.${COMP}
+echo $SVNREV >> Info_in.${CASE}.${COMP}
+echo $SVNDAT >> Info_in.${CASE}.${COMP}
+echo $SVNUID >> Info_in.${CASE}.${COMP}
+cat Info_in.${CASE}.${COMP}
+cat Lmon_in.${CASE}.${COMP} | Lmon_CMOR
+#
+#rm -f Lmon_in.${CASE}.${COMP}

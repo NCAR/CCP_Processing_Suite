@@ -63,6 +63,7 @@ OBJ	= mymods.o \
 	  get_cmor_info.o \
 	  get_exp_metadata.o \
 	  define_atm_axes.o \
+	  define_lnd_axes.o \
 	  define_ice_axes.o \
 	  load_expt.o \
 	  load_table.o \
@@ -71,6 +72,7 @@ OBJ	= mymods.o \
 	  parse_rip.o \
 	  parse_ncfile.o \
 	  get_ice_grid.o \
+	  get_lnd_grid.o \
 	  get_atm_grid.o
 
 all:	  Amon_CMOR fx_CMOR day_CMOR Lmon_CMOR OImon_CMOR
@@ -116,11 +118,17 @@ get_atm_grid.o: get_atm_grid.f90 mymods.o
 get_ice_grid.o: get_ice_grid.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c get_ice_grid.f90
 
+get_lnd_grid.o: get_lnd_grid.f90 mymods.o
+	$(FC) $(FFLAGS) $(NCFINC) -c get_lnd_grid.f90
+
 define_atm_axes.o: define_atm_axes.f90 mymods.o
 	$(FC) $(FFLAGS) $(LOCINC) $(CMRINC) -c define_atm_axes.f90
 
 define_ice_axes.o: define_ice_axes.f90 mymods.o
 	$(FC) $(FFLAGS) $(LOCINC) $(CMRINC) -c define_ice_axes.f90
+
+define_lnd_axes.o: define_lnd_axes.f90 mymods.o
+	$(FC) $(FFLAGS) $(LOCINC) $(CMRINC) -c define_lnd_axes.f90
 
 load_xwalk.o: load_xwalk.f90 mymods.o
 	$(FC) $(FFLAGS) $(LOCINC) -c load_xwalk.f90
