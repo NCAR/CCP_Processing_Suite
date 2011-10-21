@@ -50,7 +50,8 @@ module mycmor_info
      character(len=256)::table_file,outpath,experiment_id,institution,source,calendar,contact,history
      character(len=256)::comment,references,model_id,forcing,institute_id
      character(len=256)::parent_experiment_id,parent_experiment_rip,positive
-     character(len=256)::ack_NC,ack_OR,ack_NE,forcing_note
+     character(len=256)::forcing_note
+     character(len=512)::ack_NC,ack_OR,ack_NE
      integer::realization,initialization_method,physics_version
      double precision::branch_time
   end type CMORInfo

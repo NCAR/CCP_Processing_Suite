@@ -11,7 +11,7 @@ subroutine add_global_metadata
   implicit none
   integer::error_flag
   character(len=256)::whoami,prochost,ccps_rev,ccps_date,ccps_uuid,info_file
-  character(len=10)::date,time
+  character(len=10)::pdate,ptime
   logical::exists
   !
   ! Add acknowledgements
@@ -37,7 +37,7 @@ subroutine add_global_metadata
   info_file = 'Info_in.'//trim(case_read)//'.'//trim(comp_read)
   inquire(file=trim(info_file),exist=exists)
   if (exists) then
-     call date_and_time(date=date,time=time)
+     call date_and_time(date=pdate,time=ptime)
      open(30,file=trim(info_file),form='formatted')
      read(30,'(a)') whoami
      read(30,'(a)') prochost
@@ -45,11 +45,11 @@ subroutine add_global_metadata
      read(30,'(a)') ccps_date
      read(30,'(a)') ccps_uuid
      close(30)
-     error_flag = cmor_set_cur_dataset_attribute("processed_by:",trim(whoami)//" on "//trim(prochost)//" at "//date//"-"//time)
+     error_flag = cmor_set_cur_dataset_attribute("processed_by: ",trim(whoami)//" on "//trim(prochost)//" at "//pdate//"-"//ptime)
      if (error_flag /= 0) then
         write(*,*) "Error globalMD: ",error_flag
      endif
-     error_flag = cmor_set_cur_dataset_attribute("processing_code_information:",trim(ccps_rev)//"\n "//trim(ccps_date)//"\n "//trim(ccps_uuid))
+     error_flag = cmor_set_cur_dataset_attribute("processing_code_information: ",trim(ccps_rev)//" "//trim(ccps_date)//" "//trim(ccps_uuid))
      if (error_flag /= 0) then
         write(*,*) "Error globalMD: ",error_flag
      endif
