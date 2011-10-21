@@ -45,11 +45,11 @@ subroutine add_global_metadata
      read(30,'(a)') ccps_date
      read(30,'(a)') ccps_uuid
      close(30)
-     error_flag = cmor_set_cur_dataset_attribute("processed_by: ",trim(whoami)//" on "//trim(prochost)//" at "//pdate//"-"//ptime)
+     error_flag = cmor_set_cur_dataset_attribute("processed_by ",trim(whoami)//" on "//trim(prochost)//" at "//pdate//"-"//ptime)
      if (error_flag /= 0) then
         write(*,*) "Error globalMD: ",error_flag
      endif
-     error_flag = cmor_set_cur_dataset_attribute("processing_code_information: ",trim(ccps_rev)//" "//trim(ccps_date)//" "//trim(ccps_uuid))
+     error_flag = cmor_set_cur_dataset_attribute("processing_code_information ",trim(ccps_rev)//" "//trim(ccps_date)//" "//trim(ccps_uuid))
      if (error_flag /= 0) then
         write(*,*) "Error globalMD: ",error_flag
      endif

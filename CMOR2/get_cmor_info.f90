@@ -30,20 +30,20 @@ subroutine get_cmor_info
 !!$  mycmor%physics_version       = -99
 !!$  mycmor%branch_time           = -99.d0
   !
-  mycmor%ack_NC = 'The CESM project is supported by the National Science Foundation and the Office of Science (BER) of the U.S. Department of Energy.\n'//&
-       'NCAR is sponsored by the National Science Foundation.\n'//&
-       'Computing resources were provided by the Climate Simulation Laboratory at the NCAR Computational and Information Systems Laboratory (CISL),\n'//&
+  mycmor%ack_NC = 'The CESM project is supported by the National Science Foundation and the Office of Science (BER) of the U.S. Department of Energy. '//&
+       'NCAR is sponsored by the National Science Foundation. '//&
+       'Computing resources were provided by the Climate Simulation Laboratory at the NCAR Computational and Information Systems Laboratory (CISL), '//&
        'sponsored by the National Science Foundation and other agencies.'
-  mycmor%ack_NE = 'The CESM project is supported by the National Science Foundation and the Office of Science (BER) of the U.S. Department of Energy.\n'//&
-       'NCAR is sponsored by the National Science Foundation.\n'//&
-       'This research used resources of the National Energy Research Scientific Computing Center, which is supported by the Office of Science (BER)\n'//&
+  mycmor%ack_NE = 'The CESM project is supported by the National Science Foundation and the Office of Science (BER) of the U.S. Department of Energy. '//&
+       'NCAR is sponsored by the National Science Foundation. '//&
+       'This research used resources of the National Energy Research Scientific Computing Center, which is supported by the Office of Science (BER) '//&
        'of the U.S. Department of Energy under Contract No. DE-AC02-05CH11231'
-  mycmor%ack_OR = 'The CESM project is supported by the National Science Foundation and the Office of Science (BER) of the U.S. Department of Energy.\n'//&
-       'NCAR is sponsored by the National Science Foundation.\n'//&
-       'This research used resources of the Oak Ridge Leadership Computing Facility, located in the National Center for Computational Sciences\n'//&
+  mycmor%ack_OR = 'The CESM project is supported by the National Science Foundation and the Office of Science (BER) of the U.S. Department of Energy. '//&
+       'NCAR is sponsored by the National Science Foundation. '//&
+       'This research used resources of the Oak Ridge Leadership Computing Facility, located in the National Center for Computational Sciences '//&
        'at Oak Ridge National Laboratory, which is supported by the Office of Science (BER) of the Department of Energy under Contract DE-AC05-00OR22725.'
   !
-  mycmor%forcing_note = 'Additional information on the external forcings used in this experiment can be found at\n'//&
+  mycmor%forcing_note = 'Additional information on the external forcings used in this experiment can be found at '//&
        'http://www.cesm.ucar.edu/CMIP5/forcing_information'
   !
   ! Define arguments to 'cmor_dataset' - set by load_exp and init routines 
