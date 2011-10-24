@@ -12,7 +12,7 @@ subroutine define_ice_axes(dimensions)
   implicit none
   character(len=256),intent(in)::dimensions
   !
-  integer::i,j,idim,status,table_id,grid_id
+  integer::i,j,idim
   integer,dimension(0:10)::idxb
   !
   character(len=256),dimension(10)::dimnames,dimunits
@@ -41,23 +41,26 @@ subroutine define_ice_axes(dimensions)
      write(*,*) 'DIMS: ',dimnames(i)(1:32),' UNITS: ',dimunits(i)(1:32)
   enddo
   axis_ids = 0 ; idim = 1
-  !
-  table_id = cmor_load_table('Tables/CMIP5_grids')
-  call cmor_set_table(table_id)
-  !
   do i = 1,naxes
      select case(dimnames(i))
-     case ('latitude')
-        axis_ids(idim) = cmor_axis(       &
-             table_entry='j',             &
-             length=size(ice_lats),       &
-             units='1')
-        idim = idim + 1
      case ('longitude')
-        axis_ids(idim) = cmor_axis(       &
-             table_entry='i',             &
-             length=size(ice_lons),       &
-             units='1')
+        axis_ids(idim) = cmor_axis(        &
+             table='Tables/CMIP5_grids',   &
+             table_entry=dimnames(i),      &
+             units=dimunits(i))
+!             length=SIZE(ice_lons),        &
+!             coord_vals=ice_lons,          &
+!             cell_bounds=ice_lons_bnds)
+        idim = idim + 1
+     case ('latitude')
+        axis_ids(idim) = cmor_axis(        &
+             table='Tables/CMIP5_grids',   &
+             table_entry=dimnames(i),      &
+             units=dimunits(i))
+!             length=SIZE(ice_lats),        &
+!             coord_vals=ice_lats)
+!             coord_vals=ice_lats,          &
+!             cell_bounds=ice_lats_bnds)
         idim = idim + 1
      case ('time')
         axis_ids(idim) = cmor_axis(        &
@@ -70,10 +73,4 @@ subroutine define_ice_axes(dimensions)
      end select
   enddo
   write(*,*) 'CMOR axes defined, axis_ids: ',(axis_ids(i),i=1,naxes)
-  grid_id = cmor_grid_2d_r(                  &
-       axis_ids=(/axis_ids(1),axis_ids(2)/), &
-       latitude=ice_lats,                    &
-       longitude=ice_lons,                   &
-       latitude_vertices=ice_lats_bnds,      &
-       longitude_vertices=ice_lons_bnds)
 end subroutine define_ice_axes

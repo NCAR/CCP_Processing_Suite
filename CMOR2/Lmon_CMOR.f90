@@ -243,47 +243,56 @@ program Lmon_CMOR
                  if (xw(ixw)%ncesm_vars == 1) then
                     write(original_name,'(a)') xw(ixw)%cesm_vars(1)
                  endif
-                 if (xw(ixw)%ncesm_vars .ge. 2) then
+                 if (xw(ixw)%ncesm_vars == 2) then
                     allocate(indat2b(nlons,nlats))
-                    write(*,*) 'allocate(indat2b(nlons,nlats))'
+                    write(*,*) 'allocate(indat2b)'
                     write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
                  endif
-                 if (xw(ixw)%ncesm_vars .ge. 3) then
-                    allocate(indat2c(nlons,nlats))
-                    write(*,*) 'allocate(indat2c(nlons,nlats))'
+                 if (xw(ixw)%ncesm_vars == 3) then
+                    allocate(indat2b(nlons,nlats),indat2c(nlons,nlats))
+                    write(*,*) 'allocate(indat2b) allocate(indat2c)'
                     write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
                  endif
               endif
               if (naxes == 4) then
-                 allocate(indat3a(nlons,nlats),cmordat3d(nlons,nlats))
+                 allocate(indat3a(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nlevs))
                  write(*,*) 'allocate(indat3a(nlons,nlats),cmordat3d(nlons,nlats))'
                  if (xw(ixw)%ncesm_vars == 1) then
                     write(original_name,'(a)') xw(ixw)%cesm_vars(1)
                  endif
                  if (xw(ixw)%ncesm_vars .ge. 2) then
-                    allocate(indat3b(nlons,nlats))
+                    allocate(indat3b(nlons,nlats,nlevs))
                     write(*,*) 'allocate(indat3b(nlons,nlats))'
                     write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
                  endif
                  if (xw(ixw)%ncesm_vars .ge. 3) then
-                    allocate(indat3c(nlons,nlats))
+                    allocate(indat3c(nlons,nlats,nlevs))
                     write(*,*) 'allocate(indat3c(nlons,nlats))'
                     write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
                  endif
               endif
               !
+              ! Modify units as necessary to accomodate udunits' inability to convert 
+              !
               select case (xw(ixw)%entry)
-!!$              case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs')
-!!$                 mycmor%positive = 'up'
-!!$              case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt')
-!!$                 mycmor%positive = 'down'
+              case ('cVeg','cLitter','cSoil','cProduct')
+                 var_info(var_found(1))%units = 'kg m-2'
+              case ('gpp')
+                 mycmor%positive = 'down'
+                 var_info(var_found(1))%units = 'kg m-2 s-1'
+              case ('evspsblveg','evspsblsoi','tran')
+                 ! mm s-1 is the same as kg m-2 s-1
+                 var_info(var_found(1))%units = 'kg m-2 s-1'
+                 mycmor%positive = 'up'
+              case ('mrro','mrros','prveg')
+                 ! mm s-1 is the same as kg m-2 s-1
+                 var_info(var_found(1))%units = 'kg m-2 s-1'
               case ('burntArea')
                  ! Units 'proportion' replaced by 'something'
                  var_info(var_found(1))%units = '%'
-!!$              case ('hurs')
-!!$                 var_info(var_found(1))%units = '%'
-!!$              case ('prc','pr','prsn')
-!!$                 var_info(var_found(1))%units = 'kg m-2 s-1'
+              case ('lai')
+                 ! Units 'none' replaced by '1'
+                 var_info(var_found(1))%units = '1'
               end select
               !
               var_ids = cmor_variable(                                &
@@ -310,7 +319,7 @@ program Lmon_CMOR
               !
               time_loop: DO it=1, ntimes
                  time_counter = it
-                 if (naxes = 3) then
+                 if (naxes == 3) then
                     if (xw(ixw)%ncesm_vars == 1) then
                        call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
 !                       write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
@@ -339,7 +348,7 @@ program Lmon_CMOR
                     endif
                  endif
                  !
-                 if (naxes = 4) then
+                 if (naxes == 4) then
                     if (xw(ixw)%ncesm_vars == 1) then
                        call read_var(ncid(1),var_info(var_found(1))%name,indat3a)
 !                       write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
@@ -370,9 +379,19 @@ program Lmon_CMOR
                  ! Perform derivations
                  !
                  select case (xw(ixw)%entry)
+                 case ('cVeg','cLitter','cSoil','cProduct','gpp')
+                    ! Convert grams to kg
+                    cmordat2d = indat2a/1000.
                  case ('burntArea')
                     ! Given units 'proportion' replaced by '%', so must multiply by 100
-                    cmordat2d = indat2a*100
+                    cmordat2d = indat2a*100.
+                 case ('mrro')
+                    ! Add QOVER + QDRAI + QRGWL
+                    where ((indat2a /= 1.e36).and.(indat2b /= 1.e36).and.(indat2c /= 1.e36))
+                       cmordat2d = indat2a + indat2b + indat2c
+                    elsewhere
+                       cmordat2d = 1.e36
+                    endwhere
                  case ('mrsos')
                     ! Extract just 1st 4 levels of SOILLIQ and SOILICE, integrate, and add
                     cmordat3d = indat3a(:,:,1:4)+indat3b(:,:,1:4)
