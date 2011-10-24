@@ -3,11 +3,11 @@ Amon:1.0:cct:atmos:1:CLDTOP:CLDTOP no change
 Amon:1.0:ch4global:atmos atmosChem:1:ch4vmr:ch4vmr convert to mass
 Amon:1.0:ch4:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:1.0:ci:atmos:1:FREQZM:FREQZM unit conversion
-Amon:1.0:cl:atmos:2:CLOUD,PS:CLOUD,PS:Interpolate to standard plevs
-Amon:1.0:cli:atmos:2:CLDICE,PS:CLDICE,PS:Interpolate to standard plevs
+Amon:1.0:cl:atmos:1:CLOUD:CLOUD:No change
+Amon:1.0:cli:atmos:1:vCLDICE:CLDICE interpolated to standard plevs
 Amon:1.0:clivi:atmos:1:TGCLDIWP:TGCLDIWP no change
 Amon:1.0:clt:atmos:1:CLDTOT:CLDTOT unit conversion
-Amon:1.0:clw:atmos:2:CLDLIQ,PS:CLDLIQ,PS:Interpolate to standard plevs
+Amon:1.0:clw:atmos:1:vCLDLIQ:CLDLIQ interpolated to standard plevs
 Amon:1.0:clwvi:atmos:1:TGCLDLWP:TGCLDLWP no change
 Amon:1.0:co2mass:atmos:1:co2vmr:co2vmr convert to mass
 Amon:1.0:co2:atmos:1:UNKNOWN:UNKNOWN
@@ -17,9 +17,9 @@ Amon:1.0:fco2fos:atmos:1:UNKNOWN:UNKNOWN
 Amon:1.0:fco2nat:atmos:1:UNKNOWN:UNKNOWN
 Amon:1.0:hfls:atmos:1:LHFLX:LHFLX no change
 Amon:1.0:hfss:atmos:1:SHFLX:SHFLX no change
-Amon:1.0:hur:atmos:2:RELHUM,PS:RELHUM,PS:Interpolate to standard plevs
+Amon:1.0:hur:atmos:1:vRELHUM:RELHUM interpolated to standard plevs
 Amon:1.0:hurs:atmos:1:RHREFHT:RHREFHT no change
-Amon:1.0:hus:atmos:2:Q,PS:Q,PS:Interpolate to standard plevs
+Amon:1.0:hus:atmos:1:vQ:Q interpolated to standard plevs
 Amon:1.0:huss:atmos:1:QREFHT:QREFHT no change
 Amon:1.0:mc:atmos:3:CMFMC,CMFMCDZM,PS:CMFMC,CMFMCDZM,PS:Interpolate to standard plevs
 Amon:1.0:n2oglobal:atmos atmosChem:1:n2ovmr:n2ovmr convert to mass
@@ -47,7 +47,7 @@ Amon:1.0:rsut:atmos:2:SOLIN,FSNTOA:SOLIN - FSNTOA
 Amon:1.0:rtmt:atmos:2:FSNT,FLNT:FSNT - FLNT
 Amon:1.0:sbl:atmos:1:UNAVAILABLE:UNAVAILABLE
 Amon:1.0:sci:atmos:1:FREQSI:FREQSI no change
-Amon:1.0:ta:atmos:1:T,PS:Interpolate to standard plevs
+Amon:1.0:ta:atmos:1:vT:Interpolated to standardd plevs
 Amon:1.0:tas:atmos:1:TREFHT:TREFHT no change
 Amon:1.0:tasmax:atmos:1:TREFMXAV:TREFMXAV no change
 Amon:1.0:tasmin:atmos:1:TREFMNAV:TREFMNAV no change
@@ -56,12 +56,12 @@ Amon:1.0:tauv:atmos:1:TAUY:TAUY no change
 Amon:1.0:tro3:atmos atmosChem:2:O3VMR,PS:O3VMR,PS:Interpolate to standard plevs
 Amon:1.0:tsAdjust:atmos:1:UNKNOWN:UNKNOWN
 Amon:1.0:ts:atmos:1:TS:TS no change
-Amon:1.0:ua:atmos:2:U,PS:U,PS:Interpolate to standard plevs
+Amon:1.0:ua:atmos:1:vU:U interpolated to standard plevs
 Amon:1.0:uas:atmos:1:UNAVAILABLE:UNAVAILABLE
-Amon:1.0:va:atmos:2:V,PS:V,PS:Interpolate to standard plevs
+Amon:1.0:va:atmos:1:vV:V interpolated to standard plevs
 Amon:1.0:vas:atmos:1:UNAVAILABLE:UNAVAILABLE
-Amon:1.0:wap:atmos:2:OMEGA,PS:OMEGA,PS:Interpolate to standard plevs
-Amon:1.0:zg:atmos:2:Z3,PS:Z3,PS:Interpolate to standard plevs
+Amon:1.0:wap:atmos:1:vOMEGA:OMEGA interpolated to standard plevs
+Amon:1.0:zg:atmos:1:vZ3:Z3 interpolated to standard plevs
 Amon:3.0:tro3Clim:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:3.0:co2Clim:atmos:1:UNKNOWN:UNKNOWN
 Amon:3.0:co2massClim:atmos:1:UNKNOWN:UNKNOWN
