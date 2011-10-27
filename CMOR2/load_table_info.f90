@@ -7,11 +7,11 @@
 !!$  mycmor%table_file = 'Tables/CMIP5_Amon'
 !!$  !  read(*,*) table_file
 !!$  !
-!!$  call load_table
+!!$  call load_table_info
 !!$  !
 !!$end program driver
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-subroutine load_table
+subroutine load_table_info
   use mycmor_info
   use table_info
   implicit none
@@ -436,4 +436,4 @@ subroutine load_table
 !!$             trim(adjustl(table(i)%valid_min))
 !!$     endif
 !!$  enddo
-end subroutine load_table
+end subroutine load_table_info

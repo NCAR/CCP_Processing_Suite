@@ -13,7 +13,7 @@ subroutine define_ice_axes(dimensions)
   real,dimension(:),allocatable::i_indices,j_indices
   character(len=256),intent(in)::dimensions
   !
-  integer::i,j,idim,table_id_grids
+  integer::i,j,idim,table_id
   integer,dimension(0:10)::idxb
   !
   character(len=256),dimension(10)::dimnames,dimunits
@@ -53,8 +53,9 @@ subroutine define_ice_axes(dimensions)
   do i = 1,naxes
      select case(dimnames(i))
      case ('longitude')
+        table_id = cmor_load_table('Tables/CMIP5_grids')
+        call cmor_set_table(table_id)
         axis_ids(idim) = cmor_axis(        &
-             table='Tables/CMIP5_grids',   &
              table_entry='i_index',      &
              units='1',&
              coord_vals=i_indices)
@@ -62,8 +63,9 @@ subroutine define_ice_axes(dimensions)
         write(*,*) 'longitude defined, axis_id: ',idim,axis_ids(idim)
         idim = idim + 1
      case ('latitude')
+        table_id = cmor_load_table('Tables/CMIP5_grids')
+        call cmor_set_table(table_id)
         axis_ids(idim) = cmor_axis(        &
-             table='Tables/CMIP5_grids',   &
              table_entry='j_index',       &
              units='1',&
              coord_vals=j_indices)
@@ -71,8 +73,9 @@ subroutine define_ice_axes(dimensions)
         write(*,*) 'latitude defined, axis_id: ',idim,axis_ids(idim)
         idim = idim + 1
      case ('time')
+        table_id = cmor_load_table('Tables/CMIP5_OImon')
+        call cmor_set_table(table_id)
         axis_ids(idim) = cmor_axis(        &
-             table=mycmor%table_file,      &
              table_entry=dimnames(i),      &
              units=dimunits(i),            &
              length=ntimes,                &
@@ -82,8 +85,8 @@ subroutine define_ice_axes(dimensions)
      end select
   enddo
   write(*,*) 'CMOR axes defined, axis_ids: ',(axis_ids(i),i=1,naxes)
-  table_id_grids = cmor_load_table('Tables/CMIP5_grids')
-  call cmor_set_table(table_id_grids)
+  table_id = cmor_load_table('Tables/CMIP5_grids')
+  call cmor_set_table(table_id)
   grid_id = cmor_grid(                       &
        axis_ids=(/axis_ids(0),axis_ids(1)/), &
        latitude=ice_lats,                    &

@@ -66,7 +66,7 @@ OBJ	= mymods.o \
 	  define_lnd_axes.o \
 	  define_ice_axes.o \
 	  load_expt.o \
-	  load_table.o \
+	  load_table_info.o \
 	  load_xwalk.o \
 	  add_global_metadata.o \
 	  parse_rip.o \
@@ -133,8 +133,8 @@ define_lnd_axes.o: define_lnd_axes.f90 mymods.o
 load_xwalk.o: load_xwalk.f90 mymods.o
 	$(FC) $(FFLAGS) $(LOCINC) -c load_xwalk.f90
 
-load_table.o: load_table.f90 mymods.o
-	$(FC) $(FFLAGS) $(LOCINC) -c load_table.f90
+load_table_info.o: load_table_info.f90 mymods.o
+	$(FC) $(FFLAGS) $(LOCINC) -c load_table_info.f90
 
 parse_rip.o: parse_rip.f90
 	$(FC) $(FFLAGS) $(LOCINC) -c parse_rip.f90

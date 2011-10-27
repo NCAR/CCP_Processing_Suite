@@ -18,7 +18,7 @@ program OImon_CMOR
   !
   !  uninitialized variables used in communicating with CMOR:
   !
-  integer::error_flag,var_ids
+  integer::error_flag,var_ids,table_id
   real,DIMENSION(:,:),ALLOCATABLE::indat2anh,indat2ash,indat2bnh,indat2bsh,cmordat
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::time_bnds
@@ -268,6 +268,8 @@ program OImon_CMOR
               !
               write(*,*) 'call define_ice_axes: ',trim(table(itab)%dimensions)
               call define_ice_axes(table(itab)%dimensions)
+              table_id = cmor_load_table('Tables/CMIP5_OImon')
+              call cmor_set_table(table_id)
               ! 
               ! Make manual alterations so that CMOR works. Silly code!
               !
@@ -280,26 +282,26 @@ program OImon_CMOR
                  write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
               endif
               !
-              select case (xw(ixw)%entry)
-              case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs')
-                 mycmor%positive = 'up'
-              case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt')
-                 mycmor%positive = 'down'
-              case ('clt','ci')
-                 var_info(var_found(1))%units = '1'
-              case ('hurs')
-                 var_info(var_found(1))%units = '%'
-              case ('prc','pr','prsn')
-                 var_info(var_found(1))%units = 'kg m-2 s-1'
-              end select
-                 !
+!!$              select case (xw(ixw)%entry)
+!!$              case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs')
+!!$                 mycmor%positive = 'up'
+!!$              case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt')
+!!$                 mycmor%positive = 'down'
+!!$              case ('clt','ci')
+!!$                 var_info(var_found(1))%units = '1'
+!!$              case ('hurs')
+!!$                 var_info(var_found(1))%units = '%'
+!!$              case ('prc','pr','prsn')
+!!$                 var_info(var_found(1))%units = 'kg m-2 s-1'
+!!$              end select
               !
               write(*,*) 'cmor_variable:'
-!              write(*,*) 'varids=',var_ids
+              write(*,*) 'varids=',var_ids
               write(*,*) 'table=',trim(mycmor%table_file)
               write(*,*) 'table_entry=',trim(xw(ixw)%entry)
               write(*,*) 'dimensions=',trim(table(itab)%dimensions)
               write(*,*) 'axis_ids=',axis_ids(1),axis_ids(2),axis_ids(3)
+              write(*,*) 'grid_id=',grid_id
               write(*,*) 'units=',trim(var_info(var_found(1))%units)
               write(*,*) 'missing_value=',var_info(var_found(1))%missing_value
               write(*,*) 'positive=',trim(mycmor%positive)
@@ -309,7 +311,7 @@ program OImon_CMOR
                    table=mycmor%table_file,                           &
                    table_entry=xw(ixw)%entry,                         &
                    units=var_info(var_found(1))%units,                &
-!                   axis_ids=grid_id,&
+!                   axis_ids=(/grid_id/),&
                    axis_ids=(/axis_ids(0),axis_ids(1),axis_ids(2)/),  &
                    missing_value=var_info(var_found(1))%missing_value,&
                    positive=mycmor%positive,                          &
