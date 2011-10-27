@@ -89,7 +89,7 @@ module grid_info
   real            ,dimension(:),    allocatable::lnd_lats,lnd_lons,lnd_levs
   real            ,dimension(:,:),  allocatable::lnd_lats_bnds,lnd_lons_bnds
   double precision::p0
-  integer::nlons,nlats,nlevs,ntimes,naxes
+  integer::nlons,nlats,nlevs,ntimes,naxes,grid_id
   integer,dimension(10)::axis_ids
   character(len=256)::time_units
 end module

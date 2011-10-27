@@ -96,24 +96,7 @@ program day_CMOR
               if ((trim(xw(ixw)%cesm_vars(ivar)) == 'UNKNOWN').or.(trim(xw(ixw)%cesm_vars(ivar)) == 'UNAVAILABLE')) then
                  write(*,'('' UNAVAILABLE/UNKNOWN: '',a,'' == '',a)') trim(xw(ixw)%entry),trim(table(itab)%variable_entry)
               else
-                 write(ncfile(ivar),'(''data/'',a,''.'',a,''.'',a,''.'',a,''0101-'',a,''1231.nc'')') &
-                      trim(case_read),&
-                      trim(comp_read),&
-                      trim(xw(ixw)%cesm_vars(ivar)),&
-                      exp(exp_found)%begin_end(1:4),&
-                      '1859'
-                 !                      exp(exp_found)%begin_end(6:9)
-                 inquire(file=trim(ncfile(ivar)),exist=continue(ivar))
-                 if (.not.(continue(ivar))) then
-                    write(ncfile(ivar),'(''data/'',a,''.'',a,''.'',a,''.'',a,''0101_cat_'',a,''1231.nc'')') &
-                         trim(case_read),&
-                         trim(comp_read),&
-                         trim(xw(ixw)%cesm_vars(ivar)),&
-                         exp(exp_found)%begin_end(1:4),&
-                         '1859'
-!                         exp(exp_found)%begin_end(6:9)
-                    inquire(file=trim(ncfile(ivar)),exist=continue(ivar))
-                 endif
+                 call build_filenames(ncfile(ivar),continue(ivar))
                  if (.not.(continue(ivar))) then
                     write(*,*) trim(ncfile(ivar)),' NOT FOUND.'
                  else
