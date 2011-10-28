@@ -2,7 +2,7 @@ OImon:1.0:ageice:seaIce:1:UNAVAILABLE:UNAVAILABLE
 OImon:1.0:bmelt:seaIce:1:meltb:meltb
 OImon:1.0:divice:seaIce:1:divu:divu
 OImon:1.0:eshrice:seaIce:1:UNKNOWN:UNKNOWN
-OImon:1.0:evap:seaIce:1:evap:evap
+OImon:1.0:evap:seaIce:1:evap_ai:evap_ai
 OImon:1.0:grCongel:seaIce:1:congel:congel
 OImon:1.0:grFrazil:seaIce:1:frazil:frazil
 OImon:1.0:grLateral:seaIce:1:UNAVAILABLE:UNAVAILABLE

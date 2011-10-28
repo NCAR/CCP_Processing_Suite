@@ -329,6 +329,16 @@ program OImon_CMOR
                     cmordat(:,281:384) = indat2anh(:,1:104)
                  endif
                  !
+                 ! Perform necessary derivations
+                 !
+                 select case (xw(ixw)%entry)
+                 case ('evap')
+                    ! Convert cm day-1 to kg m-2 s-1
+                    cmordat = cmordat * (1./86400.) * (1./100.) * 1000.
+                 end select
+                 !
+                 ! Write 'em, Dano!
+                 !
                  tval(1)   = time(it)
                  tbnd(1,1) = time_bnds(1,it)
                  tbnd(2,1) = time_bnds(2,it)
