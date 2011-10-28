@@ -22,6 +22,10 @@ module table_info
      character(len=256)::requested,requested_bounds,variable_entry,z_bounds_factors,z_factors
   end type TableInfo
   integer::num_tab,tab_found
+  !
+  ! table_ids(1) = Amon, day, OImon, Omon, etc.' table_ids(2) = CMIP5_grids. Always.
+  !
+  integer,dimension(10)::table_ids
   type(TableInfo),dimension(0:max_entries)::table
 end module table_info
 !
@@ -108,5 +112,6 @@ module grid_info
   integer::nlons,nlats,nlevs,ntimes,naxes
   integer,dimension(1)::grid_id
   integer,dimension(10)::axis_ids
+  character(len=256),dimension(10)::dimnames,dimunits
   character(len=256)::time_units
 end module grid_info

@@ -16,8 +16,6 @@ subroutine define_ice_axes(dimensions)
   integer::i,j,idim,table_id
   integer,dimension(0:10)::idxb
   !
-  character(len=256),dimension(10)::dimnames,dimunits
-  !
   allocate(i_indices(nlons),j_indices(nlats))
   do i = 1,nlons
      i_indices(i) = i
@@ -53,28 +51,30 @@ subroutine define_ice_axes(dimensions)
   do i = 1,naxes
      select case(dimnames(i))
      case ('longitude')
-        table_id = cmor_load_table('Tables/CMIP5_grids')
-        call cmor_set_table(table_id)
+        call cmor_set_table(table_ids(2))
         axis_ids(idim) = cmor_axis(        &
              table_entry='i_index',      &
              units='1',&
-!             coord_vals=i_indices)
-             length=nlons)
+             coord_vals=i_indices)
         write(*,*) 'longitude defined, axis_id: ',idim,axis_ids(idim)
         idim = idim + 1
      case ('latitude')
-        table_id = cmor_load_table('Tables/CMIP5_grids')
-        call cmor_set_table(table_id)
+        call cmor_set_table(table_ids(2))
         axis_ids(idim) = cmor_axis(        &
              table_entry='j_index',       &
              units='1',&
-!             coord_vals=j_indices)
-             length=nlats)
+             coord_vals=j_indices)
         write(*,*) 'latitude defined, axis_id: ',idim,axis_ids(idim)
+        grid_id(1) = cmor_grid(                    &
+             axis_ids=(/axis_ids(1),axis_ids(2)/), &
+             latitude=ice_lats,                    &
+             longitude=ice_lons,                   &
+             latitude_vertices=ice_lats_bnds,      &
+             longitude_vertices=ice_lons_bnds)
+        write(*,*) 'CMOR GRID defined, grid_id: ',grid_id(1)
         idim = idim + 1
      case ('time')
-        table_id = cmor_load_table('Tables/CMIP5_OImon')
-        call cmor_set_table(table_id)
+        call cmor_set_table(table_ids(1))
         axis_ids(idim) = cmor_axis(        &
              table_entry=dimnames(i),      &
              units=dimunits(i),            &
@@ -85,15 +85,4 @@ subroutine define_ice_axes(dimensions)
      end select
   enddo
   write(*,*) 'CMOR axes defined, axis_ids: ',(axis_ids(i),i=1,naxes)
-  table_id = cmor_load_table('Tables/CMIP5_grids')
-  call cmor_set_table(table_id)
-  grid_id(1) = cmor_grid(                    &
-       axis_ids=(/axis_ids(0),axis_ids(1)/), &
-       latitude=ice_lats,                    &
-       longitude=ice_lons,                   &
-       latitude_vertices=ice_lats_bnds,      &
-       longitude_vertices=ice_lons_bnds)
-  write(*,*) 'CMOR GRID defined, grid_id: ',grid_id(1)
-  table_id = cmor_load_table('Tables/CMIP5_OImon')
-  call cmor_set_table(table_id)
 end subroutine define_ice_axes

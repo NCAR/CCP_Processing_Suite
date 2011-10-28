@@ -18,17 +18,18 @@ program OImon_CMOR
   !
   !  uninitialized variables used in communicating with CMOR:
   !
-  integer::error_flag,var_ids,table_id
-  real,DIMENSION(:,:),ALLOCATABLE::indat2anh,indat2ash,indat2bnh,indat2bsh,cmordat
+  integer::error_flag,var_ids
+  real,dimension(:,:),allocatable::indat2anh,indat2ash,indat2bnh,indat2bsh,cmordat
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::time_bnds
-  DOUBLE PRECISION,DIMENSION(1)  ::tval
-  DOUBLE PRECISION,DIMENSION(2,1)::tbnd
+  double precision,dimension(1)  ::tval
+  double precision,dimension(2,1)::tbnd
   !
   ! Other variables
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile
   integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw
+  integer,dimension(:),allocatable::i_indices,j_indices
   logical::all_continue
   !
   character(len=256),dimension(10)::ncfilenh,ncfilesh
@@ -63,6 +64,13 @@ program OImon_CMOR
   ! Get grid information
   !
   call get_ice_grid
+  allocate(i_indices(nlons),j_indices(nlats))
+  do i = 1,nlons
+     i_indices(i) = i
+  enddo
+  do j = 1,nlats
+     j_indices(j) = j
+  enddo
   !
   ! Set up CMOR subroutine arguments
   !
@@ -82,8 +90,6 @@ program OImon_CMOR
         error_flag   = 0
         var_found    = 0
         scale_factor = 1.
-        allmax       = -1.e36
-        allmin       =  1.e36
         all_continue = .true.
         continue(:)  = .false.
         time_units   = ' '
@@ -216,8 +222,8 @@ program OImon_CMOR
               error_flag = cmor_setup(inpath='CMOR',&
                    netcdf_file_action=CMOR_REPLACE,&
                    logfile=logfile)
-              table_id = cmor_load_table(mycmor%table_file)
-              call cmor_set_table(table_id)
+              table_ids(1) = cmor_load_table(mycmor%table_file)
+              call cmor_set_table(table_ids(1))
               !
               error_flag = cmor_dataset(                              &
                    outpath=mycmor%outpath,                            &
@@ -266,13 +272,11 @@ program OImon_CMOR
               !
               ! Define axes via 'cmor_axis'
               !
-              table_id = cmor_load_table('Tables/CMIP5_grids')
-              call cmor_set_table(table_id)
-              write(*,*) 'call define_ice_axes: ',trim(table(itab)%dimensions)
+              table_ids(2) = cmor_load_table('Tables/CMIP5_grids')
+              call cmor_set_table(table_ids(2))
               call define_ice_axes(table(itab)%dimensions)
-              table_id = cmor_load_table('Tables/CMIP5_OImon')
-              call cmor_set_table(table_id)
-              ! 
+              call cmor_set_table(table_ids(1))
+              !
               ! Make manual alterations so that CMOR works. Silly code!
               !
               allocate(indat2anh(nlons,104),indat2ash(nlons,76),cmordat(nlons,384))
@@ -284,26 +288,20 @@ program OImon_CMOR
                  write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
               endif
               !
-!!$              select case (xw(ixw)%entry)
-!!$              case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs')
-!!$                 mycmor%positive = 'up'
-!!$              case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt')
-!!$                 mycmor%positive = 'down'
-!!$              case ('clt','ci')
-!!$                 var_info(var_found(1))%units = '1'
-!!$              case ('hurs')
-!!$                 var_info(var_found(1))%units = '%'
-!!$              case ('prc','pr','prsn')
-!!$                 var_info(var_found(1))%units = 'kg m-2 s-1'
-!!$              end select
+              ! Define unit renamings and/or "positive" as needed
+              !
+              select case (xw(ixw)%entry)
+              case ('evap')
+                 mycmor%positive = 'up'
+              end select
               !
               write(*,*) 'cmor_variable:'
               write(*,*) 'varids=',var_ids
               write(*,*) 'table=',trim(mycmor%table_file)
               write(*,*) 'table_entry=',trim(xw(ixw)%entry)
               write(*,*) 'dimensions=',trim(table(itab)%dimensions)
-              write(*,*) 'axis_ids=',axis_ids(1),axis_ids(2),axis_ids(3)
-              write(*,*) 'grid_id=',grid_id(1)
+              write(*,*) 'axis_ids=',axis_ids
+              write(*,*) 'grid_id=',grid_id
               write(*,*) 'units=',trim(var_info(var_found(1))%units)
               write(*,*) 'missing_value=',var_info(var_found(1))%missing_value
               write(*,*) 'positive=',trim(mycmor%positive)
@@ -313,8 +311,7 @@ program OImon_CMOR
                    table=mycmor%table_file,                           &
                    table_entry=xw(ixw)%entry,                         &
                    units=var_info(var_found(1))%units,                &
-                   axis_ids=(/grid_id(1)/),&
-!                   axis_ids=(/axis_ids(0),axis_ids(1),axis_ids(2)/),  &
+                   axis_ids=(/grid_id(1),axis_ids(3)/),               &
                    missing_value=var_info(var_found(1))%missing_value,&
                    positive=mycmor%positive,                          &
                    original_name=original_name,                       &
@@ -326,32 +323,11 @@ program OImon_CMOR
                  time_counter = it
                  if (xw(ixw)%ncesm_vars == 1) then
                     call read_var(ncidnh(1),var_info(var_found(1))%name,indat2anh)
-                    write(*,'(''Reading NH '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
                     call read_var(ncidsh(1),var_info(var_found(1))%name,indat2ash)
-                    write(*,'(''Reading NH '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
-                    allmax(1) = max(allmax(1),maxval(cmordat)) ; allmin(1) = min(allmin(1),minval(cmordat))
+                    write(*,'(''Reading NH and SH '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
                     cmordat(:,  1: 76) = indat2ash(:,1: 76)
                     cmordat(:,281:384) = indat2anh(:,1:104)
                  endif
-!!$                 if (xw(ixw)%ncesm_vars == 2) then
-!!$                    call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
-!!$!                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
-!!$                    call read_var(ncid(2),var_info(var_found(2))%name,indat2b)
-!!$!                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(2))%name),it
-!!$                    allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
-!!$                    allmax(2) = max(allmax(2),maxval(indat2b)) ; allmin(2) = min(allmin(2),minval(indat2b))
-!!$                    select case (xw(ixw)%entry)
-!!$                    case ('pr','prsn')
-!!$                       var_info(var_found(ivar))%units = 'kg m-2 s-1'
-!!$                       cmordat = 1000.*(indat2a + indat2b)
-!!$                    case ('rlus')
-!!$                       cmordat = indat2a + indat2b
-!!$                    case ('rsus','rsuscs','rsut','rsutcs','rtmt')
-!!$                       cmordat = indat2a - indat2b
-!!$                    case default
-!!$                       cmordat = indat2a
-!!$                    end select
-!!$                 endif
                  !
                  tval(1)   = time(it)
                  tbnd(1,1) = time_bnds(1,it)
@@ -378,8 +354,7 @@ program OImon_CMOR
               error_flag = cmor_close()
               write(*,'(''********************************************************************************'')')
               write(*,'(''********************************************************************************'')')
-              write(*,'(''CMOR executed to completion; T#: '',i5,'' X#: '',i5,'' EXT: '',3(2g10.4))') &
-                   itab,ixw,allmin(1:xw(ixw)%ncesm_vars),allmax(1:xw(ixw)%ncesm_vars)
+              write(*,'(''CMOR executed to completion; T#: '',i5,'' X#: '',i5)') itab,ixw
               write(*,'(''********************************************************************************'')')
               write(*,'(''********************************************************************************'')')
               time_counter = 0
@@ -387,8 +362,6 @@ program OImon_CMOR
               error_flag   = 0
               var_found    = 0
               scale_factor = 1.
-              allmax       = -1.e36
-              allmin       =  1.e36
               continue(:)  = .false.
               mycmor%positive = ' '
               original_name= ' '

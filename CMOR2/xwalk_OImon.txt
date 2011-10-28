@@ -21,7 +21,7 @@ OImon:1.0:rsussi:seaIce:1:UNKNOWN:UNKNOWN
 OImon:1.0:sblsi:seaIce:1:UNKNOWN:UNKNOWN
 OImon:1.0:sic:seaIce:1:aice:aice
 OImon:1.0:sim:seaIce:1:UNKNOWN:UNKNOWN
-OImon:1.0:sit:seaIce:2:hi,aice:hi,aice
+OImon:1.0:sit:seaIce:1:hi:hi unchanged
 OImon:1.0:snc:seaIce:1:UNKNOWN:UNKNOWN
 OImon:1.0:snd:seaIce:1:hs:hs
 OImon:1.0:snomelt:seaIce:1:melts:melts

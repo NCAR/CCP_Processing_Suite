@@ -15,8 +15,6 @@ subroutine define_atm_axes(dimensions)
   integer::i,j,idim
   integer,dimension(0:10)::idxb
   !
-  character(len=256),dimension(10)::dimnames,dimunits
-  !
   ! Parse "dimensions" to find names and how many
   !
   naxes = 1 ; idxb = 1 ; dimnames(:)(1:) = ' '
