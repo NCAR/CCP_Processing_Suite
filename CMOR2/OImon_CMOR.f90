@@ -291,6 +291,8 @@ program OImon_CMOR
               ! Define unit renamings and/or "positive" as needed
               !
               select case (xw(ixw)%entry)
+              case ('hflssi','hfssi','rldssi','rlussi','rsdssi','rsussi','sblsi','ssi')
+                 mycmor%positive = 'up'
               case ('evap')
                  mycmor%positive = 'up'
                  var_info(var_found(1))%units = 'kg m-2 s-1'
@@ -327,7 +329,7 @@ program OImon_CMOR
                  if (xw(ixw)%ncesm_vars == 1) then
                     call read_var(ncidnh(1),var_info(var_found(1))%name,indat2anh)
                     call read_var(ncidsh(1),var_info(var_found(1))%name,indat2ash)
-                    write(*,'(''Reading NH and SH '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
+!                    write(*,'(''Reading NH and SH '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
                     cmordat(:,  1: 76) = indat2ash(:,1: 76)
                     cmordat(:,281:384) = indat2anh(:,1:104)
                  endif
