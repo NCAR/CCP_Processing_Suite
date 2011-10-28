@@ -128,6 +128,14 @@ subroutine load_exp(exp_file)
   enddo
   close(20)
   num_exp = iexp - 1
+  !
+  ! Parse out beginning/ending years
+  do iexp = 1,num_exp
+     if (exp(iexp)%begin_end /= 'YYYY-YYYY') then
+        read(exp(iexp)%begin_end(1:4),'(i4.4)') exp(iexp)%begyr
+        read(exp(iexp)%begin_end(6:9),'(i4.4)') exp(iexp)%endyr
+     endif
+  enddo
   ! Possible forcings:
   ! N/A Nat Ant GHG SD SI SA TO SO Oz LU Sl Vl SS Ds BC MD OC AA
   !     Description 

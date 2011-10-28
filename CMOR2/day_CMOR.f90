@@ -12,6 +12,7 @@ program day_CMOR
   use table_info
   use xwalk_info
   use grid_info
+  use files_info
   use mycmor_info
   !
   implicit none
@@ -31,10 +32,8 @@ program day_CMOR
   integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw
   logical::all_continue
   !
-  character(len=256),dimension(10)::ncfile
   real,dimension(10)::allmax,allmin,scale_factor
-  integer,dimension(10)::ncid,var_found
-  logical,dimension(10)::continue
+  integer,dimension(10)::var_found
   !
   ! GO!
   !
@@ -81,11 +80,6 @@ program day_CMOR
         var_counter  = 0
         error_flag   = 0
         var_found    = 0
-        scale_factor = 1.
-        allmax       = -1.e36
-        allmin       =  1.e36
-        all_continue = .true.
-        continue(:)  = .false.
         time_units   = ' '
         original_name= ' '
 !
@@ -96,15 +90,7 @@ program day_CMOR
               if ((trim(xw(ixw)%cesm_vars(ivar)) == 'UNKNOWN').or.(trim(xw(ixw)%cesm_vars(ivar)) == 'UNAVAILABLE')) then
                  write(*,'('' UNAVAILABLE/UNKNOWN: '',a,'' == '',a)') trim(xw(ixw)%entry),trim(table(itab)%variable_entry)
               else
-                 call build_filenames(ncfile(ivar),continue(ivar))
-                 if (.not.(continue(ivar))) then
-                    write(*,*) trim(ncfile(ivar)),' NOT FOUND.'
-                 else
-                    write(*,'('' GOOD TO GO : '',a,'' == '',a,'' from CESM file: '',a)') &
-                         trim(xw(ixw)%entry),&
-                         trim(table(itab)%variable_entry),&
-                         trim(ncfile(ivar))
-                 endif
+                 call build_filenames
               endif
               !
               ! Check and make sure all files available
@@ -283,7 +269,6 @@ program day_CMOR
                  if (xw(ixw)%ncesm_vars == 1) then
                     call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
 !                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
-                    allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
                     cmordat = indat2a
                  endif
                  if (xw(ixw)%ncesm_vars == 2) then
@@ -291,8 +276,6 @@ program day_CMOR
 !                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
                     call read_var(ncid(2),var_info(var_found(2))%name,indat2b)
 !                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(2))%name),it
-                    allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
-                    allmax(2) = max(allmax(2),maxval(indat2b)) ; allmin(2) = min(allmin(2),minval(indat2b))
                     select case (xw(ixw)%entry)
                     case ('pr','prsn')
                        var_info(var_found(ivar))%units = 'kg m-2 s-1'
@@ -312,9 +295,6 @@ program day_CMOR
                     write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(2))%name),it
                     call read_var(ncid(3),var_info(var_found(3))%name,indat2b)
                     write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(3))%name),it
-                    allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
-                    allmax(2) = max(allmax(2),maxval(indat2b)) ; allmin(2) = min(allmin(2),minval(indat2b))
-                    allmax(3) = max(allmax(3),maxval(indat2c)) ; allmin(3) = min(allmin(3),minval(indat2c))
                     cmordat = indat2a
                  endif
                  !
@@ -342,18 +322,13 @@ program day_CMOR
               error_flag = cmor_close()
               write(*,'(''********************************************************************************'')')
               write(*,'(''********************************************************************************'')')
-              write(*,'(''CMOR executed to completion; T#: '',i5,'' X#: '',i5,'' EXT: '',3(2g10.4))') &
-                   itab,ixw,allmin(1:xw(ixw)%ncesm_vars),allmax(1:xw(ixw)%ncesm_vars)
+              write(*,'(''CMOR executed to completion; T#: '',i5,'' X#: '',i5,'' EXT: '',3(2g10.4))') itab,ixw
               write(*,'(''********************************************************************************'')')
               write(*,'(''********************************************************************************'')')
               time_counter = 0
               var_counter  = 0
               error_flag   = 0
               var_found    = 0
-              scale_factor = 1.
-              allmax       = -1.e36
-              allmin       =  1.e36
-              continue(:)  = .false.
               mycmor%positive = ' '
               original_name= ' '
               !

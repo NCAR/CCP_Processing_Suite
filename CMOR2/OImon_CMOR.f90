@@ -28,7 +28,7 @@ program OImon_CMOR
   ! Other variables
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile
-  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,table_id_OImon,table_id_grids
+  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw
   logical::all_continue
   !
   character(len=256),dimension(10)::ncfilenh,ncfilesh
@@ -39,7 +39,7 @@ program OImon_CMOR
   ! GO!
   !
   mycmor%table_file = 'Tables/CMIP5_OImon'
-  call load_table
+  call load_table_info
   !
   ! Get "crossxwalk" (xwalk) information
   !   Provides information on relationship between CMOR variables and
@@ -216,8 +216,8 @@ program OImon_CMOR
               error_flag = cmor_setup(inpath='CMOR',&
                    netcdf_file_action=CMOR_REPLACE,&
                    logfile=logfile)
-              table_id_OImon = cmor_load_table(mycmor%table_file)
-              call cmor_set_table(table_id_OImon)
+              table_id = cmor_load_table(mycmor%table_file)
+              call cmor_set_table(table_id)
               !
               error_flag = cmor_dataset(                              &
                    outpath=mycmor%outpath,                            &
@@ -266,6 +266,8 @@ program OImon_CMOR
               !
               ! Define axes via 'cmor_axis'
               !
+              table_id = cmor_load_table('Tables/CMIP5_grids')
+              call cmor_set_table(table_id)
               write(*,*) 'call define_ice_axes: ',trim(table(itab)%dimensions)
               call define_ice_axes(table(itab)%dimensions)
               table_id = cmor_load_table('Tables/CMIP5_OImon')
@@ -301,7 +303,7 @@ program OImon_CMOR
               write(*,*) 'table_entry=',trim(xw(ixw)%entry)
               write(*,*) 'dimensions=',trim(table(itab)%dimensions)
               write(*,*) 'axis_ids=',axis_ids(1),axis_ids(2),axis_ids(3)
-              write(*,*) 'grid_id=',grid_id
+              write(*,*) 'grid_id=',grid_id(1)
               write(*,*) 'units=',trim(var_info(var_found(1))%units)
               write(*,*) 'missing_value=',var_info(var_found(1))%missing_value
               write(*,*) 'positive=',trim(mycmor%positive)
@@ -311,8 +313,8 @@ program OImon_CMOR
                    table=mycmor%table_file,                           &
                    table_entry=xw(ixw)%entry,                         &
                    units=var_info(var_found(1))%units,                &
-!                   axis_ids=(/grid_id/),&
-                   axis_ids=(/axis_ids(0),axis_ids(1),axis_ids(2)/),  &
+                   axis_ids=(/grid_id(1)/),&
+!                   axis_ids=(/axis_ids(0),axis_ids(1),axis_ids(2)/),  &
                    missing_value=var_info(var_found(1))%missing_value,&
                    positive=mycmor%positive,                          &
                    original_name=original_name,                       &

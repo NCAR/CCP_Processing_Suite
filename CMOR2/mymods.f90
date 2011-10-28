@@ -32,6 +32,7 @@ module exp_info
   type SimInfo
      character(len=256)::case,loc,model_id,expt_id,rip_code,cmip,run_refcase,run_refdate
      character(len=256)::begin_end,grid,compset,repotag,start_fin,mach,dout,forcing
+     integer::begyr,endyr
   end type SimInfo
   integer::num_exp,exp_found,parent_found
   character(len=256)::case_read,comp_read
@@ -78,6 +79,22 @@ module xwalk_info
   !
 end module xwalk_info
 !
+! Input netCDF files information
+!
+module files_info
+  !
+  use max_parms
+  type InFileInfo
+     character(len=256),dimension(10,200)::ncfile
+     integer,dimension(10)::nc_nfiles
+     logical,dimension(10,200)::exists
+     integer,dimension(200)::ncid
+  end type InFileInfo
+  !
+  type(InFile)::infiles
+  !
+end module files_info
+!
 ! Grid information
 !
 module grid_info
@@ -89,7 +106,8 @@ module grid_info
   real            ,dimension(:),    allocatable::lnd_lats,lnd_lons,lnd_levs
   real            ,dimension(:,:),  allocatable::lnd_lats_bnds,lnd_lons_bnds
   double precision::p0
-  integer::nlons,nlats,nlevs,ntimes,naxes,grid_id
+  integer::nlons,nlats,nlevs,ntimes,naxes
+  integer,dimension(1)::grid_id
   integer,dimension(10)::axis_ids
   character(len=256)::time_units
 end module
