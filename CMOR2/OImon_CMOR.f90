@@ -293,6 +293,9 @@ program OImon_CMOR
               select case (xw(ixw)%entry)
               case ('evap')
                  mycmor%positive = 'up'
+                 var_info(var_found(1))%units = 'kg m-2 s-1'
+              case ('bmelt','grCongel','grFrazil','pr','prsn','snomelt','snoToIce','tmelt')
+                 var_info(var_found(1))%units = 'kg m-2 s-1'
               end select
               !
               write(*,*) 'cmor_variable:'
@@ -332,7 +335,7 @@ program OImon_CMOR
                  ! Perform necessary derivations
                  !
                  select case (xw(ixw)%entry)
-                 case ('evap')
+                 case ('bmelt','evap','grCongel','grFrazil','pr','prsn','snomelt','snoToIce','tmelt')
                     ! Convert cm day-1 to kg m-2 s-1
                     cmordat = cmordat * (1./86400.) * (1./100.) * 1000.
                  end select

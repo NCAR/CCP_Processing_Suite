@@ -7,8 +7,8 @@ OImon:1.0:grCongel:seaIce:1:congel:congel
 OImon:1.0:grFrazil:seaIce:1:frazil:frazil
 OImon:1.0:grLateral:seaIce:1:UNAVAILABLE:UNAVAILABLE
 OImon:1.0:hcice:seaIce:1:qin:qin
-OImon:1.0:hflssi:seaIce:1:flat:flat
-OImon:1.0:hfssi:seaIce:1:fsens:fsens
+OImon:1.0:hflssi:seaIce:1:flat_ai:flat_ai
+OImon:1.0:hfssi:seaIce:1:fsens_ai:fsens_ai
 OImon:1.0:ialb:seaIce:1:UNAVAILABLE:UNAVAILABLE
 OImon:1.0:nshrice:seaIce:1:UNKNOWN:UNKNOWN
 OImon:1.0:pr:seaIce:1:rain_ai:rain_ai
