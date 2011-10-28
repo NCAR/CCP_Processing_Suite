@@ -37,7 +37,7 @@ echo $PRCHST >> Info_in.${CASE}.${COMP}
 echo $SVNREV >> Info_in.${CASE}.${COMP}
 echo $SVNDAT >> Info_in.${CASE}.${COMP}
 echo $SVNUID >> Info_in.${CASE}.${COMP}
-cat Info_in.${CASE}.${COMP}
+#cat Info_in.${CASE}.${COMP}
 cat day_in.${CASE}.${COMP} | day_CMOR
 #
 #rm -f day_in.${CASE}.${COMP}

@@ -3,8 +3,10 @@
 !
 module max_parms
   !
-  integer,parameter::max_entries = 10000
-  integer,parameter::max_exprmnt = 10000
+  integer,parameter::max_entries   = 10000
+  integer,parameter::max_exprmnt   = 10000
+  integer,parameter::max_cesm_vars =    10
+  integer,parameter::max_ncfiles   =   200
   !
 end module max_parms
 !
@@ -82,16 +84,13 @@ end module xwalk_info
 ! Input netCDF files information
 !
 module files_info
-  !
   use max_parms
-  type InFileInfo
-     character(len=256),dimension(10,200)::ncfile
-     integer,dimension(10)::nc_nfiles
-     logical,dimension(10,200)::exists
-     integer,dimension(200)::ncid
-  end type InFileInfo
   !
-  type(InFile)::infiles
+  character(len=256),dimension(max_ncfiles,max_cesm_vars)::ncfile
+  integer,dimension(max_cesm_vars)::nc_nfiles
+  integer,dimension(max_ncfiles,max_cesm_vars)::ntimes
+  logical,dimension(max_ncfiles,max_cesm_vars)::exists
+  integer,dimension(max_ncfiles,max_cesm_vars)::ncid
   !
 end module files_info
 !
@@ -110,4 +109,4 @@ module grid_info
   integer,dimension(1)::grid_id
   integer,dimension(10)::axis_ids
   character(len=256)::time_units
-end module
+end module grid_info
