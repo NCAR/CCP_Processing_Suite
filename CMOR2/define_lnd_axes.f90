@@ -59,15 +59,16 @@ subroutine define_lnd_axes(dimensions)
              coord_vals=lnd_lats,          &
              cell_bounds=lnd_lats_bnds)
         idim = idim + 1
-     case ('sdepth1')
+     case ('sdepth')
         axis_ids(idim) = cmor_axis(        &
              table=mycmor%table_file,      &
              table_entry=dimnames(i),      &
              length=SIZE(lnd_levs),        &
              units=dimunits(i),            &
              coord_vals=lnd_levs,          &
-             cell_bounds=lnd_lons_bnds)
+             cell_bounds=lnd_levs_bnds)
         idim = idim + 1
+        write(*,*) 'lnd_levs: ',lnd_levs
      case ('time')
         axis_ids(idim) = cmor_axis(          &
              table=mycmor%table_file,      &

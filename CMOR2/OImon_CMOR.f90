@@ -291,7 +291,7 @@ program OImon_CMOR
               ! Define unit renamings and/or "positive" as needed
               !
               select case (xw(ixw)%entry)
-              case ('hflssi','hfssi','rldssi','rlussi','rsdssi','rsussi','sblsi','ssi')
+              case ('hflssi','hfssi','rldssi','rlussi','rsdssi','rsussi','sblsi','ssi','strairx','strairy')
                  mycmor%positive = 'up'
               case ('evap')
                  mycmor%positive = 'up'

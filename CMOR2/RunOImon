@@ -15,7 +15,7 @@ if [ ! -d ./CMOR ] ; then
   mkdir ./CMOR
 fi
 #
-ln -s -f ${HOME}/CCP_Processing_Suite/experiments.txt       .
+#ln -s -f ${HOME}/CCP_Processing_Suite/experiments.txt       .
 ln -s -f ${HOME}/CCP_Processing_Suite/CMOR2/Tables          .
 ln -s -f ${HOME}/CCP_Processing_Suite/CMOR2/xwalk_OImon.txt .
 ln -s -f ${HOME}/CCP_Processing_Suite/CMOR2/ice_grid_gx1.nc .

@@ -18,18 +18,19 @@ program Lmon_CMOR
   !
   !  uninitialized variables used in communicating with CMOR:
   !
-  INTEGER::error_flag,var_ids
-  REAL,DIMENSION(:,:)  ,ALLOCATABLE::indat2a,indat2b,indat2c,cmordat2d
-  REAL,DIMENSION(:,:,:),ALLOCATABLE::indat3a,indat3b,indat3c,cmordat3d
+  integer::error_flag,var_ids
+  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,cmordat2d
+  real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::time_bnds
-  DOUBLE PRECISION,DIMENSION(1)  ::tval
-  DOUBLE PRECISION,DIMENSION(2,1)::tbnd
+  double precision,dimension(1)  ::tval
+  double precision,dimension(2,1)::tbnd
   !
   ! Other variables
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile
-  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw
+  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ilev
+  real::spval
   logical::all_continue
   !
   character(len=256),dimension(10)::ncfile
@@ -40,7 +41,7 @@ program Lmon_CMOR
   ! GO!
   !
   mycmor%table_file = 'Tables/CMIP5_Lmon'
-  call load_table
+  call load_table_info
   !
   ! Get "crossxwalk" (xwalk) information
   !   Provides information on relationship between CMOR variables and
@@ -237,39 +238,14 @@ program Lmon_CMOR
               ! 
               ! Make manual alterations so that CMOR works. Silly code!
               !
-              if (naxes == 3) then
-                 allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
-                 write(*,*) 'allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))'
-                 if (xw(ixw)%ncesm_vars == 1) then
-                    write(original_name,'(a)') xw(ixw)%cesm_vars(1)
-                 endif
-                 if (xw(ixw)%ncesm_vars == 2) then
-                    allocate(indat2b(nlons,nlats))
-                    write(*,*) 'allocate(indat2b)'
-                    write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
-                 endif
-                 if (xw(ixw)%ncesm_vars == 3) then
-                    allocate(indat2b(nlons,nlats),indat2c(nlons,nlats))
-                    write(*,*) 'allocate(indat2b) allocate(indat2c)'
-                    write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
-                 endif
+              if (xw(ixw)%ncesm_vars == 1) then
+                 write(original_name,'(a)') xw(ixw)%cesm_vars(1)
               endif
-              if (naxes == 4) then
-                 allocate(indat3a(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nlevs))
-                 write(*,*) 'allocate(indat3a(nlons,nlats),cmordat3d(nlons,nlats))'
-                 if (xw(ixw)%ncesm_vars == 1) then
-                    write(original_name,'(a)') xw(ixw)%cesm_vars(1)
-                 endif
-                 if (xw(ixw)%ncesm_vars .ge. 2) then
-                    allocate(indat3b(nlons,nlats,nlevs))
-                    write(*,*) 'allocate(indat3b(nlons,nlats))'
-                    write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
-                 endif
-                 if (xw(ixw)%ncesm_vars .ge. 3) then
-                    allocate(indat3c(nlons,nlats,nlevs))
-                    write(*,*) 'allocate(indat3c(nlons,nlats))'
-                    write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
-                 endif
+              if (xw(ixw)%ncesm_vars == 2) then
+                 write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
+              endif
+              if (xw(ixw)%ncesm_vars == 3) then
+                 write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
               endif
               !
               ! Modify units as necessary to accomodate udunits' inability to convert 
@@ -295,15 +271,29 @@ program Lmon_CMOR
                  var_info(var_found(1))%units = '1'
               end select
               !
-              var_ids = cmor_variable(                                &
-                   table=mycmor%table_file,                           &
-                   table_entry=xw(ixw)%entry,                         &
-                   units=var_info(var_found(1))%units,                &
-                   axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3)/),  &
-                   missing_value=var_info(var_found(1))%missing_value,&
-                   positive=mycmor%positive,                          &
-                   original_name=original_name,                       &
-                   comment=xw(ixw)%comment)
+              spval=var_info(var_found(1))%missing_value
+              select case (xw(ixw)%entry)
+                 case ('tsl')
+                    var_ids = cmor_variable(                                &
+                         table=mycmor%table_file,                           &
+                         table_entry=xw(ixw)%entry,                         &
+                         units=var_info(var_found(1))%units,                &
+                         axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4)/),  &
+                         missing_value=var_info(var_found(1))%missing_value,&
+                         positive=mycmor%positive,                          &
+                         original_name=original_name,                       &
+                         comment=xw(ixw)%comment)
+                 case default
+                    var_ids = cmor_variable(                                &
+                         table=mycmor%table_file,                           &
+                         table_entry=xw(ixw)%entry,                         &
+                         units=var_info(var_found(1))%units,                &
+                         axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3)/),  &
+                         missing_value=var_info(var_found(1))%missing_value,&
+                         positive=mycmor%positive,                          &
+                         original_name=original_name,                       &
+                         comment=xw(ixw)%comment)
+                 end select
               !
               write(*,*) 'cmor_variable:'
               write(*,*) 'varids=',var_ids
@@ -319,98 +309,167 @@ program Lmon_CMOR
               !
               time_loop: DO it=1, ntimes
                  time_counter = it
-                 if (naxes == 3) then
-                    if (xw(ixw)%ncesm_vars == 1) then
-                       call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
-!                       write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
-                       allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
-                       cmordat2d = indat2a
-                    endif
-                    if (xw(ixw)%ncesm_vars == 2) then
-                       call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
-!                       write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
-                       call read_var(ncid(2),var_info(var_found(2))%name,indat2b)
-!                       write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(2))%name),it
-                       allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
-                       allmax(2) = max(allmax(2),maxval(indat2b)) ; allmin(2) = min(allmin(2),minval(indat2b))
-                    endif
-                    if (xw(ixw)%ncesm_vars == 3) then
-                       call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
-                       write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
-                       call read_var(ncid(2),var_info(var_found(2))%name,indat2b)
-                       write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(2))%name),it
-                       call read_var(ncid(3),var_info(var_found(3))%name,indat2b)
-                       write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(3))%name),it
-                       allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
-                       allmax(2) = max(allmax(2),maxval(indat2b)) ; allmin(2) = min(allmin(2),minval(indat2b))
-                       allmax(3) = max(allmax(3),maxval(indat2c)) ; allmin(3) = min(allmin(3),minval(indat2c))
-                       cmordat2d = indat2a
-                    endif
-                 endif
-                 !
-                 if (naxes == 4) then
-                    if (xw(ixw)%ncesm_vars == 1) then
-                       call read_var(ncid(1),var_info(var_found(1))%name,indat3a)
-!                       write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
-                       allmax(1) = max(allmax(1),maxval(indat3a)) ; allmin(1) = min(allmin(1),minval(indat3a))
-                       cmordat3d = indat3a
-                    endif
-                    if (xw(ixw)%ncesm_vars == 2) then
-                       call read_var(ncid(1),var_info(var_found(1))%name,indat3a)
-!                       write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
-                       call read_var(ncid(2),var_info(var_found(2))%name,indat3b)
-!                       write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(2))%name),it
-                       allmax(1) = max(allmax(1),maxval(indat3a)) ; allmin(1) = min(allmin(1),minval(indat3a))
-                       allmax(2) = max(allmax(2),maxval(indat3b)) ; allmin(2) = min(allmin(2),minval(indat3b))
-                    endif
-                    if (xw(ixw)%ncesm_vars == 3) then
-                       call read_var(ncid(1),var_info(var_found(1))%name,indat3a)
-                       write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
-                       call read_var(ncid(2),var_info(var_found(2))%name,indat3b)
-                       write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(2))%name),it
-                       call read_var(ncid(3),var_info(var_found(3))%name,indat3b)
-                       write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(3))%name),it
-                       allmax(1) = max(allmax(1),maxval(indat3a)) ; allmin(1) = min(allmin(1),minval(indat3a))
-                       allmax(2) = max(allmax(2),maxval(indat3b)) ; allmin(2) = min(allmin(2),minval(indat3b))
-                       allmax(3) = max(allmax(3),maxval(indat3c)) ; allmin(3) = min(allmin(3),minval(indat3c))
-                    endif
-                 endif
                  !
                  ! Perform derivations
                  !
                  select case (xw(ixw)%entry)
+                 case ('evspsblveg','evspsblsoi','tran','mrros','prveg','lai')
+                    !
+                    ! No change
+                    !
+                    allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
+                    call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
+                    allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
+                    ! 
+                    cmordat2d = indat2a
                  case ('cVeg','cLitter','cSoil','cProduct','gpp')
-                    ! Convert grams to kg
+                    !
+                    ! Unit change - grams to kg
+                    !
+                    allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
+                    call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
+                    allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
+                    ! 
                     cmordat2d = indat2a/1000.
                  case ('burntArea')
-                    ! Given units 'proportion' replaced by '%', so must multiply by 100
+                    !
+                    ! Unit change - 'proportion' to percentage
+                    !
+                    allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
+                    call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
+                    allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
+                    !
                     cmordat2d = indat2a*100.
                  case ('mrro')
-                    ! Add QOVER + QDRAI + QRGWL
-                    where ((indat2a /= 1.e36).and.(indat2b /= 1.e36).and.(indat2c /= 1.e36))
+                    !
+                    ! Add QOVER + QDRAI + QRGWL, units result in no numerical change (mm s-1 to kg m-2 s-1)
+                    !
+                    allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),indat2c(nlons,nlats))
+                    allocate(cmordat2d(nlons,nlats))
+                    call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
+                    call read_var(ncid(2),var_info(var_found(2))%name,indat2b)
+                    call read_var(ncid(3),var_info(var_found(3))%name,indat2c)
+                    allmax(1) = max(allmax(1),maxval(indat2a,mask=indat2a/=spval)) ; allmin(1) = min(allmin(1),minval(indat2a,mask=indat2a/=spval))
+                    allmax(2) = max(allmax(2),maxval(indat2b,mask=indat2b/=spval)) ; allmin(2) = min(allmin(2),minval(indat2b,mask=indat2b/=spval))
+                    allmax(3) = max(allmax(3),maxval(indat2c,mask=indat2c/=spval)) ; allmin(3) = min(allmin(3),minval(indat2c,mask=indat2c/=spval))
+                    ! 
+                    where ((indat2a /= spval).and.(indat2b /= spval).and.(indat2c /= spval))
                        cmordat2d = indat2a + indat2b + indat2c
                     elsewhere
-                       cmordat2d = 1.e36
+                       cmordat2d = spval
                     endwhere
                  case ('mrsos')
-                    ! Extract just 1st 4 levels of SOILLIQ and SOILICE, integrate, and add
-                    cmordat3d = indat3a(:,:,1:4)+indat3b(:,:,1:4)
+                    !
+                    ! Integrate SOILICE and SOILIQ over top 10 cm
+                    !
+                    allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs))
+                    allocate(work3da(nlons,nlats,nlevs),work3db(nlons,nlats,nlevs))
+                    allocate(cmordat2d(nlons,nlats))
+                    call read_var(ncid(1),var_info(var_found(1))%name,indat3a)
+                    call read_var(ncid(2),var_info(var_found(2))%name,indat3b)
+                    allmax(1) = max(allmax(1),maxval(indat3a)) ; allmin(1) = min(allmin(1),minval(indat3a))
+                    allmax(2) = max(allmax(2),maxval(indat3b)) ; allmin(2) = min(allmin(2),minval(indat3b))
+                    work3da = 0. ; work3db = 0.
+                    do k = 1,4
+                       do j = 1,nlats
+                          do i = 1,nlons
+                             if (indat3a(i,j,k) /= spval) work3da(i,j,k) = indat3a(i,j,k)*lnd_dzsoi(i,j,k)
+                             if (indat3b(i,j,k) /= spval) work3db(i,j,k) = indat3b(i,j,k)*lnd_dzsoi(i,j,k)
+                          enddo
+                       enddo
+                    enddo
+                    cmordat2d = (sum(work3da,dim=3) + sum(work3db,dim=3))/sum(lnd_levs(1:4))
+                    write(*,*) 'mrsos at ',it,' X, N: ',maxval(cmordat2d,mask=cmordat2d/=spval),minval(cmordat2d,mask=cmordat2d/=spval)
+                 case ('mrso')
+                    !
+                    ! Integrate SOILICE and SOILIQ over all layers
+                    !
+                    allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs))
+                    allocate(work3da(nlons,nlats,nlevs),work3db(nlons,nlats,nlevs))
+                    allocate(cmordat2d(nlons,nlats))
+                    call read_var(ncid(1),var_info(var_found(1))%name,indat3a)
+                    call read_var(ncid(2),var_info(var_found(2))%name,indat3b)
+                    allmax(1) = max(allmax(1),maxval(indat3a)) ; allmin(1) = min(allmin(1),minval(indat3a))
+                    allmax(2) = max(allmax(2),maxval(indat3b)) ; allmin(2) = min(allmin(2),minval(indat3b))
+                    work3da = 0. ; work3db = 0.
+                    do k = 1,nlevs
+                       do j = 1,nlats
+                          do i = 1,nlons
+                             if (indat3a(i,j,k) /= spval) work3da(i,j,k) = indat3a(i,j,k)*lnd_dzsoi(i,j,k)
+                             if (indat3b(i,j,k) /= spval) work3db(i,j,k) = indat3b(i,j,k)*lnd_dzsoi(i,j,k)
+                          enddo
+                       enddo
+                    enddo
+                    cmordat2d = (sum(work3da,dim=3) + sum(work3db,dim=3))/sum(lnd_dzsoi,dim=3)
+                    write(*,*) 'mrso at ',it,' X, N: ',maxval(cmordat2d,mask=cmordat2d/=spval),minval(cmordat2d,mask=cmordat2d/=spval)
+                 case ('mrfso')
+                    !
+                    ! Integrate SOILICE over all layers
+                    !
+                    allocate(indat3a(nlons,nlats,nlevs),work3da(nlons,nlats,nlevs))
+                    allocate(cmordat2d(nlons,nlats))
+                    call read_var(ncid(1),var_info(var_found(1))%name,indat3a)
+                    allmax(1) = max(allmax(1),maxval(indat3a)) ; allmin(1) = min(allmin(1),minval(indat3a))
+                    work3da = 0.
+                    do k = 1,nlevs
+                       do j = 1,nlats
+                          do i = 1,nlons
+                             if (indat3a(i,j,k) /= spval) work3da(i,j,k) = indat3a(i,j,k)*lnd_dzsoi(i,j,k)
+                          enddo
+                       enddo
+                    enddo
+                    cmordat2d = sum(work3da,dim=3)/sum(lnd_dzsoi,dim=3)
+                    write(*,*) 'mrfso at ',it,' X, N: ',maxval(cmordat2d,mask=cmordat2d/=spval),minval(cmordat2d,mask=cmordat2d/=spval)
+                 case ('tsl')
+                    !
+                    ! Pass TSOI straight through
+                    !
+                    allocate(indat3a(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nlevs))
+                    call read_var(ncid(1),var_info(var_found(1))%name,indat3a)
+                    cmordat3d = indat3a
+                    write(*,*) 'tsl at ',it,' X, N: ',maxval(cmordat3d,mask=cmordat3d/=spval),minval(cmordat3d,mask=cmordat3d/=spval)
                  end select
                  !
                  tval(1)   = time(it)
                  tbnd(1,1) = time_bnds(1,it)
                  tbnd(2,1) = time_bnds(2,it)
-                 error_flag = cmor_write(      &
-                      var_id        = var_ids, &
-                      data          = cmordat2d, &
-                      ntimes_passed = 1,       &
-                      time_vals     = tval,    &
-                      time_bnds     = tbnd)
-                 if (error_flag < 0) then
-                    write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
-                    write(*,*) 'Processing time sample: ', time
-                    stop
-                 endif
+                 !
+                 ! Pass data to cmor_write
+                 !
+                 select case (xw(ixw)%entry)
+                 case ('evspsblveg','evspsblsoi','tran','mrros','prveg','lai','cVeg','cLitter','cSoil','cProduct','gpp','burntArea','mrro','mrsos','mrso','mrfso')
+                    error_flag = cmor_write(      &
+                         var_id        = var_ids, &
+                         data          = cmordat2d, &
+                         ntimes_passed = 1,       &
+                         time_vals     = tval,    &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
+                       write(*,*) 'Processing time sample: ', time
+                       stop
+                    endif
+                 case ('tsl')
+                    error_flag = cmor_write(      &
+                         var_id        = var_ids, &
+                         data          = cmordat3d,&
+                         ntimes_passed = 1,       &
+                         time_vals     = tval,    &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
+                       write(*,*) 'Processing time sample: ', time
+                       stop
+                    endif
+                 end select
+                 if (allocated(indat2a))   deallocate(indat2a)
+                 if (allocated(indat2b))   deallocate(indat2b)
+                 if (allocated(indat2c))   deallocate(indat2c)
+                 if (allocated(cmordat2d)) deallocate(cmordat2d)
+                 if (allocated(indat3a))   deallocate(indat3a)
+                 if (allocated(indat3b))   deallocate(indat3b)
+                 if (allocated(work3da))   deallocate(work3da)
+                 if (allocated(work3db))   deallocate(work3db)
               end do time_loop
               do ivar = 1,xw(ixw)%ncesm_vars
                  call close_cdf(ncid(ivar))
@@ -436,30 +495,8 @@ program Lmon_CMOR
               mycmor%positive = ' '
               original_name= ' '
               !
-              if (allocated(time)) then
-                 deallocate(time)
-                 write(*,*) 'deallocate(time)'
-              endif
-              if (allocated(time_bnds)) then
-                 deallocate(time_bnds)
-                 write(*,*) 'deallocate(time_bnds)'
-              endif
-              if (allocated(indat2a)) then
-                 deallocate(indat2a)
-                 write(*,*) 'deallocate(indat2a)'
-              endif
-              if (allocated(indat2b)) then
-                 deallocate(indat2b)
-                 write(*,*) 'deallocate(indat2b)'
-              endif
-              if (allocated(indat2c)) then
-                 deallocate(indat2c)
-                 write(*,*) 'deallocate(indat2c)'
-              endif
-              if (allocated(cmordat2d)) then
-                 deallocate(cmordat2d)
-                 write(*,*) 'deallocate(cmordat2d)'
-              endif
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
            endif
         endif
      enddo xwalk_loop

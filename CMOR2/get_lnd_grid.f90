@@ -28,8 +28,9 @@ subroutine get_lnd_grid
         nlevs = dim_info(n)%length
      endif
   enddo
-  ALLOCATE(lnd_lons(nlons),lnd_lats(nlats),lnd_levs(nlevs))
-  ALLOCATE(lnd_lons_bnds(2,nlons),lnd_lats_bnds(2,nlats))
+  allocate(lnd_lons(nlons),lnd_lats(nlats),lnd_levs(nlevs),lnd_levs_bnds(nlevs+1))
+  allocate(lnd_lons_bnds(2,nlons),lnd_lats_bnds(2,nlats))
+  allocate(lnd_zsoi(nlons,nlats,nlevs),lnd_dzsoi(nlons,nlats,nlevs))
   !
   call get_vars(gridid)
   call read_var(gridid,'lon',lnd_lons)
@@ -55,10 +56,25 @@ subroutine get_lnd_grid
      lnd_lons_bnds(1,i) =  lnd_lons_bnds(2,i-1)
   end do
   !
-  ! Get soil depths
+  ! Get soil layer thickness (1d)
   !
   call read_var(gridid,'levgrnd',lnd_levs)
-  write(*,'(''LND levs: '',15f9.4)') (lnd_levs(k),k=1,nlevs)
+  !
+  ! Create bounds for levs
+  !
+  lnd_levs_bnds(1) = 0.
+  do k = 1,nlevs-1
+     lnd_levs_bnds(k+1) = 0.5*(lnd_levs(k)+lnd_levs(k+1))
+  enddo
+  lnd_levs_bnds(nlevs+1) = lnd_levs(nlevs)+(0.5*lnd_levs_bnds(nlevs-1))
+  !
+  write(*,'(''LND levs: '',15(''Z '',f9.4))') (lnd_levs(k),k=1,nlevs)
+  write(*,'(''LND bnds: '',16(''B '',f9.4))') (lnd_levs_bnds(k),k=1,nlevs+1)
+  !
+  ! Get soil depths and soil layer thickness (3d)
+  !
+  call read_var(gridid,'ZSOI',lnd_zsoi)
+  call read_var(gridid,'DZSOI',lnd_dzsoi)
   call close_cdf(gridid)
   write(*,'(''LND grid loaded'')')
   !
