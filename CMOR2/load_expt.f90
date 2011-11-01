@@ -134,6 +134,7 @@ subroutine load_exp(exp_file)
      if (exp(iexp)%begin_end /= 'YYYY-YYYY') then
         read(exp(iexp)%begin_end(1:4),'(i4.4)') exp(iexp)%begyr
         read(exp(iexp)%begin_end(6:9),'(i4.4)') exp(iexp)%endyr
+        exp(iexp)%length = (exp(iexp)%endyr-exp(iexp)%begyr)+1
      endif
   enddo
   ! Possible forcings:

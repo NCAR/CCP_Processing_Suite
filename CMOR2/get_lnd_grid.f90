@@ -68,8 +68,8 @@ subroutine get_lnd_grid
   enddo
   lnd_levs_bnds(nlevs+1) = lnd_levs(nlevs)+(0.5*lnd_levs_bnds(nlevs-1))
   !
-  write(*,'(''LND levs: '',15(''Z '',f9.4))') (lnd_levs(k),k=1,nlevs)
-  write(*,'(''LND bnds: '',16(''B '',f9.4))') (lnd_levs_bnds(k),k=1,nlevs+1)
+!  write(*,'(''LND levs: '',15(''Z '',f9.4))') (lnd_levs(k),k=1,nlevs)
+!  write(*,'(''LND bnds: '',16(''B '',f9.4))') (lnd_levs_bnds(k),k=1,nlevs+1)
   !
   ! Get soil depths and soil layer thickness (3d)
   !
