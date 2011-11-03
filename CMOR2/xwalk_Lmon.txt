@@ -39,9 +39,9 @@ Lmon:1.0:mrsos:land:2:SOILICE,SOILLIQ:Integrate SOILICE + SOILLIQ over top 10cm
 Lmon:1.0:nbp:land:1:NBP:NBP
 Lmon:1.0:nep:land:1:UNKNOWN::UNKNOWN
 Lmon:1.0:npp:land:1:NPP:NPP
-Lmon:1.0:nppLeaf:land:1:LEAFC_ALLOC
-Lmon:1.0:nppRoot:land:1:FROOTC_ALLOC
-Lmon:1.0:nppWood:land:1:WOODC_ALLOC
+Lmon:1.0:nppLeaf:land:1:LEAFC_ALLOC:LEAFC_ALLOC:
+Lmon:1.0:nppRoot:land:1:FROOTC_ALLOC:FROOTC_ALLOC
+Lmon:1.0:nppWood:land:1:WOODC_ALLOC:WOODC_ALLOC
 Lmon:1.0:pastureFrac:land:1:UNAVAILABLE:UNAVAILABLE
 Lmon:1.0:prveg:land:1:QINTR:QINTR
 Lmon:1.0:ra:land:1:AR:AR

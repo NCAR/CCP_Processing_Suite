@@ -99,30 +99,29 @@ program Lmon_CMOR
         ! The meaty part
         !
         if (xw(ixw)%entry == table(itab)%variable_entry) then
+           write(*,'(''MATCH; CMIP5: '',a,'' CESM: '',a)') trim(xw(ixw)%entry),(trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
            do ivar = 1,xw(ixw)%ncesm_vars
               if ((trim(xw(ixw)%cesm_vars(ivar)) == 'UNKNOWN').or.(trim(xw(ixw)%cesm_vars(ivar)) == 'UNAVAILABLE')) then
                  write(*,'(''UNAVAILABLE/UNKNOWN: '',a,'' == '',a)') trim(xw(ixw)%entry),trim(table(itab)%variable_entry)
               else
-                 write(ncfile(ivar),'(''data/'',a,''.'',a,''.'',a,''.'',a,''01-'',a,''12.nc'')') &
+                 write(ncfile(ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
                       trim(case_read),&
                       trim(comp_read),&
                       trim(xw(ixw)%cesm_vars(ivar)),&
-                      exp(exp_found)%begin_end(1:4),&
-                      exp(exp_found)%begin_end(6:9)
+                      exp(exp_found)%begyr,exp(exp_found)%endyr
                  inquire(file=trim(ncfile(ivar)),exist=continue(ivar))
                  if (.not.(continue(ivar))) then
-                    write(ncfile(ivar),'(''data/'',a,''.'',a,''.'',a,''.'',a,''-01_cat_'',a,''-12.nc'')') &
+                    write(ncfile(ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''-01_cat_'',i4.4,''-12.nc'')') &
                          trim(case_read),&
                          trim(comp_read),&
                          trim(xw(ixw)%cesm_vars(ivar)),&
-                         exp(exp_found)%begin_end(1:4),&
-                         exp(exp_found)%begin_end(6:9)
+                         exp(exp_found)%begyr,exp(exp_found)%endyr
                     inquire(file=trim(ncfile(ivar)),exist=continue(ivar))
                  endif
                  if (.not.(continue(ivar))) then
-                    write(*,'(''NOT FOUND  : '',a)') trim(ncfile(ivar))
+                    write(*,'(''VAR NOT FOUND: '',a)') trim(xw(ixw)%cesm_vars(ivar))
                  else
-                    write(*,'(''GOOD TO GO : '',a,'' == '',a,'' from CESM file: '',a)') &
+                    write(*,'(''GOOD TO GO   : '',a,'' == '',a,'' from CESM file: '',a)') &
                          trim(xw(ixw)%entry),&
                          trim(table(itab)%variable_entry),&
                          trim(ncfile(ivar))
@@ -209,7 +208,7 @@ program Lmon_CMOR
                    parent_experiment_rip=mycmor%parent_experiment_rip,&
                    branch_time=mycmor%branch_time)
               if (error_flag < 0) then
-                 write(*,*) 'Error on cmor_dataset!'
+                 write(*,*) 'ERROR on cmor_dataset!'
                  write(*,*) 'outpath               = ',mycmor%outpath
                  write(*,*) 'experiment_id         = ',mycmor%experiment_id
                  write(*,*) 'institution           = ',mycmor%institution
@@ -253,16 +252,18 @@ program Lmon_CMOR
               ! Modify units as necessary to accomodate udunits' inability to convert 
               !
               select case (xw(ixw)%entry)
-              case ('cVeg','cLitter','cSoil','cProduct')
+              case ('cVeg','cLitter','cSoil','cProduct','cLeaf','cWood','cMisc','cCwd','cSoilFast','cSoilMedium','cSoilSlow')
                  var_info(var_found(1))%units = 'kg m-2'
               case ('fFire','fLuc')
                  mycmor%positive = 'up'
                  var_info(var_found(1))%units = 'kg m-2 s-1'
-              case ('ra','rh')
+              case ('ra','rh','rGrowth','rMaint')
                  mycmor%positive = 'up'
                  var_info(var_found(1))%units = 'kg m-2 s-1'
-              case ('gpp','npp','nbp')
+              case ('gpp','npp','nbp','nppRoot','nppLeaf','nppWood')
                  mycmor%positive = 'down'
+                 var_info(var_found(1))%units = 'kg m-2 s-1'
+              case ('fVegLitter','fLitterSoil')
                  var_info(var_found(1))%units = 'kg m-2 s-1'
               case ('evspsblveg','evspsblsoi','tran')
                  ! mm s-1 is the same as kg m-2 s-1
@@ -328,27 +329,22 @@ program Lmon_CMOR
                     time_counter = it
                     call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
                     ! 
-                    tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-                    error_flag = cmor_write(      &
+                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(          &
                          var_id        = cmor_var_id, &
-                         data          = indat2a, &
-                         ntimes_passed = 1,       &
-                         time_vals     = tval,    &
+                         data          = indat2a,     &
+                         ntimes_passed = 1,           &
+                         time_vals     = tval,        &
                          time_bnds     = tbnd)
                     if (error_flag < 0) then
-                       write(*,'(''Error writing to: '',a)') cmor_filename(1:128)
-                       write(*,*) 'Processing time sample: ',it
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
                     endif
                  enddo
-                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=0)
-                 if (error_flag < 0) then
-                    write(*,'(''Error closing: '',a)') cmor_filename(1:128)
-                 else
-                    write(*,'(''COMPLETED: '',a)') cmor_filename(1:128)
-                 endif
+                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('cVeg','cLitter','cSoil','cProduct','gpp','ra','fFire','cCwd','rGrowth',&
-                   'rh','cLeaf','fVegLitter','rMaint','nbp','npp','cSoilMedium','cSoilSlow','cMisc','cWood' )
+                   'rh','cLeaf','fVegLitter','rMaint','nbp','npp','cSoilMedium','cSoilSlow','cMisc','cWood',&
+                   'nppRoot','nppLeaf','nppWood')                 
                  !
                  ! Unit change - grams to kg
                  !
@@ -365,17 +361,11 @@ program Lmon_CMOR
                          time_vals     = tval,    &
                          time_bnds     = tbnd)
                     if (error_flag < 0) then
-                       write(*,'(''Error writing to: '',a)') cmor_filename(1:128)
-                       write(*,*) 'Processing time sample: ',it
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
                     endif
                  enddo
-                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=0)
-                 if (error_flag < 0) then
-                    write(*,'(''Error closing: '',a)') cmor_filename(1:128)
-                 else
-                    write(*,'(''COMPLETED: '',a)') cmor_filename(1:128)
-                 endif
+                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('burntArea')
                  !
                  ! Unit change - 'proportion' to percentage
@@ -393,17 +383,11 @@ program Lmon_CMOR
                          time_vals     = tval,    &
                          time_bnds     = tbnd)
                     if (error_flag < 0) then
-                       write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
-                       write(*,*) 'Processing time sample: ', time
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
                     endif
                  enddo
-                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=0)
-                 if (error_flag < 0) then
-                    write(*,'(''Error closing: '',a)') cmor_filename(1:128)
-                 else
-                    write(*,'(''COMPLETED: '',a)') cmor_filename(1:128)
-                 endif
+                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('fLuc','cSoilFast')
                  !
                  ! fLuc     : Add DWT_CLOSS + PRODUCT_CLOSS, unit change from g to kg
@@ -429,11 +413,11 @@ program Lmon_CMOR
                          time_vals     = tval,    &
                          time_bnds     = tbnd)
                     if (error_flag < 0) then
-                       write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
-                       write(*,*) 'Processing time sample: ', time
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
                     endif
                  enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('cRoot','fLitterSoil')
                  !
                  ! cRoot      : Add FROOTC + LIVE_ROOTC + DEAD_ROOTC, unit change from g to kg
@@ -460,11 +444,11 @@ program Lmon_CMOR
                          time_vals     = tval,     &
                          time_bnds     = tbnd)
                     if (error_flag < 0) then
-                       write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
-                       write(*,*) 'Processing time sample: ', time
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
                     endif
                  enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('mrro')
                  !
                  ! Add QOVER + QDRAI + QRGWL, units result in no numerical change (mm s-1 to kg m-2 s-1)
@@ -490,11 +474,11 @@ program Lmon_CMOR
                          time_vals     = tval,     &
                          time_bnds     = tbnd)
                     if (error_flag < 0) then
-                       write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
-                       write(*,*) 'Processing time sample: ', time
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
                     endif
                  enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('mrsos')
                  !
                  ! Integrate SOILICE and SOILIQ over top 10 cm
@@ -524,11 +508,11 @@ program Lmon_CMOR
                          time_vals     = tval,     &
                          time_bnds     = tbnd)
                     if (error_flag < 0) then
-                       write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
-                       write(*,*) 'Processing time sample: ', time
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
                     endif
                  enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('mrso')
                  !
                  ! Integrate SOILICE and SOILIQ over all layers
@@ -558,11 +542,11 @@ program Lmon_CMOR
                          time_vals     = tval,     &
                          time_bnds     = tbnd)
                     if (error_flag < 0) then
-                       write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
-                       write(*,*) 'Processing time sample: ', time
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
                     endif
                  enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('mrfso')
                  !
                  ! Integrate SOILICE over all layers
@@ -590,11 +574,11 @@ program Lmon_CMOR
                          time_vals     = tval,     &
                          time_bnds     = tbnd)
                     if (error_flag < 0) then
-                       write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
-                       write(*,*) 'Processing time sample: ', time
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
                     endif
                  enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('tsl')
                  !
                  ! Pass TSOI straight through, break up into nicely-sized chunks along time
@@ -608,17 +592,16 @@ program Lmon_CMOR
                     tidx1(1:nchunks) = (/  1, 601,1201/) ! 1850, 1900, 1950
                     tidx2(1:nchunks) = (/600,1200,1872/) ! 1899, 1949, 2005
                  endif
-                 if (exp(exp_found)%length == 95) then  ! RCP runs
+                 if (exp(exp_found)%length == 96) then  ! RCP runs
                     nchunks = 2
-                    tidx1(1:nchunks) = (/  1, 529/)      ! 2006, 2050
-                    tidx2(1:nchunks) = (/528,1140/)      ! 2049, 2100
+                    tidx1(1:nchunks) = (/ 13, 541/)      ! 2006, 2050
+                    tidx2(1:nchunks) = (/542,1152/)      ! 2049, 2100
                  endif
                  write(*,*) 'tsl chunks: ',tidx1(1:nchunks),tidx2(1:nchunks)
                  do ic = 1,nchunks
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        call read_var(ncid(1),var_info(var_found(1))%name,indat3a)
-                       write(*,*) 'tsl at chunk: ',ic,' it: ',it
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(        &
                             var_id        = cmor_var_id,   &
@@ -627,28 +610,21 @@ program Lmon_CMOR
                             time_vals     = tval,      &
                             time_bnds     = tbnd)
                        if (error_flag < 0) then
-                          write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
-                          write(*,*) 'Processing time sample: ',it
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                           stop
                        endif
                     enddo
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                     !
                     cmor_filename(1:) = ' '
                     error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                     if (error_flag < 0) then
-                       write(*,'(''Error writing to: '',a)') cmor_filename(1:128)
-                       write(*,*) 'Processing time sample: ',it
+                       write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
                        stop
                     else
-                       write(*,'(''CMOR executed to completion to: '',a)') cmor_filename(1:128)
+                       write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
                     endif
                  enddo
-                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=0)
-                 if (error_flag < 0) then
-                    write(*,'(''Error closing: '',a)') cmor_filename(1:128)
-                 else
-                    write(*,'(''COMPLETED: '',a)') cmor_filename(1:128)
-                 endif
               case ('mrlsl')
                  !
                  ! Sum SOILICE + SOILLIQ, leave on soil levels, write out in nice-sized pieces
@@ -662,10 +638,10 @@ program Lmon_CMOR
                     tidx1(1:nchunks) = (/  1, 601,1201/) ! 1850, 1900, 1950
                     tidx2(1:nchunks) = (/600,1200,1872/) ! 1899, 1949, 2005
                  endif
-                 if (exp(exp_found)%length == 95) then  ! RCP runs
+                 if (exp(exp_found)%length == 96) then  ! RCP runs
                     nchunks = 2
-                    tidx1(1:nchunks) = (/  1, 529/)      ! 2006, 2050
-                    tidx2(1:nchunks) = (/528,1140/)      ! 2049, 2100
+                    tidx1(1:nchunks) = (/ 13, 541/)      ! 2006, 2050
+                    tidx2(1:nchunks) = (/542,1152/)      ! 2049, 2100
                  endif
                  do ic = 1,nchunks
                     do it = tidx1(ic),tidx2(ic)
@@ -685,28 +661,19 @@ program Lmon_CMOR
                             time_vals     = tval,     &
                             time_bnds     = tbnd)
                        if (error_flag < 0) then
-                          write(*,'(''Error writing to: '',a)') cmor_filename(1:128)
-                          write(*,*) 'Processing time sample: ',it
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                           stop
                        endif
                     enddo
-                    !
                     cmor_filename(1:) = ' '
                     error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                     if (error_flag < 0) then
-                       write(*,'(''Error writing to: '',a)') cmor_filename(1:128)
-                       write(*,*) 'Processing time sample: ',it
+                       write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
                        stop
                     else
-                       write(*,'(''CMOR executed to completion to: '',a)') cmor_filename(1:128)
+                       write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
                     endif
                  enddo
-                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=0)
-                 if (error_flag < 0) then
-                    write(*,'(''Error closing: '',a)') cmor_filename(1:128)
-                 else
-                    write(*,'(''COMPLETED: '',a)') cmor_filename(1:128)
-                 endif
               end select
               if (allocated(indat2a))   deallocate(indat2a)
               if (allocated(indat2b))   deallocate(indat2b)
@@ -735,13 +702,15 @@ program Lmon_CMOR
               !
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
+              !
               error_flag = cmor_close()
-              if (error_flag < 0) write(*,*) 'Error near the VERY END!'
+              if (error_flag < 0) then
+                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              else
+                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              endif
            endif
         endif
      enddo xwalk_loop
   enddo table_loop
-  !
-  error_flag = cmor_close()
-  if (error_flag < 0) write(*,*) 'Error at the VERY END!'
 end program Lmon_CMOR
