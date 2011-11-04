@@ -37,7 +37,7 @@ echo $PRCHST >> Info_in.${CASE}.${COMP}
 echo $SVNREV >> Info_in.${CASE}.${COMP}
 echo $SVNDAT >> Info_in.${CASE}.${COMP}
 echo $SVNUID >> Info_in.${CASE}.${COMP}
-cat Info_in.${CASE}.${COMP}
+#cat Info_in.${CASE}.${COMP}
 cat Amon_in.${CASE}.${COMP} | Amon_CMOR
 #
 #rm -f Amon_in.${CASE}.${COMP}

@@ -92,16 +92,15 @@ module files_info
   !
   character(len=256),dimension(max_ncfiles,max_cesm_vars)::ncfile
   integer,dimension(max_cesm_vars)::nc_nfiles
-  integer,dimension(max_ncfiles,max_cesm_vars)::ntimes
+  integer,dimension(max_ncfiles,max_cesm_vars)::ncid,var_found,ntimes
   logical,dimension(max_ncfiles,max_cesm_vars)::exists
-  integer,dimension(max_ncfiles,max_cesm_vars)::ncid
   !
 end module files_info
 !
 ! Grid information
 !
 module grid_info
-  double precision,dimension(:),    allocatable::atm_lats,atm_lons,plevs,zlevs,zlev_bnds
+  double precision,dimension(:),    allocatable::atm_lats,atm_lons,atm_levs,atm_levs_bnds,atm_plevs
   double precision,dimension(:,:),  allocatable::atm_lats_bnds,atm_lons_bnds
   double precision,dimension(:),    allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
   real            ,dimension(:,:),  allocatable::ice_lats,ice_lons
@@ -110,7 +109,7 @@ module grid_info
   real            ,dimension(:,:,:),allocatable::lnd_zsoi,lnd_dzsoi  ! CLM soil depth (m), CLM soil layer thickness (m)
   real            ,dimension(:,:),  allocatable::lnd_lats_bnds,lnd_lons_bnds
   double precision::p0
-  integer::nlons,nlats,nlevs,ntimes,naxes
+  integer::nlons,nlats,nlevs,nplevs,naxes,zfactor_id
   integer,dimension(1)::grid_id
   integer,dimension(10)::axis_ids
   character(len=256),dimension(10)::dimnames,dimunits

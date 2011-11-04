@@ -125,7 +125,7 @@ get_lnd_grid.o: get_lnd_grid.f90 mymods.o
 build_filenames.o: build_filenames.f90
 	$(FC) $(FFLAGS) $(LOCINC) -c build_filenames.f90
 
-define_atm_axes.o: define_atm_axes.f90 mymods.o
+define_atm_axes.o: define_atm_axes.f90 module_netcdf.o netcdf_jfl.o mymods.o
 	$(FC) $(FFLAGS) $(LOCINC) $(CMRINC) -c define_atm_axes.f90
 
 define_ice_axes.o: define_ice_axes.f90 mymods.o

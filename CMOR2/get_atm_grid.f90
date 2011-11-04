@@ -27,23 +27,28 @@ subroutine get_atm_grid
         nlons = dim_info(n)%length
      elseif(dim_info(n)%name(:length).eq.'lev') then
         nlevs = dim_info(n)%length
+     elseif(dim_info(n)%name(:length).eq.'plev') then
+        nplevs = dim_info(n)%length
      endif
   enddo
-  ALLOCATE(atm_lons(nlons),atm_lats(nlats),slon(nlons),slat(nlats))
-  ALLOCATE(zlevs(nlevs),zlev_bnds(nlevs+1),plevs(17))
-  ALLOCATE(a_coeff(nlevs),b_coeff(nlevs),a_coeff_bnds(nlevs+1),b_coeff_bnds(nlevs+1))
-  ALLOCATE(atm_lons_bnds(2,nlons),atm_lats_bnds(2,nlats))
+  allocate(atm_lons(nlons),atm_lats(nlats),slon(nlons),slat(nlats))
+  allocate(atm_lons_bnds(2,nlons),atm_lats_bnds(2,nlats))
+  allocate(atm_levs(nlevs),atm_levs_bnds(nlevs+1))
+  allocate(atm_plevs(nplevs),a_coeff(nlevs),b_coeff(nlevs),a_coeff_bnds(nlevs+1),b_coeff_bnds(nlevs+1))
   !
   call get_vars(gridid)
-  call read_var(gridid,'lon',atm_lons)
-  call read_var(gridid,'lat',atm_lats)
-  call read_var(gridid,'lev',zlevs)
-  !
-  ! Convert zlevs from mb to hPa
-  !
-  zlevs = zlevs * 100
-  plevs = (/100000., 92500., 85000., 70000.,60000., 50000., 40000., 30000., 25000., &
-       20000., 15000., 10000.,  7000., 5000.,  3000.,  2000.,  1000./)
+  call read_var(gridid,'lon' ,atm_lons)
+  call read_var(gridid,'lat' ,atm_lats)
+  call read_var(gridid,'plev',atm_plevs)
+  call read_var(gridid,'lev' ,atm_levs)
+  call read_var(gridid,'ilev',atm_levs_bnds)
+  call read_var(gridid,'hyam',a_coeff)
+  call read_var(gridid,'hyai',a_coeff_bnds)
+  call read_var(gridid,'hybm',b_coeff)
+  call read_var(gridid,'hybi',b_coeff_bnds)
+  call read_var(gridid,'P0'  ,p0)
+  atm_levs      = atm_levs      / 1000.
+  atm_levs_bnds = atm_levs_bnds / 1000.
   !
   ! Transfer bounds for lons and lats
   !

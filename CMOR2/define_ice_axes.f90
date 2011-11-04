@@ -7,6 +7,7 @@ subroutine define_ice_axes(dimensions)
   use cmor_users_functions
   use table_info
   use grid_info
+  use files_info
   use mycmor_info
   !
   implicit none
@@ -78,7 +79,7 @@ subroutine define_ice_axes(dimensions)
         axis_ids(idim) = cmor_axis(        &
              table_entry=dimnames(i),      &
              units=dimunits(i),            &
-             length=ntimes,                &
+             length=ntimes(1,1),           &
              interval='30 days')
         write(*,*) 'time defined, axis_id: ',idim,axis_ids(idim)
         idim = idim + 1

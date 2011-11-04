@@ -3,11 +3,11 @@ Amon:1.0:cct:atmos:1:CLDTOP:CLDTOP no change
 Amon:1.0:ch4global:atmos atmosChem:1:ch4vmr:ch4vmr convert to mass
 Amon:1.0:ch4:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:1.0:ci:atmos:1:FREQZM:FREQZM unit conversion
-Amon:1.0:cl:atmos:1:CLOUD:CLOUD:No change
-Amon:1.0:cli:atmos:1:vCLDICE:CLDICE interpolated to standard plevs
+Amon:1.0:cl:atmos:2:CLOUD,PS:CLOUD:No change
+Amon:1.0:cli:atmos:2:CLDICE,PS:CLDICE no change
 Amon:1.0:clivi:atmos:1:TGCLDIWP:TGCLDIWP no change
 Amon:1.0:clt:atmos:1:CLDTOT:CLDTOT unit conversion
-Amon:1.0:clw:atmos:1:vCLDLIQ:CLDLIQ interpolated to standard plevs
+Amon:1.0:clw:atmos:2:CLDLIQ,PS:CLDLIQ no change
 Amon:1.0:clwvi:atmos:1:TGCLDLWP:TGCLDLWP no change
 Amon:1.0:co2mass:atmos:1:co2vmr:co2vmr convert to mass
 Amon:1.0:co2:atmos:1:UNKNOWN:UNKNOWN
@@ -40,7 +40,7 @@ Amon:1.0:rlut:atmos:1:FLUT:FLUT no change
 Amon:1.0:rsdscs:atmos:1:FSDSC:FSDSC no change
 Amon:1.0:rsds:atmos:1:FSDS:FSDS no change
 Amon:1.0:rsdt:atmos:1:SOLIN:SOLIN no change
-Amon:1.0:rsuscs:atmos:2:FSDSC,FSNSC:FSDSC + FSNSC
+Amon:1.0:rsuscs:atmos:2:FSDSC,FSNSC:FSDSC - FSNSC
 Amon:1.0:rsus:atmos:2:FSDS,FSNS:FSDS - FSNS
 Amon:1.0:rsutcs:atmos:2:SOLIN,FSNTOAC:SOLIN - FSNTOAC
 Amon:1.0:rsut:atmos:2:SOLIN,FSNTOA:SOLIN - FSNTOA
