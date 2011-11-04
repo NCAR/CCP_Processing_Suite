@@ -269,7 +269,7 @@ program Amon_CMOR
                  mycmor%positive = 'down'
               case ('clt','ci')
                  var_info(var_found(1,1))%units = '1'
-              case ('hurs')
+              case ('hurs','cl')
                  var_info(var_found(1,1))%units = '%'
               case ('prc','pr','prsn')
                  var_info(var_found(1,1))%units = 'kg m-2 s-1'
@@ -499,10 +499,10 @@ program Amon_CMOR
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
-                 if (exp(exp_found)%length == 156) then ! 20C run
-                    nchunks = 3
-                    tidx1(1:nchunks) = (/  1, 601,1201/) ! 1850, 1900, 1950
-                    tidx2(1:nchunks) = (/600,1200,1872/) ! 1899, 1949, 2005
+                 if (exp(exp_found)%length == 156) then ! 20C run - 40 year chunks
+                    nchunks = 4
+                    tidx1(1:nchunks) = (/  1, 481, 961,1441/) ! 1850, 1890, 1930, 1970
+                    tidx2(1:nchunks) = (/480, 960,1440,1872/) ! 1889, 1929, 1969, 2005
                  endif
                  if (exp(exp_found)%length == 96) then  ! RCP runs
                     nchunks = 2

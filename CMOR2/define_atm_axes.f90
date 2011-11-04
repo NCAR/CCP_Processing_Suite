@@ -5,9 +5,6 @@ subroutine define_atm_axes(dimensions)
   ! 'time' must be last
   !
   use cmor_users_functions
-  use counters_netcdf_jfl
-  use interfaces_netcdf_jfl
-  use definitions_netcdf_jfl
   use files_info
   use table_info
   use grid_info
