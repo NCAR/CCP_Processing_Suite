@@ -94,7 +94,7 @@ program Amon_CMOR
         ! The meaty part
         !
         if (xw(ixw)%entry == table(itab)%variable_entry) then
-!           write(*,'(''MATCH; CMIP5: '',a,'' CESM: '',5(a))') trim(xw(ixw)%entry),(trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
+           write(*,'(''MATCH; CMIP5: '',a,'' CESM: '',5(a))') trim(xw(ixw)%entry),(trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
            do ivar = 1,xw(ixw)%ncesm_vars
               if ((trim(xw(ixw)%cesm_vars(ivar)) == 'UNKNOWN').or.(trim(xw(ixw)%cesm_vars(ivar)) == 'UNAVAILABLE')) then
                  write(*,'(''UNAVAILABLE/UNKNOWN: '',a,'' == '',a)') trim(xw(ixw)%entry),trim(table(itab)%variable_entry)
@@ -113,14 +113,14 @@ program Amon_CMOR
                          exp(exp_found)%begyr,exp(exp_found)%endyr
                     inquire(file=trim(ncfile(1,ivar)),exist=continue(ivar))
                  endif
-!!$                 if (.not.(continue(ivar))) then
-!!$                    write(*,'(''VAR NOT FOUND: '',a)') trim(xw(ixw)%cesm_vars(ivar))
-!!$                 else
-!!$                    write(*,'(''GOOD TO GO   : '',a,'' == '',a,'' from CESM file: '',a)') &
-!!$                         trim(xw(ixw)%entry),&
-!!$                         trim(table(itab)%variable_entry),&
-!!$                         trim(ncfile(1,ivar))
-!!$                 endif
+                 if (.not.(continue(ivar))) then
+                    write(*,'(''VAR NOT FOUND: '',a)') trim(xw(ixw)%cesm_vars(ivar))
+                 else
+                    write(*,'(''GOOD TO GO   : '',a,'' == '',a,'' from CESM file: '',a)') &
+                         trim(xw(ixw)%entry),&
+                         trim(table(itab)%variable_entry),&
+                         trim(ncfile(1,ivar))
+                 endif
               endif
               !
               ! Check and make sure all files available
@@ -133,14 +133,14 @@ program Amon_CMOR
            if (all_continue) then
               do ivar = 1,xw(ixw)%ncesm_vars
                  call open_cdf(ncid(1,ivar),trim(ncfile(1,ivar)),.true.)
-!                 write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfile(1,ivar)),ncid(1,ivar)
+                 write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfile(1,ivar)),ncid(1,ivar)
                  call get_dims(ncid(1,ivar))
                  call get_vars(ncid(1,ivar))
                  !
                  do n=1,dim_counter
                     length = len_trim(dim_info(n)%name)
                     if(dim_info(n)%name(:length).eq.'time') then
-                       ntimes = dim_info(n)%length
+                       ntimes(1,ivar) = dim_info(n)%length
                     endif
                  enddo
                  call read_att_text(ncid(1,1),'time','units',time_units)
@@ -327,7 +327,7 @@ program Amon_CMOR
               select case (xw(ixw)%entry)
               case ('ccb','cct','clivi','clwvi','evspsbl','hfls','hfss','hurs','huss',&
                     'prw','psl','ps','rldscs','rlds','rlutcs','rlut','rsdscs','rsds','rsdt',&
-                    'sci','tas','tasmax','tasmin','tauu','tauv','ts')
+                    'sci','tas','tasmax','tasmin','tauu','tauv','ts','ci','clt')
                  !
                  ! No change
                  !
@@ -342,6 +342,33 @@ program Amon_CMOR
                          data          = indat2a,     &
                          ntimes_passed = 1,           &
                          time_vals     = tval,        &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
+              case ('prc')
+                 !
+                 ! prc : PRECC, unit change from m s-1 to kg m-2 s-1
+                 !
+                 allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
+                 do it=1,ntimes(1,1)
+                    time_counter = it
+                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                    ! 
+                    where (indat2a /= spval)
+                       cmordat2d = indat2a*1000.
+                    elsewhere
+                       cmordat2d = spval
+                    endwhere
+                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(      &
+                         var_id        = cmor_var_id, &
+                         data          = cmordat2d,   &
+                         ntimes_passed = 1,       &
+                         time_vals     = tval,    &
                          time_bnds     = tbnd)
                     if (error_flag < 0) then
                        write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
@@ -451,22 +478,27 @@ program Amon_CMOR
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
-                 if (exp(exp_found)%length == 156) then ! 20C run
+                 if (ntimes(1,1) == 1872) then ! 20C run, 40 year chunks
+                    nchunks = 4
+                    tidx1(1:nchunks) = (/  1, 481, 961,1441/) ! 1850, 1890, 1930, 1970
+                    tidx2(1:nchunks) = (/480, 960,1440,1872/) ! 1889, 1929, 1969, 2005
+                 endif
+                 if (ntimes(1,1) == 1152) then  ! RCP run from 2005, exclude 2005
                     nchunks = 3
-                    tidx1(1:nchunks) = (/  1, 601,1201/) ! 1850, 1900, 1950
-                    tidx2(1:nchunks) = (/600,1200,1872/) ! 1899, 1949, 2005
+                    tidx1(1:nchunks) = (/ 13, 493, 973/)      ! 2006, 2046, 2086
+                    tidx2(1:nchunks) = (/492, 972,1152/)      ! 2045, 2085, 2100
                  endif
-                 if (exp(exp_found)%length == 96) then  ! RCP runs
-                    nchunks = 2
-                    tidx1(1:nchunks) = (/ 13, 541/)      ! 2006, 2050
-                    tidx2(1:nchunks) = (/542,1152/)      ! 2049, 2100
+                 if (ntimes(1,1) == 1140) then  ! RCP run from 2006, use all times
+                    nchunks = 3
+                    tidx1(1:nchunks) = (/  1, 481, 961/)      ! 2006, 2046, 2086
+                    tidx2(1:nchunks) = (/480, 960,1140/)      ! 2045, 2085, 2100
                  endif
-                 write(*,*) 'ta chunks: ',tidx1(1:nchunks),tidx2(1:nchunks)
+                 write(*,*) 'Chunks: ',tidx1(1:nchunks),tidx2(1:nchunks)
                  do ic = 1,nchunks
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                       where (indat3a > 5000.) indat3a = spval
+                       where (indat3a > 1.e6) indat3a = spval
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(        &
                             var_id        = cmor_var_id,   &
@@ -481,13 +513,15 @@ program Amon_CMOR
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                     !
-                    cmor_filename(1:) = ' '
-                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                       stop
-                    else
-                       write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    if (ic < nchunks) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
                     endif
                  enddo
               case ('clw','cli','cl')
@@ -499,23 +533,28 @@ program Amon_CMOR
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
-                 if (exp(exp_found)%length == 156) then ! 20C run - 40 year chunks
+                 if (ntimes(1,1) == 1872) then ! 20C run, 40 year chunks
                     nchunks = 4
                     tidx1(1:nchunks) = (/  1, 481, 961,1441/) ! 1850, 1890, 1930, 1970
                     tidx2(1:nchunks) = (/480, 960,1440,1872/) ! 1889, 1929, 1969, 2005
                  endif
-                 if (exp(exp_found)%length == 96) then  ! RCP runs
-                    nchunks = 2
-                    tidx1(1:nchunks) = (/ 13, 541/)      ! 2006, 2050
-                    tidx2(1:nchunks) = (/542,1152/)      ! 2049, 2100
+                 if (ntimes(1,1) == 1152) then  ! RCP run from 2005, exclude 2005
+                    nchunks = 3
+                    tidx1(1:nchunks) = (/ 13, 493, 973/)      ! 2006, 2046, 2086
+                    tidx2(1:nchunks) = (/492, 972,1152/)      ! 2045, 2085, 2100
                  endif
-                 write(*,*) 'ta chunks: ',tidx1(1:nchunks),tidx2(1:nchunks)
+                 if (ntimes(1,1) == 1140) then  ! RCP run from 2006, use all times
+                    nchunks = 3
+                    tidx1(1:nchunks) = (/  1, 481, 961/)      ! 2006, 2046, 2086
+                    tidx2(1:nchunks) = (/480, 960,1140/)      ! 2045, 2085, 2100
+                 endif
+                 write(*,*) 'Chunks: ',tidx1(1:nchunks),tidx2(1:nchunks)
                  do ic = 1,nchunks
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
                        call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2a)
-                       where (indat3a > 5000.) indat3a = spval
+                       where (indat3a > 1.e6) indat3a = spval
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(        &
                             var_id        = cmor_var_id,   &
@@ -541,13 +580,15 @@ program Amon_CMOR
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                     !
-                    cmor_filename(1:) = ' '
-                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                       stop
-                    else
-                       write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    if (ic < nchunks) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
                     endif
                  enddo
               end select

@@ -47,7 +47,7 @@ Amon:1.0:rsut:atmos:2:SOLIN,FSNTOA:SOLIN - FSNTOA
 Amon:1.0:rtmt:atmos:2:FSNT,FLNT:FSNT - FLNT
 Amon:1.0:sbl:atmos:1:UNAVAILABLE:UNAVAILABLE
 Amon:1.0:sci:atmos:1:FREQSI:FREQSI no change
-Amon:1.0:ta:atmos:1:vT:Interpolated to standardd plevs
+Amon:1.0:ta:atmos:1:vT:T interpolated to standard plevs
 Amon:1.0:tas:atmos:1:TREFHT:TREFHT no change
 Amon:1.0:tasmax:atmos:1:TREFMXAV:TREFMXAV no change
 Amon:1.0:tasmin:atmos:1:TREFMNAV:TREFMNAV no change
