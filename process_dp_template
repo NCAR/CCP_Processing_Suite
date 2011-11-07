@@ -49,9 +49,6 @@ if ! [ $LOCATION ] ; then
   exit 1
 fi
 #
-YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
-MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
-#
 # Acquire PROCHOST
 #
 PROCHOST=`hostname`;export PROCHOST
@@ -158,6 +155,9 @@ esac
 #
 LOCAL_PROC=${LOCAL_PROC}/${TPER}
 CACHEDIR=${LOCAL_PROC}/to_archive
+#
+YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
+MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
 # Print out values
 #

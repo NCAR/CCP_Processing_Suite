@@ -49,9 +49,6 @@ if ! [ $LOCATION ] ; then
   exit 1
 fi
 #
-YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
-MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
-#
 # Acquire PROCHOST
 #
 PROCHOST=`hostname`;export PROCHOST
@@ -159,6 +156,9 @@ esac
 LOCAL_PROC=${LOCAL_PROC}/${TPER}
 CACHEDIR=${LOCAL_PROC}/to_archive
 #
+YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
+MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
+#
 # Print out values
 #
 echo "           Case name : "$CASE ; export CASE
@@ -228,7 +228,10 @@ cd $LOCAL_PROC
 #
 # Start actual processing, one year at a time
 #
-YEARNOW=$YEARBEG;export YEARNOW
+# Start from end and go to beginning
+#
+YEARNOW=$YEAREND;export YEARNOW
+#
 echo "BEGIN : procstat"
 ./procstat.sh start
 #
@@ -240,7 +243,7 @@ if [ ! -f $ARCHIVE_LIST ] ; then
   ./mss_list $ARCHIVE_LIST
 fi
 #
-while [ $YEARNOW -le $YEAREND ] ; do
+while [ $YEARNOW -ge $YEARBEG ] ; do
   ./procstat.sh
   YRCHECK=.comp.$CASE.$HIST.$YEARNOW
   if [ ! -f $YRCHECK ] ; then
@@ -350,7 +353,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
     ./concatenate_data M2Y
   fi
 #
-  YEARNOW=`expr $YEARNOW + 1`
+  YEARNOW=`expr $YEARNOW - 1`
   if [ $YEARNOW -lt 1000 ] ; then
     YEARNOW=0${YEARNOW}
   fi
