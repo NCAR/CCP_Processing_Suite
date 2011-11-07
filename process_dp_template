@@ -228,7 +228,7 @@ cd $LOCAL_PROC
 #
 # Start actual processing, one year at a time
 #
-YEARNOW=$YEARBEG;export YEARNOW
+YEARNOW=$YEAREND;export YEARNOW
 echo "BEGIN : procstat"
 ./procstat.sh start
 #
@@ -240,7 +240,7 @@ if [ ! -f $ARCHIVE_LIST ] ; then
   ./mss_list $ARCHIVE_LIST
 fi
 #
-while [ $YEARNOW -le $YEAREND ] ; do
+while [ $YEARNOW -ge $YEARBEG ] ; do
   ./procstat.sh
   YRCHECK=.comp.$CASE.$HIST.$YEARNOW
   if [ ! -f $YRCHECK ] ; then
@@ -350,7 +350,7 @@ while [ $YEARNOW -le $YEAREND ] ; do
     ./concatenate_data M2Y
   fi
 #
-  YEARNOW=`expr $YEARNOW + 1`
+  YEARNOW=`expr $YEARNOW - 1`
   if [ $YEARNOW -lt 1000 ] ; then
     YEARNOW=0${YEARNOW}
   fi
