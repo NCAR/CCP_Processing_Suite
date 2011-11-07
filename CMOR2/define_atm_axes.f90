@@ -44,13 +44,23 @@ subroutine define_atm_axes(dimensions)
   !
   ! Define 'time' first
   !
-  axis_ids(idim) = cmor_axis(  &
-       table=mycmor%table_file,&
-       table_entry='time',     &
-       units=time_units,       &
-       length=ntimes(1,1),     &
-       interval='30 days')
-  write(*,'('' dimension: '',a,'' defined: '',i4)')'time',axis_ids(idim)
+  select case (mycmor%table_file)
+  case ('Tables/CMIP5_Amon')
+     axis_ids(idim) = cmor_axis(  &
+          table=mycmor%table_file,&
+          table_entry='time',     &
+          units=time_units,       &
+          length=ntimes(1,1),     &
+          interval='30 days')
+  case ('Tables/CMIP5_day')
+     axis_ids(idim) = cmor_axis(  &
+          table=mycmor%table_file,&
+          table_entry='time',     &
+          units=time_units,       &
+          length=ntimes(1,1),     &
+          interval='1 day')
+  end select
+  write(*,'('' dimension: '',a,'' defined: '',i4)') 'time',axis_ids(idim)
   idim = idim + 1
   !
   do i = 1,naxes
