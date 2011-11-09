@@ -1,5 +1,5 @@
-program day_CMOR
-  ! Convert CCSM4 atm monthly (cam2.h0) data from single-field format
+program Omon_CMOR
+  ! Convert CCSM4 ocn monthly (pop.h) data from single-field format
   ! to CMOR-compliant format
   !
   ! NOTE: 'model_id' and first part of 'source' MUST MATCH or CMOR will throw error
@@ -43,14 +43,14 @@ program day_CMOR
   !
   ! GO!
   !
-  mycmor%table_file = 'Tables/CMIP5_day'
+  mycmor%table_file = 'Tables/CMIP5_Omon'
   call load_table_info
   !
   ! Get "crossxwalk" (xwalk) information
   !   Provides information on relationship between CMOR variables and
   !   model variables
   !
-  xwalk_file = 'xwalk_day.txt'
+  xwalk_file = 'xwalk_Omon.txt'
   call load_xwalk(xwalk_file)
   !
   ! Get experiment information
@@ -67,7 +67,7 @@ program day_CMOR
   !
   ! Get grid information
   !
-  call get_atm_grid
+  call get_ocn_grid
   !
   ! Set up CMOR subroutine arguments
   !
@@ -178,16 +178,7 @@ program day_CMOR
                  do n=1,ntimes(1,1)
                     time_counter = n
                     call read_var(ncid(1,ivar),'time_bnds',time_bnds(:,n))
-                 enddo
-                 !
-!                 if (time_bnds(1,1) == 0.) then
-!                    time_bnds(1,2:ntimes(1,1)) = time_bnds(1,2:ntimes(1,1)) + 1
-                    time_bnds(1,:) = time_bnds(1,:) + 1
-                    time_bnds(2,:) = time_bnds(2,:) + 1
-!                 endif
-                 do n=1,ntimes(1,1)
                     time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
-!                    write(*,'(''TIMES: '',3f12.4)') time_bnds(1,n),time(n),time_bnds(2,n)
                  enddo
               enddo
            endif
@@ -250,16 +241,12 @@ program day_CMOR
               !
               ! Define axes via 'cmor_axis'
               !
-              call define_atm_axes(table(itab)%dimensions)
+              call define_ocn_axes(table(itab)%dimensions)
               ! 
               ! Make manual alterations so that CMOR works. Silly code!
               !
               if (xw(ixw)%ncesm_vars == 1) then
-                 if (xw(ixw)%cesm_vars(1)(1:1) == 'v') then
-                    write(original_name,'(a)') xw(ixw)%cesm_vars(1)(2:)
-                 else
-                    write(original_name,'(a)') xw(ixw)%cesm_vars(1)
-                 endif
+                 write(original_name,'(a)') xw(ixw)%cesm_vars(1)
               endif
               if (xw(ixw)%ncesm_vars == 2) then
                  write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
@@ -769,4 +756,4 @@ program day_CMOR
         endif
      enddo xwalk_loop
   enddo table_loop
-end program day_CMOR
+end program Omon_CMOR

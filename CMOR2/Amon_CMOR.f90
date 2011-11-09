@@ -298,7 +298,7 @@ program Amon_CMOR
                       positive=mycmor%positive,                          &
                       original_name=original_name,                       &
                       comment=xw(ixw)%comment)
-              case ('clw','cli','cl')
+              case ('clw','cli','cl','mc')
                  cmor_var_id = cmor_variable(                            &
                       table=mycmor%table_file,                           &
                       table_entry=xw(ixw)%entry,                         &
@@ -559,6 +559,81 @@ program Amon_CMOR
                        error_flag = cmor_write(        &
                             var_id        = cmor_var_id,   &
                             data          = indat3a,   &
+                            ntimes_passed = 1,         &
+                            time_vals     = tval,      &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
+                       error_flag = cmor_write(        &
+                            var_id        = zfactor_id,&
+                            data          = indat2a,   &
+                            ntimes_passed = 1,         &
+                            time_vals     = tval,      &
+                            time_bnds     = tbnd,      &
+                            store_with    = cmor_var_id)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
+                    enddo
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
+                    endif
+                 enddo
+              case ('mc')
+                 !
+                 ! mc: CMFMC + CMFMCDZM
+                 !
+                 ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
+                 ! break up into nicely-sized chunks along time
+                 !
+                 allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),indat2a(nlons,nlats))
+                 allocate(cmordat3d(nlons,nlats,nlevs))
+                 !
+                 ! Determine amount of data to write, to keep close to ~2 GB limit
+                 !
+                 if (ntimes(1,1) == 1872) then ! 20C run, 40 year chunks
+                    nchunks = 4
+                    tidx1(1:nchunks) = (/  1, 481, 961,1441/) ! 1850, 1890, 1930, 1970
+                    tidx2(1:nchunks) = (/480, 960,1440,1872/) ! 1889, 1929, 1969, 2005
+                 endif
+                 if (ntimes(1,1) == 1152) then  ! RCP run from 2005, exclude 2005
+                    nchunks = 3
+                    tidx1(1:nchunks) = (/ 13, 493, 973/)      ! 2006, 2046, 2086
+                    tidx2(1:nchunks) = (/492, 972,1152/)      ! 2045, 2085, 2100
+                 endif
+                 if (ntimes(1,1) == 1140) then  ! RCP run from 2006, use all times
+                    nchunks = 3
+                    tidx1(1:nchunks) = (/  1, 481, 961/)      ! 2006, 2046, 2086
+                    tidx2(1:nchunks) = (/480, 960,1140/)      ! 2045, 2085, 2100
+                 endif
+                 write(*,*) 'Chunks: ',tidx1(1:nchunks),tidx2(1:nchunks)
+                 do ic = 1,nchunks
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                       call read_var(ncid(1,2),var_info(var_found(1,1))%name,indat3b)
+                       call read_var(ncid(1,3),var_info(var_found(1,2))%name,indat2a)
+                       where ((indat3a /= spval).and.(indat3b /= spval))
+                          cmordat3d = indat3a + indat3b
+                       elsewhere
+                          cmordat3d = spval
+                       endwhere
+                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(        &
+                            var_id        = cmor_var_id,   &
+                            data          = cmordat3d, &
                             ntimes_passed = 1,         &
                             time_vals     = tval,      &
                             time_bnds     = tbnd)

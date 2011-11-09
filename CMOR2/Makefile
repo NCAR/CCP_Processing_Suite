@@ -66,6 +66,7 @@ OBJ	= mymods.o \
 	  define_atm_axes.o \
 	  define_lnd_axes.o \
 	  define_ice_axes.o \
+	  define_ocn_axes.o \
 	  load_expt.o \
 	  load_table_info.o \
 	  load_xwalk.o \
@@ -73,10 +74,11 @@ OBJ	= mymods.o \
 	  parse_rip.o \
 	  parse_ncfile.o \
 	  get_ice_grid.o \
+	  get_ocn_grid.o \
 	  get_lnd_grid.o \
 	  get_atm_grid.o
 
-all:	  Amon_CMOR fx_CMOR day_CMOR Lmon_CMOR OImon_CMOR
+all:	  Amon_CMOR fx_CMOR day_CMOR Lmon_CMOR OImon_CMOR Omon_CMOR
 
 Amon_CMOR: $(OBJ) Amon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Amon_CMOR.o \
@@ -89,6 +91,10 @@ Lmon_CMOR: $(OBJ) Lmon_CMOR.o
 OImon_CMOR: $(OBJ) OImon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) OImon_CMOR.o \
 	-o $(EXEDIR)/OImon_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
+
+Omon_CMOR: $(OBJ) Omon_CMOR.o
+	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Omon_CMOR.o \
+	-o $(EXEDIR)/Omon_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
 
 fx_CMOR: $(OBJ) fx_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) fx_CMOR.o \
@@ -119,6 +125,9 @@ get_atm_grid.o: get_atm_grid.f90 mymods.o
 get_ice_grid.o: get_ice_grid.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c get_ice_grid.f90
 
+get_ocn_grid.o: get_ocn_grid.f90 mymods.o
+	$(FC) $(FFLAGS) $(NCFINC) -c get_ocn_grid.f90
+
 get_lnd_grid.o: get_lnd_grid.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c get_lnd_grid.f90
 
@@ -130,6 +139,9 @@ define_atm_axes.o: define_atm_axes.f90 mymods.o
 
 define_ice_axes.o: define_ice_axes.f90 mymods.o
 	$(FC) $(FFLAGS) $(LOCINC) $(CMRINC) -c define_ice_axes.f90
+
+define_ocn_axes.o: define_ocn_axes.f90 mymods.o
+	$(FC) $(FFLAGS) $(LOCINC) $(CMRINC) -c define_ocn_axes.f90
 
 define_lnd_axes.o: define_lnd_axes.f90 mymods.o
 	$(FC) $(FFLAGS) $(LOCINC) $(CMRINC) -c define_lnd_axes.f90
@@ -163,6 +175,9 @@ Lmon_CMOR.o: Lmon_CMOR.f90 $(OBJ)
 
 OImon_CMOR.o: OImon_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c OImon_CMOR.f90
+
+Omon_CMOR.o: Omon_CMOR.f90 $(OBJ)
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c Omon_CMOR.f90
 
 fx_CMOR.o: fx_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c fx_CMOR.f90

@@ -129,6 +129,41 @@ subroutine define_atm_axes(dimensions)
         axis_ids(idim) = ilev
 !        write(*,'('' dimension: '',a,'' defined: '',i4)') 'standard_hybrid_sigma',axis_ids(idim)
         idim = idim + 1
+     case ('alevhalf')
+        ilev = cmor_axis(                        &
+             table=mycmor%table_file,            &
+             table_entry='standard_hybrid_sigma',&
+             length=SIZE(atm_levs),              &
+             units='1',                          &
+             coord_vals=atm_levs,                &
+             cell_bounds=atm_levs_bnds)
+        error_flag = cmor_zfactor(    &
+             zaxis_id=ilev,     &
+             zfactor_name='p0',       &
+             units='Pa',              &
+             zfactor_values=p0)
+        error_flag = cmor_zfactor(       &
+             zaxis_id=ilev,        &
+             zfactor_name='b',           &
+             axis_ids= (/ilev/),   &
+             units=' ',                  &
+             zfactor_values=b_coeff,     &
+             zfactor_bounds=b_coeff_bnds)
+        error_flag = cmor_zfactor(       &
+             zaxis_id=ilev,        &
+             zfactor_name='a',           &
+             axis_ids= (/ilev/),   &
+             units=' ',                  &
+             zfactor_values=a_coeff,     &
+             zfactor_bounds=a_coeff_bnds)
+        zfactor_id = cmor_zfactor(       &
+             zaxis_id=ilev,        &
+             zfactor_name='ps',          &
+             axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3)/), &
+             units='Pa')
+        axis_ids(idim) = ilev
+!        write(*,'('' dimension: '',a,'' defined: '',i4)') 'standard_hybrid_sigma',axis_ids(idim)
+        idim = idim + 1
      end select
   enddo
   write(*,'(''CMOR axes defined, axis_ids: '',5i5)') (axis_ids(i),i=1,naxes)

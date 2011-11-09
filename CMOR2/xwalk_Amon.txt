@@ -3,11 +3,11 @@ Amon:1.0:cct:atmos:1:CLDTOP:CLDTOP no change
 Amon:1.0:ch4global:atmos atmosChem:1:ch4vmr:ch4vmr convert to mass
 Amon:1.0:ch4:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:1.0:ci:atmos:1:FREQZM:FREQZM unit conversion
-Amon:1.0:cl:atmos:2:CLOUD,PS:CLOUD:No change
-Amon:1.0:cli:atmos:2:CLDICE,PS:CLDICE no change
+Amon:1.0:cl:atmos:1:CLOUD:CLOUD on model levels, no change
+Amon:1.0:cli:atmos:1:CLDICE:CLDICE on model levels, no change
 Amon:1.0:clivi:atmos:1:TGCLDIWP:TGCLDIWP no change
 Amon:1.0:clt:atmos:1:CLDTOT:CLDTOT unit conversion
-Amon:1.0:clw:atmos:2:CLDLIQ,PS:CLDLIQ no change
+Amon:1.0:clw:atmos:1:CLDLIQ:CLDLIQ on model levels, no change
 Amon:1.0:clwvi:atmos:1:TGCLDLWP:TGCLDLWP no change
 Amon:1.0:co2mass:atmos:1:co2vmr:co2vmr convert to mass
 Amon:1.0:co2:atmos:1:UNKNOWN:UNKNOWN
@@ -21,7 +21,7 @@ Amon:1.0:hur:atmos:1:vRELHUM:RELHUM interpolated to standard plevs
 Amon:1.0:hurs:atmos:1:RHREFHT:RHREFHT no change
 Amon:1.0:hus:atmos:1:vQ:Q interpolated to standard plevs
 Amon:1.0:huss:atmos:1:QREFHT:QREFHT no change
-Amon:1.0:mc:atmos:3:CMFMC,CMFMCDZM,PS:CMFMC,CMFMCDZM,PS:Interpolate to standard plevs
+Amon:1.0:mc:atmos:3:CMFMC,CMFMCDZM,PS:CMFMC + CMFMCDZM on model levels, no change
 Amon:1.0:n2oglobal:atmos atmosChem:1:n2ovmr:n2ovmr convert to mass
 Amon:1.0:n2o:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:1.0:prAdjust:atmos:1:UNKNOWN:UNKNOWN
