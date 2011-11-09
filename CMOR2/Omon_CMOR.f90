@@ -94,33 +94,36 @@ program Omon_CMOR
         ! The meaty part
         !
         if (xw(ixw)%entry == table(itab)%variable_entry) then
-!           write(*,'(''MATCH; CMIP5: '',a,'' CESM: '',5(a))') trim(xw(ixw)%entry),(trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
+           write(*,'(''MATCH; CMIP5: '',a,'' CESM: '',5(a))') trim(xw(ixw)%entry),(trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
            do ivar = 1,xw(ixw)%ncesm_vars
               if ((trim(xw(ixw)%cesm_vars(ivar)) == 'UNKNOWN').or.(trim(xw(ixw)%cesm_vars(ivar)) == 'UNAVAILABLE')) then
                  write(*,'(''UNAVAILABLE/UNKNOWN: '',a,'' == '',a)') trim(xw(ixw)%entry),trim(table(itab)%variable_entry)
               else
-                 write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''0101-'',i4.4,''1231.nc'')') &
+                 write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
                       trim(case_read),&
                       trim(comp_read),&
                       trim(xw(ixw)%cesm_vars(ivar)),&
                       exp(exp_found)%begyr,exp(exp_found)%endyr
                  inquire(file=trim(ncfile(1,ivar)),exist=continue(ivar))
                  if (.not.(continue(ivar))) then
-                    write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''-0101_cat_'',i4.4,''-1231.nc'')') &
+                    write(*,'(''FILE NOT FOUND: '',a)') trim(ncfile(1,ivar))
+                    write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''-01_cat_'',i4.4,''-12.nc'')') &
                          trim(case_read),&
                          trim(comp_read),&
                          trim(xw(ixw)%cesm_vars(ivar)),&
                          exp(exp_found)%begyr,exp(exp_found)%endyr
+                    write(*,'(''TRYING        : '',a)') trim(ncfile(1,ivar))
                     inquire(file=trim(ncfile(1,ivar)),exist=continue(ivar))
                  endif
-!!$                 if (.not.(continue(ivar))) then
-!!$                    write(*,'(''VAR NOT FOUND: '',a)') trim(xw(ixw)%cesm_vars(ivar))
-!!$                 else
-!!$                    write(*,'(''GOOD TO GO   : '',a,'' == '',a,'' from CESM file: '',a)') &
-!!$                         trim(xw(ixw)%entry),&
-!!$                         trim(table(itab)%variable_entry),&
-!!$                         trim(ncfile(1,ivar))
-!!$                 endif
+                 if (.not.(continue(ivar))) then
+                    write(*,'(''VAR NOT FOUND : '',a)') trim(xw(ixw)%cesm_vars(ivar))
+                    write(*,'(''FILE NOT FOUND: '',a)') trim(ncfile(1,ivar))
+                 else
+                    write(*,'(''GOOD TO GO   : '',a,'' == '',a,'' from CESM file: '',a)') &
+                         trim(xw(ixw)%entry),&
+                         trim(table(itab)%variable_entry),&
+                         trim(ncfile(1,ivar))
+                 endif
               endif
               !
               ! Check and make sure all files available
@@ -133,7 +136,7 @@ program Omon_CMOR
            if (all_continue) then
               do ivar = 1,xw(ixw)%ncesm_vars
                  call open_cdf(ncid(1,ivar),trim(ncfile(1,ivar)),.true.)
-!                 write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfile(1,ivar)),ncid(1,ivar)
+                 write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfile(1,ivar)),ncid(1,ivar)
                  call get_dims(ncid(1,ivar))
                  call get_vars(ncid(1,ivar))
                  !
@@ -151,21 +154,8 @@ program Omon_CMOR
                     endif
                  enddo
                  if (var_found(1,ivar) == 0) then
-                    !
-                    ! Not found on 1st pass, try prepending 'v' (for vertically interpolated fields)
-                    !
-                    do n=1,var_counter
-                       if ('v'//trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
-                          var_found(1,ivar) = n
-                       endif
-                    enddo
-                    if (var_found(1,ivar) == 0) then
-                       !
-                       ! Still not found - quit
-                       !
-                       write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
-                       stop
-                    endif
+                    write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
+                    stop
                  endif
                  !
                  if (.not.(allocated(time)))      then
@@ -177,9 +167,12 @@ program Omon_CMOR
                  !
                  do n=1,ntimes(1,1)
                     time_counter = n
-                    call read_var(ncid(1,ivar),'time_bnds',time_bnds(:,n))
-                    time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+                    call read_var(ncid(1,ivar),'time_bound',time_bnds(:,n))
                  enddo
+                 !
+                 time_bnds(1,1) = int(time_bnds(1,1))-1
+                 time = (time_bnds(1,:)+time_bnds(2,:))/2.
+                 write(*,*) 'TIME BOUNDS COMPUTED'
               enddo
            endif
            if (all_continue) then
@@ -193,6 +186,8 @@ program Omon_CMOR
               error_flag = cmor_setup(inpath='CMOR',&
                    netcdf_file_action=CMOR_REPLACE,&
                    logfile=logfile)
+              table_ids(1) = cmor_load_table(mycmor%table_file)
+              call cmor_set_table(table_ids(1))
               !
               error_flag = cmor_dataset(                              &
                    outpath=mycmor%outpath,                            &
@@ -241,7 +236,10 @@ program Omon_CMOR
               !
               ! Define axes via 'cmor_axis'
               !
+              table_ids(2) = cmor_load_table('Tables/CMIP5_grids')
+              call cmor_set_table(table_ids(2))
               call define_ocn_axes(table(itab)%dimensions)
+              call cmor_set_table(table_ids(1))
               ! 
               ! Make manual alterations so that CMOR works. Silly code!
               !
@@ -283,7 +281,7 @@ program Omon_CMOR
               write(*,*) 'original_name = ',trim(original_name)
               !
               select case (xw(ixw)%entry)
-              case ('ta','ua','va','hus','hur','wap','zg','tro3','tro3Clim','co2','co2Clim','ch4','ch4Clim','n2o','n2oClim')
+              case ('ua','va','hus','hur','wap','zg','tro3','tro3Clim','co2','co2Clim','ch4','ch4Clim','n2o','n2oClim')
                  cmor_var_id = cmor_variable(                            &
                       table=mycmor%table_file,                           &
                       table_entry=xw(ixw)%entry,                         &
@@ -293,12 +291,12 @@ program Omon_CMOR
                       positive=mycmor%positive,                          &
                       original_name=original_name,                       &
                       comment=xw(ixw)%comment)
-              case ('clw','cli','cl')
+              case ('thetao')
                  cmor_var_id = cmor_variable(                            &
                       table=mycmor%table_file,                           &
                       table_entry=xw(ixw)%entry,                         &
-                      units=var_info(var_found(1,1))%units,                &
-                      axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4)/),  &
+                      units=var_info(var_found(1,1))%units,              &
+                      axis_ids=(/grid_id(1),axis_ids(3),axis_ids(4)/),   &
                       missing_value=var_info(var_found(1,1))%missing_value,&
                       positive=mycmor%positive,                          &
                       original_name=original_name,                       &
@@ -307,8 +305,8 @@ program Omon_CMOR
                  cmor_var_id = cmor_variable(                            &
                       table=mycmor%table_file,                           &
                       table_entry=xw(ixw)%entry,                         &
-                      units=var_info(var_found(1,1))%units,                &
-                      axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3)/),  &
+                      units=var_info(var_found(1,1))%units,              &
+                      axis_ids=(/grid_id(1),axis_ids(3)/),               &
                       missing_value=var_info(var_found(1,1))%missing_value,&
                       positive=mycmor%positive,                          &
                       original_name=original_name,                       &
@@ -320,38 +318,71 @@ program Omon_CMOR
               ! Perform derivations and cycle through time, writing data too
               !
               select case (xw(ixw)%entry)
-              case ('ccb','cct','clivi','clwvi','evspsbl','hfls','hfss','hurs','huss',&
-                    'prw','psl','ps','rldscs','rlds','rlutcs','rlut','rsdscs','rsds','rsdt',&
-                    'sci','tas','tasmax','tasmin','tauu','tauv','ts')
+              case ('tos')
                  !
-                 ! No change
+                 ! tos: Strip off 1st level only of TEMP
                  !
-                 allocate(indat2a(nlons,nlats))
-                 if (ntimes(1,1) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
-                    nchunks = 5
-                    tidx1(1:nchunks) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
-                    tidx2(1:nchunks) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
-                 endif
-                 if (ntimes(1,1) == 35040) then         ! RCP from 2005-2100, use only 2006 onwards, 2 * 35y + 1 * 25y chunks
-                    nchunks = 3
-                    tidx1(1:nchunks) = (/  366, 13141, 25916/)      ! 2006, 2041, 2076
-                    tidx2(1:nchunks) = (/13140, 25915, 35040/)      ! 2040, 2075, 2100
-                 endif
-                 if (ntimes(1,1) == 34675) then         ! RCP from 2006-2100, use all times, 2 * 35y + 1 * 25y chunks
-                    nchunks = 3
-                    tidx1(1:nchunks) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
-                    tidx2(1:nchunks) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
+                 allocate(indat3a(nlons,nlats,nlevs),cmordat2d(nlons,nlats))
+                 if (ntimes(1,1) == 1872) then          ! 20C from 1850-2005, use all times
+                    nchunks = 1
+                    tidx1(1:nchunks) = (/   1/)
+                    tidx2(1:nchunks) = (/1872/)
                  endif
                  do ic = 1,nchunks
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        !
-                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                       cmordat2d = indat3a(:,:,1)
                        !
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(          &
                             var_id        = cmor_var_id, &
-                            data          = indat2a,     &
+                            data          = cmordat2d,   &
+                            ntimes_passed = 1,           &
+                            time_vals     = tval,        &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
+                    enddo
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
+                    endif
+                 enddo
+              case ('thetao')
+                 !
+                 ! theato: No change
+                 !
+                 allocate(indat3a(nlons,nlats,nlevs))
+                 if (ntimes(1,1) == 1872) then          ! 20C from 1850-2005, decade at a time
+!                    nchunks = 16
+!                    tidx1(1:nchunks) = (/   1, 121, 241, 361, 481, 601, 721, 841/)
+!                    tidx2(1:nchunks) = (/ 120, 240, 360, 480, 600, 720, 840, 960/)
+                    nchunks = 1
+                    tidx1(1:nchunks) = (/   1/)
+                    tidx2(1:nchunks) = (/ 120/)
+                 endif
+                 do ic = 1,nchunks
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       !
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                       !
+                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(          &
+                            var_id        = cmor_var_id, &
+                            data          = indat3a,     &
                             ntimes_passed = 1,           &
                             time_vals     = tval,        &
                             time_bnds     = tbnd)

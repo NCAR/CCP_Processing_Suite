@@ -74,6 +74,16 @@ subroutine define_ocn_axes(dimensions)
              longitude_vertices=ocn_lons_bnds)
         write(*,*) 'CMOR GRID defined, grid_id: ',grid_id(1)
         idim = idim + 1
+     case ('olevel')
+        call cmor_set_table(table_ids(1))
+        axis_ids(idim) = cmor_axis(        &
+             table=mycmor%table_file,      &
+             table_entry='depth_coord',    &
+             length=nlevs,                 &
+             units='m',                    &
+             coord_vals=ocn_levs,          &
+             cell_bounds=ocn_levs_bnds)
+        idim = idim + 1
      case ('time')
         call cmor_set_table(table_ids(1))
         axis_ids(idim) = cmor_axis(        &

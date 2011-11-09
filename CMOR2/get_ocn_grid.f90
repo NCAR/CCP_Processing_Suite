@@ -24,14 +24,27 @@ subroutine get_ocn_grid
         nlats = dim_info(n)%length
      elseif(dim_info(n)%name(:length).eq.'nlon') then
         nlons = dim_info(n)%length
+     elseif(dim_info(n)%name(:length).eq.'z_t') then
+        nlevs = dim_info(n)%length
      endif
   enddo
-  allocate(ocn_lons(nlons,nlats),ocn_lats(nlons,nlats))
+  allocate(ocn_lons(nlons,nlats),ocn_lats(nlons,nlats),ocn_levs(nlevs),ocn_levs_bnds(nlevs+1))
   !
   call get_vars(gridid)
   call read_var(gridid,'TLONG',ocn_lons)
   call read_var(gridid,'TLAT',ocn_lats)
-   !
+  call read_var(gridid,'z_t',ocn_levs)
+  call read_var(gridid,'z_w',ocn_levs_bnds(1:nlevs))
+  !
+  !  Fill last ocn_bnds level
+  !
+  ocn_levs_bnds(nlevs+1) = ocn_levs(nlevs)+(0.5*ocn_levs_bnds(nlevs))
+  !
+  ! Convert ocn_levs and ocn_levs_bnds from cm to m
+  !
+  ocn_levs      = ocn_levs      / 100.
+  ocn_levs_bnds = ocn_levs_bnds / 100.
+  !
   ! Transfer bounds for lons and lats
   !
   allocate(ocn_lons_bnds(4,nlons,nlats),ocn_lats_bnds(4,nlons,nlats))
