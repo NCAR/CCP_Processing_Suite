@@ -180,10 +180,11 @@ program day_CMOR
                     call read_var(ncid(1,ivar),'time_bnds',time_bnds(:,n))
                  enddo
                  !
-                 if (time_bnds(1,1) == 0.) then
-                    time_bnds(1,2:ntimes(1,1)) = time_bnds(1,2:ntimes(1,1)) + 1
+!                 if (time_bnds(1,1) == 0.) then
+!                    time_bnds(1,2:ntimes(1,1)) = time_bnds(1,2:ntimes(1,1)) + 1
+                    time_bnds(1,:) = time_bnds(1,:) + 1
                     time_bnds(2,:) = time_bnds(2,:) + 1
-                 endif
+!                 endif
                  do n=1,ntimes(1,1)
                     time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
 !                    write(*,'(''TIMES: '',3f12.4)') time_bnds(1,n),time(n),time_bnds(2,n)
@@ -339,7 +340,7 @@ program day_CMOR
                  ! No change
                  !
                  allocate(indat2a(nlons,nlats))
-                 if (ntimes(1,1) == 56940) then         ! 20C from 2005-2100, use all times, 4 * 35y + 1 * 16y chunks
+                 if (ntimes(1,1) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks = 5
                     tidx1(1:nchunks) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
                     tidx2(1:nchunks) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
@@ -387,7 +388,7 @@ program day_CMOR
                  !
                  allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
                  allocate(cmordat2d(nlons,nlats))
-                 if (ntimes(1,1) == 56940) then         ! 20C from 2005-2100, use all times, 4 * 35y + 1 * 16y chunks
+                 if (ntimes(1,1) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks = 5
                     tidx1(1:nchunks) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
                     tidx2(1:nchunks) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
@@ -432,13 +433,62 @@ program day_CMOR
                        endif
                     endif
                  enddo
+              case ('prc')
+                 !
+                 ! prc : PRECC, unit change from m s-1 to kg m-2 s-1
+                 !
+                 allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
+                 if (ntimes(1,1) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
+                    nchunks = 5
+                    tidx1(1:nchunks) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
+                    tidx2(1:nchunks) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
+                 endif
+                 if (ntimes(1,1) == 34675) then         ! RCP from 2006-2100, use all times, 2 * 35y + 1 * 25y chunks
+                    nchunks = 3
+                    tidx1(1:nchunks) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
+                    tidx2(1:nchunks) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
+                 endif
+                 do ic = 1,nchunks
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                       where (indat2a /= spval)
+                          cmordat2d = indat2a*1000.
+                       elsewhere
+                          cmordat2d = spval
+                       endwhere
+                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(      &
+                            var_id        = cmor_var_id, &
+                            data          = cmordat2d,   &
+                            ntimes_passed = 1,       &
+                            time_vals     = tval,    &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
+                    enddo
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
+                    endif
+                 enddo
               case ('rlus')
                  !
                  ! rlus: Add FLDS + FLNS
                  !
                  allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
                  allocate(cmordat2d(nlons,nlats))
-                 if (ntimes(1,1) == 56940) then         ! 20C from 2005-2100, use all times, 4 * 35y + 1 * 16y chunks
+                 if (ntimes(1,1) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks = 5
                     tidx1(1:nchunks) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
                     tidx2(1:nchunks) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
@@ -493,7 +543,7 @@ program day_CMOR
                  !
                  allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
                  allocate(cmordat2d(nlons,nlats))
-                 if (ntimes(1,1) == 56940) then         ! 20C from 2005-2100, use all times, 4 * 35y + 1 * 16y chunks
+                 if (ntimes(1,1) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks = 5
                     tidx1(1:nchunks) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
                     tidx2(1:nchunks) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
@@ -546,7 +596,7 @@ program day_CMOR
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
-                 if (ntimes(1,1) == 56940) then         ! 20C from 2005-2100, use all times, 4 * 35y + 1 * 16y chunks
+                 if (ntimes(1,1) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks = 5
                     tidx1(1:nchunks) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
                     tidx2(1:nchunks) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
@@ -595,7 +645,7 @@ program day_CMOR
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
-                 if (ntimes(1,1) == 56940) then         ! 20C from 2005-2100, use all times, 4 * 35y + 1 * 16y chunks
+                 if (ntimes(1,1) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks = 5
                     tidx1(1:nchunks) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
                     tidx2(1:nchunks) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
