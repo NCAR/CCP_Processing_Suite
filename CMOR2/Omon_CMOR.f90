@@ -22,8 +22,7 @@ program Omon_CMOR
   integer::error_flag,cmor_var_id
   real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,cmordat2d
   real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db
-  real,dimension(:,:,:,:),allocatable::indat4a ! N_HEAT, N_SALT
-  real,dimension(:,:,:,:,:),allocatable::indat5a ! MOC
+  real,dimension(:,:,:,:),allocatable::indat4a ! MOC
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::time_bnds
   double precision,dimension(1)  ::tval
@@ -241,6 +240,7 @@ program Omon_CMOR
               ! Define axes via 'cmor_axis'
               !
               table_ids(2) = cmor_load_table('Tables/CMIP5_grids')
+              table_ids(3) = cmor_load_table('Tables/CMIP5_fx')
               call cmor_set_table(table_ids(2))
               call define_ocn_axes(table(itab)%dimensions)
               call cmor_set_table(table_ids(1))
@@ -260,16 +260,8 @@ program Omon_CMOR
               ! Modify units as necessary to accomodate udunits' inability to convert 
               !
               select case (xw(ixw)%entry)
-              case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs')
-                 mycmor%positive = 'up'
-              case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt')
-                 mycmor%positive = 'down'
-              case ('clt','ci')
-                 var_info(var_found(1,1))%units = '1'
-              case ('hurs','cl')
-                 var_info(var_found(1,1))%units = '%'
-              case ('prc','pr','prsn')
-                 var_info(var_found(1,1))%units = 'kg m-2 s-1'
+              case ('msftmyz')
+                 var_info(var_found(1,1))%units = 'kg s-1'
               end select
               !
               spval=var_info(var_found(1,1))%missing_value
@@ -301,6 +293,16 @@ program Omon_CMOR
                       table_entry=xw(ixw)%entry,                         &
                       units=var_info(var_found(1,1))%units,              &
                       axis_ids=(/grid_id(1),axis_ids(3),axis_ids(4)/),   &
+                      missing_value=var_info(var_found(1,1))%missing_value,&
+                      positive=mycmor%positive,                          &
+                      original_name=original_name,                       &
+                      comment=xw(ixw)%comment)
+              case ('msftmyz')
+                 cmor_var_id = cmor_variable(                            &
+                      table=mycmor%table_file,                           &
+                      table_entry=xw(ixw)%entry,                         &
+                      units=var_info(var_found(1,1))%units,              &
+                      axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4)/),   &
                       missing_value=var_info(var_found(1,1))%missing_value,&
                       positive=mycmor%positive,                          &
                       original_name=original_name,                       &
@@ -343,6 +345,96 @@ program Omon_CMOR
                        error_flag = cmor_write(          &
                             var_id        = cmor_var_id, &
                             data          = cmordat2d,   &
+                            ntimes_passed = 1,           &
+                            time_vals     = tval,        &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
+                    enddo
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
+                    endif
+                 enddo
+              case ('msftmyz')
+                 !
+                 ! msftmyz: MOC
+                 !
+                 ! moc_comp(1)="Eulerian Mean" 
+                 ! moc_comp(2)="Eddy-Induced (bolus)" 
+                 ! moc_comp(3)="Submeso" 
+                 ! 
+                 ! transport_reg(1):="Global Ocean - Marginal Seas" 
+                 ! transport_reg(2):="Atlantic Ocean + Mediterranean Sea + Labrador Sea + GIN Sea + Arctic Ocean + Hudson Bay" 
+                 !
+                 ! MOC:coordinates = "lat_aux_grid moc_z moc_components transport_region time"
+                 !
+                 !                Y           Z      comp      basin
+                 allocate(indat4a(nlats_trans,nmoc_z,nmoc_comp,ntrans_reg))
+                 !
+                 ! basin 1: 'atlantic_arctic_ocean'
+                 ! basin 2: 'indian_pacific_ocean'
+                 ! basin 3: 'global_ocean'
+                 !
+                 !                  Y           Z      basin
+                 allocate(cmordat3d(nlats_trans,nmoc_z,3))
+                 !
+                 if (ntimes(1,1) == 2388) then          ! RCP from 2101-2299, use all times
+                    nchunks = 1
+                    tidx1(1:nchunks) = (/   1/)
+                    tidx2(1:nchunks) = (/2388/)
+                 endif
+                 if (ntimes(1,1) == 1872) then          ! 20C from 1850-2005, use all times
+                    nchunks = 1
+                    tidx1(1:nchunks) = (/   1/)
+                    tidx2(1:nchunks) = (/1872/)
+                 endif
+                 if (ntimes(1,1) == 1140) then          ! RCP from 2006-2100, use all times
+                    nchunks = 1
+                    tidx1(1:nchunks) = (/   1/)
+                    tidx2(1:nchunks) = (/1140/)
+                 endif
+                 if (ntimes(1,1) == 1152) then          ! RCP from 2005-2100, skip 2005
+                    nchunks = 1
+                    tidx1(1:nchunks) = (/  13/)
+                    tidx2(1:nchunks) = (/1152/)
+                 endif
+                 do ic = 1,nchunks
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       !
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat4a)
+                       !
+                       cmordat3d = spval
+                       cmordat3d(:,:,2) = spval ! Indo-Pacific not supplied
+                       !
+                       ! Convert from Sv to kg s-1
+                       !
+                       where (indat4a(:,:,1,2) /= 0.)
+                          cmordat3d(:,:,1) = indat4a(:,:,1,2)*1000
+                       elsewhere
+                          cmordat3d(:,:,1) = spval
+                       endwhere
+                       where (indat4a(:,:,1,1) /= 0.)
+                          cmordat3d(:,:,3) = indat4a(:,:,1,1)*1000
+                       elsewhere
+                          cmordat3d(:,:,3) = spval
+                       endwhere
+                       !
+                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(          &
+                            var_id        = cmor_var_id, &
+                            data          = cmordat3d,   &
                             ntimes_passed = 1,           &
                             time_vals     = tval,        &
                             time_bnds     = tbnd)

@@ -64,9 +64,8 @@ subroutine define_ocn_axes(dimensions)
                 table_entry=dimnames(i),      &
                 units=dimunits(i),            &
                 length=nlats_trans,           &
-                coord_vals=ocn_trans_lats)
-!                coord_vals=ocn_trans_lats,    &
-!                cell_bounds=ocn_trans_lats_bnds)
+                coord_vals=ocn_trans_lats,    &
+                cell_bounds=ocn_trans_lats_bnds)
            write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
            idim = idim + 1
         case ('olevel')
@@ -74,19 +73,20 @@ subroutine define_ocn_axes(dimensions)
            axis_ids(idim) = cmor_axis(        &
                 table=mycmor%table_file,      &
                 table_entry='depth_coord',    &
-                length=nlevs,                 &
+                length=nmoc_z,                &
                 units='m',                    &
-                coord_vals=ocn_levs,          &
-                cell_bounds=ocn_levs_bnds)
+                coord_vals=ocn_trans_levs,    &
+                cell_bounds=ocn_trans_levs_bnds)
            write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
            idim = idim + 1
-!!$        case ('basin')
-!!$           call cmor_set_table(table_ids(1))
-!!$           axis_ids(idim) = cmor_axis(        &
-!!$                table=mycmor%table_file,      &
-!!$                table_entry=dimnames(i))
-!!$           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
-!!$           idim = idim + 1
+        case ('basin')
+           call cmor_set_table(table_ids(1))
+           axis_ids(idim) = cmor_axis(        &
+                table_entry=dimnames(i),      &
+                coord_vals=(/'atlantic_arctic_ocean','indian_pacific_ocean','global_ocean'/),&
+                units='')
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           idim = idim + 1
         case ('time')
            call cmor_set_table(table_ids(1))
            axis_ids(idim) = cmor_axis(        &
