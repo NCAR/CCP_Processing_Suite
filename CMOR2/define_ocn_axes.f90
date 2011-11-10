@@ -9,6 +9,7 @@ subroutine define_ocn_axes(dimensions)
   use grid_info
   use files_info
   use mycmor_info
+  use xwalk_info
   !
   implicit none
   real,dimension(:),allocatable::i_indices,j_indices
@@ -49,51 +50,101 @@ subroutine define_ocn_axes(dimensions)
      write(*,*) 'DIMS: ',dimnames(i)(1:32),' UNITS: ',dimunits(i)(1:32)
   enddo
   axis_ids = 0 ; idim = 1
-  do i = 1,naxes
-     select case(dimnames(i))
-     case ('longitude')
-        call cmor_set_table(table_ids(2))
-        axis_ids(idim) = cmor_axis(        &
-             table_entry='i_index',      &
-             units='1',&
-             coord_vals=i_indices)
-        write(*,*) 'longitude defined, axis_id: ',idim,axis_ids(idim)
-        idim = idim + 1
-     case ('latitude')
-        call cmor_set_table(table_ids(2))
-        axis_ids(idim) = cmor_axis(        &
-             table_entry='j_index',       &
-             units='1',&
-             coord_vals=j_indices)
-        write(*,*) 'latitude defined, axis_id: ',idim,axis_ids(idim)
-        grid_id(1) = cmor_grid(                    &
-             axis_ids=(/axis_ids(1),axis_ids(2)/), &
-             latitude=ocn_lats,                    &
-             longitude=ocn_lons,                   &
-             latitude_vertices=ocn_lats_bnds,      &
-             longitude_vertices=ocn_lons_bnds)
-        write(*,*) 'CMOR GRID defined, grid_id: ',grid_id(1)
-        idim = idim + 1
-     case ('olevel')
-        call cmor_set_table(table_ids(1))
-        axis_ids(idim) = cmor_axis(        &
-             table=mycmor%table_file,      &
-             table_entry='depth_coord',    &
-             length=nlevs,                 &
-             units='m',                    &
-             coord_vals=ocn_levs,          &
-             cell_bounds=ocn_levs_bnds)
-        idim = idim + 1
-     case ('time')
-        call cmor_set_table(table_ids(1))
-        axis_ids(idim) = cmor_axis(        &
-             table_entry=dimnames(i),      &
-             units=dimunits(i),            &
-             length=ntimes(1,1),           &
-             interval='30 days')
-        write(*,*) 'time defined, axis_id: ',idim,axis_ids(idim)
-        idim = idim + 1
-     end select
-  enddo
+  !
+  ! Define axes depending on CMIP5 field. Complicated
+  !
+  select case (xw(xw_found)%entry)
+  case ('msftmyz')
+     ! Meridional overturning circulation
+     do i = 1,naxes
+        select case(dimnames(i))
+        case ('latitude')
+           axis_ids(idim) = cmor_axis(        &
+                table=mycmor%table_file,      &
+                table_entry=dimnames(i),      &
+                units=dimunits(i),            &
+                length=nlats_trans,           &
+                coord_vals=ocn_trans_lats)
+!                coord_vals=ocn_trans_lats,    &
+!                cell_bounds=ocn_trans_lats_bnds)
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           idim = idim + 1
+        case ('olevel')
+           call cmor_set_table(table_ids(1))
+           axis_ids(idim) = cmor_axis(        &
+                table=mycmor%table_file,      &
+                table_entry='depth_coord',    &
+                length=nlevs,                 &
+                units='m',                    &
+                coord_vals=ocn_levs,          &
+                cell_bounds=ocn_levs_bnds)
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           idim = idim + 1
+!!$        case ('basin')
+!!$           call cmor_set_table(table_ids(1))
+!!$           axis_ids(idim) = cmor_axis(        &
+!!$                table=mycmor%table_file,      &
+!!$                table_entry=dimnames(i))
+!!$           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+!!$           idim = idim + 1
+        case ('time')
+           call cmor_set_table(table_ids(1))
+           axis_ids(idim) = cmor_axis(        &
+                table_entry=dimnames(i),      &
+                units=dimunits(i),            &
+                length=ntimes(1,1),           &
+                interval='30 days')
+           write(*,*) 'time defined, axis_id: ',idim,axis_ids(idim)
+           idim = idim + 1
+        end select ! dimnames(i)
+     enddo
+  case default
+     do i = 1,naxes
+        select case(dimnames(i))
+        case ('longitude')
+           call cmor_set_table(table_ids(2))
+           axis_ids(idim) = cmor_axis(        &
+                table_entry='i_index',      &
+                units='1',&
+                coord_vals=i_indices)
+           write(*,*) 'longitude defined, axis_id: ',idim,axis_ids(idim)
+           idim = idim + 1
+        case ('latitude')
+           call cmor_set_table(table_ids(2))
+           axis_ids(idim) = cmor_axis(        &
+                table_entry='j_index',       &
+                units='1',&
+                coord_vals=j_indices)
+           write(*,*) 'latitude defined, axis_id: ',idim,axis_ids(idim)
+           grid_id(1) = cmor_grid(                    &
+                axis_ids=(/axis_ids(1),axis_ids(2)/), &
+                latitude=ocn_lats,                    &
+                longitude=ocn_lons,                   &
+                latitude_vertices=ocn_lats_bnds,      &
+                longitude_vertices=ocn_lons_bnds)
+           write(*,*) 'CMOR GRID defined, grid_id: ',grid_id(1)
+           idim = idim + 1
+        case ('olevel')
+           call cmor_set_table(table_ids(1))
+           axis_ids(idim) = cmor_axis(        &
+                table=mycmor%table_file,      &
+                table_entry='depth_coord',    &
+                length=nlevs,                 &
+                units='m',                    &
+                coord_vals=ocn_levs,          &
+                cell_bounds=ocn_levs_bnds)
+           idim = idim + 1
+        case ('time')
+           call cmor_set_table(table_ids(1))
+           axis_ids(idim) = cmor_axis(        &
+                table_entry=dimnames(i),      &
+                units=dimunits(i),            &
+                length=ntimes(1,1),           &
+                interval='30 days')
+           write(*,*) 'time defined, axis_id: ',idim,axis_ids(idim)
+           idim = idim + 1
+        end select ! dimnames(i)
+     enddo
+  end select ! xw(ixw)%entry
   write(*,*) 'CMOR axes defined, axis_ids: ',(axis_ids(i),i=1,naxes)
 end subroutine define_ocn_axes

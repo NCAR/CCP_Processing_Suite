@@ -1,2 +1,3 @@
 Omon:1.0:tos:ocean:1:TEMP:TEMP at topmost level, units from C to K
 Omon:1.0:thetao:ocean:1:TEMP:TEMP no change, units from C to K
+Omon:1.0:msftmyz:ocean:1:MOC:MOC split into basins

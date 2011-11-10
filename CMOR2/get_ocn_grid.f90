@@ -26,15 +26,20 @@ subroutine get_ocn_grid
         nlons = dim_info(n)%length
      elseif(dim_info(n)%name(:length).eq.'z_t') then
         nlevs = dim_info(n)%length
+     elseif(dim_info(n)%name(:length).eq.'lat_aux_grid') then ! heat, salt and mass transports on this grid
+        nlats_trans = dim_info(n)%length
      endif
   enddo
   allocate(ocn_lons(nlons,nlats),ocn_lats(nlons,nlats),ocn_levs(nlevs),ocn_levs_bnds(nlevs+1))
+  allocate(ocn_trans_lats(nlats_trans))
   !
   call get_vars(gridid)
   call read_var(gridid,'TLONG',ocn_lons)
   call read_var(gridid,'TLAT',ocn_lats)
   call read_var(gridid,'z_t',ocn_levs)
   call read_var(gridid,'z_w',ocn_levs_bnds(1:nlevs))
+  call read_var(gridid,'lat_aux_grid',ocn_trans_lats)
+  write(*,*) 'Got lat_aux_grid: ',ocn_trans_lats(1),ocn_trans_lats(nlats_trans)
   !
   !  Fill last ocn_bnds level
   !

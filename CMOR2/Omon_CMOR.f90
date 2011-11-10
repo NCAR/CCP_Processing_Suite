@@ -22,6 +22,8 @@ program Omon_CMOR
   integer::error_flag,cmor_var_id
   real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,cmordat2d
   real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db
+  real,dimension(:,:,:,:),allocatable::indat4a ! N_HEAT, N_SALT
+  real,dimension(:,:,:,:,:),allocatable::indat5a ! MOC
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::time_bnds
   double precision,dimension(1)  ::tval
@@ -86,6 +88,7 @@ program Omon_CMOR
         var_counter  = 0
         error_flag   = 0
         var_found    = 0
+        xw_found     = 0
         all_continue = .true.
         continue(:)  = .false.
         time_units   = ' '
@@ -151,6 +154,7 @@ program Omon_CMOR
                  do n=1,var_counter
                     if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
                        var_found(1,ivar) = n
+                       xw_found = ixw
                     endif
                  enddo
                  if (var_found(1,ivar) == 0) then

@@ -105,14 +105,14 @@ module grid_info
   double precision,dimension(:),    allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
   real            ,dimension(:,:),  allocatable::ice_lats,ice_lons
   real            ,dimension(:,:,:),allocatable::ice_lats_bnds,ice_lons_bnds
-  real            ,dimension(:),    allocatable::ocn_levs,ocn_levs_bnds
+  real            ,dimension(:),    allocatable::ocn_levs,ocn_levs_bnds,ocn_trans_lats
   real            ,dimension(:,:,:),allocatable::ocn_lats_bnds,ocn_lons_bnds
   real            ,dimension(:,:),  allocatable::ocn_lats,ocn_lons
   real            ,dimension(:),    allocatable::lnd_lats,lnd_lons,lnd_levs,lnd_levs_bnds
   real            ,dimension(:,:,:),allocatable::lnd_zsoi,lnd_dzsoi  ! CLM soil depth (m), CLM soil layer thickness (m)
   real            ,dimension(:,:),  allocatable::lnd_lats_bnds,lnd_lons_bnds
   double precision::p0
-  integer::nlons,nlats,nlevs,nilevs,nplevs,naxes,zfactor_id
+  integer::nlons,nlats,nlevs,nilevs,nplevs,naxes,zfactor_id,nlats_trans
   integer,dimension(1)::grid_id
   integer,dimension(10)::axis_ids
   character(len=256),dimension(10)::dimnames,dimunits
