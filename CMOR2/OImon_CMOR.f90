@@ -12,6 +12,7 @@ program OImon_CMOR
   use table_info
   use xwalk_info
   use grid_info
+  use files_info
   use mycmor_info
   !
   implicit none
@@ -33,8 +34,7 @@ program OImon_CMOR
   logical::all_continue
   !
   character(len=256),dimension(10)::ncfilenh,ncfilesh
-  real,dimension(10)::allmax,allmin,scale_factor
-  integer,dimension(10)::ncidnh,ncidsh,var_found
+  integer,dimension(10)::ncidnh,ncidsh
   logical,dimension(10)::continue
   !
   ! GO!
@@ -89,7 +89,6 @@ program OImon_CMOR
         var_counter  = 0
         error_flag   = 0
         var_found    = 0
-        scale_factor = 1.
         all_continue = .true.
         continue(:)  = .false.
         time_units   = ' '
@@ -163,31 +162,31 @@ program OImon_CMOR
                  do n=1,dim_counter
                     length = len_trim(dim_info(n)%name)
                     if(dim_info(n)%name(:length).eq.'time') then
-                       ntimes = dim_info(n)%length
+                       ntimes(1,1) = dim_info(n)%length
                     endif
                  enddo
                  call read_att_text(ncidnh(1),'time','units',time_units)
                  !
                  do n=1,var_counter
                     if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
-                       var_found(ivar) = n
+                       var_found(1,ivar) = n
                     endif
                  enddo
-                 if (var_found(ivar) == 0) then
+                 if (var_found(1,ivar) == 0) then
                     write(*,*) trim(xw(ixw)%cesm_vars(ivar)),' NEVER FOUND. STOP.'
                     stop
                  endif
                  !
                  if (.not.(allocated(time)))      then
-                    allocate(time(ntimes))
-                    write(*,*) 'allocate(time(ntimes))'
+                    allocate(time(ntimes(1,1)))
+                    write(*,*) 'allocate(time(ntimes(1,1)))'
                  endif
                  if (.not.(allocated(time_bnds))) then
-                    allocate(time_bnds(2,ntimes))
-                    write(*,*) 'allocate(time_bnds(2,ntimes))'
+                    allocate(time_bnds(2,ntimes(1,1)))
+                    write(*,*) 'allocate(time_bnds(2,ntimes(1,1)))'
                  endif
                  !
-                 do n=1,ntimes
+                 do n=1,ntimes(1,1)
                     time_counter = n
                     call read_var(ncidnh(ivar),'time_bounds',time_bnds(:,n))
                     time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
@@ -202,10 +201,10 @@ program OImon_CMOR
                  !
                  do n=1,var_counter
                     if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
-                       var_found(ivar) = n
+                       var_found(1,ivar) = n
                     endif
                  enddo
-                 if (var_found(ivar) == 0) then
+                 if (var_found(1,ivar) == 0) then
                     write(*,*) trim(xw(ixw)%cesm_vars(ivar)),' NEVER FOUND. STOP.'
                     stop
                  endif
@@ -295,9 +294,9 @@ program OImon_CMOR
                  mycmor%positive = 'up'
               case ('evap')
                  mycmor%positive = 'up'
-                 var_info(var_found(1))%units = 'kg m-2 s-1'
+                 var_info(var_found(1,1))%units = 'kg m-2 s-1'
               case ('bmelt','grCongel','grFrazil','pr','prsn','snomelt','snoToIce','tmelt')
-                 var_info(var_found(1))%units = 'kg m-2 s-1'
+                 var_info(var_found(1,1))%units = 'kg m-2 s-1'
               end select
               !
               write(*,*) 'cmor_variable:'
@@ -307,29 +306,29 @@ program OImon_CMOR
               write(*,*) 'dimensions=',trim(table(itab)%dimensions)
               write(*,*) 'axis_ids=',axis_ids
               write(*,*) 'grid_id=',grid_id
-              write(*,*) 'units=',trim(var_info(var_found(1))%units)
-              write(*,*) 'missing_value=',var_info(var_found(1))%missing_value
+              write(*,*) 'units=',trim(var_info(var_found(1,1))%units)
+              write(*,*) 'missing_value=',var_info(var_found(1,1))%missing_value
               write(*,*) 'positive=',trim(mycmor%positive)
               write(*,*) 'original_name=',trim(original_name)
               !
               var_ids = cmor_variable(                                &
                    table=mycmor%table_file,                           &
                    table_entry=xw(ixw)%entry,                         &
-                   units=var_info(var_found(1))%units,                &
+                   units=var_info(var_found(1,1))%units,                &
                    axis_ids=(/grid_id(1),axis_ids(3)/),               &
-                   missing_value=var_info(var_found(1))%missing_value,&
+                   missing_value=var_info(var_found(1,1))%missing_value,&
                    positive=mycmor%positive,                          &
                    original_name=original_name,                       &
                    comment=xw(ixw)%comment)
               !
               ! Cycle through time
               !
-              time_loop: DO it=1, ntimes
+              time_loop: DO it=1, ntimes(1,1)
                  time_counter = it
                  if (xw(ixw)%ncesm_vars == 1) then
-                    call read_var(ncidnh(1),var_info(var_found(1))%name,indat2anh)
-                    call read_var(ncidsh(1),var_info(var_found(1))%name,indat2ash)
-!                    write(*,'(''Reading NH and SH '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
+                    call read_var(ncidnh(1),var_info(var_found(1,1))%name,indat2anh)
+                    call read_var(ncidsh(1),var_info(var_found(1,1))%name,indat2ash)
+!                    write(*,'(''Reading NH and SH '',a20,'' T= '',i10)') trim(var_info(var_found(1,1))%name),it
                     cmordat(:,  1: 76) = indat2ash(:,1: 76)
                     cmordat(:,281:384) = indat2anh(:,1:104)
                  endif
@@ -376,7 +375,6 @@ program OImon_CMOR
               var_counter  = 0
               error_flag   = 0
               var_found    = 0
-              scale_factor = 1.
               continue(:)  = .false.
               mycmor%positive = ' '
               original_name= ' '

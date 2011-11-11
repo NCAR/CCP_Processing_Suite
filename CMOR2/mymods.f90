@@ -7,6 +7,7 @@ module max_parms
   integer,parameter::max_exprmnt   = 10000
   integer,parameter::max_cesm_vars =    10
   integer,parameter::max_ncfiles   =   200
+  integer,parameter::max_nchunks   =  1000
   !
 end module max_parms
 !
@@ -120,3 +121,10 @@ module grid_info
   character(len=256),dimension(10)::dimnames,dimunits
   character(len=256)::time_units
 end module grid_info
+!
+! Output time chunks information
+!
+module output_times_info
+  use max_parms
+  integer,dimension(max_nchunks)::nchunks,tidx1,tidx2
+end module output_times_info

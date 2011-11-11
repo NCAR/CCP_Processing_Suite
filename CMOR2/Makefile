@@ -71,6 +71,7 @@ OBJ	= mymods.o \
 	  load_table_info.o \
 	  load_xwalk.o \
 	  add_global_metadata.o \
+	  file_output_times.o \
 	  parse_rip.o \
 	  parse_ncfile.o \
 	  get_ice_grid.o \
@@ -78,7 +79,7 @@ OBJ	= mymods.o \
 	  get_lnd_grid.o \
 	  get_atm_grid.o
 
-all:	  Amon_CMOR fx_CMOR day_CMOR Lmon_CMOR OImon_CMOR Omon_CMOR
+all:	  Amon_CMOR day_CMOR Lmon_CMOR OImon_CMOR Omon_CMOR
 
 Amon_CMOR: $(OBJ) Amon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Amon_CMOR.o \
@@ -95,10 +96,6 @@ OImon_CMOR: $(OBJ) OImon_CMOR.o
 Omon_CMOR: $(OBJ) Omon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Omon_CMOR.o \
 	-o $(EXEDIR)/Omon_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
-
-fx_CMOR: $(OBJ) fx_CMOR.o
-	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) fx_CMOR.o \
-	-o $(EXEDIR)/fx_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
 
 day_CMOR: $(OBJ) day_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) day_CMOR.o \
@@ -118,6 +115,9 @@ add_global_metadata.o: add_global_metadata.f90 mymods.o
 
 load_expt.o: load_expt.f90 mymods.o
 	$(FC) $(FFLAGS) $(LOCINC) -c load_expt.f90
+
+file_output_times.o: file_output_times.f90 mymods.o
+	$(FC) $(FFLAGS) $(LOCINC) -c file_output_times.f90
 
 get_atm_grid.o: get_atm_grid.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c get_atm_grid.f90
@@ -178,9 +178,6 @@ OImon_CMOR.o: OImon_CMOR.f90 $(OBJ)
 
 Omon_CMOR.o: Omon_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c Omon_CMOR.f90
-
-fx_CMOR.o: fx_CMOR.f90 $(OBJ)
-	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c fx_CMOR.f90
 
 day_CMOR.o: day_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c day_CMOR.f90

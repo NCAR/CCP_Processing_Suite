@@ -12,6 +12,7 @@ program Lmon_CMOR
   use table_info
   use xwalk_info
   use grid_info
+  use files_info
   use mycmor_info
   !
   implicit none
@@ -33,10 +34,8 @@ program Lmon_CMOR
   real::spval
   logical::all_continue
   !
-  character(len=256),dimension(10)::ncfile
   real,dimension(10)::allmax,allmin,scale_factor
   integer,dimension(100)::tidx1,tidx2
-  integer,dimension(10)::ncid,var_found
   logical,dimension(10)::continue
   !
   ! Initialize time indices
@@ -104,19 +103,19 @@ program Lmon_CMOR
               if ((trim(xw(ixw)%cesm_vars(ivar)) == 'UNKNOWN').or.(trim(xw(ixw)%cesm_vars(ivar)) == 'UNAVAILABLE')) then
                  write(*,'(''UNAVAILABLE/UNKNOWN: '',a,'' == '',a)') trim(xw(ixw)%entry),trim(table(itab)%variable_entry)
               else
-                 write(ncfile(ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
+                 write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
                       trim(case_read),&
                       trim(comp_read),&
                       trim(xw(ixw)%cesm_vars(ivar)),&
                       exp(exp_found)%begyr,exp(exp_found)%endyr
-                 inquire(file=trim(ncfile(ivar)),exist=continue(ivar))
+                 inquire(file=trim(ncfile(1,ivar)),exist=continue(ivar))
                  if (.not.(continue(ivar))) then
-                    write(ncfile(ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''-01_cat_'',i4.4,''-12.nc'')') &
+                    write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''-01_cat_'',i4.4,''-12.nc'')') &
                          trim(case_read),&
                          trim(comp_read),&
                          trim(xw(ixw)%cesm_vars(ivar)),&
                          exp(exp_found)%begyr,exp(exp_found)%endyr
-                    inquire(file=trim(ncfile(ivar)),exist=continue(ivar))
+                    inquire(file=trim(ncfile(1,ivar)),exist=continue(ivar))
                  endif
                  if (.not.(continue(ivar))) then
                     write(*,'(''VAR NOT FOUND: '',a)') trim(xw(ixw)%cesm_vars(ivar))
@@ -124,7 +123,7 @@ program Lmon_CMOR
                     write(*,'(''GOOD TO GO   : '',a,'' == '',a,'' from CESM file: '',a)') &
                          trim(xw(ixw)%entry),&
                          trim(table(itab)%variable_entry),&
-                         trim(ncfile(ivar))
+                         trim(ncfile(1,ivar))
                  endif
               endif
               !
@@ -137,39 +136,39 @@ program Lmon_CMOR
            !
            if (all_continue) then
               do ivar = 1,xw(ixw)%ncesm_vars
-                 call open_cdf(ncid(ivar),trim(ncfile(ivar)),.true.)
-                 write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfile(ivar)),ncid(ivar)
-                 call get_dims(ncid(ivar))
-                 call get_vars(ncid(ivar))
+                 call open_cdf(ncid(1,ivar),trim(ncfile(1,ivar)),.true.)
+                 write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfile(1,ivar)),ncid(1,ivar)
+                 call get_dims(ncid(1,ivar))
+                 call get_vars(ncid(1,ivar))
                  !
                  do n=1,dim_counter
                     length = len_trim(dim_info(n)%name)
                     if(dim_info(n)%name(:length).eq.'time') then
-                       ntimes = dim_info(n)%length
+                       ntimes(1,1) = dim_info(n)%length
                     endif
                  enddo
-                 call read_att_text(ncid(1),'time','units',time_units)
+                 call read_att_text(ncid(1,1),'time','units',time_units)
                  !
                  do n=1,var_counter
                     if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
-                       var_found(ivar) = n
+                       var_found(1,ivar) = n
                     endif
                  enddo
-                 if (var_found(ivar) == 0) then
+                 if (var_found(1,ivar) == 0) then
                     write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
                     stop
                  endif
                  !
                  if (.not.(allocated(time)))      then
-                    allocate(time(ntimes))
+                    allocate(time(ntimes(1,1)))
                  endif
                  if (.not.(allocated(time_bnds))) then
-                    allocate(time_bnds(2,ntimes))
+                    allocate(time_bnds(2,ntimes(1,1)))
                  endif
                  !
-                 do n=1,ntimes
+                 do n=1,ntimes(1,1)
                     time_counter = n
-                    call read_var(ncid(ivar),'time_bounds',time_bnds(:,n))
+                    call read_var(ncid(1,ivar),'time_bounds',time_bnds(:,n))
                     if (n == 1) time_bnds(1,n) = 0.
                     time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
                     !                    write(*,'(''TIMES: '',3f12.4)') time_bnds(1,n),time(n),time_bnds(2,n)
@@ -253,42 +252,42 @@ program Lmon_CMOR
               !
               select case (xw(ixw)%entry)
               case ('cVeg','cLitter','cSoil','cProduct','cLeaf','cWood','cMisc','cCwd','cSoilFast','cSoilMedium','cSoilSlow')
-                 var_info(var_found(1))%units = 'kg m-2'
+                 var_info(var_found(1,1))%units = 'kg m-2'
               case ('fFire','fLuc')
                  mycmor%positive = 'up'
-                 var_info(var_found(1))%units = 'kg m-2 s-1'
+                 var_info(var_found(1,1))%units = 'kg m-2 s-1'
               case ('ra','rh','rGrowth','rMaint')
                  mycmor%positive = 'up'
-                 var_info(var_found(1))%units = 'kg m-2 s-1'
+                 var_info(var_found(1,1))%units = 'kg m-2 s-1'
               case ('gpp','npp','nbp','nppRoot','nppLeaf','nppWood')
                  mycmor%positive = 'down'
-                 var_info(var_found(1))%units = 'kg m-2 s-1'
+                 var_info(var_found(1,1))%units = 'kg m-2 s-1'
               case ('fVegLitter','fLitterSoil')
-                 var_info(var_found(1))%units = 'kg m-2 s-1'
+                 var_info(var_found(1,1))%units = 'kg m-2 s-1'
               case ('evspsblveg','evspsblsoi','tran')
                  ! mm s-1 is the same as kg m-2 s-1
                  mycmor%positive = 'up'
-                 var_info(var_found(1))%units = 'kg m-2 s-1'
+                 var_info(var_found(1,1))%units = 'kg m-2 s-1'
               case ('mrro','mrros','prveg')
                  ! mm s-1 is the same as kg m-2 s-1
-                 var_info(var_found(1))%units = 'kg m-2 s-1'
+                 var_info(var_found(1,1))%units = 'kg m-2 s-1'
               case ('burntArea')
                  ! Units 'proportion' replaced by 'something'
-                 var_info(var_found(1))%units = '%'
+                 var_info(var_found(1,1))%units = '%'
               case ('lai')
                  ! Units 'none' replaced by '1'
-                 var_info(var_found(1))%units = '1'
+                 var_info(var_found(1,1))%units = '1'
               end select
               !
-              spval=var_info(var_found(1))%missing_value
+              spval=var_info(var_found(1,1))%missing_value
               !
               write(*,*) 'calling cmor_variable:'
               write(*,*) 'table         = ',trim(mycmor%table_file)
               write(*,*) 'table_entry   = ',trim(xw(ixw)%entry)
               write(*,*) 'dimensions    = ',trim(table(itab)%dimensions)
-              write(*,*) 'units         = ',trim(var_info(var_found(1))%units)
+              write(*,*) 'units         = ',trim(var_info(var_found(1,1))%units)
               write(*,*) 'axis_ids      = ',axis_ids(1:4)
-              write(*,*) 'missing_value = ',var_info(var_found(1))%missing_value
+              write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
               write(*,*) 'positive      = ',trim(mycmor%positive)
               write(*,*) 'original_name = ',trim(original_name)
               !
@@ -297,9 +296,9 @@ program Lmon_CMOR
                  cmor_var_id = cmor_variable(                            &
                       table=mycmor%table_file,                           &
                       table_entry=xw(ixw)%entry,                         &
-                      units=var_info(var_found(1))%units,                &
+                      units=var_info(var_found(1,1))%units,                &
                       axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4)/),  &
-                      missing_value=var_info(var_found(1))%missing_value,&
+                      missing_value=var_info(var_found(1,1))%missing_value,&
                       positive=mycmor%positive,                          &
                       original_name=original_name,                       &
                       comment=xw(ixw)%comment)
@@ -307,9 +306,9 @@ program Lmon_CMOR
                  cmor_var_id = cmor_variable(                            &
                       table=mycmor%table_file,                           &
                       table_entry=xw(ixw)%entry,                         &
-                      units=var_info(var_found(1))%units,                &
+                      units=var_info(var_found(1,1))%units,                &
                       axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3)/),  &
-                      missing_value=var_info(var_found(1))%missing_value,&
+                      missing_value=var_info(var_found(1,1))%missing_value,&
                       positive=mycmor%positive,                          &
                       original_name=original_name,                       &
                       comment=xw(ixw)%comment)
@@ -325,9 +324,9 @@ program Lmon_CMOR
                  ! No change
                  !
                  allocate(indat2a(nlons,nlats))
-                 do it=1,ntimes
+                 do it=1,ntimes(1,1)
                     time_counter = it
-                    call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
+                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
                     ! 
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(          &
@@ -349,9 +348,9 @@ program Lmon_CMOR
                  ! Unit change - grams to kg
                  !
                  allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
-                 do it=1,ntimes
+                 do it=1,ntimes(1,1)
                     time_counter = it
-                    call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
+                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
                     indat2a = indat2a/1000.
                     tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(      &
@@ -371,9 +370,9 @@ program Lmon_CMOR
                  ! Unit change - 'proportion' to percentage
                  !
                  allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
-                 do it=1,ntimes
+                 do it=1,ntimes(1,1)
                     time_counter = it
-                    call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
+                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
                     indat2a = indat2a*100.
                     tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(      &
@@ -395,10 +394,10 @@ program Lmon_CMOR
                  !
                  allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
                  allocate(cmordat2d(nlons,nlats))
-                 do it=1,ntimes
+                 do it=1,ntimes(1,1)
                     time_counter = it
-                    call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
-                    call read_var(ncid(2),var_info(var_found(2))%name,indat2b)
+                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                    call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2b)
                     ! 
                     where ((indat2a /= spval).and.(indat2b /= spval))
                        cmordat2d = (indat2a + indat2b)/1000.
@@ -425,11 +424,11 @@ program Lmon_CMOR
                  !
                  allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),indat2c(nlons,nlats))
                  allocate(cmordat2d(nlons,nlats))
-                 do it=1,ntimes
+                 do it=1,ntimes(1,1)
                     time_counter = it
-                    call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
-                    call read_var(ncid(2),var_info(var_found(2))%name,indat2b)
-                    call read_var(ncid(3),var_info(var_found(3))%name,indat2c)
+                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                    call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                    call read_var(ncid(1,3),var_info(var_found(1,3))%name,indat2c)
                     ! 
                     where ((indat2a /= spval).and.(indat2b /= spval).and.(indat2c /= spval))
                        cmordat2d = (indat2a + indat2b + indat2c)/1000.
@@ -455,11 +454,11 @@ program Lmon_CMOR
                  !
                  allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),indat2c(nlons,nlats))
                  allocate(cmordat2d(nlons,nlats))
-                 do it=1,ntimes
+                 do it=1,ntimes(1,1)
                     time_counter = it
-                    call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
-                    call read_var(ncid(2),var_info(var_found(2))%name,indat2b)
-                    call read_var(ncid(3),var_info(var_found(3))%name,indat2c)
+                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                    call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                    call read_var(ncid(1,3),var_info(var_found(1,3))%name,indat2c)
                     ! 
                     where ((indat2a /= spval).and.(indat2b /= spval).and.(indat2c /= spval))
                        cmordat2d = indat2a + indat2b + indat2c
@@ -486,10 +485,10 @@ program Lmon_CMOR
                  allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs))
                  allocate(work3da(nlons,nlats,nlevs),work3db(nlons,nlats,nlevs))
                  allocate(cmordat2d(nlons,nlats))
-                 do it=1,ntimes
+                 do it=1,ntimes(1,1)
                     time_counter = it
-                    call read_var(ncid(1),var_info(var_found(1))%name,indat3a)
-                    call read_var(ncid(2),var_info(var_found(2))%name,indat3b)
+                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                    call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat3b)
                     work3da = 0. ; work3db = 0.
                     do k = 1,4
                        do j = 1,nlats
@@ -520,10 +519,10 @@ program Lmon_CMOR
                  allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs))
                  allocate(work3da(nlons,nlats,nlevs),work3db(nlons,nlats,nlevs))
                  allocate(cmordat2d(nlons,nlats))
-                 do it=1,ntimes
+                 do it=1,ntimes(1,1)
                     time_counter = it
-                    call read_var(ncid(1),var_info(var_found(1))%name,indat3a)
-                    call read_var(ncid(2),var_info(var_found(2))%name,indat3b)
+                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                    call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat3b)
                     work3da = 0. ; work3db = 0.
                     do k = 1,nlevs
                        do j = 1,nlats
@@ -553,9 +552,9 @@ program Lmon_CMOR
                  !
                  allocate(indat3a(nlons,nlats,nlevs),work3da(nlons,nlats,nlevs))
                  allocate(cmordat2d(nlons,nlats))
-                 do it=1,ntimes
+                 do it=1,ntimes(1,1)
                     time_counter = it
-                    call read_var(ncid(1),var_info(var_found(1))%name,indat3a)
+                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
                     allmax(1) = max(allmax(1),maxval(indat3a)) ; allmin(1) = min(allmin(1),minval(indat3a))
                     work3da = 0.
                     do k = 1,nlevs
@@ -601,7 +600,7 @@ program Lmon_CMOR
                  do ic = 1,nchunks
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
-                       call read_var(ncid(1),var_info(var_found(1))%name,indat3a)
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(        &
                             var_id        = cmor_var_id,   &
@@ -646,8 +645,8 @@ program Lmon_CMOR
                  do ic = 1,nchunks
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
-                       call read_var(ncid(1),var_info(var_found(1))%name,indat3a)
-                       call read_var(ncid(2),var_info(var_found(2))%name,indat3b)
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                       call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat3b)
                        where ((indat3a /= spval).and.(indat3b /= spval))
                           cmordat3d = indat3a + indat3b
                        elsewhere
@@ -684,7 +683,7 @@ program Lmon_CMOR
               if (allocated(work3da))   deallocate(work3da)
               if (allocated(work3db))   deallocate(work3db)
               do ivar = 1,xw(ixw)%ncesm_vars
-                 call close_cdf(ncid(ivar))
+                 call close_cdf(ncid(1,ivar))
               enddo
               !
               ! Reset
