@@ -1,0 +1,281 @@
+CASE=xxxCASExxx ; export CASE
+HIST=xxxHISTxxx ; export HIST
+TABL=xxxTABLxxx ; export TABL
+#
+# Template for processing single-field CESM netCDF files into CMIP5 format
+#
+# Extract information from "experiments.txt"
+#
+#  Columns   Field
+#   1 -  40  CCSM case name
+#  45 -  59  model_id (CCSM4, CESM1, CCSM4-BGC, CCSM4-FSCHEM, CCSM4-WACCM, etc)
+#  60 -  61  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  65 -  79  Official MIP name, or very brief description (N/A if not applicable)
+#  80 -  89  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+#  90 -  94  MIP (cm3 or cm5) experiment (N/A if not applicable)
+#  95 - 134  RUN_REFCASE (parent case)
+# 135 - 149  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 150 - 159  years of experiment (YYYY if unknown)
+# 160 - 169  GRID (resolution)
+# 170 - 199  COMPSET (N/A if not applicable)
+# 190 - 209  REPOTAG (N/A if not applicable)
+# 210 - 229  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 230 - 239  MACH (hardware)
+# 240 - end  DOUT_L_MSROOT (history file location on archive)
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if [ -f $EXPFILE ] ; then
+  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c60-  | cut -d" " -f1`
+   DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c65-  | cut -d" " -f1`
+   REALIZN=`egrep "^$CASE " $EXPFILE | cut -c80-  | cut -d" " -f1`
+    PARENT=`egrep "^$CASE " $EXPFILE | cut -c95-  | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c135- | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c150-153`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c155-158`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c160- | cut -d" " -f1`
+   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c170- | cut -d" " -f1`
+   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c190- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c230- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c240- | cut -d" " -f1`
+else
+  echo "Cannot find $EXPFILE. EXIT"
+  ./procstat.sh error process_cmip5_template
+  exit 1
+fi
+#
+if ! [ $LOCATION ] ; then
+  echo "Unable to set variables because "$CASE" not found in $EXPFILE"
+  ./procstat.sh error process_cmip5_template
+  exit 1
+fi
+#
+# Base directory for all CMIP5-related files
+# Directory in which *_CMOR binaries reside
+#
+BASEDIR=${HOME}/CCP_Processing_Suite ; export BASEDIR
+BINDIR=${HOME}/bin                   ; export BINDIR
+#
+# Acquire PROCHOST
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+# resolve machine/site dependencies
+#
+case "$PROCHOST" in 
+  copper* )                                # copper @ CGD/NCAR
+    PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
+    ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
+    ;;
+
+  tramhill* | hurricane* )                 # tramhill/hurricane @ CGD/NCAR
+    PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
+    ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
+    ;;
+
+  mirage* )                                # DASG @ CISL/NCAR
+    PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE
+    ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
+    ;;
+
+  euclid* )                                # euclid @ NERSC
+    PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
+    ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
+    ;;
+
+  lens* )                                  # lens @ ORNL
+    PROCBASE=/tmp/work/$USER/$CASE                     ; export PROCBASE
+    ARCHIVE_BASE=/f2/ccsm/csm                          ; export ARCHIVE_BASE
+    ;;
+  * ) 
+    echo "Unable to continue because "$PROCHOST" not known."
+    ./procstat.sh error process_cmip5_template
+    exit 1 ;;
+esac
+#
+# If CMOR binary and/or run script not available, quit
+#
+if [ ! -f $BINDIR/${TABL}_CMOR ] ; then
+  echo ${BINDIR}"/"${TABL}"_CMOR NOT found. Please compile. Stopping."
+  exit 1
+fi
+if [ ! -f $BASEDIR/CMOR2/Run${TABL} ] ; then
+  echo ${BASEDIR}"/CMOR2/Run"${TABL}" NOT found. Please create. Stopping."
+  exit 1
+fi
+#
+# Strip off first part of $HIST
+#
+HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
+#
+# Convert history type to component name
+#
+case "$HTYP" in
+  cam2 )
+    COMP_NAME=atm ;;
+  clm2 ) 
+    COMP_NAME=lnd ;;
+  pop  ) 
+    COMP_NAME=ocn ;;
+  csim | cice ) 
+    COMP_NAME=ice ;;
+  * ) 
+    echo "Unable to continue because "$HIST" not known."
+    ./procstat.sh error process_cmip5_template
+    exit 1 ;;
+esac
+#
+# Set up local directory names and archival names
+#
+LOCAL_PROC=$PROCBASE/$CASE/$TABL
+ARCHIVE_PROC=$HISTBASE/$CASE/$COMP_NAME/proc/tseries
+ARCHIVE_CMIP5=$ARCHIVE_BASE/CMIP5/output
+#
+# Location of single-field format files on archive
+#
+case "$TABL" in
+  Amon | Lmon | OImon | Omon | cfMon | aero )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/tseries/monthly  ;;
+  day | cfDay )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/tseries/daily   ;;
+  6hrLev | 6hrPlev )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6  ;;
+  3hr | cf3hr )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly3  ;;
+  * ) 
+    echo "Unable to continue because directory for "$TABL" not known."
+    ./procstat.sh error process_cmip5_template
+    exit 1 ;;
+esac
+#
+# Variables that can be processed. Can be manually edited once script created
+#
+case "$TABL" in
+  Amon )
+    CMIP5_VARS="CLDBOT,CLDICE,CLDLIQ,CLDTOP,CLDTOT,CLOUD,CMFMC,CMFMCDZM,FLDS,FLDSC,FLNS,FLNT,FLUT,FLUTC,FREQSI,FREQZM,FSDS,FSDSC,FSNS,FSNSC,FSNT,FSNTOA,FSNTOAC,LHFLX,PRECC,PRECL,PRECSC,PRECSL,PS,PSL,QFLX,QREFHT,RHREFHT,SHFLX,SOLIN,TAUX,TAUY,TGCLDIWP,TGCLDLWP,TMQ,TREFHT,TREFMNAV,TREFMXAV,TS,vOMEGA,vQ,vRELHUM,vT,vU,vV,vZ3" ;; 
+  Lmon )
+    CMIP5_VARS="" ;; 
+  OImon )
+    CMIP5_VARS="" ;; 
+  Omon )
+    CMIP5_VARS="" ;; 
+  cfMon )
+    CMIP5_VARS="" ;; 
+  aero )
+    CMIP5_VARS="" ;; 
+  day )
+    CMIP5_VARS=${CMIP5_VARS}/tseries/daily   ;;
+  cfDay )
+    CMIP5_VARS=${CMIP5_VARS}/tseries/daily   ;;
+  6hrLev | 6hrPlev )
+    CMIP5_VARS=${CMIP5_VARS}/hourly6  ;;
+  3hr )
+    CMIP5_VARS=${CMIP5_VARS}/hourly3  ;;
+  cf3hr )
+    CMIP5_VARS=${CMIP5_VARS}/hourly3  ;;
+  * ) 
+    echo "Unable to continue because variables for "$TABL" not defined."
+    ./procstat.sh error process_cmip5_template
+    exit 1 ;;
+esac
+#
+CACHEDIR=${LOCAL_PROC}/data
+#
+# Print out values
+#
+echo "           Case name : "$CASE ; export CASE
+echo "   History file type : "$HIST ; export HIST
+echo "         CMIP5 table : CMIP5_"$TABL ; export TABL
+echo "     Processed files : "$ARCHIVE_CMIP5  ; export ARCHIVE_CMIP5
+if [ "$LOCATION" = "NC" ] ; then
+  HARDWARE=${HARDWARE}".ucar.edu"
+fi
+if [ "$LOCATION" = "NE" ] ; then
+  HARDWARE=${HARDWARE}".nersc.gov"
+fi
+if [ "$LOCATION" = "OR" ] ; then
+  HARDWARE=${HARDWARE}".ccs.ornl.gov"
+fi
+echo "            Location : "$LOCATION ; export LOCATION
+echo "         Description : "$DESCRIP  ; export DESCRIP
+echo "     Realization/RIP : "$REALIZN  ; export REALIZN
+echo "         Parent case : "$PARENT   ; export PARENT
+echo "         Branch date : "$BRANCH   ; export BRANCH
+echo "          Resolution : "$RES      ; export RES
+echo "            Hardware : "$HARDWARE ; export HARDWARE
+echo "             Compset : "$COMPSET  ; export COMPSET
+echo "      Repository tag : "$REPOTAG  ; export REPOTAG
+echo "          Begin year : "$YEARBEG  ; export YEARBEG
+echo "            End year : "$YEAREND  ; export YEAREND
+echo ""
+echo "   Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo ""
+echo "     Processing host : "$PROCHOST      ; export PROCHOST
+echo " Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
+echo "      Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
+echo "   Archive cache dir : "$CACHEDIR      ; export CACHEDIR
+echo " Processing code dir : "$BASEDIR       ; export BASEDIR
+echo "          Binary dir : "$BINDIR        ; export BINDIR
+#  
+if [ ! -d $LOCAL_PROC ] ; then 
+  mkdir -p $LOCAL_PROC 
+fi
+if [ ! -d $CACHEDIR ] ; then 
+  mkdir -p $CACHEDIR 
+fi
+cd $LOCAL_PROC
+#
+ln -s -f $BASEDIR/mss_list         .
+ln -s -f $BASEDIR/mss_var_read     .
+ln -s -f $BASEDIR/mss_cmip5_write  .
+ln -s -f $BASEDIR/CMOR2/Run${TABL} .
+ln -s -f $BASEDIR/store_to_archive .
+ln -s -f $BASEDIR/procstat.sh      .
+#
+ln -s -f $BINDIR/${TABL}_CMOR      .
+#
+cd $LOCAL_PROC
+#
+# Let 'er rip
+#
+echo "BEGIN : procstat"
+./procstat.sh start
+#
+# Get archive listing
+#
+cd $CACHEDIR
+ARCHIVE_LIST=archive.$CASE.$HIST.VARS
+if [ ! -f $ARCHIVE_LIST ] ; then
+  echo "Getting archival list of "$CASE" "$HIST
+  ./mss_list $ARCHIVE_LIST
+  if [ $? -ne 0 ] ; then
+    echo "Error from mss_list"
+    ./procstat.sh error mss_list
+    exit 1
+  fi
+fi
+#
+# Retrieve files from archive
+#
+#cd $CACHEDIR
+#./mss_vars_read $ARCHIVE_LIST $CMIP5_VARS
+#if [ $? -ne 0 ] ; then
+#  echo "Error from mss_var_read"
+#  ./procstat.sh error mss_var_read
+#  exit 1
+#fi
+##
+## Run CMOR processor code
+##
+#cd $LOCAL_PROC
+#./Run_${TABL} $CASE $HIST
+##
+## Store completed data on archival system
+##
+#./store_cmip5
+#if [ $? -ne 0 ] ; then
+#  echo "store_to_archive failed"
+#  ./procstat.sh error store_to_archive
+#  exit 1
+#fi
+#echo "COMPLETE : procstat"
+#./procstat.sh complete
