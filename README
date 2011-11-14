@@ -1,0 +1,117 @@
+Guidelines on how to use the CCP Processing Suite of scripts and tools
+
+General notes:
+===============================================================================
+1. The purpose of this software is to transpose CESM "history file" output (all
+   fields for a given time) to files containing all times for each field. There
+   are limits to how many time samples can be contained in a single file, due
+   to various restrictions on file sizes, and the software attempts to keep 
+   file sizes within that limit. However, there are various permutations of
+   CESM outputs that can make determining appropriate file sizes difficult from
+   an algorithmic perspective, but the scripts are written in such a way that
+   they can be easily modified to account for those permutations.
+
+2. At this time (November 2011) the code to process the single-field format 
+   data into CMIP5-compliant format is not completely functional. Please do not
+   use that code (under the CMOR2 directory) at this time.
+
+Dependencies:
+===============================================================================
+The transposition software depends only on the NCO (netCDF Operators) software
+package, so it needs to be available somewhere on your system. The location of
+the NCO tools can be set in the software. 
+The CMIP5 processing software has a fair number of dependencies at this time, 
+which are not fully general.
+
+Functionality:
+===============================================================================
+The general functionality is as follows:
+
+1. Read in each netCDF file (or tarfile of netCDF files) from archival storage;
+2. Split each netCDF file into single files for each time-dependent variable,
+   placing them into individual subdirectories, which are named for each field
+   and suffixed by the dimensionality of the field (i.e., T_4d.d, TS_3d.d, &c.)
+   with one file per month of model time;
+3. Step through each per-field subdirectory and concatenate along time, first
+   creating years of data (12 months) then concatenating years into longer time
+   spans;
+4. Write each per-field file back to the archival storage system using the CESM
+   standard for the directory structure.
+
+The key scripts and their purpose are as follows:
+
+Process_Setup   : The script the user calls, to create the processing script.
+
+process_template: Used by Process_Setup, with changes given by the arguments to
+                  Process_Setup, to create the processing script.
+
+experiments.txt : An ASCII-formatted listing of the relevant metadata for each
+                  experiment; details on the format are given in the file
+
+mss_* scripts
+store_to_archive: Interfaces to the archival system
+
+var_split       : Splits the history netCDF file into its component fields
+
+concatenate_data
+var_mon_to_year 
+var_year_to_*   : Concatenates the single-field format files along time
+
+time_split      : Splits daily and subdaily history files into individual files
+                  per time interval (needed due to the month-spanning nature of
+                  most CAM daily and subdaily history files)
+
+days_to_month   : Concatenates files created by time_split into a single file
+                  per month, so regular processing can resume
+
+procstat.sh     : Script that notifies user of start/finish, problems, etc. It
+                  is tied closely to our postprocessing database, so you may
+                  not want to use it.
+
+Key shell script variables in process_template:
+===============================================================================
+BASEDIR : Must be set to ${HOME}/CCP_Processing_Suite; location of all scripts
+          and files
+NCKS    : Location of ncks binary
+NCRCAT  : Location of ncrcat binary
+PROCBASE: Location of local disk cache in which processing with be done\
+LOCALDSK: Location of prestaged history data (if applicable)
+
+ARCHIVE_BASE: Location of archival storage base directory into which output
+              files will be saved 
+
+These can be modified; look at the process_template script to see which other
+shell variables are dependent on them.
+
+Usage:
+===============================================================================
+1. Modify experiments.txt as needed to reflect the specifics for your case. The
+   key fields are:
+   a. CCSM case name;
+   b. Location (creates dependencies for NCO binaries, local disk cache, &c.);
+   c. years of experiment (i.e., the start and end years of the simulation);
+   d. DOUT_L_MSROOT (history file location on archive)
+
+2. Run Process_Setup:
+
+prompt> Process_Setup some_cesm_casename cam2.h0 mon
+
+The arguments are as follows:
+
+$1: The CESM case name to be processed
+$2: The component name (i.e., cam2.h0, pop.h, clm2.h1, etc.)
+$3: The time type of the data (i.e., mon, day, hr6, hr3, etc.)
+
+All are required.
+
+The output is a shell script called "case_name_component_process.sh" that you
+can either start with a "Y" response to the "Run script now?" prompt or else
+not run and manually edit as needed with any other response.
+
+Depending on the volume of data, the speed of archival retrieval and storage,
+system load, etc. the processing can take anywhere from a day or so to a couple
+of weeks.
+
+Support:
+===============================================================================
+Please feel free to email me any questions - Gary Strand, strandwg@ucar.edu
