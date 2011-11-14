@@ -21,7 +21,7 @@ Amon:1.0:hur:atmos:1:vRELHUM:RELHUM interpolated to standard plevs
 Amon:1.0:hurs:atmos:1:RHREFHT:RHREFHT no change
 Amon:1.0:hus:atmos:1:vQ:Q interpolated to standard plevs
 Amon:1.0:huss:atmos:1:QREFHT:QREFHT no change
-Amon:1.0:mc:atmos:3:CMFMC,CMFMCDZM,PS:CMFMC + CMFMCDZM on model levels, no change
+Amon:1.0:mc:atmos:2:CMFMC,CMFMCDZM:CMFMC + CMFMCDZM on model levels, no change
 Amon:1.0:n2oglobal:atmos atmosChem:1:n2ovmr:n2ovmr convert to mass
 Amon:1.0:n2o:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:1.0:prAdjust:atmos:1:UNKNOWN:UNKNOWN

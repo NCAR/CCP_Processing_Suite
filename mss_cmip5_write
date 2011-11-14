@@ -1,0 +1,37 @@
+#!/bin/sh
+# Write files to HPSS
+#
+# Arguments:
+# 1 directory on archival system to write file to
+#
+if [ $# = 1 ] ; then
+  ARCHIVE_D=$1
+else
+  echo "I need an argument; directory on archival system to write files"
+  ./procstat.sh error mss_cmip5_write
+  exit 1
+fi
+#
+# If hsi command exists, use it.
+#
+TEST4HSI=`which hsi 2<&1`
+if [ $? -eq 0 ] ; then
+  HSI=`which hsi`
+  $HSI -q "cd $ARCHIVE_D ; put -r -d -U output"
+  if [ $? -eq 0 ] ; then
+    echo "Files written to "${ARCHIVE_D}" and erased."
+  else
+    $HSI -q "put -d -r -U output"
+    if [ $? -eq 0 ] ; then
+      echo "Files written to your HPSS HOME and erased."
+    else
+      echo "Problem with HPSS on write. Stopping"
+	./procstat.sh error mss_cmip5_write
+      exit 1
+    fi
+  fi      
+else
+  echo "Cannot find hsi command."
+  ./procstat.sh error mss_cmip5_write
+  exit 1
+fi
