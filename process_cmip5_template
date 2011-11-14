@@ -126,17 +126,17 @@ esac
 #
 # Set up local directory names and archival names
 #
-LOCAL_PROC=$PROCBASE/$CASE/$TABL
+LOCAL_PROC=$PROCBASE/$TABL
 ARCHIVE_PROC=$HISTBASE/$CASE/$COMP_NAME/proc/tseries
-ARCHIVE_CMIP5=$ARCHIVE_BASE/CMIP5/output
+ARCHIVE_CMIP5=$ARCHIVE_BASE/CMIP5
 #
 # Location of single-field format files on archive
 #
 case "$TABL" in
   Amon | Lmon | OImon | Omon | cfMon | aero )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/tseries/monthly  ;;
+    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly  ;;
   day | cfDay )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/tseries/daily   ;;
+    ARCHIVE_PROC=${ARCHIVE_PROC}/daily   ;;
   6hrLev | 6hrPlev )
     ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6  ;;
   3hr | cf3hr )
@@ -163,15 +163,15 @@ case "$TABL" in
   aero )
     CMIP5_VARS="" ;; 
   day )
-    CMIP5_VARS=${CMIP5_VARS}/tseries/daily   ;;
+    CMIP5_VARS="" ;; 
   cfDay )
-    CMIP5_VARS=${CMIP5_VARS}/tseries/daily   ;;
+    CMIP5_VARS="" ;; 
   6hrLev | 6hrPlev )
-    CMIP5_VARS=${CMIP5_VARS}/hourly6  ;;
+    CMIP5_VARS="" ;; 
   3hr )
-    CMIP5_VARS=${CMIP5_VARS}/hourly3  ;;
+    CMIP5_VARS="" ;; 
   cf3hr )
-    CMIP5_VARS=${CMIP5_VARS}/hourly3  ;;
+    CMIP5_VARS="" ;; 
   * ) 
     echo "Unable to continue because variables for "$TABL" not defined."
     ./procstat.sh error process_cmip5_template
@@ -215,6 +215,7 @@ echo "      Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
 echo "   Archive cache dir : "$CACHEDIR      ; export CACHEDIR
 echo " Processing code dir : "$BASEDIR       ; export BASEDIR
 echo "          Binary dir : "$BINDIR        ; export BINDIR
+echo "         CMOR binary : "$BINDIR"/"${TABL}"_CMOR"
 #  
 if [ ! -d $LOCAL_PROC ] ; then 
   mkdir -p $LOCAL_PROC 
@@ -224,6 +225,7 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
+ln -s -f $BASEDIR/experiments.txt  .
 ln -s -f $BASEDIR/mss_list         .
 ln -s -f $BASEDIR/mss_var_read     .
 ln -s -f $BASEDIR/mss_cmip5_write  .
@@ -237,8 +239,8 @@ cd $LOCAL_PROC
 #
 # Let 'er rip
 #
-echo "BEGIN : procstat"
-./procstat.sh start
+#echo "BEGIN : procstat"
+#./procstat.sh start
 #
 # Get archive listing
 #
@@ -246,7 +248,7 @@ cd $CACHEDIR
 ARCHIVE_LIST=archive.$CASE.$HIST.VARS
 if [ ! -f $ARCHIVE_LIST ] ; then
   echo "Getting archival list of "$CASE" "$HIST
-  ./mss_list $ARCHIVE_LIST
+  ../mss_list $ARCHIVE_LIST
   if [ $? -ne 0 ] ; then
     echo "Error from mss_list"
     ./procstat.sh error mss_list
@@ -257,7 +259,7 @@ fi
 # Retrieve files from archive
 #
 #cd $CACHEDIR
-#./mss_vars_read $ARCHIVE_LIST $CMIP5_VARS
+#./mss_var_read $ARCHIVE_PROC $CMIP5_VARS
 #if [ $? -ne 0 ] ; then
 #  echo "Error from mss_var_read"
 #  ./procstat.sh error mss_var_read

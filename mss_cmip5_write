@@ -14,10 +14,11 @@ fi
 #
 # If hsi command exists, use it.
 #
+pwd
 TEST4HSI=`which hsi 2<&1`
 if [ $? -eq 0 ] ; then
   HSI=`which hsi`
-  $HSI -q "cd $ARCHIVE_D ; put -r -d -U output"
+  $HSI -q "mkdir -m 775 -p $ARCHIVE_D ; cd $ARCHIVE_D ; put -d -P -p -R -M 644 -U output ; chmod -R 2775 output"
   if [ $? -eq 0 ] ; then
     echo "Files written to "${ARCHIVE_D}" and erased."
   else
