@@ -51,8 +51,10 @@ subroutine get_atm_grid
   call read_var(gridid,'hybm',b_coeff)
   call read_var(gridid,'hybi',b_coeff_bnds)
   call read_var(gridid,'P0'  ,p0)
-  atm_levs      = atm_levs      / 1000.
-  atm_levs_bnds = atm_levs_bnds / 1000.
+  !
+  ! Convert Pa values to mb
+  !
+  p0            = p0            * 0.01
   !
   ! Transfer bounds for lons and lats
   !

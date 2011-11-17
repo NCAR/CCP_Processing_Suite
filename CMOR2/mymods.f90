@@ -101,19 +101,19 @@ end module files_info
 ! Grid information
 !
 module grid_info
-  double precision,dimension(:),    allocatable::atm_lats,atm_lons,atm_levs,atm_levs_bnds,atm_plevs,atm_ilevs,atm_ilevs_bnds
-  double precision,dimension(:,:),  allocatable::atm_lats_bnds,atm_lons_bnds
-  double precision,dimension(:),    allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
-  real            ,dimension(:,:),  allocatable::ice_lats,ice_lons
-  real            ,dimension(:,:,:),allocatable::ice_lats_bnds,ice_lons_bnds
-  real            ,dimension(:),    allocatable::ocn_levs,ocn_trans_lats,ocn_trans_levs
-  real            ,dimension(:,:),  allocatable::ocn_levs_bnds,ocn_trans_lats_bnds,ocn_trans_levs_bnds
-  real            ,dimension(:,:,:),allocatable::ocn_lats_bnds,ocn_lons_bnds
-  real            ,dimension(:,:),  allocatable::ocn_lats,ocn_lons
-  real            ,dimension(:),    allocatable::lnd_lats,lnd_lons,lnd_levs,lnd_levs_bnds
-  real            ,dimension(:,:,:),allocatable::lnd_zsoi,lnd_dzsoi  ! CLM soil depth (m), CLM soil layer thickness (m)
-  real            ,dimension(:,:),  allocatable::lnd_lats_bnds,lnd_lons_bnds
-  double precision::p0
+  real,dimension(:),    allocatable::atm_lats,atm_lons,atm_levs,atm_levs_bnds,atm_plevs,atm_ilevs,atm_ilevs_bnds
+  real,dimension(:,:),  allocatable::atm_lats_bnds,atm_lons_bnds
+  real,dimension(:),    allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
+  real,dimension(:,:),  allocatable::ice_lats,ice_lons
+  real,dimension(:,:,:),allocatable::ice_lats_bnds,ice_lons_bnds
+  real,dimension(:),    allocatable::ocn_levs,ocn_trans_lats,ocn_trans_levs
+  real,dimension(:,:),  allocatable::ocn_levs_bnds,ocn_trans_lats_bnds,ocn_trans_levs_bnds
+  real,dimension(:,:,:),allocatable::ocn_lats_bnds,ocn_lons_bnds
+  real,dimension(:,:),  allocatable::ocn_lats,ocn_lons
+  real,dimension(:),    allocatable::lnd_lats,lnd_lons,lnd_levs,lnd_levs_bnds
+  real,dimension(:,:,:),allocatable::lnd_zsoi,lnd_dzsoi  ! CLM soil depth (m), CLM soil layer thickness (m)
+  real,dimension(:,:),  allocatable::lnd_lats_bnds,lnd_lons_bnds
+  real::p0
   integer::nlons,nlats,nlevs,nilevs,nplevs,naxes,zfactor_id
   integer::nlats_trans,nmoc_z,ntrans_reg,nmoc_comp,ntrans_comp
   integer,dimension(1)::grid_id

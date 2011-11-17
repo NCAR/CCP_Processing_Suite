@@ -73,6 +73,7 @@ OBJ	= mymods.o \
 	  add_global_metadata.o \
 	  file_output_times.o \
 	  parse_rip.o \
+	  vertintp.o \
 	  parse_ncfile.o \
 	  get_ice_grid.o \
 	  get_ocn_grid.o \
@@ -118,6 +119,9 @@ load_expt.o: load_expt.f90 mymods.o
 
 file_output_times.o: file_output_times.f90 mymods.o
 	$(FC) $(FFLAGS) $(LOCINC) -c file_output_times.f90
+
+vertintp.o: vertintp.f90 mymods.o
+	$(FC) $(FFLAGS) $(NCFINC) -c vertintp.f90
 
 get_atm_grid.o: get_atm_grid.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c get_atm_grid.f90

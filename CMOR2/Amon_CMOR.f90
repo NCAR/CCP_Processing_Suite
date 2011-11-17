@@ -20,7 +20,7 @@ program Amon_CMOR
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag,cmor_var_id
-  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,cmordat2d
+  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,cmordat2d,psdata
   real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::time_bnds
@@ -151,21 +151,8 @@ program Amon_CMOR
                     endif
                  enddo
                  if (var_found(1,ivar) == 0) then
-                    !
-                    ! Not found on 1st pass, try prepending 'v' (for vertically interpolated fields)
-                    !
-                    do n=1,var_counter
-                       if ('v'//trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
-                          var_found(1,ivar) = n
-                       endif
-                    enddo
-                    if (var_found(1,ivar) == 0) then
-                       !
-                       ! Still not found - quit
-                       !
-                       write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
-                       stop
-                    endif
+                    write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
+                    stop
                  endif
                  !
                  if (.not.(allocated(time)))      then
@@ -470,7 +457,76 @@ program Amon_CMOR
                     endif
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
-              case ('ta','ua','va','hus','hur','wap','zg','tro3','tro3Clim','co2','co2Clim','ch4','ch4Clim','n2o','n2oClim')
+              case ('ta','ua','va','hus','hur','wap','zg')
+                 !
+                 ! Vertically interpolate to standard pressure levels
+                 !
+                 allocate(indat3a(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nplevs))
+                 allocate(psdata(nlons,nlats))
+                 !
+                 ! Determine amount of data to write, to keep close to ~2 GB limit
+                 !
+                 if (ntimes(1,1) == 1872) then ! 20C run, 50 year chunks
+!                    nchunks = 4
+!                    tidx1(1:nchunks) = (/  1, 481, 961,1441/) ! 1850, 1890, 1930, 1970
+!                    tidx2(1:nchunks) = (/480, 960,1440,1872/) ! 1889, 1929, 1969, 2005
+                    nchunks = 3
+                    tidx1(1:nchunks) = (/  1, 601,1201/) ! 1850, 1900, 1951
+                    tidx2(1:nchunks) = (/600,1200,1872/) ! 1899, 1950, 2005
+                 endif
+                 if (ntimes(1,1) == 1152) then  ! RCP run from 2005, exclude 2005
+                    nchunks = 3
+                    tidx1(1:nchunks) = (/ 13, 493, 973/)      ! 2006, 2046, 2086
+                    tidx2(1:nchunks) = (/492, 972,1152/)      ! 2045, 2085, 2100
+                 endif
+                 if (ntimes(1,1) == 1140) then  ! RCP run from 2006, use all times
+                    nchunks = 3
+                    tidx1(1:nchunks) = (/  1, 481, 961/)      ! 2006, 2046, 2086
+                    tidx2(1:nchunks) = (/480, 960,1140/)      ! 2045, 2085, 2100
+                 endif
+                 write(*,*) 'Chunks: ',tidx1(1:nchunks),tidx2(1:nchunks)
+                 do ic = 1,nchunks
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                       call read_var(ncid(1,2),var_info(var_found(1,2))%name,psdata)
+                       !
+                       ! Convert PS to mb from Pa
+                       !
+                       psdata = psdata * 0.01
+                       !
+                       cmordat3d = spval
+                       !
+                       ! Do vertical interpolation to pressure levels
+                       !
+                       call vertint(indat3a,cmordat3d,atm_levs,atm_plevs*0.01,psdata,spval,nlons,nlats,nlevs,nlevs+1,nplevs)
+                       !
+                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(        &
+                            var_id        = cmor_var_id,   &
+                            data          = cmordat3d, & ! Upside-down
+                            ntimes_passed = 1,         &
+                            time_vals     = tval,      &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
+                    enddo
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
+                    endif
+                 enddo
+              case ('tro3','tro3Clim','co2','co2Clim','ch4','ch4Clim','n2o','n2oClim')
                  !
                  ! Pass variable straight through, break up into nicely-sized chunks along time
                  !
