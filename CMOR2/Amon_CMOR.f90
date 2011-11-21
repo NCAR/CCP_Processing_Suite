@@ -106,6 +106,14 @@ program Amon_CMOR
                       exp(exp_found)%begyr,exp(exp_found)%endyr
                  inquire(file=trim(ncfile(1,ivar)),exist=continue(ivar))
                  if (.not.(continue(ivar))) then
+                    write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
+                         trim(case_read),&
+                         trim(comp_read),&
+                         trim(xw(ixw)%cesm_vars(ivar)),&
+                         exp(exp_found)%begyr+1,exp(exp_found)%endyr
+                    inquire(file=trim(ncfile(1,ivar)),exist=continue(ivar))
+                 endif
+                 if (.not.(continue(ivar))) then
                     write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''-01_cat_'',i4.4,''-12.nc'')') &
                          trim(case_read),&
                          trim(comp_read),&
@@ -480,9 +488,9 @@ program Amon_CMOR
                     tidx2(1:nchunks) = (/492, 972,1152/)      ! 2045, 2085, 2100
                  endif
                  if (ntimes(1,1) == 1140) then  ! RCP run from 2006, use all times
-                    nchunks = 3
-                    tidx1(1:nchunks) = (/  1, 481, 961/)      ! 2006, 2046, 2086
-                    tidx2(1:nchunks) = (/480, 960,1140/)      ! 2045, 2085, 2100
+                    nchunks = 2
+                    tidx1(1:nchunks) = (/  1, 529/)      ! 2006, 2050
+                    tidx2(1:nchunks) = (/528,1140/)      ! 2049, 2100
                  endif
                  write(*,*) 'Chunks: ',tidx1(1:nchunks),tidx2(1:nchunks)
                  do ic = 1,nchunks

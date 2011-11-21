@@ -18,9 +18,6 @@ subroutine vertint(dati,dato,plevi,plevo,psfc,spvl,nlon,nlat,nlevi,nlevip1,nlevo
   integer::i,j,k,kp,kpi
 !****
 !
-  write(*,*) 'vertint: ',spvl,nlon,nlat,nlevi,nlevip1,nlevo
-  write(*,*) 'vertint: ',plevi
-  write(*,*) 'vertint: ',plevo
   do j = 1,nlat
      do i = 1,nlon
         do k = 1,nlevi
