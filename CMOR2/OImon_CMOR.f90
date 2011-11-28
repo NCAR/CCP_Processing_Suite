@@ -14,12 +14,13 @@ program OImon_CMOR
   use grid_info
   use files_info
   use mycmor_info
+  use output_times_info
   !
   implicit none
   !
   !  uninitialized variables used in communicating with CMOR:
   !
-  integer::error_flag,var_ids
+  integer::error_flag,cmor_var_id
   real,dimension(:,:),allocatable::indat2anh,indat2ash,indat2bnh,indat2bsh,cmordat
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::time_bnds
@@ -28,9 +29,10 @@ program OImon_CMOR
   !
   ! Other variables
   !
-  character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile
-  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw
+  character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
+  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ic
   integer,dimension(:),allocatable::i_indices,j_indices
+  real::spval
   logical::all_continue
   !
   character(len=256),dimension(10)::ncfilenh,ncfilesh
@@ -179,11 +181,9 @@ program OImon_CMOR
                  !
                  if (.not.(allocated(time)))      then
                     allocate(time(ntimes(1,1)))
-                    write(*,*) 'allocate(time(ntimes(1,1)))'
                  endif
                  if (.not.(allocated(time_bnds))) then
                     allocate(time_bnds(2,ntimes(1,1)))
-                    write(*,*) 'allocate(time_bnds(2,ntimes(1,1)))'
                  endif
                  !
                  do n=1,ntimes(1,1)
@@ -299,78 +299,94 @@ program OImon_CMOR
                  var_info(var_found(1,1))%units = 'kg m-2 s-1'
               end select
               !
-              write(*,*) 'cmor_variable:'
-              write(*,*) 'varids=',var_ids
-              write(*,*) 'table=',trim(mycmor%table_file)
-              write(*,*) 'table_entry=',trim(xw(ixw)%entry)
-              write(*,*) 'dimensions=',trim(table(itab)%dimensions)
-              write(*,*) 'axis_ids=',axis_ids
-              write(*,*) 'grid_id=',grid_id
-              write(*,*) 'units=',trim(var_info(var_found(1,1))%units)
-              write(*,*) 'missing_value=',var_info(var_found(1,1))%missing_value
-              write(*,*) 'positive=',trim(mycmor%positive)
-              write(*,*) 'original_name=',trim(original_name)
+              spval=var_info(var_found(1,1))%missing_value
               !
-              var_ids = cmor_variable(                                &
-                   table=mycmor%table_file,                           &
-                   table_entry=xw(ixw)%entry,                         &
-                   units=var_info(var_found(1,1))%units,                &
-                   axis_ids=(/grid_id(1),axis_ids(3)/),               &
-                   missing_value=var_info(var_found(1,1))%missing_value,&
-                   positive=mycmor%positive,                          &
-                   original_name=original_name,                       &
+              write(*,*) 'calling cmor_variable:'
+              write(*,*) 'table         = ',trim(mycmor%table_file)
+              write(*,*) 'table_entry   = ',trim(xw(ixw)%entry)
+              write(*,*) 'dimensions    = ',trim(table(itab)%dimensions)
+              write(*,*) 'units         = ',trim(var_info(var_found(1,1))%units)
+              write(*,*) 'axis_ids      = ',axis_ids(1:4)
+              write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
+              write(*,*) 'positive      = ',trim(mycmor%positive)
+              write(*,*) 'original_name = ',trim(original_name)
+              !
+              cmor_var_id = cmor_variable(                &
+                   table=mycmor%table_file,               &
+                   table_entry=xw(ixw)%entry,             &
+                   units=var_info(var_found(1,1))%units,  &
+                   axis_ids=(/grid_id(1),axis_ids(3)/),   &
+                   missing_value=spval,                   &
+                   positive=mycmor%positive,              &
+                   original_name=original_name,           &
                    comment=xw(ixw)%comment)
               !
               ! Cycle through time
               !
-              time_loop: DO it=1, ntimes(1,1)
-                 time_counter = it
-                 if (xw(ixw)%ncesm_vars == 1) then
-                    call read_var(ncidnh(1),var_info(var_found(1,1))%name,indat2anh)
-                    call read_var(ncidsh(1),var_info(var_found(1,1))%name,indat2ash)
-!                    write(*,'(''Reading NH and SH '',a20,'' T= '',i10)') trim(var_info(var_found(1,1))%name),it
-                    cmordat(:,  1: 76) = indat2ash(:,1: 76)
-                    cmordat(:,281:384) = indat2anh(:,1:104)
+              if (ntimes(1,1) == 6012) then ! pre-industrial control, 501 years, 250 and 251 year chunks
+                 nchunks(1) = 2
+                 tidx1(1:nchunks(1)) = (/   1,3001/) ! 0800, 1050
+                 tidx2(1:nchunks(1)) = (/3000,6012/) ! 1049, 1300
+              endif
+              do ic = 1,nchunks(1)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    if (xw(ixw)%ncesm_vars == 1) then
+                       call read_var(ncidnh(1),var_info(var_found(1,1))%name,indat2anh)
+                       call read_var(ncidsh(1),var_info(var_found(1,1))%name,indat2ash)
+                       cmordat(:,  1: 76) = indat2ash(:,1: 76)
+                       cmordat(:,281:384) = indat2anh(:,1:104)
+                    endif
+                    !
+                    ! Perform necessary derivations
+                    !
+                    select case (xw(ixw)%entry)
+                    case ('bmelt','evap','grCongel','grFrazil','pr','prsn','snomelt','snoToIce','tmelt')
+                       ! Convert cm day-1 to kg m-2 s-1
+                       cmordat = cmordat * (1./86400.) * (1./100.) * 1000.
+                    end select
+                    !
+                    ! Write 'em, Dano!
+                    !
+                    tval(1)   = time(it)
+                    tbnd(1,1) = time_bnds(1,it)
+                    tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(      &
+                         var_id        = cmor_var_id, &
+                         data          = cmordat, &
+                         ntimes_passed = 1,       &
+                         time_vals     = tval,    &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 !
+                 if (ic < nchunks(1)) then
+                    cmor_filename(1:) = ' '
+                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       stop
+                    else
+                       write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    endif
                  endif
-                 !
-                 ! Perform necessary derivations
-                 !
-                 select case (xw(ixw)%entry)
-                 case ('bmelt','evap','grCongel','grFrazil','pr','prsn','snomelt','snoToIce','tmelt')
-                    ! Convert cm day-1 to kg m-2 s-1
-                    cmordat = cmordat * (1./86400.) * (1./100.) * 1000.
-                 end select
-                 !
-                 ! Write 'em, Dano!
-                 !
-                 tval(1)   = time(it)
-                 tbnd(1,1) = time_bnds(1,it)
-                 tbnd(2,1) = time_bnds(2,it)
-                 error_flag = cmor_write(      &
-                      var_id        = var_ids, &
-                      data          = cmordat, &
-                      ntimes_passed = 1,       &
-                      time_vals     = tval,    &
-                      time_bnds     = tbnd)
-                 if (error_flag < 0) then
-                    write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
-                    write(*,*) 'Processing time sample: ', time
-                    stop
-                 endif
-              end do time_loop
+              enddo
+              if (allocated(indat2anh)) deallocate(indat2anh)
+              if (allocated(indat2bnh)) deallocate(indat2bnh)
+              if (allocated(indat2ash)) deallocate(indat2ash)
+              if (allocated(indat2bsh)) deallocate(indat2bsh)
+              if (allocated(cmordat))   deallocate(cmordat)
               do ivar = 1,xw(ixw)%ncesm_vars
                  call close_cdf(ncidnh(ivar))
                  call close_cdf(ncidsh(ivar))
               enddo
               !
-              ! Close all files opened by CMOR.
+              ! Reset
               !
-              error_flag = cmor_close()
-              write(*,'(''********************************************************************************'')')
-              write(*,'(''********************************************************************************'')')
-              write(*,'(''CMOR executed to completion; T#: '',i5,'' X#: '',i5)') itab,ixw
-              write(*,'(''********************************************************************************'')')
-              write(*,'(''********************************************************************************'')')
               time_counter = 0
               var_counter  = 0
               error_flag   = 0
@@ -379,29 +395,14 @@ program OImon_CMOR
               mycmor%positive = ' '
               original_name= ' '
               !
-              if (allocated(time)) then
-                 deallocate(time)
-                 write(*,*) 'deallocate(time)'
-              endif
-              if (allocated(time_bnds)) then
-                 deallocate(time_bnds)
-                 write(*,*) 'deallocate(time_bnds)'
-              endif
-              if (allocated(indat2anh)) then
-                 deallocate(indat2anh)
-                 write(*,*) 'deallocate(indat2anh)'
-              endif
-              if (allocated(indat2ash)) then
-                 deallocate(indat2ash)
-                 write(*,*) 'deallocate(indat2ash)'
-              endif
-              if (allocated(indat2bnh)) then
-                 deallocate(indat2bnh)
-                 write(*,*) 'deallocate(indat2bnh)'
-              endif
-              if (allocated(indat2bsh)) then
-                 deallocate(indat2bsh)
-                 write(*,*) 'deallocate(indat2bsh)'
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
+              !
+              error_flag = cmor_close()
+              if (error_flag < 0) then
+                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              else
+                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
               endif
            endif
         endif

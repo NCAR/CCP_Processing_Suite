@@ -14,6 +14,7 @@ program Amon_CMOR
   use xwalk_info
   use grid_info
   use mycmor_info
+  use output_times_info
   !
   implicit none
   !
@@ -34,12 +35,7 @@ program Amon_CMOR
   real::spval
   logical::all_continue
   !
-  integer,dimension(100)::tidx1,tidx2
   logical,dimension(10)::continue
-  !
-  ! Initialize time indices
-  ! 
-  tidx1 = -999 ; tidx2 = -999
   !
   ! GO!
   !
@@ -512,7 +508,7 @@ program Amon_CMOR
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(        &
                             var_id        = cmor_var_id,   &
-                            data          = cmordat3d, & ! Upside-down
+                            data          = cmordat3d, &
                             ntimes_passed = 1,         &
                             time_vals     = tval,      &
                             time_bnds     = tbnd)
