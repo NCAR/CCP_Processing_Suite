@@ -102,14 +102,11 @@ read DORUN
 if [ "$DORUN" = "Y" ] ; then
   PROCHOST=`hostname`;export PROCHOST
   echo "Running "${CCPS_SCRIPT}
-  case "$PROCHIST" in
-    copper* | tramhill* | hurricane* | mirage* | euclid* )
-      ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
-    lens* )                                # lens @ ORNL
+  case "$PROCHOST" in
+    lens* )
       ( /usr/bin/qsub ./${CCPS_SCRIPT} ) ;;
     * )
-      echo "Unable to run script because "$PROCHOST" unknown."
-      exit 1 ;;
+      ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
   esac
 else
   echo "Will not run "${CCPS_SCRIPT}
