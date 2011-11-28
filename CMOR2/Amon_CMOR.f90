@@ -483,9 +483,9 @@ program Amon_CMOR
                     tidx2(1:nchunks) = (/600,1200,1872/) ! 1899, 1950, 2005
                  endif
                  if (ntimes(1,1) == 1152) then  ! RCP run from 2005, exclude 2005
-                    nchunks = 3
-                    tidx1(1:nchunks) = (/ 13, 493, 973/)      ! 2006, 2046, 2086
-                    tidx2(1:nchunks) = (/492, 972,1152/)      ! 2045, 2085, 2100
+                    nchunks = 2
+                    tidx1(1:nchunks) = (/ 13, 541/)      ! 2006, 2050
+                    tidx2(1:nchunks) = (/540,1152/)      ! 2049, 2100
                  endif
                  if (ntimes(1,1) == 1140) then  ! RCP run from 2006, use all times
                     nchunks = 2

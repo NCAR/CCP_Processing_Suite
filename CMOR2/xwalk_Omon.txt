@@ -1,3 +1,32 @@
 Omon:1.0:tos:ocean:1:TEMP:TEMP at topmost level, units from C to K
 Omon:1.0:thetao:ocean:1:TEMP:TEMP no change, units from C to K
 Omon:1.0:msftmyz:ocean:1:MOC:MOC converted from Sv to kg s-1
+Omon:1.0:soga:ocean:1:SALT:SALT weighted global average
+Omon:1.0:so:ocean:1:SALT:SALT
+Omon:1.0:thetaoga:ocean:1:TEMP:TEMP weighted global average, units C to K
+Omon:1.0:thkcello:ocean:1:dz:dz units from cm to m
+Omon:1.0:uo:ocean:1:UVEL:UVEL units from cm s-1 to m s-1
+Omon:1.0:volo:ocean:1:PD:PD
+Omon:1.0:vo:ocean:1:VVEL:VVEL units from cm s-1 to m s-1
+Omon:1.0:wmosq:ocean:2:WVEL2,PD:WVEL2,PD
+Omon:1.0:wmo:ocean:2:WVEL,PD:WVEL,PD
+Omon:1.0:zosga:ocean:4:SSH,PD,TEMP,SALT:SSH,PD,TEMP,SALT
+Omon:1.0:zos:ocean:4:SSH,PD,TEMP,SALT:SSH,PD,TEMP,SALT
+Omon:1.0:zossga:ocean:4:SSH,PD,TEMP,SALT:SSH,PD,TEMP,SALT
+Omon:1.0:zostoga:ocean:4:SSH,PD,TEMP,SALT:SSH,PD,TEMP,SALT
+Omon:2.0:hfnorth:ocean:1:N_HEAT:N_HEAT
+Omon:2.0:hfss:ocean:1:SENH_F:SENH_F
+Omon:2.0:pr:ocean:1:PREC_F:PREC_F
+Omon:2.0:prsn:ocean:1:SNOW_F:SNOW_F
+Omon:2.0:rlds:ocean:2:LWUP_F,LWDN_F:LWUP_F,LWDN_F
+Omon:2.0:rsds:ocean:1:SHF_QSW:SHF_QSW
+Omon:2.0:rsntds:ocean:1:QSW_HTP:QSW_HTP
+Omon:2.0:tauuo:ocean:1:TAUX:TAUX
+Omon:2.0:tauvo:ocean:1:TAUY:TAUY
+Omon:2.0:umo:ocean:2:UVEL,PD,DXU:UVEL,PD,DXU
+Omon:2.0:vmo:ocean:2:VVEL,PD,DYU:VVEL,PD,DYU
+Omon:3.0:agessc:ocean:1:IAGE:IAGE
+Omon:3.0:cfc11:ocean:1:CFC11:CFC11
+Omon:3.0:msftbarot:ocean:1:BSF:BSF
+Omon:3.0:rhopoto:ocean:1:PD:PD
+Omon:3.0:tossq:ocean:1:TEMP2:TEMP2
