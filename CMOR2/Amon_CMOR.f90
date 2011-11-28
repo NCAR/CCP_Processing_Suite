@@ -31,7 +31,7 @@ program Amon_CMOR
   ! Other variables
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
-  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ilev,nchunks,ic
+  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ilev,ic
   real::spval
   logical::all_continue
   !
@@ -272,7 +272,7 @@ program Amon_CMOR
               write(*,*) 'table         = ',trim(mycmor%table_file)
               write(*,*) 'table_entry   = ',trim(xw(ixw)%entry)
               write(*,*) 'dimensions    = ',trim(table(itab)%dimensions)
-              write(*,*) 'units         = ',trim(var_info(var_found(1,1))%units)
+              write(*,*) 'units         = ',var_info(var_found(1,1))%units(1:20)
               write(*,*) 'axis_ids      = ',axis_ids(1:4)
               write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
               write(*,*) 'positive      = ',trim(mycmor%positive)
@@ -379,13 +379,11 @@ program Amon_CMOR
                     call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
                     call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2b)
                     ! 
-!                    write(*,*) 'pr 0: ',minval(indat2a+indat2b,mask=indat2a/=spval),maxval(indat2a+indat2b,mask=indat2a/=spval)
                     where ((indat2a /= spval).and.(indat2b /= spval))
                        cmordat2d = (indat2a + indat2b)*1000.
                     elsewhere
                        cmordat2d = spval
                     endwhere
-!                    write(*,*) 'pr 1: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(      &
                          var_id        = cmor_var_id, &
@@ -471,25 +469,32 @@ program Amon_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  if (ntimes(1,1) == 1872) then ! 20C run, 50 year chunks
-!                    nchunks = 4
-!                    tidx1(1:nchunks) = (/  1, 481, 961,1441/) ! 1850, 1890, 1930, 1970
-!                    tidx2(1:nchunks) = (/480, 960,1440,1872/) ! 1889, 1929, 1969, 2005
-                    nchunks = 3
-                    tidx1(1:nchunks) = (/  1, 601,1201/) ! 1850, 1900, 1951
-                    tidx2(1:nchunks) = (/600,1200,1872/) ! 1899, 1950, 2005
+                    nchunks(1) = 3
+                    tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
+                    tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1950, 2005
                  endif
                  if (ntimes(1,1) == 1152) then  ! RCP run from 2005, exclude 2005
-                    nchunks = 2
-                    tidx1(1:nchunks) = (/ 13, 541/)      ! 2006, 2050
-                    tidx2(1:nchunks) = (/540,1152/)      ! 2049, 2100
+                    nchunks(1) = 2
+                    tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
+                    tidx2(1:nchunks(1)) = (/540,1152/)      ! 2049, 2100
                  endif
                  if (ntimes(1,1) == 1140) then  ! RCP run from 2006, use all times
-                    nchunks = 2
-                    tidx1(1:nchunks) = (/  1, 529/)      ! 2006, 2050
-                    tidx2(1:nchunks) = (/528,1140/)      ! 2049, 2100
+                    nchunks(1) = 2
+                    tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
+                    tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
                  endif
-                 write(*,*) 'Chunks: ',tidx1(1:nchunks),tidx2(1:nchunks)
-                 do ic = 1,nchunks
+                 if (ntimes(1,1) == 6012) then  ! pre-industrial control, 50 year chunks
+                    nchunks(1) = 10
+                    tidx1(1) =   1
+                    tidx2(1) = 600
+                    do ic = 2,nchunks(1)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 599
+                    enddo
+                    tidx2(nchunks(1)) = ntimes(1,1)
+                 endif
+                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
@@ -519,7 +524,7 @@ program Amon_CMOR
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                     !
-                    if (ic < nchunks) then
+                    if (ic < nchunks(1)) then
                        cmor_filename(1:) = ' '
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
@@ -539,22 +544,32 @@ program Amon_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  if (ntimes(1,1) == 1872) then ! 20C run, 40 year chunks
-                    nchunks = 4
-                    tidx1(1:nchunks) = (/  1, 481, 961,1441/) ! 1850, 1890, 1930, 1970
-                    tidx2(1:nchunks) = (/480, 960,1440,1872/) ! 1889, 1929, 1969, 2005
+                    nchunks(1) = 4
+                    tidx1(1:nchunks(1)) = (/  1, 481, 961,1441/) ! 1850, 1890, 1930, 1970
+                    tidx2(1:nchunks(1)) = (/480, 960,1440,1872/) ! 1889, 1929, 1969, 2005
                  endif
                  if (ntimes(1,1) == 1152) then  ! RCP run from 2005, exclude 2005
-                    nchunks = 3
-                    tidx1(1:nchunks) = (/ 13, 493, 973/)      ! 2006, 2046, 2086
-                    tidx2(1:nchunks) = (/492, 972,1152/)      ! 2045, 2085, 2100
+                    nchunks(1) = 3
+                    tidx1(1:nchunks(1)) = (/ 13, 493, 973/)      ! 2006, 2046, 2086
+                    tidx2(1:nchunks(1)) = (/492, 972,1152/)      ! 2045, 2085, 2100
                  endif
                  if (ntimes(1,1) == 1140) then  ! RCP run from 2006, use all times
-                    nchunks = 3
-                    tidx1(1:nchunks) = (/  1, 481, 961/)      ! 2006, 2046, 2086
-                    tidx2(1:nchunks) = (/480, 960,1140/)      ! 2045, 2085, 2100
+                    nchunks(1) = 3
+                    tidx1(1:nchunks(1)) = (/  1, 481, 961/)      ! 2006, 2046, 2086
+                    tidx2(1:nchunks(1)) = (/480, 960,1140/)      ! 2045, 2085, 2100
                  endif
-                 write(*,*) 'Chunks: ',tidx1(1:nchunks),tidx2(1:nchunks)
-                 do ic = 1,nchunks
+                 if (ntimes(1,1) == 6012) then  ! pre-industrial control, 50 year chunks
+                    nchunks(1) = 10
+                    tidx1(1) =   1
+                    tidx2(1) = 600
+                    do ic = 2,nchunks(1)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 599
+                    enddo
+                    tidx2(nchunks(1)) = ntimes(1,1)
+                 endif
+                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
@@ -573,7 +588,7 @@ program Amon_CMOR
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                     !
-                    if (ic < nchunks) then
+                    if (ic < nchunks(1)) then
                        cmor_filename(1:) = ' '
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
@@ -594,22 +609,32 @@ program Amon_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  if (ntimes(1,1) == 1872) then ! 20C run, 40 year chunks
-                    nchunks = 4
-                    tidx1(1:nchunks) = (/  1, 481, 961,1441/) ! 1850, 1890, 1930, 1970
-                    tidx2(1:nchunks) = (/480, 960,1440,1872/) ! 1889, 1929, 1969, 2005
+                    nchunks(1) = 4
+                    tidx1(1:nchunks(1)) = (/  1, 481, 961,1441/) ! 1850, 1890, 1930, 1970
+                    tidx2(1:nchunks(1)) = (/480, 960,1440,1872/) ! 1889, 1929, 1969, 2005
                  endif
                  if (ntimes(1,1) == 1152) then  ! RCP run from 2005, exclude 2005
-                    nchunks = 3
-                    tidx1(1:nchunks) = (/ 13, 493, 973/)      ! 2006, 2046, 2086
-                    tidx2(1:nchunks) = (/492, 972,1152/)      ! 2045, 2085, 2100
+                    nchunks(1) = 3
+                    tidx1(1:nchunks(1)) = (/ 13, 493, 973/)      ! 2006, 2046, 2086
+                    tidx2(1:nchunks(1)) = (/492, 972,1152/)      ! 2045, 2085, 2100
                  endif
                  if (ntimes(1,1) == 1140) then  ! RCP run from 2006, use all times
-                    nchunks = 3
-                    tidx1(1:nchunks) = (/  1, 481, 961/)      ! 2006, 2046, 2086
-                    tidx2(1:nchunks) = (/480, 960,1140/)      ! 2045, 2085, 2100
+                    nchunks(1) = 3
+                    tidx1(1:nchunks(1)) = (/  1, 481, 961/)      ! 2006, 2046, 2086
+                    tidx2(1:nchunks(1)) = (/480, 960,1140/)      ! 2045, 2085, 2100
                  endif
-                 write(*,*) 'Chunks: ',tidx1(1:nchunks),tidx2(1:nchunks)
-                 do ic = 1,nchunks
+                 if (ntimes(1,1) == 6012) then  ! pre-industrial control, 50 year chunks
+                    nchunks(1) = 10
+                    tidx1(1) =   1
+                    tidx2(1) = 600
+                    do ic = 2,nchunks(1)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 599
+                    enddo
+                    tidx2(nchunks(1)) = ntimes(1,1)
+                 endif
+                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
@@ -640,7 +665,7 @@ program Amon_CMOR
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                     !
-                    if (ic < nchunks) then
+                    if (ic < nchunks(1)) then
                        cmor_filename(1:) = ' '
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
@@ -664,22 +689,32 @@ program Amon_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  if (ntimes(1,1) == 1872) then ! 20C run, 40 year chunks
-                    nchunks = 4
-                    tidx1(1:nchunks) = (/  1, 481, 961,1441/) ! 1850, 1890, 1930, 1970
-                    tidx2(1:nchunks) = (/480, 960,1440,1872/) ! 1889, 1929, 1969, 2005
+                    nchunks(1) = 4
+                    tidx1(1:nchunks(1)) = (/  1, 481, 961,1441/) ! 1850, 1890, 1930, 1970
+                    tidx2(1:nchunks(1)) = (/480, 960,1440,1872/) ! 1889, 1929, 1969, 2005
                  endif
                  if (ntimes(1,1) == 1152) then  ! RCP run from 2005, exclude 2005
-                    nchunks = 3
-                    tidx1(1:nchunks) = (/ 13, 493, 973/)      ! 2006, 2046, 2086
-                    tidx2(1:nchunks) = (/492, 972,1152/)      ! 2045, 2085, 2100
+                    nchunks(1) = 3
+                    tidx1(1:nchunks(1)) = (/ 13, 493, 973/)      ! 2006, 2046, 2086
+                    tidx2(1:nchunks(1)) = (/492, 972,1152/)      ! 2045, 2085, 2100
                  endif
                  if (ntimes(1,1) == 1140) then  ! RCP run from 2006, use all times
-                    nchunks = 3
-                    tidx1(1:nchunks) = (/  1, 481, 961/)      ! 2006, 2046, 2086
-                    tidx2(1:nchunks) = (/480, 960,1140/)      ! 2045, 2085, 2100
+                    nchunks(1) = 3
+                    tidx1(1:nchunks(1)) = (/  1, 481, 961/)      ! 2006, 2046, 2086
+                    tidx2(1:nchunks(1)) = (/480, 960,1140/)      ! 2045, 2085, 2100
                  endif
-                 write(*,*) 'Chunks: ',tidx1(1:nchunks),tidx2(1:nchunks)
-                 do ic = 1,nchunks
+                 if (ntimes(1,1) == 6012) then  ! pre-industrial control, 50 year chunks
+                    nchunks(1) = 10
+                    tidx1(1) =   1
+                    tidx2(1) = 600
+                    do ic = 2,nchunks(1)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 599
+                    enddo
+                    tidx2(nchunks(1)) = ntimes(1,1)
+                 endif
+                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
@@ -715,7 +750,7 @@ program Amon_CMOR
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                     !
-                    if (ic < nchunks) then
+                    if (ic < nchunks(1)) then
                        cmor_filename(1:) = ' '
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then

@@ -14,6 +14,7 @@ program Lmon_CMOR
   use grid_info
   use files_info
   use mycmor_info
+  use output_times_info
   !
   implicit none
   !
@@ -30,17 +31,11 @@ program Lmon_CMOR
   ! Other variables
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
-  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ilev,nchunks,ic
+  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ilev,ic
   real::spval
   logical::all_continue
   !
-  real,dimension(10)::allmax,allmin,scale_factor
-  integer,dimension(100)::tidx1,tidx2
   logical,dimension(10)::continue
-  !
-  ! Initialize time indices
-  ! 
-  tidx1 = -999 ; tidx2 = -999
   !
   ! GO!
   !
@@ -87,9 +82,6 @@ program Lmon_CMOR
         var_counter  = 0
         error_flag   = 0
         var_found    = 0
-        scale_factor = 1.
-        allmax       = -1.e36
-        allmin       =  1.e36
         all_continue = .true.
         continue(:)  = .false.
         time_units   = ' '
@@ -555,7 +547,6 @@ program Lmon_CMOR
                  do it=1,ntimes(1,1)
                     time_counter = it
                     call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                    allmax(1) = max(allmax(1),maxval(indat3a)) ; allmin(1) = min(allmin(1),minval(indat3a))
                     work3da = 0.
                     do k = 1,nlevs
                        do j = 1,nlats
@@ -587,17 +578,27 @@ program Lmon_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  if (exp(exp_found)%length == 156) then ! 20C run
-                    nchunks = 3
-                    tidx1(1:nchunks) = (/  1, 601,1201/) ! 1850, 1900, 1950
-                    tidx2(1:nchunks) = (/600,1200,1872/) ! 1899, 1949, 2005
+                    nchunks(1) = 3
+                    tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1950
+                    tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1949, 2005
                  endif
                  if (exp(exp_found)%length == 96) then  ! RCP runs
-                    nchunks = 2
-                    tidx1(1:nchunks) = (/ 13, 541/)      ! 2006, 2050
-                    tidx2(1:nchunks) = (/542,1152/)      ! 2049, 2100
+                    nchunks(1) = 2
+                    tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
+                    tidx2(1:nchunks(1)) = (/542,1152/)      ! 2049, 2100
                  endif
-                 write(*,*) 'tsl chunks: ',tidx1(1:nchunks),tidx2(1:nchunks)
-                 do ic = 1,nchunks
+                 if (ntimes(1,1) == 6012) then  ! pre-industrial control, 50 year chunks
+                    nchunks(1) = 10
+                    tidx1(1) =   1
+                    tidx2(1) = 600
+                    do ic = 2,nchunks(1)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 599
+                    enddo
+                    tidx2(nchunks(1)) = ntimes(1,1)
+                 endif
+                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
@@ -633,16 +634,27 @@ program Lmon_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  if (exp(exp_found)%length == 156) then ! 20C run
-                    nchunks = 3
-                    tidx1(1:nchunks) = (/  1, 601,1201/) ! 1850, 1900, 1950
-                    tidx2(1:nchunks) = (/600,1200,1872/) ! 1899, 1949, 2005
+                    nchunks(1) = 3
+                    tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1950
+                    tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1949, 2005
                  endif
                  if (exp(exp_found)%length == 96) then  ! RCP runs
-                    nchunks = 2
-                    tidx1(1:nchunks) = (/ 13, 541/)      ! 2006, 2050
-                    tidx2(1:nchunks) = (/542,1152/)      ! 2049, 2100
+                    nchunks(1) = 2
+                    tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
+                    tidx2(1:nchunks(1)) = (/542,1152/)      ! 2049, 2100
                  endif
-                 do ic = 1,nchunks
+                 if (ntimes(1,1) == 6012) then  ! pre-industrial control, 50 year chunks
+                    nchunks(1) = 10
+                    tidx1(1) =   1
+                    tidx2(1) = 600
+                    do ic = 2,nchunks(1)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 599
+                    enddo
+                    tidx2(nchunks(1)) = ntimes(1,1)
+                 endif
+                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
@@ -692,9 +704,6 @@ program Lmon_CMOR
               var_counter  = 0
               error_flag   = 0
               var_found    = 0
-              scale_factor = 1.
-              allmax       = -1.e36
-              allmin       =  1.e36
               continue(:)  = .false.
               mycmor%positive = ' '
               original_name= ' '
