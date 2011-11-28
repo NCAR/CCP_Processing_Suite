@@ -127,6 +127,8 @@ if [ $# -ge 1 ] ; then
          ;;
     'strandwg')
          MAILTOUSER=strandwg@ucar.edu
+    'hteng')
+         MAILTOUSER=hteng@ucar.edu
 	 ;;
     esac
 
