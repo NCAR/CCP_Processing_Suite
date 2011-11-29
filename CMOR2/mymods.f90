@@ -94,7 +94,6 @@ module files_info
   character(len=256),dimension(max_ncfiles,max_cesm_vars)::ncfile
   integer,dimension(max_cesm_vars)::nc_nfiles
   integer,dimension(max_ncfiles,max_cesm_vars)::ncid,var_found,ntimes
-  logical,dimension(max_ncfiles,max_cesm_vars)::exists
   !
 end module files_info
 !

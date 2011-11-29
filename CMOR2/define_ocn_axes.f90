@@ -92,7 +92,6 @@ subroutine define_ocn_axes(dimensions)
            axis_ids(idim) = cmor_axis(        &
                 table_entry=dimnames(i),      &
                 units=dimunits(i),            &
-                length=ntimes(1,1),           &
                 interval='30 days')
            write(*,*) 'time defined, axis_id: ',idim,axis_ids(idim)
            idim = idim + 1
@@ -139,7 +138,7 @@ subroutine define_ocn_axes(dimensions)
            axis_ids(idim) = cmor_axis(        &
                 table_entry=dimnames(i),      &
                 units=dimunits(i),            &
-                length=ntimes(1,1),           &
+!                length=ntimes(1,1),           &
                 interval='30 days')
            write(*,*) 'time defined, axis_id: ',idim,axis_ids(idim)
            idim = idim + 1
