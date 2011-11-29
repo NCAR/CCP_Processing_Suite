@@ -110,6 +110,7 @@ module grid_info
   real,dimension(:,:),  allocatable::ocn_levs_bnds,ocn_trans_lats_bnds,ocn_trans_levs_bnds
   real,dimension(:,:,:),allocatable::ocn_lats_bnds,ocn_lons_bnds
   real,dimension(:,:),  allocatable::ocn_lats,ocn_lons
+  integer,dimension(:,:),allocatable::kmt
   real,dimension(:),    allocatable::lnd_lats,lnd_lons,lnd_levs,lnd_levs_bnds
   real,dimension(:,:,:),allocatable::lnd_zsoi,lnd_dzsoi  ! CLM soil depth (m), CLM soil layer thickness (m)
   real,dimension(:,:),  allocatable::lnd_lats_bnds,lnd_lons_bnds

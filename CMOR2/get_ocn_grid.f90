@@ -38,13 +38,15 @@ subroutine get_ocn_grid
         ntrans_comp = dim_info(n)%length
      endif
   enddo
-  allocate(ocn_lons(nlons,nlats),ocn_lats(nlons,nlats),ocn_levs(nlevs),ocn_levs_bnds(2,nlevs))
+  allocate(ocn_lons(nlons,nlats),ocn_lats(nlons,nlats),kmt(nlons,nlats))
+  allocate(ocn_levs(nlevs),ocn_levs_bnds(2,nlevs))
   allocate(ocn_trans_lats(nlats_trans),ocn_trans_lats_bnds(2,nlats_trans))
   allocate(ocn_trans_levs(nmoc_z),ocn_trans_levs_bnds(2,nmoc_z))
   !
   call get_vars(gridid)
   call read_var(gridid,'TLONG',ocn_lons)
   call read_var(gridid,'TLAT',ocn_lats)
+  call read_var(gridid,'KMT',kmt)
   call read_var(gridid,'z_t',ocn_levs)
   call read_var(gridid,'lat_aux_grid',ocn_trans_lats)
   call read_var(gridid,'moc_z',ocn_trans_levs)

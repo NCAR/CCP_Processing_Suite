@@ -8,37 +8,33 @@ program fx_CMOR
   use interfaces_netcdf_jfl
   use definitions_netcdf_jfl
   use exp_info
+  use files_info
   use table_info
   use xwalk_info
   use grid_info
   use mycmor_info
+  use output_times_info
   !
   implicit none
   !
   !  uninitialized variables used in communicating with CMOR:
   !
-  INTEGER::error_flag,var_ids
-  REAL,DIMENSION(:,:),ALLOCATABLE::indat2a,indat2b,indat2c,cmordat
-  double precision,dimension(:)  ,allocatable::time
-  double precision,dimension(:,:),allocatable::time_bnds
-  DOUBLE PRECISION,DIMENSION(1)  ::tval
-  DOUBLE PRECISION,DIMENSION(2,1)::tbnd
+  integer::error_flag,cmor_var_id
+  real,dimension(:,:),  allocatable::indat2a,cmordat2d
+  real,dimension(:,:,:),allocatable::cmordat3d
   !
   ! Other variables
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile
   integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw
+  real::spval
   logical::all_continue
-  !
-  character(len=256),dimension(10)::ncfile
-  real,dimension(10)::allmax,allmin,scale_factor
-  integer,dimension(10)::ncid,var_found
   logical,dimension(10)::continue
   !
   ! GO!
   !
   mycmor%table_file = 'Tables/CMIP5_fx'
-  call load_table
+  call load_table_info
   !
   ! Get "crossxwalk" (xwalk) information
   !   Provides information on relationship between CMOR variables and
@@ -61,7 +57,8 @@ program fx_CMOR
   !
   ! Get grid information
   !
-  call get_atm_grid
+  !  call get_atm_grid
+  call get_ocn_grid
   !
   ! Set up CMOR subroutine arguments
   !
@@ -80,12 +77,8 @@ program fx_CMOR
         var_counter  = 0
         error_flag   = 0
         var_found    = 0
-        scale_factor = 1.
-        allmax       = -1.e36
-        allmin       =  1.e36
         all_continue = .true.
         continue(:)  = .false.
-        time_units   = ' '
         original_name= ' '
 !
 ! The meaty part
@@ -95,29 +88,29 @@ program fx_CMOR
               if ((trim(xw(ixw)%cesm_vars(ivar)) == 'UNKNOWN').or.(trim(xw(ixw)%cesm_vars(ivar)) == 'UNAVAILABLE')) then
                  write(*,'('' UNAVAILABLE/UNKNOWN: '',a,'' == '',a)') trim(xw(ixw)%entry),trim(table(itab)%variable_entry)
               else
-                 write(ncfile(ivar),'(''data/'',a,''.'',a,''.'',a,''.'',a,''01-'',a,''12.nc'')') &
+                 write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',a,''01-'',a,''12.nc'')') &
                       trim(case_read),&
                       trim(comp_read),&
                       trim(xw(ixw)%cesm_vars(ivar)),&
                       exp(exp_found)%begin_end(1:4),&
                       exp(exp_found)%begin_end(6:9)
-                 inquire(file=trim(ncfile(ivar)),exist=continue(ivar))
+                 inquire(file=trim(ncfile(1,ivar)),exist=continue(ivar))
                  if (.not.(continue(ivar))) then
-                    write(ncfile(ivar),'(''data/'',a,''.'',a,''.'',a,''.'',a,''-01_cat_'',a,''-12.nc'')') &
+                    write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',a,''-01_cat_'',a,''-12.nc'')') &
                          trim(case_read),&
                          trim(comp_read),&
                          trim(xw(ixw)%cesm_vars(ivar)),&
                          exp(exp_found)%begin_end(1:4),&
                          exp(exp_found)%begin_end(6:9)
-                    inquire(file=trim(ncfile(ivar)),exist=continue(ivar))
+                    inquire(file=trim(ncfile(1,ivar)),exist=continue(ivar))
                  endif
                  if (.not.(continue(ivar))) then
-                    write(*,*) trim(ncfile(ivar)),' NOT FOUND.'
+                    write(*,*) trim(ncfile(1,ivar)),' NOT FOUND.'
                  else
                     write(*,'('' GOOD TO GO : '',a,'' == '',a,'' from CESM file: '',a)') &
                          trim(xw(ixw)%entry),&
                          trim(table(itab)%variable_entry),&
-                         trim(ncfile(ivar))
+                         trim(ncfile(1,ivar))
                  endif
               endif
               !
@@ -130,43 +123,20 @@ program fx_CMOR
            !
            if (all_continue) then
               do ivar = 1,xw(ixw)%ncesm_vars
-                 call open_cdf(ncid(ivar),trim(ncfile(ivar)),.true.)
-                 write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfile(ivar)),ncid(ivar)
-                 call get_dims(ncid(ivar))
-                 call get_vars(ncid(ivar))
-                 !
-                 do n=1,dim_counter
-                    length = len_trim(dim_info(n)%name)
-                    if(dim_info(n)%name(:length).eq.'time') then
-                       ntimes = dim_info(n)%length
-                    endif
-                 enddo
-                 call read_att_text(ncid(1),'time','units',time_units)
+                 call open_cdf(ncid(1,ivar),trim(ncfile(1,ivar)),.true.)
+                 write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfile(1,ivar)),ncid(1,ivar)
+                 call get_dims(ncid(1,ivar))
+                 call get_vars(ncid(1,ivar))
                  !
                  do n=1,var_counter
                     if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
-                       var_found(ivar) = n
+                       var_found(1,ivar) = n
                     endif
                  enddo
-                 if (var_found(ivar) == 0) then
-                    write(*,*) trim(xw(ixw)%cesm_vars(ivar)),' NEVER FOUND. STOP.'
+                 if (var_found(1,ivar) == 0) then
+                    write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
                     stop
                  endif
-                 !
-                 if (.not.(allocated(time)))      then
-                    allocate(time(ntimes))
-                    write(*,*) 'allocate(time(ntimes))'
-                 endif
-                 if (.not.(allocated(time_bnds))) then
-                    allocate(time_bnds(2,ntimes))
-                    write(*,*) 'allocate(time_bnds(2,ntimes))'
-                 endif
-                 !
-                 do n=1,ntimes
-                    time_counter = n
-                    call read_var(ncid(ivar),'time_bnds',time_bnds(:,n))
-                    time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
-                 enddo
               enddo
            endif
            if (all_continue) then
@@ -228,156 +198,139 @@ program fx_CMOR
               !
               ! Define axes via 'cmor_axis'
               !
-              call define_atm_axes(table(itab)%dimensions)
+              table_ids(2) = cmor_load_table('Tables/CMIP5_grids')
+              call cmor_set_table(table_ids(2))
+              call define_ocn_axes(table(itab)%dimensions)
+              call cmor_set_table(table_ids(1))
+              !
+              ! Define axes via 'cmor_axis'
+              !
+              !              call define_atm_axes(table(itab)%dimensions)
+              if (xw(ixw)%ncesm_vars == 1) write(original_name,'(a)') xw(ixw)%cesm_vars(1)
+              if (xw(ixw)%ncesm_vars == 2) write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
+              if (xw(ixw)%ncesm_vars == 3) &
+                   write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
               ! 
               ! Make manual alterations so that CMOR works. Silly code!
               !
-              allocate(indat2a(nlons,nlats),cmordat(nlons,nlats))
-              write(*,*) 'allocate(indat2a(nlons,nlats),cmordat(nlons,nlats))'
-              if (xw(ixw)%ncesm_vars == 1) then
-                 write(original_name,'(a)') xw(ixw)%cesm_vars(1)
-              endif
-              if (xw(ixw)%ncesm_vars .ge. 2) then
-                 allocate(indat2b(nlons,nlats))
-                 write(*,*) 'allocate(indat2b(nlons,nlats))'
-                 write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
-              endif
-              if (xw(ixw)%ncesm_vars .ge. 3) then
-                 allocate(indat2c(nlons,nlats))
-                 write(*,*) 'allocate(indat2c(nlons,nlats))'
-                 write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
-              endif
+              select case (xw(ixw)%entry)
+              case ('sftlf')
+                 var_info(var_found(1,1))%units = '1'
+              case ('volcello')
+                 var_info(var_found(1,1))%units = 'm3'
+              end select
+              !
+              spval=var_info(var_found(1,1))%missing_value
+              !
+              write(*,*) 'calling cmor_variable:'
+              write(*,*) 'table         = ',trim(mycmor%table_file)
+              write(*,*) 'table_entry   = ',trim(xw(ixw)%entry)
+              write(*,*) 'dimensions    = ',trim(table(itab)%dimensions)
+              write(*,*) 'units         = ',trim(var_info(var_found(1,1))%units)
+              write(*,*) 'axis_ids      = ',axis_ids(1:4)
+              write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
+              write(*,*) 'positive      = ',trim(mycmor%positive)
+              write(*,*) 'original_name = ',trim(original_name)
               !
               select case (xw(ixw)%entry)
-              case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs')
-                 mycmor%positive = 'up'
-              case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt')
-                 mycmor%positive = 'down'
-              case ('clt','ci')
-                 var_info(var_found(1))%units = '1'
-              case ('sftlf')
-                 var_info(var_found(1))%units = '1'
-              case ('prc','pr','prsn')
-                 var_info(var_found(1))%units = 'kg m-2 s-1'
+              case ('deptho','areacello')
+                 cmor_var_id = cmor_variable(                &
+                      table=mycmor%table_file,               &
+                      table_entry=xw(ixw)%entry,             &
+                      units=var_info(var_found(1,1))%units,  &
+                      axis_ids=(/grid_id(1)/),               &
+                      missing_value=spval,                   &
+                      positive=mycmor%positive,              &
+                      original_name=original_name,           &
+                      comment=xw(ixw)%comment)
+              case ('volcello')
+                 cmor_var_id = cmor_variable(                &
+                      table=mycmor%table_file,               &
+                      table_entry=xw(ixw)%entry,             &
+                      units=var_info(var_found(1,1))%units,  &
+                      axis_ids=(/grid_id(1),axis_ids(3)/),   &
+                      missing_value=spval,                   &
+                      positive=mycmor%positive,              &
+                      original_name=original_name,           &
+                      comment=xw(ixw)%comment)
               end select
-                 !
-              var_ids = cmor_variable(                                &
-                   table=mycmor%table_file,                           &
-                   table_entry=xw(ixw)%entry,                         &
-                   units=var_info(var_found(1))%units,                &
-                   axis_ids=(/ axis_ids(1), axis_ids(2) /),    &
-                   missing_value=var_info(var_found(1))%missing_value,&
-                   positive=mycmor%positive,                          &
-                   original_name=original_name,                       &
-                   comment=xw(ixw)%comment)
-              !
-              write(*,*) 'cmor_variable:'
-              write(*,*) 'varids=',var_ids
-              write(*,*) 'table=',trim(mycmor%table_file)
-              write(*,*) 'table_entry=',trim(xw(ixw)%entry)
-              write(*,*) 'dimensions=',trim(table(itab)%dimensions)
-              write(*,*) 'units=',trim(var_info(var_found(1))%units)
-              write(*,*) 'missing_value=',var_info(var_found(1))%missing_value
-              write(*,*) 'positive=',trim(mycmor%positive)
-              write(*,*) 'original_name=',trim(original_name)
-              !
-              ! Cycle through time
-              !
-              time_loop: DO it=1, ntimes
-                 time_counter = it
-                 if (xw(ixw)%ncesm_vars == 1) then
-                    call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
-!                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
-                    allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
-                    cmordat = indat2a
-                 endif
-                 if (xw(ixw)%ncesm_vars == 2) then
-                    call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
-!                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
-                    call read_var(ncid(2),var_info(var_found(2))%name,indat2b)
-!                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(2))%name),it
-                    allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
-                    allmax(2) = max(allmax(2),maxval(indat2b)) ; allmin(2) = min(allmin(2),minval(indat2b))
-                    select case (xw(ixw)%entry)
-                    case ('sftlf')
-                       cmordat = indat2a * 100.
-                    case default
-                       cmordat = indat2a
-                    end select
-                 endif
-                 if (xw(ixw)%ncesm_vars == 3) then
-                    call read_var(ncid(1),var_info(var_found(1))%name,indat2a)
-                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(1))%name),it
-                    call read_var(ncid(2),var_info(var_found(2))%name,indat2b)
-                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(2))%name),it
-                    call read_var(ncid(3),var_info(var_found(3))%name,indat2b)
-                    write(*,'(''Reading '',a20,'' T= '',i10)') trim(var_info(var_found(3))%name),it
-                    allmax(1) = max(allmax(1),maxval(indat2a)) ; allmin(1) = min(allmin(1),minval(indat2a))
-                    allmax(2) = max(allmax(2),maxval(indat2b)) ; allmin(2) = min(allmin(2),minval(indat2b))
-                    allmax(3) = max(allmax(3),maxval(indat2c)) ; allmin(3) = min(allmin(3),minval(indat2c))
-                    cmordat = indat2a
-                 endif
-                 !
-                 tval(1)   = time(it)
-                 tbnd(1,1) = time_bnds(1,it)
-                 tbnd(2,1) = time_bnds(2,it)
+!!$              !
+!!$              cmor_var_id = cmor_variable(                                &
+!!$                   table=mycmor%table_file,                           &
+!!$                   table_entry=xw(ixw)%entry,                         &
+!!$                   units=var_info(var_found(1,ivar))%units,                &
+!!$                   axis_ids=(/ axis_ids(1), axis_ids(2) /),    &
+!!$                   missing_value=var_info(var_found(1,ivar))%missing_value,&
+!!$                   positive=mycmor%positive,                          &
+!!$                   original_name=original_name,                       &
+!!$                   comment=xw(ixw)%comment)
+              select case (xw(ixw)%entry)
+              case ('deptho','areacello')
+                 allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
+                 write(*,*) 'TO READ: ',trim(var_info(var_found(1,1))%name)
+                 call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 write(*,*) 'READ: ',trim(var_info(var_found(1,1))%name),maxval(indat2a),minval(indat2a)
+                 where (kmt == 0)
+                    cmordat2d = spval
+                 elsewhere
+                    cmordat2d = indat2a
+                 endwhere
                  error_flag = cmor_write(      &
-                      var_id        = var_ids, &
-                      data          = cmordat)
+                      var_id        = cmor_var_id, &
+                      data          = cmordat2d)
                  if (error_flag < 0) then
-                    write(*,*) 'Error writing ',xw(ixw)%entry, ', which I call ', xw(ixw)%cesm_vars
-                    write(*,*) 'Processing time sample: ', time
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                     stop
                  endif
-              end do time_loop
+              case ('volcello')
+                 allocate(indat2a(nlons,nlats),cmordat3d(nlons,nlats,nlevs))
+                 write(*,*) 'TO READ: ',trim(var_info(var_found(1,1))%name)
+                 call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 cmordat3d = spval
+                 do k = 1,nlevs
+                    do j = 1,nlats
+                       do i = 1,nlons
+                          if (kmt(i,j).ge.k) then
+                             cmordat3d(i,j,k) = (indat2a(i,j)*ocn_levs(k))/(100. * 100. * 100.)
+                          else
+                             cmordat3d(i,j,k) = spval
+                          endif
+                       enddo
+                    enddo
+                 enddo
+                 !
+                 error_flag = cmor_write(      &
+                      var_id        = cmor_var_id, &
+                      data          = cmordat3d)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
+              end select
               do ivar = 1,xw(ixw)%ncesm_vars
-                 call close_cdf(ncid(ivar))
+                 call close_cdf(ncid(1,ivar))
               enddo
               !
               ! Close all files opened by CMOR.
               !
+              !
               error_flag = cmor_close()
-              write(*,'(''********************************************************************************'')')
-              write(*,'(''********************************************************************************'')')
-              write(*,'(''CMOR executed to completion; T#: '',i5,'' X#: '',i5,'' EXT: '',3(2g10.4))') &
-                   itab,ixw,allmin(1:xw(ixw)%ncesm_vars),allmax(1:xw(ixw)%ncesm_vars)
-              write(*,'(''********************************************************************************'')')
-              write(*,'(''********************************************************************************'')')
+              if (error_flag < 0) then
+                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              else
+                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              endif
               time_counter = 0
               var_counter  = 0
               error_flag   = 0
               var_found    = 0
-              scale_factor = 1.
-              allmax       = -1.e36
-              allmin       =  1.e36
               continue(:)  = .false.
               mycmor%positive = ' '
               original_name= ' '
               !
-              if (allocated(time)) then
-                 deallocate(time)
-                 write(*,*) 'deallocate(time)'
-              endif
-              if (allocated(time_bnds)) then
-                 deallocate(time_bnds)
-                 write(*,*) 'deallocate(time_bnds)'
-              endif
-              if (allocated(indat2a)) then
-                 deallocate(indat2a)
-                 write(*,*) 'deallocate(indat2a)'
-              endif
-              if (allocated(indat2b)) then
-                 deallocate(indat2b)
-                 write(*,*) 'deallocate(indat2b)'
-              endif
-              if (allocated(indat2c)) then
-                 deallocate(indat2c)
-                 write(*,*) 'deallocate(indat2c)'
-              endif
-              if (allocated(cmordat)) then
-                 deallocate(cmordat)
-                 write(*,*) 'deallocate(cmordat)'
-              endif
+              if (allocated(indat2a))   deallocate(indat2a)
+              if (allocated(cmordat2d)) deallocate(cmordat2d)
+              if (allocated(cmordat3d)) deallocate(cmordat3d)
            endif
         endif
      enddo xwalk_loop

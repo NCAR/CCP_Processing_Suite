@@ -1,1 +1,4 @@
 fx:1.0:sftlf:atmos:1:LANDFRAC:LANDFRAC no change
+fx:1.0:deptho:ocean:1:HT:HT convert cm to m
+fx:1.0:volcello:ocean:1:TAREA:TAREA times dz, convert cm3 to m3
+fx:1.0:areacello:ocean:1:TAREA:TAREA convert cm2 to m2
