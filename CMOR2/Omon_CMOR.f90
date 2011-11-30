@@ -371,11 +371,13 @@ program Omon_CMOR
                        enddo
                        write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                        !
-                       error_flag = cmor_close()
+                       cmor_filename = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
-                          write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                          write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                          stop
                        else
-                          write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                          write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                        endif
                     enddo
                     call close_cdf(ncid(ifile,ivar))
