@@ -1,24 +1,63 @@
 #!/bin/sh 
 #
+# RunLmon
+#
 if [ $# -eq 0 ] ; then
-   echo "Usage: RunLmon case comp"
+   echo 'Usage: RunLmon case comp "CMIP5 fields"'
+   echo ""
+   echo "  case is required"
+   echo "  comp is required"
+   echo '  "CMIP5_fields" is optional - if not given, then all fields in xwalk will be processed'
+   echo "   Otherwise, blank-delimited list inside double quotes, example:"
+   echo ""
+   echo '   ./RunLmon b40.20th.track1.deg.008 clm2.h0 "fFire fLuc lai"'
    exit 1
 elif [ $# -eq 2 ] ; then
    CASE=$1
    COMP=$2
+elif [ $# -eq 3 ] ; then
+   CASE=$1
+   COMP=$2
+   VARS=$3
 else
-   echo "Usage: RunLmon case comp"
-   exit 1
+   echo 'Usage: RunLmon case comp "CMIP5 fields"'
+   echo ""
+   echo "  case is required"
+   echo "  comp is required"
+   echo '  "CMIP5_fields" is optional - if not given, then all fields in xwalk will be processed'
+   echo "   Otherwise, blank-delimited list inside double quotes, example:"
+   echo ""
+   echo '   ./RunLmon b40.20th.track1.deg.008 clm2.h0 "fFire fLuc lai"'
 fi
 #
-if [ ! -d ./CMOR ] ; then
-  mkdir ./CMOR
+BASED=${HOME}/CCP_Processing_Suite
+CMORD=${HOME}/CCP_Processing_Suite/CMOR2
+#
+XWALK=xwalk_Lmon.txt
+#
+ln -s -f ${BASED}/experiments.txt .
+ln -s -f ${CMORD}/Tables          .
+ln -s -f ${CMORD}/lnd_grid_f09.nc .
+#
+# Assume all fields in xwalk to be processed
+#
+if [ $# -eq 2 ] ; then
+  echo "Linking "${CMORD}"/"${XWALK}
+  ln -s -f ${CMORD}/${XWALK} .
 fi
 #
-ln -s -f ${HOME}/CCP_Processing_Suite/experiments.txt       .
-ln -s -f ${HOME}/CCP_Processing_Suite/CMOR2/Tables          .
-ln -s -f ${HOME}/CCP_Processing_Suite/CMOR2/xwalk_Lmon.txt  .
-ln -s -f ${HOME}/CCP_Processing_Suite/CMOR2/lnd_grid_f09.nc .
+# Create new xwalk file containing just the fields to be processed
+#
+if [ $# -eq 3 ] ; then
+  echo "Creating new xwalk file from default "${XWALK}
+  rm -f ${XWALK}
+  for ivar in `echo $VARS` ; do
+    egrep ":${ivar}:" ${CMORD}/${XWALK} >> ${XWALK} 
+    echo $ivar" added to "${XWALK}
+  done
+fi
+#
+# Do it!
 #
 rm -f Lmon_in.${CASE}.${COMP} Info_in.${CASE}.${COMP}
 #
@@ -37,7 +76,6 @@ echo $PRCHST >> Info_in.${CASE}.${COMP}
 echo $SVNREV >> Info_in.${CASE}.${COMP}
 echo $SVNDAT >> Info_in.${CASE}.${COMP}
 echo $SVNUID >> Info_in.${CASE}.${COMP}
-cat Info_in.${CASE}.${COMP}
 cat Lmon_in.${CASE}.${COMP} | Lmon_CMOR
 #
 #rm -f Lmon_in.${CASE}.${COMP}

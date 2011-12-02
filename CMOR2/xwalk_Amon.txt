@@ -1,75 +1,75 @@
-Amon:1.0:ccb:atmos:1:CLDBOT:CLDBOT no change
-Amon:1.0:cct:atmos:1:CLDTOP:CLDTOP no change
-Amon:1.0:ch4global:atmos atmosChem:1:ch4vmr:ch4vmr convert to mass
-Amon:1.0:ch4:atmos atmosChem:1:UNKNOWN:UNKNOWN
-Amon:1.0:ci:atmos:1:FREQZM:FREQZM unit conversion
-Amon:1.0:cl:atmos:1:CLOUD:CLOUD on model levels, no change
-Amon:1.0:cli:atmos:1:CLDICE:CLDICE on model levels, no change
-Amon:1.0:clivi:atmos:1:TGCLDIWP:TGCLDIWP no change
-Amon:1.0:clt:atmos:1:CLDTOT:CLDTOT unit conversion
-Amon:1.0:clw:atmos:1:CLDLIQ:CLDLIQ on model levels, no change
-Amon:1.0:clwvi:atmos:1:TGCLDLWP:TGCLDLWP no change
-Amon:1.0:co2mass:atmos:1:co2vmr:co2vmr convert to mass
-Amon:1.0:co2:atmos:1:UNKNOWN:UNKNOWN
-Amon:1.0:evspsbl:atmos:1:QFLX:QFLX no change
-Amon:1.0:fco2antt:atmos:1:UNKNOWN:UNKNOWN
-Amon:1.0:fco2fos:atmos:1:UNKNOWN:UNKNOWN
-Amon:1.0:fco2nat:atmos:1:UNKNOWN:UNKNOWN
-Amon:1.0:hfls:atmos:1:LHFLX:LHFLX no change
-Amon:1.0:hfss:atmos:1:SHFLX:SHFLX no change
-Amon:1.0:hur:atmos:2:RELHUM,PS:RELHUM interpolated to standard plevs
-Amon:1.0:hurs:atmos:1:RHREFHT:RHREFHT no change
-Amon:1.0:hus:atmos:2:Q,PS:Q interpolated to standard plevs
-Amon:1.0:huss:atmos:1:QREFHT:QREFHT no change
-Amon:1.0:mc:atmos:2:CMFMC,CMFMCDZM:CMFMC + CMFMCDZM on model levels, no change
-Amon:1.0:n2oglobal:atmos atmosChem:1:n2ovmr:n2ovmr convert to mass
-Amon:1.0:n2o:atmos atmosChem:1:UNKNOWN:UNKNOWN
-Amon:1.0:prAdjust:atmos:1:UNKNOWN:UNKNOWN
-Amon:1.0:prc:atmos:1:PRECC:PRECC unit conversion
-Amon:1.0:pr:atmos:2:PRECC,PRECL:PRECC + PRECL and unit conversion
-Amon:1.0:prsn:atmos:2:PRECSC,PRECSL:PRECSC + PRECSL and unit conversion
-Amon:1.0:prw:atmos:1:TMQ:TMQ no change
-Amon:1.0:pslAdjust:atmos:1:UNKNOWN:UNKNOWN
-Amon:1.0:psl:atmos:1:PSL:PSL no change
-Amon:1.0:ps:atmos:1:PS:PS no change
-Amon:1.0:rldscs:atmos:1:FLDSC:FLDSC no change
-Amon:1.0:rlds:atmos:1:FLDS:FLDS no change
-Amon:1.0:rlus:atmos:2:FLDS,FLNS:FLDS + FLNS
-Amon:1.0:rlutcs:atmos:1:FLUTC:FLUTC no change
-Amon:1.0:rlut:atmos:1:FLUT:FLUT no change
-Amon:1.0:rsdscs:atmos:1:FSDSC:FSDSC no change
-Amon:1.0:rsds:atmos:1:FSDS:FSDS no change
-Amon:1.0:rsdt:atmos:1:SOLIN:SOLIN no change
-Amon:1.0:rsuscs:atmos:2:FSDSC,FSNSC:FSDSC - FSNSC
-Amon:1.0:rsus:atmos:2:FSDS,FSNS:FSDS - FSNS
-Amon:1.0:rsutcs:atmos:2:SOLIN,FSNTOAC:SOLIN - FSNTOAC
-Amon:1.0:rsut:atmos:2:SOLIN,FSNTOA:SOLIN - FSNTOA
-Amon:1.0:rtmt:atmos:2:FSNT,FLNT:FSNT - FLNT
-Amon:1.0:sbl:atmos:1:UNAVAILABLE:UNAVAILABLE
-Amon:1.0:sci:atmos:1:FREQSI:FREQSI no change
-Amon:1.0:ta:atmos:2:T,PS:T interpolated to standard plevs
-Amon:1.0:tas:atmos:1:TREFHT:TREFHT no change
-Amon:1.0:tasmax:atmos:1:TREFMXAV:TREFMXAV no change
-Amon:1.0:tasmin:atmos:1:TREFMNAV:TREFMNAV no change
-Amon:1.0:tauu:atmos:1:TAUX:TAUX no change
-Amon:1.0:tauv:atmos:1:TAUY:TAUY no change
-Amon:2.0:tro3:atmos atmosChem:2:O3VMR,PS:O3VMR,PS:Interpolate to standard plevs
-Amon:1.0:tsAdjust:atmos:1:UNKNOWN:UNKNOWN
-Amon:1.0:ts:atmos:1:TS:TS no change
-Amon:1.0:ua:atmos:2:U,PS:U interpolated to standard plevs
-Amon:1.0:uas:atmos:1:UNAVAILABLE:UNAVAILABLE
-Amon:1.0:va:atmos:2:V,PS:V interpolated to standard plevs
-Amon:1.0:vas:atmos:1:UNAVAILABLE:UNAVAILABLE
-Amon:1.0:wap:atmos:2:OMEGA,PS:OMEGA interpolated to standard plevs
-Amon:1.0:zg:atmos:2:Z3,PS:Z3 interpolated to standard plevs
-Amon:3.0:tro3Clim:atmos atmosChem:1:UNKNOWN:UNKNOWN
-Amon:3.0:co2Clim:atmos:1:UNKNOWN:UNKNOWN
-Amon:3.0:co2massClim:atmos:1:UNKNOWN:UNKNOWN
-Amon:3.0:ch4Clim:atmos atmosChem:1:UNKNOWN:UNKNOWN
-Amon:3.0:ch4globalClim:atmos atmosChem:1:UNKNOWN:UNKNOWN
-Amon:3.0:n2oClim:atmos atmosChem:1:UNKNOWN:UNKNOWN
-Amon:3.0:n2oglobalClim:atmos atmosChem:1:UNKNOWN:UNKNOWN
-Amon:3.0:cfc113global:atmos atmosChem:1:UNKNOWN:UNKNOWN
-Amon:3.0:cfc11global:atmos atmosChem:1:f11vmr:f11vmr convert to mass
-Amon:3.0:cfc12global:atmos atmosChem:1:f12vmr:f12vmr convert to mass
-Amon:3.0:hcfc22global:atmos atmosChem:1:UNKNOWN:UNKNOWN:
+Amon:ccb:atmos:1:CLDBOT:CLDBOT no change
+Amon:cct:atmos:1:CLDTOP:CLDTOP no change
+Amon:ch4global:atmos atmosChem:1:ch4vmr:ch4vmr convert to mass
+Amon:ch4:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:ci:atmos:1:FREQZM:FREQZM unit conversion
+Amon:cl:atmos:1:CLOUD:CLOUD on model levels, no change
+Amon:cli:atmos:1:CLDICE:CLDICE on model levels, no change
+Amon:clivi:atmos:1:TGCLDIWP:TGCLDIWP no change
+Amon:clt:atmos:1:CLDTOT:CLDTOT unit conversion
+Amon:clw:atmos:1:CLDLIQ:CLDLIQ on model levels, no change
+Amon:clwvi:atmos:1:TGCLDLWP:TGCLDLWP no change
+Amon:co2mass:atmos:1:co2vmr:co2vmr convert to mass
+Amon:co2:atmos:1:UNKNOWN:UNKNOWN
+Amon:evspsbl:atmos:1:QFLX:QFLX no change
+Amon:fco2antt:atmos:1:UNKNOWN:UNKNOWN
+Amon:fco2fos:atmos:1:UNKNOWN:UNKNOWN
+Amon:fco2nat:atmos:1:UNKNOWN:UNKNOWN
+Amon:hfls:atmos:1:LHFLX:LHFLX no change
+Amon:hfss:atmos:1:SHFLX:SHFLX no change
+Amon:hur:atmos:2:RELHUM,PS:RELHUM interpolated to standard plevs
+Amon:hurs:atmos:1:RHREFHT:RHREFHT no change
+Amon:hus:atmos:2:Q,PS:Q interpolated to standard plevs
+Amon:huss:atmos:1:QREFHT:QREFHT no change
+Amon:mc:atmos:2:CMFMC,CMFMCDZM:CMFMC + CMFMCDZM on model levels, no change
+Amon:n2oglobal:atmos atmosChem:1:n2ovmr:n2ovmr convert to mass
+Amon:n2o:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:prAdjust:atmos:1:UNKNOWN:UNKNOWN
+Amon:prc:atmos:1:PRECC:PRECC unit conversion
+Amon:pr:atmos:2:PRECC,PRECL:PRECC + PRECL and unit conversion
+Amon:prsn:atmos:2:PRECSC,PRECSL:PRECSC + PRECSL and unit conversion
+Amon:prw:atmos:1:TMQ:TMQ no change
+Amon:pslAdjust:atmos:1:UNKNOWN:UNKNOWN
+Amon:psl:atmos:1:PSL:PSL no change
+Amon:ps:atmos:1:PS:PS no change
+Amon:rldscs:atmos:1:FLDSC:FLDSC no change
+Amon:rlds:atmos:1:FLDS:FLDS no change
+Amon:rlus:atmos:2:FLDS,FLNS:FLDS + FLNS
+Amon:rlutcs:atmos:1:FLUTC:FLUTC no change
+Amon:rlut:atmos:1:FLUT:FLUT no change
+Amon:rsdscs:atmos:1:FSDSC:FSDSC no change
+Amon:rsds:atmos:1:FSDS:FSDS no change
+Amon:rsdt:atmos:1:SOLIN:SOLIN no change
+Amon:rsuscs:atmos:2:FSDSC,FSNSC:FSDSC - FSNSC
+Amon:rsus:atmos:2:FSDS,FSNS:FSDS - FSNS
+Amon:rsutcs:atmos:2:SOLIN,FSNTOAC:SOLIN - FSNTOAC
+Amon:rsut:atmos:2:SOLIN,FSNTOA:SOLIN - FSNTOA
+Amon:rtmt:atmos:2:FSNT,FLNT:FSNT - FLNT
+Amon:sbl:atmos:1:UNAVAILABLE:UNAVAILABLE
+Amon:sci:atmos:1:FREQSI:FREQSI no change
+Amon:ta:atmos:2:T,PS:T interpolated to standard plevs
+Amon:tas:atmos:1:TREFHT:TREFHT no change
+Amon:tasmax:atmos:1:TREFMXAV:TREFMXAV no change
+Amon:tasmin:atmos:1:TREFMNAV:TREFMNAV no change
+Amon:tauu:atmos:1:TAUX:TAUX no change
+Amon:tauv:atmos:1:TAUY:TAUY no change
+Amon:tro3:atmos atmosChem:2:O3VMR,PS:O3VMR,PS:Interpolate to standard plevs
+Amon:tsAdjust:atmos:1:UNKNOWN:UNKNOWN
+Amon:ts:atmos:1:TS:TS no change
+Amon:ua:atmos:2:U,PS:U interpolated to standard plevs
+Amon:uas:atmos:1:UNAVAILABLE:UNAVAILABLE
+Amon:va:atmos:2:V,PS:V interpolated to standard plevs
+Amon:vas:atmos:1:UNAVAILABLE:UNAVAILABLE
+Amon:wap:atmos:2:OMEGA,PS:OMEGA interpolated to standard plevs
+Amon:zg:atmos:2:Z3,PS:Z3 interpolated to standard plevs
+Amon:tro3Clim:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:co2Clim:atmos:1:UNKNOWN:UNKNOWN
+Amon:co2massClim:atmos:1:UNKNOWN:UNKNOWN
+Amon:ch4Clim:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:ch4globalClim:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:n2oClim:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:n2oglobalClim:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:cfc113global:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:cfc11global:atmos atmosChem:1:f11vmr:f11vmr convert to mass
+Amon:cfc12global:atmos atmosChem:1:f12vmr:f12vmr convert to mass
+Amon:hcfc22global:atmos atmosChem:1:UNKNOWN:UNKNOWN:

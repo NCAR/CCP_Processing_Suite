@@ -1,25 +1,25 @@
-day:1.0:clt:atmos:1:CLDTOT:CLDTOT unit conversion
-day:1.0:hfls:atmos:1:LHFLX:LHFLX no change
-day:1.0:hfss:atmos:1:SHFLX:SHFLX no change
-day:1.0:hur:atmos:1:vRELHUM:RELHUM interpolated to standard plevs
-day:1.0:hus:atmos:1:vQ:Q interpolated to standard plevs
-day:1.0:huss:atmos:1:QREFHT:QREFHT no change
-day:1.0:prc:atmos:1:PRECC:PRECC unit conversion
-day:1.0:pr:atmos:2:PRECC,PRECL:PRECC + PRECL and unit conversion
-day:1.0:prsn:atmos:2:PRECSC,PRECSL:PRECSC + PRECSL and unit conversion
-day:1.0:psl:atmos:1:PSL:PSL no change
-day:1.0:rlds:atmos:1:FLDS:FLDS no change
-day:1.0:rlus:atmos:2:FLDS,FLNS:FLDS + FLNS
-day:1.0:rlut:atmos:1:FLUT:FLUT no change
-day:1.0:rsds:atmos:1:FSDS:FSDS no change
-day:1.0:rsus:atmos:2:FSDS,FSNS:FSDS - FSNS
-day:1.0:ta:atmos:1:vT:T interpolated to standard plevs
-day:1.0:tas:atmos:1:TREFHT:TREFHT no change
-day:1.0:tasmax:atmos:1:TREFHTMX:TREFHTMX no change
-day:1.0:tasmin:atmos:1:TREFHTMN:TREFHTMN no change
-day:1.0:ua:atmos:1:vU:U interpolated to standard plevs
-day:1.0:uas:atmos:1:UNAVAILABLE:UNAVAILABLE
-day:1.0:va:atmos:1:vV:V interpolated to standard plevs
-day:1.0:vas:atmos:1:UNAVAILABLE:UNAVAILABLE
-day:1.0:wap:atmos:1:vOMEGA:OMEGA interpolated to standard plevs
-day:1.0:zg:atmos:1:vZ3:Z3 interpolated to standard plevs
+day:clt:atmos:1:CLDTOT:CLDTOT unit conversion
+day:hfls:atmos:1:LHFLX:LHFLX no change
+day:hfss:atmos:1:SHFLX:SHFLX no change
+day:hur:atmos:1:vRELHUM:RELHUM interpolated to standard plevs
+day:hus:atmos:1:vQ:Q interpolated to standard plevs
+day:huss:atmos:1:QREFHT:QREFHT no change
+day:prc:atmos:1:PRECC:PRECC unit conversion
+day:pr:atmos:2:PRECC,PRECL:PRECC + PRECL and unit conversion
+day:prsn:atmos:2:PRECSC,PRECSL:PRECSC + PRECSL and unit conversion
+day:psl:atmos:1:PSL:PSL no change
+day:rlds:atmos:1:FLDS:FLDS no change
+day:rlus:atmos:2:FLDS,FLNS:FLDS + FLNS
+day:rlut:atmos:1:FLUT:FLUT no change
+day:rsds:atmos:1:FSDS:FSDS no change
+day:rsus:atmos:2:FSDS,FSNS:FSDS - FSNS
+day:ta:atmos:1:vT:T interpolated to standard plevs
+day:tas:atmos:1:TREFHT:TREFHT no change
+day:tasmax:atmos:1:TREFHTMX:TREFHTMX no change
+day:tasmin:atmos:1:TREFHTMN:TREFHTMN no change
+day:ua:atmos:1:vU:U interpolated to standard plevs
+day:uas:atmos:1:UNAVAILABLE:UNAVAILABLE
+day:va:atmos:1:vV:V interpolated to standard plevs
+day:vas:atmos:1:UNAVAILABLE:UNAVAILABLE
+day:wap:atmos:1:vOMEGA:OMEGA interpolated to standard plevs
+day:zg:atmos:1:vZ3:Z3 interpolated to standard plevs

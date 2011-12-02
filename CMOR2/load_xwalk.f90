@@ -29,7 +29,6 @@ subroutine load_xwalk(xw_file)
      xw(i)%entry(1:)        = ' '
      xw(i)%realm(1:)        = ' '
      xw(i)%comment(1:)      = ' '
-     xw(i)%priority         = -9999.
      xw(i)%cesm_vars(:)(1:) = ' '
      xw(i)%ncesm_vars       = 0
   enddo
@@ -50,12 +49,11 @@ subroutine load_xwalk(xw_file)
         !         1         2         3
         !123456789012345678901234567890
         !
-        !Amon:1.0:ccb:atmos:1:CLDBOT:CLDBOT no change
-        !Amon:1.0:cct:atmos:1:CLDTOP:CLDTOP no change
+        !Amon:ccb:atmos:1:CLDBOT:CLDBOT no change
+        !Amon:cct:atmos:1:CLDTOP:CLDTOP no change
         ![...]
-        !Amon:1.0:mc:atmos:3:CMFMC,CMFMCDZM,PS:CMFMC,CMFMCDZM,PS interpolate to standard plevs
-        !Amon:1.0:pr:atmos:2:PRECC,PRECL:PRECC + PRECL and unit conversion
-        !Amon:1.0:prsn:atmos:2:PRECSC,PRECSL:PRECSC + PRECSL and unit conversion
+        !Amon:pr:atmos:2:PRECC,PRECL:PRECC + PRECL and unit conversion
+        !Amon:prsn:atmos:2:PRECSC,PRECSL:PRECSC + PRECSL and unit conversion
         !
         j = 1
         do i = 1,len_trim(adjustl(instring))
@@ -65,27 +63,26 @@ subroutine load_xwalk(xw_file)
            endif
         enddo
         xw(ixw)%table(1:)         = instring(1:icol(1)-1)
-        xw(ixw)%entry(1:)         = instring(icol(2)+1:icol(3)-1)
-        xw(ixw)%realm(1:)         = instring(icol(3)+1:icol(4)-1)
-        read(instring(icol(1)+1:icol(2)-1),*) xw(ixw)%priority
-        read(instring(icol(4)+1:icol(5)-1),*) xw(ixw)%ncesm_vars
-        xw(ixw)%comment(1:)       = instring(icol(6)+1:len_trim(instring))
+        xw(ixw)%entry(1:)         = instring(icol(1)+1:icol(2)-1)
+        xw(ixw)%realm(1:)         = instring(icol(2)+1:icol(3)-1)
+        read(instring(icol(3)+1:icol(4)-1),*) xw(ixw)%ncesm_vars
+        xw(ixw)%comment(1:)       = instring(icol(5)+1:len_trim(instring))
         !
         if (xw(ixw)%ncesm_vars .gt. 1) then
-           icom(1) = icol(5)
+           icom(1) = icol(4)
            j = 2
-           do i = icol(5)+1,icol(6)-1
+           do i = icol(4)+1,icol(5)-1
               if (instring(i:i) == ',') then
                  icom(j) = i
                  j = j + 1
               endif
            enddo
-           icom(xw(ixw)%ncesm_vars+1) = icol(6)
+           icom(xw(ixw)%ncesm_vars+1) = icol(5)
            do i = 1,xw(ixw)%ncesm_vars
               xw(ixw)%cesm_vars(i) = instring(icom(i)+1:icom(i+1)-1)
            enddo
         else
-           xw(ixw)%cesm_vars(1) = instring(icol(5)+1:icol(6)-1)
+           xw(ixw)%cesm_vars(1) = instring(icol(4)+1:icol(5)-1)
         endif
      endif
   enddo

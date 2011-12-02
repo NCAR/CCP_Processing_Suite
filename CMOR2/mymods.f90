@@ -78,7 +78,6 @@ module xwalk_info
      character(len=256)::table,entry,realm,comment
      character(len=256),dimension(10)::cesm_vars
      integer::ncesm_vars
-     real::priority
   end type XWInfo
   integer::num_xw,xw_found
   !
