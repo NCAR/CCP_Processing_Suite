@@ -47,24 +47,21 @@ subroutine build_filenames(ixw,ivar,begyr,endyr)
   logical::exists
   !
   exists = .false.
-  year1  = begyr
-  year2  = endyr
-  do while (.not.(exists).and.(year1.le.year2).and.(year2.ge.year1))
-     write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
-          trim(case_read),&
-          trim(comp_read),&
-          trim(xw(ixw)%cesm_vars(ivar)),&
-          year1,year2
-     inquire(file=checkname,exist=exists)
-     all_continue = all_continue.or.exists
-     if (exists) then
-        nc_nfiles(ivar) = nc_nfiles(ivar) + 1
-        ncfile(nc_nfiles(ivar),ivar) = checkname
-     else
-        year1 = year1 + 1
-        year2 = year2 - 1
-     endif
+  do year1 = begyr,endyr
+     do year2 = endyr,begyr,-1
+        write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
+             trim(case_read),&
+             trim(comp_read),&
+             trim(xw(ixw)%cesm_vars(ivar)),&
+             year1,year2
+        inquire(file=checkname,exist=exists)
+        all_continue = all_continue.or.exists
+        if (exists) then
+           nc_nfiles(ivar) = nc_nfiles(ivar) + 1
+           ncfile(nc_nfiles(ivar),ivar) = checkname
+        endif
+     enddo
   enddo
-!  write(*,*) 'build_filenames all_continue: ',all_continue
-!  if (all_continue) write(*,'(''Filename(s): '',a)') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
+  write(*,*) 'build_filenames all_continue: ',all_continue
+  if (all_continue) write(*,'(''Filename(s): '',a)') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
 end subroutine build_filenames

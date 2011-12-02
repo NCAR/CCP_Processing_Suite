@@ -92,38 +92,33 @@ subroutine load_xwalk(xw_file)
 !!$  do i = 1,ixw
 !!$     select case (xw(i)%ncesm_vars)
 !!$        case ( 1 )
-!!$           write(*,'(a8,''|'',,a20,''|'',f3.1,''|'',i2,''|'',a12,''|'',a50)') &
+!!$           write(*,'(a8,''|'',,a20,''|'',i2,''|'',a12,''|'',a50)') &
 !!$                xw(i)%table(1:),&
 !!$                xw(i)%entry(1:),&
-!!$                xw(i)%priority,&
 !!$                xw(i)%ncesm_vars,(xw(i)%cesm_vars(j)(1:),j=1,xw(i)%ncesm_vars),&
 !!$                xw(i)%comment
 !!$        case ( 2 )
-!!$           write(*,'(a8,''|'',,a20,''|'',f3.1,''|'',i2,''|'',a12,'':'',a12,''|'',a50)') &
+!!$           write(*,'(a8,''|'',,a20,''|'',i2,''|'',a12,'':'',a12,''|'',a50)') &
 !!$                xw(i)%table(1:),&
 !!$                xw(i)%entry(1:),&
-!!$                xw(i)%priority,&
 !!$                xw(i)%ncesm_vars,(xw(i)%cesm_vars(j)(1:),j=1,xw(i)%ncesm_vars),&
 !!$                xw(i)%comment
 !!$        case ( 3 )
-!!$           write(*,'(a8,''|'',,a20,''|'',f3.1,''|'',i2,''|'',2(a12,'':''),a12,''|'',a50)') &
+!!$           write(*,'(a8,''|'',,a20,''|'',i2,''|'',2(a12,'':''),a12,''|'',a50)') &
 !!$                xw(i)%table(1:),&
 !!$                xw(i)%entry(1:),&
-!!$                xw(i)%priority,&
 !!$                xw(i)%ncesm_vars,(xw(i)%cesm_vars(j)(1:),j=1,xw(i)%ncesm_vars),&
 !!$                xw(i)%comment
 !!$        case ( 4 )
-!!$           write(*,'(a8,''|'',,a20,''|'',f3.1,''|'',i2,''|'',3(a12,'':''),a12,''|'',a50)') &
+!!$           write(*,'(a8,''|'',,a20,''|'',i2,''|'',3(a12,'':''),a12,''|'',a50)') &
 !!$                xw(i)%table(1:),&
 !!$                xw(i)%entry(1:),&
-!!$                xw(i)%priority,&
 !!$                xw(i)%ncesm_vars,(xw(i)%cesm_vars(j)(1:),j=1,xw(i)%ncesm_vars),&
 !!$                xw(i)%comment
 !!$        case ( 5 )
-!!$           write(*,'(a8,''|'',,a20,''|'',f3.1,''|'',i2,''|'',4(a12,'':''),a12,''|'',a50)') &
+!!$           write(*,'(a8,''|'',,a20,''|'',i2,''|'',4(a12,'':''),a12,''|'',a50)') &
 !!$                xw(i)%table(1:),&
 !!$                xw(i)%entry(1:),&
-!!$                xw(i)%priority,&
 !!$                xw(i)%ncesm_vars,(xw(i)%cesm_vars(j)(1:),j=1,xw(i)%ncesm_vars),&
 !!$                xw(i)%comment
 !!$        end select

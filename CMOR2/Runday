@@ -60,6 +60,7 @@ fi
 # Do it!
 #
 rm -f day_in.${CASE}.${COMP} Info_in.${CASE}.${COMP}
+mkdir ./CMOR
 #
 echo $CASE >> day_in.${CASE}.${COMP}
 echo $COMP >> day_in.${CASE}.${COMP}

@@ -37,7 +37,7 @@ XWALK=xwalk_OImon.txt
 #
 ln -s -f ${BASED}/experiments.txt .
 ln -s -f ${CMORD}/Tables          .
-ln -s -f ${CMORD}/ice_grid_f09.nc .
+ln -s -f ${CMORD}/ice_grid_gx1.nc .
 #
 # Assume all fields in xwalk to be processed
 #
@@ -60,6 +60,7 @@ fi
 # Do it!
 #
 rm -f OImon_in.${CASE}.${COMP} Info_in.${CASE}.${COMP}
+mkdir ./CMOR
 #
 echo $CASE >> OImon_in.${CASE}.${COMP}
 echo $COMP >> OImon_in.${CASE}.${COMP}
