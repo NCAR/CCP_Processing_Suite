@@ -160,150 +160,136 @@ subroutine load_exp(exp_file)
   ! Vl  volcanic aerosol
   !
   do i = 1,num_exp
-     select case (trim(adjustl(exp(i)%expt_id)))
+     select case (exp(i)%expt_id)
      case ('1pctCO2')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'GHG (CO2 only)'
      case ('abrupt4xCO2')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
      case ('amip')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
      case ('amip4K')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('amip4xCO2')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('amipFuture')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('aqua4K')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('aqua4xCO2')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('aquaControl')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('decadalXXXX')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('esmControl')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('esmFdbk1')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('esmFdbk2')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('esmFixClim1')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('esmFixClim2')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('esmHistorical')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('esmrcp85')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('historical')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU'
-!        select case (trim(adjustl(exp(i)%case)))
-!        case ('b40.20th.track1.deg.005','b40.20th.track1.deg.006','b40.20th.track1.deg.007','b40.20th.track1.deg.008','b40.20th.track1.deg.009','b40.20th.track1.deg.012')
-!        case ('b40.20th.track1.1deg.008')
-!!$           exp(i)%forcing_note(1:) = '\n'//&
-!!$                                     'Sl  : SOLAR_TSI_Lean_1610-2007_annual_c090324.nc \n'//&
-!!$                                     'GHG : ghg_hist_1765-2005_c091218.nc \n'//&
-!!$                                     'Vl  : CCSM4_volcanic_1850-2008_prototype1.nc \n'//&
-!!$                                     'SS  : ssam_camrt_c080918.nc, sscm_camrt_c080918.nc \n'//&
-!!$                                     'Ds  :  \n'//&
-!!$                                     'MD  :  \n'//&
-!!$                                     'SD  : aero_1.9x2.5_L26_1850-2005_c091112.nc, sulfate_camrt_c080918.nc \n'//&
-!!$                                     'BC  : bcpho_camrt_c080918.nc, bcphi_camrt_c080918.nc \n'//&
-!!$                                     'OC  : ocpho_camrt_c080918.nc, ocphi_camrt_c080918.nc \n'//&
-!!$                                     'Oz  : ozone_1.9x2.5_L26_1850-2005_c091112.nc \n'//&
-!!$                                     'AA  :  \n'//&
-!!$                                     'LU  :  \n'
-!        case default
-!           write(*,*) 'Unknown historical case: ',trim(adjustl(exp(i)%case))
-!        end select
      case ('historicalExt')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('historicalGHG')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('historicalMisc')
         select case (trim(adjustl(exp(i)%case)))
         case ('b40.20th.aero.1deg.006')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.aero.1deg.008')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.aero.1deg.012')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.anthro.1deg.006')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.anthro.1deg.008')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.anthro.1deg.009')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.anthro.1deg.012')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.bcarb.1deg.008')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th_SFland.1deg.001')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.land.1deg.008')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.land.1deg.012')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.oz.1deg.006')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.oz.1deg.008')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.oz.1deg.012')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.so4.1deg.008')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.solar.1deg.006')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.solar.1deg.008')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.solar.1deg.012')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.volc.1deg.008')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.volc.1deg.006')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case ('b40.20th.volc.1deg.012')
-           exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+           exp(i)%forcing(1:)      = 'unknown forcings'
         case default
            write(*,*) 'Unknown historicalMisc case: ',trim(adjustl(exp(i)%case))
            stop
         end select
      case ('historicalNat')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('lgm')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('midHolocene')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('noVolcXXXX')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('past1000')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('piControl')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'Sl GHG SS Ds SD BC MD OC Oz AA (all fixed at 1850 values)'
      case ('rcp26')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'Sl GHG SS Ds SA BC MD OC Oz AA'
      case ('rcp45')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'Sl GHG SS Ds SA BC MD OC Oz AA'
      case ('rcp60')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'Sl GHG SS Ds SA BC MD OC Oz AA'
      case ('rcp85')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'Sl GHG SS Ds SA BC MD OC Oz AA'
      case ('sst2030')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('sstClim')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('sstClim4xCO2')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('sstClimAerosol')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('sstClimSulfate')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('volcIn2010')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case default
         exp(i)%forcing(1:)      = 'unknown forcings'
      end select
   enddo
+  write(*,'(''FORCINGS: '',a)') trim(exp(i)%forcing)
+  if (exp(i)%forcing(1:) == 'unknown forcings') then
+     write(*,*) 'FORCINGS UNDEFINED. PLEASE FIX. STOPPING.'
+     stop
+  endif
   !
   ! Add grid long name to grid info
   !

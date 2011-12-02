@@ -97,7 +97,8 @@ subroutine define_ocn_axes(dimensions)
            idim = idim + 1
         end select ! dimnames(i)
      enddo
-  case default
+  case ('msftbarot','tauuo','tauvo','uo','vo')
+     ! U-grid fields: BSF, TAUX, TAUY, UVEL, VVEL
      do i = 1,naxes
         select case(dimnames(i))
         case ('longitude')
@@ -117,10 +118,10 @@ subroutine define_ocn_axes(dimensions)
            write(*,*) 'latitude defined, axis_id: ',idim,axis_ids(idim)
            grid_id(1) = cmor_grid(                    &
                 axis_ids=(/axis_ids(1),axis_ids(2)/), &
-                latitude=ocn_lats,                    &
-                longitude=ocn_lons,                   &
-                latitude_vertices=ocn_lats_bnds,      &
-                longitude_vertices=ocn_lons_bnds)
+                latitude=ocn_u_lats,                    &
+                longitude=ocn_u_lons,                   &
+                latitude_vertices=ocn_u_lats_bnds,      &
+                longitude_vertices=ocn_u_lons_bnds)
            write(*,*) 'CMOR GRID defined, grid_id: ',grid_id(1)
            idim = idim + 1
         case ('olevel')
@@ -130,15 +131,61 @@ subroutine define_ocn_axes(dimensions)
                 table_entry='depth_coord',    &
                 length=nlevs,                 &
                 units='m',                    &
-                coord_vals=ocn_levs,          &
-                cell_bounds=ocn_levs_bnds)
+                coord_vals=ocn_t_levs,          &
+                cell_bounds=ocn_t_levs_bnds)
            idim = idim + 1
         case ('time')
            call cmor_set_table(table_ids(1))
            axis_ids(idim) = cmor_axis(        &
                 table_entry=dimnames(i),      &
                 units=dimunits(i),            &
-!                length=ntimes(1,1),           &
+                interval='30 days')
+           write(*,*) 'time defined, axis_id: ',idim,axis_ids(idim)
+           idim = idim + 1
+        end select ! dimnames(i)
+     enddo
+  case ( 'so','thetao','tos','volo','hfss','pr','prsn','rlds','rsds','rsntds','agessc','rhopoto','tossq')
+     ! T-grid fields: SHF SSH SFWF QFLUX LWDN_F LWUP_F PREC_F SENH_F SNOW_F QSW_HTP SHF_QSW PD RHO IAGE SALT TEMP
+     do i = 1,naxes
+        select case(dimnames(i))
+        case ('longitude')
+           call cmor_set_table(table_ids(2))
+           axis_ids(idim) = cmor_axis(        &
+                table_entry='i_index',      &
+                units='1',&
+                coord_vals=i_indices)
+           write(*,*) 'longitude defined, axis_id: ',idim,axis_ids(idim)
+           idim = idim + 1
+        case ('latitude')
+           call cmor_set_table(table_ids(2))
+           axis_ids(idim) = cmor_axis(        &
+                table_entry='j_index',       &
+                units='1',&
+                coord_vals=j_indices)
+           write(*,*) 'latitude defined, axis_id: ',idim,axis_ids(idim)
+           grid_id(1) = cmor_grid(                    &
+                axis_ids=(/axis_ids(1),axis_ids(2)/), &
+                latitude=ocn_t_lats,                    &
+                longitude=ocn_t_lons,                   &
+                latitude_vertices=ocn_t_lats_bnds,      &
+                longitude_vertices=ocn_t_lons_bnds)
+           write(*,*) 'CMOR GRID defined, grid_id: ',grid_id(1)
+           idim = idim + 1
+        case ('olevel')
+           call cmor_set_table(table_ids(1))
+           axis_ids(idim) = cmor_axis(        &
+                table=mycmor%table_file,      &
+                table_entry='depth_coord',    &
+                length=nlevs,                 &
+                units='m',                    &
+                coord_vals=ocn_t_levs,          &
+                cell_bounds=ocn_t_levs_bnds)
+           idim = idim + 1
+        case ('time')
+           call cmor_set_table(table_ids(1))
+           axis_ids(idim) = cmor_axis(        &
+                table_entry=dimnames(i),      &
+                units=dimunits(i),            &
                 interval='30 days')
            write(*,*) 'time defined, axis_id: ',idim,axis_ids(idim)
            idim = idim + 1

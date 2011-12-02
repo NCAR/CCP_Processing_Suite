@@ -33,9 +33,6 @@ program Amon_CMOR
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
   integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ilev,ic
   real::spval
-  logical::all_continue
-  !
-  logical,dimension(10)::continue
   !
   ! GO!
   !
@@ -78,66 +75,36 @@ program Amon_CMOR
   table_loop: do itab = 1,num_tab
      xwalk_loop: do ixw = 1,num_xw
         mycmor%positive = ' '
-        time_counter = 0
-        var_counter  = 0
-        error_flag   = 0
-        var_found    = 0
-        all_continue = .true.
-        continue(:)  = .false.
-        time_units   = ' '
-        original_name= ' '
+        time_counter    = 0
+        var_counter     = 0
+        error_flag      = 0
+        var_found       = 0
+        all_continue    = .false.
+        time_units      = ' '
+        original_name   = ' '
+        ncfile(:,:)(1:) = ' '
+        nc_nfiles(:)    = 0
         !
         ! The meaty part
         !
         if (xw(ixw)%entry == table(itab)%variable_entry) then
-           write(*,'(''MATCH; CMIP5: '',a,'' CESM: '',5(a))') trim(xw(ixw)%entry),(trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
+           write(*,'(''MATCH CMIP5: '',a,'' CESM: '',5(a,'',''))') trim(xw(ixw)%entry),(trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
            do ivar = 1,xw(ixw)%ncesm_vars
               if ((trim(xw(ixw)%cesm_vars(ivar)) == 'UNKNOWN').or.(trim(xw(ixw)%cesm_vars(ivar)) == 'UNAVAILABLE')) then
                  write(*,'(''UNAVAILABLE/UNKNOWN: '',a,'' == '',a)') trim(xw(ixw)%entry),trim(table(itab)%variable_entry)
               else
-                 write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
-                      trim(case_read),&
-                      trim(comp_read),&
-                      trim(xw(ixw)%cesm_vars(ivar)),&
-                      exp(exp_found)%begyr,exp(exp_found)%endyr
-                 inquire(file=trim(ncfile(1,ivar)),exist=continue(ivar))
-                 if (.not.(continue(ivar))) then
-                    write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
-                         trim(case_read),&
-                         trim(comp_read),&
-                         trim(xw(ixw)%cesm_vars(ivar)),&
-                         exp(exp_found)%begyr+1,exp(exp_found)%endyr
-                    inquire(file=trim(ncfile(1,ivar)),exist=continue(ivar))
-                 endif
-                 if (.not.(continue(ivar))) then
-                    write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''-01_cat_'',i4.4,''-12.nc'')') &
-                         trim(case_read),&
-                         trim(comp_read),&
-                         trim(xw(ixw)%cesm_vars(ivar)),&
-                         exp(exp_found)%begyr,exp(exp_found)%endyr
-                    inquire(file=trim(ncfile(1,ivar)),exist=continue(ivar))
-                 endif
-                 if (.not.(continue(ivar))) then
-                    write(*,'(''VAR NOT FOUND: '',a)') trim(xw(ixw)%cesm_vars(ivar))
-                 else
-                    write(*,'(''GOOD TO GO   : '',a,'' == '',a,'' from CESM file: '',a)') &
-                         trim(xw(ixw)%entry),&
-                         trim(table(itab)%variable_entry),&
-                         trim(ncfile(1,ivar))
-                 endif
+                 write(*,'(''CHECKING AVAILABILITY OF: '',a,''.'',a,''.'',a,''.* FILES'')') trim(case_read),trim(comp_read),trim(xw(ixw)%cesm_vars(ivar))
+                 call build_filenames(ixw,ivar,exp(exp_found)%begyr,exp(exp_found)%endyr)
               endif
-              !
-              ! Check and make sure all files available
-              !
-              all_continue = all_continue.and.(continue(ivar))
            enddo
            !
            ! Open CESM file(s) and get information(s)
            !
            if (all_continue) then
               do ivar = 1,xw(ixw)%ncesm_vars
+                 write(*,'(''TO OPEN: '',a)') trim(ncfile(nc_nfiles(ivar),ivar))
                  call open_cdf(ncid(1,ivar),trim(ncfile(1,ivar)),.true.)
-                 write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfile(1,ivar)),ncid(1,ivar)
+                 write(*,'(''OPENING: '',a,'' ncid: '',i10)') trim(ncfile(1,ivar)),ncid(1,ivar)
                  call get_dims(ncid(1,ivar))
                  call get_vars(ncid(1,ivar))
                  !
@@ -780,7 +747,6 @@ program Amon_CMOR
               var_counter  = 0
               error_flag   = 0
               var_found    = 0
-              continue(:)  = .false.
               mycmor%positive = ' '
               original_name= ' '
               !

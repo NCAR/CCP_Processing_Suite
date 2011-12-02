@@ -94,6 +94,8 @@ module files_info
   character(len=256),dimension(max_ncfiles,max_cesm_vars)::ncfile
   integer,dimension(max_cesm_vars)::nc_nfiles
   integer,dimension(max_ncfiles,max_cesm_vars)::ncid,var_found,ntimes
+  integer::ifile
+  logical::all_continue
   !
 end module files_info
 !
@@ -105,10 +107,12 @@ module grid_info
   real,dimension(:),    allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
   real,dimension(:,:),  allocatable::ice_lats,ice_lons
   real,dimension(:,:,:),allocatable::ice_lats_bnds,ice_lons_bnds
-  real,dimension(:),    allocatable::ocn_levs,ocn_trans_lats,ocn_trans_levs
-  real,dimension(:,:),  allocatable::ocn_levs_bnds,ocn_trans_lats_bnds,ocn_trans_levs_bnds
-  real,dimension(:,:,:),allocatable::ocn_lats_bnds,ocn_lons_bnds
-  real,dimension(:,:),  allocatable::ocn_lats,ocn_lons
+  real,dimension(:),    allocatable::ocn_t_levs,ocn_trans_lats,ocn_trans_levs
+  real,dimension(:,:),  allocatable::ocn_t_levs_bnds,ocn_trans_lats_bnds,ocn_trans_levs_bnds
+  real,dimension(:,:),  allocatable::ocn_t_lats,ocn_t_lons
+  real,dimension(:,:,:),allocatable::ocn_t_lats_bnds,ocn_t_lons_bnds
+  real,dimension(:,:),  allocatable::ocn_u_lats,ocn_u_lons
+  real,dimension(:,:,:),allocatable::ocn_u_lats_bnds,ocn_u_lons_bnds
   integer,dimension(:,:),allocatable::kmt
   real,dimension(:),    allocatable::lnd_lats,lnd_lons,lnd_levs,lnd_levs_bnds
   real,dimension(:,:,:),allocatable::lnd_zsoi,lnd_dzsoi  ! CLM soil depth (m), CLM soil layer thickness (m)
