@@ -490,7 +490,13 @@ program Omon_CMOR
                        time_bnds(1,1) = int(time_bnds(1,1))-1
                        time = (time_bnds(1,:)+time_bnds(2,:))/2.
                        !
-                       if (ntimes(ifile,ivar) .le. 120) then
+                       if (ntimes(ifile,ivar) .eq. 60) then
+                          nchunks(ifile)   = 1
+                          tidx1(1:nchunks(ifile)) = 13
+                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       endif
+                       !
+                       if (ntimes(ifile,ivar) .eq. 120) then
                           nchunks(ifile)   = 1
                           tidx1(1:nchunks(ifile)) = 1
                           tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)

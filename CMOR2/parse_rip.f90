@@ -43,7 +43,10 @@ subroutine parse_rip
   len      = len_trim(work)
   !
   do i = 1,len
-     if ((work(i:i) == 'r').or.(work(i:i) == 'i').or.(work(i:i) == 'p')) work(i:i) = ' '
+     select case(work(i:i))
+     case ('r','i','p')
+        work(i:i) = ' '
+     end select
   enddo
   !
   read(work,*) mycmor%realization,mycmor%initialization_method,mycmor%physics_version

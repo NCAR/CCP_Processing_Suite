@@ -29,28 +29,32 @@ subroutine get_atm_grid
         nlevs = dim_info(n)%length
      elseif(dim_info(n)%name(:length).eq.'ilev') then
         nilevs = dim_info(n)%length
-     elseif(dim_info(n)%name(:length).eq.'plev') then
+     elseif(dim_info(n)%name(:length).eq.'plevs') then
         nplevs = dim_info(n)%length
+     elseif(dim_info(n)%name(:length).eq.'plev8') then
+        nplev8 = dim_info(n)%length
      endif
   enddo
   allocate(atm_lons(nlons),atm_lats(nlats),slon(nlons),slat(nlats))
   allocate(atm_lons_bnds(2,nlons),atm_lats_bnds(2,nlats))
   allocate(atm_levs(nlevs),atm_levs_bnds(nlevs+1))
   allocate(atm_ilevs(nilevs),atm_ilevs_bnds(nilevs+1))
-  allocate(atm_plevs(nplevs),a_coeff(nlevs),b_coeff(nlevs),a_coeff_bnds(nlevs+1),b_coeff_bnds(nlevs+1))
+  allocate(atm_plevs(nplevs),atm_plev8(nplev8))
+  allocate(a_coeff(nlevs),b_coeff(nlevs),a_coeff_bnds(nlevs+1),b_coeff_bnds(nlevs+1))
   !
   call get_vars(gridid)
-  call read_var(gridid,'lon' ,atm_lons)
-  call read_var(gridid,'lat' ,atm_lats)
-  call read_var(gridid,'plev',atm_plevs)
-  call read_var(gridid,'lev' ,atm_levs)
-  call read_var(gridid,'ilev',atm_levs_bnds)
-  call read_var(gridid,'ilev',atm_ilevs)
-  call read_var(gridid,'hyam',a_coeff)
-  call read_var(gridid,'hyai',a_coeff_bnds)
-  call read_var(gridid,'hybm',b_coeff)
-  call read_var(gridid,'hybi',b_coeff_bnds)
-  call read_var(gridid,'P0'  ,p0)
+  call read_var(gridid,'lon'  ,atm_lons)
+  call read_var(gridid,'lat'  ,atm_lats)
+  call read_var(gridid,'plevs',atm_plevs)
+  call read_var(gridid,'plev8',atm_plev8)
+  call read_var(gridid,'lev'  ,atm_levs)
+  call read_var(gridid,'ilev' ,atm_levs_bnds)
+  call read_var(gridid,'ilev' ,atm_ilevs)
+  call read_var(gridid,'hyam' ,a_coeff)
+  call read_var(gridid,'hyai' ,a_coeff_bnds)
+  call read_var(gridid,'hybm' ,b_coeff)
+  call read_var(gridid,'hybi' ,b_coeff_bnds)
+  call read_var(gridid,'P0'   ,p0)
   !
   ! Convert Pa values to mb
   !

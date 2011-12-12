@@ -62,6 +62,41 @@ subroutine build_filenames(ixw,ivar,begyr,endyr)
         endif
      enddo
   enddo
+  if (sum(nc_nfiles) == 0) then
+     exists = .false.
+     do year1 = begyr,endyr
+        do year2 = endyr,begyr,-1
+           write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''0102-'',i4.4,''1231.nc'')') &
+                trim(case_read),&
+                trim(comp_read),&
+                trim(xw(ixw)%cesm_vars(ivar)),&
+                year1,year2
+           inquire(file=checkname,exist=exists)
+           all_continue = all_continue.or.exists
+           if (exists) then
+              nc_nfiles(ivar) = nc_nfiles(ivar) + 1
+              ncfile(nc_nfiles(ivar),ivar) = checkname
+           endif
+        enddo
+     enddo
+     exists = .false.
+     do year1 = begyr,endyr
+        do year2 = endyr,begyr,-1
+           write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''0101-'',i4.4,''1231.nc'')') &
+                trim(case_read),&
+                trim(comp_read),&
+                trim(xw(ixw)%cesm_vars(ivar)),&
+                year1,year2
+           inquire(file=checkname,exist=exists)
+           all_continue = all_continue.or.exists
+           if (exists) then
+              nc_nfiles(ivar) = nc_nfiles(ivar) + 1
+              ncfile(nc_nfiles(ivar),ivar) = checkname
+           endif
+        enddo
+     enddo
+  endif
+  !
   write(*,*) 'build_filenames all_continue: ',all_continue
-  if (all_continue) write(*,'(''Filename(s): '',a)') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
+  if (all_continue) write(*,'(''nfiles: '',10i5)') nc_nfiles
 end subroutine build_filenames

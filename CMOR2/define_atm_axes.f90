@@ -50,14 +50,12 @@ subroutine define_atm_axes(dimensions)
           table=mycmor%table_file,&
           table_entry='time',     &
           units=time_units,       &
-          length=ntimes(1,1),     &
           interval='30 days')
   case ('Tables/CMIP5_day')
      axis_ids(idim) = cmor_axis(  &
           table=mycmor%table_file,&
           table_entry='time',     &
           units=time_units,       &
-          length=ntimes(1,1),     &
           interval='1 day')
   end select
 !  write(*,'('' dimension: '',a,'' defined: '',i4)') 'time',axis_ids(idim)
@@ -92,6 +90,15 @@ subroutine define_atm_axes(dimensions)
              length=SIZE(atm_plevs),       &
              units=dimunits(i),            &
              coord_vals=atm_plevs)
+!        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        idim = idim + 1
+     case ('plev8')
+        axis_ids(idim) = cmor_axis(        &
+             table=mycmor%table_file,      &
+             table_entry=dimnames(i),      &
+             length=SIZE(atm_plev8),       &
+             units=dimunits(i),            &
+             coord_vals=atm_plev8)
 !        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('alevel')

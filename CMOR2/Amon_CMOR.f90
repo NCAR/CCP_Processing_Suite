@@ -205,11 +205,7 @@ program Amon_CMOR
               ! Make manual alterations so that CMOR works. Silly code!
               !
               if (xw(ixw)%ncesm_vars == 1) then
-                 if (xw(ixw)%cesm_vars(1)(1:1) == 'v') then
-                    write(original_name,'(a)') xw(ixw)%cesm_vars(1)(2:)
-                 else
-                    write(original_name,'(a)') xw(ixw)%cesm_vars(1)
-                 endif
+                 write(original_name,'(a)') xw(ixw)%cesm_vars(1)
               endif
               if (xw(ixw)%ncesm_vars == 2) then
                  write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)

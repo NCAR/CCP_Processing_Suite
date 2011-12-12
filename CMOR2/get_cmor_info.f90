@@ -51,7 +51,6 @@ subroutine get_cmor_info
   mycmor%model_id      = trim(exp(exp_found)%model_id)
   mycmor%outpath       = 'CMOR'
   mycmor%experiment_id = exp(exp_found)%expt_id(1:)
-  mycmor%institution   = 'NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   mycmor%source        = trim(exp(exp_found)%model_id)
   mycmor%calendar      = 'noleap'
   mycmor%contact       = 'cesm_data@ucar.edu'
@@ -63,15 +62,25 @@ subroutine get_cmor_info
   !
   select case (trim(adjustl(exp(exp_found)%model_id)))
   case ('CCSM4')
-     mycmor%references = 'Gent P. R., et.al. 2011: The Community Climate System Model version 4. J. Climate, doi: 10.1175/2011JCLI4083.1'
-  case ('CESM1')
-     mycmor%references = 'TBD'
-  case ('CCSM4-BGC')
-     mycmor%references = 'TBD'
-  case ('CCSM4-FSCHEM')
-     mycmor%references = 'TBD'
-  case ('CCSM4-WACCM')
-     mycmor%references = 'TBD'
+     mycmor%references    = 'Gent P. R., et.al. 2011: The Community Climate System Model version 4. J. Climate, doi: 10.1175/2011JCLI4083.1'
+     mycmor%institute_id  = 'NCAR'
+     mycmor%institution   = 'NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
+  case ('CESM1-CAM5')
+     mycmor%references    = 'TBD'
+     mycmor%institute_id  = 'TBD'
+     mycmor%institution   = 'TBD'
+  case ('CESM1-BGC')
+     mycmor%references    = 'TBD'
+     mycmor%institute_id  = 'TBD'
+     mycmor%institution   = 'TBD'
+  case ('CESM1-FASTCHEM')
+     mycmor%references    = 'TBD'
+     mycmor%institute_id  = 'TBD'
+     mycmor%institution   = 'TBD'
+  case ('CESM1-WACCM')
+     mycmor%references    = 'TBD'
+     mycmor%institute_id  = 'TBD'
+     mycmor%institution   = 'TBD'
   case default
      write(*,*) 'Unknown model_id: ',trim(adjustl(exp(exp_found)%model_id)),' Stopping.'
      stop
@@ -80,6 +89,5 @@ subroutine get_cmor_info
   !leap_month   =
   !month_lengths=
   mycmor%forcing       = exp(exp_found)%forcing(1:)
-  mycmor%institute_id  = 'NCAR'
   !
 end subroutine get_cmor_info
