@@ -35,24 +35,24 @@
 !!$  enddo
 !!$end program DRIVE_build_filenames
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-subroutine build_filenames(ixw,ivar,begyr,endyr)
-  use exp_info
-  use xwalk_info
+subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr)
   use files_info
   !
   implicit none
-  integer,intent(in)::ivar,ixw,begyr,endyr
+  character(len=256),intent(in)::case,comp,cesm_var
+  integer,intent(in)::ivar,begyr,endyr
   integer::i,j,year1,year2
-  character(len=512)::checkname
+  character(len=256)::checkname
   logical::exists
   !
+  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,begyr,endyr
   exists = .false.
   do year1 = begyr,endyr
      do year2 = endyr,begyr,-1
         write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
-             trim(case_read),&
-             trim(comp_read),&
-             trim(xw(ixw)%cesm_vars(ivar)),&
+             trim(case),&
+             trim(comp),&
+             trim(cesm_var),&
              year1,year2
         inquire(file=checkname,exist=exists)
         all_continue = all_continue.or.exists
@@ -62,14 +62,14 @@ subroutine build_filenames(ixw,ivar,begyr,endyr)
         endif
      enddo
   enddo
-  if (sum(nc_nfiles) == 0) then
+  if (nc_nfiles(ivar) == 0) then
      exists = .false.
      do year1 = begyr,endyr
         do year2 = endyr,begyr,-1
            write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''0102-'',i4.4,''1231.nc'')') &
-                trim(case_read),&
-                trim(comp_read),&
-                trim(xw(ixw)%cesm_vars(ivar)),&
+                trim(case),&
+                trim(comp),&
+                trim(cesm_var),&
                 year1,year2
            inquire(file=checkname,exist=exists)
            all_continue = all_continue.or.exists
@@ -83,9 +83,9 @@ subroutine build_filenames(ixw,ivar,begyr,endyr)
      do year1 = begyr,endyr
         do year2 = endyr,begyr,-1
            write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''0101-'',i4.4,''1231.nc'')') &
-                trim(case_read),&
-                trim(comp_read),&
-                trim(xw(ixw)%cesm_vars(ivar)),&
+                trim(case),&
+                trim(comp),&
+                trim(cesm_var),&
                 year1,year2
            inquire(file=checkname,exist=exists)
            all_continue = all_continue.or.exists
@@ -98,5 +98,6 @@ subroutine build_filenames(ixw,ivar,begyr,endyr)
   endif
   !
   write(*,*) 'build_filenames all_continue: ',all_continue
-  if (all_continue) write(*,'(''nfiles: '',10i5)') nc_nfiles
+  if (all_continue) write(*,'(''nfiles: '',10i5)') nc_nfiles(1:ivar)
+  if (all_continue) write(*,'('' files: '',10(a))') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
 end subroutine build_filenames

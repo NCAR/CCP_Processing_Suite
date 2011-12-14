@@ -99,7 +99,7 @@ program day_CMOR
                  write(*,'(''UNAVAILABLE/UNKNOWN: '',a,'' == '',a)') trim(xw(ixw)%entry),trim(table(itab)%variable_entry)
               else
                  write(*,'(''CHECKING AVAILABILITY OF: '',a,''.'',a,''.'',a,''.* FILES'')') trim(case_read),trim(comp_read),trim(xw(ixw)%cesm_vars(ivar))
-                 call build_filenames(ixw,ivar,exp(exp_found)%begyr,exp(exp_found)%endyr)
+                 call build_filenames(case_read,comp_read,xw(ixw)%cesm_vars(ivar),ivar,exp(exp_found)%begyr,exp(exp_found)%endyr)
               endif
            enddo
            !
@@ -645,6 +645,7 @@ program day_CMOR
                  !
                  allocate(indat3a(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nplev8))
                  allocate(psdata(nlons,nlats))
+                 write(*,*) 'OPENING: ',trim(ncfile(1,1)),' and ',trim(ncfile(1,2))
                  if (nc_nfiles(1) == nc_nfiles(2)) then
                     do ifile = 1,nc_nfiles(1)
                        call open_cdf(ncid(ifile,1),trim(ncfile(ifile,1)),.true.)
@@ -653,7 +654,7 @@ program day_CMOR
                        call open_cdf(ncid(ifile,2),trim(ncfile(ifile,2)),.true.)
                        call get_dims(ncid(ifile,2))
                        call get_vars(ncid(ifile,2))
-                       !
+                             !
                        if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
                        if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
                        !
@@ -667,22 +668,10 @@ program day_CMOR
                        ! Determine amount of data to write, to keep close to ~2 GB limit
                        !
                        select case (ntimes(ifile,1))
-                       case ( 1872 )
-                          nchunks(ifile) = 3
-                          tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
-                          tidx2(1:nchunks(ifile)) = (/600,1200,1872/) ! 1899, 1950, 2005
-                       case ( 364, 365 )
+                       case ( 1824, 1825, 2190 )
                           nchunks(ifile) = 1
                           tidx1(1:nchunks(ifile)) = 1
                           tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-                       case (1152)
-                          nchunks(ifile) = 2
-                          tidx1(1:nchunks(ifile)) = (/ 13, 541/)      ! 2006, 2050
-                          tidx2(1:nchunks(ifile)) = (/540,1152/)      ! 2049, 2100
-                       case ( 1140 )
-                          nchunks(ifile) = 2
-                          tidx1(1:nchunks(ifile)) = (/  1, 529/)      ! 2006, 2050
-                          tidx2(1:nchunks(ifile)) = (/528,1140/)      ! 2049, 2100
                        case ( 6012 )
                           nchunks(ifile) = 10
                           tidx1(1) =   1
@@ -741,6 +730,13 @@ program day_CMOR
                        if (allocated(time))      deallocate(time)
                        if (allocated(time_bnds)) deallocate(time_bnds)
                     enddo
+                    !
+                    error_flag = cmor_close()
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                    else
+                       write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                    endif
                  endif
               case ('clw','cli','cl')
                  !
@@ -852,12 +848,12 @@ program day_CMOR
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
               !
-              error_flag = cmor_close()
-              if (error_flag < 0) then
-                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-              else
-                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-              endif
+!!$              error_flag = cmor_close()
+!!$              if (error_flag < 0) then
+!!$                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+!!$              else
+!!$                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+!!$              endif
            endif
         endif
      enddo xwalk_loop

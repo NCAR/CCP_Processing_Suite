@@ -28,7 +28,6 @@ program fx_CMOR
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile
   integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw
   real::spval
-  logical::all_continue
   logical,dimension(10)::continue
   !
   ! GO!

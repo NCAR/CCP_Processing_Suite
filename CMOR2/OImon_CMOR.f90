@@ -33,7 +33,6 @@ program OImon_CMOR
   integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ic
   integer,dimension(:),allocatable::i_indices,j_indices
   real::spval
-  logical::all_continue
   !
   character(len=256),dimension(10)::ncfilenh,ncfilesh
   integer,dimension(10)::ncidnh,ncidsh

@@ -67,19 +67,19 @@ subroutine get_cmor_info
      mycmor%institution   = 'NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case ('CESM1-CAM5')
      mycmor%references    = 'TBD'
-     mycmor%institute_id  = 'TBD'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'TBD'
   case ('CESM1-BGC')
      mycmor%references    = 'TBD'
-     mycmor%institute_id  = 'TBD'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'TBD'
   case ('CESM1-FASTCHEM')
      mycmor%references    = 'TBD'
-     mycmor%institute_id  = 'TBD'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'TBD'
   case ('CESM1-WACCM')
      mycmor%references    = 'TBD'
-     mycmor%institute_id  = 'TBD'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'TBD'
   case default
      write(*,*) 'Unknown model_id: ',trim(adjustl(exp(exp_found)%model_id)),' Stopping.'
