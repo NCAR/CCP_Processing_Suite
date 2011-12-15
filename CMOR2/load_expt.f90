@@ -98,7 +98,7 @@ subroutine load_exp(exp_file)
   exp(:)%start_fin(1:)     = ' '
   exp(:)%mach(1:)          = ' '
   exp(:)%dout(1:)          = ' '
-  exp(:)%forcing(1:)       = ' '
+  exp(:)%forcing(1:)       = 'unknown forcings'
   !
   open(20,file=trim(adjustl(exp_file)),form='formatted')
   iostat = 0 ; iexp = 1
@@ -252,7 +252,7 @@ subroutine load_exp(exp_file)
      case ('historicalNat')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('lgm')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'Sl GHG (TEST, NOT REAL)'
      case ('midHolocene')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('noVolcXXXX')
@@ -281,15 +281,8 @@ subroutine load_exp(exp_file)
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('volcIn2010')
         exp(i)%forcing(1:)      = 'unknown forcings'
-     case default
-        exp(i)%forcing(1:)      = 'unknown forcings'
      end select
   enddo
-  write(*,'(''FORCINGS: '',a)') trim(exp(i)%forcing)
-  if (exp(i)%forcing(1:) == 'unknown forcings') then
-     write(*,*) 'FORCINGS UNDEFINED. PLEASE FIX. STOPPING.'
-     stop
-  endif
   !
   ! Add grid long name to grid info
   !

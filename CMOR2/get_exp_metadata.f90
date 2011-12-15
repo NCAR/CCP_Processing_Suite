@@ -19,6 +19,10 @@ subroutine get_exp_metadata
      write(*,*) 'case ',case_read(1:len_trim(case_read)),' NOT FOUND. Dying.'
      stop
   endif
+  if (exp(exp_found)%forcing(1:) == 'unknown forcings') then
+     write(*,*) 'FORCINGS UNDEFINED. PLEASE FIX. STOPPING.'
+     stop
+  endif
   !
   parent_found = 0
   do iexp = 1,num_exp
