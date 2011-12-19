@@ -11,7 +11,7 @@ subroutine get_atm_grid
   implicit none
   !
   double precision,allocatable,dimension(:)::slon,slat
-  integer::gridid,i,j,n,length
+  integer::gridid,i,j,k,n,length
   !
   call open_cdf(gridid,'atm_grid_f09.nc',.true.)
   !
@@ -56,9 +56,18 @@ subroutine get_atm_grid
   call read_var(gridid,'hybi' ,b_coeff_bnds)
   call read_var(gridid,'P0'   ,p0)
   !
-  ! Convert Pa values to mb
   !
-  p0            = p0            * 0.01
+  ! Create atm_ilev_bnds from regular levs
+  !
+  atm_ilevs_bnds(1) = atm_levs(1)-((atm_levs(2)-atm_levs(1))*0.5)
+  do k = 2,nilevs
+     atm_ilevs_bnds(k) = atm_levs(k-1)
+  enddo
+  atm_ilevs_bnds(nilevs+1) = atm_levs(nlevs)+((atm_levs(nlevs)-atm_levs(nlevs-1))*0.5)
+  !
+  ! Convert Pa values to mb (for vertint)
+  !
+  p0 = p0 * 0.01
   !
   ! Transfer bounds for lons and lats
   !

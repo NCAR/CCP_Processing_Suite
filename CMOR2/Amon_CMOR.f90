@@ -217,7 +217,7 @@ program Amon_CMOR
               ! Modify units as necessary to accomodate udunits' inability to convert 
               !
               select case (xw(ixw)%entry)
-              case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs')
+              case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs','mc')
                  mycmor%positive = 'up'
               case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt')
                  mycmor%positive = 'down'
@@ -290,7 +290,7 @@ program Amon_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  select case(ntimes(1,1))
-                 case ( 1872,1140,6012 )  ! All data
+                 case ( 1872,1140,3612,6012,12012 )  ! All data
                     nchunks(1) = 1
                     tidx1(1:nchunks(1)) = 1
                     tidx2(1:nchunks(1)) = ntimes(1,1)
@@ -303,7 +303,7 @@ program Amon_CMOR
                     tidx1(1:nchunks(1)) = 3613
                     tidx2(1:nchunks(1)) = ntimes(1,1)
                  end select
-                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
@@ -342,7 +342,7 @@ program Amon_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  select case(ntimes(1,1))
-                 case ( 1872,1140,6012 )  ! All data
+                 case ( 1872,1140,3612,6012,12012 )  ! All data
                     nchunks(1) = 1
                     tidx1(1:nchunks(1)) = 1
                     tidx2(1:nchunks(1)) = ntimes(1,1)
@@ -355,7 +355,7 @@ program Amon_CMOR
                     tidx1(1:nchunks(1)) = 3613
                     tidx2(1:nchunks(1)) = ntimes(1,1)
                  end select
-                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
@@ -403,7 +403,7 @@ program Amon_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  select case(ntimes(1,1))
-                 case ( 1872,1140,6012 )  ! All data
+                 case ( 1872,1140,3612,6012,12012 )  ! All data
                     nchunks(1) = 1
                     tidx1(1:nchunks(1)) = 1
                     tidx2(1:nchunks(1)) = ntimes(1,1)
@@ -416,7 +416,7 @@ program Amon_CMOR
                     tidx1(1:nchunks(1)) = 3613
                     tidx2(1:nchunks(1)) = ntimes(1,1)
                  end select
-                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
@@ -464,7 +464,7 @@ program Amon_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  select case(ntimes(1,1))
-                 case ( 1872,1140,6012 )  ! All data
+                 case ( 1872,1140,3612,6012,12012 )  ! All data
                     nchunks(1) = 1
                     tidx1(1:nchunks(1)) = 1
                     tidx2(1:nchunks(1)) = ntimes(1,1)
@@ -477,7 +477,7 @@ program Amon_CMOR
                     tidx1(1:nchunks(1)) = 3613
                     tidx2(1:nchunks(1)) = ntimes(1,1)
                  end select
-                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
@@ -529,7 +529,7 @@ program Amon_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  select case(ntimes(1,1))
-                 case ( 1872,1140,6012 )  ! All data
+                 case ( 1872,1140,3612,6012,12012 )  ! All data
                     nchunks(1) = 1
                     tidx1(1:nchunks(1)) = 1
                     tidx2(1:nchunks(1)) = ntimes(1,1)
@@ -542,7 +542,7 @@ program Amon_CMOR
                     tidx1(1:nchunks(1)) = 3613
                     tidx2(1:nchunks(1)) = ntimes(1,1)
                  end select
-                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
@@ -602,8 +602,8 @@ program Amon_CMOR
                     nchunks(1) = 2
                     tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
                     tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
-                 case ( 6012 )  ! pre-industrial control, 50 year chunks
-                    nchunks(1) = 10
+                 case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
+                    nchunks(1) = int(ntimes(1,1)/600)
                     tidx1(1) =   1
                     tidx2(1) = 600
                     do ic = 2,nchunks(1)
@@ -616,7 +616,7 @@ program Amon_CMOR
                     tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
                     tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
                  end select
-                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
@@ -693,7 +693,7 @@ program Amon_CMOR
                     tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
                     tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
                  end select
-                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
@@ -746,8 +746,8 @@ program Amon_CMOR
                     nchunks(1) = 2
                     tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
                     tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
-                 case ( 6012 )  ! pre-industrial control, 50 year chunks
-                    nchunks(1) = 10
+                 case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
+                    nchunks(1) = int(ntimes(1,1)/600)
                     tidx1(1) =   1
                     tidx2(1) = 600
                     do ic = 2,nchunks(1)
@@ -760,7 +760,7 @@ program Amon_CMOR
                     tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
                     tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
                  end select
-                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
@@ -810,8 +810,8 @@ program Amon_CMOR
                  ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
                  ! break up into nicely-sized chunks along time
                  !
-                 allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),indat2a(nlons,nlats))
-                 allocate(cmordat3d(nlons,nlats,nlevs))
+                 allocate(indat3a(nlons,nlats,nilevs),indat3b(nlons,nlats,nilevs),indat2a(nlons,nlats))
+                 allocate(cmordat3d(nlons,nlats,nilevs))
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
@@ -828,8 +828,8 @@ program Amon_CMOR
                     nchunks(1) = 2
                     tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
                     tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
-                 case ( 6012 )  ! pre-industrial control, 50 year chunks
-                    nchunks(1) = 10
+                 case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
+                    nchunks(1) = int(ntimes(1,1)/600)
                     tidx1(1) =   1
                     tidx2(1) = 600
                     do ic = 2,nchunks(1)
@@ -842,13 +842,13 @@ program Amon_CMOR
                     tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
                     tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
                  end select
-                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                       call read_var(ncid(1,2),var_info(var_found(1,1))%name,indat3b)
-                       call read_var(ncid(1,3),var_info(var_found(1,2))%name,indat2a)
+                       call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat3b)
+                       call read_var(ncid(1,3),var_info(var_found(1,3))%name,indat2a)
                        where ((indat3a /= spval).and.(indat3b /= spval))
                           cmordat3d = indat3a + indat3b
                        elsewhere

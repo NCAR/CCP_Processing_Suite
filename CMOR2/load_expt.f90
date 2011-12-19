@@ -252,13 +252,13 @@ subroutine load_exp(exp_file)
      case ('historicalNat')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('lgm')
-        exp(i)%forcing(1:)      = 'Sl GHG (TEST, NOT REAL)'
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
      case ('midHolocene')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
      case ('noVolcXXXX')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('past1000')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'Sl GHG Vl LU (time-varying over course of simulation), SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
      case ('piControl')
         exp(i)%forcing(1:)      = 'Sl GHG SS Ds SD BC MD OC Oz AA (all fixed at 1850 values)'
      case ('rcp26')

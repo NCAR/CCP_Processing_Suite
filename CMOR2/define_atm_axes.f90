@@ -140,10 +140,10 @@ subroutine define_atm_axes(dimensions)
         ilev = cmor_axis(                        &
              table=mycmor%table_file,            &
              table_entry='standard_hybrid_sigma',&
-             length=SIZE(atm_levs),              &
+             length=SIZE(atm_ilevs),             &
              units='1',                          &
-             coord_vals=atm_levs,                &
-             cell_bounds=atm_levs_bnds)
+             coord_vals=atm_ilevs/1000.,         &
+             cell_bounds=atm_ilevs_bnds/1000.)
         error_flag = cmor_zfactor(    &
              zaxis_id=ilev,     &
              zfactor_name='p0',       &
