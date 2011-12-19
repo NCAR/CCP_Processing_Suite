@@ -5,7 +5,7 @@ if [ $# -ne 3 ] ; then
    echo "All three arguments REQUIRED:"
    echo "1: CASE name"
    echo "2: HIST name - usually one of [cam2.h0 cam2.h1 cam2.h2 clm.h0 pop.h csim.h cice.h etc]"
-   echo "3: TPER time period of above HIST type - must be one of [mon day hr6 hr3]"
+   echo "3: TPER time period of above HIST type - must be one of [mon day hr6 hr3 m30]"
    exit 1
 elif [ $# -eq 3 ] ; then
    CASE=$1 ; export CASE
@@ -15,16 +15,14 @@ fi
 #
 # Set up a bunch of stuff
 #
-if [ $TPER != "mon" ] ; then
-  if [ $TPER != "day" ] ; then
-    if [ $TPER != "hr6" ] ; then
-      if [ $TPER != "hr3" ] ; then
-        echo "TPER must be one of [mon day hr6 hr3]"
-        exit 1
-      fi
-    fi
-  fi
-fi
+case "$TPER" in
+  mon | day | hr6 | hr3 | m30 )
+    echo ${TPER}" is known time period. Proceeding." ;;
+  * ) 
+    echo "Unable to continue because "$TPER" is unknown. Stopping."
+    ./procstat.sh error Process_Setup
+    exit 1 ;;
+esac
 #
 # Extract information from "experiments.txt"
 #

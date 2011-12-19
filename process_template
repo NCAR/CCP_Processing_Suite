@@ -142,6 +142,8 @@ case "$TPER" in
     ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6  ;;
   hr3 )
     ARCHIVE_PROC=${ARCHIVE_PROC}/hourly3  ;;
+  m30 )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/minute30 ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
     ./procstat.sh error process_template

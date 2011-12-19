@@ -96,6 +96,9 @@ for c in $CASES ; do
           if [ "$TPER" = "hr3" ] ; then 
             DF=CAT.${c}.${h}.${v}.${d}00010100Z-${d}99123121Z.nc
           fi
+          if [ "$TPER" = "m30" ] ; then 
+            DF=CAT.${c}.${h}.${v}.${d}0001010000Z-${d}9912312330Z.nc
+          fi
           if [ $DF ] ; then
             $NCRCAT -O ${c}.${h}.${v}.${d}????-${d}????.nc $DF
             if [ $? -eq 0 ] ; then

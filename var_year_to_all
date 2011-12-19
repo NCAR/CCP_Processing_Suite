@@ -101,6 +101,9 @@ for c in $CASES ; do
           if [ "$TPER" = "hr3" ] ; then 
             DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123121Z.nc
           fi
+          if [ "$TPER" = "m30" ] ; then 
+            DF=CAT.${c}.${h}.${v}.${d}001010000Z-${d}912312330Z.nc
+          fi
           $NCRCAT -O ${c}.${h}.${v}.????.nc $DF
           if [ $? = 0 ] ; then
             rm -f ${c}.${h}.${v}.????.nc
@@ -128,6 +131,9 @@ for c in $CASES ; do
         fi
         if [ "$TPER" = "hr3" ] ; then 
           DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123121Z.nc
+        fi
+        if [ "$TPER" = "m30" ] ; then 
+          DF=CAT.${c}.${h}.${v}.${d}001010000Z-${d}912312330Z.nc
         fi
         $NCRCAT -O ${c}.${h}.${v}.????.nc $DF
         if [ $? = 0 ] ; then
