@@ -89,38 +89,14 @@ program Lmon_CMOR
         ! The meaty part
         !
         if (xw(ixw)%entry == table(itab)%variable_entry) then
-           write(*,'(''MATCH; CMIP5: '',a,'' CESM: '',a)') trim(xw(ixw)%entry),(trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
+           write(*,'(''MATCH CMIP5: '',a,'' CESM: '',5(a,'',''))') trim(xw(ixw)%entry),(trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
            do ivar = 1,xw(ixw)%ncesm_vars
               if ((trim(xw(ixw)%cesm_vars(ivar)) == 'UNKNOWN').or.(trim(xw(ixw)%cesm_vars(ivar)) == 'UNAVAILABLE')) then
                  write(*,'(''UNAVAILABLE/UNKNOWN: '',a,'' == '',a)') trim(xw(ixw)%entry),trim(table(itab)%variable_entry)
               else
-                 write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
-                      trim(case_read),&
-                      trim(comp_read),&
-                      trim(xw(ixw)%cesm_vars(ivar)),&
-                      exp(exp_found)%begyr,exp(exp_found)%endyr
-                 inquire(file=trim(ncfile(1,ivar)),exist=continue(ivar))
-                 if (.not.(continue(ivar))) then
-                    write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''-01_cat_'',i4.4,''-12.nc'')') &
-                         trim(case_read),&
-                         trim(comp_read),&
-                         trim(xw(ixw)%cesm_vars(ivar)),&
-                         exp(exp_found)%begyr,exp(exp_found)%endyr
-                    inquire(file=trim(ncfile(1,ivar)),exist=continue(ivar))
-                 endif
-                 if (.not.(continue(ivar))) then
-                    write(*,'(''VAR NOT FOUND: '',a)') trim(xw(ixw)%cesm_vars(ivar))
-                 else
-                    write(*,'(''GOOD TO GO   : '',a,'' == '',a,'' from CESM file: '',a)') &
-                         trim(xw(ixw)%entry),&
-                         trim(table(itab)%variable_entry),&
-                         trim(ncfile(1,ivar))
-                 endif
+                 write(*,'(''CHECKING AVAILABILITY OF: '',a,''.'',a,''.'',a,''.* FILES'')') trim(case_read),trim(comp_read),trim(xw(ixw)%cesm_vars(ivar))
+                 call build_filenames(case_read,comp_read,xw(ixw)%cesm_vars(ivar),ivar,exp(exp_found)%begyr,exp(exp_found)%endyr)
               endif
-              !
-              ! Check and make sure all files available
-              !
-              all_continue = all_continue.and.(continue(ivar))
            enddo
            !
            ! Open CESM file(s) and get information(s)
@@ -315,69 +291,162 @@ program Lmon_CMOR
                  ! No change
                  !
                  allocate(indat2a(nlons,nlats))
-                 do it=1,ntimes(1,1)
-                    time_counter = it
-                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                    ! 
-                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-                    error_flag = cmor_write(          &
-                         var_id        = cmor_var_id, &
-                         data          = indat2a,     &
-                         ntimes_passed = 1,           &
-                         time_vals     = tval,        &
-                         time_bnds     = tbnd)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                       stop
+                 !
+                 ! Determine amount of data to write, to keep close to ~2 GB limit
+                 !
+                 select case(ntimes(1,1))
+                 case ( 1872,1140,3612,6012,12012 )  ! All data
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 1152 )  ! RCP, 2005-2100, skip 2006
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 13
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3613
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 end select
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                       ! 
+                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(          &
+                            var_id        = cmor_var_id, &
+                            data          = indat2a,     &
+                            ntimes_passed = 1,           &
+                            time_vals     = tval,        &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
+                    enddo
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks(1)) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
                     endif
                  enddo
-                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('cVeg','cLitter','cSoil','cProduct','gpp','ra','fFire','cCwd','rGrowth',&
                    'rh','cLeaf','fVegLitter','rMaint','nbp','npp','cSoilMedium','cSoilSlow','cMisc','cWood',&
                    'nppRoot','nppLeaf','nppWood')                 
                  !
                  ! Unit change - grams to kg
                  !
-                 allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
-                 do it=1,ntimes(1,1)
-                    time_counter = it
-                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                    indat2a = indat2a/1000.
-                    tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-                    error_flag = cmor_write(      &
-                         var_id        = cmor_var_id, &
-                         data          = indat2a, &
-                         ntimes_passed = 1,       &
-                         time_vals     = tval,    &
-                         time_bnds     = tbnd)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                       stop
+                 allocate(indat2a(nlons,nlats))
+                 !
+                 ! Determine amount of data to write, to keep close to ~2 GB limit
+                 !
+                 select case(ntimes(1,1))
+                 case ( 1872,1140,3612,6012,12012 )  ! All data
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 1152 )  ! RCP, 2005-2100, skip 2006
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 13
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3613
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 end select
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                       indat2a = indat2a/1000.
+                       tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(          &
+                            var_id        = cmor_var_id, &
+                            data          = indat2a,     &
+                            ntimes_passed = 1,           &
+                            time_vals     = tval,        &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
+                    enddo
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks(1)) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
                     endif
                  enddo
-                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('burntArea')
                  !
                  ! Unit change - 'proportion' to percentage
                  !
-                 allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
-                 do it=1,ntimes(1,1)
-                    time_counter = it
-                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                    indat2a = indat2a*100.
-                    tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-                    error_flag = cmor_write(      &
-                         var_id        = cmor_var_id, &
-                         data          = indat2a, &
-                         ntimes_passed = 1,       &
-                         time_vals     = tval,    &
-                         time_bnds     = tbnd)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                       stop
+                 allocate(indat2a(nlons,nlats))
+                 !
+                 ! Determine amount of data to write, to keep close to ~2 GB limit
+                 !
+                 select case(ntimes(1,1))
+                 case ( 1872,1140,3612,6012,12012 )  ! All data
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 1152 )  ! RCP, 2005-2100, skip 2006
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 13
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3613
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 end select
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                       indat2a = indat2a*100.
+                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(          &
+                            var_id        = cmor_var_id, &
+                            data          = indat2a,     &
+                            ntimes_passed = 1,           &
+                            time_vals     = tval,        &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
+                    enddo
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks(1)) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
                     endif
                  enddo
-                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('fLuc','cSoilFast')
                  !
                  ! fLuc     : Add DWT_CLOSS + PRODUCT_CLOSS, unit change from g to kg
@@ -385,29 +454,60 @@ program Lmon_CMOR
                  !
                  allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
                  allocate(cmordat2d(nlons,nlats))
-                 do it=1,ntimes(1,1)
-                    time_counter = it
-                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                    call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2b)
-                    ! 
-                    where ((indat2a /= spval).and.(indat2b /= spval))
-                       cmordat2d = (indat2a + indat2b)/1000.
-                    elsewhere
-                       cmordat2d = spval
-                    endwhere
-                    tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-                    error_flag = cmor_write(      &
-                         var_id        = cmor_var_id, &
-                         data          = indat2a, &
-                         ntimes_passed = 1,       &
-                         time_vals     = tval,    &
-                         time_bnds     = tbnd)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                       stop
+                 !
+                 ! Determine amount of data to write, to keep close to ~2 GB limit
+                 !
+                 select case(ntimes(1,1))
+                 case ( 1872,1140,3612,6012,12012 )  ! All data
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 1152 )  ! RCP, 2005-2100, skip 2006
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 13
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3613
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 end select
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                       call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                       ! 
+                       where ((indat2a /= spval).and.(indat2b /= spval))
+                          cmordat2d = (indat2a + indat2b)/1000.
+                       elsewhere
+                          cmordat2d = spval
+                       endwhere
+                       tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(      &
+                            var_id        = cmor_var_id, &
+                            data          = cmordat2d, &
+                            ntimes_passed = 1,       &
+                            time_vals     = tval,    &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
+                    enddo
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks(1)) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
                     endif
                  enddo
-                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('cRoot','fLitterSoil')
                  !
                  ! cRoot      : Add FROOTC + LIVE_ROOTC + DEAD_ROOTC, unit change from g to kg
@@ -415,60 +515,122 @@ program Lmon_CMOR
                  !
                  allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),indat2c(nlons,nlats))
                  allocate(cmordat2d(nlons,nlats))
-                 do it=1,ntimes(1,1)
-                    time_counter = it
-                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                    call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2b)
-                    call read_var(ncid(1,3),var_info(var_found(1,3))%name,indat2c)
-                    ! 
-                    where ((indat2a /= spval).and.(indat2b /= spval).and.(indat2c /= spval))
-                       cmordat2d = (indat2a + indat2b + indat2c)/1000.
-                    elsewhere
-                       cmordat2d = spval
-                    endwhere
-                    tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-                    error_flag = cmor_write(       &
-                         var_id        = cmor_var_id,  &
-                         data          = cmordat2d,&
-                         ntimes_passed = 1,        &
-                         time_vals     = tval,     &
-                         time_bnds     = tbnd)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                       stop
+                 !
+                 ! Determine amount of data to write, to keep close to ~2 GB limit
+                 !
+                 select case(ntimes(1,1))
+                 case ( 1872,1140,3612,6012,12012 )  ! All data
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 1152 )  ! RCP, 2005-2100, skip 2006
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 13
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3613
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 end select
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                       call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                       call read_var(ncid(1,3),var_info(var_found(1,3))%name,indat2c)
+                       ! 
+                       where ((indat2a /= spval).and.(indat2b /= spval).and.(indat2c /= spval))
+                          cmordat2d = (indat2a + indat2b + indat2c)/1000.
+                       elsewhere
+                          cmordat2d = spval
+                       endwhere
+                       tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(       &
+                            var_id        = cmor_var_id,  &
+                            data          = cmordat2d,&
+                            ntimes_passed = 1,        &
+                            time_vals     = tval,     &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
+                    enddo
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks(1)) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
                     endif
                  enddo
-                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('mrro')
                  !
                  ! Add QOVER + QDRAI + QRGWL, units result in no numerical change (mm s-1 to kg m-2 s-1)
                  !
                  allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),indat2c(nlons,nlats))
                  allocate(cmordat2d(nlons,nlats))
-                 do it=1,ntimes(1,1)
-                    time_counter = it
-                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                    call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2b)
-                    call read_var(ncid(1,3),var_info(var_found(1,3))%name,indat2c)
-                    ! 
-                    where ((indat2a /= spval).and.(indat2b /= spval).and.(indat2c /= spval))
-                       cmordat2d = indat2a + indat2b + indat2c
-                    elsewhere
-                       cmordat2d = spval
-                    endwhere
-                    tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-                    error_flag = cmor_write(       &
-                         var_id        = cmor_var_id,  &
-                         data          = cmordat2d,&
-                         ntimes_passed = 1,        &
-                         time_vals     = tval,     &
-                         time_bnds     = tbnd)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                       stop
+                 !
+                 ! Determine amount of data to write, to keep close to ~2 GB limit
+                 !
+                 select case(ntimes(1,1))
+                 case ( 1872,1140,3612,6012,12012 )  ! All data
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 1152 )  ! RCP, 2005-2100, skip 2006
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 13
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3613
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 end select
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                       call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                       call read_var(ncid(1,3),var_info(var_found(1,3))%name,indat2c)
+                       ! 
+                       where ((indat2a /= spval).and.(indat2b /= spval).and.(indat2c /= spval))
+                          cmordat2d = indat2a + indat2b + indat2c
+                       elsewhere
+                          cmordat2d = spval
+                       endwhere
+                       tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(       &
+                            var_id        = cmor_var_id,  &
+                            data          = cmordat2d,&
+                            ntimes_passed = 1,        &
+                            time_vals     = tval,     &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
+                    enddo
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks(1)) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
                     endif
                  enddo
-                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('mrsos')
                  !
                  ! Integrate SOILICE and SOILIQ over top 10 cm
@@ -476,33 +638,64 @@ program Lmon_CMOR
                  allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs))
                  allocate(work3da(nlons,nlats,nlevs),work3db(nlons,nlats,nlevs))
                  allocate(cmordat2d(nlons,nlats))
-                 do it=1,ntimes(1,1)
-                    time_counter = it
-                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                    call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat3b)
-                    work3da = 0. ; work3db = 0.
-                    do k = 1,4
-                       do j = 1,nlats
-                          do i = 1,nlons
-                             if (indat3a(i,j,k) /= spval) work3da(i,j,k) = indat3a(i,j,k)*lnd_dzsoi(i,j,k)
-                             if (indat3b(i,j,k) /= spval) work3db(i,j,k) = indat3b(i,j,k)*lnd_dzsoi(i,j,k)
+                 !
+                 ! Determine amount of data to write, to keep close to ~2 GB limit
+                 !
+                 select case(ntimes(1,1))
+                 case ( 1872,1140,3612,6012,12012 )  ! All data
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 1152 )  ! RCP, 2005-2100, skip 2006
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 13
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3613
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 end select
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                       call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat3b)
+                       work3da = 0. ; work3db = 0.
+                       do k = 1,4
+                          do j = 1,nlats
+                             do i = 1,nlons
+                                if (indat3a(i,j,k) /= spval) work3da(i,j,k) = indat3a(i,j,k)*lnd_dzsoi(i,j,k)
+                                if (indat3b(i,j,k) /= spval) work3db(i,j,k) = indat3b(i,j,k)*lnd_dzsoi(i,j,k)
+                             enddo
                           enddo
                        enddo
+                       cmordat2d = (sum(work3da,dim=3) + sum(work3db,dim=3))/sum(lnd_levs(1:4))
+                       tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(       &
+                            var_id        = cmor_var_id,  &
+                            data          = cmordat2d,&
+                            ntimes_passed = 1,        &
+                            time_vals     = tval,     &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
                     enddo
-                    cmordat2d = (sum(work3da,dim=3) + sum(work3db,dim=3))/sum(lnd_levs(1:4))
-                    tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-                    error_flag = cmor_write(       &
-                         var_id        = cmor_var_id,  &
-                         data          = cmordat2d,&
-                         ntimes_passed = 1,        &
-                         time_vals     = tval,     &
-                         time_bnds     = tbnd)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                       stop
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks(1)) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
                     endif
                  enddo
-                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('mrso')
                  !
                  ! Integrate SOILICE and SOILIQ over all layers
@@ -510,64 +703,126 @@ program Lmon_CMOR
                  allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs))
                  allocate(work3da(nlons,nlats,nlevs),work3db(nlons,nlats,nlevs))
                  allocate(cmordat2d(nlons,nlats))
-                 do it=1,ntimes(1,1)
-                    time_counter = it
-                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                    call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat3b)
-                    work3da = 0. ; work3db = 0.
-                    do k = 1,nlevs
-                       do j = 1,nlats
-                          do i = 1,nlons
-                             if (indat3a(i,j,k) /= spval) work3da(i,j,k) = indat3a(i,j,k)*lnd_dzsoi(i,j,k)
-                             if (indat3b(i,j,k) /= spval) work3db(i,j,k) = indat3b(i,j,k)*lnd_dzsoi(i,j,k)
+                 !
+                 ! Determine amount of data to write, to keep close to ~2 GB limit
+                 !
+                 select case(ntimes(1,1))
+                 case ( 1872,1140,3612,6012,12012 )  ! All data
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 1152 )  ! RCP, 2005-2100, skip 2006
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 13
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3613
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 end select
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                       call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat3b)
+                       work3da = 0. ; work3db = 0.
+                       do k = 1,nlevs
+                          do j = 1,nlats
+                             do i = 1,nlons
+                                if (indat3a(i,j,k) /= spval) work3da(i,j,k) = indat3a(i,j,k)*lnd_dzsoi(i,j,k)
+                                if (indat3b(i,j,k) /= spval) work3db(i,j,k) = indat3b(i,j,k)*lnd_dzsoi(i,j,k)
+                             enddo
                           enddo
                        enddo
+                       cmordat2d = (sum(work3da,dim=3) + sum(work3db,dim=3))/sum(lnd_dzsoi,dim=3)
+                       tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(       &
+                            var_id        = cmor_var_id,  &
+                            data          = cmordat2d,&
+                            ntimes_passed = 1,        &
+                            time_vals     = tval,     &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
                     enddo
-                    cmordat2d = (sum(work3da,dim=3) + sum(work3db,dim=3))/sum(lnd_dzsoi,dim=3)
-                    tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-                    error_flag = cmor_write(       &
-                         var_id        = cmor_var_id,  &
-                         data          = cmordat2d,&
-                         ntimes_passed = 1,        &
-                         time_vals     = tval,     &
-                         time_bnds     = tbnd)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                       stop
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks(1)) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
                     endif
                  enddo
-                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('mrfso')
                  !
                  ! Integrate SOILICE over all layers
                  !
                  allocate(indat3a(nlons,nlats,nlevs),work3da(nlons,nlats,nlevs))
                  allocate(cmordat2d(nlons,nlats))
-                 do it=1,ntimes(1,1)
-                    time_counter = it
-                    call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                    work3da = 0.
-                    do k = 1,nlevs
-                       do j = 1,nlats
-                          do i = 1,nlons
-                             if (indat3a(i,j,k) /= spval) work3da(i,j,k) = indat3a(i,j,k)*lnd_dzsoi(i,j,k)
+                 !
+                 ! Determine amount of data to write, to keep close to ~2 GB limit
+                 !
+                 select case(ntimes(1,1))
+                 case ( 1872,1140,3612,6012,12012 )  ! All data
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 1152 )  ! RCP, 2005-2100, skip 2006
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 13
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3613
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 end select
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 do ic = 1,nchunks(1)
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                       work3da = 0.
+                       do k = 1,nlevs
+                          do j = 1,nlats
+                             do i = 1,nlons
+                                if (indat3a(i,j,k) /= spval) work3da(i,j,k) = indat3a(i,j,k)*lnd_dzsoi(i,j,k)
+                             enddo
                           enddo
                        enddo
+                       cmordat2d = sum(work3da,dim=3)/sum(lnd_dzsoi,dim=3)
+                       tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(       &
+                            var_id        = cmor_var_id,  &
+                            data          = cmordat2d,&
+                            ntimes_passed = 1,        &
+                            time_vals     = tval,     &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
                     enddo
-                    cmordat2d = sum(work3da,dim=3)/sum(lnd_dzsoi,dim=3)
-                    tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-                    error_flag = cmor_write(       &
-                         var_id        = cmor_var_id,  &
-                         data          = cmordat2d,&
-                         ntimes_passed = 1,        &
-                         time_vals     = tval,     &
-                         time_bnds     = tbnd)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                       stop
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks(1)) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
                     endif
                  enddo
-                 write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
               case ('tsl')
                  !
                  ! Pass TSOI straight through, break up into nicely-sized chunks along time
@@ -576,18 +831,21 @@ program Lmon_CMOR
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
-                 if (exp(exp_found)%length == 156) then ! 20C run
+                 select case(ntimes(1,1))
+                 case ( 1872 )  ! 20C, 1850-2005, ~50y chunks
                     nchunks(1) = 3
-                    tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1950
-                    tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1949, 2005
-                 endif
-                 if (exp(exp_found)%length == 96) then  ! RCP runs
+                    tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
+                    tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1950, 2005
+                 case ( 1152 )  ! RCP, 2005-2100, skip 2006
                     nchunks(1) = 2
                     tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
-                    tidx2(1:nchunks(1)) = (/542,1152/)      ! 2049, 2100
-                 endif
-                 if (ntimes(1,1) == 6012) then  ! pre-industrial control, 50 year chunks
-                    nchunks(1) = 10
+                    tidx2(1:nchunks(1)) = (/540,1152/)      ! 2049, 2100
+                 case ( 1140 )  ! RCP, 2006-2100
+                    nchunks(1) = 2
+                    tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
+                    tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+                 case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
+                    nchunks(1) = int(ntimes(1,1)/600)
                     tidx1(1) =   1
                     tidx2(1) = 600
                     do ic = 2,nchunks(1)
@@ -595,8 +853,12 @@ program Lmon_CMOR
                        tidx2(ic) = tidx1(ic) + 599
                     enddo
                     tidx2(nchunks(1)) = ntimes(1,1)
-                 endif
-                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
+                    nchunks(1) = 2
+                    tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
+                    tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
+                 end select
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
@@ -615,13 +877,15 @@ program Lmon_CMOR
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                     !
-                    cmor_filename(1:) = ' '
-                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                       stop
-                    else
-                       write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    if (ic < nchunks(1)) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
                     endif
                  enddo
               case ('mrlsl')
@@ -632,18 +896,21 @@ program Lmon_CMOR
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
-                 if (exp(exp_found)%length == 156) then ! 20C run
+                 select case(ntimes(1,1))
+                 case ( 1872 )  ! 20C, 1850-2005, ~50y chunks
                     nchunks(1) = 3
-                    tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1950
-                    tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1949, 2005
-                 endif
-                 if (exp(exp_found)%length == 96) then  ! RCP runs
+                    tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
+                    tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1950, 2005
+                 case ( 1152 )  ! RCP, 2005-2100, skip 2006
                     nchunks(1) = 2
                     tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
-                    tidx2(1:nchunks(1)) = (/542,1152/)      ! 2049, 2100
-                 endif
-                 if (ntimes(1,1) == 6012) then  ! pre-industrial control, 50 year chunks
-                    nchunks(1) = 10
+                    tidx2(1:nchunks(1)) = (/540,1152/)      ! 2049, 2100
+                 case ( 1140 )  ! RCP, 2006-2100
+                    nchunks(1) = 2
+                    tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
+                    tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+                 case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
+                    nchunks(1) = int(ntimes(1,1)/600)
                     tidx1(1) =   1
                     tidx2(1) = 600
                     do ic = 2,nchunks(1)
@@ -651,8 +918,12 @@ program Lmon_CMOR
                        tidx2(ic) = tidx1(ic) + 599
                     enddo
                     tidx2(nchunks(1)) = ntimes(1,1)
-                 endif
-                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
+                    nchunks(1) = 2
+                    tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
+                    tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
+                 end select
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
@@ -675,13 +946,17 @@ program Lmon_CMOR
                           stop
                        endif
                     enddo
-                    cmor_filename(1:) = ' '
-                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                       stop
-                    else
-                       write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    if (ic < nchunks(1)) then
+                       cmor_filename(1:) = ' '
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          stop
+                       else
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                       endif
                     endif
                  enddo
               end select

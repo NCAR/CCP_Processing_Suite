@@ -33,7 +33,7 @@ Lmon:landCoverFrac:land:1:PCTPFT:PCTPFT
 Lmon:mrfso:land landIce:1:SOILICE:SOILICE integrated over all layers
 Lmon:mrlsl:land:2:SOILLIQ,SOILICE:SOILLIQ + SOILICE at each soil depth
 Lmon:mrro:land:3:QOVER,QDRAI,QRGWL:QOVER + QDRAI + QRGWL
-Lmon:mrros:land:1:QOVER:QOVER
+Lmon:mrros:land:1:QOVER:QOVER 
 Lmon:mrso:land:2:SOILICE,SOILLIQ:Integrate SOILICE + SOILLIQ over all layers
 Lmon:mrsos:land:2:SOILICE,SOILLIQ:Integrate SOILICE + SOILLIQ over top 10cm
 Lmon:nbp:land:1:NBP:NBP
