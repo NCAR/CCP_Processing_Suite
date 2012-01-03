@@ -56,7 +56,7 @@ PROCHOST=`hostname`;export PROCHOST
 # resolve machine/site dependencies
 #
 case "$PROCHOST" in 
-  copper* )                                # copper @ CGD/NCAR
+  silver* )                                # silver @ CGD/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/local/bin/ncks             ; export NCKS
     NCRCAT=/usr/local/bin/ncrcat         ; export NCRCAT

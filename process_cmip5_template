@@ -62,7 +62,7 @@ PROCHOST=`hostname`;export PROCHOST
 # resolve machine/site dependencies
 #
 case "$PROCHOST" in 
-  copper* )                                # copper @ CGD/NCAR
+  silver* )                                # silver @ CGD/NCAR
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
     ;;

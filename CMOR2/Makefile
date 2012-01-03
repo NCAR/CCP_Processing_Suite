@@ -5,9 +5,9 @@ MACH = $(shell echo $(HOST) | cut -c1-6)
 null =
 FC   = $(null)
 #
-# 'copper' at NCAR/CGD
+# 'silver' at NCAR/CGD
 #
-ifeq ($(MACH),copper)
+ifeq ($(MACH),silver)
   NCFDIR  = /usr/local/netcdf-4.1.1-pgi-hpf-cc-7.5-2
   UDUDIR  = /datalocal/ccpa/strandwg/software/udunits-2.1.21
   UIDDIR  = /datalocal/ccpa/strandwg/software/uuid-1.6.2
