@@ -17,6 +17,7 @@ subroutine get_ocn_grid
   ! Read time-invariant dimensions and variables from 'ocn_grid_gx1.nc'
   !
   call get_dims(gridid)
+  call get_vars(gridid)
   !
   do n=1,dim_counter
      length = len_trim(dim_info(n)%name)
@@ -49,7 +50,6 @@ subroutine get_ocn_grid
   allocate(ocn_trans_lats(nlats_trans),ocn_trans_lats_bnds(2,nlats_trans))
   allocate(ocn_trans_levs(nmoc_z),ocn_trans_levs_bnds(2,nmoc_z))
   !
-  call get_vars(gridid)
   call read_var(gridid,'TLONG',ocn_t_lons)
   call read_var(gridid,'TLAT',ocn_t_lats)
   call read_var(gridid,'ULONG',ocn_u_lons)

@@ -100,7 +100,7 @@ program Omon_CMOR
                  write(*,'(''UNAVAILABLE/UNKNOWN: '',a,'' == '',a)') trim(xw(ixw)%entry),trim(table(itab)%variable_entry)
               else
                  write(*,'(''CHECKING AVAILABILITY OF: '',a,''.'',a,''.'',a,''.* FILES'')') trim(case_read),trim(comp_read),trim(xw(ixw)%cesm_vars(ivar))
-                 call build_filenames(ixw,ivar,exp(exp_found)%begyr,exp(exp_found)%endyr)
+                 call build_filenames(case_read,comp_read,xw(ixw)%cesm_vars(ivar),ivar,exp(exp_found)%begyr,exp(exp_found)%endyr)
               endif
            enddo
            !
@@ -279,7 +279,8 @@ program Omon_CMOR
                  !
                  ! tos: TEMP at k=1
                  !
-                 allocate(indat3a(nlons,nlats,nlevs),cmordat2d(nlons,nlats))
+                 if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
+                 if (.not.(allocated(cmordat2d))) allocate(cmordat2d(nlons,nlats))
                  do ivar = 1,xw(ixw)%ncesm_vars
                     do ifile = 1,nc_nfiles(ivar)
                        call open_cdf(ncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
@@ -289,7 +290,6 @@ program Omon_CMOR
                        if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
                        if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
                        !
-                       write(*,*) 'tbnds loop: ',ivar,ifile,ncid(ifile,ivar)
                        do n = 1,ntimes(ifile,ivar)
                           time_counter = n
                           call read_var(ncid(ifile,ivar),'time_bound',time_bnds(:,n))
@@ -297,9 +297,15 @@ program Omon_CMOR
                        !
                        time_bnds(1,1) = int(time_bnds(1,1))-1
                        time = (time_bnds(1,:)+time_bnds(2,:))/2.
-                       nchunks(ifile)   = 1
-                       tidx1(1:nchunks(ifile)) = 1
-                       tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       if (ntimes(ifile,ivar) == 1152) then ! RCP run from 2005, exclude 2005
+                          nchunks(ifile) = 1
+                          tidx1(1:nchunks(ifile)) = (/  13/)
+                          tidx2(1:nchunks(ifile)) = (/1152/)
+                       else
+                          nchunks(ifile)   = 1
+                          tidx1(1:nchunks(ifile)) = 1
+                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       endif
                        do ic = 1,nchunks(ifile)
                           do it = tidx1(ic),tidx2(ic)
                              time_counter = it
@@ -402,7 +408,7 @@ program Omon_CMOR
                  !
                  ! msftbarot: Convert BSF from Sv to kg s-1
                  !
-                 allocate(indat2a(nlons,nlats))
+                 if (.not.(allocated(indat2a))) allocate(indat2a(nlons,nlats))
                  do ivar = 1,xw(ixw)%ncesm_vars
                     do ifile = 1,nc_nfiles(ivar)
                        call open_cdf(ncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
@@ -731,25 +737,15 @@ program Omon_CMOR
               if (allocated(indat3b))   deallocate(indat3b)
               if (allocated(work3da))   deallocate(work3da)
               if (allocated(work3db))   deallocate(work3db)
-           endif
-           !
-           ! Reset
-           !
-           time_counter = 0
-           var_counter  = 0
-           error_flag   = 0
-           var_found    = 0
-           mycmor%positive = ' '
-           original_name= ' '
-           !
-           if (allocated(time))      deallocate(time)
-           if (allocated(time_bnds)) deallocate(time_bnds)
-           !
-           error_flag = cmor_close()
-           if (error_flag < 0) then
-              write(*,'(''ERROR FINAL cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-           else
-              write(*,'('' GOOD FINAL cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              !
+              ! Reset
+              !
+              time_counter = 0
+              var_counter  = 0
+              error_flag   = 0
+              var_found    = 0
+              mycmor%positive = ' '
+              original_name= ' '
            endif
         endif
      enddo xwalk_loop

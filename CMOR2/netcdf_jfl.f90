@@ -1,7 +1,8 @@
 !
 subroutine open_cdf(ncid,filename,read_only)
   !
-  use definitions_netcdf_jfl, only : netcdf_file_name
+  use counters_netcdf_jfl
+  use definitions_netcdf_jfl
   !
   ! open existing netcdf file and return its ID number
   !
@@ -37,16 +38,19 @@ subroutine open_cdf(ncid,filename,read_only)
   if(ncid.lt.0) then
      print *,'Problem opening ',filename,' ncid = ',ncid
      call abort()
+  else
+     file_counter = file_counter + 1
   endif
   !
-  netcdf_file_name(ncid) = filename
+  nc_filename(file_counter) = filename
   !
   return
 end subroutine open_cdf
 !
 subroutine create_cdf(ncid,filename)
   !
-  use definitions_netcdf_jfl, only : netcdf_file_name
+  use counters_netcdf_jfl
+  use definitions_netcdf_jfl
   !
   ! create new netcdf file and return its ID number
   !
@@ -71,9 +75,11 @@ subroutine create_cdf(ncid,filename)
   if(ncid.le.0) then
      print *,'Problem opening ',filename,' ncid = ',ncid
      call abort()
+  else
+     file_counter = file_counter + 1
   endif
   !
-  netcdf_file_name(ncid) = filename
+  nc_filename(file_counter) = filename
   !
   return
 end subroutine create_cdf
@@ -158,7 +164,7 @@ subroutine def_dim(ncid,dim_name,dim_length)
   dim_info(dim_counter)%name      = dim_name
   dim_info(dim_counter)%id        = dim_id
   dim_info(dim_counter)%length    = dim_length
-  dim_info(dim_counter)%file_name = netcdf_file_name(ncid)
+  dim_info(dim_counter)%file_name = nc_filename(file_counter)
   !
   return
 end subroutine def_dim
@@ -262,7 +268,7 @@ subroutine def_var(ncid,var_name,format,type,units,long_name)
         pos1 = pos2 + 2
         do j=1,dim_counter
            if(dim_info(j)%name.eq.work(:pos3).and.&
-                dim_info(j)%file_name.eq.netcdf_file_name(ncid)) then
+                dim_info(j)%file_name.eq.nc_filename(file_counter)) then
               vdims (i) = dim_info(j)%id
               length(i) = dim_info(j)%length
               exit
@@ -310,7 +316,7 @@ subroutine def_var(ncid,var_name,format,type,units,long_name)
   var_info(var_counter)%format    = format
   var_info(var_counter)%type      = type
   var_info(var_counter)%id        = var_id
-  var_info(var_counter)%file_name = netcdf_file_name(ncid)
+  var_info(var_counter)%file_name = nc_filename(file_counter)
   var_info(var_counter)%nvdims    = nvdims
   do i=1,nvdims
      var_info(var_counter)%vdims(i) = length(i)
@@ -359,7 +365,7 @@ subroutine get_dims(ncid)
      dim_info(dim_counter)%id        = n
      dim_info(dim_counter)%name      = name
      dim_info(dim_counter)%length    = length
-     dim_info(dim_counter)%file_name = netcdf_file_name(ncid)
+     dim_info(dim_counter)%file_name = nc_filename(file_counter)
   end do
   !
   return
@@ -444,7 +450,7 @@ subroutine get_vars(ncid)
      var_info(var_counter)%units         = units
      var_info(var_counter)%missing_value = missing_value
      var_info(var_counter)%FillValue    =  FillValue
-     var_info(var_counter)%file_name     = netcdf_file_name(ncid)
+     var_info(var_counter)%file_name     = nc_filename(file_counter)
      select case ( xtype )
      case ( nf_int )
         var_info(var_counter)%type = 'integer'
@@ -461,7 +467,7 @@ subroutine get_vars(ncid)
      do i=1,nvdims
         do j=1,dim_counter
            if((dim_info(j)%id.eq.dim_id(i)).and.&
-                (dim_info(j)%file_name.eq.netcdf_file_name(ncid))) then
+                (dim_info(j)%file_name.eq.nc_filename(file_counter))) then
               length = dim_info(j)%length
               name = ' '
               name = dim_info(j)%name

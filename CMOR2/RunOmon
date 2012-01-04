@@ -30,6 +30,8 @@ else
    echo '   ./RunOmon b40.20th.track1.deg.008 pop.h "tos so uo"'
 fi
 #
+LD_LIBRARY_PATH=/usr/local/netcdf-4.1.3-pgi-hpf-cc-11.5-0/lib:/usr/lib64/mpich2/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
+#
 BASED=${HOME}/CCP_Processing_Suite
 CMORD=${HOME}/CCP_Processing_Suite/CMOR2
 #
@@ -60,7 +62,9 @@ fi
 # Do it!
 #
 rm -f Omon_in.${CASE}.${COMP} Info_in.${CASE}.${COMP}
-mkdir ./CMOR
+if [ ! -d ./CMOR ] ; then
+  mkdir ./CMOR
+fi
 #
 echo $CASE >> Omon_in.${CASE}.${COMP}
 echo $COMP >> Omon_in.${CASE}.${COMP}

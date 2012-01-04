@@ -11,7 +11,7 @@ index_info = -1
 do i=1,var_counter
    length = len_trim(var_info(i)%name)
    if(var_info(i)%name(:length).eq.var_name.and.&
-           var_info(i)%file_name.eq.netcdf_file_name(ncid)) then
+           var_info(i)%file_name.eq.nc_filename(file_counter)) then
       index_info = i
       exit
    endif

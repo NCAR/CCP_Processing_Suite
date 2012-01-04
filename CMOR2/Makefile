@@ -8,22 +8,25 @@ FC   = $(null)
 # 'silver' at NCAR/CGD
 #
 ifeq ($(MACH),silver)
-  NCFDIR  = /usr/local/netcdf-4.1.1-pgi-hpf-cc-7.5-2
-  UDUDIR  = /datalocal/ccpa/strandwg/software/udunits-2.1.21
+  NCFDIR  = /usr/local/netcdf-4.1.3-pgi-hpf-cc-11.5-0
+  UDUDIR  = /usr/local/udunits-2.1.23
+#  UDUDIR  = /datalocal/ccpa/strandwg/software/udunits-2.1.21
   UIDDIR  = /datalocal/ccpa/strandwg/software/uuid-1.6.2
   CMRDIR  = /datalocal/ccpa/strandwg/CMIP5/CMOR2/current
-  HD5DIR  = /usr/local/hdf5
+#  HD5DIR  = /usr/local/hdf5
+  HD5DIR  = /usr/local/hdf5-1.8.7
   KRBDIR  = /usr/kerberos/lib64
 #
   NCFINC  = -I${NCFDIR}/include -I./include
-  NCFLIB  = -L${NCFDIR}/lib -lnetcdf
-  KRBLIB  = -L${KRBDIR}/lib -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lssl -lcrypto -lz
+  NCFLIB  = -L${NCFDIR}/lib -lnetcdf -lnetcdff
+#  KRBLIB  = -L${KRBDIR}/lib -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lssl -lcrypto -lz
+  KRBLIB  = -L${KRBDIR}/lib -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lz
   UDUINC  = -I${UDUDIR}/include
   UDULIB  = -L${UDUDIR}/lib -ludunits2 -lexpat
   UIDINC  = -I${UIDDIR}/include
   UIDLIB  = -L${UIDDIR}/lib -luuid
   FC	  = /usr/local/pgi/linux86/bin/pgf95
-  FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -module ${CMRDIR}
+  FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -module ${CMRDIR} -Mbounds
 endif
 #
 # 'mirage' cluser in CISL
@@ -169,7 +172,7 @@ parse_ncfile.o: parse_ncfile.f90
 module_netcdf.o: module_netcdf.f90
 	$(FC) $(FFLAGS) $(NCFINC) -c module_netcdf.f90
 
-netcdf_jfl.o: netcdf_jfl.f90
+netcdf_jfl.o: netcdf_jfl.f90 module_netcdf.o
 	$(FC) $(FFLAGS) $(NCFINC) -c netcdf_jfl.f90
 
 handle_err.o: handle_err.f90

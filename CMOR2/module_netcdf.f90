@@ -6,9 +6,10 @@ module counters_netcdf_jfl
   integer :: dim_counter  = 0
   integer :: var_counter  = 0
   integer :: time_counter = 0
+  integer :: file_counter = 0
   integer, parameter :: dim_max = 10000
   integer, parameter :: var_max = 10000
-  integer, parameter :: nam_max =   100
+  integer, parameter :: fil_max =   100
   !
 end module counters_netcdf_jfl
 !
@@ -32,7 +33,7 @@ module definitions_netcdf_jfl
   !
   type(DimInfo), dimension(dim_max) :: dim_info
   type(VarInfo), dimension(var_max) :: var_info
-  character(len=132),dimension(nam_max) :: netcdf_file_name
+  character(len=132),dimension(fil_max) :: nc_filename
   !
 end module definitions_netcdf_jfl
 !
