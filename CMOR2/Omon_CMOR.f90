@@ -339,6 +339,70 @@ program Omon_CMOR
                  else
                     write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
                  endif
+              case ('sos')
+                 !
+                 ! sos: SALT at k=1, multiply by 1000 to maintain identity between g kg-1 and psu
+                 !
+                 if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
+                 if (.not.(allocated(cmordat2d))) allocate(cmordat2d(nlons,nlats))
+                 do ivar = 1,xw(ixw)%ncesm_vars
+                    do ifile = 1,nc_nfiles(ivar)
+                       call open_cdf(ncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                       call get_dims(ncid(ifile,ivar))
+                       call get_vars(ncid(ifile,ivar))
+                       !
+                       if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
+                       if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
+                       !
+                       do n = 1,ntimes(ifile,ivar)
+                          time_counter = n
+                          call read_var(ncid(ifile,ivar),'time_bound',time_bnds(:,n))
+                       enddo
+                       !
+                       time_bnds(1,1) = int(time_bnds(1,1))-1
+                       time = (time_bnds(1,:)+time_bnds(2,:))/2.
+                       if (ntimes(ifile,ivar) == 1152) then ! RCP run from 2005, exclude 2005
+                          nchunks(ifile) = 1
+                          tidx1(1:nchunks(ifile)) = (/  13/)
+                          tidx2(1:nchunks(ifile)) = (/1152/)
+                       else
+                          nchunks(ifile)   = 1
+                          tidx1(1:nchunks(ifile)) = 1
+                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       endif
+                       do ic = 1,nchunks(ifile)
+                          do it = tidx1(ic),tidx2(ic)
+                             time_counter = it
+                             !
+                             indat3a = spval
+                             call read_var(ncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
+                             cmordat2d = indat3a(:,:,1)*1000.
+                             !
+                             tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                             error_flag = cmor_write(          &
+                                  var_id        = cmor_var_id, &
+                                  data          = cmordat2d,   &
+                                  ntimes_passed = 1,           &
+                                  time_vals     = tval,        &
+                                  time_bnds     = tbnd)
+                             if (error_flag < 0) then
+                                write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                                stop
+                             endif
+                          enddo
+                          write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                       enddo
+                       call close_cdf(ncid(ifile,ivar))
+                       if (allocated(time))      deallocate(time)
+                       if (allocated(time_bnds)) deallocate(time_bnds)
+                    enddo
+                 enddo
+                 error_flag = cmor_close()
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 else
+                    write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 endif
               case ('tauuo','tauvo','hfss','pr','prsn','rsds','rsntds')
                  !
                  ! tauuo,tauvo,hfss,pr,prsn,rsds,rsntds: No changes
@@ -404,6 +468,12 @@ program Omon_CMOR
                        if (allocated(time_bnds)) deallocate(time_bnds)
                     enddo
                  enddo
+                 error_flag = cmor_close()
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 else
+                    write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 endif
               case ('msftbarot')
                  !
                  ! msftbarot: Convert BSF from Sv to kg s-1
@@ -474,6 +544,12 @@ program Omon_CMOR
                        if (allocated(time_bnds)) deallocate(time_bnds)
                     enddo
                  enddo
+                 error_flag = cmor_close()
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 else
+                    write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 endif
               case ('thetao','so','agessc','uo','vo','rhopoto')
                  !
                  ! thetao,so,agessc,uo,vo,rhopoto: No changes
@@ -553,6 +629,12 @@ program Omon_CMOR
                        if (allocated(time_bnds)) deallocate(time_bnds)
                     enddo
                  enddo
+                 error_flag = cmor_close()
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 else
+                    write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 endif
 !!$           case ('rlds')
 !!$              !
 !!$              ! rlds: LWUP_F - LWDN_F
@@ -727,6 +809,12 @@ program Omon_CMOR
                        enddo
                     enddo
                  enddo
+                 error_flag = cmor_close()
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 else
+                    write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 endif
               end select
               if (allocated(indat2a))   deallocate(indat2a)
               if (allocated(indat2b))   deallocate(indat2b)

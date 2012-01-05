@@ -1,4 +1,5 @@
 Omon:tos:ocean:1:TEMP:TEMP at topmost level, units from C to K
+Omon:sos:ocean:1:SALT:SALT at topmost level
 Omon:thetao:ocean:1:TEMP:TEMP no change, units from C to K
 Omon:msftmyz:ocean:1:MOC:MOC converted from Sv to kg s-1
 Omon:soga:ocean:1:SALT:SALT weighted global average

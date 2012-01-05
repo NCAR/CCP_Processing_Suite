@@ -299,7 +299,7 @@ modeling_realm:    seaIce
 ! Variable attributes:
 !----------------------------------
 standard_name:     sea_ice_salinity
-units:             psu
+units:             1.e-3
 cell_methods:      time: mean (weighted by mass of sea ice)
 cell_measures:     area: areacello
 long_name:         Sea Ice Salinity

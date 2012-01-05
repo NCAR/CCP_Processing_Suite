@@ -83,7 +83,7 @@ OBJ	= mymods.o \
 	  get_lnd_grid.o \
 	  get_atm_grid.o
 
-all:	  Amon_CMOR day_CMOR Lmon_CMOR OImon_CMOR Omon_CMOR fx_CMOR
+all:	  Amon_CMOR day_CMOR Lmon_CMOR LImon_CMOR OImon_CMOR Omon_CMOR fx_CMOR
 
 Amon_CMOR: $(OBJ) Amon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Amon_CMOR.o \
@@ -96,6 +96,10 @@ fx_CMOR: $(OBJ) fx_CMOR.o
 Lmon_CMOR: $(OBJ) Lmon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Lmon_CMOR.o \
 	-o $(EXEDIR)/Lmon_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
+
+LImon_CMOR: $(OBJ) LImon_CMOR.o
+	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) LImon_CMOR.o \
+	-o $(EXEDIR)/LImon_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
 
 OImon_CMOR: $(OBJ) OImon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) OImon_CMOR.o \
@@ -186,6 +190,9 @@ fx_CMOR.o: fx_CMOR.f90 $(OBJ)
 
 Lmon_CMOR.o: Lmon_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c Lmon_CMOR.f90
+
+LImon_CMOR.o: LImon_CMOR.f90 $(OBJ)
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c LImon_CMOR.f90
 
 OImon_CMOR.o: OImon_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c OImon_CMOR.f90
