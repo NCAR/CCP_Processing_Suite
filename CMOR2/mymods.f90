@@ -92,7 +92,7 @@ module files_info
   !
   character(len=256),dimension(max_ncfiles,max_cesm_vars)::ncfile
   integer,dimension(max_cesm_vars)::nc_nfiles
-  integer,dimension(max_ncfiles,max_cesm_vars)::ncid,var_found,ntimes
+  integer,dimension(max_ncfiles,max_cesm_vars)::myncid,var_found,ntimes
   integer::ifile
   logical::all_continue
   !

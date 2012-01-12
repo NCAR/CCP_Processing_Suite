@@ -122,10 +122,10 @@ program fx_CMOR
            !
            if (all_continue) then
               do ivar = 1,xw(ixw)%ncesm_vars
-                 call open_cdf(ncid(1,ivar),trim(ncfile(1,ivar)),.true.)
-                 write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfile(1,ivar)),ncid(1,ivar)
-                 call get_dims(ncid(1,ivar))
-                 call get_vars(ncid(1,ivar))
+                 call open_cdf(myncid(1,ivar),trim(ncfile(1,ivar)),.true.)
+                 write(*,'(''OPENING: '',a80,'' myncid: '',i10)') trim(ncfile(1,ivar)),myncid(1,ivar)
+                 call get_dims(myncid(1,ivar))
+                 call get_vars(myncid(1,ivar))
                  !
                  do n=1,var_counter
                     if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
@@ -267,7 +267,7 @@ program fx_CMOR
               case ('deptho','areacello')
                  allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
                  write(*,*) 'TO READ: ',trim(var_info(var_found(1,1))%name)
-                 call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
                  write(*,*) 'READ: ',trim(var_info(var_found(1,1))%name),maxval(indat2a),minval(indat2a)
                  where (kmt == 0)
                     cmordat2d = spval
@@ -284,7 +284,7 @@ program fx_CMOR
               case ('volcello')
                  allocate(indat2a(nlons,nlats),cmordat3d(nlons,nlats,nlevs))
                  write(*,*) 'TO READ: ',trim(var_info(var_found(1,1))%name)
-                 call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
                  cmordat3d = spval
                  do k = 1,nlevs
                     do j = 1,nlats
@@ -307,7 +307,7 @@ program fx_CMOR
                  endif
               end select
               do ivar = 1,xw(ixw)%ncesm_vars
-                 call close_cdf(ncid(1,ivar))
+                 call close_cdf(myncid(1,ivar))
               enddo
               !
               ! Close all files opened by CMOR.

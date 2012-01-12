@@ -6,7 +6,7 @@ frequency: mon
 cmor_version: 2.6 ! minimum version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   26 July 2011 ! date this table was constructed
+table_date:   12 January 2012 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -238,16 +238,16 @@ axis_entry: smooth_level
 !------------
 !
 ! Axis attributes:
-!----------------------------------	
+!----------------------------------     
 standard_name:    atmosphere_sleve_coordinate
 units:            m
 axis:             Z
-positive:	      up
+positive:             up
 long_name:        atmosphere smooth level vertical (SLEVE) coordinate
-!----------------------------------	
+!----------------------------------     
 !
 ! Additional axis information:
-!----------------------------------	
+!----------------------------------     
 out_name:         lev
 must_have_bounds: yes
 stored_direction: increasing
@@ -256,7 +256,7 @@ valid_max:        800000.
 formula:          z = a*ztop + b1*zsurf1 + b2*zsurf2
 z_factors:        a: a b1: b1 b2: b2 ztop: ztop zsurf1: zsurf1 zsurf2: zsurf2
 z_bounds_factors: a: a_bnds b1: b1_bnds b2: b2_bnds ztop: ztop zsurf1: zsurf1 zsurf2: zsurf2
-!----------------------------------	
+!----------------------------------     
 !
 !============
 axis_entry: natural_log_pressure
@@ -269,15 +269,15 @@ axis_entry: natural_log_pressure
 !------------
 !
 ! Axis attributes:
-!----------------------------------	
+!----------------------------------     
 standard_name:    atmosphere_ln_pressure_coordinate
 axis:             Z
 long_name:        atmosphere natural log pressure coordinate
-positive:	      down
-!----------------------------------	
+positive:             down
+!----------------------------------     
 !
 ! Additional axis information:
-!----------------------------------	
+!----------------------------------     
 out_name:         lev
 must_have_bounds: yes
 stored_direction: decreasing
@@ -286,7 +286,7 @@ valid_max:        20.
 formula:          p = p0 * exp(-lev)
 z_factors:        p0: p0 lev: lev
 z_bounds_factors: p0: p0 lev: lev_bnds
-!----------------------------------	
+!----------------------------------     
 !
 !============
 axis_entry: standard_sigma
@@ -299,15 +299,15 @@ axis_entry: standard_sigma
 !------------
 !
 ! Axis attributes:
-!----------------------------------	
+!----------------------------------     
 standard_name:    atmosphere_sigma_coordinate
 axis:             Z
 positive:         down
 long_name:        sigma coordinate
-!----------------------------------	
+!----------------------------------     
 !
 ! Additional axis information:
-!----------------------------------	
+!----------------------------------     
 out_name:         lev
 must_have_bounds: yes
 stored_direction: decreasing
@@ -316,7 +316,7 @@ valid_max:        1.0
 formula:          p = ptop + sigma*(ps - ptop)
 z_factors:        ptop: ptop sigma: lev ps: ps
 z_bounds_factors: ptop: ptop sigma: lev_bnds ps: ps
-!----------------------------------	
+!----------------------------------     
 !
 !
 !============
@@ -329,7 +329,7 @@ axis_entry:  standard_hybrid_sigma
 !
 !---------------------------------
 ! Axis attributes:
-!----------------------------------	
+!----------------------------------     
 standard_name:    atmosphere_hybrid_sigma_pressure_coordinate
 units:            1
 axis:             Z 
@@ -337,7 +337,7 @@ positive:         down
 long_name:        hybrid sigma pressure coordinate
 !----------------------------------
 ! Additional axis information:
-!----------------------------------	
+!----------------------------------     
 out_name:         lev
 must_have_bounds: yes
 stored_direction: decreasing
@@ -346,7 +346,7 @@ valid_max:        1.0
 formula:          p = a*p0 + b*ps
 z_factors:        p0: p0 a: a b: b ps: ps
 z_bounds_factors: p0: p0 a: a_bnds b: b_bnds ps: ps
-!----------------------------------		
+!----------------------------------             
 !
 !
 !============
@@ -360,16 +360,16 @@ axis_entry:  alternate_hybrid_sigma
 !------------
 !
 ! Axis attributes:
-!----------------------------------	
+!----------------------------------     
 standard_name:    atmosphere_hybrid_sigma_pressure_coordinate
 units:            1
 axis:             Z
 positive:         down
 long_name:        hybrid sigma pressure coordinate
-!----------------------------------	
+!----------------------------------     
 !
 ! Additional axis information:
-!----------------------------------	
+!----------------------------------     
 out_name:         lev
 must_have_bounds: yes
 stored_direction: decreasing
@@ -378,7 +378,7 @@ valid_max:        1.0
 formula:          p = ap + b*ps
 z_factors:        ap: ap b: b ps: ps
 z_bounds_factors: ap: ap_bnds b: b_bnds ps: ps
-!----------------------------------		
+!----------------------------------             
 !
 !
 !============
@@ -392,16 +392,16 @@ axis_entry:  hybrid_height
 !------------
 !
 ! Axis attributes:
-!----------------------------------	
+!----------------------------------     
 standard_name:    atmosphere_hybrid_height_coordinate
 units:            m
 axis:             Z 
 positive:         up
 long_name:        hybrid height coordinate
-!----------------------------------	
+!----------------------------------     
 !
 ! Additional axis information:
-!----------------------------------	
+!----------------------------------     
 out_name:         lev
 must_have_bounds: yes
 stored_direction: increasing
@@ -409,7 +409,7 @@ valid_min:        0.0
 formula:          z = a + b*orog
 z_factors:        a: lev b: b orog: orog
 z_bounds_factors: a: lev_bnds b: b_bnds orog: orog
-!----------------------------------		
+!----------------------------------             
 !
 ! ***************************************************************
 !
@@ -446,10 +446,10 @@ variable_entry: p0
 !------------
 !
 ! Variable attributes:
-!----------------------------------	
+!----------------------------------     
 long_name:       vertical coordinate formula term: reference pressure 
 units:           Pa
-!----------------------------------	
+!----------------------------------     
 !
 !
 !============
@@ -459,10 +459,10 @@ variable_entry: ptop
 !------------
 !
 ! Variable attributes:
-!----------------------------------	
+!----------------------------------     
 long_name:       pressure at top of model 
 units:           Pa
-!----------------------------------	
+!----------------------------------     
 !
 !
 !
@@ -472,15 +472,15 @@ variable_entry: a
 !------------
 !
 ! Variable attributes:
-!----------------------------------	
+!----------------------------------     
 long_name:   vertical coordinate formula term: a(k)
-!----------------------------------	
+!----------------------------------     
 !
 ! Additional variable information:
-!----------------------------------	
+!----------------------------------     
 dimensions:         alevel
 type:               double
-!----------------------------------	
+!----------------------------------     
 !
 !
 !============
@@ -489,15 +489,15 @@ variable_entry: b
 !------------
 !
 ! Variable attributes:
-!----------------------------------	
+!----------------------------------     
 long_name:   vertical coordinate formula term: b(k)
-!----------------------------------	
+!----------------------------------     
 !
 ! Additional variable information:
-!----------------------------------	
+!----------------------------------     
 dimensions:         alevel
 type:               double
-!----------------------------------	
+!----------------------------------     
 !
 !
 !============
@@ -507,15 +507,15 @@ variable_entry: a_bnds
 !------------
 !
 ! Variable attributes:
-!----------------------------------	
+!----------------------------------     
 long_name:   vertical coordinate formula term: a(k+1/2)
-!----------------------------------	
+!----------------------------------     
 !
 ! Additional variable information:
-!----------------------------------	
+!----------------------------------     
 dimensions:         alevel
 type:               double
-!----------------------------------	
+!----------------------------------     
 !
 !
 !============
@@ -525,12 +525,12 @@ variable_entry: b_bnds
 !------------
 !
 ! Variable attributes:
-!----------------------------------	
+!----------------------------------     
 long_name:   vertical coordinate formula term: b(k+1/2)
-!----------------------------------	
+!----------------------------------     
 !
 ! Additional variable information:
-!----------------------------------	
+!----------------------------------     
 dimensions:         alevel
 type:               double
 !----------------------------------
@@ -541,16 +541,16 @@ variable_entry: ap
 !============
 !
 ! Variable attributes:
-!----------------------------------	
+!----------------------------------     
 long_name:   vertical coordinate formula term: ap(k)
 units:           Pa
-!----------------------------------	
+!----------------------------------     
 !
 ! Additional variable information:
-!----------------------------------	
+!----------------------------------     
 dimensions:         alevel
 type:               double
-!----------------------------------	
+!----------------------------------     
 !
 !
 !============
@@ -558,16 +558,16 @@ variable_entry: ap_bnds
 !============
 !
 ! Variable attributes:
-!----------------------------------	
+!----------------------------------     
 long_name:   vertical coordinate formula term: ap(k+1/2)
 units:           Pa
-!----------------------------------	
+!----------------------------------     
 !
 ! Additional variable information:
-!----------------------------------	
+!----------------------------------     
 dimensions:         alevel
 type:               double
-!----------------------------------	
+!----------------------------------     
 !
 !
 !============
@@ -577,10 +577,10 @@ variable_entry: ztop
 !------------
 !
 ! Variable attributes:
-!----------------------------------	
+!----------------------------------     
 long_name:       height of top of model 
 units:           m
-!----------------------------------	
+!----------------------------------     
 !
 !
 !

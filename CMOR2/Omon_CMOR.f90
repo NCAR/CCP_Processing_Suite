@@ -109,9 +109,9 @@ program Omon_CMOR
            if (all_continue) then
               do ivar = 1,xw(ixw)%ncesm_vars
                  do ifile = 1,nc_nfiles(ivar)
-                    call open_cdf(ncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-                    call get_dims(ncid(ifile,ivar))
-                    call get_vars(ncid(ifile,ivar))
+                    call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                    call get_dims(myncid(ifile,ivar))
+                    call get_vars(myncid(ifile,ivar))
                     !
                     do n=1,dim_counter
                        length = len_trim(dim_info(n)%name)
@@ -119,7 +119,7 @@ program Omon_CMOR
                           ntimes(ifile,ivar) = dim_info(n)%length
                        endif
                     enddo
-                    call read_att_text(ncid(ifile,ivar),'time','units',time_units)
+                    call read_att_text(myncid(ifile,ivar),'time','units',time_units)
                     write(*,'(''read_att_text, time_units: '',a)') trim(time_units)
                     !
                     do n=1,var_counter
@@ -132,12 +132,12 @@ program Omon_CMOR
                        write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
                        stop
                     endif
-                    call close_cdf(ncid(ifile,ivar))
+                    call close_cdf(myncid(ifile,ivar))
                     !
                  enddo
               enddo
               !
-              ncid = 0
+              myncid = 0
               !
               ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
               !
@@ -283,16 +283,16 @@ program Omon_CMOR
                  if (.not.(allocated(cmordat2d))) allocate(cmordat2d(nlons,nlats))
                  do ivar = 1,xw(ixw)%ncesm_vars
                     do ifile = 1,nc_nfiles(ivar)
-                       call open_cdf(ncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-                       call get_dims(ncid(ifile,ivar))
-                       call get_vars(ncid(ifile,ivar))
+                       call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                       call get_dims(myncid(ifile,ivar))
+                       call get_vars(myncid(ifile,ivar))
                        !
                        if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
                        if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
                        !
                        do n = 1,ntimes(ifile,ivar)
                           time_counter = n
-                          call read_var(ncid(ifile,ivar),'time_bound',time_bnds(:,n))
+                          call read_var(myncid(ifile,ivar),'time_bound',time_bnds(:,n))
                        enddo
                        !
                        time_bnds(1,1) = int(time_bnds(1,1))-1
@@ -311,7 +311,7 @@ program Omon_CMOR
                              time_counter = it
                              !
                              indat3a = spval
-                             call read_var(ncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
+                             call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
                              cmordat2d = indat3a(:,:,1)
                              !
                              tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
@@ -328,7 +328,7 @@ program Omon_CMOR
                           enddo
                           write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                        enddo
-                       call close_cdf(ncid(ifile,ivar))
+                       call close_cdf(myncid(ifile,ivar))
                        if (allocated(time))      deallocate(time)
                        if (allocated(time_bnds)) deallocate(time_bnds)
                     enddo
@@ -347,16 +347,16 @@ program Omon_CMOR
                  if (.not.(allocated(cmordat2d))) allocate(cmordat2d(nlons,nlats))
                  do ivar = 1,xw(ixw)%ncesm_vars
                     do ifile = 1,nc_nfiles(ivar)
-                       call open_cdf(ncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-                       call get_dims(ncid(ifile,ivar))
-                       call get_vars(ncid(ifile,ivar))
+                       call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                       call get_dims(myncid(ifile,ivar))
+                       call get_vars(myncid(ifile,ivar))
                        !
                        if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
                        if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
                        !
                        do n = 1,ntimes(ifile,ivar)
                           time_counter = n
-                          call read_var(ncid(ifile,ivar),'time_bound',time_bnds(:,n))
+                          call read_var(myncid(ifile,ivar),'time_bound',time_bnds(:,n))
                        enddo
                        !
                        time_bnds(1,1) = int(time_bnds(1,1))-1
@@ -375,8 +375,10 @@ program Omon_CMOR
                              time_counter = it
                              !
                              indat3a = spval
-                             call read_var(ncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
-                             cmordat2d = indat3a(:,:,1)*1000.
+                             call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
+                             where (indat3a(:,:,1) /= spval)
+                                cmordat2d = indat3a(:,:,1)*1000.
+                             endwhere
                              !
                              tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                              error_flag = cmor_write(          &
@@ -392,7 +394,7 @@ program Omon_CMOR
                           enddo
                           write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                        enddo
-                       call close_cdf(ncid(ifile,ivar))
+                       call close_cdf(myncid(ifile,ivar))
                        if (allocated(time))      deallocate(time)
                        if (allocated(time_bnds)) deallocate(time_bnds)
                     enddo
@@ -410,16 +412,16 @@ program Omon_CMOR
                  allocate(indat2a(nlons,nlats))
                  do ivar = 1,xw(ixw)%ncesm_vars
                     do ifile = 1,nc_nfiles(ivar)
-                       call open_cdf(ncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-                       call get_dims(ncid(ifile,ivar))
-                       call get_vars(ncid(ifile,ivar))
+                       call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                       call get_dims(myncid(ifile,ivar))
+                       call get_vars(myncid(ifile,ivar))
                        !
                        if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
                        if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
                        !
                        do n=1,ntimes(ifile,ivar)
                           time_counter = n
-                          call read_var(ncid(ifile,ivar),'time_bound',time_bnds(:,n))
+                          call read_var(myncid(ifile,ivar),'time_bound',time_bnds(:,n))
                        enddo
                        !
                        time_bnds(1,1) = int(time_bnds(1,1))-1
@@ -438,7 +440,7 @@ program Omon_CMOR
                              time_counter = it
                              !
                              indat2a = spval
-                             call read_var(ncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2a)
+                             call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2a)
                              !
                              tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                              error_flag = cmor_write(          &
@@ -463,7 +465,7 @@ program Omon_CMOR
                              write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                           endif
                        enddo
-                       call close_cdf(ncid(ifile,ivar))
+                       call close_cdf(myncid(ifile,ivar))
                        if (allocated(time))      deallocate(time)
                        if (allocated(time_bnds)) deallocate(time_bnds)
                     enddo
@@ -481,16 +483,16 @@ program Omon_CMOR
                  if (.not.(allocated(indat2a))) allocate(indat2a(nlons,nlats))
                  do ivar = 1,xw(ixw)%ncesm_vars
                     do ifile = 1,nc_nfiles(ivar)
-                       call open_cdf(ncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-                       call get_dims(ncid(ifile,ivar))
-                       call get_vars(ncid(ifile,ivar))
+                       call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                       call get_dims(myncid(ifile,ivar))
+                       call get_vars(myncid(ifile,ivar))
                        !
                        if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
                        if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
                        !
                        do n=1,ntimes(ifile,ivar)
                           time_counter = n
-                          call read_var(ncid(ifile,ivar),'time_bound',time_bnds(:,n))
+                          call read_var(myncid(ifile,ivar),'time_bound',time_bnds(:,n))
                        enddo
                        !
                        time_bnds(1,1) = int(time_bnds(1,1))-1
@@ -509,7 +511,7 @@ program Omon_CMOR
                              time_counter = it
                              !
                              indat2a = spval
-                             call read_var(ncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2a)
+                             call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2a)
                              where (indat2a /= spval)
                                 indat2a = indat2a * (1.e6 * 1000.) ! 10^6 m3 s-1 to kg s-1
                              endwhere
@@ -539,7 +541,7 @@ program Omon_CMOR
                              endif
                           endif
                        enddo
-                       call close_cdf(ncid(ifile,ivar))
+                       call close_cdf(myncid(ifile,ivar))
                        if (allocated(time))      deallocate(time)
                        if (allocated(time_bnds)) deallocate(time_bnds)
                     enddo
@@ -550,23 +552,23 @@ program Omon_CMOR
                  else
                     write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
                  endif
-              case ('thetao','so','agessc','uo','vo','rhopoto')
+              case ('thetao','agessc','uo','vo','rhopoto')
                  !
-                 ! thetao,so,agessc,uo,vo,rhopoto: No changes
+                 ! thetao,agessc,uo,vo,rhopoto: No changes
                  !
                  allocate(indat3a(nlons,nlats,nlevs))
                  do ivar = 1,xw(ixw)%ncesm_vars
                     do ifile = 1,nc_nfiles(ivar)
-                       call open_cdf(ncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-                       call get_dims(ncid(ifile,ivar))
-                       call get_vars(ncid(ifile,ivar))
+                       call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                       call get_dims(myncid(ifile,ivar))
+                       call get_vars(myncid(ifile,ivar))
                        !
                        if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
                        if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
                        !
                        do n=1,ntimes(ifile,ivar)
                           time_counter = n
-                          call read_var(ncid(ifile,ivar),'time_bound',time_bnds(:,n))
+                          call read_var(myncid(ifile,ivar),'time_bound',time_bnds(:,n))
                        enddo
                        !
                        time_bnds(1,1) = int(time_bnds(1,1))-1
@@ -599,7 +601,7 @@ program Omon_CMOR
                              time_counter = it
                              !
                              indat3a = spval
-                             call read_var(ncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
+                             call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
                              !
                              tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                              error_flag = cmor_write(          &
@@ -624,7 +626,95 @@ program Omon_CMOR
                              write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                           endif
                        enddo
-                       call close_cdf(ncid(ifile,ivar))
+                       call close_cdf(myncid(ifile,ivar))
+                       if (allocated(time))      deallocate(time)
+                       if (allocated(time_bnds)) deallocate(time_bnds)
+                    enddo
+                 enddo
+                 error_flag = cmor_close()
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 else
+                    write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 endif
+              case ('so')
+                 !
+                 ! so: SALT*1000 to handle CMOR change to psu bug
+                 !
+                 allocate(indat3a(nlons,nlats,nlevs))
+                 do ivar = 1,xw(ixw)%ncesm_vars
+                    do ifile = 1,nc_nfiles(ivar)
+                       call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                       call get_dims(myncid(ifile,ivar))
+                       call get_vars(myncid(ifile,ivar))
+                       !
+                       if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
+                       if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
+                       !
+                       do n=1,ntimes(ifile,ivar)
+                          time_counter = n
+                          call read_var(myncid(ifile,ivar),'time_bound',time_bnds(:,n))
+                       enddo
+                       !
+                       time_bnds(1,1) = int(time_bnds(1,1))-1
+                       time = (time_bnds(1,:)+time_bnds(2,:))/2.
+                       !
+                       if (ntimes(ifile,ivar) .eq. 60) then
+                          nchunks(ifile)   = 1
+                          tidx1(1:nchunks(ifile)) = 13
+                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       endif
+                       !
+                       if (ntimes(ifile,ivar) .eq. 120) then
+                          nchunks(ifile)   = 1
+                          tidx1(1:nchunks(ifile)) = 1
+                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       endif
+                       if (ntimes(ifile,ivar) == 1152) then  ! RCP all in one file from 2005-2100
+                          nchunks(ifile) = 10
+                          tidx1(1) =  13
+                          tidx2(1) =  60
+                          do ic = 2,nchunks(ifile)
+                             tidx1(ic) = tidx2(ic-1) + 1
+                             tidx2(ic) = tidx1(ic) + 119
+                          enddo
+                          tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
+                       endif
+                       write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+                       do ic = 1,nchunks(ifile)
+                          do it = tidx1(ic),tidx2(ic)
+                             time_counter = it
+                             !
+                             indat3a = spval
+                             call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
+                             where (indat3a /= spval)
+                                indat3a = indat3a*1000.
+                             endwhere
+                             !
+                             tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                             error_flag = cmor_write(          &
+                                  var_id        = cmor_var_id, &
+                                  data          = indat3a,     &
+                                  ntimes_passed = 1,           &
+                                  time_vals     = tval,        &
+                                  time_bnds     = tbnd)
+                             if (error_flag < 0) then
+                                write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                                stop
+                             endif
+                          enddo
+                          write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                          !
+                          cmor_filename = ' '
+                          error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                          if (error_flag < 0) then
+                             write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                             stop
+                          else
+                             write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+                          endif
+                       enddo
+                       call close_cdf(myncid(ifile,ivar))
                        if (allocated(time))      deallocate(time)
                        if (allocated(time_bnds)) deallocate(time_bnds)
                     enddo
@@ -642,16 +732,16 @@ program Omon_CMOR
 !!$              allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),cmordat2d(nlons,nlats))
 !!$              do ivar = 1,xw(ixw)%ncesm_vars
 !!$                 do ifile = 1,nc_nfiles(ivar)
-!!$                    call open_cdf(ncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-!!$                    call get_dims(ncid(ifile,ivar))
-!!$                    call get_vars(ncid(ifile,ivar))
+!!$                    call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+!!$                    call get_dims(myncid(ifile,ivar))
+!!$                    call get_vars(myncid(ifile,ivar))
 !!$                    !
 !!$                    if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
 !!$                    if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
 !!$                    !
 !!$                    do n=1,ntimes(ifile,ivar)
 !!$                       time_counter = n
-!!$                       call read_var(ncid(ifile,ivar),'time_bound',time_bnds(:,n))
+!!$                       call read_var(myncid(ifile,ivar),'time_bound',time_bnds(:,n))
 !!$                    enddo
 !!$                    !
 !!$                    time_bnds(1,1) = int(time_bnds(1,1))-1
@@ -665,7 +755,7 @@ program Omon_CMOR
 !!$                          time_counter = it
 !!$                          !
 !!$                          indat3a = spval
-!!$                          call read_var(ncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
+!!$                          call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
 !!$                          !
 !!$                          tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
 !!$                          error_flag = cmor_write(          &
@@ -690,7 +780,7 @@ program Omon_CMOR
 !!$                          write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
 !!$                       endif
 !!$                    enddo
-!!$                    call close_cdf(ncid(ifile,ivar))
+!!$                    call close_cdf(myncid(ifile,ivar))
 !!$                    if (allocated(time))      deallocate(time)
 !!$                    if (allocated(time_bnds)) deallocate(time_bnds)
 !!$                 enddo
@@ -719,17 +809,17 @@ program Omon_CMOR
                  allocate(cmordat3d(nlats_trans,nmoc_z,3))
                  do ivar = 1,xw(ixw)%ncesm_vars
                     do ifile = 1,nc_nfiles(ivar)
-                       call open_cdf(ncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-                       call get_dims(ncid(ifile,ivar))
-                       call get_vars(ncid(ifile,ivar))
+                       call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                       call get_dims(myncid(ifile,ivar))
+                       call get_vars(myncid(ifile,ivar))
                        !
                        if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
                        if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
                        !
-                       write(*,*) 'tbnds loop: ',ivar,ifile,ncid(ifile,ivar)
+                       write(*,*) 'tbnds loop: ',ivar,ifile,myncid(ifile,ivar)
                        do n = 1,ntimes(ifile,ivar)
                           time_counter = n
-                          call read_var(ncid(ifile,ivar),'time_bound',time_bnds(:,n))
+                          call read_var(myncid(ifile,ivar),'time_bound',time_bnds(:,n))
                        enddo
                        !
                        time_bnds(1,1) = int(time_bnds(1,1))-1
@@ -764,7 +854,7 @@ program Omon_CMOR
                           do it = tidx1(ic),tidx2(ic)
                              time_counter = it
                              !
-                             call read_var(ncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat4a)
+                             call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat4a)
                              !
                              cmordat3d = spval
                              cmordat3d(:,:,2) = spval ! Indo-Pacific not supplied

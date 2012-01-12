@@ -30,7 +30,7 @@ program LImon_CMOR
   ! Other variables
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
-  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ilev,ic
+  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ilev,ic,jfile
   real::spval
   !
   ! Initialize time indices
@@ -107,9 +107,9 @@ program LImon_CMOR
            if (all_continue) then
               do ivar = 1,xw(ixw)%ncesm_vars
                  do ifile = 1,nc_nfiles(ivar)
-                    call open_cdf(ncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-                    call get_dims(ncid(ifile,ivar))
-                    call get_vars(ncid(ifile,ivar))
+                    call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                    call get_dims(myncid(ifile,ivar))
+                    call get_vars(myncid(ifile,ivar))
                     !
                     do n=1,dim_counter
                        length = len_trim(dim_info(n)%name)
@@ -117,7 +117,7 @@ program LImon_CMOR
                           ntimes(ifile,ivar) = dim_info(n)%length
                        endif
                     enddo
-                    call read_att_text(ncid(ifile,ivar),'time','units',time_units)
+                    call read_att_text(myncid(ifile,ivar),'time','units',time_units)
                     do n=1,var_counter
                        if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
                           var_found(ifile,ivar) = n
@@ -130,11 +130,11 @@ program LImon_CMOR
                        write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
                        stop
                     endif
-                    call close_cdf(ncid(ifile,ivar))
+                    call close_cdf(myncid(ifile,ivar))
                  enddo
               enddo
               !
-              ncid = 0
+              myncid = 0
               !
               ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
               !
@@ -281,16 +281,16 @@ program LImon_CMOR
 !!$                 allocate(indat2a(nlons,nlats))
 !!$                 do ivar = 1,xw(ixw)%ncesm_vars
 !!$                    do ifile = 1,nc_nfiles(ivar)
-!!$                       call open_cdf(ncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-!!$                       call get_dims(ncid(ifile,ivar))
-!!$                       call get_vars(ncid(ifile,ivar))
+!!$                       call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+!!$                       call get_dims(myncid(ifile,ivar))
+!!$                       call get_vars(myncid(ifile,ivar))
 !!$                       !
 !!$                       if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
 !!$                       if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
 !!$                       !
 !!$                       do n = 1,ntimes(ifile,ivar)
 !!$                          time_counter = n
-!!$                          call read_var(ncid(ifile,ivar),'time_bnds',time_bnds(:,n))
+!!$                          call read_var(myncid(ifile,ivar),'time_bnds',time_bnds(:,n))
 !!$                       enddo
 !!$                       time = (time_bnds(1,:)+time_bnds(2,:))/2.
 !!$                       !
@@ -313,7 +313,7 @@ program LImon_CMOR
 !!$                          do it = tidx1(ic),tidx2(ic)
 !!$                             time_counter = it
 !!$                             !
-!!$                             call read_var(ncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2a)
+!!$                             call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2a)
 !!$                             !
 !!$                             tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
 !!$                             error_flag = cmor_write(          &
@@ -348,41 +348,48 @@ program LImon_CMOR
                  !
                  allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
                  allocate(cmordat2d(nlons,nlats))
-                 do ivar = 1,xw(ixw)%ncesm_vars
-                    do ifile = 1,nc_nfiles(ivar)
-                       call open_cdf(ncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-                       call get_dims(ncid(ifile,ivar))
-                       call get_vars(ncid(ifile,ivar))
+                 write(*,'(''V0: '',i6)') var_counter
+                 if (nc_nfiles(1) == nc_nfiles(2)) then
+                    do jfile = 1,nc_nfiles(1)
+                       call open_cdf(myncid(jfile,1),trim(ncfile(jfile,1)),.true.)
+                       call get_dims(myncid(jfile,1))
+                       call get_vars(myncid(jfile,1))
+                       call open_cdf(myncid(jfile,2),trim(ncfile(jfile,2)),.true.)
+                       call get_dims(myncid(jfile,2))
+                       call get_vars(myncid(jfile,2))
                        !
-                       if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
-                       if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
+                       if (.not.(allocated(time)))      allocate(time(ntimes(jfile,1)))
+                       if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(jfile,1)))
                        !
-                       do n = 1,ntimes(ifile,ivar)
+                       do n=1,ntimes(jfile,1)
                           time_counter = n
-                          call read_var(ncid(ifile,ivar),'time_bnds',time_bnds(:,n))
+                          call read_var(myncid(jfile,1),'time_bounds',time_bnds(:,n))
                        enddo
                        time = (time_bnds(1,:)+time_bnds(2,:))/2.
                        !
-                       if (ntimes(ifile,ivar) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
-                          nchunks(ifile)= 5
-                          tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
-                          tidx2(1:nchunks(ifile)) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
-                       endif
-                       if (ntimes(ifile,ivar) == 35040) then         ! RCP from 2005-2100, use only 2006 onwards, 2 * 35y + 1 * 25y chunks
-                          nchunks(ifile) = 3
-                          tidx1(1:nchunks(ifile)) = (/  366, 13141, 25916/)      ! 2006, 2041, 2076
-                          tidx2(1:nchunks(ifile)) = (/13140, 25915, 35040/)      ! 2040, 2075, 2100
-                       endif
-                       if (ntimes(ifile,ivar) == 34675) then         ! RCP from 2006-2100, use all times, 2 * 35y + 1 * 25y chunks
-                          nchunks(ifile) = 3
-                          tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
-                          tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
-                       endif
-                       do ic = 1,nchunks(ifile)
+                       select case (ntimes(jfile,1))
+                       case ( 1872,1140,3612,6012,12012 )  ! All data
+                          nchunks(jfile) = 1
+                          tidx1(1:nchunks(jfile)) = 1
+                          tidx2(1:nchunks(jfile)) = ntimes(jfile,1)
+                       case ( 1152 )  ! RCP, 2005-2100, skip 2006
+                          nchunks(jfile) = 1
+                          tidx1(1:nchunks(jfile)) = 13
+                          tidx2(1:nchunks(jfile)) = ntimes(jfile,1)
+                       case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
+                          nchunks(jfile) = 1
+                          tidx1(1:nchunks(jfile)) = 3613
+                          tidx2(1:nchunks(jfile)) = ntimes(jfile,1)
+                       end select
+                       do ic = 1,nchunks(jfile)
                           do it = tidx1(ic),tidx2(ic)
                              time_counter = it
-                             call read_var(ncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2a)
-                             call read_var(ncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2b)
+                             var_counter = 140
+                             write(*,'(i8,'' v '',i6,'' reading '',a,'' from '',a)') myncid(jfile,1),var_counter,trim(var_info(var_found(jfile,1))%name),trim(ncfile(jfile,1))
+                             call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                             var_counter = 70
+                             write(*,'(i8,'' v '',i6,'' reading '',a,'' from '',a)') myncid(jfile,2),var_counter,trim(var_info(var_found(jfile,2))%name),trim(ncfile(jfile,2))
+                             call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
                              where ((indat2a /= spval).and.(indat2b /= spval))
                                 cmordat2d = (indat2a + indat2b)
                              elsewhere
@@ -402,7 +409,7 @@ program LImon_CMOR
                           enddo
                           write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                           !
-                          if (ic < nchunks(ifile)) then
+                          if (ic < nchunks(jfile)) then
                              cmor_filename(1:) = ' '
                              error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                              if (error_flag < 0) then
@@ -414,7 +421,13 @@ program LImon_CMOR
                           endif
                        enddo
                     enddo
-                 enddo
+                 endif
+                 error_flag = cmor_close()
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 else
+                    write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 endif
               end select
               if (allocated(indat2a))   deallocate(indat2a)
               if (allocated(indat2b))   deallocate(indat2b)
@@ -425,8 +438,8 @@ program LImon_CMOR
               if (allocated(work3da))   deallocate(work3da)
               if (allocated(work3db))   deallocate(work3db)
               do ivar = 1,xw(ixw)%ncesm_vars
-                 do ifile = 1,nc_nfiles(ivar)
-                    call close_cdf(ncid(ifile,ivar))
+                 do jfile = 1,nc_nfiles(ivar)
+                    call close_cdf(myncid(jfile,ivar))
                  enddo
               enddo
               !

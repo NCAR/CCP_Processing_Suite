@@ -103,10 +103,10 @@ program Amon_CMOR
            if (all_continue) then
               do ivar = 1,xw(ixw)%ncesm_vars
                  write(*,'(''TO OPEN: '',a)') trim(ncfile(nc_nfiles(ivar),ivar))
-                 call open_cdf(ncid(1,ivar),trim(ncfile(1,ivar)),.true.)
-                 write(*,'(''OPENING: '',a,'' ncid: '',i10)') trim(ncfile(1,ivar)),ncid(1,ivar)
-                 call get_dims(ncid(1,ivar))
-                 call get_vars(ncid(1,ivar))
+                 call open_cdf(myncid(1,ivar),trim(ncfile(1,ivar)),.true.)
+                 write(*,'(''OPENING: '',a,'' myncid: '',i10)') trim(ncfile(1,ivar)),myncid(1,ivar)
+                 call get_dims(myncid(1,ivar))
+                 call get_vars(myncid(1,ivar))
                  !
                  do n=1,dim_counter
                     length = len_trim(dim_info(n)%name)
@@ -114,7 +114,7 @@ program Amon_CMOR
                        ntimes(1,ivar) = dim_info(n)%length
                     endif
                  enddo
-                 call read_att_text(ncid(1,1),'time','units',time_units)
+                 call read_att_text(myncid(1,1),'time','units',time_units)
                  !
                  do n=1,var_counter
                     if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
@@ -135,7 +135,7 @@ program Amon_CMOR
                  !
                  do n=1,ntimes(1,1)
                     time_counter = n
-                    call read_var(ncid(1,ivar),'time_bnds',time_bnds(:,n))
+                    call read_var(myncid(1,ivar),'time_bnds',time_bnds(:,n))
                     time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
 !                    write(*,'(''TIMES: '',3f12.4)') time_bnds(1,n),time(n),time_bnds(2,n)
                  enddo
@@ -307,7 +307,7 @@ program Amon_CMOR
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
-                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                       call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(          &
                             var_id        = cmor_var_id, &
@@ -360,7 +360,7 @@ program Amon_CMOR
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        cmordat2d = spval
-                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                       call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
                        ! 
                        where (indat2a /= spval)
                           cmordat2d = indat2a*1000.
@@ -421,8 +421,8 @@ program Amon_CMOR
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        cmordat2d = spval
-                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                       call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                       call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                       call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
                        ! 
                        where ((indat2a /= spval).and.(indat2b /= spval))
                           cmordat2d = (indat2a + indat2b)*1000.
@@ -482,8 +482,8 @@ program Amon_CMOR
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        cmordat2d = spval
-                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                       call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                       call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                       call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
                        ! 
                        where ((indat2a /= spval).and.(indat2b /= spval))
                           cmordat2d = (indat2a + indat2b)
@@ -547,8 +547,8 @@ program Amon_CMOR
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        cmordat2d = spval
-                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                       call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                       call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                       call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
                        ! 
                        where ((indat2a /= spval).and.(indat2b /= spval))
                           cmordat2d = indat2a - indat2b
@@ -620,8 +620,8 @@ program Amon_CMOR
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
-                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                       call read_var(ncid(1,2),var_info(var_found(1,2))%name,psdata)
+                       call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                       call read_var(myncid(1,2),var_info(var_found(1,2))%name,psdata)
                        !
                        ! Convert PS to mb from Pa
                        !
@@ -697,7 +697,7 @@ program Amon_CMOR
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
-                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                       call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
                        where (indat3a > 1.e6) indat3a = spval
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(        &
@@ -764,8 +764,8 @@ program Amon_CMOR
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
-                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                       call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat2a)
+                       call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                       call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2a)
                        where (indat3a > 1.e6) indat3a = spval
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(        &
@@ -846,9 +846,9 @@ program Amon_CMOR
                  do ic = 1,nchunks(1)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
-                       call read_var(ncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                       call read_var(ncid(1,2),var_info(var_found(1,2))%name,indat3b)
-                       call read_var(ncid(1,3),var_info(var_found(1,3))%name,indat2a)
+                       call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                       call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat3b)
+                       call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat2a)
                        where ((indat3a /= spval).and.(indat3b /= spval))
                           cmordat3d = indat3a + indat3b
                        elsewhere
@@ -900,7 +900,7 @@ program Amon_CMOR
               if (allocated(work3da))   deallocate(work3da)
               if (allocated(work3db))   deallocate(work3db)
               do ivar = 1,xw(ixw)%ncesm_vars
-                 call close_cdf(ncid(1,ivar))
+                 call close_cdf(myncid(1,ivar))
               enddo
               !
               ! Reset

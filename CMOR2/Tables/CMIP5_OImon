@@ -6,7 +6,7 @@ frequency: mon
 cmor_version: 2.6 ! minimum version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   26 July 2011 ! date this table was constructed
+table_date:   12 January 2012 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -299,7 +299,7 @@ modeling_realm:    seaIce
 ! Variable attributes:
 !----------------------------------
 standard_name:     sea_ice_salinity
-units:             1.e-3
+units:             psu
 cell_methods:      time: mean (weighted by mass of sea ice)
 cell_measures:     area: areacello
 long_name:         Sea Ice Salinity
