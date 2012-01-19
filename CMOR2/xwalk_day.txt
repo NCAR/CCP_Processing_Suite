@@ -1,25 +1,25 @@
 day:clt:atmos:1:CLDTOT:CLDTOT unit conversion
 day:hfls:atmos:1:LHFLX:LHFLX no change
 day:hfss:atmos:1:SHFLX:SHFLX no change
-day:hur:atmos:2:RELHUM,PS:RELHUM interpolated to standard plevs
-day:hus:atmos:2:Q,PS:Q interpolated to standard plevs
+day:hur:atmos:2:RELHUM PS:RELHUM interpolated to standard plevs
+day:hus:atmos:2:Q PS:Q interpolated to standard plevs
 day:huss:atmos:1:QREFHT:QREFHT no change
 day:prc:atmos:1:PRECC:PRECC unit conversion
-day:pr:atmos:2:PRECC,PRECL:PRECC + PRECL and unit conversion
-day:prsn:atmos:2:PRECSC,PRECSL:PRECSC + PRECSL and unit conversion
+day:pr:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
+day:prsn:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
 day:psl:atmos:1:PSL:PSL no change
 day:rlds:atmos:1:FLDS:FLDS no change
-day:rlus:atmos:2:FLDS,FLNS:FLDS + FLNS
+day:rlus:atmos:2:FLDS FLNS:FLDS + FLNS
 day:rlut:atmos:1:FLUT:FLUT no change
 day:rsds:atmos:1:FSDS:FSDS no change
-day:rsus:atmos:2:FSDS,FSNS:FSDS - FSNS
-day:ta:atmos:2:T,PS:T interpolated to standard plevs
+day:rsus:atmos:2:FSDS FSNS:FSDS - FSNS
+day:ta:atmos:2:T PS:T interpolated to standard plevs
 day:tas:atmos:1:TREFHT:TREFHT no change
 day:tasmax:atmos:1:TREFHTMX:TREFHTMX no change
 day:tasmin:atmos:1:TREFHTMN:TREFHTMN no change
-day:ua:atmos:2:U,PS:U interpolated to standard plevs
+day:ua:atmos:2:U PS:U interpolated to standard plevs
 day:uas:atmos:1:UNAVAILABLE:UNAVAILABLE
-day:va:atmos:2:V,PS:V interpolated to standard plevs
+day:va:atmos:2:V PS:V interpolated to standard plevs
 day:vas:atmos:1:UNAVAILABLE:UNAVAILABLE
-day:wap:atmos:2:OMEGA,PS:OMEGA interpolated to standard plevs
-day:zg:atmos:2:Z3,PS:Z3 interpolated to standard plevs
+day:wap:atmos:2:OMEGA PS:OMEGA interpolated to standard plevs
+day:zg:atmos:2:Z3 PS:Z3 interpolated to standard plevs

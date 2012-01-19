@@ -1,25 +1,25 @@
 !
 ! local
 !
-integer i,length,index_info
+integer i,j,length,index_info
 integer status,start(10),count(10)
 logical time_dependent
 !
 ! find info
 !
 index_info = -1
-do i=1,var_counter
-   length = len_trim(var_info(i)%name)
-   if(var_info(i)%name(:length).eq.var_name.and.&
-           var_info(i)%file_name.eq.nc_filename(file_counter)) then
-      index_info = i
-      exit
-   endif
+do j=1,file_counter
+  do i=1,var_counter
+     length = len_trim(var_info(i)%name)
+     if(var_info(i)%name(:length).eq.var_name.and.var_info(i)%file_name.eq.nc_filename(j)) then
+        index_info = i
+        exit
+     endif
+  end do
 end do
 if(index_info.eq.-1) then
-   print *,' '
-   print *,var_name,' is not in the list of defined variables'
-   print *,'stopping'
+   write(*,*) 'ERROR: ',trim(var_name),' is not in ',trim(nc_filename(1))
+   write(*,*) 'STOPPING'
    stop
 endif
 !

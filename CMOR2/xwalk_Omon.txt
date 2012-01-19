@@ -9,23 +9,23 @@ Omon:thkcello:ocean:1:dz:dz units from cm to m
 Omon:uo:ocean:1:UVEL:UVEL units from cm s-1 to m s-1
 Omon:volo:ocean:1:PD:PD
 Omon:vo:ocean:1:VVEL:VVEL units from cm s-1 to m s-1
-Omon:wmosq:ocean:2:WVEL2,PD:WVEL2,PD
-Omon:wmo:ocean:2:WVEL,PD:WVEL,PD
-Omon:zosga:ocean:4:SSH,PD,TEMP,SALT:SSH,PD,TEMP,SALT
-Omon:zos:ocean:4:SSH,PD,TEMP,SALT:SSH,PD,TEMP,SALT
-Omon:zossga:ocean:4:SSH,PD,TEMP,SALT:SSH,PD,TEMP,SALT
-Omon:zostoga:ocean:4:SSH,PD,TEMP,SALT:SSH,PD,TEMP,SALT
+Omon:wmosq:ocean:2:WVEL2 PD:WVEL2,PD
+Omon:wmo:ocean:2:WVEL PD:WVEL,PD
+Omon:zosga:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
+Omon:zos:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
+Omon:zossga:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
+Omon:zostoga:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
 Omon:hfnorth:ocean:1:N_HEAT:N_HEAT
 Omon:hfss:ocean:1:SENH_F:SENH_F
 Omon:pr:ocean:1:PREC_F:PREC_F
 Omon:prsn:ocean:1:SNOW_F:SNOW_F
-Omon:rlds:ocean:2:LWUP_F,LWDN_F:LWUP_F,LWDN_F
+Omon:rlds:ocean:2:LWUP_F LWDN_F:LWUP_F,LWDN_F
 Omon:rsds:ocean:1:SHF_QSW:SHF_QSW
 Omon:rsntds:ocean:1:QSW_HTP:QSW_HTP
 Omon:tauuo:ocean:1:TAUX:TAUX
 Omon:tauvo:ocean:1:TAUY:TAUY
-Omon:umo:ocean:2:UVEL,PD,DXU:UVEL,PD,DXU
-Omon:vmo:ocean:2:VVEL,PD,DYU:VVEL,PD,DYU
+Omon:umo:ocean:2:UVEL PD DXU:UVEL,PD,DXU
+Omon:vmo:ocean:2:VVEL PD DYU:VVEL,PD,DYU
 Omon:agessc:ocean:1:IAGE:IAGE
 Omon:cfc11:ocean:1:CFC11:CFC11
 Omon:msftbarot:ocean:1:BSF:BSF

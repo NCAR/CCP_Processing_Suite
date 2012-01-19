@@ -60,7 +60,9 @@ fi
 # Do it!
 #
 rm -f Amon_in.${CASE}.${COMP} Info_in.${CASE}.${COMP}
-mkdir ./CMOR
+if [ ! -d ./CMOR ] ; then
+  mkdir ./CMOR
+fi
 #
 echo $CASE >> Amon_in.${CASE}.${COMP}
 echo $COMP >> Amon_in.${CASE}.${COMP}

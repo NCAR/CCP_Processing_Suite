@@ -4,7 +4,7 @@
 !!$  !
 !!$  implicit none
 !!$  !
-!!$  mycmor%table_file = 'Tables/CMIP5_Amon'
+!!$  mycmor%table_file = 'CMIP5_Amon'
 !!$  !  read(*,*) table_file
 !!$  !
 !!$  call load_table_info
@@ -70,6 +70,7 @@ subroutine load_table_info
   !
   ! Get table information
   !
+  mycmor%table_file = 'Tables/'//trim(mycmor%table_file)
   inquire(file=mycmor%table_file,exist=does_exist)
   if (.not.(does_exist)) then
      write(*,*) 'Cannot find ',trim(mycmor%table_file),'. Dying.'

@@ -41,7 +41,7 @@ program Omon_CMOR
   !
   ! GO!
   !
-  mycmor%table_file = 'Tables/CMIP5_Omon'
+  mycmor%table_file = 'CMIP5_Omon'
   call load_table_info
   !
   ! Get "crossxwalk" (xwalk) information

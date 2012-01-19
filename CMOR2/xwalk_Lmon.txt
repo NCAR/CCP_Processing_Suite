@@ -9,9 +9,9 @@ Lmon:cLitterBelow:land:1:UNAVAILABLE:UNAVAILABLE
 Lmon:cLitter:land:1:TOTLITC:TOTLITC
 Lmon:cMisc:land:1:STORVEGC:STORVEGC
 Lmon:cProduct:land:1:TOTPRODC:TOTPRODC
-Lmon:cRoot:land:3:FROOTC,LIVE_ROOTC,DEAD_ROOTC:FROOTC,LIVE_ROOTC,DEAD_ROOTC
+Lmon:cRoot:land:3:FROOTC LIVE_ROOTC DEAD_ROOTC:FROOTC,LIVE_ROOTC,DEAD_ROOTC
 Lmon:cropFrac:land:1:PCTPFT:PCTPFT
-Lmon:cSoilFast:land:2:SOIL1C,SOIL2C:SOIL1C,SOIL2C
+Lmon:cSoilFast:land:2:SOIL1C SOIL2C:SOIL1C,SOIL2C
 Lmon:cSoil:land:1:TOTSOMC:TOTSOMC
 Lmon:cSoilMedium:land:1:SOIL3C:SOIL3C
 Lmon:cSoilSlow:land:1:SOIL4C:SOIL4C
@@ -22,8 +22,8 @@ Lmon:evspsblveg:land:1:QVEGE:QVEGE
 Lmon:fFire:land:1:COL_FIRE_CLOSS:COL_FIRE_CLOSS
 Lmon:fGrazing:land:1:UNAVAILABLE:UNAVAILABLE
 Lmon:fHarvest:land:1:UNAVAILABLE:UNAVAILABLE
-Lmon:fLitterSoil:land:3:LITR1C_TO_SOIL1C,LITR2C_TO_SOIL2C,LITR3C_TO_SOIL3C:LITR1C_TO_SOIL1C,LITR2C_TO_SOIL2C,LITR3C_TO_SOIL3C
-Lmon:fLuc:land:2:DWT_CLOSS,PRODUCT_CLOSS:DWT_CLOSS,PRODUCT_CLOSS
+Lmon:fLitterSoil:land:3:LITR1C_TO_SOIL1C LITR2C_TO_SOIL2C LITR3C_TO_SOIL3C:LITR1C_TO_SOIL1C,LITR2C_TO_SOIL2C,LITR3C_TO_SOIL3C
+Lmon:fLuc:land:2:DWT_CLOSS PRODUCT_CLOSS:DWT_CLOSS,PRODUCT_CLOSS
 Lmon:fVegLitter:land:1:LITFALL:LITFALL
 Lmon:fVegSoil:land:1:UNAVAILABLE:UNAVAILABLE
 Lmon:gpp:land:1:GPP:GPP
@@ -31,11 +31,11 @@ Lmon:grassFrac:land:1:PCTPFT:PCTPFT
 Lmon:lai:land:1:TLAI:TLAI
 Lmon:landCoverFrac:land:1:PCTPFT:PCTPFT
 Lmon:mrfso:land landIce:1:SOILICE:SOILICE integrated over all layers
-Lmon:mrlsl:land:2:SOILLIQ,SOILICE:SOILLIQ + SOILICE at each soil depth
-Lmon:mrro:land:3:QOVER,QDRAI,QRGWL:QOVER + QDRAI + QRGWL
+Lmon:mrlsl:land:2:SOILLIQ SOILICE:SOILLIQ + SOILICE at each soil depth
+Lmon:mrro:land:3:QOVER QDRAI QRGWL:QOVER + QDRAI + QRGWL
 Lmon:mrros:land:1:QOVER:QOVER 
-Lmon:mrso:land:2:SOILICE,SOILLIQ:Integrate SOILICE + SOILLIQ over all layers
-Lmon:mrsos:land:2:SOILICE,SOILLIQ:Integrate SOILICE + SOILLIQ over top 10cm
+Lmon:mrso:land:2:SOILICE SOILLIQ:Integrate SOILICE + SOILLIQ over all layers
+Lmon:mrsos:land:2:SOILICE SOILLIQ:Integrate SOILICE + SOILLIQ over top 10cm
 Lmon:nbp:land:1:NBP:NBP
 Lmon:nep:land:1:UNKNOWN::UNKNOWN
 Lmon:npp:land:1:NPP:NPP
@@ -50,7 +50,7 @@ Lmon:rGrowth:land:1:GR:GR
 Lmon:rh:land:1:HR:HR
 Lmon:rMaint:land:1:MR:MR
 Lmon:shrubFrac:land:1:PCTPFT:PCTPFT
-Lmon:tran:land:2:QSOIL,QVEGT:QSOIL,QVEGT
+Lmon:tran:land:2:QSOIL QVEGT:QSOIL,QVEGT
 Lmon:treeFrac:land:1:PCTPFT:PCTPFT
 Lmon:treeFracPrimDec:land:1:UNAVAILABLE:UNAVAILABLE
 Lmon:treeFracPrimEver:land:1:UNAVAILABLE:UNAVAILABLE

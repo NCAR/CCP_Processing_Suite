@@ -38,7 +38,7 @@ program Lmon_CMOR
   !
   ! GO!
   !
-  mycmor%table_file = 'Tables/CMIP5_Lmon'
+  mycmor%table_file = 'CMIP5_Lmon'
   call load_table_info
   !
   ! Get "crossxwalk" (xwalk) information

@@ -32,7 +32,7 @@ program fx_CMOR
   !
   ! GO!
   !
-  mycmor%table_file = 'Tables/CMIP5_fx'
+  mycmor%table_file = 'CMIP5_fx'
   call load_table_info
   !
   ! Get "crossxwalk" (xwalk) information

@@ -40,7 +40,7 @@ program day_CMOR
   !
   ! GO!
   !
-  mycmor%table_file = 'Tables/CMIP5_day'
+  mycmor%table_file = 'CMIP5_day'
   call load_table_info
   !
   ! Get "crossxwalk" (xwalk) information

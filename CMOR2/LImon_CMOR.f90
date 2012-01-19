@@ -39,7 +39,7 @@ program LImon_CMOR
   !
   ! GO!
   !
-  mycmor%table_file = 'Tables/CMIP5_LImon'
+  mycmor%table_file = 'CMIP5_LImon'
   call load_table_info
   !
   ! Get "crossxwalk" (xwalk) information
@@ -348,7 +348,6 @@ program LImon_CMOR
                  !
                  allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
                  allocate(cmordat2d(nlons,nlats))
-                 write(*,'(''V0: '',i6)') var_counter
                  if (nc_nfiles(1) == nc_nfiles(2)) then
                     do jfile = 1,nc_nfiles(1)
                        call open_cdf(myncid(jfile,1),trim(ncfile(jfile,1)),.true.)
@@ -384,11 +383,7 @@ program LImon_CMOR
                        do ic = 1,nchunks(jfile)
                           do it = tidx1(ic),tidx2(ic)
                              time_counter = it
-                             var_counter = 140
-                             write(*,'(i8,'' v '',i6,'' reading '',a,'' from '',a)') myncid(jfile,1),var_counter,trim(var_info(var_found(jfile,1))%name),trim(ncfile(jfile,1))
                              call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                             var_counter = 70
-                             write(*,'(i8,'' v '',i6,'' reading '',a,'' from '',a)') myncid(jfile,2),var_counter,trim(var_info(var_found(jfile,2))%name),trim(ncfile(jfile,2))
                              call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
                              where ((indat2a /= spval).and.(indat2b /= spval))
                                 cmordat2d = (indat2a + indat2b)
