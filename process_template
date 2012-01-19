@@ -258,16 +258,18 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
        exit 1
       fi
     fi
-    NTARFL=`/bin/ls $CASE.$HIST.$YEARNOW*.tar | wc -l`
-    if [ $NTARFL -ne 0 ] ; then
-      for TARFILE in `/bin/ls $CASE.$HIST.$YEARNOW*.tar` ; do
-        tar xf $TARFILE
-        if [ $? -ne 0 ] ; then
-          echo "Error untarring "$TARFILE
-        else
-          rm -f $TARFILE
-        fi
-      done
+    if [ -f $CASE.$HIST.$YEARNOW*.tar ] ; then
+      NTARFL=`/bin/ls $CASE.$HIST.$YEARNOW*.tar | wc -l`
+      if [ $NTARFL -ne 0 ] ; then
+        for TARFILE in `/bin/ls $CASE.$HIST.$YEARNOW*.tar` ; do
+          tar xf $TARFILE
+          if [ $? -ne 0 ] ; then
+            echo "Error untarring "$TARFILE
+          else
+            rm -f $TARFILE
+          fi
+        done
+      fi
     fi
 #
 # Check on data type to see if it needs time splitting and reconcatenating first
@@ -275,11 +277,14 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
     case "$HIST" in
       cam2.h1 | cam2.h2 | cam2.h3 | cam2.h4 | cam2.h5 )
         for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??-?????.nc` ; do
-          NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
-          if [ $NTIMES -eq 365 ] ; then
+#
+# Check for exactly 365 samples from the same year
+#
+          NTIMES=`$NCKS -s "%8.8i\n" -F -H -C -v date $FILE | egrep "^[0-9]" | cut -c1-4 | uniq | wc -l`
+          if [ $NTIMES -eq 1 ] ; then
+            echo "time_split not required on "$FILE" 1 year length already from same year. Renaming."
             TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
             mv $FILE $TRIMD
-            echo "time_split not required on "$FILE" 1 year length already."
           else
             echo "time_split-ting on "$FILE
             ./time_split $FILE erase

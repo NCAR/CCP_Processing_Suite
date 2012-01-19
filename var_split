@@ -8,24 +8,18 @@
 # b30.030e.pop.h.TEMP.1870-01.nc (monthly average of TEMP, only)
 #
 if [ $# -eq 0 ] ; then
-   echo "Usage: ccsm_var_split file [erase]"
+   echo "Usage: var_split file [erase]"
    echo "2 args means erase file after fields extracted."
-   ./procstat.sh error var_split
+#   ./procstat.sh error var_split
    exit 1
 elif [ $# -eq 1 ] ; then
    FILE=$1
 elif [ $# -eq 2 ] ; then
    FILE=$1
 else
-   echo "Usage: ccsm_var_split file [erase]"
+   echo "Usage: var_split file [erase]"
    echo "2 args means erase file after fields extracted."
-   ./procstat.sh error var_split
-   exit 1
-fi
-#
-if [ ! -f $FILE ] ; then
-   echo $file "not found. Exit."
-   ./procstat.sh error var_split
+#   ./procstat.sh error var_split
    exit 1
 fi
 # 
@@ -37,7 +31,6 @@ if [ ! $NCKS ] ; then
     NCKS=`which ncks`
   else
     echo "NCKS not in PATH - UNDEFINED"
-    ./procstat.sh error var_split
     exit 1
   fi
 fi
@@ -89,74 +82,100 @@ fi
 OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
 OUTSFX=`echo $FILE | cut -d"." -f${DSFX}-`
 #
-D0VARS=`$NCKS -m $FILE | egrep "( 0 dimension|# dim\. = 0)" | cut -d":" -f1`
-D1VARS=`$NCKS -m $FILE | egrep "( 1 dimension|# dim\. = 1)" | cut -d":" -f1`
-D2VARS=`$NCKS -m $FILE | egrep "( 2 dimension|# dim\. = 2)" | cut -d":" -f1`
-D3VARS=`$NCKS -m $FILE | egrep "( 3 dimension|# dim\. = 3)" | cut -d":" -f1`
-D4VARS=`$NCKS -m $FILE | egrep "( 4 dimension|# dim\. = 4)" | cut -d":" -f1`
-D5VARS=`$NCKS -m $FILE | egrep "( 5 dimension|# dim\. = 5)" | cut -d":" -f1`
+# Save "$NCKS -m" metadata output for this file
 #
-# Get auxiliary header fields
+rm -f meta.${FILE} ; $NCKS -m $FILE > meta.${FILE}
 #
-if [ `echo $D2VARS | wc -w` -ne 0 ] ; then
-  if [ `echo $D1VARS | wc -w` -ne 0 ] ; then
-    if [ `echo $D0VARS | wc -w` -ne 0 ] ; then
-      D0HEAD=`echo $D0VARS | sed -e 's/ /,/g'`
-      D1HEAD=`echo $D1VARS | sed -e 's/ /,/g'`
-      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
-      HEADER=`echo $D0HEAD","$D1HEAD","$D2HEAD | sed -e 's/^,//g'`
-    else
-      D1HEAD=`echo $D1VARS | sed -e 's/ /,/g'`
-      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
-      HEADER=`echo $D1HEAD","$D2HEAD | sed -e 's/^,//g'`
+# Scalar (i.e., single value) fields, to be put in all output files
+#
+SCALARS=`cat meta.${FILE} | egrep "( 0 dimension|# dim\. = 0)" | cut -d":" -f1`
+#
+# Time-variant fields, the fields we will be splitting upon
+#
+TIMEVAR=`cat meta.${FILE} | egrep "dimension 0: time" | cut -d" " -f1`
+#
+# Time-invariant fields, to be put in all output files
+#
+TIMEINV=`cat meta.${FILE} | egrep "dimension 0:" | egrep -v " dimension 0: time" | cut -d" " -f1`
+#
+#echo "SCALARS :"$SCALARS
+#echo
+#echo "TIMEVAR :"$TIMEVAR
+#echo
+#echo "TIMEINV :"$TIMEINV
+#
+# Find time-variant fields that are more than 1 dimension, i.e., not dimensioned just along time
+# Those that are 1-dimensional and along time only are not put into separate output files
+#
+for V in $TIMEVAR ; do
+  NDIMS=`cat meta.${FILE} | egrep "^${V}:" | cut -d"," -f2`
+#  echo "Checking "${V}" NDIMS: "${NDIMS}
+  case "$NDIMS" in 
+    " 1 dimension" )
+      HEADER=`echo ${HEADER}${V}" "` ;; 
+    " 2 dimensions" )
+      if [ "$V" = "time_bnds" ] || [ "$V" = "time_bound" ] || [ "$V" = "time_bounds" ] || [ "$V" = "date_written" ] || [ "$V" = "time_written" ] ; then
+        HEADER=`echo ${HEADER}${V}" "`
+      else
+        TIMEV2D=`echo ${TIMEV2D}${V}" "`
+      fi ;; 
+    " 3 dimensions" )
+      TIMEV3D=`echo ${TIMEV3D}${V}" "` ;; 
+    " 4 dimensions" )
+      TIMEV4D=`echo ${TIMEV4D}${V}" "` ;; 
+    " 5 dimensions" )
+      TIMEV5D=`echo ${TIMEV5D}${V}" "` ;; 
+  esac
+done
+if [ `echo $HEADER | wc -w` -ne 0 ] ; then
+  if [ `echo $TIMEINV | wc -w` -ne 0 ] ; then
+    if [ `echo $SCALAR | wc -w` -ne 0 ] ; then
+      HEADER=`echo ${SCALAR}${HEADER}${TIMEINV} | sed -e 's/ /,/g'`
     fi
-  else
-    if [ `echo $D0VARS | wc -w` -ne 0 ] ; then
-      D0HEAD=`echo $D0VARS | sed -e 's/ /,/g'`
-      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
-      HEADER=`echo $D0HEAD","$D2HEAD | sed -e 's/^,//g'`
-    else
-      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
-      HEADER=`echo $D2HEAD | sed -e 's/^,//g'`
-    fi
+    HEADER=`echo ${HEADER}${TIMEINV} | sed -e 's/ /,/g'`
   fi
-else
-  if [ `echo $D1VARS | wc -w` -ne 0 ] ; then
-    if [ `echo $D0VARS | wc -w` -ne 0 ] ; then
-      D0HEAD=`echo $D0VARS | sed -e 's/ /,/g'`
-      D1HEAD=`echo $D1VARS | sed -e 's/ /,/g'`
-      HEADER=`echo $D0HEAD","$D1HEAD | sed -e 's/^,//g'`
-    else
-      D1HEAD=`echo $D1VARS | sed -e 's/ /,/g'`
-      HEADER=`echo $D1HEAD | sed -e 's/^,//g'`
+fi
+#echo "TIMEV1D: "$TIMEV1D
+#echo 
+#echo "TIMEV2D: "$TIMEV2D
+#echo 
+#echo "TIMEV3D: "$TIMEV3D
+#echo 
+#echo "TIMEV4D: "$TIMEV4D
+#echo 
+#echo "TIMEV5D: "$TIMEV5D
+#echo 
+#
+# Add SCALARS (if present) to HEADER
+#
+if [ `echo $SCALARS | wc -w` -ne 0 ] ; then
+  SCALARS=`echo $SCALARS | sed -e 's/ /,/g'`
+  HEADER=`echo $HEADER","$SCALARS`
+fi
+#echo "HEADER: "$HEADER
+#echo 
+#
+# 2D time-dependent vars
+#
+if [ `echo $TIMEV2D | wc -w` -ne 0 ] ; then
+  for f in $TIMEV2D ; do
+    if [ ! -d ${f}_2d.d ] ; then
+      mkdir ${f}_2d.d
     fi
-  else
-    if [ `echo $D0VARS | wc -w` -ne 0 ] ; then
-      D0HEAD=`echo $D0VARS | sed -e 's/ /,/g'`
-      HEADER=`echo $D0HEAD | sed -e 's/^,//g'`
-    else
-      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
-      HEADER=`echo $D2HEAD | sed -e 's/^,//g'`
+    OUT=${f}_2d.d/${OUTPFX}.${f}.${OUTSFX}
+    $NCKS -O -v ${HEADER},${f} $FILE $OUT
+    if [ $? -ne 0 ] ; then
+      echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
+#      ./procstat.sh error var_split
+      exit 1
     fi
-  fi
+ done
 fi
 #
-# Get variable fields
+# 3D time-dependent vars
 #
-if [ `echo $D3VARS | wc -w` -ne 0 ] ; then
-  FIELDS3D=`echo $D3VARS`
-fi
-if [ `echo $D4VARS | wc -w` -ne 0 ] ; then
-  FIELDS4D=`echo $D4VARS`
-fi
-if [ `echo $D5VARS | wc -w` -ne 0 ] ; then
-  FIELDS5D=`echo $D5VARS`
-fi
-#
-# 3D vars
-#
-if [ `echo $FIELDS3D | wc -w` -ne 0 ] ; then
-  for f in $FIELDS3D ; do
+if [ `echo $TIMEV3D | wc -w` -ne 0 ] ; then
+  for f in $TIMEV3D ; do
     if [ ! -d ${f}_3d.d ] ; then
       mkdir ${f}_3d.d
     fi
@@ -170,17 +189,17 @@ if [ `echo $FIELDS3D | wc -w` -ne 0 ] ; then
       $NCKS -O -v ${HEADER},${f} $FILE $OUT
       if [ $? -ne 0 ] ; then
         echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
-	./procstat.sh error var_split
+#        ./procstat.sh error var_split
         exit 1
       fi
     fi
-  done
+ done
 fi
 #
-# 4D vars
+# 4D time-dependent vars
 #
-if [ `echo $FIELDS4D | wc -w` -ne 0 ] ; then
-  for f in $FIELDS4D ; do
+if [ `echo $TIMEV4D | wc -w` -ne 0 ] ; then
+  for f in $TIMEV4D ; do
     if [ ! -d ${f}_4d.d ] ; then
       mkdir ${f}_4d.d
     fi
@@ -188,16 +207,16 @@ if [ `echo $FIELDS4D | wc -w` -ne 0 ] ; then
     $NCKS -O -v ${HEADER},${f} $FILE $OUT
     if [ $? -ne 0 ] ; then
       echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
-      ./procstat.sh error var_split
+#      ./procstat.sh error var_split
       exit 1
     fi
-  done
+ done
 fi
 #
-# 5D vars
+# 5D time-dependent vars
 #
-if [ `echo $FIELDS5D | wc -w` -ne 0 ] ; then
-  for f in $FIELDS5D ; do
+if [ `echo $TIMEV5D | wc -w` -ne 0 ] ; then
+  for f in $TIMEV5D ; do
     if [ ! -d ${f}_5d.d ] ; then
       mkdir ${f}_5d.d
     fi
@@ -205,12 +224,15 @@ if [ `echo $FIELDS5D | wc -w` -ne 0 ] ; then
     $NCKS -O -v ${HEADER},${f} $FILE $OUT
     if [ $? -ne 0 ] ; then
       echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
-      ./procstat.sh error var_split
+#      ./procstat.sh error var_split
       exit 1
     fi
-  done
+ done
 fi
+#
+rm -f meta.${FILE}
 #
 if [ $# -gt 1 ] ; then
   rm -f $FILE
 fi
+
