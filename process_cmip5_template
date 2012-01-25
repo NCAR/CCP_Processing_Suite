@@ -1,6 +1,8 @@
 CASE=xxxCASExxx ; export CASE
 HIST=xxxHISTxxx ; export HIST
 TABL=xxxTABLxxx ; export TABL
+VARS="xxxVARSxxx" ; export VARS
+echo $VARS
 #
 # Template for processing single-field CESM netCDF files into CMIP5 format
 #
@@ -65,16 +67,19 @@ case "$PROCHOST" in
   silver* )                                # silver @ CGD/NCAR
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
+    HISTBASE=/CCSM/csm                   ; export HISTBASE
     ;;
 
   tramhill* | hurricane* )                 # tramhill/hurricane @ CGD/NCAR
     PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
+    HISTBASE=/CCSM/csm                   ; export HISTBASE
     ;;
 
   mirage* )                                # DASG @ CISL/NCAR
     PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
+    HISTBASE=/CCSM/csm                   ; export HISTBASE
     ;;
 
   euclid* )                                # euclid @ NERSC
@@ -100,6 +105,11 @@ if [ ! -f $BINDIR/${TABL}_CMOR ] ; then
 fi
 if [ ! -f $BASEDIR/CMOR2/Run${TABL} ] ; then
   echo ${BASEDIR}"/CMOR2/Run"${TABL}" NOT found. Please create. Stopping."
+  exit 1
+fi
+XWALK=${BASEDIR}/CMOR2/xwalk_${TABL}.txt
+if [ ! -f $XWALK ] ; then
+  echo ${XWALK}" NOT found. Please create. Stopping."
   exit 1
 fi
 #
@@ -147,36 +157,25 @@ case "$TABL" in
     exit 1 ;;
 esac
 #
-# Variables that can be processed. Can be manually edited once script created
+# Variables that can be processed. Dependent on whether or not VARS exists
 #
-case "$TABL" in
-  Amon )
-    CMIP5_VARS="CLDBOT,CLDICE,CLDLIQ,CLDTOP,CLDTOT,CLOUD,CMFMC,CMFMCDZM,FLDS,FLDSC,FLNS,FLNT,FLUT,FLUTC,FREQSI,FREQZM,FSDS,FSDSC,FSNS,FSNSC,FSNT,FSNTOA,FSNTOAC,LHFLX,PRECC,PRECL,PRECSC,PRECSL,PS,PSL,QFLX,QREFHT,RHREFHT,SHFLX,SOLIN,TAUX,TAUY,TGCLDIWP,TGCLDLWP,TMQ,TREFHT,TREFMNAV,TREFMXAV,TS,vOMEGA,vQ,vRELHUM,vT,vU,vV,vZ3" ;; 
-  Lmon )
-    CMIP5_VARS="ANN_FAREA_BURNED,AR,COL_FIRE_CLOSS,CWDC,DEAD_ROOTC,DWT_CLOSS,FROOTC,FROOTC_ALLOC,GPP,GR,HR,LEAFC,LEAFC_ALLOC,LITFALL,LITR1C_TO_SOIL1C,LITR2C_TO_SOIL2C,LITR3C_TO_SOIL3C,LIVE_ROOTC,MR,NBP,NPP,PCTPFT,PRODUCT_CLOSS,QDRAI,QINTR,QOVER,QRGWL,QSOIL,QVEGE,QVEGT,SOIL1C,SOIL2C,SOIL3C,SOIL4C,SOILICE,SOILLIQ,STORVEGC,TLAI,TOTLITC,TOTPFTC,TOTPRODC,TOTSOMC,TSOI,WOODC,WOODC_ALLOC" ;; 
-  OImon )
-    CMIP5_VARS="" ;; 
-  Omon )
-    CMIP5_VARS="" ;; 
-  cfMon )
-    CMIP5_VARS="" ;; 
-  aero )
-    CMIP5_VARS="" ;; 
-  day )
-    CMIP5_VARS="" ;; 
-  cfDay )
-    CMIP5_VARS="" ;; 
-  6hrLev | 6hrPlev )
-    CMIP5_VARS="" ;; 
-  3hr )
-    CMIP5_VARS="" ;; 
-  cf3hr )
-    CMIP5_VARS="" ;; 
-  * ) 
-    echo "Unable to continue because variables for "$TABL" not defined."
-    ./procstat.sh error process_cmip5_template
-    exit 1 ;;
-esac
+if [ "$VARS" ] ; then
+  rm -f ./VARS_TO_DO
+  for C5F in `echo $VARS` ; do
+    egrep ":$C5F:" $XWALK | cut -d":" -f5 >> ./VARS_TO_DO
+  done
+else
+  rm -f ./VARS_TO_DO
+  for C5F in `cut -d":" -f5 $XWALK | sort | uniq` ; do
+    echo $C5F >> ./VARS_TO_DO
+  done
+fi
+#
+cat ./VARS_TO_DO | sort | uniq | egrep -v "(UNKNOWN|UNAVAILABLE)" > ./tmp.VARS_TO_DO
+mv ./tmp.VARS_TO_DO ./VARS_TO_DO
+#
+TEMPVARS=`cat ./VARS_TO_DO` ; rm -f ./VARS_TO_DO
+CMIP5_VARS=`echo $TEMPVARS | sed -e 's/ /,/g'`
 #
 CACHEDIR=${LOCAL_PROC}/data
 #
@@ -251,28 +250,34 @@ if [ ! -f $ARCHIVE_LIST ] ; then
   ../mss_list $ARCHIVE_LIST
   if [ $? -ne 0 ] ; then
     echo "Error from mss_list"
-    ./procstat.sh error mss_list
+#    ./procstat.sh error mss_list
     exit 1
   fi
 fi
 #
 # Retrieve files from archive
 #
-#cd $CACHEDIR
-#./mss_var_read $ARCHIVE_PROC $CMIP5_VARS
-#if [ $? -ne 0 ] ; then
-#  echo "Error from mss_var_read"
+cd $CACHEDIR
+pwd
+../mss_var_read $ARCHIVE_PROC $CMIP5_VARS
+if [ $? -ne 0 ] ; then
+  echo "Error from mss_var_read"
 #  ./procstat.sh error mss_var_read
-#  exit 1
-#fi
-##
-## Run CMOR processor code
-##
-#cd $LOCAL_PROC
-#./Run${TABL} $CASE $HIST
-##
-## Store completed data on archival system
-##
+  exit 1
+fi
+#
+# Run CMOR processor code
+#
+cd $LOCAL_PROC
+if [ "$VARS" ] ; then
+  echo $VARS
+  ./Run${TABL} $CASE $HIST "$VARS"
+else
+  ./Run${TABL} $CASE $HIST
+fi
+#
+# Store completed data on archival system
+#
 #./store_cmip5
 #if [ $? -ne 0 ] ; then
 #  echo "store_to_archive failed"

@@ -27,7 +27,7 @@ fi
 #
 TEST4HSI=`which hsi 2<&1`
 if [ $? -eq 0 ] ; then
-  hsi -q "cd ${ARCHIVE_PROC} ; cget -u ${CASE}.${HIST}.{${VARS}}.185001-200512.nc"
+  hsi -q "cd ${ARCHIVE_PROC} ; cget -u ${CASE}.${HIST}.{${VARS}}.*.nc"
 #  if [ $? -ne 0 ] ; then
 #    echo "Error on hsi get of "$ARCHIVE_PROC" files. Stopping."
 #    ./procstat.sh error mss_var_read
