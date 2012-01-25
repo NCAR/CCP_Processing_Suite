@@ -242,6 +242,15 @@ fi
 while [ $YEARNOW -ge $YEARBEG ] ; do
   ./procstat.sh
   YRCHECK=.comp.$CASE.$HIST.$YEARNOW
+  if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 1 ] ; then
+    touch $YRCHECK
+    rm .????.$CASE.$HIST.${YEARNOW}*.nc
+  else
+    if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}-??.nc | wc -l` -eq 12 ] ; then
+      touch $YRCHECK
+      rm .????.$CASE.$HIST.${YEARNOW}-??.nc
+    fi
+  fi
   if [ ! -f $YRCHECK ] ; then
     echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
     if [ -d $LOCAL_HIST ] ; then
@@ -342,9 +351,9 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
       touch $YRCHECK
       rm .????.$CASE.$HIST.${YEARNOW}*.nc
     else
-      if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 12 ] ; then
+      if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}-??.nc | wc -l` -eq 12 ] ; then
         touch $YRCHECK
-        rm .????.$CASE.$HIST.${YEARNOW}*.nc
+        rm .????.$CASE.$HIST.${YEARNOW}-??.nc
       fi
     fi
 #
