@@ -164,7 +164,7 @@ subroutine load_exp(exp_file)
      case ('1pctCO2')
         exp(i)%forcing(1:)      = 'GHG (CO2 only)'
      case ('abrupt4xCO2')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+        exp(i)%forcing(1:)      = 'unknown forcings'
      case ('amip')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
      case ('amip4K')
@@ -180,7 +180,7 @@ subroutine load_exp(exp_file)
      case ('aquaControl')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('decadal1961','decadal1966','decadal1971','decadal1975','decadal1976','decadal1980',&
-          'decadal1981','decadal1985','decadal1986','decadal1990','decadal1991','decadal1995','decadal1996')
+           'decadal1981','decadal1985','decadal1986','decadal1990','decadal1991','decadal1995','decadal1996')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU'
      case ('esmControl')
         exp(i)%forcing(1:)      = 'unknown forcings'
@@ -201,57 +201,31 @@ subroutine load_exp(exp_file)
      case ('historicalExt')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('historicalGHG')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'GHG (time-varying over course of simulation), Sl Vl LU SS Ds SD BC MD OC Oz AA (all fixed at or cycled over 1850 values)'
      case ('historicalMisc')
         select case (trim(adjustl(exp(i)%case)))
-        case ('b40.20th.aero.1deg.006')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.aero.1deg.008')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.aero.1deg.012')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.anthro.1deg.006')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.anthro.1deg.008')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.anthro.1deg.009')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.anthro.1deg.012')
-           exp(i)%forcing(1:)      = 'unknown forcings'
+        case ('b40.20th.aero.1deg.006','b40.20th.aero.1deg.008','b40.20th.aero.1deg.012')
+           exp(i)%forcing(1:) = 'SS Ds SD BC MD OC AA (time-varying over course of simulation), Sl GHG Vl LU Oz (all fixed at or cycled over 1850 values)'
+        case ('b40.20th.anthro.1deg.006','b40.20th.anthro.1deg.008','b40.20th.anthro.1deg.009','b40.20th.anthro.1deg.012')
+           exp(i)%forcing(1:) = 'GHG Oz SS Ds SD BC MD OC AA LU (time-varying over course of simulation), Sl Vl (all fixed at or cycled over 1850 values)'
         case ('b40.20th.bcarb.1deg.008')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th_SFland.1deg.001')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.land.1deg.008')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.land.1deg.012')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.oz.1deg.006')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.oz.1deg.008')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.oz.1deg.012')
-           exp(i)%forcing(1:)      = 'unknown forcings'
+           exp(i)%forcing(1:) = 'BC OC (time-varying over course of simulation), GHG MD AA LU Oz SS Ds SD Sl Vl (all fixed at or cycled over 1850 values)'
+        case ('b40.20th_SFland.1deg.001','b40.20th.land.1deg.008','b40.20th.land.1deg.012')
+           exp(i)%forcing(1:) = 'LU (time-varying over course of simulation), GHG Oz SS Ds SD BC MD OC AA LU Sl Vl (all fixed at or cycled over 1850 values)'
+        case ('b40.20th.oz.1deg.006','b40.20th.oz.1deg.008','b40.20th.oz.1deg.012')
+           exp(i)%forcing(1:) = 'Oz (time-varying over course of simulation), GHG LU SS Ds SD BC MD OC AA LU Sl Vl (all fixed at or cycled over 1850 values)'
         case ('b40.20th.so4.1deg.008')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.solar.1deg.006')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.solar.1deg.008')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.solar.1deg.012')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.volc.1deg.008')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.volc.1deg.006')
-           exp(i)%forcing(1:)      = 'unknown forcings'
-        case ('b40.20th.volc.1deg.012')
-           exp(i)%forcing(1:)      = 'unknown forcings'
+           exp(i)%forcing(1:) = 'SD (time-varying over course of simulation), GHG LU SS Ds Oz BC MD OC AA LU Sl Vl (all fixed at or cycled over 1850 values)'
+        case ('b40.20th.solar.1deg.006','b40.20th.solar.1deg.008','b40.20th.solar.1deg.012')
+           exp(i)%forcing(1:) = 'Sl (time-varying over course of simulation), Vl GHG LU SS Ds SD BC MD OC Oz AA (all fixed at or cycled over 1850 values)'
+        case ('b40.20th.volc.1deg.008','b40.20th.volc.1deg.006','b40.20th.volc.1deg.012')
+           exp(i)%forcing(1:) = 'Vl (time-varying over course of simulation), Sl GHG LU SS Ds SD BC MD OC Oz AA (all fixed at or cycled over 1850 values)'
         case default
            write(*,*) 'Unknown historicalMisc case: ',trim(adjustl(exp(i)%case))
            stop
         end select
      case ('historicalNat')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'Sl Vl (time-varying over course of simulation), GHG LU SS Ds SD BC MD OC Oz AA (all fixed at or cycled over 1850 values)'
      case ('lgm')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
      case ('midHolocene')
@@ -259,7 +233,7 @@ subroutine load_exp(exp_file)
      case ('noVolcXXXX')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('past1000')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl LU (time-varying over course of simulation), SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
+        exp(i)%forcing(1:)      = 'Sl GHG Vl LU (time-varying over course of simulation), SS Ds SD BC MD OC Oz AA (all fixed at or cycled over 1850 values)'
      case ('piControl')
         exp(i)%forcing(1:)      = 'Sl GHG SS Ds SD BC MD OC Oz AA (all fixed at 1850 values)'
      case ('rcp26')

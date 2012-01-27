@@ -18,8 +18,8 @@ day:tas:atmos:1:TREFHT:TREFHT no change
 day:tasmax:atmos:1:TREFHTMX:TREFHTMX no change
 day:tasmin:atmos:1:TREFHTMN:TREFHTMN no change
 day:ua:atmos:2:U PS:U interpolated to standard plevs
-day:uas:atmos:1:UNAVAILABLE:UNAVAILABLE
+day:uas:atmos:0:UNAVAILABLE:UNAVAILABLE
 day:va:atmos:2:V PS:V interpolated to standard plevs
-day:vas:atmos:1:UNAVAILABLE:UNAVAILABLE
+day:vas:atmos:0:UNAVAILABLE:UNAVAILABLE
 day:wap:atmos:2:OMEGA PS:OMEGA interpolated to standard plevs
 day:zg:atmos:2:Z3 PS:Z3 interpolated to standard plevs

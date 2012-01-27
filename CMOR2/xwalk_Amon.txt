@@ -45,7 +45,7 @@ Amon:rsus:atmos:2:FSDS FSNS:FSDS - FSNS
 Amon:rsutcs:atmos:2:SOLIN FSNTOAC:SOLIN - FSNTOAC
 Amon:rsut:atmos:2:SOLIN FSNTOA:SOLIN - FSNTOA
 Amon:rtmt:atmos:2:FSNT FLNT:FSNT - FLNT
-Amon:sbl:atmos:1:UNAVAILABLE:UNAVAILABLE
+Amon:sbl:atmos:0:UNAVAILABLE:UNAVAILABLE
 Amon:sci:atmos:1:FREQSI:FREQSI no change
 Amon:ta:atmos:2:T PS:T interpolated to standard plevs
 Amon:tas:atmos:1:TREFHT:TREFHT no change
@@ -57,9 +57,9 @@ Amon:tro3:atmos atmosChem:2:O3VMR PS:O3VMR interpolated to standard plevs
 Amon:tsAdjust:atmos:1:UNKNOWN:UNKNOWN
 Amon:ts:atmos:1:TS:TS no change
 Amon:ua:atmos:2:U PS:U interpolated to standard plevs
-Amon:uas:atmos:1:UNAVAILABLE:UNAVAILABLE
+Amon:uas:atmos:0:UNAVAILABLE:UNAVAILABLE
 Amon:va:atmos:2:V PS:V interpolated to standard plevs
-Amon:vas:atmos:1:UNAVAILABLE:UNAVAILABLE
+Amon:vas:atmos:0:UNAVAILABLE:UNAVAILABLE
 Amon:wap:atmos:2:OMEGA PS:OMEGA interpolated to standard plevs
 Amon:zg:atmos:2:Z3 PS:Z3 interpolated to standard plevs
 Amon:tro3Clim:atmos atmosChem:1:UNKNOWN:UNKNOWN
