@@ -50,7 +50,7 @@ Omon:friver:ocean:1:UNKNOWN:UNKNOWN
 Omon:frn:ocnBgchem:1:UNKNOWN:UNKNOWN
 Omon:fsc:ocnBgchem:1:UNKNOWN:UNKNOWN
 Omon:fsfe:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:fsitherm:ocean:seaIce:1:UNKNOWN:UNKNOWN
+Omon:fsitherm:ocean seaIce:1:UNKNOWN:UNKNOWN
 Omon:fsn:ocnBgchem:1:UNKNOWN:UNKNOWN
 Omon:hfbasinba:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfbasindiff:ocean:1:UNKNOWN:UNKNOWN
@@ -68,10 +68,10 @@ Omon:hfnorth:ocean:1:N_HEAT:N_HEAT
 Omon:hfrainds:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfrunoffds2d:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfrunoffds:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfsifrazil2d:ocean:seaIce:1:UNKNOWN:UNKNOWN
-Omon:hfsifrazil:ocean:seaIce:1:UNKNOWN:UNKNOWN
-Omon:hfsithermds2d:ocean:seaIce:1:UNKNOWN:UNKNOWN
-Omon:hfsithermds:ocean:seaIce:1:UNKNOWN:UNKNOWN
+Omon:hfsifrazil2d:ocean seaIce:1:UNKNOWN:UNKNOWN
+Omon:hfsifrazil:ocean seaIce:1:UNKNOWN:UNKNOWN
+Omon:hfsithermds2d:ocean seaIce:1:UNKNOWN:UNKNOWN
+Omon:hfsithermds:ocean seaIce:1:UNKNOWN:UNKNOWN
 Omon:hfsnthermds2d:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfsnthermds:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfss:ocean:1:SENH_F:SENH_F
@@ -138,7 +138,7 @@ Omon:rhopoto:ocean:1:PD:PD
 Omon:rlds:ocean:2:LWUP_F LWDN_F:LWUP_F,LWDN_F
 Omon:rsds:ocean:1:SHF_QSW:SHF_QSW
 Omon:rsntds:ocean:1:QSW_HTP:QSW_HTP
-Omon:sfdsi:ocean:seaIce:1:UNKNOWN:UNKNOWN
+Omon:sfdsi:ocean seaIce:1:UNKNOWN:UNKNOWN
 Omon:sfriver:ocean:1:UNKNOWN:UNKNOWN
 Omon:si:ocnBgchem:1:SiO3:SiO3
 Omon:sltovgyre:ocean:1:UNKNOWN:UNKNOWN
@@ -167,7 +167,7 @@ Omon:vsfevap:ocean:1:UNKNOWN:UNKNOWN
 Omon:vsf:ocean:1:UNKNOWN:UNKNOWN
 Omon:vsfpr:ocean:1:UNKNOWN:UNKNOWN
 Omon:vsfriver:ocean:1:UNKNOWN:UNKNOWN
-Omon:vsfsit:ocean:seaIce:1:UNKNOWN:UNKNOWN
+Omon:vsfsit:ocean seaIce:1:UNKNOWN:UNKNOWN
 Omon:wfcorr:ocean:1:UNKNOWN:UNKNOWN
 Omon:wfonocorr:ocean:1:UNKNOWN:UNKNOWN
 Omon:wfo:ocean:1:UNKNOWN:UNKNOWN

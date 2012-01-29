@@ -59,8 +59,8 @@ aero:ps:atmos:1:UNKNOWN:UNKNOWN
 aero:reffclwc:aerosol:1:UNKNOWN:UNKNOWN
 aero:reffclws:aerosol:1:UNKNOWN:UNKNOWN
 aero:reffclwtop:aerosol:1:UNKNOWN:UNKNOWN
-aero:rsdscsdiff:aerosol:land:1:UNKNOWN:UNKNOWN
-aero:rsdsdiff:aerosol:land:1:UNKNOWN:UNKNOWN
+aero:rsdscsdiff:aerosol land:1:UNKNOWN:UNKNOWN
+aero:rsdsdiff:aerosol land:1:UNKNOWN:UNKNOWN
 aero:sconcbc:aerosol:1:UNKNOWN:UNKNOWN
 aero:sconcdust:aerosol:1:UNKNOWN:UNKNOWN
 aero:sconcnh4:aerosol:1:UNKNOWN:UNKNOWN

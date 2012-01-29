@@ -21,10 +21,10 @@ day:rsds:atmos:1:FSDS:FSDS no change
 day:rsus:atmos:2:FSDS FSNS:FSDS - FSNS
 day:sfcWind:atmos:1:UNKNOWN:UNKNOWN
 day:sfcWindmax:atmos:1:UNKNOWN:UNKNOWN
-day:sic:seaIce:ocean:1:UNKNOWN:UNKNOWN
-day:sit:seaIce:ocean:1:UNKNOWN:UNKNOWN
-day:snc:landIce:land:1:UNKNOWN:UNKNOWN
-day:snw:landIce:land:1:UNKNOWN:UNKNOWN
+day:sic:seaIce ocean:1:UNKNOWN:UNKNOWN
+day:sit:seaIce ocean:1:UNKNOWN:UNKNOWN
+day:snc:landIce land:1:UNKNOWN:UNKNOWN
+day:snw:landIce land:1:UNKNOWN:UNKNOWN
 day:ta:atmos:2:T PS:T interpolated to standard plevs
 day:tas:atmos:1:TREFHT:TREFHT no change
 day:tasmax:atmos:1:TREFHTMX:TREFHTMX no change
@@ -34,9 +34,9 @@ day:tossq:ocean:1:UNKNOWN:UNKNOWN
 day:tslsi:land:1:UNKNOWN:UNKNOWN
 day:ua:atmos:2:U PS:U interpolated to standard plevs
 day:uas:atmos:0:UNAVAILABLE:UNAVAILABLE
-day:usi:seaIce:ocean:1:UNKNOWN:UNKNOWN
+day:usi:seaIce ocean:1:UNKNOWN:UNKNOWN
 day:va:atmos:2:V PS:V interpolated to standard plevs
 day:vas:atmos:0:UNAVAILABLE:UNAVAILABLE
-day:vsi:seaIce:ocean:1:UNKNOWN:UNKNOWN
+day:vsi:seaIce ocean:1:UNKNOWN:UNKNOWN
 day:wap:atmos:2:OMEGA PS:OMEGA interpolated to standard plevs
 day:zg:atmos:2:Z3 PS:Z3 interpolated to standard plevs
