@@ -1,0 +1,23 @@
+3hr:clt:atmos:1:CLDTOT:CLDTOT unit conversion
+3hr:hfls:atmos:1:LHFLX:LHFLX no change
+3hr:hfss:atmos:1:SHFLX:SHFLX no change
+3hr:huss:atmos:1:QREFHT:QREFHT no change
+3hr:mrro:land:3:QOVER QDRAI QRGWL:QOVER + QDRAI + QRGWL
+3hr:mrsos:land:2:SOILICE SOILLIQ:Integrate SOILICE + SOILLIQ over top 10cm
+3hr:pr:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
+3hr:prc:atmos:1:PRECC:PRECC unit conversion
+3hr:prsn:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
+3hr:ps:atmos:1:PS:PS no change
+3hr:rlds:atmos:1:FLDS:FLDS no change
+3hr:rldscs:atmos:1:FLDSC:FLDSC no change
+3hr:rlus:atmos:2:FLDS FLNS:FLDS + FLNS
+3hr:rsds:atmos:1:FSDS:FSDS no change
+3hr:rsdsdiff:atmos:1:UNKNOWN:UNKNOWN
+3hr:rsdscs:atmos:1:FSDSC:FSDSC no change
+3hr:rsus:atmos:2:FSDS FSNS:FSDS - FSNS
+3hr:rsuscs:atmos:2:FSDSC FSNSC:FSDSC - FSNSC
+3hr:tslsi:land:0:UNKNOWN:UNKNOWN
+3hr:tso:ocean:0:UNKNOWN:UNKNOWN
+3hr:tas:atmos:1:TREFHT:TREFHT no change
+3hr:uas:atmos:0:UNAVAILABLE:UNAVAILABLE
+3hr:vas:atmos:0:UNAVAILABLE:UNAVAILABLE

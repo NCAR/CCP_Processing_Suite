@@ -1,0 +1,4 @@
+6HrPlev:psl:atmos:1:PSL:PSL no change
+6HrPlev:ta:atmos:2:T PS:T interpolated to standard plevs
+6HrPlev:ua:atmos:2:U PS:U interpolated to standard plevs
+6HrPlev:va:atmos:2:V PS:V interpolated to standard plevs

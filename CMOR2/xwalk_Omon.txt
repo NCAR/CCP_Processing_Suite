@@ -1,33 +1,187 @@
-Omon:tos:ocean:1:TEMP:TEMP at topmost level, units from C to K
-Omon:sos:ocean:1:SALT:SALT at topmost level
-Omon:thetao:ocean:1:TEMP:TEMP no change, units from C to K
-Omon:msftmyz:ocean:1:MOC:MOC converted from Sv to kg s-1
-Omon:soga:ocean:1:SALT:SALT weighted global average
-Omon:so:ocean:1:SALT:SALT
-Omon:thetaoga:ocean:1:TEMP:TEMP weighted global average, units C to K
-Omon:thkcello:ocean:1:dz:dz units from cm to m
-Omon:uo:ocean:1:UVEL:UVEL units from cm s-1 to m s-1
-Omon:volo:ocean:1:PD:PD
-Omon:vo:ocean:1:VVEL:VVEL units from cm s-1 to m s-1
-Omon:wmosq:ocean:2:WVEL2 PD:WVEL2,PD
-Omon:wmo:ocean:2:WVEL PD:WVEL,PD
-Omon:zosga:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
-Omon:zos:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
-Omon:zossga:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
-Omon:zostoga:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
+Omon:agessc:ocean:1:IAGE:IAGE
+Omon:arag:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:bacc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:bfe:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:bsi:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:calc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:cfc11:ocean:1:CFC11:CFC11
+Omon:chlcalc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:chldiat:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:chldiaz:ocnBgchem:1:diazChl:diazChl
+Omon:chlmisc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:chl:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:chlpico:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:co3:ocnBgchem:1:CO3:CO3
+Omon:co3satarag:ocnBgchem:1:co3_sat_arag:co3_sat_arag
+Omon:co3satcalc:ocnBgchem:1:co3_sat_calc:co3_sat_calc
+Omon:detoc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:dfe:ocnBgchem:2:DOFe Fe:DOFe + Fe
+Omon:dissic:ocnBgchem:1:DIC:DIC
+Omon:dissoc:ocnBgchem:1:DOC:DOC
+Omon:dms:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:dpco2:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:dpo2:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:eparag100:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:epc100:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:epcalc100:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:epfe100:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:epsi100:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:evs:ocean:1:1:UNKNOWN:UNKNOWN
+Omon:fbddtalk:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:fbddtdic:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:fbddtdife:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:fbddtdin:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:fbddtdip:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:fbddtdisi:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:fddtalk:ocnBgchem:1:tend_zint_100m_ALK:tend_zint_100m_ALK
+Omon:fddtdic:ocnBgchem:1:tend_zint_100m_DIC:tend_zint_100m_DIC
+Omon:fddtdife:ocnBgchem:1:tend_zint_100m_Fe:tend_zint_100m_Fe
+Omon:fddtdin:ocnBgchem:1:tend_zint_100m_NO3:tend_zint_100m_NO3
+Omon:fddtdip:ocnBgchem:1:tend_zint_100m_PO4:tend_zint_100m_PO4
+Omon:fddtdisi:ocnBgchem:1:tend_zint_100m_SiO3:tend_zint_100m_SiO3
+Omon:fgco2:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:fgdms:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:fgo2:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:ficeberg2d:ocean:1:UNKNOWN:UNKNOWN
+Omon:ficeberg:ocean:1:UNKNOWN:UNKNOWN
+Omon:frc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:frfe:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:friver:ocean:1:UNKNOWN:UNKNOWN
+Omon:frn:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:fsc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:fsfe:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:fsitherm:ocean:seaIce:1:UNKNOWN:UNKNOWN
+Omon:fsn:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:hfbasinba:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfbasindiff:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfbasin:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfcorr:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfds:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfevapds:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfgeou:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfibthermds2d:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfibthermds:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfls:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfnorthba:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfnorthdiff:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfnorth:ocean:1:N_HEAT:N_HEAT
+Omon:hfrainds:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfrunoffds2d:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfrunoffds:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfsifrazil2d:ocean:seaIce:1:UNKNOWN:UNKNOWN
+Omon:hfsifrazil:ocean:seaIce:1:UNKNOWN:UNKNOWN
+Omon:hfsithermds2d:ocean:seaIce:1:UNKNOWN:UNKNOWN
+Omon:hfsithermds:ocean:seaIce:1:UNKNOWN:UNKNOWN
+Omon:hfsnthermds2d:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfsnthermds:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfss:ocean:1:SENH_F:SENH_F
+Omon:hfxba:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfxdiff:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfx:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfyba:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfydiff:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfy:ocean:1:UNKNOWN:UNKNOWN
+Omon:htovgyre:ocean:1:UNKNOWN:UNKNOWN
+Omon:htovovrt:ocean:1:UNKNOWN:UNKNOWN
+Omon:intdic:ocnBgchem:1:DIC:Integrate DIC over depth
+Omon:intparag:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:intpbfe:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:intpbsi:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:intpcalcite:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:intpcalc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:intpdiat:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:intpdiaz:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:intpmisc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:intpn2:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:intpnitrate:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:intppico:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:intpp:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:masscello:ocean:1:UNKNOWN:UNKNOWN
+Omon:masso:ocean:1:UNKNOWN:UNKNOWN
+Omon:mfo:ocean:1:UNKNOWN:UNKNOWN
+Omon:mlotst:ocean:1:UNKNOWN:UNKNOWN
+Omon:mlotstsq:ocean:1:UNKNOWN:UNKNOWN
+Omon:msftbarot:ocean:1:BSF:BSF
+Omon:msftmrhozba:ocean:1:UNKNOWN:UNKNOWN
+Omon:msftmrhoz:ocean:1:UNKNOWN:UNKNOWN
+Omon:msftmyzba:ocean:1:UNKNOWN:UNKNOWN
+Omon:msftmyz:ocean:1:MOC:MOC converted from Sv to kg s-1
+Omon:msftyrhozba:ocean:1:UNKNOWN:UNKNOWN
+Omon:msftyrhoz:ocean:1:UNKNOWN:UNKNOWN
+Omon:msftyyzba:ocean:1:UNKNOWN:UNKNOWN
+Omon:msftyyz:ocean:1:UNKNOWN:UNKNOWN
+Omon:nh4:ocnBgchem:1:NH4:NH4
+Omon:no3:ocnBgchem:1:NO3:NO3
+Omon:o2min:ocnBgchem:1:tend_zint_100m_O2:tend_zint_100m_O2
+Omon:o2:ocnBgchem:1:O2:O2
+Omon:omldamax:ocean:1:UNKNOWN:UNKNOWN
+Omon:omlmax:ocean:1:UNKNOWN:UNKNOWN
+Omon:pbo:ocean:1:UNKNOWN:UNKNOWN
+Omon:ph:ocnBgchem:1:pH_3D:Integrate pH_3D over depth
+Omon:phycalc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:phyc:ocnBgchem:1:spC:spC
+Omon:phydiat:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:phydiaz:ocnBgchem:1:diazC:diazC
+Omon:phyfe:ocnBgchem:1:spFe:spFe
+Omon:phymisc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:phyn:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:phypico:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:phyp:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:physi:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:po4:ocnBgchem:1:PO4:PO4
+Omon:pon:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:pop:ocnBgchem:1:UNKNOWN:UNKNOWN
 Omon:pr:ocean:1:PREC_F:PREC_F
 Omon:prsn:ocean:1:SNOW_F:SNOW_F
+Omon:pso:ocean:1:UNKNOWN:UNKNOWN
+Omon:rhopoto:ocean:1:PD:PD
 Omon:rlds:ocean:2:LWUP_F LWDN_F:LWUP_F,LWDN_F
 Omon:rsds:ocean:1:SHF_QSW:SHF_QSW
 Omon:rsntds:ocean:1:QSW_HTP:QSW_HTP
+Omon:sfdsi:ocean:seaIce:1:UNKNOWN:UNKNOWN
+Omon:sfriver:ocean:1:UNKNOWN:UNKNOWN
+Omon:si:ocnBgchem:1:SiO3:SiO3
+Omon:sltovgyre:ocean:1:UNKNOWN:UNKNOWN
+Omon:sltovovrt:ocean:1:UNKNOWN:UNKNOWN
+Omon:soga:ocean:1:SALT:SALT weighted global average
+Omon:so:ocean:1:SALT:SALT
+Omon:sos:ocean:1:SALT:SALT at topmost level
+Omon:spco2:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:talk:ocnBgchem:1:ALK:Integrate ALK over depth
+Omon:tauucorr:ocean:1:UNKNOWN:UNKNOWN
 Omon:tauuo:ocean:1:TAUX:TAUX
+Omon:tauvcorr:ocean:1:UNKNOWN:UNKNOWN
 Omon:tauvo:ocean:1:TAUY:TAUY
-Omon:umo:ocean:2:UVEL PD DXU:UVEL,PD,DXU
-Omon:vmo:ocean:2:VVEL PD DYU:VVEL,PD,DYU
-Omon:agessc:ocean:1:IAGE:IAGE
-Omon:cfc11:ocean:1:CFC11:CFC11
-Omon:msftbarot:ocean:1:BSF:BSF
-Omon:rhopoto:ocean:1:PD:PD
+Omon:thetaoga:ocean:1:TEMP:TEMP weighted global average, units C to K
+Omon:thetao:ocean:1:TEMP:TEMP no change, units from C to K
+Omon:thkcello:ocean:1:dz:dz units from cm to m
+Omon:tos:ocean:1:TEMP:TEMP at topmost level, units from C to K
 Omon:tossq:ocean:1:TEMP2:TEMP2
+Omon:umo:ocean:2:UVEL PD DXU:UVEL,PD,DXU
+Omon:uo:ocean:1:UVEL:UVEL units from cm s-1 to m s-1
+Omon:vmo:ocean:2:VVEL PD DYU:VVEL,PD,DYU
+Omon:volo:ocean:1:PD:PD
+Omon:vo:ocean:1:VVEL:VVEL units from cm s-1 to m s-1
+Omon:vsfcorr:ocean:1:UNKNOWN:UNKNOWN
+Omon:vsfevap:ocean:1:UNKNOWN:UNKNOWN
+Omon:vsf:ocean:1:UNKNOWN:UNKNOWN
+Omon:vsfpr:ocean:1:UNKNOWN:UNKNOWN
+Omon:vsfriver:ocean:1:UNKNOWN:UNKNOWN
+Omon:vsfsit:ocean:seaIce:1:UNKNOWN:UNKNOWN
+Omon:wfcorr:ocean:1:UNKNOWN:UNKNOWN
+Omon:wfonocorr:ocean:1:UNKNOWN:UNKNOWN
+Omon:wfo:ocean:1:UNKNOWN:UNKNOWN
+Omon:wmo:ocean:2:WVEL PD:WVEL,PD
+Omon:wmosq:ocean:2:WVEL2 PD:WVEL2,PD
+Omon:zmeso:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:zmicro:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:zo2min:ocnBgchem:1:O2_ZMIN_DEPTH:O2_ZMIN_DEPTH
+Omon:zoocmisc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Omon:zooc:ocnBgchem:1:zooC:zooC
+Omon:zosga:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
+Omon:zos:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
+Omon:zossga:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
+Omon:zossq:ocean:1:UNKNOWN:UNKNOWN
+Omon:zostoga:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
+Omon:zsatarag:ocnBgchem:1:zsatarag:zsatarag
+Omon:zsatcalc:ocnBgchem:1:zsatcalc:zsatcalc

@@ -4,22 +4,39 @@ day:hfss:atmos:1:SHFLX:SHFLX no change
 day:hur:atmos:2:RELHUM PS:RELHUM interpolated to standard plevs
 day:hus:atmos:2:Q PS:Q interpolated to standard plevs
 day:huss:atmos:1:QREFHT:QREFHT no change
-day:prc:atmos:1:PRECC:PRECC unit conversion
+day:mrro:land:1:UNKNOWN:UNKNOWN
+day:mrsos:land:1:UNKNOWN:UNKNOWN
+day:omldamax:ocean:1:UNKNOWN:UNKNOWN
 day:pr:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
+day:prc:atmos:1:PRECC:PRECC unit conversion
 day:prsn:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
 day:psl:atmos:1:PSL:PSL no change
+day:rhs:atmos:1:UNKNOWN:UNKNOWN
+day:rhsmax:atmos:1:UNKNOWN:UNKNOWN
+day:rhsmin:atmos:1:UNKNOWN:UNKNOWN
 day:rlds:atmos:1:FLDS:FLDS no change
 day:rlus:atmos:2:FLDS FLNS:FLDS + FLNS
 day:rlut:atmos:1:FLUT:FLUT no change
 day:rsds:atmos:1:FSDS:FSDS no change
 day:rsus:atmos:2:FSDS FSNS:FSDS - FSNS
+day:sfcWind:atmos:1:UNKNOWN:UNKNOWN
+day:sfcWindmax:atmos:1:UNKNOWN:UNKNOWN
+day:sic:seaIce:ocean:1:UNKNOWN:UNKNOWN
+day:sit:seaIce:ocean:1:UNKNOWN:UNKNOWN
+day:snc:landIce:land:1:UNKNOWN:UNKNOWN
+day:snw:landIce:land:1:UNKNOWN:UNKNOWN
 day:ta:atmos:2:T PS:T interpolated to standard plevs
 day:tas:atmos:1:TREFHT:TREFHT no change
 day:tasmax:atmos:1:TREFHTMX:TREFHTMX no change
 day:tasmin:atmos:1:TREFHTMN:TREFHTMN no change
+day:tos:ocean:1:UNKNOWN:UNKNOWN
+day:tossq:ocean:1:UNKNOWN:UNKNOWN
+day:tslsi:land:1:UNKNOWN:UNKNOWN
 day:ua:atmos:2:U PS:U interpolated to standard plevs
 day:uas:atmos:0:UNAVAILABLE:UNAVAILABLE
+day:usi:seaIce:ocean:1:UNKNOWN:UNKNOWN
 day:va:atmos:2:V PS:V interpolated to standard plevs
 day:vas:atmos:0:UNAVAILABLE:UNAVAILABLE
+day:vsi:seaIce:ocean:1:UNKNOWN:UNKNOWN
 day:wap:atmos:2:OMEGA PS:OMEGA interpolated to standard plevs
 day:zg:atmos:2:Z3 PS:Z3 interpolated to standard plevs

@@ -1,0 +1,9 @@
+cfOff:cfadDbze94:atmos:1:UNKNOWN:UNKNOWN
+cfOff:cfadLidarsr532:atmos:1:UNKNOWN:UNKNOWN
+cfOff:clcalipso2:atmos:1:UNKNOWN:UNKNOWN
+cfOff:clcalipso:atmos:1:UNKNOWN:UNKNOWN
+cfOff:clhcalipso:atmos:1:UNKNOWN:UNKNOWN
+cfOff:cllcalipso:atmos:1:UNKNOWN:UNKNOWN
+cfOff:clmcalipso:atmos:1:UNKNOWN:UNKNOWN
+cfOff:cltcalipso:atmos:1:UNKNOWN:UNKNOWN
+cfOff:parasolRefl:atmos:1:UNKNOWN:UNKNOWN

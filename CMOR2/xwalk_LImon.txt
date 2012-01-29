@@ -1,1 +1,12 @@
+LImon:agesno:landIce land:1:UNKNOWN:UNKNOWN
+LImon:hfdsn:landIce land:1:UNKNOWN:UNKNOWN
+LImon:lwsnl:landIce land:1:UNKNOWN:UNKNOWN
+LImon:pflw:landIce land:1:UNKNOWN:UNKNOWN
+LImon:sbl:landIce land:1:UNKNOWN:UNKNOWN
+LImon:snc:landIce land:1:UNKNOWN:UNKNOWN
+LImon:snd:landIce land:1:UNKNOWN:UNKNOWN
+LImon:snm:landIce land:1:UNKNOWN:UNKNOWN
 LImon:snw:land:2:SNOWICE SNOWLIQ:SNOWICE + SNOWLIQ
+LImon:sootsn:landIce land:1:UNKNOWN:UNKNOWN
+LImon:tpf:landIce land:1:UNKNOWN:UNKNOWN
+LImon:tsn:landIce land:1:UNKNOWN:UNKNOWN
