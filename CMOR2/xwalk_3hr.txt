@@ -16,8 +16,8 @@
 3hr:rsdscs:atmos:1:FSDSC:FSDSC no change
 3hr:rsus:atmos:2:FSDS FSNS:FSDS - FSNS
 3hr:rsuscs:atmos:2:FSDSC FSNSC:FSDSC - FSNSC
-3hr:tslsi:land:0:UNKNOWN:UNKNOWN
-3hr:tso:ocean:0:UNKNOWN:UNKNOWN
+3hr:tslsi:land:1:UNKNOWN:UNKNOWN
+3hr:tso:ocean:1:UNKNOWN:UNKNOWN
 3hr:tas:atmos:1:TREFHT:TREFHT no change
 3hr:uas:atmos:0:UNAVAILABLE:UNAVAILABLE
 3hr:vas:atmos:0:UNAVAILABLE:UNAVAILABLE

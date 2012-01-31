@@ -4,10 +4,9 @@ fx:basin:ocean:1:UNKNOWN:UNKNOWN
 fx:deptho:ocean:1:HT:HT convert cm to m
 fx:hfgeou:ocean:1:UNKNOWN:UNKNOWN
 fx:mrsofc:land:1:UNKNOWN:UNKNOWN
-fx:orog:atmos:1:UNKNOWN:UNKNOWN
 fx:rootd:land:1:UNKNOWN:UNKNOWN
 fx:sftgif:land:1:UNKNOWN:UNKNOWN
 fx:sftlf:atmos:1:LANDFRAC:LANDFRAC no change
 fx:sftof:ocean:1:UNKNOWN:UNKNOWN
-fx:thkcello:ocean:1:UNKNOWN:UNKNOWN
+fx:thkcello:ocean:1:dz:dz
 fx:volcello:ocean:1:TAREA:TAREA times dz, convert cm3 to m3
