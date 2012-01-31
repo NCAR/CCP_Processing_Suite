@@ -48,7 +48,7 @@ cfSites:rsutcs:atmos:1:UNKNOWN:UNKNOWN
 cfSites:rsut:atmos:1:UNKNOWN:UNKNOWN
 cfSites:rtmt:atmos:1:UNKNOWN:UNKNOWN
 cfSites:sbl:atmos:1:UNKNOWN:UNKNOWN
-cfSites:sci:atmos:1:UNKNOWN:UNKNOWN
+cfSites:sci:atmos:1:FREQSH:FREQSH no change
 cfSites:sfcWind:atmos:1:UNKNOWN:UNKNOWN
 cfSites:ta:atmos:1:UNKNOWN:UNKNOWN
 cfSites:tas:atmos:1:UNKNOWN:UNKNOWN

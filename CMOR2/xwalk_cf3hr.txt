@@ -69,7 +69,7 @@ cf3hr:rsutcs:atmos:1:UNKNOWN:UNKNOWN
 cf3hr:rsut:atmos:1:UNKNOWN:UNKNOWN
 cf3hr:rtmt:atmos:1:UNKNOWN:UNKNOWN
 cf3hr:sbl:atmos:1:UNKNOWN:UNKNOWN
-cf3hr:sci:atmos:1:UNKNOWN:UNKNOWN
+cf3hr:sci:atmos:1:FREQSH:FREQSH no change
 cf3hr:sfcWind:atmos:1:UNKNOWN:UNKNOWN
 cf3hr:ta:atmos:1:UNKNOWN:UNKNOWN
 cf3hr:tas:atmos:1:UNKNOWN:UNKNOWN

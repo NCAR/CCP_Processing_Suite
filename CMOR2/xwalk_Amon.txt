@@ -56,7 +56,7 @@ Amon:rsut:atmos:2:SOLIN FSNTOA:SOLIN - FSNTOA
 Amon:rsutcs:atmos:2:SOLIN FSNTOAC:SOLIN - FSNTOAC
 Amon:rtmt:atmos:2:FSNT FLNT:FSNT - FLNT
 Amon:sbl:atmos:0:UNAVAILABLE:UNAVAILABLE
-Amon:sci:atmos:1:FREQSI:FREQSI no change
+Amon:sci:atmos:1:FREQSH:FREQSH no change
 Amon:sfcWind:atmos:0:UNAVAILABLE:UNAVAILABLE
 Amon:ta:atmos:2:T PS:T interpolated to standard plevs
 Amon:tasAdjust:atmos:1:UNKNOWN:UNKNOWN
