@@ -15,13 +15,13 @@ cfMon:clws:atmos:1:UNKNOWN:UNKNOWN
 cfMon:dmc:atmos:1:UNKNOWN:UNKNOWN
 cfMon:evisct:atmos:1:UNKNOWN:UNKNOWN
 cfMon:eviscu:atmos:1:UNKNOWN:UNKNOWN
-cfMon:hur:atmos:1:UNKNOWN:UNKNOWN
-cfMon:hus:atmos:1:UNKNOWN:UNKNOWN
+cfMon:hur:atmos:2:RELHUM PS:RELHUM interpolated to standard plevs
+cfMon:hus:atmos:2:Q PS:Q interpolated to standard plevs
 cfMon:mcd:atmos:1:UNKNOWN:UNKNOWN
 cfMon:mcu:atmos:1:UNKNOWN:UNKNOWN
 cfMon:parasolRefl:atmos:1:UNKNOWN:UNKNOWN
 cfMon:pctisccp:atmos:1:UNKNOWN:UNKNOWN
-cfMon:ps:atmos:1:UNKNOWN:UNKNOWN
+cfMon:ps:atmos:1:PS:PS no change
 cfMon:rld4co2:atmos:1:UNKNOWN:UNKNOWN
 cfMon:rldcs4co2:atmos:1:UNKNOWN:UNKNOWN
 cfMon:rldcs:atmos:1:UNKNOWN:UNKNOWN
@@ -43,7 +43,7 @@ cfMon:rsu:atmos:1:UNKNOWN:UNKNOWN
 cfMon:rsut4co2:atmos:1:UNKNOWN:UNKNOWN
 cfMon:rsutcs4co2:atmos:1:UNKNOWN:UNKNOWN
 cfMon:smc:atmos:1:UNKNOWN:UNKNOWN
-cfMon:ta:atmos:1:UNKNOWN:UNKNOWN
+cfMon:ta:atmos:2:T PS:T interpolated to standard plevs
 cfMon:tnhusa:atmos:1:UNKNOWN:UNKNOWN
 cfMon:tnhusc:atmos:1:UNKNOWN:UNKNOWN
 cfMon:tnhusd:atmos:1:UNKNOWN:UNKNOWN

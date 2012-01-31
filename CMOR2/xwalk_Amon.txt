@@ -1,5 +1,5 @@
-Amon:ccb:atmos:1:CLDBOT:CLDBOT no change
-Amon:cct:atmos:1:CLDTOP:CLDTOP no change
+Amon:ccb:atmos:0:UNAVAILABLE:UNAVAILABLE
+Amon:cct:atmos:0:UNAVAILABLE:UNAVAILABLE
 Amon:cfc113global:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:cfc11global:atmos atmosChem:1:f11vmr:f11vmr convert to mass
 Amon:cfc12global:atmos atmosChem:1:f12vmr:f12vmr convert to mass

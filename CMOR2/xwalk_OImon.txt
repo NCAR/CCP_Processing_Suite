@@ -19,9 +19,9 @@ OImon:rlussi:seaIce:1:flwup:flwup
 OImon:rsdssi:seaIce:1:fswdn:fswdn
 OImon:rsussi:seaIce:1:UNKNOWN:UNKNOWN
 OImon:sblsi:seaIce:1:UNKNOWN:UNKNOWN
-OImon:sic:seaIce:1:aice:aice
-OImon:sim:seaIce:1:UNKNOWN:UNKNOWN
-OImon:sit:seaIce:1:hi:hi unchanged
+OImon:sic:seaIce ocean:1:aice:aice
+OImon:sim:seaIce ocean:1:UNKNOWN:UNKNOWN
+OImon:sit:seaIce ocean:1:hi:hi unchanged
 OImon:snc:seaIce:1:UNKNOWN:UNKNOWN
 OImon:snd:seaIce:1:hs:hs
 OImon:snomelt:seaIce:1:melts:melts
@@ -30,8 +30,8 @@ OImon:ssi:seaIce:1:UNKNOWN:UNKNOWN
 OImon:strairx:seaIce:1:strairx:strairx
 OImon:strairy:seaIce:1:strairy:strairy
 OImon:streng:seaIce:1:strength:strength
-OImon:strocnx:seaIce:1:strocnx:strocnx
-OImon:strocny:seaIce:1:strocny:strocny
+OImon:strocnx:seaIce ocean:1:strocnx:strocnx
+OImon:strocny:seaIce ocean:1:strocny:strocny
 OImon:tmelt:seaIce:1:meltt:meltt
 OImon:transifs:seaIce:1:UNKNOWN:UNKNOWN
 OImon:transix:seaIce:1:UNKNOWN:UNKNOWN
