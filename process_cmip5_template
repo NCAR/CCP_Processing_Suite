@@ -162,11 +162,11 @@ esac
 if [ "$VARS" ] ; then
   rm -f ./VARS_TO_DO
   for C5F in `echo $VARS` ; do
-    egrep ":$C5F:" $XWALK | cut -d":" -f5 >> ./VARS_TO_DO
+    egrep ":$C5F:" $XWALK | cut -d":" -f7 >> ./VARS_TO_DO
   done
 else
   rm -f ./VARS_TO_DO
-  for C5F in `cut -d":" -f5 $XWALK | sort | uniq` ; do
+  for C5F in `cut -d":" -f7 $XWALK | sort | uniq` ; do
     echo $C5F >> ./VARS_TO_DO
   done
 fi
