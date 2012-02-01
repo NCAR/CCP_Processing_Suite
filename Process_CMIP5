@@ -1,0 +1,156 @@
+#!/bin/sh
+#
+if [ $# -lt 3 ] ; then
+   echo "Usage: ./Process_Setup CASE HIST TABLE [cmip5 vars]"
+   echo "First three arguments REQUIRED:"
+   echo "1: CASE name"
+   echo "2: HIST name - usually one of [cam2.h0 cam2.h1 cam2.h2 clm.h0 pop.h csim.h cice.h etc]"
+   echo "3: TABLE CMIP5 table to use - one of:"
+   echo "   3hr 6hrLev 6hrPlev aero Amon day fx grids LImon Lmon Oclim OImon Omon Oyr"
+   echo "   cf3hr cfDay cfMon cfOff cfSites"
+   echo "4: OPTIONAL - list of CMIP5 variable names to process, set off by double quotes and blank delimited, e.g,."
+   echo '   "tas ts va ts"'
+   exit 1
+elif [ $# -eq 3 ] ; then
+   CASE=$1 ; export CASE
+   HIST=$2 ; export HIST
+   TABL=$3 ; export TABL
+elif [ $# -eq 4 ] ; then
+   CASE=$1 ; export CASE
+   HIST=$2 ; export HIST
+   TABL=$3 ; export TABL
+   VARS=$4 ; export VARS
+   echo $VARS
+else
+   echo "Usage: ./Process_Setup CASE HIST TABLE [cmip5 vars]"
+   echo "First three arguments REQUIRED:"
+   echo "1: CASE name"
+   echo "2: HIST name - usually one of [cam2.h0 cam2.h1 cam2.h2 clm.h0 pop.h csim.h cice.h etc]"
+   echo "3: TABLE CMIP5 table to use - one of:"
+   echo "   3hr 6hrLev 6hrPlev aero Amon day fx grids LImon Lmon Oclim OImon Omon Oyr"
+   echo "   cf3hr cfDay cfMon cfOff cfSites"
+   echo "4: OPTIONAL - list of CMIP5 variable names to process, set off by double quotes and blank delimited, e.g,."
+   echo '   "tas ts va ts"'
+   exit 1
+fi
+#
+# Set up a bunch of stuff
+#
+case "$TABL" in
+  3hr | 6hrLev | 6hrPlev | aero | Amon | day | fx | grids | LImon | Lmon | Oclim | OImon | Omon | Oyr | cf3hr | cfDay | cfMon | cfOff | cfSite )
+    echo ${TABL}" known CMIP5 table. Proceeding." ;;
+  * ) 
+    echo "Unable to continue because "$TABL" not known CMIP5 table. Stopping."
+    ./procstat.sh error process_cmip5_template
+    exit 1 ;;
+esac
+#
+# Extract information from "experiments.txt"
+#
+#  Columns   Field
+#   1 -  40  CCSM case name
+#  45 -  59  model_id (CCSM4, CESM1, CCSM4-BGC, CCSM4-FSCHEM, CCSM4-WACCM, etc)
+#  60 -  61  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  65 -  79  Official MIP name, or very brief description (N/A if not applicable)
+#  80 -  89  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+#  90 -  94  MIP (cm3 or cm5) experiment (N/A if not applicable)
+#  95 - 134  RUN_REFCASE (parent case)
+# 135 - 149  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 150 - 159  years of experiment (YYYY if unknown)
+# 160 - 169  GRID (resolution)
+# 170 - 199  COMPSET (N/A if not applicable)
+# 180 - 209  REPOTAG (N/A if not applicable)
+# 210 - 229  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 230 - 239  MACH (hardware)
+# 240 - end  DOUT_L_MSROOT (history file location on archive)
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if [ -f $EXPFILE ] ; then
+  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c60- | cut -d" " -f1`
+else
+  echo "Cannot find "$EXPFILE". EXIT"
+  exit 1
+fi
+#
+if ! [ $LOCATION ] ; then
+  echo "Unable to build script because case '"$CASE"' not found in "$EXPFILE
+  exit 1
+fi
+#
+# Start to build processing script
+#
+CMIP5_SCRIPT=${CASE}_${HIST}_cmip5_process.sh
+rm -f $CMIP5_SCRIPT
+#
+# Acquire PROCHOST
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+if [ "$VARS" ] ; then
+  case "$PROCHOST" in 
+    silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
+      echo "#!/bin/sh" > $CMIP5_SCRIPT
+      cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
+                                   | sed -e "s/xxxHISTxxx/$HIST/g" \
+                                   | sed -e "s/xxxTABLxxx/$TABL/g" \
+                                   | sed -e "s/xxxVARSxxx/$VARS/g" \
+                                   >> $CMIP5_SCRIPT ;;
+    lens* )                                  # lens @ ORNL
+      cat ./ORNL_batch             >> $CMIP5_SCRIPT
+      cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
+                                   | sed -e "s/xxxHISTxxx/$HIST/g" \
+                                   | sed -e "s/xxxTABLxxx/$TABL/g" \
+                                   | sed -e "s/xxxVARSxxx/$VARS/g" \
+                                   >> $CMIP5_SCRIPT ;;
+    * )
+      echo "Unable to build script because "$PROCHOST" unknown."
+      ./procstat.sh error process_cmip5_template
+      exit 1 ;;
+  esac
+else
+  case "$PROCHOST" in 
+    silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
+      echo "#!/bin/sh" > $CMIP5_SCRIPT
+      cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
+                                   | sed -e "s/xxxHISTxxx/$HIST/g" \
+                                   | sed -e "s/xxxTABLxxx/$TABL/g" \
+                                   | sed -e "s/xxxVARSxxx//g" \
+                                   >> $CMIP5_SCRIPT ;;
+    lens* )                                  # lens @ ORNL
+      cat ./ORNL_batch             >> $CMIP5_SCRIPT
+      cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
+                                   | sed -e "s/xxxHISTxxx/$HIST/g" \
+                                   | sed -e "s/xxxTABLxxx/$TABL/g" \
+                                   | sed -e "s/xxxVARSxxx//g" \
+                                   >> $CMIP5_SCRIPT ;;
+    * )
+      echo "Unable to build script because "$PROCHOST" unknown."
+      ./procstat.sh error process_cmip5_template
+      exit 1 ;;
+  esac
+fi
+#
+chmod +x $CMIP5_SCRIPT
+echo ""
+echo $CMIP5_SCRIPT" ready to run"
+echo ""
+#
+echo "Run script now? (Y only, all else NO)"
+read DORUN
+#
+if [ "$DORUN" = "Y" ] ; then
+  echo "Running "${CMIP5_SCRIPT}
+  case "$LOCATION" in
+    NC )
+      ( ./${CMIP5_SCRIPT} > log.${CMIP5_SCRIPT} 2>&1 & ) ;;
+    NE )
+      ( ./${CMIP5_SCRIPT} > log.${CMIP5_SCRIPT} 2>&1 & ) ;;
+    OR ) 
+      ( /usr/bin/qsub ./${CMIP5_SCRIPT} ) ;;
+    * )
+      echo "Unable to run script because "$LOCATION" not found in "$EXPFILE
+      exit 1 ;;
+  esac
+else
+  echo "Will not run "${CMIP5_SCRIPT}
+fi
