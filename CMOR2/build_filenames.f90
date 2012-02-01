@@ -35,25 +35,38 @@
 !!$  enddo
 !!$end program DRIVE_build_filenames
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr)
+subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
   use files_info
   !
   implicit none
-  character(len=256),intent(in)::case,comp,cesm_var
+  character(len=256),intent(in)::case,comp,cesm_var,table
   integer,intent(in)::ivar,begyr,endyr
   integer::i,j,year1,year2
-  character(len=256)::checkname
+  character(len=256)::checkname,dtbeg,dtend
   logical::exists
   !
-  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,begyr,endyr
+  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,begyr,endyr,trim(table)
+  !
+  select case (table)
+  case ('Amon','Lmon','LImon','Omon','OImon','aero','cfMon')
+     dtbeg = '01' ; dtend = '12'
+  case ('day','cfDay')
+     dtbeg = '0101' ; dtend = '1231'
+  case ('6hrLev','6hrPlev')
+     dtbeg = '010100Z' ; dtend = '123118Z'
+  case ('3hr','cf3hr')
+     dtbeg = '010100Z' ; dtend = '123121Z'
+  end select
+  !
   exists = .false.
   do year1 = begyr,endyr
      do year2 = endyr,begyr,-1
-        write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
+        write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
              trim(case),&
              trim(comp),&
              trim(cesm_var),&
-             year1,year2
+             year1,trim(dtbeg),&
+             year2,trim(dtend)
         inquire(file=checkname,exist=exists)
         all_continue = all_continue.or.exists
         if (exists) then
@@ -62,40 +75,6 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr)
         endif
      enddo
   enddo
-  if (nc_nfiles(ivar) == 0) then
-     exists = .false.
-     do year1 = begyr,endyr
-        do year2 = endyr,begyr,-1
-           write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''0102-'',i4.4,''1231.nc'')') &
-                trim(case),&
-                trim(comp),&
-                trim(cesm_var),&
-                year1,year2
-           inquire(file=checkname,exist=exists)
-           all_continue = all_continue.or.exists
-           if (exists) then
-              nc_nfiles(ivar) = nc_nfiles(ivar) + 1
-              ncfile(nc_nfiles(ivar),ivar) = checkname
-           endif
-        enddo
-     enddo
-     exists = .false.
-     do year1 = begyr,endyr
-        do year2 = endyr,begyr,-1
-           write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''0101-'',i4.4,''1231.nc'')') &
-                trim(case),&
-                trim(comp),&
-                trim(cesm_var),&
-                year1,year2
-           inquire(file=checkname,exist=exists)
-           all_continue = all_continue.or.exists
-           if (exists) then
-              nc_nfiles(ivar) = nc_nfiles(ivar) + 1
-              ncfile(nc_nfiles(ivar),ivar) = checkname
-           endif
-        enddo
-     enddo
-  endif
   !
   write(*,*) 'build_filenames all_continue: ',all_continue
   if (all_continue) write(*,'(''nfiles: '',10i5)') nc_nfiles(1:ivar)
