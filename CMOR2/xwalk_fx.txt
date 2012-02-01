@@ -1,12 +1,12 @@
-fx:areacella:atmos land:1:UNKNOWN:UNKNOWN
-fx:areacello:ocean:1:TAREA:TAREA convert cm2 to m2
-fx:basin:ocean:1:UNKNOWN:UNKNOWN
-fx:deptho:ocean:1:HT:HT convert cm to m
-fx:hfgeou:ocean:1:UNKNOWN:UNKNOWN
-fx:mrsofc:land:1:UNKNOWN:UNKNOWN
-fx:rootd:land:1:UNKNOWN:UNKNOWN
-fx:sftgif:land:1:UNKNOWN:UNKNOWN
-fx:sftlf:atmos:1:LANDFRAC:LANDFRAC no change
-fx:sftof:ocean:1:UNKNOWN:UNKNOWN
-fx:thkcello:ocean:1:dz:dz
-fx:volcello:ocean:1:TAREA:TAREA times dz, convert cm3 to m3
+fx:areacella:cell_area:longitude latitude:atmos land:1:UNKNOWN:UNKNOWN
+fx:areacello:cell_area:longitude latitude:ocean:1:TAREA:TAREA convert cm2 to m2
+fx:basin:region:longitude latitude:ocean:1:UNKNOWN:UNKNOWN
+fx:deptho:sea_floor_depth_below_geoid:longitude latitude:ocean:1:HT:HT convert cm to m
+fx:hfgeou:upward_geothermal_heat_flux_at_sea_floor:longitude latitude:ocean:1:UNKNOWN:UNKNOWN
+fx:mrsofc:soil_moisture_content_at_field_capacity:longitude latitude:land:1:UNKNOWN:UNKNOWN
+fx:rootd:root_depth:longitude latitude:land:1:UNKNOWN:UNKNOWN
+fx:sftgif:land_ice_area_fraction:longitude latitude:land:1:UNKNOWN:UNKNOWN
+fx:sftlf:land_area_fraction:longitude latitude:atmos:1:LANDFRAC:LANDFRAC no change
+fx:sftof:sea_area_fraction:longitude latitude:ocean:1:UNKNOWN:UNKNOWN
+fx:thkcello:cell_thickness:longitude latitude olevel:ocean:1:dz:dz
+fx:volcello:ocean_volume:longitude latitude olevel:ocean:1:TAREA:TAREA times dz, convert cm3 to m3

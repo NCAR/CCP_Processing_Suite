@@ -1,71 +1,71 @@
-Oyr:arag:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:bacc:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:bddtalk:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:bddtdic:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:bddtdife:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:bddtdin:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:bddtdip:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:bddtdisi:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:bfe:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:bsi:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:calc:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:chlcalc:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:chldiat:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:chldiaz:ocnBgchem:1:diazChl:diazChl
-Oyr:chlmisc:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:chl:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:chlpico:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:co3:ocnBgchem:1:CO3:CO3
-Oyr:co3satarag:ocnBgchem:1:co3_sat_arag:co3_sat_arag
-Oyr:co3satcalc:ocnBgchem:1:co3_sat_calc:co3_sat_calc
-Oyr:darag:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:dcalc:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:detoc:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:dfe:ocnBgchem:2:DOFe Fe:DOFe + Fe
-Oyr:dissic:ocnBgchem:1:DIC:DIC
-Oyr:dissoc:ocnBgchem:1:DOC:DOC
-Oyr:dms:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:dpocdtcalc:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:dpocdtdiaz:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:dpocdtpico:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:exparag:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:expcalc:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:expcfe:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:expc:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:expn:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:expp:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:expsi:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:fediss:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:fescav:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:graz:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:nh4:ocnBgchem:1:NH4:NH4
-Oyr:no3:ocnBgchem:1:NO3:NO3
-Oyr:o2:ocnBgchem:1:O2:O2
-Oyr:parag:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:pbfe:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:pbsi:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:pcalc:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:pdi:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:ph:ocnBgchem:1:pH_3D:Integrate pH_3D over depth
-Oyr:phycalc:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:phyc:ocnBgchem:1:spC:spC
-Oyr:phydiat:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:phydiaz:ocnBgchem:1:diazC:diazC
-Oyr:phyfe:ocnBgchem:1:spFe:spFe
-Oyr:phymisc:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:phyn:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:phypico:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:phypmisc:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:phyp:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:physi:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:pnitrate:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:po4:ocnBgchem:1:PO4:PO4
-Oyr:pon:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:pop:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:pp:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:si:ocnBgchem:1:SiO3:SiO3
-Oyr:talk:ocnBgchem:1:ALK:Integrate ALK over depth
-Oyr:zmeso:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:zmicro:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:zoocmisc:ocnBgchem:1:UNKNOWN:UNKNOWN
-Oyr:zooc:ocnBgchem:1:zooC:zooC
+Oyr:arag:mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bacc:mole_concentration_of_bacteria_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bddtalk:tendency_of_sea_water_alkalinity_expressed_as_mole_equivalent_due_to_biological_processes:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bddtdic:tendency_of_mole_concentration_of_dissolved_inorganic_carbon_in_sea_water_due_to_biological_processes:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bddtdife:tendency_of_mole_concentration_of_dissolved_inorganic_iron_in_sea_water_due_to_biological_processes:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bddtdin:tendency_of_mole_concentration_of_dissolved_inorganic_nitrogen_in_sea_water_due_to_biological_processes:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bddtdip:tendency_of_mole_concentration_of_dissolved_inorganic_phosphate_in_sea_water_due_to_biological_processes:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bddtdisi:tendency_of_mole_concentration_of_dissolved_inorganic_silicate_in_sea_water_due_to_biological_processes:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bfe:mole_concentration_of_particulate_organic_matter_expressed_as_iron_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bsi:mole_concentration_of_particulate_matter_expressed_as_silicon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:calc:mole_concentration_of_calcite_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:chlcalc:mass_concentration_of_calcareous_phytoplankton_expressed_as_chlorophyll_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:chldiat:mass_concentration_of_diatoms_expressed_as_chlorophyll_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:chldiaz:mass_concentration_of_diazotrophs_expressed_as_chlorophyll_in_sea_water:longitude latitude olevel time:ocnBgchem:1:diazChl:diazChl
+Oyr:chlmisc:mass_concentration_of_miscellaneous_phytoplankton_expressed_as_chlorophyll_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:chl:mass_concentration_of_phytoplankton_expressed_as_chlorophyll_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:chlpico:mass_concentration_of_picophytoplankton_expressed_as_chlorophyll_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:co3:mole_concentration_of_carbonate_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:CO3:CO3
+Oyr:co3satarag:mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water_at_saturation:longitude latitude olevel time:ocnBgchem:1:co3_sat_arag:co3_sat_arag
+Oyr:co3satcalc:mole_concentration_of_calcite_expressed_as_carbon_in_sea_water_at_saturation:longitude latitude olevel time:ocnBgchem:1:co3_sat_calc:co3_sat_calc
+Oyr:darag:tendency_of_mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water_due_to_dissolution:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:dcalc:tendency_of_mole_concentration_of_calcite_expressed_as_carbon_in_sea_water_due_to_dissolution:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:detoc:mole_concentration_of_organic_detritus_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:dfe:mole_concentration_of_dissolved_iron_in_sea_water:longitude latitude olevel time:ocnBgchem:2:DOFe Fe:DOFe + Fe
+Oyr:dissic:mole_concentration_of_dissolved_inorganic_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:DIC:DIC
+Oyr:dissoc:mole_concentration_of_dissolved_organic_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:DOC:DOC
+Oyr:dms:mole_concentration_of_dimethyl_sulfide_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:dpocdtcalc:tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_calcareous_phytoplankton:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:dpocdtdiaz:tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_diazotrophs:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:dpocdtpico:tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_picophytoplankton:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:exparag:sinking_mole_flux_of_aragonite_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:expcalc:sinking_mole_flux_of_calcite_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:expcfe:sinking_mole_flux_of_particulate_iron_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:expc:sinking_mole_flux_of_particulate_organic_matter_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:expn:sinking_mole_flux_of_particulate_organic_nitrogen_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:expp:sinking_mole_flux_of_particulate_organic_phosphorus_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:expsi:sinking_mole_flux_of_particulate_silicon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:fediss:tendency_of_mole_concentration_of_dissolved_iron_in_sea_water_due_to_dissolution_from_inorganic_particles:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:fescav:tendency_of_mole_concentration_of_dissolved_iron_in_sea_water_due_to_scavenging_by_inorganic_particles:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:graz:tendency_of_mole_concentration_of_dissolved_iron_in_sea_water_due_to_grazing_of_phytoplankton:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:nh4:mole_concentration_of_ammonium_in_sea_water:longitude latitude olevel time:ocnBgchem:1:NH4:NH4
+Oyr:no3:mole_concentration_of_nitrate_in_sea_water:longitude latitude olevel time:ocnBgchem:1:NO3:NO3
+Oyr:o2:mole_concentration_of_molecular_oxygen_in_sea_water:longitude latitude olevel time:ocnBgchem:1:O2:O2
+Oyr:parag:tendency_of_mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water_due_to_biological_production:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:pbfe:tendency_of_mole_concentration_of_iron_in_sea_water_due_to_biological_production:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:pbsi:tendency_of_mole_concentration_of_silicon_in_sea_water_due_to_biological_production:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:pcalc:tendency_of_mole_concentration_of_calcite_expressed_as_carbon_in_sea_water_due_to_biological_production:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:pdi:tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_diatoms:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:ph:sea_water_ph_reported_on_total_scale:longitude latitude olevel time:ocnBgchem:1:pH_3D:Integrate pH_3D over depth
+Oyr:phycalc:mole_concentration_of_calcareous_phytoplankton_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:phyc:mole_concentration_of_phytoplankton_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:spC:spC
+Oyr:phydiat:mole_concentration_of_diatoms_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:phydiaz:mole_concentration_of_diazotrophs_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:diazC:diazC
+Oyr:phyfe:mole_concentration_of_phytoplankton_expressed_as_iron_in_sea_water:longitude latitude olevel time:ocnBgchem:1:spFe:spFe
+Oyr:phymisc:mole_concentration_of_miscellaneous_phytoplankton_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:phyn:mole_concentration_of_phytoplankton_expressed_as_nitrogen_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:phypico:mole_concentration_of_picophytoplankton_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:phypmisc:tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_miscellaneous_phytoplankton:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:phyp:mole_concentration_of_phytoplankton_expressed_as_phosphorus_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:physi:mole_concentration_of_phytoplankton_expressed_as_silicon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:pnitrate:tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_nitrate_utilization:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:po4:mole_concentration_of_phosphate_in_sea_water:longitude latitude olevel time:ocnBgchem:1:PO4:PO4
+Oyr:pon:mole_concentration_of_particulate_organic_matter_expressed_as_nitrogen_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:pop:mole_concentration_of_particulate_organic_matter_expressed_as_phosphorus_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:pp:tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:si:mole_concentration_of_silicate_in_sea_water:longitude latitude olevel time:ocnBgchem:1:SiO3:SiO3
+Oyr:talk:sea_water_alkalinity_expressed_as_mole_equivalent:longitude latitude olevel time:ocnBgchem:1:ALK:Integrate ALK over depth
+Oyr:zmeso:mole_concentration_of_mesozooplankton_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:zmicro:mole_concentration_of_microzooplankton_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:zoocmisc:mole_concentration_of_miscellaneous_zooplankton_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:zooc:mole_concentration_of_zooplankton_expressed_as_carbon_in_sea_water:longitude latitude olevel time:ocnBgchem:1:zooC:zooC

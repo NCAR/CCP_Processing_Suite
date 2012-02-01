@@ -18,7 +18,7 @@ subroutine load_xwalk(xw_file)
   character(len=256),intent(in)::xw_file
   !
   integer::iostat,i,j,ixw
-  integer,dimension(10)::icol,iblk
+  integer,dimension(20)::icol,iblk
   logical::does_exist
   character(len=256)::instring
   !
@@ -27,6 +27,8 @@ subroutine load_xwalk(xw_file)
   do i = 1,max_entries
      xw(i)%table(1:)        = ' '
      xw(i)%entry(1:)        = ' '
+     xw(i)%sname(1:)        = ' '
+     xw(i)%dims(1:)         = ' '
      xw(i)%realm(1:)        = ' '
      xw(i)%comment(1:)      = ' '
      xw(i)%cesm_vars(:)(1:) = ' '
@@ -49,11 +51,11 @@ subroutine load_xwalk(xw_file)
         !         1         2         3
         !123456789012345678901234567890
         !
-        !Amon:ccb:atmos:1:CLDBOT:CLDBOT no change
-        !Amon:cct:atmos:1:CLDTOP:CLDTOP no change
-        ![...]
-        !Amon:pr:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
-        !Amon:prsn:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
+        !6HrLev:hus:specific_humidity:longitude latitude alevel time1:atmos:2:Q PS:Q interpolated to standard plevs
+        !6HrLev:ps:surface_air_pressure:longitude latitude time1:atmos:1:PS:PS no change
+        !6HrLev:ta:air_temperature:longitude latitude alevel time1:atmos:2:T PS:T interpolated to standard plevs
+        !6HrLev:ua:eastward_wind:longitude latitude alevel time1:atmos:2:U PS:U interpolated to standard plevs
+        !6HrLev:va:northward_wind:longitude latitude alevel time1:atmos:2:V PS:V interpolated to standard plevs
         !
         j = 1
         do i = 1,len_trim(adjustl(instring))
@@ -62,27 +64,29 @@ subroutine load_xwalk(xw_file)
               j = j + 1
            endif
         enddo
-        xw(ixw)%table(1:)         = instring(1:icol(1)-1)
+        xw(ixw)%table(1:)         = instring(1        :icol(1)-1)
         xw(ixw)%entry(1:)         = instring(icol(1)+1:icol(2)-1)
-        xw(ixw)%realm(1:)         = instring(icol(2)+1:icol(3)-1)
-        read(instring(icol(3)+1:icol(4)-1),*) xw(ixw)%ncesm_vars
-        xw(ixw)%comment(1:)       = instring(icol(5)+1:len_trim(instring))
+        xw(ixw)%sname(1:)         = instring(icol(2)+1:icol(3)-1)
+        xw(ixw)%dims(1:)          = instring(icol(3)+1:icol(4)-1)
+        xw(ixw)%realm(1:)         = instring(icol(4)+1:icol(5)-1)
+        read(instring(icol(5)+1:icol(6)-1),*) xw(ixw)%ncesm_vars
+        xw(ixw)%comment(1:)       = instring(icol(7)+1:len_trim(instring))
         !
         if (xw(ixw)%ncesm_vars .gt. 1) then
-           iblk(1) = icol(4)
+           iblk(1) = icol(6)
            j = 2
-           do i = icol(4)+1,icol(5)-1
+           do i = icol(6)+1,icol(7)-1
               if (instring(i:i) == ' ') then
                  iblk(j) = i
                  j = j + 1
               endif
            enddo
-           iblk(xw(ixw)%ncesm_vars+1) = icol(5)
+           iblk(xw(ixw)%ncesm_vars+1) = icol(7)
            do i = 1,xw(ixw)%ncesm_vars
               xw(ixw)%cesm_vars(i) = instring(iblk(i)+1:iblk(i+1)-1)
            enddo
         else
-           xw(ixw)%cesm_vars(1) = instring(icol(4)+1:icol(5)-1)
+           xw(ixw)%cesm_vars(1) = instring(icol(6)+1:icol(7)-1)
         endif
      endif
   enddo

@@ -1,12 +1,12 @@
-LImon:agesno:landIce land:1:UNKNOWN:UNKNOWN
-LImon:hfdsn:landIce land:1:UNKNOWN:UNKNOWN
-LImon:lwsnl:landIce land:1:UNKNOWN:UNKNOWN
-LImon:pflw:landIce land:1:UNKNOWN:UNKNOWN
-LImon:sbl:landIce land:1:UNKNOWN:UNKNOWN
-LImon:snc:landIce land:1:FSNO:FSNO
-LImon:snd:landIce land:1:UNKNOWN:UNKNOWN
-LImon:snm:landIce land:1:UNKNOWN:UNKNOWN
-LImon:snw:landIce land:2:SNOWICE SNOWLIQ:SNOWICE + SNOWLIQ
-LImon:sootsn:landIce land:1:UNKNOWN:UNKNOWN
-LImon:tpf:landIce land:1:UNKNOWN:UNKNOWN
-LImon:tsn:landIce land:1:UNKNOWN:UNKNOWN
+LImon:agesno:age_of_surface_snow:longitude latitude time:landIce land:1:UNKNOWN:UNKNOWN
+LImon:hfdsn:surface_downward_heat_flux_in_snow:longitude latitude time:landIce land:1:UNKNOWN:UNKNOWN
+LImon:lwsnl:liquid_water_content_of_snow_layer:longitude latitude time:landIce land:1:UNKNOWN:UNKNOWN
+LImon:pflw:liquid_water_content_of_permafrost_layer:longitude latitude time:landIce land:1:UNKNOWN:UNKNOWN
+LImon:sbl:surface_snow_and_ice_sublimation_flux:longitude latitude time:landIce land:1:UNKNOWN:UNKNOWN
+LImon:snc:surface_snow_area_fraction:longitude latitude time:landIce land:1:FSNO:FSNO
+LImon:snd:surface_snow_thickness:longitude latitude time:landIce land:1:UNKNOWN:UNKNOWN
+LImon:snm:surface_snow_melt_flux:longitude latitude time:landIce land:1:UNKNOWN:UNKNOWN
+LImon:snw:surface_snow_amount:longitude latitude time:landIce land:2:SNOWICE SNOWLIQ:SNOWICE + SNOWLIQ
+LImon:sootsn:soot_content_of_surface_snow:longitude latitude time:landIce land:1:UNKNOWN:UNKNOWN
+LImon:tpf:permafrost_layer_thickness:longitude latitude time:landIce land:1:UNKNOWN:UNKNOWN
+LImon:tsn:temperature_in_surface_snow:longitude latitude time:landIce land:1:UNKNOWN:UNKNOWN

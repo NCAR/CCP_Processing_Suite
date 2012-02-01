@@ -1,5 +1,5 @@
-6HrLev:hus:atmos:2:Q PS:Q interpolated to standard plevs
-6HrLev:ps:atmos:1:PS:PS no change
-6HrLev:ta:atmos:2:T PS:T interpolated to standard plevs
-6HrLev:ua:atmos:2:U PS:U interpolated to standard plevs
-6HrLev:va:atmos:2:V PS:V interpolated to standard plevs
+6HrLev:hus:specific_humidity:longitude latitude alevel time1:atmos:2:Q PS:Q interpolated to standard plevs
+6HrLev:ps:surface_air_pressure:longitude latitude time1:atmos:1:PS:PS no change
+6HrLev:ta:air_temperature:longitude latitude alevel time1:atmos:2:T PS:T interpolated to standard plevs
+6HrLev:ua:eastward_wind:longitude latitude alevel time1:atmos:2:U PS:U interpolated to standard plevs
+6HrLev:va:northward_wind:longitude latitude alevel time1:atmos:2:V PS:V interpolated to standard plevs

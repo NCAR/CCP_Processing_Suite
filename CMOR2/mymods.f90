@@ -75,7 +75,7 @@ module xwalk_info
   use max_parms
   !
   type XWInfo
-     character(len=256)::table,entry,realm,comment
+     character(len=256)::table,entry,realm,sname,dims,comment
      character(len=256),dimension(10)::cesm_vars
      integer::ncesm_vars
   end type XWInfo
