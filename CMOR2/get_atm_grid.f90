@@ -21,32 +21,39 @@ subroutine get_atm_grid
   !
   do n=1,dim_counter
      length = len_trim(dim_info(n)%name)
-     if(dim_info(n)%name(:length).eq.'lat') then
+     select case (dim_info(n)%name)
+     case('lat')
         nlats = dim_info(n)%length
-     elseif(dim_info(n)%name(:length).eq.'lon') then
+     case('lon') 
         nlons = dim_info(n)%length
-     elseif(dim_info(n)%name(:length).eq.'lev') then
+     case('lev') 
         nlevs = dim_info(n)%length
-     elseif(dim_info(n)%name(:length).eq.'ilev') then
+     case('ilev') 
         nilevs = dim_info(n)%length
-     elseif(dim_info(n)%name(:length).eq.'plevs') then
-        nplevs = dim_info(n)%length
-     elseif(dim_info(n)%name(:length).eq.'plev8') then
+     case('plev17') 
+        nplev17 = dim_info(n)%length
+     case('plev8') 
         nplev8 = dim_info(n)%length
-     endif
+     case('plev7') 
+        nplev7 = dim_info(n)%length
+     case('plev3') 
+        nplev3 = dim_info(n)%length
+     end select
   enddo
   allocate(atm_lons(nlons),atm_lats(nlats),slon(nlons),slat(nlats))
   allocate(atm_lons_bnds(2,nlons),atm_lats_bnds(2,nlats))
   allocate(atm_levs(nlevs),atm_levs_bnds(nlevs+1))
   allocate(atm_ilevs(nilevs),atm_ilevs_bnds(nilevs+1))
-  allocate(atm_plevs(nplevs),atm_plev8(nplev8))
+  allocate(atm_plev17(nplev17),atm_plev8(nplev8),atm_plev7(nplev7),atm_plev3(nplev3))
   allocate(a_coeff(nlevs),b_coeff(nlevs),a_coeff_bnds(nlevs+1),b_coeff_bnds(nlevs+1))
   !
   call get_vars(gridid)
   call read_var(gridid,'lon'  ,atm_lons)
   call read_var(gridid,'lat'  ,atm_lats)
-  call read_var(gridid,'plevs',atm_plevs)
+  call read_var(gridid,'plev17',atm_plev17)
   call read_var(gridid,'plev8',atm_plev8)
+  call read_var(gridid,'plev7',atm_plev7)
+  call read_var(gridid,'plev3',atm_plev3)
   call read_var(gridid,'lev'  ,atm_levs)
   call read_var(gridid,'ilev' ,atm_levs_bnds)
   call read_var(gridid,'ilev' ,atm_ilevs)
@@ -55,7 +62,6 @@ subroutine get_atm_grid
   call read_var(gridid,'hybm' ,b_coeff)
   call read_var(gridid,'hybi' ,b_coeff_bnds)
   call read_var(gridid,'P0'   ,p0)
-  !
   !
   ! Create atm_ilev_bnds from regular levs
   !

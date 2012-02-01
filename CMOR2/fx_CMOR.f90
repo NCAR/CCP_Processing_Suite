@@ -48,7 +48,6 @@ program fx_CMOR
   call load_exp(exp_file)
   !
   read(*,*) case_read
-  read(*,*) comp_read
   !
   ! Get experiment metadata from exp table and input case information
   !

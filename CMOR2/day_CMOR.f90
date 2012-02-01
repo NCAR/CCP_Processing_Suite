@@ -700,7 +700,7 @@ program day_CMOR
                              !
                              ! Do vertical interpolation to pressure levels
                              !
-                             call vertint(indat3a,cmordat3d,atm_levs,atm_plevs*0.01,psdata,spval,nlons,nlats,nlevs,nlevs+1,nplev8)
+                             call vertint(indat3a,cmordat3d,atm_levs,atm_plev8*0.01,psdata,spval,nlons,nlats,nlevs,nlevs+1,nplev8)
                              !
                              tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                              error_flag = cmor_write(        &

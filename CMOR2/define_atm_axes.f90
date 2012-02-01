@@ -87,9 +87,9 @@ subroutine define_atm_axes(dimensions)
         axis_ids(idim) = cmor_axis(        &
              table=mycmor%table_file,      &
              table_entry=dimnames(i),      &
-             length=SIZE(atm_plevs),       &
+             length=SIZE(atm_plev17),       &
              units=dimunits(i),            &
-             coord_vals=atm_plevs)
+             coord_vals=atm_plev17)
 !        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('plev8')
@@ -99,6 +99,24 @@ subroutine define_atm_axes(dimensions)
              length=SIZE(atm_plev8),       &
              units=dimunits(i),            &
              coord_vals=atm_plev8)
+!        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        idim = idim + 1
+     case ('plev7')
+        axis_ids(idim) = cmor_axis(        &
+             table=mycmor%table_file,      &
+             table_entry=dimnames(i),      &
+             length=SIZE(atm_plev7),       &
+             units=dimunits(i),            &
+             coord_vals=atm_plev7)
+!        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        idim = idim + 1
+     case ('plev3')
+        axis_ids(idim) = cmor_axis(        &
+             table=mycmor%table_file,      &
+             table_entry=dimnames(i),      &
+             length=SIZE(atm_plev3),       &
+             units=dimunits(i),            &
+             coord_vals=atm_plev3)
 !        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('alevel')

@@ -588,7 +588,7 @@ program Amon_CMOR
                  !
                  ! Vertically interpolate to standard pressure levels
                  !
-                 allocate(indat3a(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nplevs))
+                 allocate(indat3a(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nplev17))
                  allocate(psdata(nlons,nlats))
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
@@ -635,7 +635,7 @@ program Amon_CMOR
                        !
                        ! Do vertical interpolation to pressure levels
                        !
-                       call vertint(indat3a,cmordat3d,atm_levs,atm_plevs*0.01,psdata,spval,nlons,nlats,nlevs,nlevs+1,nplevs)
+                       call vertint(indat3a,cmordat3d,atm_levs,atm_plev17*0.01,psdata,spval,nlons,nlats,nlevs,nlevs+1,nplev17)
                        !
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(        &
@@ -666,7 +666,7 @@ program Amon_CMOR
                  !
                  ! Pass variable straight through, break up into nicely-sized chunks along time
                  !
-                 allocate(indat3a(nlons,nlats,nplevs))
+                 allocate(indat3a(nlons,nlats,nlevs))
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !

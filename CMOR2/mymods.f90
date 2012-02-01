@@ -102,7 +102,7 @@ end module files_info
 !
 module grid_info
   real,dimension(:),    allocatable::atm_lats,atm_lons,atm_levs,atm_levs_bnds,atm_ilevs,atm_ilevs_bnds
-  real,dimension(:),    allocatable::atm_plevs,atm_plev8
+  real,dimension(:),    allocatable::atm_plev17,atm_plev8,atm_plev7,atm_plev3
   real,dimension(:,:),  allocatable::atm_lats_bnds,atm_lons_bnds
   real,dimension(:),    allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
   real,dimension(:,:),  allocatable::ice_lats,ice_lons
@@ -118,7 +118,7 @@ module grid_info
   real,dimension(:,:,:),allocatable::lnd_zsoi,lnd_dzsoi  ! CLM soil depth (m), CLM soil layer thickness (m)
   real,dimension(:,:),  allocatable::lnd_lats_bnds,lnd_lons_bnds
   real::p0
-  integer::nlons,nlats,nlevs,nilevs,nplevs,nplev8,naxes,zfactor_id
+  integer::nlons,nlats,nlevs,nilevs,nplev17,nplev8,nplev7,nplev3,naxes,zfactor_id
   integer::nlats_trans,nmoc_z,ntrans_reg,nmoc_comp,ntrans_comp
   integer,dimension(1)::grid_id
   integer,dimension(10)::axis_ids
