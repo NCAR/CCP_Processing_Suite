@@ -83,11 +83,19 @@ OBJ	= mymods.o \
 	  get_lnd_grid.o \
 	  get_atm_grid.o
 
-all:	  Amon_CMOR day_CMOR Lmon_CMOR LImon_CMOR OImon_CMOR Omon_CMOR fx_CMOR
+all:	  Amon_CMOR day_CMOR Lmon_CMOR LImon_CMOR OImon_CMOR Omon_CMOR fx_CMOR 6hrLev_CMOR 6hrPlev_CMOR
 
 Amon_CMOR: $(OBJ) Amon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Amon_CMOR.o \
 	-o $(EXEDIR)/Amon_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
+
+6hrLev_CMOR: $(OBJ) 6hrLev_CMOR.o
+	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) 6hrLev_CMOR.o \
+	-o $(EXEDIR)/6hrLev_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
+
+6hrPlev_CMOR: $(OBJ) 6hrPlev_CMOR.o
+	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) 6hrPlev_CMOR.o \
+	-o $(EXEDIR)/6hrPlev_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
 
 fx_CMOR: $(OBJ) fx_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) fx_CMOR.o \
@@ -184,6 +192,12 @@ handle_err.o: handle_err.f90
 
 Amon_CMOR.o: Amon_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c Amon_CMOR.f90
+
+6hrLev_CMOR.o: 6hrLev_CMOR.f90 $(OBJ)
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c 6hrLev_CMOR.f90
+
+6hrPlev_CMOR.o: 6hrPlev_CMOR.f90 $(OBJ)
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c 6hrPlev_CMOR.f90
 
 fx_CMOR.o: fx_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c fx_CMOR.f90
