@@ -260,8 +260,8 @@ program Do6hrLev_CMOR
                  select case(ntimes(1,1))
                  case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
                     nchunks(1) = 4
-                    tidx1(1:nchunks(1)) = (/  1, 360, 725, 1093/)
-                    tidx2(1:nchunks(1)) = (/359, 724,1092, ntimes(1,1)/)
+                    tidx1(1:nchunks(1)) = (/  1, 361, 725, 1093/)
+                    tidx2(1:nchunks(1)) = (/360, 724,1092, ntimes(1,1)/)
                  case default
                     nchunks(1) = 1
                     tidx1(1:nchunks(1)) = 1
@@ -308,8 +308,8 @@ program Do6hrLev_CMOR
                  select case(ntimes(1,1))
                  case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
                     nchunks(1) = 4
-                    tidx1(1:nchunks(1)) = (/  1, 360, 725, 1093/)
-                    tidx2(1:nchunks(1)) = (/359, 724,1092, ntimes(1,1)/)
+                    tidx1(1:nchunks(1)) = (/  1, 361, 725, 1093/)
+                    tidx2(1:nchunks(1)) = (/360, 724,1092, ntimes(1,1)/)
                  case default
                     nchunks(1) = 1
                     tidx1(nchunks(1)) = 1
