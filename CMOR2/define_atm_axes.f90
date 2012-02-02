@@ -34,7 +34,8 @@ subroutine define_atm_axes(dimensions)
      do j = 1,num_tab
         if (dimnames(i) == table(j)%axis_entry) dimunits(i) = table(j)%units
      enddo
-     if (dimnames(i) == 'time') dimunits(i) = time_units
+     if (dimnames(i) == 'time')  dimunits(i) = time_units
+     if (dimnames(i) == 'time1') dimunits(i) = time_units
   enddo
   !
 !  do i = 1,naxes
