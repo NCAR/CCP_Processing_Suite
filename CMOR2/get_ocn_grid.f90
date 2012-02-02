@@ -27,6 +27,7 @@ subroutine get_ocn_grid
         nlons = dim_info(n)%length
      elseif(dim_info(n)%name(:length).eq.'z_t') then
         nlevs = dim_info(n)%length
+        write(*,*) 'get_ocn_grid, nlevs: ',nlevs,' name: ',dim_info(n)%name(:length)
      elseif(dim_info(n)%name(:length).eq.'lat_aux_grid') then ! heat, salt and mass transports on this grid
         nlats_trans = dim_info(n)%length
      elseif(dim_info(n)%name(:length).eq.'moc_z') then ! heat, salt and mass transports on this grid

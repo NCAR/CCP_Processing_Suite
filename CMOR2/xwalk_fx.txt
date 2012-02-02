@@ -1,4 +1,4 @@
-fx:areacella:cell_area:longitude latitude:atmos land:1:UNKNOWN:UNKNOWN
+fx:areacella:cell_area:longitude latitude:atmos land:1:LANDFRAC:LANDFRAC
 fx:areacello:cell_area:longitude latitude:ocean:1:TAREA:TAREA convert cm2 to m2
 fx:basin:region:longitude latitude:ocean:1:UNKNOWN:UNKNOWN
 fx:deptho:sea_floor_depth_below_geoid:longitude latitude:ocean:1:HT:HT convert cm to m

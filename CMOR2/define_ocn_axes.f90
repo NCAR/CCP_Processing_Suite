@@ -144,8 +144,9 @@ subroutine define_ocn_axes(dimensions)
            idim = idim + 1
         end select ! dimnames(i)
      enddo
-  case ( 'so','thetao','tos','sos','volo','hfss','pr','prsn','rlds','rsds','rsntds','agessc','rhopoto','tossq')
-     ! T-grid fields: SHF SSH SFWF QFLUX LWDN_F LWUP_F PREC_F SENH_F SNOW_F QSW_HTP SHF_QSW PD RHO IAGE SALT TEMP
+  case ( 'so','thetao','tos','sos','volo','hfss','pr','prsn','rlds','rsds','rsntds','agessc','rhopoto','tossq',&
+         'areacello','basin','deptho','hfgeou','sftof','thkcello','volcello')
+     ! T-grid fields
      do i = 1,naxes
         select case(dimnames(i))
         case ('longitude')
@@ -162,14 +163,13 @@ subroutine define_ocn_axes(dimensions)
                 table_entry='j_index',       &
                 units='1',&
                 coord_vals=j_indices)
-           write(*,*) 'latitude defined, axis_id: ',idim,axis_ids(idim)
            grid_id(1) = cmor_grid(                    &
                 axis_ids=(/axis_ids(1),axis_ids(2)/), &
                 latitude=ocn_t_lats,                    &
                 longitude=ocn_t_lons,                   &
                 latitude_vertices=ocn_t_lats_bnds,      &
                 longitude_vertices=ocn_t_lons_bnds)
-           write(*,*) 'CMOR GRID defined, grid_id: ',grid_id(1)
+           write(*,'('' grid defined: '',i4,'' size: '',2i10)') grid_id(1),size(ocn_t_lons),size(ocn_t_lats)
            idim = idim + 1
         case ('olevel')
            call cmor_set_table(table_ids(1))
@@ -180,6 +180,7 @@ subroutine define_ocn_axes(dimensions)
                 units='m',                    &
                 coord_vals=ocn_t_levs,          &
                 cell_bounds=ocn_t_levs_bnds)
+           write(*,'('' dimension: '',a,'' defined: '',i4,'' size: '',i3,'' units: '',a)') 'olevel',axis_ids(idim),nlevs,'m'
            idim = idim + 1
         case ('time')
            call cmor_set_table(table_ids(1))
@@ -187,7 +188,7 @@ subroutine define_ocn_axes(dimensions)
                 table_entry=dimnames(i),      &
                 units=dimunits(i),            &
                 interval='30 days')
-           write(*,*) 'time defined, axis_id: ',idim,axis_ids(idim)
+           write(*,'('' dimension: '',a,'' defined: '',i4,'' units: '',a)') 'time',axis_ids(idim),trim(dimunits(i))
            idim = idim + 1
         end select ! dimnames(i)
      enddo

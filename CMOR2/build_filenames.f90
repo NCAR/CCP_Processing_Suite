@@ -48,13 +48,13 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
   write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,begyr,endyr,trim(table)
   !
   select case (table)
-  case ('Amon','Lmon','LImon','Omon','OImon','aero','cfMon')
+  case ('Tables/CMIP5_Amon','Tables/CMIP5_Lmon','Tables/CMIP5_LImon','Tables/CMIP5_Omon','Tables/CMIP5_OImon','Tables/CMIP5_aero','Tables/CMIP5_cfMon')
      dtbeg = '01' ; dtend = '12'
-  case ('day','cfDay')
+  case ('Tables/CMIP5_day','Tables/CMIP5_cfDay')
      dtbeg = '0101' ; dtend = '1231'
-  case ('6hrLev','6hrPlev')
+  case ('Tables/CMIP5_6hrLev','Tables/CMIP5_6hrPlev')
      dtbeg = '010100Z' ; dtend = '123118Z'
-  case ('3hr','cf3hr')
+  case ('Tables/CMIP5_3hr','Tables/CMIP5_cf3hr')
      dtbeg = '010100Z' ; dtend = '123121Z'
   end select
   !

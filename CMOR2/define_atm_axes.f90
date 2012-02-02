@@ -51,15 +51,16 @@ subroutine define_atm_axes(dimensions)
           table_entry='time',     &
           units=time_units,       &
           interval='30 days')
+     idim = idim + 1
   case ('Tables/CMIP5_day')
      axis_ids(idim) = cmor_axis(  &
           table=mycmor%table_file,&
           table_entry='time',     &
           units=time_units,       &
           interval='1 day')
+     idim = idim + 1
   end select
 !  write(*,'('' dimension: '',a,'' defined: '',i4)') 'time',axis_ids(idim)
-  idim = idim + 1
   !
   do i = 1,naxes
      select case(dimnames(i))
@@ -71,7 +72,7 @@ subroutine define_atm_axes(dimensions)
              length=SIZE(atm_lats),        &
              coord_vals=atm_lats,          &
              cell_bounds=atm_lats_bnds)
-!        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('longitude')
         axis_ids(idim) = cmor_axis(        &
@@ -81,7 +82,7 @@ subroutine define_atm_axes(dimensions)
              units=dimunits(i),            &
              coord_vals=atm_lons,          &
              cell_bounds=atm_lons_bnds)
-!        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('plevs')
         axis_ids(idim) = cmor_axis(        &
@@ -90,7 +91,7 @@ subroutine define_atm_axes(dimensions)
              length=SIZE(atm_plev17),       &
              units=dimunits(i),            &
              coord_vals=atm_plev17)
-!        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('plev8')
         axis_ids(idim) = cmor_axis(        &
@@ -99,7 +100,7 @@ subroutine define_atm_axes(dimensions)
              length=SIZE(atm_plev8),       &
              units=dimunits(i),            &
              coord_vals=atm_plev8)
-!        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('plev7')
         axis_ids(idim) = cmor_axis(        &
@@ -108,7 +109,7 @@ subroutine define_atm_axes(dimensions)
              length=SIZE(atm_plev7),       &
              units=dimunits(i),            &
              coord_vals=atm_plev7)
-!        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('plev3')
         axis_ids(idim) = cmor_axis(        &
@@ -117,7 +118,7 @@ subroutine define_atm_axes(dimensions)
              length=SIZE(atm_plev3),       &
              units=dimunits(i),            &
              coord_vals=atm_plev3)
-!        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('alevel')
         ilev = cmor_axis(                        &
@@ -152,7 +153,7 @@ subroutine define_atm_axes(dimensions)
              axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3)/), &
              units='Pa')
         axis_ids(idim) = ilev
-!!        write(*,'('' dimension: '',a,'' defined: '',i4)') 'standard_hybrid_sigma',axis_ids(idim)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') 'standard_hybrid_sigma',axis_ids(idim)
         idim = idim + 1
      case ('alevhalf')
         ilev = cmor_axis(                        &
@@ -187,9 +188,9 @@ subroutine define_atm_axes(dimensions)
              axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3)/), &
              units='Pa')
         axis_ids(idim) = ilev
-!!        write(*,'('' dimension: '',a,'' defined: '',i4)') 'standard_hybrid_sigma',axis_ids(idim)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') 'standard_hybrid_sigma',axis_ids(idim)
         idim = idim + 1
      end select
   enddo
-!  write(*,'(''CMOR axes defined, axis_ids: '',5i5)') (axis_ids(i),i=1,naxes)
+  write(*,'(''CMOR axes defined, axis_ids: '',5i5)') (axis_ids(i),i=1,naxes)
 end subroutine define_atm_axes

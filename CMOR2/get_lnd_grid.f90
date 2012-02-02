@@ -77,7 +77,7 @@ subroutine get_lnd_grid
   call read_var(gridid,'DZSOI',lnd_dzsoi)
   call close_cdf(gridid)
   write(*,'(''LND grid loaded'')')
-  !
+!!$  !
 !!$  do j = 1,nlats
 !!$     write(*,*) lnd_lats_bnds(1,j),lnd_lats(j),lnd_lats_bnds(2,j)
 !!$  enddo
