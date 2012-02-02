@@ -67,6 +67,12 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
              trim(cesm_var),&
              year1,trim(dtbeg),&
              year2,trim(dtend)
+!        write(*,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
+!             trim(case),&
+!             trim(comp),&
+!             trim(cesm_var),&
+!             year1,trim(dtbeg),&
+!             year2,trim(dtend)
         inquire(file=checkname,exist=exists)
         all_continue = all_continue.or.exists
         if (exists) then

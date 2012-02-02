@@ -62,7 +62,7 @@ subroutine define_atm_axes(dimensions)
   case ('Tables/CMIP5_6hrLev','Tables/CMIP5_6hrPlev')
      axis_ids(idim) = cmor_axis(  &
           table=mycmor%table_file,&
-          table_entry='time',     &
+          table_entry='time1',    &
           units=time_units,       &
           interval='6 hours')
      idim = idim + 1
