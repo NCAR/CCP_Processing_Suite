@@ -129,14 +129,14 @@ program Do6hrLev_CMOR
                  if (.not.(allocated(time)))      then
                     allocate(time(ntimes(1,1)))
                  endif
-                 if (.not.(allocated(time_bnds))) then
-                    allocate(time_bnds(2,ntimes(1,1)))
-                 endif
+!                 if (.not.(allocated(time_bnds))) then
+!                    allocate(time_bnds(2,ntimes(1,1)))
+!                 endif
                  !
                  do n=1,ntimes(1,1)
                     time_counter = n
-                    call read_var(myncid(1,ivar),'time_bnds',time_bnds(:,n))
-                    time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+                    call read_var(myncid(1,ivar),'time',time(n))
+!                    time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
 !                    write(*,'(''TIMES: '',3f12.4)') time_bnds(1,n),time(n),time_bnds(2,n)
                  enddo
               enddo
@@ -285,13 +285,15 @@ program Do6hrLev_CMOR
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+!                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       tval(1) = time(it)
                        error_flag = cmor_write(          &
                             var_id        = cmor_var_id, &
                             data          = indat2a,     &
                             ntimes_passed = 1,           &
-                            time_vals     = tval,        &
-                            time_bnds     = tbnd)
+                            time_vals     = tval)
+!                            time_vals     = tval,        &
+!                            time_bnds     = tbnd)
                        if (error_flag < 0) then
                           write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                           stop
@@ -357,13 +359,14 @@ program Do6hrLev_CMOR
                        call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
                        call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2a)
                        where (indat3a > 1.e6) indat3a = spval
-                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+!                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       tval(1) = time(it)
                        error_flag = cmor_write(        &
                             var_id        = cmor_var_id,   &
                             data          = indat3a,   &
                             ntimes_passed = 1,         &
-                            time_vals     = tval,      &
-                            time_bnds     = tbnd)
+                            time_vals     = tval)      &
+!                            time_bnds     = tbnd)
                        if (error_flag < 0) then
                           write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                           stop
@@ -373,7 +376,7 @@ program Do6hrLev_CMOR
                             data          = indat2a,   &
                             ntimes_passed = 1,         &
                             time_vals     = tval,      &
-                            time_bnds     = tbnd,      &
+!                            time_bnds     = tbnd,      &
                             store_with    = cmor_var_id)
                        if (error_flag < 0) then
                           write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
@@ -416,7 +419,7 @@ program Do6hrLev_CMOR
               original_name= ' '
               !
               if (allocated(time))      deallocate(time)
-              if (allocated(time_bnds)) deallocate(time_bnds)
+!              if (allocated(time_bnds)) deallocate(time_bnds)
               !
               error_flag = cmor_close()
               if (error_flag < 0) then
