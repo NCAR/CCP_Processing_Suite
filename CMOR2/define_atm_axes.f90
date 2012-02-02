@@ -43,6 +43,35 @@ subroutine define_atm_axes(dimensions)
   enddo
   axis_ids = 0 ; idim = 1
   !
+  ! Define 'time' first
+  !
+  select case(dimnames(i))
+  case ('time','time1','time2')
+     select case (mycmor%table_file)
+     case ('Tables/CMIP5_Amon')
+        axis_ids(idim) = cmor_axis(  &
+             table=mycmor%table_file,&
+             table_entry='time',     &
+             units=time_units,       &
+             interval='30 days')
+        idim = idim + 1
+     case ('Tables/CMIP5_day')
+        axis_ids(idim) = cmor_axis(  &
+             table=mycmor%table_file,&
+             table_entry='time',     &
+             units=time_units,       &
+             interval='1 day')
+        idim = idim + 1
+     case ('Tables/CMIP5_6hrLev','Tables/CMIP5_6hrPlev')
+        axis_ids(idim) = cmor_axis(  &
+             table=mycmor%table_file,&
+             table_entry='time1',    &
+             units=time_units,       &
+             interval='6 hours')
+        idim = idim + 1
+     end select
+  end select
+  !
   do i = 1,naxes
      select case(dimnames(i))
      case ('latitude')
@@ -171,33 +200,6 @@ subroutine define_atm_axes(dimensions)
         axis_ids(idim) = ilev
         write(*,'('' dimension: '',a,'' defined: '',i4)') 'standard_hybrid_sigma',axis_ids(idim)
         idim = idim + 1
-        !
-        ! Define 'time' last
-        !
-     case ('time','time1','time2')
-        select case (mycmor%table_file)
-        case ('Tables/CMIP5_Amon')
-           axis_ids(idim) = cmor_axis(  &
-                table=mycmor%table_file,&
-                table_entry='time',     &
-                units=time_units,       &
-                interval='30 days')
-           idim = idim + 1
-        case ('Tables/CMIP5_day')
-           axis_ids(idim) = cmor_axis(  &
-                table=mycmor%table_file,&
-                table_entry='time',     &
-                units=time_units,       &
-                interval='1 day')
-           idim = idim + 1
-        case ('Tables/CMIP5_6hrLev','Tables/CMIP5_6hrPlev')
-           axis_ids(idim) = cmor_axis(  &
-                table=mycmor%table_file,&
-                table_entry='time1',    &
-                units=time_units,       &
-                interval='6 hours')
-           idim = idim + 1
-        end select
      end select
   enddo
   write(*,'(''CMOR axes defined, axis_ids: '',5i5)') (axis_ids(i),i=1,naxes)
