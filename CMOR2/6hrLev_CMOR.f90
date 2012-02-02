@@ -365,7 +365,7 @@ program Do6hrLev_CMOR
                             var_id        = cmor_var_id,   &
                             data          = indat3a,   &
                             ntimes_passed = 1,         &
-                            time_vals     = tval)      &
+                            time_vals     = tval)
 !                            time_bnds     = tbnd)
                        if (error_flag < 0) then
                           write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
