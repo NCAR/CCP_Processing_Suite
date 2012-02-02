@@ -129,15 +129,10 @@ program Do6hrLev_CMOR
                  if (.not.(allocated(time)))      then
                     allocate(time(ntimes(1,1)))
                  endif
-!                 if (.not.(allocated(time_bnds))) then
-!                    allocate(time_bnds(2,ntimes(1,1)))
-!                 endif
                  !
                  do n=1,ntimes(1,1)
                     time_counter = n
                     call read_var(myncid(1,ivar),'time',time(n))
-!                    time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
-!                    write(*,'(''TIMES: '',3f12.4)') time_bnds(1,n),time(n),time_bnds(2,n)
                  enddo
               enddo
            endif
@@ -263,18 +258,10 @@ program Do6hrLev_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  select case(ntimes(1,1))
-                 case ( 1872,1140,3612,6012,12012 )  ! All data
-                    nchunks(1) = 1
-                    tidx1(1:nchunks(1)) = 1
-                    tidx2(1:nchunks(1)) = ntimes(1,1)
-                 case ( 1152 )  ! RCP, 2005-2100, skip 2006
-                    nchunks(1) = 1
-                    tidx1(1:nchunks(1)) = 13
-                    tidx2(1:nchunks(1)) = ntimes(1,1)
-                 case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
-                    nchunks(1) = 1
-                    tidx1(1:nchunks(1)) = 3613
-                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                 case ( 1460 )  ! One year, two pieces 01 Jan - 30 Jun, 01 Jul - 31 Dec
+                    nchunks(1) = 2
+                    tidx1(1:nchunks(1)) = (/  1, 725/)
+                    tidx2(1:nchunks(1)) = (/724,ntimes(1,1)/)
                  case default
                     nchunks(1) = 1
                     tidx1(1:nchunks(1)) = 1
@@ -285,15 +272,12 @@ program Do6hrLev_CMOR
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
-!                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        tval(1) = time(it)
                        error_flag = cmor_write(          &
                             var_id        = cmor_var_id, &
                             data          = indat2a,     &
                             ntimes_passed = 1,           &
                             time_vals     = tval)
-!                            time_vals     = tval,        &
-!                            time_bnds     = tbnd)
                        if (error_flag < 0) then
                           write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                           stop
@@ -322,31 +306,10 @@ program Do6hrLev_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  select case(ntimes(1,1))
-                 case ( 1872 )  ! 20C, 1850-2005, ~50y chunks
-                    nchunks(1) = 3
-                    tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
-                    tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1950, 2005
-                 case ( 1152 )  ! RCP, 2005-2100, skip 2006
+                 case ( 1460 )  ! One year, two pieces 01 Jan - 30 Jun, 01 Jul - 31 Dec
                     nchunks(1) = 2
-                    tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
-                    tidx2(1:nchunks(1)) = (/540,1152/)      ! 2049, 2100
-                 case ( 1140 )  ! RCP, 2006-2100
-                    nchunks(1) = 2
-                    tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
-                    tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
-                 case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
-                    nchunks(1) = int(ntimes(1,1)/600)
-                    tidx1(1) =   1
-                    tidx2(1) = 600
-                    do ic = 2,nchunks(1)
-                       tidx1(ic) = tidx2(ic-1) + 1
-                       tidx2(ic) = tidx1(ic) + 599
-                    enddo
-                    tidx2(nchunks(1)) = ntimes(1,1)
-                 case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
-                    nchunks(1) = 2
-                    tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
-                    tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
+                    tidx1(1:nchunks(1)) = (/  1, 725/)
+                    tidx2(1:nchunks(1)) = (/724,ntimes(1,1)/)
                  case default
                     nchunks(1) = 1
                     tidx1(nchunks(1)) = 1
@@ -359,14 +322,12 @@ program Do6hrLev_CMOR
                        call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
                        call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2a)
                        where (indat3a > 1.e6) indat3a = spval
-!                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        tval(1) = time(it)
                        error_flag = cmor_write(        &
                             var_id        = cmor_var_id,   &
                             data          = indat3a,   &
                             ntimes_passed = 1,         &
                             time_vals     = tval)
-!                            time_bnds     = tbnd)
                        if (error_flag < 0) then
                           write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                           stop
@@ -376,7 +337,6 @@ program Do6hrLev_CMOR
                             data          = indat2a,   &
                             ntimes_passed = 1,         &
                             time_vals     = tval,      &
-!                            time_bnds     = tbnd,      &
                             store_with    = cmor_var_id)
                        if (error_flag < 0) then
                           write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
@@ -419,7 +379,6 @@ program Do6hrLev_CMOR
               original_name= ' '
               !
               if (allocated(time))      deallocate(time)
-!              if (allocated(time_bnds)) deallocate(time_bnds)
               !
               error_flag = cmor_close()
               if (error_flag < 0) then
