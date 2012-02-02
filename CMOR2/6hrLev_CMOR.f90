@@ -258,10 +258,10 @@ program Do6hrLev_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  select case(ntimes(1,1))
-                 case ( 1460 )  ! One year, two pieces 01 Jan - 30 Jun, 01 Jul - 31 Dec
-                    nchunks(1) = 2
-                    tidx1(1:nchunks(1)) = (/  1, 725/)
-                    tidx2(1:nchunks(1)) = (/724,ntimes(1,1)/)
+                 case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
+                    nchunks(1) = 4
+                    tidx1(1:nchunks(1)) = (/  1, 360, 725, 1093/)
+                    tidx2(1:nchunks(1)) = (/359, 724,1092, ntimes(1,1)/)
                  case default
                     nchunks(1) = 1
                     tidx1(1:nchunks(1)) = 1
@@ -306,10 +306,10 @@ program Do6hrLev_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  select case(ntimes(1,1))
-                 case ( 1460 )  ! One year, two pieces 01 Jan - 30 Jun, 01 Jul - 31 Dec
-                    nchunks(1) = 2
-                    tidx1(1:nchunks(1)) = (/  1, 725/)
-                    tidx2(1:nchunks(1)) = (/724,ntimes(1,1)/)
+                 case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
+                    nchunks(1) = 4
+                    tidx1(1:nchunks(1)) = (/  1, 360, 725, 1093/)
+                    tidx2(1:nchunks(1)) = (/359, 724,1092, ntimes(1,1)/)
                  case default
                     nchunks(1) = 1
                     tidx1(nchunks(1)) = 1

@@ -45,32 +45,37 @@ subroutine define_atm_axes(dimensions)
   !
   ! Define 'time' first
   !
-  select case(dimnames(i))
-  case ('time','time1','time2')
-     select case (mycmor%table_file)
-     case ('Tables/CMIP5_Amon')
-        axis_ids(idim) = cmor_axis(  &
-             table=mycmor%table_file,&
-             table_entry='time',     &
-             units=time_units,       &
-             interval='30 days')
-        idim = idim + 1
-     case ('Tables/CMIP5_day')
-        axis_ids(idim) = cmor_axis(  &
-             table=mycmor%table_file,&
-             table_entry='time',     &
-             units=time_units,       &
-             interval='1 day')
-        idim = idim + 1
-     case ('Tables/CMIP5_6hrLev','Tables/CMIP5_6hrPlev')
-        axis_ids(idim) = cmor_axis(  &
-             table=mycmor%table_file,&
-             table_entry='time1',    &
-             units=time_units,       &
-             interval='6 hours')
-        idim = idim + 1
+  do i = 1,naxes
+     select case(dimnames(i))
+     case ('time','time1','time2')
+        select case (mycmor%table_file)
+        case ('Tables/CMIP5_Amon')
+           axis_ids(idim) = cmor_axis(  &
+                table=mycmor%table_file,&
+                table_entry=dimnames(i),&
+                units=time_units,       &
+                interval='30 days')
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           idim = idim + 1
+        case ('Tables/CMIP5_day')
+           axis_ids(idim) = cmor_axis(  &
+                table=mycmor%table_file,&
+                table_entry=dimnames(i),&
+                units=time_units,       &
+                interval='1 day')
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           idim = idim + 1
+        case ('Tables/CMIP5_6hrLev','Tables/CMIP5_6hrPlev')
+           axis_ids(idim) = cmor_axis(  &
+                table=mycmor%table_file,&
+                table_entry=dimnames(i),&
+                units=time_units,       &
+                interval='6 hours')
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           idim = idim + 1
+        end select
      end select
-  end select
+  enddo
   !
   do i = 1,naxes
      select case(dimnames(i))
