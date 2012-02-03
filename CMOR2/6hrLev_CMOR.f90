@@ -102,41 +102,36 @@ program Do6hrLev_CMOR
            !
            if (all_continue) then
               do ivar = 1,xw(ixw)%ncesm_vars
-                 write(*,'(''TO OPEN: '',a)') trim(ncfile(nc_nfiles(ivar),ivar))
-                 call open_cdf(myncid(1,ivar),trim(ncfile(1,ivar)),.true.)
-                 write(*,'(''OPENING: '',a,'' myncid: '',i10)') trim(ncfile(1,ivar)),myncid(1,ivar)
-                 call get_dims(myncid(1,ivar))
-                 call get_vars(myncid(1,ivar))
-                 !
-                 do n=1,dim_counter
-                    length = len_trim(dim_info(n)%name)
-                    if(dim_info(n)%name(:length).eq.'time') then
-                       ntimes(1,ivar) = dim_info(n)%length
+                 do ifile = 1,nc_nfiles(ivar)
+                    call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                    call get_dims(myncid(ifile,ivar))
+                    call get_vars(myncid(ifile,ivar))
+                    !
+                    do n=1,dim_counter
+                       length = len_trim(dim_info(n)%name)
+                       if(dim_info(n)%name(:length).eq.'time') then
+                          ntimes(ifile,ivar) = dim_info(n)%length
+                       endif
+                    enddo
+                    call read_att_text(myncid(ifile,ivar),'time','units',time_units)
+                    write(*,'(''read_att_text, time_units: '',a)') trim(time_units)
+                    !
+                    do n=1,var_counter
+                       if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
+                          var_found(ifile,ivar) = n
+                          xw_found = ixw
+                       endif
+                    enddo
+                    if (var_found(ifile,ivar) == 0) then
+                       write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
+                       stop
                     endif
-                 enddo
-                 call read_att_text(myncid(1,1),'time','units',time_units)
-                 !
-                 do n=1,var_counter
-                    if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
-                       var_found(1,ivar) = n
-                    endif
-                 enddo
-                 if (var_found(1,ivar) == 0) then
-                    write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
-                    stop
-                 endif
-                 !
-                 if (.not.(allocated(time)))      then
-                    allocate(time(ntimes(1,1)))
-                 endif
-                 !
-                 do n=1,ntimes(1,1)
-                    time_counter = n
-                    call read_var(myncid(1,ivar),'time',time(n))
+                    call close_cdf(myncid(ifile,ivar))
+                    !
                  enddo
               enddo
-           endif
-           if (all_continue) then
+              !
+              myncid = 0
               !
               ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
               !
@@ -253,120 +248,160 @@ program Do6hrLev_CMOR
                  !
                  ! No change
                  !
-                 allocate(indat2a(nlons,nlats))
-                 !
-                 ! Determine amount of data to write, to keep close to ~2 GB limit
-                 !
-                 select case(ntimes(1,1))
-                 case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
-                    nchunks(1) = 4
-                    tidx1(1:nchunks(1)) = (/  1, 361, 725, 1093/)
-                    tidx2(1:nchunks(1)) = (/360, 724,1092, ntimes(1,1)/)
-                 case default
-                    nchunks(1) = 1
-                    tidx1(1:nchunks(1)) = 1
-                    tidx2(1:nchunks(1)) = ntimes(1,1)
-                 end select
-                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
-                 do ic = 1,nchunks(1)
-                    do it = tidx1(ic),tidx2(ic)
-                       time_counter = it
-                       call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                       tval(1) = time(it)
-                       error_flag = cmor_write(          &
-                            var_id        = cmor_var_id, &
-                            data          = indat2a,     &
-                            ntimes_passed = 1,           &
-                            time_vals     = tval)
-                       if (error_flag < 0) then
-                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                          stop
-                       endif
+                 if (.not.(allocated(indat2a))) allocate(indat2a(nlons,nlats))
+                 do ivar = 1,xw(ixw)%ncesm_vars
+                    do ifile = 1,nc_nfiles(ivar)
+                       call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                       call get_dims(myncid(ifile,ivar))
+                       call get_vars(myncid(ifile,ivar))
+                       !
+                       if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
+                       !
+                       do n=1,ntimes(ifile,ivar)
+                          time_counter = n
+                          call read_var(myncid(ifile,ivar),'time',time(n))
+                       enddo
+                       !
+                       ! Determine amount of data to write, to keep close to ~2 GB limit
+                       !
+                       select case(ntimes(ifile,ivar))
+                       case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
+                          nchunks(ifile) = 4
+                          tidx1(1:nchunks(ifile)) = (/  1, 361, 725, 1093/)
+                          tidx2(1:nchunks(ifile)) = (/360, 724,1092, ntimes(1,1)/)
+                       case default
+                          nchunks(ifile) = 1
+                          tidx1(1:nchunks(ifile)) = 1
+                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       end select
+                       write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                       do ic = 1,nchunks(ifile)
+                          do it = tidx1(ic),tidx2(ic)
+                             time_counter = it
+                             call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2a)
+                             tval(1) = time(it)
+                             error_flag = cmor_write(          &
+                                  var_id        = cmor_var_id, &
+                                  data          = indat2a,     &
+                                  ntimes_passed = 1,           &
+                                  time_vals     = tval)
+                             if (error_flag < 0) then
+                                write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                                stop
+                             endif
+                          enddo
+                          write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                          !
+                          cmor_filename = ' '
+                          error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                          if (error_flag < 0) then
+                             write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                             stop
+                          else
+                             write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+                          endif
+                       enddo
+                       call close_cdf(myncid(ifile,ivar))
+                       if (allocated(time))      deallocate(time)
                     enddo
-                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                    !
-                    if (ic < nchunks(1)) then
-                       cmor_filename(1:) = ' '
-                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                       if (error_flag < 0) then
-                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                          stop
-                       else
-                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                       endif
-                    endif
                  enddo
+                 error_flag = cmor_close()
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 else
+                    write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 endif
               case ('ta','ua','va','hus')
                  !
                  ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
                  ! break up into nicely-sized chunks along time
                  !
-                 allocate(indat3a(nlons,nlats,nlevs),indat2a(nlons,nlats))
-                 !
-                 ! Determine amount of data to write, to keep close to ~2 GB limit
-                 !
-                 select case(ntimes(1,1))
-                 case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
-                    nchunks(1) = 4
-                    tidx1(1:nchunks(1)) = (/  1, 361, 725, 1093/)
-                    tidx2(1:nchunks(1)) = (/360, 724,1092, ntimes(1,1)/)
-                 case default
-                    nchunks(1) = 1
-                    tidx1(nchunks(1)) = 1
-                    tidx2(nchunks(1)) = ntimes(1,1)
-                 end select
-                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
-                 do ic = 1,nchunks(1)
-                    do it = tidx1(ic),tidx2(ic)
-                       time_counter = it
-                       call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                       call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2a)
-                       where (indat3a > 1.e6) indat3a = spval
-                       tval(1) = time(it)
-                       error_flag = cmor_write(        &
-                            var_id        = cmor_var_id,   &
-                            data          = indat3a,   &
-                            ntimes_passed = 1,         &
-                            time_vals     = tval)
-                       if (error_flag < 0) then
-                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                          stop
-                       endif
-                       error_flag = cmor_write(        &
-                            var_id        = zfactor_id,&
-                            data          = indat2a,   &
-                            ntimes_passed = 1,         &
-                            time_vals     = tval,      &
-                            store_with    = cmor_var_id)
-                       if (error_flag < 0) then
-                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                          stop
-                       endif
+                 if (.not.(allocated(indat3a))) allocate(indat3a(nlons,nlats,nlevs))
+                 if (.not.(allocated(indat2a))) allocate(indat2a(nlons,nlats))
+                 if (nc_nfiles(1) == nc_nfiles(2)) then
+                    do ifile = 1,nc_nfiles(1)
+                       call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+                       call get_dims(myncid(ifile,1))
+                       call get_vars(myncid(ifile,1))
+                       call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
+                       call get_dims(myncid(ifile,2))
+                       call get_vars(myncid(ifile,2))
+                       !
+                       if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
+                       !
+                       do n = 1,ntimes(ifile,1)
+                          time_counter = n
+                          call read_var(myncid(ifile,1),'time',time(n))
+                       enddo
+                       !
+                       ! Determine amount of data to write, to keep close to ~2 GB limit
+                       !
+                       select case(ntimes(ifile,1))
+                       case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
+                          nchunks(ifile) = 4
+                          tidx1(1:nchunks(ifile)) = (/  1, 361, 725, 1093/)
+                          tidx2(1:nchunks(ifile)) = (/360, 724,1092, ntimes(ifile,1)/)
+                       case default
+                          nchunks(ifile) = 1
+                          tidx1(1:nchunks(ifile)) = 1
+                          tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                       end select
+                       write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                       do ic = 1,nchunks(1)
+                          do it = tidx1(ic),tidx2(ic)
+                             time_counter = it
+                             call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                             call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2a)
+                             where (indat3a > 1.e6) indat3a = spval
+                             tval(1) = time(it)
+                             error_flag = cmor_write(        &
+                                  var_id        = cmor_var_id,   &
+                                  data          = indat3a,   &
+                                  ntimes_passed = 1,         &
+                                  time_vals     = tval)
+                             if (error_flag < 0) then
+                                write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                                stop
+                             endif
+                             error_flag = cmor_write(        &
+                                  var_id        = zfactor_id,&
+                                  data          = indat2a,   &
+                                  ntimes_passed = 1,         &
+                                  time_vals     = tval,      &
+                                  store_with    = cmor_var_id)
+                             if (error_flag < 0) then
+                                write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                                stop
+                             endif
+                          enddo
+                          write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                          !
+                          cmor_filename = ' '
+                          error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                          if (error_flag < 0) then
+                             write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                             stop
+                          else
+                             write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+                          endif
+                       enddo
+                       call close_cdf(myncid(ifile,ivar))
+                       if (allocated(time))      deallocate(time)
                     enddo
-                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                    !
-                    if (ic < nchunks(1)) then
-                       cmor_filename(1:) = ' '
-                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                       if (error_flag < 0) then
-                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                          stop
-                       else
-                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                       endif
-                    endif
-                 enddo
+                 endif
+                 error_flag = cmor_close()
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 else
+                    write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 endif
               end select
               if (allocated(indat2a))   deallocate(indat2a)
-              if (allocated(indat2b))   deallocate(indat2b)
-              if (allocated(indat2c))   deallocate(indat2c)
-              if (allocated(cmordat2d)) deallocate(cmordat2d)
               if (allocated(indat3a))   deallocate(indat3a)
-              if (allocated(indat3b))   deallocate(indat3b)
-              if (allocated(work3da))   deallocate(work3da)
-              if (allocated(work3db))   deallocate(work3db)
               do ivar = 1,xw(ixw)%ncesm_vars
-                 call close_cdf(myncid(1,ivar))
+                 do ifile = 1,nc_nfiles(ivar)
+                    call close_cdf(myncid(ifile,ivar))
+                 enddo
               enddo
               !
               ! Reset
@@ -379,13 +414,14 @@ program Do6hrLev_CMOR
               original_name= ' '
               !
               if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
               !
-              error_flag = cmor_close()
-              if (error_flag < 0) then
-                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-              else
-                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-              endif
+!!$              error_flag = cmor_close()
+!!$              if (error_flag < 0) then
+!!$                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+!!$              else
+!!$                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+!!$              endif
            endif
         endif
      enddo xwalk_loop
