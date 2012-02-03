@@ -294,6 +294,7 @@ program Do6hrLev_CMOR
                           !
                           cmor_filename = ' '
                           error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+!                          error_flag = cmor_close()
                           if (error_flag < 0) then
                              write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
                              stop
@@ -301,8 +302,8 @@ program Do6hrLev_CMOR
                              write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                           endif
                        enddo
-                       call close_cdf(myncid(ifile,ivar))
-                       if (allocated(time))      deallocate(time)
+!                       call close_cdf(myncid(ifile,ivar))
+!                       if (allocated(time))      deallocate(time)
                     enddo
                  enddo
                  error_flag = cmor_close()
@@ -385,9 +386,7 @@ program Do6hrLev_CMOR
                              write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                           endif
                        enddo
-                       call close_cdf(myncid(ifile,ivar))
-                       if (allocated(time))      deallocate(time)
-                    enddo
+                     enddo
                  endif
                  error_flag = cmor_close()
                  if (error_flag < 0) then
