@@ -94,7 +94,7 @@ program Amon_CMOR
                  write(*,'(''UNAVAILABLE/UNKNOWN: '',a,'' == '',a)') trim(xw(ixw)%entry),trim(table(itab)%variable_entry)
               else
                  write(*,'(''CHECKING AVAILABILITY OF: '',a,''.'',a,''.'',a,''.* FILES'')') trim(case_read),trim(comp_read),trim(xw(ixw)%cesm_vars(ivar))
-                 call build_filenames(case_read,comp_read,xw(ixw)%cesm_vars(ivar),ivar,exp(exp_found)%begyr,exp(exp_found)%endyr)
+                 call build_filenames(case_read,comp_read,xw(ixw)%cesm_vars(ivar),ivar,exp(exp_found)%begyr,exp(exp_found)%endyr,mycmor%table_file)
               endif
            enddo
            !
@@ -221,7 +221,7 @@ program Amon_CMOR
                  mycmor%positive = 'up'
               case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt')
                  mycmor%positive = 'down'
-              case ('clt','ci')
+              case ('clt','ci','sci')
                  var_info(var_found(1,1))%units = '1'
               case ('hurs','cl')
                  var_info(var_found(1,1))%units = '%'

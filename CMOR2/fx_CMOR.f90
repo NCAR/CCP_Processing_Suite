@@ -21,8 +21,8 @@ program fx_CMOR
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag,cmor_var_id
-  real,dimension(:),    allocatable::dx,dy,dlat
-  real,dimension(:,:),  allocatable::indat2a,cmordat2d
+  real,dimension(:)    ,allocatable::dx,dy,dlat
+  real,dimension(:,:)  ,allocatable::indat2a,cmordat2d
   real,dimension(:,:,:),allocatable::cmordat3d
   !
   ! Other variables
@@ -30,7 +30,7 @@ program fx_CMOR
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile
   character(len=512)::acknowledgement
   integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw
-  real::spval,pi,rad,rr,rearth
+  real::spval,pi,rad,rr,rearth,dlon
   character(len=15),dimension(nexp)::expids
   character(len=256)::whoami,prochost,ccps_rev,ccps_date,ccps_uuid,info_file
   character(len=10)::pdate,ptime
@@ -401,14 +401,18 @@ program fx_CMOR
                  endif
               case ('areacella')
                  call get_atm_grid
-                 allocate(cmordat2d(nlons,nlats),dx(nlons),dy(nlats),dlat(nlats))
+!                 allocate(cmordat2d(nlons,nlats),dx(nlons),dy(nlats),dlat(nlats))
+                 allocate(cmordat2d(nlons,nlats),dx(nlats),dy(nlats),dlat(nlats))
                  !
                  rad    = 4.*atan(1.)/180.0
                  rearth = 6.37122e3
                  rr     = rearth*rad
                  !
                  dlon = rr*(atm_lons(2) - atm_lons(1))
-                 dx   = dlon*cos(atm_lats*rad)
+                 write(*,*) 'dlon*cos(atm_lats*rad): ',size(dlon*cos(atm_lats*rad))
+                 do j = 1,nlats
+                    dx(j) = dlon*cos((atm_lats(j)*rad))
+                 enddo
                  do j = 2,nlats
                     dlat(i) = atm_lats(i) - atm_lats(i-1)
                  enddo
