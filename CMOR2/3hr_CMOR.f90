@@ -295,10 +295,10 @@ program Do3hr_CMOR
                        enddo
                        time = (time_bnds(1,:)+time_bnds(2,:))/2.
                        !
-                       if (ntimes(ifile,ivar) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
-                          nchunks(ifile)= 5
-                          tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
-                          tidx2(1:nchunks(ifile)) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
+                       if (ntimes(ifile,ivar) == 29200) then         ! 10 year chunk, split into 5-year chunks
+                          nchunks(ifile)= 2
+                          tidx1(1:nchunks(ifile)) = (/    1, 14601/)
+                          tidx2(1:nchunks(ifile)) = (/14600, ntimes(ifile,ivar)/)
                        endif
                        if (ntimes(ifile,ivar) == 35040) then         ! RCP from 2005-2100, use only 2006 onwards, 2 * 35y + 1 * 25y chunks
                           nchunks(ifile)= 3

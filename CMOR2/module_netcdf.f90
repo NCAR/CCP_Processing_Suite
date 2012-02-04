@@ -27,6 +27,7 @@ module definitions_netcdf_jfl
   type VarInfo
      character(len=132)   ::name,format,type,file_name,units
      real                 ::missing_value,FillValue
+     integer              ::int_missing_value,int_FillValue
      integer              ::id,nvdims
      integer,dimension(10)::vdims
   end type VarInfo

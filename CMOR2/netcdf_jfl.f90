@@ -392,6 +392,7 @@ subroutine get_vars(ncid)
   integer pos1,pos2
   integer, dimension(:), allocatable :: dim_id
   real::missing_value,FillValue
+  integer::int_missing_value,int_FillValue
   character(len=256)::name,aname,units
   character*1 :: comma = ','
   !
@@ -409,7 +410,9 @@ subroutine get_vars(ncid)
      name          = ' '
      units         = ' '
      missing_value = -1.e32
-     FillValue    = -1.e32
+     FillValue     = -1.e32
+     int_missing_value = -1.e9
+     int_FillValue     = -1.e9
      status = nf_inq_varname(ncid,n,name)
      if(status.ne.nf_noerr) call handle_err(status)
      !
@@ -430,12 +433,22 @@ subroutine get_vars(ncid)
               if(status.ne.nf_noerr) call handle_err(status)
            endif
            if (trim(aname) == 'missing_value') then
-              status = nf_get_att_real(ncid,n,aname,missing_value)
-              if(status.ne.nf_noerr) call handle_err(status)
+              if (xtype == nf_float) then
+                 status = nf_get_att_real(ncid,n,aname,missing_value)
+                 if(status.ne.nf_noerr) call handle_err(status)
+              elseif (xtype == nf_int) then
+                 status = nf_get_att_int(ncid,n,aname,int_missing_value)
+                 if(status.ne.nf_noerr) call handle_err(status)
+              endif
            endif
            if (trim(aname) == '_FillValue') then
-              status = nf_get_att_real(ncid,n,aname,FillValue)
-              if(status.ne.nf_noerr) call handle_err(status)
+              if (xtype == nf_float) then
+                 status = nf_get_att_real(ncid,n,aname,FillValue)
+                 if(status.ne.nf_noerr) call handle_err(status)
+              elseif (xtype == nf_int) then
+                 status = nf_get_att_int(ncid,n,aname,int_FillValue)
+                 if(status.ne.nf_noerr) call handle_err(status)
+              endif
            endif
         enddo
      endif
@@ -445,12 +458,14 @@ subroutine get_vars(ncid)
      if(status.ne.nf_noerr) call handle_err(status)
      !
      var_counter = var_counter + 1
-     var_info(var_counter)%id            = n
-     var_info(var_counter)%name          = name
-     var_info(var_counter)%units         = units
-     var_info(var_counter)%missing_value = missing_value
-     var_info(var_counter)%FillValue    =  FillValue
-     var_info(var_counter)%file_name     = nc_filename(file_counter)
+     var_info(var_counter)%id                = n
+     var_info(var_counter)%name              = name
+     var_info(var_counter)%units             = units
+     var_info(var_counter)%missing_value     = missing_value
+     var_info(var_counter)%FillValue         = FillValue
+     var_info(var_counter)%int_missing_value = int_missing_value
+     var_info(var_counter)%int_FillValue     = int_FillValue
+     var_info(var_counter)%file_name         = nc_filename(file_counter)
      select case ( xtype )
      case ( nf_int )
         var_info(var_counter)%type = 'integer'

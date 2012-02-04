@@ -22,6 +22,7 @@ program fx_CMOR
   !
   integer::error_flag,cmor_var_id
   real,dimension(:)    ,allocatable::dx,dy,dlat
+  integer,dimension(:,:)  ,allocatable::region_mask,basin
   real,dimension(:,:)  ,allocatable::indat2a,cmordat2d
   real,dimension(:,:,:),allocatable::cmordat3d
   !
@@ -30,7 +31,6 @@ program fx_CMOR
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile
   character(len=512)::acknowledgement
   integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw
-  real::spval,pi,rad,rr,rearth,dlon
   character(len=15),dimension(nexp)::expids
   character(len=256)::whoami,prochost,ccps_rev,ccps_date,ccps_uuid,info_file
   character(len=10)::pdate,ptime
@@ -299,15 +299,14 @@ program fx_CMOR
                  var_info(var_found(1,1))%units = 'm3'
               end select
               !
-              spval=var_info(var_found(1,1))%missing_value
-              !
               write(*,*) 'calling cmor_variable:'
               write(*,*) 'table         = ',trim(mycmor%table_file)
               write(*,*) 'table_entry   = ',trim(xw(ixw)%entry)
               write(*,*) 'dimensions    = ',trim(table(itab)%dimensions)
               write(*,*) 'units         = ',trim(var_info(var_found(1,1))%units)
               write(*,*) 'axis_ids      = ',axis_ids(1:4)
-              write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
+!              write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
+!              write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
               write(*,*) 'positive      = ',trim(mycmor%positive)
               write(*,*) 'original_name = ',trim(original_name)
               !
@@ -318,7 +317,17 @@ program fx_CMOR
                       table_entry=xw(ixw)%entry,             &
                       units=var_info(var_found(1,1))%units,  &
                       axis_ids=(/grid_id(1)/),               &
-                      missing_value=spval,                   &
+                      missing_value=var_info(var_found(1,1))%missing_value,                   &
+                      positive=mycmor%positive,              &
+                      original_name=original_name,           &
+                      comment=xw(ixw)%comment)
+              case ('basin')
+                 cmor_var_id = cmor_variable(                &
+                      table=mycmor%table_file,               &
+                      table_entry=xw(ixw)%entry,             &
+                      units=var_info(var_found(1,1))%units,  &
+                      axis_ids=(/grid_id(1)/),               &
+                      missing_value=var_info(var_found(1,1))%int_missing_value,                &
                       positive=mycmor%positive,              &
                       original_name=original_name,           &
                       comment=xw(ixw)%comment)
@@ -328,7 +337,7 @@ program fx_CMOR
                       table_entry=xw(ixw)%entry,             &
                       units=var_info(var_found(1,1))%units,  &
                       axis_ids=(/grid_id(1),axis_ids(3)/),   &
-                      missing_value=spval,                   &
+                      missing_value=var_info(var_found(1,1))%missing_value,                   &
                       positive=mycmor%positive,              &
                       original_name=original_name,           &
                       comment=xw(ixw)%comment)
@@ -338,7 +347,7 @@ program fx_CMOR
                       table_entry=xw(ixw)%entry,             &
                       units=var_info(var_found(1,1))%units,  &
                       axis_ids=(/axis_ids(1),axis_ids(2)/),   &
-                      missing_value=spval,                   &
+                      missing_value=var_info(var_found(1,1))%missing_value,                   &
                       positive=mycmor%positive,              &
                       original_name=original_name,           &
                       comment=xw(ixw)%comment)
@@ -350,7 +359,7 @@ program fx_CMOR
                  write(*,*) 'table_entry   = ',trim(xw(ixw)%entry)
                  write(*,*) 'units         = ',trim(var_info(var_found(1,1))%units)
                  write(*,*) 'axis_ids      = ',axis_ids(1),axis_ids(2)
-                 write(*,*) 'missing_value = ',spval
+                 write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
                  write(*,*) 'positive      = ',trim(mycmor%positive)
                  write(*,*) 'original_name = ',trim(original_name)
                  write(*,*) 'comment       = ',trim(xw(ixw)%comment)
@@ -364,13 +373,51 @@ program fx_CMOR
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
                  write(*,*) 'READ: ',trim(var_info(var_found(1,1))%name),maxval(indat2a),minval(indat2a)
                  where (kmt == 0)
-                    cmordat2d = spval
+                    cmordat2d = var_info(var_found(1,1))%missing_value
                  elsewhere
                     cmordat2d = indat2a
                  endwhere
                  error_flag = cmor_write(      &
                       var_id        = cmor_var_id, &
                       data          = cmordat2d)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
+                 !
+                 !    CMIP5 basins        POP gx1v6 REGION_MASK equivalent values
+                 !  0 : global_land           0
+                 !  1 : southern_ocean        1
+                 !  2 : atlantic_ocean        6
+                 !  3 : pacific_ocean         2
+                 !  4 : arctic_ocean         10
+                 !  5 : indian_ocean          3
+                 !  6 : mediterranean_sea     7
+                 !  7 : black_sea           -13
+                 !  8 : hudson_bay           11
+                 !  9 : baltic_sea          -12
+                 ! 10 : red_sea               5
+                 !
+              case ('basin')
+                 call get_ocn_grid
+                 allocate(region_mask(nlons,nlats),basin(nlons,nlats))
+                 write(*,*) 'TO READ: ',trim(var_info(var_found(1,1))%name)
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,region_mask)
+                 basin = var_info(var_found(1,1))%int_missing_value
+                 where (region_mask ==   0) basin =  0
+                 where (region_mask ==   1) basin =  1
+                 where (region_mask ==   6) basin =  2
+                 where (region_mask ==   2) basin =  3
+                 where (region_mask ==  10) basin =  4
+                 where (region_mask ==   3) basin =  5
+                 where (region_mask ==   7) basin =  6
+                 where (region_mask == -13) basin =  7
+                 where (region_mask ==  11) basin =  8
+                 where (region_mask == -12) basin =  9
+                 where (region_mask ==  -5) basin = 10
+                 error_flag = cmor_write(      &
+                      var_id        = cmor_var_id, &
+                      data          = basin)
                  if (error_flag < 0) then
                     write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                     stop
@@ -399,52 +446,51 @@ program fx_CMOR
                     write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                     stop
                  endif
-              case ('areacella')
-                 call get_atm_grid
-!                 allocate(cmordat2d(nlons,nlats),dx(nlons),dy(nlats),dlat(nlats))
-                 allocate(cmordat2d(nlons,nlats),dx(nlats),dy(nlats),dlat(nlats))
-                 !
-                 rad    = 4.*atan(1.)/180.0
-                 rearth = 6.37122e3
-                 rr     = rearth*rad
-                 !
-                 dlon = rr*(atm_lons(2) - atm_lons(1))
-                 write(*,*) 'dlon*cos(atm_lats*rad): ',size(dlon*cos(atm_lats*rad))
-                 do j = 1,nlats
-                    dx(j) = dlon*cos((atm_lats(j)*rad))
-                 enddo
-                 do j = 2,nlats
-                    dlat(i) = atm_lats(i) - atm_lats(i-1)
-                 enddo
-                 dlat(1) = dlat(nlats)
-                 dy      = dlat*rr
-                 do j = 1,nlats
-                    do i = 1,nlons
-                       cmordat2d(i,j) = dx(i) * dy(j)
-                    enddo
-                 enddo
-                 write(*,*) 'A N,X,S: ',minval(cmordat2d),maxval(cmordat2d),sum(cmordat2d)
-                 error_flag = cmor_write(      &
-                      var_id        = cmor_var_id, &
-                      data          = cmordat2d)
-                 if (error_flag < 0) then
-                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                    stop
-                 endif
+!!$              case ('areacella')
+!!$                 call get_atm_grid
+!!$                 allocate(cmordat2d(nlons,nlats),dx(nlats),dy(nlats),dlat(nlats))
+!!$                 !
+!!$                 rad    = 4.*atan(1.)/180.0
+!!$                 rearth = 6.37122e3
+!!$                 rr     = rearth*rad
+!!$                 !
+!!$                 dlon = rr*(atm_lons(2) - atm_lons(1))
+!!$                 write(*,*) 'dlon*cos(atm_lats*rad): ',size(dlon*cos(atm_lats*rad))
+!!$                 do j = 1,nlats
+!!$                    dx(j) = dlon*cos((atm_lats(j)*rad))
+!!$                 enddo
+!!$                 do j = 2,nlats
+!!$                    dlat(i) = atm_lats(i) - atm_lats(i-1)
+!!$                 enddo
+!!$                 dlat(1) = dlat(nlats)
+!!$                 dy      = dlat*rr
+!!$                 do j = 1,nlats
+!!$                    do i = 1,nlons
+!!$                       cmordat2d(i,j) = dx(i) * dy(j)
+!!$                    enddo
+!!$                 enddo
+!!$                 write(*,*) 'A N,X,S: ',minval(cmordat2d),maxval(cmordat2d),sum(cmordat2d)
+!!$                 error_flag = cmor_write(      &
+!!$                      var_id        = cmor_var_id, &
+!!$                      data          = cmordat2d)
+!!$                 if (error_flag < 0) then
+!!$                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+!!$                    stop
+!!$                 endif
               case ('volcello')
                  call get_ocn_grid
                  write(*,*) 'volcello: ',nlons,nlats
                  allocate(indat2a(nlons,nlats),cmordat3d(nlons,nlats,nlevs))
                  write(*,*) 'TO READ: ',trim(var_info(var_found(1,1))%name)
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                 cmordat3d = spval
+                 cmordat3d = var_info(var_found(1,1))%missing_value
                  do k = 1,nlevs
                     do j = 1,nlats
                        do i = 1,nlons
                           if (kmt(i,j).ge.k) then
                              cmordat3d(i,j,k) = (indat2a(i,j)*ocn_t_levs(k))/(100. * 100. * 100.)
                           else
-                             cmordat3d(i,j,k) = spval
+                             cmordat3d(i,j,k) = var_info(var_found(1,1))%missing_value
                           endif
                        enddo
                     enddo
