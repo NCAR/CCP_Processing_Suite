@@ -1,7 +1,7 @@
 Lmon:baresoilFrac:area_fraction:longitude latitude time typebare:land:0:UNAVAILABLE:UNAVAILABLE
 Lmon:burntArea:area_fraction:longitude latitude time:land:1:ANN_FAREA_BURNED:ANN_FAREA_BURNED
-Lmon:c3PftFrac:area_fraction:longitude latitude time typec3pft:land:1:PCTPFT:PCTPFT
-Lmon:c4PftFrac:area_fraction:longitude latitude time typec4pft:land:1:PCTPFT:PCTPFT
+Lmon:c3PftFrac:area_fraction:longitude latitude time typec3pft:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:c4PftFrac:area_fraction:longitude latitude time typec4pft:land:0:UNAVAILABLE:UNAVAILABLE
 Lmon:cCwd:wood_debris_carbon_content:longitude latitude time:land:1:CWDC:CWDC
 Lmon:cLeaf:leaf_carbon_content:longitude latitude time:land:1:LEAFC:LEAFC
 Lmon:cLitterAbove:surface_litter_carbon_content:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
@@ -10,7 +10,7 @@ Lmon:cLitter:litter_carbon_content:longitude latitude time:land:1:TOTLITC:TOTLIT
 Lmon:cMisc:miscellaneous_living_matter_carbon_content:longitude latitude time:land:1:STORVEGC:STORVEGC
 Lmon:cProduct:carbon_content_of_products_of_anthropogenic_land_use_change:longitude latitude time:land:1:TOTPRODC:TOTPRODC
 Lmon:cRoot:root_carbon_content:longitude latitude time:land:3:FROOTC LIVE_ROOTC DEAD_ROOTC:FROOTC,LIVE_ROOTC,DEAD_ROOTC
-Lmon:cropFrac:area_fraction:longitude latitude time:land:1:PCTPFT:PCTPFT
+Lmon:cropFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
 Lmon:cSoilFast:fast_soil_pool_carbon_content:longitude latitude time:land:2:SOIL1C SOIL2C:SOIL1C,SOIL2C
 Lmon:cSoil:soil_carbon_content:longitude latitude time:land:1:TOTSOMC:TOTSOMC
 Lmon:cSoilMedium:medium_soil_pool_carbon_content:longitude latitude time:land:1:SOIL3C:SOIL3C
@@ -27,9 +27,9 @@ Lmon:fLuc:surface_net_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due
 Lmon:fVegLitter:litter_carbon_flux:longitude latitude time:land:1:LITFALL:LITFALL
 Lmon:fVegSoil:carbon_mass_flux_into_soil_from_vegetation_excluding_litter:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
 Lmon:gpp:gross_primary_productivity_of_carbon:longitude latitude time:land:1:GPP:GPP
-Lmon:grassFrac:area_fraction:longitude latitude time:land:1:PCTPFT:PCTPFT
+Lmon:grassFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
 Lmon:lai:leaf_area_index:longitude latitude time:land:1:TLAI:TLAI
-Lmon:landCoverFrac:area_fraction:longitude latitude vegtype time:land:1:PCTPFT:PCTPFT
+Lmon:landCoverFrac:area_fraction:longitude latitude vegtype time:land:0:UNAVAILABLE:UNAVAILABLE
 Lmon:mrfso:soil_frozen_water_content:longitude latitude time:land landIce:1:SOILICE:SOILICE integrated over all layers
 Lmon:mrlsl:moisture_content_of_soil_layer:longitude latitude sdepth time:land:2:SOILLIQ SOILICE:SOILLIQ + SOILICE at each soil depth
 Lmon:mrro:runoff_flux:longitude latitude time:land:3:QOVER QDRAI QRGWL:QOVER + QDRAI + QRGWL
@@ -45,13 +45,13 @@ Lmon:nppWood:net_primary_productivity_of_carbon_accumulated_in_wood:longitude la
 Lmon:pastureFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
 Lmon:prveg:precipitation_flux_onto_canopy:longitude latitude time:land:1:QINTR:QINTR
 Lmon:ra:plant_respiration_carbon_flux:longitude latitude time:land:1:AR:AR
-Lmon:residualFrac:area_fraction:longitude latitude time:land:1:PCTPFT:PCTPFT
+Lmon:residualFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
 Lmon:rGrowth:surface_upward_carbon_mass_flux_due_to_plant_respiration_for_biomass_growth:longitude latitude time:land:1:GR:GR
 Lmon:rh:heterotrophic_respiration_carbon_flux:longitude latitude time:land:1:HR:HR
 Lmon:rMaint:surface_upward_carbon_mass_flux_due_to_plant_respiration_for_biomass_maintenance:longitude latitude time:land:1:MR:MR
-Lmon:shrubFrac:area_fraction:longitude latitude time:land:1:PCTPFT:PCTPFT
+Lmon:shrubFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
 Lmon:tran:transpiration_flux:longitude latitude time:land:2:QSOIL QVEGT:QSOIL,QVEGT
-Lmon:treeFrac:area_fraction:longitude latitude time:land:1:PCTPFT:PCTPFT
+Lmon:treeFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
 Lmon:treeFracPrimDec:area_fraction:longitude latitude time typepdec:land:0:UNAVAILABLE:UNAVAILABLE
 Lmon:treeFracPrimEver:area_fraction:longitude latitude time typepever:land:0:UNAVAILABLE:UNAVAILABLE
 Lmon:treeFracSecDec:area_fraction:longitude latitude time typesdec:land:0:UNAVAILABLE:UNAVAILABLE

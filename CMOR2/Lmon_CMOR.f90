@@ -85,6 +85,8 @@ program Lmon_CMOR
         continue(:)  = .false.
         time_units   = ' '
         original_name= ' '
+        ncfile(:,:)(1:) = ' '
+        nc_nfiles(:)    = 0
         !
         ! The meaty part
         !

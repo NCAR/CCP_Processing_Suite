@@ -100,7 +100,7 @@ program Omon_CMOR
                  write(*,'(''UNAVAILABLE/UNKNOWN: '',a,'' == '',a)') trim(xw(ixw)%entry),trim(table(itab)%variable_entry)
               else
                  write(*,'(''CHECKING AVAILABILITY OF: '',a,''.'',a,''.'',a,''.* FILES'')') trim(case_read),trim(comp_read),trim(xw(ixw)%cesm_vars(ivar))
-                 call build_filenames(case_read,comp_read,xw(ixw)%cesm_vars(ivar),ivar,exp(exp_found)%begyr,exp(exp_found)%endyr)
+                 call build_filenames(case_read,comp_read,xw(ixw)%cesm_vars(ivar),ivar,exp(exp_found)%begyr,exp(exp_found)%endyr,mycmor%table_file)
               endif
            enddo
            !
@@ -297,15 +297,16 @@ program Omon_CMOR
                        !
                        time_bnds(1,1) = int(time_bnds(1,1))-1
                        time = (time_bnds(1,:)+time_bnds(2,:))/2.
-                       if (ntimes(ifile,ivar) == 1152) then ! RCP run from 2005, exclude 2005
+                       !
+                       select case (ntimes(ifile,ivar))
+                       case ( 1152 ) ! RCP, skip 2005
                           nchunks(ifile) = 1
-                          tidx1(1:nchunks(ifile)) = (/  13/)
-                          tidx2(1:nchunks(ifile)) = (/1152/)
-                       else
+                          tidx1(1:nchunks(ifile)) = 13
+                       case default
                           nchunks(ifile)   = 1
-                          tidx1(1:nchunks(ifile)) = 1
-                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
-                       endif
+                          tidx1(1:nchunks(ifile)) =  1
+                       end select
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
                        do ic = 1,nchunks(ifile)
                           do it = tidx1(ic),tidx2(ic)
                              time_counter = it
@@ -361,15 +362,16 @@ program Omon_CMOR
                        !
                        time_bnds(1,1) = int(time_bnds(1,1))-1
                        time = (time_bnds(1,:)+time_bnds(2,:))/2.
-                       if (ntimes(ifile,ivar) == 1152) then ! RCP run from 2005, exclude 2005
+                       !
+                       select case (ntimes(ifile,ivar))
+                       case ( 1152 ) ! RCP, skip 2005
                           nchunks(ifile) = 1
-                          tidx1(1:nchunks(ifile)) = (/  13/)
-                          tidx2(1:nchunks(ifile)) = (/1152/)
-                       else
+                          tidx1(1:nchunks(ifile)) = 13
+                       case default
                           nchunks(ifile)   = 1
-                          tidx1(1:nchunks(ifile)) = 1
-                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
-                       endif
+                          tidx1(1:nchunks(ifile)) =  1
+                       end select
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
                        do ic = 1,nchunks(ifile)
                           do it = tidx1(ic),tidx2(ic)
                              time_counter = it
@@ -426,15 +428,16 @@ program Omon_CMOR
                        !
                        time_bnds(1,1) = int(time_bnds(1,1))-1
                        time = (time_bnds(1,:)+time_bnds(2,:))/2.
-                       if (ntimes(ifile,ivar) == 1152) then ! RCP run from 2005, exclude 2005
+                       !
+                       select case (ntimes(ifile,ivar))
+                       case ( 1152 ) ! RCP, skip 2005
                           nchunks(ifile) = 1
-                          tidx1(1:nchunks(ifile)) = (/  13/)
-                          tidx2(1:nchunks(ifile)) = (/1152/)
-                       else
+                          tidx1(1:nchunks(ifile)) = 13
+                       case default
                           nchunks(ifile)   = 1
-                          tidx1(1:nchunks(ifile)) = 1
-                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
-                       endif
+                          tidx1(1:nchunks(ifile)) =  1
+                       end select
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
                        do ic = 1,nchunks(ifile)
                           do it = tidx1(ic),tidx2(ic)
                              time_counter = it
@@ -497,15 +500,16 @@ program Omon_CMOR
                        !
                        time_bnds(1,1) = int(time_bnds(1,1))-1
                        time = (time_bnds(1,:)+time_bnds(2,:))/2.
-                       if (ntimes(ifile,ivar) == 1152) then ! RCP run from 2005, exclude 2005
+                       !
+                       select case (ntimes(ifile,ivar))
+                       case ( 1152 ) ! RCP, skip 2005
                           nchunks(ifile) = 1
-                          tidx1(1:nchunks(ifile)) = 1
-                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
-                       else
+                          tidx1(1:nchunks(ifile)) = 13
+                       case default
                           nchunks(ifile)   = 1
-                          tidx1(1:nchunks(ifile)) = 1
-                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
-                       endif
+                          tidx1(1:nchunks(ifile)) =  1
+                       end select
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
                        do ic = 1,nchunks(ifile)
                           do it = tidx1(ic),tidx2(ic)
                              time_counter = it
@@ -574,18 +578,8 @@ program Omon_CMOR
                        time_bnds(1,1) = int(time_bnds(1,1))-1
                        time = (time_bnds(1,:)+time_bnds(2,:))/2.
                        !
-                       if (ntimes(ifile,ivar) .eq. 60) then
-                          nchunks(ifile)   = 1
-                          tidx1(1:nchunks(ifile)) = 13
-                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
-                       endif
-                       !
-                       if (ntimes(ifile,ivar) .eq. 120) then
-                          nchunks(ifile)   = 1
-                          tidx1(1:nchunks(ifile)) = 1
-                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
-                       endif
-                       if (ntimes(ifile,ivar) == 1152) then  ! RCP all in one file from 2005-2100
+                       select case (ntimes(ifile,ivar))
+                       case ( 1152 )               ! RCP all in one file from 2005-2100
                           nchunks(ifile) = 10
                           tidx1(1) =  13
                           tidx2(1) =  60
@@ -593,8 +587,21 @@ program Omon_CMOR
                              tidx1(ic) = tidx2(ic-1) + 1
                              tidx2(ic) = tidx1(ic) + 119
                           enddo
-                          tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
-                       endif
+                       case ( 1872 ) ! 20C from 1850-2005
+                          nchunks(ifile) = 16
+                          tidx1(1) =   1
+                          tidx2(1) = 120
+                          do ic = 2,nchunks(ifile)
+                             tidx1(ic) = tidx2(ic-1) + 1
+                             tidx2(ic) = tidx1(ic) + 119
+                          enddo
+                       case default
+                          nchunks(ifile)   = 1
+                          tidx1(1:nchunks(ifile)) =  1
+                       end select
+                       !
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       !
                        write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
                        do ic = 1,nchunks(ifile)
                           do it = tidx1(ic),tidx2(ic)
@@ -659,18 +666,8 @@ program Omon_CMOR
                        time_bnds(1,1) = int(time_bnds(1,1))-1
                        time = (time_bnds(1,:)+time_bnds(2,:))/2.
                        !
-                       if (ntimes(ifile,ivar) .eq. 60) then
-                          nchunks(ifile)   = 1
-                          tidx1(1:nchunks(ifile)) = 13
-                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
-                       endif
-                       !
-                       if (ntimes(ifile,ivar) .eq. 120) then
-                          nchunks(ifile)   = 1
-                          tidx1(1:nchunks(ifile)) = 1
-                          tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
-                       endif
-                       if (ntimes(ifile,ivar) == 1152) then  ! RCP all in one file from 2005-2100
+                       select case (ntimes(ifile,ivar))
+                       case ( 1152 )               ! RCP all in one file from 2005-2100
                           nchunks(ifile) = 10
                           tidx1(1) =  13
                           tidx2(1) =  60
@@ -678,8 +675,19 @@ program Omon_CMOR
                              tidx1(ic) = tidx2(ic-1) + 1
                              tidx2(ic) = tidx1(ic) + 119
                           enddo
-                          tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
-                       endif
+                       case ( 1872 ) ! 20C from 1850-2005
+                          nchunks(ifile) = 16
+                          tidx1(1) =   1
+                          tidx2(1) = 120
+                          do ic = 2,nchunks(ifile)
+                             tidx1(ic) = tidx2(ic-1) + 1
+                             tidx2(ic) = tidx1(ic) + 119
+                          enddo
+                       case default
+                          nchunks(ifile)   = 1
+                          tidx1(1:nchunks(ifile)) =  1
+                       end select
+                       !
                        write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
                        do ic = 1,nchunks(ifile)
                           do it = tidx1(ic),tidx2(ic)
@@ -825,31 +833,16 @@ program Omon_CMOR
                        time_bnds(1,1) = int(time_bnds(1,1))-1
                        time = (time_bnds(1,:)+time_bnds(2,:))/2.
                        !
-                       if (ntimes(ifile,ivar) == 2400) then          ! RCP from 2101-2300, use all times
+                       select case (ntimes(ifile,ivar))
+                       case ( 1140, 1872, 2388, 2400 )
                           nchunks(ifile)= 1
-                          tidx1(1:nchunks(ifile)) = (/   1/)
-                          tidx2(1:nchunks(ifile)) = (/2400/)
-                       endif
-                       if (ntimes(ifile,ivar) == 2388) then          ! RCP from 2101-2299, use all times
+                          tidx1(1:nchunks(ifile)) =  1
+                       case ( 1152 )
                           nchunks(ifile)= 1
-                          tidx1(1:nchunks(ifile)) = (/   1/)
-                          tidx2(1:nchunks(ifile)) = (/2388/)
-                       endif
-                       if (ntimes(ifile,ivar) == 1872) then          ! 20C from 1850-2005, use all times
-                          nchunks(ifile)= 1
-                          tidx1(1:nchunks(ifile)) = (/   1/)
-                          tidx2(1:nchunks(ifile)) = (/1872/)
-                       endif
-                       if (ntimes(ifile,ivar) == 1140) then          ! RCP from 2006-2100, use all times
-                          nchunks(ifile)= 1
-                          tidx1(1:nchunks(ifile)) = (/   1/)
-                          tidx2(1:nchunks(ifile)) = (/1140/)
-                       endif
-                       if (ntimes(ifile,ivar) == 1152) then          ! RCP from 2005-2100, skip 2005
-                          nchunks(ifile)= 1
-                          tidx1(1:nchunks(ifile)) = (/  13/)
-                          tidx2(1:nchunks(ifile)) = (/1152/)
-                       endif
+                          tidx1(1:nchunks(ifile)) = 13
+                       end select
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       !
                        do ic = 1,nchunks(ifile)
                           do it = tidx1(ic),tidx2(ic)
                              time_counter = it
