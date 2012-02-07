@@ -24,7 +24,7 @@ program fx_CMOR
   real,dimension(:)    ,allocatable::dx,dy,dlat
   integer,dimension(:,:)  ,allocatable::region_mask,basin
   real,dimension(:,:)  ,allocatable::indat2a,cmordat2d
-  real,dimension(:,:,:),allocatable::cmordat3d
+  real,dimension(:,:,:),allocatable::indat3a,work3da,cmordat3d
   !
   ! Other variables
   !
@@ -293,6 +293,10 @@ program fx_CMOR
               select case (xw(ixw)%entry)
               case ('sftlf')
                  var_info(var_found(1,1))%units = '1'
+              case ('mrsofc')
+                 var_info(var_found(1,1))%units = 'kg m-2'
+              case ('areacella')
+                 var_info(var_found(1,1))%units = 'm2'
               case ('sftgif')
                  var_info(var_found(1,1))%units = '%'
               case ('volcello')
@@ -434,6 +438,27 @@ program fx_CMOR
                     write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                     stop
                  endif
+              case ('mrsofc')
+                 call get_lnd_grid
+                 allocate(indat3a(nlons,nlats,nlevs),work3da(nlons,nlats,nlevs),cmordat2d(nlons,nlats))
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                 ! Integrate WATSAT over Z
+                 do k = 1,nlevs
+                    do j = 1,nlats
+                       do i = 1,nlons
+                          if (indat3a(i,j,k) /= var_info(var_found(1,1))%missing_value) &
+                               work3da(i,j,k) = indat3a(i,j,k)*lnd_dzsoi(i,j,k)
+                       enddo
+                    enddo
+                 enddo
+                 cmordat2d = sum(work3da,dim=3)/sum(lnd_levs)
+                 error_flag = cmor_write(      &
+                      var_id        = cmor_var_id, &
+                      data          = cmordat2d)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
               case ('sftlf')
                  call get_atm_grid
                  allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
@@ -446,37 +471,18 @@ program fx_CMOR
                     write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                     stop
                  endif
-!!$              case ('areacella')
-!!$                 call get_atm_grid
-!!$                 allocate(cmordat2d(nlons,nlats),dx(nlats),dy(nlats),dlat(nlats))
-!!$                 !
-!!$                 rad    = 4.*atan(1.)/180.0
-!!$                 rearth = 6.37122e3
-!!$                 rr     = rearth*rad
-!!$                 !
-!!$                 dlon = rr*(atm_lons(2) - atm_lons(1))
-!!$                 write(*,*) 'dlon*cos(atm_lats*rad): ',size(dlon*cos(atm_lats*rad))
-!!$                 do j = 1,nlats
-!!$                    dx(j) = dlon*cos((atm_lats(j)*rad))
-!!$                 enddo
-!!$                 do j = 2,nlats
-!!$                    dlat(i) = atm_lats(i) - atm_lats(i-1)
-!!$                 enddo
-!!$                 dlat(1) = dlat(nlats)
-!!$                 dy      = dlat*rr
-!!$                 do j = 1,nlats
-!!$                    do i = 1,nlons
-!!$                       cmordat2d(i,j) = dx(i) * dy(j)
-!!$                    enddo
-!!$                 enddo
-!!$                 write(*,*) 'A N,X,S: ',minval(cmordat2d),maxval(cmordat2d),sum(cmordat2d)
-!!$                 error_flag = cmor_write(      &
-!!$                      var_id        = cmor_var_id, &
-!!$                      data          = cmordat2d)
-!!$                 if (error_flag < 0) then
-!!$                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-!!$                    stop
-!!$                 endif
+              case ('areacella')
+                 call get_atm_grid
+                 allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 cmordat2d = indat2a*1000.*1000.
+                 error_flag = cmor_write(      &
+                      var_id        = cmor_var_id, &
+                      data          = cmordat2d)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
               case ('volcello')
                  call get_ocn_grid
                  write(*,*) 'volcello: ',nlons,nlats

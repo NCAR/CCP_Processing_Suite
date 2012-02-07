@@ -3,7 +3,7 @@ Amon:cct:air_pressure_at_convective_cloud_top:longitude latitude time:atmos:0:UN
 Amon:cfc113global:mole_fraction_of_cfc113_in_air:time:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:cfc11global:mole_fraction_of_cfc11_in_air:time:atmos atmosChem:1:f11vmr:f11vmr convert to mass
 Amon:cfc12global:mole_fraction_of_cfc12_in_air:time:atmos atmosChem:1:f12vmr:f12vmr convert to mass
-Amon:ch4:mole_fraction_of_methane_in_air mole_fraction_of_methane_in_air:longitude latitude plevs time longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:ch4:mole_fraction_of_methane_in_air mole_fraction_of_methane_in_air:longitude latitude plevs time:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:ch4Clim:mole_fraction_of_methane_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:ch4global:mole_fraction_of_methane_in_air mole_fraction_of_methane_in_air:time time2:atmos atmosChem:1:ch4vmr:ch4vmr convert to mass
 Amon:ch4globalClim:mole_fraction_of_methane_in_air:time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
@@ -14,7 +14,7 @@ Amon:clivi:atmosphere_cloud_ice_content:longitude latitude time:atmos:1:TGCLDIWP
 Amon:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT unit conversion
 Amon:clw:mass_fraction_of_cloud_liquid_water_in_air:longitude latitude alevel time:atmos:2:CLDLIQ PS:CLDLIQ on model levels, no change
 Amon:clwvi:atmosphere_cloud_condensed_water_content:longitude latitude time:atmos:1:TGCLDLWP:TGCLDLWP no change
-Amon:co2:mole_fraction_of_carbon_dioxide_in_air mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time longitude latitude plevs time2:atmos:1:UNKNOWN:UNKNOWN
+Amon:co2:mole_fraction_of_carbon_dioxide_in_air mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time:atmos:1:UNKNOWN:UNKNOWN
 Amon:co2Clim:mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time2:atmos:1:UNKNOWN:UNKNOWN
 Amon:co2mass:atmosphere_mass_of_carbon_dioxide atmosphere_mass_of_carbon_dioxide:time time2:atmos:1:co2vmr:co2vmr convert to mass
 Amon:co2massClim:atmosphere_mass_of_carbon_dioxide:time2:atmos:1:UNKNOWN:UNKNOWN
@@ -30,7 +30,7 @@ Amon:hurs:relative_humidity:longitude latitude time height2m:atmos:1:RHREFHT:RHR
 Amon:hus:specific_humidity:longitude latitude plevs time:atmos:2:Q PS:Q interpolated to standard plevs
 Amon:huss:specific_humidity:longitude latitude time height2m:atmos:1:QREFHT:QREFHT no change
 Amon:mc:atmosphere_net_upward_convective_mass_flux:longitude latitude alevhalf time:atmos:3:CMFMC CMFMCDZM PS:CMFMC + CMFMCDZM on model levels, no change
-Amon:n2o:mole_fraction_of_nitrous_oxide_in_air mole_fraction_of_nitrous_oxide_in_air:longitude latitude plevs time longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:n2o:mole_fraction_of_nitrous_oxide_in_air mole_fraction_of_nitrous_oxide_in_air:longitude latitude plevs time:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:n2oClim:mole_fraction_of_nitrous_oxide_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:n2oglobal:mole_fraction_of_nitrous_oxide_in_air mole_fraction_of_nitrous_oxide_in_air:time time2:atmos atmosChem:1:n2ovmr:n2ovmr convert to mass
 Amon:n2oglobalClim:mole_fraction_of_nitrous_oxide_in_air:time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
@@ -65,7 +65,7 @@ Amon:tasmax:air_temperature:longitude latitude time height2m:atmos:1:TREFMXAV:TR
 Amon:tasmin:air_temperature:longitude latitude time height2m:atmos:1:TREFMNAV:TREFMNAV no change
 Amon:tauu:surface_downward_eastward_stress:longitude latitude time:atmos:1:TAUX:TAUX no change
 Amon:tauv:surface_downward_northward_stress:longitude latitude time:atmos:1:TAUY:TAUY no change
-Amon:tro3:mole_fraction_of_ozone_in_air mole_fraction_of_ozone_in_air:longitude latitude plevs time longitude latitude plevs time2:atmos atmosChem:2:O3VMR PS:O3VMR interpolated to standard plevs
+Amon:tro3:mole_fraction_of_ozone_in_air mole_fraction_of_ozone_in_air:longitude latitude plevs time:atmos atmosChem:2:O3VMR PS:O3VMR interpolated to standard plevs
 Amon:tro3Clim:mole_fraction_of_ozone_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:tsAdjust:surface_temperature:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
 Amon:ts:surface_temperature:longitude latitude time:atmos:1:TS:TS no change

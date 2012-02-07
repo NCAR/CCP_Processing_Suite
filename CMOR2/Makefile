@@ -68,7 +68,7 @@ OBJ	= mymods.o \
 	  define_ice_axes.o \
 	  define_ocn_axes.o \
 	  load_expt.o \
-	  load_table_info.o \
+	  reset_netcdf_var.o \
 	  load_xwalk.o \
 	  add_global_metadata.o \
 	  file_output_times.o \
@@ -173,8 +173,8 @@ define_lnd_axes.o: define_lnd_axes.f90 mymods.o
 load_xwalk.o: load_xwalk.f90 mymods.o
 	$(FC) $(FFLAGS) $(LOCINC) -c load_xwalk.f90
 
-load_table_info.o: load_table_info.f90 mymods.o
-	$(FC) $(FFLAGS) $(LOCINC) -c load_table_info.f90
+reset_netcdf_var.o: reset_netcdf_var.f90 module_netcdf.o netcdf_jfl.o
+	$(FC) $(FFLAGS) $(LOCINC) -c reset_netcdf_var.f90
 
 parse_rip.o: parse_rip.f90
 	$(FC) $(FFLAGS) $(LOCINC) -c parse_rip.f90

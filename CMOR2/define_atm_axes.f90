@@ -31,11 +31,31 @@ subroutine define_atm_axes(dimensions)
   idxb(naxes) = len_trim(dimensions)+1
   do i = 1,naxes
      dimnames(i)(1:) = dimensions(idxb(i-1)+1:idxb(i)-1)
-     do j = 1,num_tab
-        if (dimnames(i) == table(j)%axis_entry) dimunits(i) = table(j)%units
-     enddo
-     if (dimnames(i) == 'time')  dimunits(i) = time_units
-     if (dimnames(i) == 'time1') dimunits(i) = time_units
+     select case (dimnames(i))
+     case ( 'basin','location','oline','site','typebare','typec3pft','typec4pft','typepdec','typepever','typesdec','typesever','vegtype')
+        dimunits(i) = ' '
+     case ( 'rho' )
+        dimunits(i) = 'kg m-3'
+     case ( 'alt40','depth0m','depth100m','height10m','height2m','olayer100m','sdepth','sdepth1','olevel')
+        dimunits(i) = 'm'
+     case ( 'p220','p500','p560','p700','p840','plev3','plev7','plev8','plevs')
+        dimunits(i) = 'Pa'
+     case ( 'longitude')
+        dimunits(i) = 'degrees_east'
+     case ( 'latitude')
+        dimunits(i) = 'degrees_north'
+     case ( 'time','time1','time2')
+        dimunits(i) = time_units
+     case ( 'dbze')
+        dimunits(i) = 'dBZ'
+     case ( 'sza5')
+        dimunits(i) = 'degree'
+     case ( 'scatratio','tau','alevel','alev1','alevhalf')
+        dimunits(i) = '1'
+     case default
+        write(*,*) 'Unknown dimension: ',trim(dimnames(i)),' Stopping.'
+        stop
+     end select
   enddo
   !
   do i = 1,naxes

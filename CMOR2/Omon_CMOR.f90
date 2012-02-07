@@ -306,7 +306,7 @@ program Omon_CMOR
                           nchunks(ifile)   = 1
                           tidx1(1:nchunks(ifile)) =  1
                        end select
-                       tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
                        do ic = 1,nchunks(ifile)
                           do it = tidx1(ic),tidx2(ic)
                              time_counter = it
@@ -371,7 +371,7 @@ program Omon_CMOR
                           nchunks(ifile)   = 1
                           tidx1(1:nchunks(ifile)) =  1
                        end select
-                       tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
                        do ic = 1,nchunks(ifile)
                           do it = tidx1(ic),tidx2(ic)
                              time_counter = it
@@ -437,7 +437,7 @@ program Omon_CMOR
                           nchunks(ifile)   = 1
                           tidx1(1:nchunks(ifile)) =  1
                        end select
-                       tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
                        do ic = 1,nchunks(ifile)
                           do it = tidx1(ic),tidx2(ic)
                              time_counter = it
@@ -509,7 +509,7 @@ program Omon_CMOR
                           nchunks(ifile)   = 1
                           tidx1(1:nchunks(ifile)) =  1
                        end select
-                       tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
                        do ic = 1,nchunks(ifile)
                           do it = tidx1(ic),tidx2(ic)
                              time_counter = it
@@ -600,7 +600,7 @@ program Omon_CMOR
                           tidx1(1:nchunks(ifile)) =  1
                        end select
                        !
-                       tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
                        !
                        write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
                        do ic = 1,nchunks(ifile)
@@ -687,6 +687,7 @@ program Omon_CMOR
                           nchunks(ifile)   = 1
                           tidx1(1:nchunks(ifile)) =  1
                        end select
+                       tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
                        !
                        write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
                        do ic = 1,nchunks(ifile)
@@ -757,7 +758,7 @@ program Omon_CMOR
 !!$                    write(*,*) 'thetao loop: ',ifile,nc_nfiles(ivar),ntimes(ifile,ivar),nlons,nlats,nlevs
 !!$                    nchunks(ifile)   = 1
 !!$                    tidx1(1:nchunks(ifile)) = 1
-!!$                    tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+!!$                    tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
 !!$                    do ic = 1,nchunks(ifile)
 !!$                       do it = tidx1(ic),tidx2(ic)
 !!$                          time_counter = it
@@ -841,7 +842,7 @@ program Omon_CMOR
                           nchunks(ifile)= 1
                           tidx1(1:nchunks(ifile)) = 13
                        end select
-                       tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                       tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
                        !
                        do ic = 1,nchunks(ifile)
                           do it = tidx1(ic),tidx2(ic)
