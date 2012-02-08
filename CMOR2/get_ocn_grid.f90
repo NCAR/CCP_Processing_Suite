@@ -27,7 +27,6 @@ subroutine get_ocn_grid
         nlons = dim_info(n)%length
      elseif(dim_info(n)%name(:length).eq.'z_t') then
         nlevs = dim_info(n)%length
-        write(*,*) 'get_ocn_grid, nlevs: ',nlevs,' name: ',dim_info(n)%name(:length)
      elseif(dim_info(n)%name(:length).eq.'lat_aux_grid') then ! heat, salt and mass transports on this grid
         nlats_trans = dim_info(n)%length
      elseif(dim_info(n)%name(:length).eq.'moc_z') then ! heat, salt and mass transports on this grid
@@ -43,7 +42,7 @@ subroutine get_ocn_grid
   !
   allocate(ocn_t_lons(nlons,nlats),ocn_t_lats(nlons,nlats),kmt(nlons,nlats))
   allocate(ocn_t_lons_bnds(4,nlons,nlats),ocn_t_lats_bnds(4,nlons,nlats))
-  allocate(ocn_t_levs(nlevs),ocn_t_levs_bnds(2,nlevs))
+  allocate(ocn_t_levs(nlevs),ocn_t_levs_bnds(2,nlevs),ocn_t_dz(nlevs))
   !
   allocate(ocn_u_lons(nlons,nlats),ocn_u_lats(nlons,nlats),kmt(nlons,nlats))
   allocate(ocn_u_lons_bnds(4,nlons,nlats),ocn_u_lats_bnds(4,nlons,nlats))
@@ -57,6 +56,7 @@ subroutine get_ocn_grid
   call read_var(gridid,'ULAT',ocn_u_lats)
   call read_var(gridid,'KMT',kmt)
   call read_var(gridid,'z_t',ocn_t_levs)
+  call read_var(gridid,'dz',ocn_t_dz)
   call read_var(gridid,'lat_aux_grid',ocn_trans_lats)
   call read_var(gridid,'moc_z',ocn_trans_levs)
   !

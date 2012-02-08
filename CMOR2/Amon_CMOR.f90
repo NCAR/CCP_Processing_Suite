@@ -82,22 +82,16 @@ program Amon_CMOR
   ! Step through CMOR table entries to see what CESM fields we can read and in process, and if so, do it!
   !
   xwalk_loop: do ixw = 1,num_xw
+     call reset_netcdf_var
      mycmor%positive = ' '
-     time_counter    = 0
-     var_counter     = 0
      error_flag      = 0
-     var_found       = 0
-     all_continue    = .false.
      time_units      = ' '
-     original_name   = ' '
-     ncfile(:,:)(1:) = ' '
-     nc_nfiles(:)    = 0
      !
      ! The meaty part
      !
      do ivar = 1,xw(ixw)%ncesm_vars
         if (trim(xw(ixw)%cesm_vars(ivar)) == 'UNKNOWN') then
-           write(*,'(''UNAVAILABLE/UNKNOWN: '',a,'' == '',a)') trim(xw(ixw)%entry)
+           write(*,'(a,'' HAS UNKNOWN EQUIVALENCE.'')') trim(xw(ixw)%entry)
         else
            write(*,'(''CHECKING AVAILABILITY OF: '',a,''.'',a,''.'',a,''.* FILES'')') trim(case_read),trim(comp_read),trim(xw(ixw)%cesm_vars(ivar))
            call build_filenames(case_read,comp_read,xw(ixw)%cesm_vars(ivar),ivar,exp(exp_found)%begyr,exp(exp_found)%endyr,mycmor%table_file)
@@ -146,8 +140,6 @@ program Amon_CMOR
               !                    write(*,'(''TIMES: '',3f12.4)') time_bnds(1,n),time(n),time_bnds(2,n)
            enddo
         enddo
-     endif
-     if (all_continue) then
         !
         ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
         !
@@ -210,15 +202,9 @@ program Amon_CMOR
         ! 
         ! Make manual alterations so that CMOR works. Silly code!
         !
-        if (xw(ixw)%ncesm_vars == 1) then
-           write(original_name,'(a)') xw(ixw)%cesm_vars(1)
-        endif
-        if (xw(ixw)%ncesm_vars == 2) then
-           write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
-        endif
-        if (xw(ixw)%ncesm_vars == 3) then
-           write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
-        endif
+        if (xw(ixw)%ncesm_vars == 1) write(original_name,'(a)') xw(ixw)%cesm_vars(1)
+        if (xw(ixw)%ncesm_vars == 2) write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars == 3) write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
         !
         ! Modify units as necessary to accomodate udunits' inability to convert 
         !
@@ -242,7 +228,7 @@ program Amon_CMOR
         write(*,*) 'table_entry   = ',trim(xw(ixw)%entry)
         write(*,*) 'dimensions    = ',trim(xw(ixw)%dims)
         write(*,*) 'units         = ',var_info(var_found(1,1))%units(1:20)
-        write(*,*) 'axis_ids      = ',axis_ids(1:4)
+        write(*,*) 'axis_ids      = ',axis_ids(1:naxes)
         write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
         write(*,*) 'positive      = ',trim(mycmor%positive)
         write(*,*) 'original_name = ',trim(original_name)
@@ -915,10 +901,7 @@ program Amon_CMOR
         !
         ! Reset
         !
-        time_counter = 0
-        var_counter  = 0
         error_flag   = 0
-        var_found    = 0
         mycmor%positive = ' '
         original_name= ' '
         !
@@ -931,7 +914,7 @@ program Amon_CMOR
         else
            write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
         endif
+        call reset_netcdf_var
      endif
-     call reset_netcdf_var
   enddo xwalk_loop
 end program Amon_CMOR

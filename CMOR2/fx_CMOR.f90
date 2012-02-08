@@ -30,7 +30,7 @@ program fx_CMOR
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile
   character(len=512)::acknowledgement
-  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw
+  integer::i,j,k,m,n,tcount,ivar,length,iexp,jexp,ixw
   character(len=15),dimension(nexp)::expids
   character(len=256)::whoami,prochost,ccps_rev,ccps_date,ccps_uuid,info_file
   character(len=10)::pdate,ptime
@@ -55,7 +55,15 @@ program fx_CMOR
   ! GO!
   !
   mycmor%table_file = 'CMIP5_fx'
-  call load_table_info
+  !
+  ! Get table information
+  !
+  mycmor%table_file = 'Tables/'//trim(mycmor%table_file)
+  inquire(file=mycmor%table_file,exist=exists)
+  if (.not.(exists)) then
+     write(*,*) 'Cannot find ',trim(mycmor%table_file),'. Dying.'
+     stop
+  endif
   !
   ! Get "crossxwalk" (xwalk) information
   !   Provides information on relationship between CMOR variables and
@@ -127,47 +135,45 @@ program fx_CMOR
   ! Step through CMOR table entries to see what CESM fields we can read and in process, and if so, do it!
   !
   expt_loop: do iexp = 1,nexp
-     table_loop: do itab = 1,num_tab
-        xwalk_loop: do ixw = 1,num_xw
-           mycmor%positive = ' '
-           time_counter = 0
-           var_counter  = 0
-           error_flag   = 0
-           var_found    = 0
-           original_name= ' '
-           !
-           ! The meaty part
-           !
-           if (xw(ixw)%entry == table(itab)%variable_entry) then
-              select case (xw(ixw)%entry)
-              case ( 'areacella','sftlf')
-                 ncfile(1,1) = 'atm_grid_f09.nc'
-                 xw(ixw)%ncesm_vars = 1
-              case ( 'mrsofc','sftgif','rootd' )
-                 ncfile(1,1) = 'lnd_grid_f09.nc'
-                 xw(ixw)%ncesm_vars = 1
-              case ( 'areacello','basin','deptho','hfgeou','sftof','thkcello','volcello')
-                 ncfile(1,1) = 'ocn_grid_gx1.nc'
-                 xw(ixw)%ncesm_vars = 1
-              end select
-              write(*,'(''OPENING: '',a,'' myncid: '',i10)') trim(ncfile(1,1)),myncid(1,1)
-              call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
-              call get_dims(myncid(1,1))
-              call get_vars(myncid(1,1))
-              !
-              do ivar = 1,xw(ixw)%ncesm_vars
-                 do n=1,var_counter
-                    if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
-                       write(*,*) 'var_found n: ',n,' name: ',trim(var_info(n)%name),' ixw ',ixw,' entry: ',trim(xw(ixw)%cesm_vars(ivar))
-                       var_found(1,ivar) = n
-                       xw_found = ixw
-                    endif
-                 enddo
-                 if (var_found(1,ivar) == 0) then
-                    write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
-                    stop
+     xwalk_loop: do ixw = 1,num_xw
+        call reset_netcdf_var
+        mycmor%positive = ' '
+        error_flag   = 0
+        original_name= ' '
+        !
+        ! The meaty part
+        !
+        select case (xw(ixw)%entry)
+        case ( 'areacella','sftlf')
+           ncfile(1,1) = 'atm_grid_f09.nc'
+           xw(ixw)%ncesm_vars = 1
+        case ( 'mrsofc','sftgif','rootd' )
+           ncfile(1,1) = 'lnd_grid_f09.nc'
+           xw(ixw)%ncesm_vars = 1
+        case ( 'areacello','basin','deptho','hfgeou','sftof','thkcello','volcello')
+           ncfile(1,1) = 'ocn_grid_gx1.nc'
+           xw(ixw)%ncesm_vars = 1
+        end select
+        call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+        write(*,'(''OPENING: '',a,'' myncid: '',i10)') trim(ncfile(1,1)),myncid(1,1)
+        call get_dims(myncid(1,1))
+        call get_vars(myncid(1,1))
+        !
+        var_loop: do ivar = 1,xw(ixw)%ncesm_vars
+           if (trim(xw(ixw)%cesm_vars(ivar)) == 'UNKNOWN') then
+              write(*,'(a,'' IS UNKNOWN EQUIVALENCE.'')') trim(xw(ixw)%cesm_vars(ivar))
+           else
+              do n=1,var_counter
+                 if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
+                    write(*,*) 'var_found n: ',n,' name: ',trim(var_info(n)%name),' ixw ',ixw,' entry: ',trim(xw(ixw)%cesm_vars(ivar))
+                    var_found(1,ivar) = n
+                    xw_found = ixw
                  endif
               enddo
+              if (var_found(1,ivar) == 0) then
+                 write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
+                 stop
+              endif
               !
               ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
               !
@@ -268,25 +274,22 @@ program fx_CMOR
               case ( 'areacello','basin','deptho','hfgeou','sftof','thkcello','volcello')
                  call get_ocn_grid
                  call cmor_set_table(table_ids(2))
-                 call define_ocn_axes(table(itab)%dimensions)
-                 write(*,*) 'define_ocn_axes: ',trim(table(itab)%dimensions)
+                 call define_ocn_axes(xw(ixw)%dims)
               case ( 'mrsofc','sftgif','rootd' )
                  call get_lnd_grid
                  call cmor_set_table(table_ids(2))
-                 call define_lnd_axes(table(itab)%dimensions)
-              write(*,*) 'define_lnd_axes: ',trim(table(itab)%dimensions)
+                 call define_lnd_axes(xw(ixw)%dims)
               case ( 'areacella','sftlf')
                  call get_atm_grid
                  call cmor_set_table(table_ids(2))
-                 call define_atm_axes(table(itab)%dimensions)
-                 write(*,*) 'define_atm_axes: ',trim(table(itab)%dimensions)
+                 call define_atm_axes(xw(ixw)%dims)
               end select
               call cmor_set_table(table_ids(1))
               write(*,*) 'cmor_set_table: ',table_ids(1),table_ids(2),table_ids(3)
               !
               if (xw(ixw)%ncesm_vars == 1) write(original_name,'(a)') xw(ixw)%cesm_vars(1)
-              if (xw(ixw)%ncesm_vars == 2) write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
-              if (xw(ixw)%ncesm_vars == 3) write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
+              if (xw(ixw)%ncesm_vars == 2) write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+              if (xw(ixw)%ncesm_vars == 3) write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
               ! 
               ! Make manual alterations so that CMOR works. Silly code!
               !
@@ -306,11 +309,11 @@ program fx_CMOR
               write(*,*) 'calling cmor_variable:'
               write(*,*) 'table         = ',trim(mycmor%table_file)
               write(*,*) 'table_entry   = ',trim(xw(ixw)%entry)
-              write(*,*) 'dimensions    = ',trim(table(itab)%dimensions)
+              write(*,*) 'dimensions    = ',trim(xw(ixw)%dims)
               write(*,*) 'units         = ',trim(var_info(var_found(1,1))%units)
               write(*,*) 'axis_ids      = ',axis_ids(1:4)
-!              write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
-!              write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
+              !              write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
+              !              write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
               write(*,*) 'positive      = ',trim(mycmor%positive)
               write(*,*) 'original_name = ',trim(original_name)
               !
@@ -335,7 +338,7 @@ program fx_CMOR
                       positive=mycmor%positive,              &
                       original_name=original_name,           &
                       comment=xw(ixw)%comment)
-              case ('volcello')
+              case ('volcello','thkcello')
                  cmor_var_id = cmor_variable(                &
                       table=mycmor%table_file,               &
                       table_entry=xw(ixw)%entry,             &
@@ -385,7 +388,25 @@ program fx_CMOR
                       var_id        = cmor_var_id, &
                       data          = cmordat2d)
                  if (error_flag < 0) then
-                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    write(*,'(''ERROR writing '',a)') trim(xw(ixw)%entry)
+                    stop
+                 endif
+              case ('thkcello')
+                 call get_ocn_grid
+                 allocate (cmordat3d(nlons,nlats,nlevs))
+                 do k = 1,nlevs
+                    do j = 1,nlats
+                       do i = 1,nlons
+                          cmordat3d(i,j,k) = ocn_t_dz(k)
+                       enddo
+                    enddo
+                 enddo
+                 write(*,*) 'COMPUTED thkcello: ',minval(cmordat3d),maxval(cmordat3d)
+                 error_flag = cmor_write(      &
+                      var_id        = cmor_var_id, &
+                      data          = cmordat3d)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a)') trim(xw(ixw)%entry)
                     stop
                  endif
                  !
@@ -423,7 +444,7 @@ program fx_CMOR
                       var_id        = cmor_var_id, &
                       data          = basin)
                  if (error_flag < 0) then
-                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    write(*,'(''ERROR writing '',a)') trim(xw(ixw)%entry)
                     stop
                  endif
               case ('sftgif')
@@ -435,7 +456,7 @@ program fx_CMOR
                       var_id        = cmor_var_id, &
                       data          = cmordat2d)
                  if (error_flag < 0) then
-                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    write(*,'(''ERROR writing '',a)') trim(xw(ixw)%entry)
                     stop
                  endif
               case ('mrsofc')
@@ -456,7 +477,7 @@ program fx_CMOR
                       var_id        = cmor_var_id, &
                       data          = cmordat2d)
                  if (error_flag < 0) then
-                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    write(*,'(''ERROR writing '',a)') trim(xw(ixw)%entry)
                     stop
                  endif
               case ('sftlf')
@@ -468,7 +489,7 @@ program fx_CMOR
                       var_id        = cmor_var_id, &
                       data          = cmordat2d)
                  if (error_flag < 0) then
-                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    write(*,'(''ERROR writing '',a)') trim(xw(ixw)%entry)
                     stop
                  endif
               case ('areacella')
@@ -480,7 +501,7 @@ program fx_CMOR
                       var_id        = cmor_var_id, &
                       data          = cmordat2d)
                  if (error_flag < 0) then
-                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    write(*,'(''ERROR writing '',a)') trim(xw(ixw)%entry)
                     stop
                  endif
               case ('volcello')
@@ -506,7 +527,7 @@ program fx_CMOR
                       var_id        = cmor_var_id, &
                       data          = cmordat3d)
                  if (error_flag < 0) then
-                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    write(*,'(''ERROR writing '',a)') trim(xw(ixw)%entry)
                     stop
                  endif
               end select
@@ -519,8 +540,6 @@ program fx_CMOR
               else
                  write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
               endif
-              time_counter = 0
-              var_counter  = 0
               error_flag   = 0
               var_found    = 0
               original_name= ' '
@@ -529,7 +548,8 @@ program fx_CMOR
               if (allocated(cmordat2d)) deallocate(cmordat2d)
               if (allocated(cmordat3d)) deallocate(cmordat3d)
            endif
-        enddo xwalk_loop
-     enddo table_loop
+        enddo var_loop
+        call reset_netcdf_var
+     enddo xwalk_loop
   enddo expt_loop
 end program fx_CMOR

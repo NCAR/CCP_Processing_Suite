@@ -2,25 +2,15 @@
 #
 # Runfx
 #
-if [ $# -eq 0 ] ; then
+if [ $# -eq 1 ] ; then
+   VARS=$1
+elif [ $# -ne 0 ] ; then
    echo 'Usage: Runfx "CMIP5 fields"'
    echo ""
-   echo '"CMIP5_fields" is optional - if not given, then all fields in xwalk will be processed'
-   echo "Otherwise, blank-delimited list inside double quotes, example:"
-   echo ""
-   echo './Runfx "areacello"'
-   exit 1
-elif [ $# -eq 1 ] ; then
-   VARS=$1
-else
-   echo 'Usage: Runfx case comp "CMIP5 fields"'
-   echo ""
-   echo "  case is required"
-   echo "  comp is required"
    echo '  "CMIP5_fields" is optional - if not given, then all fields in xwalk will be processed'
    echo "   Otherwise, blank-delimited list inside double quotes, example:"
    echo ""
-   echo '   ./Runfx b40.20th.track1.deg.008 cam2.h0 "tas ta pr"'
+   echo '   ./Runfx "areacello"'
 fi
 #
 BASED=${HOME}/CCP_Processing_Suite

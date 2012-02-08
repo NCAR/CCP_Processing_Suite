@@ -6,6 +6,7 @@ subroutine reset_netcdf_var
   use counters_netcdf_jfl
   use interfaces_netcdf_jfl
   use definitions_netcdf_jfl
+  use files_info
   !
   integer::i
   !
@@ -36,4 +37,13 @@ subroutine reset_netcdf_var
   enddo
   !
   nc_filename(:)(1:)            = ' '
+  !
+  ncfile(:,:)(1:) = ' '
+  myncid          = 0
+  var_found       = 0
+  ntimes          = 0
+  nc_nfiles       = 0
+  ifile           = 0
+  all_continue    = .false.
+  !
 end subroutine reset_netcdf_var

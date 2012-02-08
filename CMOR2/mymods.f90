@@ -6,7 +6,7 @@ module max_parms
   integer,parameter::max_entries   = 10000
   integer,parameter::max_exprmnt   = 10000
   integer,parameter::max_cesm_vars =    10
-  integer,parameter::max_ncfiles   =   200
+  integer,parameter::max_ncfiles   =  1000
   integer,parameter::max_nchunks   =  1000
   !
 end module max_parms
@@ -107,7 +107,7 @@ module grid_info
   real,dimension(:),    allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
   real,dimension(:,:),  allocatable::ice_lats,ice_lons
   real,dimension(:,:,:),allocatable::ice_lats_bnds,ice_lons_bnds
-  real,dimension(:),    allocatable::ocn_t_levs,ocn_trans_lats,ocn_trans_levs
+  real,dimension(:),    allocatable::ocn_t_levs,ocn_trans_lats,ocn_trans_levs,ocn_t_dz
   real,dimension(:,:),  allocatable::ocn_t_levs_bnds,ocn_trans_lats_bnds,ocn_trans_levs_bnds
   real,dimension(:,:),  allocatable::ocn_t_lats,ocn_t_lons
   real,dimension(:,:,:),allocatable::ocn_t_lats_bnds,ocn_t_lons_bnds
