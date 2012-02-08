@@ -68,34 +68,61 @@ case "$PROCHOST" in
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
     HISTBASE=/CCSM/csm                   ; export HISTBASE
+    if ! [ $LD_LIBRARY_PATH ] ; then
+      LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
+    else
+      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
+    fi
     ;;
 
   tramhill* | hurricane* )                 # tramhill/hurricane @ CGD/NCAR
     PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
     HISTBASE=/CCSM/csm                   ; export HISTBASE
+    if ! [ $LD_LIBRARY_PATH ] ; then
+      LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
+    else
+      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
+    fi
     ;;
 
   mirage* )                                # DASG @ CISL/NCAR
     PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
     HISTBASE=/CCSM/csm                   ; export HISTBASE
+    if ! [ $LD_LIBRARY_PATH ] ; then
+      LD_LIBRARY_PATH=/contrib/lib:/glade/home/strandwg/lib:/fs/local/lib
+    else
+      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/glade/home/strandwg/lib
+    fi
     ;;
 
   euclid* )                                # euclid @ NERSC
     PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
+    if ! [ $LD_LIBRARY_PATH ] ; then
+      LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
+    else
+      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
+    fi
     ;;
 
   lens* )                                  # lens @ ORNL
     PROCBASE=/tmp/work/$USER/$CASE                     ; export PROCBASE
     ARCHIVE_BASE=/f2/ccsm/csm                          ; export ARCHIVE_BASE
+    if ! [ $LD_LIBRARY_PATH ] ; then
+      LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
+    else
+      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
+    fi
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
     ./procstat.sh error process_cmip5_template
     exit 1 ;;
 esac
+#
+export LD_LIBRARY_PATH
 #
 # If CMOR binary and/or run script not available, quit
 #
