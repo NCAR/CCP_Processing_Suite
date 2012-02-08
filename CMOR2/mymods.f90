@@ -91,8 +91,11 @@ module files_info
   use max_parms
   !
   character(len=256),dimension(max_ncfiles,max_cesm_vars)::ncfile
+  character(len=256),dimension(max_ncfiles,max_cesm_vars)::ncfilenh,ncfilesh ! For OImon processing
   integer,dimension(max_cesm_vars)::nc_nfiles
+  integer,dimension(max_cesm_vars)::nc_nfilesnh,nc_nfilessh ! For OImon processing
   integer,dimension(max_ncfiles,max_cesm_vars)::myncid,var_found,ntimes
+  integer,dimension(max_ncfiles,max_cesm_vars)::myncidnh,myncidsh ! For OImon processing
   integer::ifile
   logical::all_continue
   !

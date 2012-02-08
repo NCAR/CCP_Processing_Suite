@@ -46,4 +46,11 @@ subroutine reset_netcdf_var
   ifile           = 0
   all_continue    = .true.
   !
+  ncfilenh(:,:)(1:) = ' '
+  myncidnh          = 0
+  ncfilesh(:,:)(1:) = ' '
+  myncidsh          = 0
+  nc_nfilesnh       = 0
+  nc_nfilessh       = 0
+  !
 end subroutine reset_netcdf_var
