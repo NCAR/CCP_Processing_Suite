@@ -44,6 +44,6 @@ subroutine reset_netcdf_var
   ntimes          = 0
   nc_nfiles       = 0
   ifile           = 0
-  all_continue    = .false.
+  all_continue    = .true.
   !
 end subroutine reset_netcdf_var

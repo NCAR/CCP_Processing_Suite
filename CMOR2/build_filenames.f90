@@ -74,7 +74,6 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
 !             year1,trim(dtbeg),&
 !             year2,trim(dtend)
         inquire(file=checkname,exist=exists)
-        all_continue = all_continue.or.exists
         if (exists) then
            nc_nfiles(ivar) = nc_nfiles(ivar) + 1
            ncfile(nc_nfiles(ivar),ivar) = checkname
@@ -82,6 +81,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
      enddo
   enddo
   !
+  all_continue = all_continue.and.(nc_nfiles(ivar) /= 0)
   write(*,*) 'build_filenames all_continue: ',all_continue
   if (all_continue) write(*,'(''nfiles: '',10i5)') nc_nfiles(1:ivar)
   if (all_continue) write(*,'('' files: '',10(a))') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))

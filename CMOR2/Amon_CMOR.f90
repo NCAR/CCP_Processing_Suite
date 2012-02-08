@@ -92,6 +92,8 @@ program Amon_CMOR
      do ivar = 1,xw(ixw)%ncesm_vars
         if (trim(xw(ixw)%cesm_vars(ivar)) == 'UNKNOWN') then
            write(*,'(a,'' HAS UNKNOWN EQUIVALENCE.'')') trim(xw(ixw)%entry)
+           xw(ixw)%ncesm_vars = 0
+           all_continue = .false.
         else
            write(*,'(''CHECKING AVAILABILITY OF: '',a,''.'',a,''.'',a,''.* FILES'')') trim(case_read),trim(comp_read),trim(xw(ixw)%cesm_vars(ivar))
            call build_filenames(case_read,comp_read,xw(ixw)%cesm_vars(ivar),ivar,exp(exp_found)%begyr,exp(exp_found)%endyr,mycmor%table_file)
