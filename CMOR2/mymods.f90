@@ -14,20 +14,20 @@ end module max_parms
 ! CMOR "table" information
 !
 module table_info
-  use max_parms
-  type TableInfo
-     character(len=256)::approx_interval,axis,axis_entry,baseURL,bounds_values,cell_measures,cell_methods,cf_version,climatology,cmor_version
-     character(len=256)::comment,coords_attrib,dimensions,expt_id_ok,forcings,formula,frequency,generic_levels,index_only,long_name,missing_value
-     character(len=256)::modeling_realm,must_call_cmor_grid,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,out_name,positive,product,project_id
-     character(len=256)::required_global_attributes,standard_name,stored_direction,table_date,table_id,tolerance,type,units,valid_max,valid_min,value
-     character(len=256)::requested,requested_bounds,variable_entry,z_bounds_factors,z_factors
-  end type TableInfo
-  integer::num_tab,tab_found
+!!$  use max_parms
+!!$  type TableInfo
+!!$     character(len=256)::approx_interval,axis,axis_entry,baseURL,bounds_values,cell_measures,cell_methods,cf_version,climatology,cmor_version
+!!$     character(len=256)::comment,coords_attrib,dimensions,expt_id_ok,forcings,formula,frequency,generic_levels,index_only,long_name,missing_value
+!!$     character(len=256)::modeling_realm,must_call_cmor_grid,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,out_name,positive,product,project_id
+!!$     character(len=256)::required_global_attributes,standard_name,stored_direction,table_date,table_id,tolerance,type,units,valid_max,valid_min,value
+!!$     character(len=256)::requested,requested_bounds,variable_entry,z_bounds_factors,z_factors
+!!$  end type TableInfo
+!!$  integer::num_tab,tab_found
   !
   ! table_ids(1) = Amon, day, OImon, Omon, etc.' table_ids(2) = CMIP5_grids. Always.
   !
-  integer,dimension(10)::table_ids
-  type(TableInfo),dimension(0:max_entries)::table
+  integer,dimension(20)::table_ids
+!!$  type(TableInfo),dimension(0:max_entries)::table
 end module table_info
 !
 ! CESM experiment information

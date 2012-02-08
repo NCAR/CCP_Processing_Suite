@@ -45,7 +45,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
   character(len=256)::checkname,dtbeg,dtend
   logical::exists
   !
-  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,begyr,endyr,trim(table)
+!  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,begyr,endyr,trim(table)
   !
   select case (table)
   case ('Tables/CMIP5_Amon','Tables/CMIP5_Lmon','Tables/CMIP5_LImon','Tables/CMIP5_Omon','Tables/CMIP5_OImon','Tables/CMIP5_aero','Tables/CMIP5_cfMon')
@@ -67,12 +67,6 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
              trim(cesm_var),&
              year1,trim(dtbeg),&
              year2,trim(dtend)
-!        write(*,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
-!             trim(case),&
-!             trim(comp),&
-!             trim(cesm_var),&
-!             year1,trim(dtbeg),&
-!             year2,trim(dtend)
         inquire(file=checkname,exist=exists)
         if (exists) then
            nc_nfiles(ivar) = nc_nfiles(ivar) + 1

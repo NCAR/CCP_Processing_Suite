@@ -37,11 +37,12 @@ program Amon_CMOR
   !
   ! GO!
   !
-  mycmor%table_file = 'CMIP5_Amon'
+  mycmor%table_file = 'Amon'
+  xwalk_file = 'xwalk_'//trim(mycmor%table_file)//'.txt'
   !
   ! Get table information
   !
-  mycmor%table_file = 'Tables/'//trim(mycmor%table_file)
+  mycmor%table_file = 'Tables/CMIP5_'//trim(mycmor%table_file)
   inquire(file=mycmor%table_file,exist=does_exist)
   if (.not.(does_exist)) then
      write(*,*) 'Cannot find ',trim(mycmor%table_file),'. Dying.'
@@ -52,7 +53,6 @@ program Amon_CMOR
   !   Provides information on relationship between CMOR variables and
   !   model variables
   !
-  xwalk_file = 'xwalk_Amon.txt'
   call load_xwalk(xwalk_file)
   !
   ! Get experiment information
@@ -89,9 +89,14 @@ program Amon_CMOR
      !
      ! The meaty part
      !
+     if (xw(ixw)%ncesm_vars == 0) then
+        write(*,'(a,'' is UNAVAILABLE.'')') trim(xw(ixw)%entry)
+        all_continue = .false.
+     endif
+     !
      do ivar = 1,xw(ixw)%ncesm_vars
         if (trim(xw(ixw)%cesm_vars(ivar)) == 'UNKNOWN') then
-           write(*,'(a,'' HAS UNKNOWN EQUIVALENCE.'')') trim(xw(ixw)%entry)
+           write(*,'(a,'' has UNKNOWN equivalence.'')') trim(xw(ixw)%entry)
            xw(ixw)%ncesm_vars = 0
            all_continue = .false.
         else
