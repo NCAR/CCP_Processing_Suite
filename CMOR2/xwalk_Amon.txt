@@ -22,7 +22,7 @@ Amon:evspsbl:water_evaporation_flux:longitude latitude time:atmos:1:QFLX:QFLX no
 Amon:fco2antt:tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
 Amon:fco2fos:tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fossil_fuel_combustion:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
 Amon:fco2nat:surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-Amon:hcfc22global:mole_fraction_of_hcfc22_in_air:time:atmos atmosChem:1:UNKNOWN:UNKNOWN:
+Amon:hcfc22global:mole_fraction_of_hcfc22_in_air:time:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:LHFLX:LHFLX no change
 Amon:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:SHFLX:SHFLX no change
 Amon:hur:relative_humidity:longitude latitude plevs time:atmos:2:RELHUM PS:RELHUM interpolated to standard plevs

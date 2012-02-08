@@ -223,6 +223,8 @@ program Omon_CMOR
         select case (xw(ixw)%entry)
         case ('msftmyz','msftbarot')
            var_info(var_found(1,1))%units = 'kg s-1'
+        case ('hfss','rlds','rsntds','rsds','tauuo','tauvo')
+           mycmor%positive = 'up'
         end select
         !
         spval=var_info(var_found(1,1))%missing_value
