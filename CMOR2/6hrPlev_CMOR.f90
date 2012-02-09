@@ -21,10 +21,10 @@ program Do6hrPlev_CMOR
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag,cmor_var_id
-  real,dimension(:,:,:),allocatable  ::indat3a,psdata
-  real,dimension(:,:,:,:),allocatable::indat4a
-  real,dimension(:,:,:,:),allocatable::plev3dt
+  real,dimension(:,:),allocatable    ::psdata
+  real,dimension(:,:,:),allocatable  ::indat3a,vintrpd
   double precision,dimension(:),allocatable::time
+  double precision,dimension(1)  ::tval
   !
   ! Other variables
   !
@@ -208,7 +208,6 @@ program Do6hrPlev_CMOR
            write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
         endif
         !
-        !        spval=var_info(var_found(1,1))%missing_value
         spval=1.e20
         !
         write(*,*) 'calling cmor_variable:'
@@ -227,8 +226,8 @@ program Do6hrPlev_CMOR
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(4),axis_ids(2),axis_ids(3),axis_ids(1)/),  &
-                missing_value=var_info(var_found(1,1))%missing_value,&
+                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(4),axis_ids(1)/),  &
+                missing_value=spval,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
@@ -238,7 +237,7 @@ program Do6hrPlev_CMOR
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
                 axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(1)/),  &
-                missing_value=var_info(var_found(1,1))%missing_value,&
+                missing_value=spval,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
@@ -290,11 +289,11 @@ program Do6hrPlev_CMOR
                        write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),ic
                        stop
                     endif
-                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),nt,ic
                  enddo
+                 call close_cdf(myncid(ifile,ivar))
               enddo
            enddo
-           call close_cdf(myncid(ifile,ivar))
            if (allocated(time))    deallocate(time)
            if (allocated(indat3a)) deallocate(indat3a)
            error_flag = cmor_close()
@@ -309,9 +308,11 @@ program Do6hrPlev_CMOR
            !
            if (nc_nfiles(1) == nc_nfiles(2)) then
               do ifile = 1,nc_nfiles(1)
-                 if (.not.(allocated(indat4a))) allocate(indat4a(nlons,nlats,nlevs,ntimes(ifile,1)))
-                 if (.not.(allocated(plev3dt))) allocate(plev3dt(nlons,nlats,3,ntimes(ifile,1)))
-                 if (.not.(allocated(psdata)))  allocate(psdata(nlons,nlats,ntimes(ifile,1)))
+                 if (.not.(allocated(indat3a))) allocate(indat3a(nlons,nlats,nlevs))
+                 if (.not.(allocated(vintrpd))) allocate(vintrpd(nlons,nlats,size(atm_plev3)))
+                 if (.not.(allocated(psdata)))  allocate(psdata(nlons,nlats))
+                 if (.not.(allocated(time)))    allocate(time(ntimes(ifile,1)))
+                 !
                  call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
                  call get_dims(myncid(ifile,1))
                  call get_vars(myncid(ifile,1))
@@ -319,78 +320,57 @@ program Do6hrPlev_CMOR
                  call get_dims(myncid(ifile,2))
                  call get_vars(myncid(ifile,2))
                  !
-                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
                  !
                  do n = 1,ntimes(ifile,1)
                     time_counter = n
                     call read_var(myncid(ifile,1),'time',time(n))
                  enddo
-                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat4a)
-                 call read_var(myncid(1,2),var_info(var_found(1,2))%name,psdata)
-                 !
-                 ! Convert PS to mb from Pa
-                 !
-                 psdata = psdata * 0.01
-                 !
-                 plev3dt = spval
-                 !
-                 ! Do vertical interpolation to pressure levels
-                 !
-                 do n = 1,ntimes(ifile,1)
-                    call vertint(&
-                         indat4a(:,:,:,n),&
-                         plev3dt(:,:,:,n),&
-                         atm_levs,atm_plev3*0.01,psdata,spval,nlons,nlats,nlevs,nlevs+1,3)
-                 enddo
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
-                 select case(ntimes(ifile,1))
-                 case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = (/1/)
-                    tidx2(1:nchunks(ifile)) = (/ntimes(1,1)/)
-                 case default
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = 1
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-                 end select
-                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
                  do ic = 1,nchunks(1)
-                    nt = (tidx2(ic) - tidx1(ic)) + 1
-                    error_flag = cmor_write(        &
-                         var_id        = cmor_var_id,   &
-                         data          = plev3dt(:,:,:,tidx1(ic):tidx2(ic)),&
-                         ntimes_passed = nt,           &
-                         time_vals     = time(tidx1(ic):tidx2(ic)))
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                       stop
-                    endif
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                       call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,psdata)
+                       !
+                       ! Convert PS to mb from Pa
+                       !
+                       psdata  = psdata * 0.01
+                       vintrpd = spval
+                       !
+                       call vertint(indat3a,vintrpd,atm_levs,atm_plev3*0.01,psdata,spval,nlons,nlats,nlevs,nlevs+1,size(atm_plev3))
+                       tval(1) = time(it)
+                       error_flag = cmor_write(          &
+                            var_id        = cmor_var_id, &
+                            data          = vintrpd,   &
+                            ntimes_passed = 1,           &
+                            time_vals     = tval)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
+                    enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                    !
-                    cmor_filename = ' '
-                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                    error_flag = cmor_close()
                     if (error_flag < 0) then
-                       write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
-                       stop
+                       write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
                     else
-                       write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+                       write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
                     endif
                  enddo
+                 call close_cdf(myncid(ifile,1))
+                 call close_cdf(myncid(ifile,2))
               enddo
            endif
-           error_flag = cmor_close()
-           if (error_flag < 0) then
-              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-           else
-              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-           endif
-           if (allocated(time))     deallocate(time)
-           if (allocated(psdata))   deallocate(psdata)
-           if (allocated(indat3a))  deallocate(indat3a)
-           if (allocated(indat4a))  deallocate(indat4a)
-           if (allocated(plev3dt))  deallocate(plev3dt)
+           if (allocated(time))    deallocate(time)
+           if (allocated(psdata))  deallocate(psdata)
+           if (allocated(indat3a)) deallocate(indat3a)
+           if (allocated(vintrpd)) deallocate(vintrpd)
         end select
         !
         ! Reset
@@ -399,7 +379,7 @@ program Do6hrPlev_CMOR
         mycmor%positive = ' '
         original_name= ' '
         !
+        call reset_netcdf_var
      endif
-     call reset_netcdf_var
   enddo xwalk_loop
 end program Do6hrPlev_CMOR
