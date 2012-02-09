@@ -61,9 +61,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
   select case (table)
   case ('Tables/CMIP5_OImon')
      exists = .false.
-     write(*,*) 'build_filenames all_continue: ',all_continue
      all_continue = .true.
-     write(*,*) 'build_filenames all_continue: ',all_continue
      do year1 = begyr,endyr
         do year2 = endyr,begyr,-1
            write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
@@ -74,7 +72,6 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
                 year2,trim(dtend)
            inquire(file=checkname,exist=exists)
            if (exists) then
-              write(*,*) trim(checkname)
               nc_nfilesnh(ivar) = nc_nfilesnh(ivar) + 1
               ncfilenh(nc_nfilesnh(ivar),ivar) = checkname
            endif
@@ -86,22 +83,19 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
                 year2,trim(dtend)
            inquire(file=checkname,exist=exists)
            if (exists) then
-              write(*,*) trim(checkname)
               nc_nfilessh(ivar) = nc_nfilessh(ivar) + 1
               ncfilesh(nc_nfilessh(ivar),ivar) = checkname
            endif
         enddo
      enddo
      !
-     write(*,*) 'build_filenames all_continue: ',all_continue
      all_continue = all_continue.and.(nc_nfilesnh(ivar) /= 0)
-     write(*,*) 'build_filenames all_continue: ',all_continue
      all_continue = all_continue.and.(nc_nfilessh(ivar) /= 0)
      write(*,*) 'build_filenames all_continue: ',all_continue
      if (all_continue) write(*,'(''nfiles NH: '',20i5)') nc_nfilesnh(1:ivar)
      if (all_continue) write(*,'(''nfiles SH: '',20i5)') nc_nfilessh(1:ivar)
-     if (all_continue) write(*,'(''NH  files: '',10(a))') (trim(ncfilenh(i,ivar)),i=1,nc_nfilesnh(ivar))
-     if (all_continue) write(*,'(''SH  files: '',10(a))') (trim(ncfilenh(i,ivar)),i=1,nc_nfilessh(ivar))
+!     if (all_continue) write(*,'(''NH  files: '',10(a))') (trim(ncfilenh(i,ivar)),i=1,nc_nfilesnh(ivar))
+!     if (all_continue) write(*,'(''SH  files: '',10(a))') (trim(ncfilenh(i,ivar)),i=1,nc_nfilessh(ivar))
   case default
      exists = .false.
      do year1 = begyr,endyr
@@ -123,6 +117,6 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
      all_continue = all_continue.and.(nc_nfiles(ivar) /= 0)
      write(*,*) 'build_filenames all_continue: ',all_continue
      if (all_continue) write(*,'(''nfiles: '',100i5)') nc_nfiles(1:ivar)
-     if (all_continue) write(*,'('' files: '',100(a))') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
+!     if (all_continue) write(*,'('' files: '',100(a))') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
   end select
 end subroutine build_filenames

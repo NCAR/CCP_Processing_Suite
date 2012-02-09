@@ -140,15 +140,14 @@ read DORUN
 #
 if [ "$DORUN" = "Y" ] ; then
   echo "Running "${CMIP5_SCRIPT}
-  case "$LOCATION" in
-    NC )
+  case "$PROCHOST" in 
+    silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
       ( ./${CMIP5_SCRIPT} > log.${CMIP5_SCRIPT} 2>&1 & ) ;;
-    NE )
-      ( ./${CMIP5_SCRIPT} > log.${CMIP5_SCRIPT} 2>&1 & ) ;;
-    OR ) 
+    lens* )                                  # lens @ ORNL
       ( /usr/bin/qsub ./${CMIP5_SCRIPT} ) ;;
     * )
-      echo "Unable to run script because "$LOCATION" not found in "$EXPFILE
+      echo "Unable to run script because "$PROCHOST" unknown."
+      ./procstat.sh error process_cmip5_template
       exit 1 ;;
   esac
 else
