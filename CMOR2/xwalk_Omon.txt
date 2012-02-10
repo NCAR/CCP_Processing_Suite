@@ -58,7 +58,7 @@ Omon:hfbasin:northward_ocean_heat_transport:latitude basin time:ocean:1:UNKNOWN:
 Omon:hfcorr:heat_flux_correction:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfds:surface_downward_heat_flux_in_sea_water:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfevapds:temperature_flux_due_to_evaporation_expressed_as_heat_flux_out_of_sea_water:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfgeou:upward_geothermal_heat_flux_at_sea_floor:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
+Omon:hfgeou:upward_geothermal_heat_flux_at_sea_floor:longitude latitude time:ocean:0:N/A:Set to zero for all runs
 Omon:hfibthermds2d:heat_flux_into_sea_water_due_to_iceberg_thermodynamics:longitude latitude time:ocean:0:UNAVAILABLE::UNAVAILABLE
 Omon:hfibthermds:heat_flux_into_sea_water_due_to_iceberg_thermodynamics:longitude latitude olevel time:ocean:0:UNAVAILABLE::UNAVAILABLE
 Omon:hfls:surface_downward_latent_heat_flux:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
@@ -154,7 +154,7 @@ Omon:tauvcorr:surface_downward_y_stress_correction:longitude latitude time:ocean
 Omon:tauvo:surface_downward_y_stress:longitude latitude time:ocean:1:TAUY:TAUY
 Omon:thetaoga:sea_water_potential_temperature:time:ocean:1:TEMP:TEMP weighted global average, units C to K
 Omon:thetao:sea_water_potential_temperature:longitude latitude olevel time:ocean:1:TEMP:TEMP no change, units from C to K
-Omon:thkcello:cell_thickness:longitude latitude olevel time:ocean:1:dz:dz units from cm to m
+Omon:thkcello:cell_thickness:longitude latitude olevel time:ocean:0:N/A:Inapplicable as cell thickness is fixed (dz)
 Omon:tos:sea_surface_temperature:longitude latitude time:ocean:1:TEMP:TEMP at topmost level, units from C to K
 Omon:tossq:square_of_sea_surface_temperature:longitude latitude time:ocean:1:TEMP2:TEMP2
 Omon:umo:ocean_mass_x_transport:longitude latitude olevel time:ocean:2:UVEL PD DXU:UVEL,PD,DXU
