@@ -4,7 +4,7 @@
 if [ $# -ne 2 ] ; then
   echo "Usage: mss_var_read ARCHIVE_PROC VARS"
   echo "Requires ARCHIVE_PROC and VARS"
-#  ./procstat.sh error mss_var_read
+  ./procstat.sh error mss_var_read
   exit 1
 else
   ARCHIVE_PROC=$1
@@ -28,13 +28,13 @@ fi
 TEST4HSI=`which hsi 2<&1`
 if [ $? -eq 0 ] ; then
   hsi -q "cd ${ARCHIVE_PROC} ; cget -u ${CASE}.${HIST}.{${VARS}}.*.nc"
-#  if [ $? -ne 0 ] ; then
-#    echo "Error on hsi get of "$ARCHIVE_PROC" files. Stopping."
-#    ./procstat.sh error mss_var_read
-#    exit 1
-#  fi
+  if [ $? -ne 0 ] ; then
+    echo "Error on hsi get of "$ARCHIVE_PROC" files. Stopping."
+    ./procstat.sh error mss_var_read
+    exit 1
+  fi
 else
   echo "Cannot find hsi command."
-#  ./procstat.sh error mss_var_read
+  ./procstat.sh error mss_var_read
   exit 1
 fi

@@ -20,7 +20,6 @@ elif [ $# -eq 4 ] ; then
    HIST=$2 ; export HIST
    TABL=$3 ; export TABL
    VARS=$4 ; export VARS
-   echo $VARS
 else
    echo "Usage: ./Process_Setup CASE HIST TABLE [cmip5 vars]"
    echo "First three arguments REQUIRED:"

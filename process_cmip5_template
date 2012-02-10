@@ -190,6 +190,7 @@ if [ "$VARS" ] ; then
   rm -f ./VARS_TO_DO
   for C5F in `echo $VARS` ; do
     egrep ":$C5F:" $XWALK | cut -d":" -f7 >> ./VARS_TO_DO
+    cat ./VARS_TO_DO | sort | uniq > ./UVARS_TO_DO ; mv ./UVARS_TO_DO ./VARS_TO_DO
   done
 else
   rm -f ./VARS_TO_DO
@@ -265,8 +266,8 @@ cd $LOCAL_PROC
 #
 # Let 'er rip
 #
-#echo "BEGIN : procstat"
-#./procstat.sh start
+echo "BEGIN : procstat"
+./procstat.sh start
 #
 # Get archive listing
 #
@@ -277,7 +278,7 @@ if [ ! -f $ARCHIVE_LIST ] ; then
   ../mss_list $ARCHIVE_LIST
   if [ $? -ne 0 ] ; then
     echo "Error from mss_list"
-#    ./procstat.sh error mss_list
+    ./procstat.sh error mss_list
     exit 1
   fi
 fi
@@ -289,7 +290,7 @@ pwd
 ../mss_var_read $ARCHIVE_PROC $CMIP5_VARS
 if [ $? -ne 0 ] ; then
   echo "Error from mss_var_read"
-#  ./procstat.sh error mss_var_read
+  ./procstat.sh error mss_var_read
   exit 1
 fi
 #
@@ -311,5 +312,5 @@ fi
 #  ./procstat.sh error store_to_archive
 #  exit 1
 #fi
-#echo "COMPLETE : procstat"
-#./procstat.sh complete
+echo "COMPLETE : procstat"
+./procstat.sh complete
