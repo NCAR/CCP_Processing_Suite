@@ -406,13 +406,6 @@ program Do6hrLev_CMOR
         original_name= ' '
         !
         if (allocated(time))      deallocate(time)
-        !
-        error_flag = cmor_close()
-        if (error_flag < 0) then
-           write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-        else
-           write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-        endif
      endif
      call reset_netcdf_var
   enddo xwalk_loop
