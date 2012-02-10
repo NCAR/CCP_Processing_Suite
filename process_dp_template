@@ -341,6 +341,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 #
     NFNC=`echo $CASE.$HIST.????.nc | wc -w`
     if [ -f ${NFNC} -ne 1 ] ; then
+      for FILE in `/bin/ls $CASE.$HIST.????.nc` ; do
         ./var_split $FILE erase
         if [ $? -ne 0 ] ; then
           echo "Error from var_split on file "$FILE
