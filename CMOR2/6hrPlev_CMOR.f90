@@ -314,9 +314,11 @@ program Do6hrPlev_CMOR
                  if (.not.(allocated(time)))    allocate(time(ntimes(ifile,1)))
                  !
                  call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+                 write(*,*) 'OPENED: ',trim(ncfile(ifile,1)),' NCID: ',myncid(ifile,1)
                  call get_dims(myncid(ifile,1))
                  call get_vars(myncid(ifile,1))
                  call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
+                 write(*,*) 'OPENED: ',trim(ncfile(ifile,2)),' NCID: ',myncid(ifile,2)
                  call get_dims(myncid(ifile,2))
                  call get_vars(myncid(ifile,2))
                  !
@@ -356,11 +358,14 @@ program Do6hrPlev_CMOR
                        endif
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                    error_flag = cmor_close()
+                    !
+                    cmor_filename = ' '
+                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                     if (error_flag < 0) then
-                       write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                       write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                       stop
                     else
-                       write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                       write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                     endif
                  enddo
                  call close_cdf(myncid(ifile,1))
@@ -371,6 +376,7 @@ program Do6hrPlev_CMOR
            if (allocated(psdata))  deallocate(psdata)
            if (allocated(indat3a)) deallocate(indat3a)
            if (allocated(vintrpd)) deallocate(vintrpd)
+           call reset_netcdf_var
         end select
         !
         ! Reset
@@ -379,7 +385,7 @@ program Do6hrPlev_CMOR
         mycmor%positive = ' '
         original_name= ' '
         !
-        call reset_netcdf_var
      endif
+     call reset_netcdf_var
   enddo xwalk_loop
 end program Do6hrPlev_CMOR
