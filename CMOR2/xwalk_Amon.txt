@@ -5,7 +5,7 @@ Amon:cfc11global:mole_fraction_of_cfc11_in_air:time:atmos atmosChem:1:f11vmr:f11
 Amon:cfc12global:mole_fraction_of_cfc12_in_air:time:atmos atmosChem:1:f12vmr:f12vmr convert to mass
 Amon:ch4:mole_fraction_of_methane_in_air mole_fraction_of_methane_in_air:longitude latitude plevs time:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:ch4Clim:mole_fraction_of_methane_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
-Amon:ch4global:mole_fraction_of_methane_in_air mole_fraction_of_methane_in_air:time time2:atmos atmosChem:1:ch4vmr:ch4vmr convert to mass
+Amon:ch4global:mole_fraction_of_methane_in_air mole_fraction_of_methane_in_air:time2:atmos atmosChem:1:ch4vmr:ch4vmr convert to mass
 Amon:ch4globalClim:mole_fraction_of_methane_in_air:time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:ci:convection_time_fraction:longitude latitude time:atmos:1:FREQZM:FREQZM unit conversion
 Amon:cl:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:2:CLOUD PS:CLOUD on model levels, no change
@@ -16,7 +16,7 @@ Amon:clw:mass_fraction_of_cloud_liquid_water_in_air:longitude latitude alevel ti
 Amon:clwvi:atmosphere_cloud_condensed_water_content:longitude latitude time:atmos:1:TGCLDLWP:TGCLDLWP no change
 Amon:co2:mole_fraction_of_carbon_dioxide_in_air mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time:atmos:1:UNKNOWN:UNKNOWN
 Amon:co2Clim:mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time2:atmos:1:UNKNOWN:UNKNOWN
-Amon:co2mass:atmosphere_mass_of_carbon_dioxide atmosphere_mass_of_carbon_dioxide:time time2:atmos:1:co2vmr:co2vmr convert to mass
+Amon:co2mass:atmosphere_mass_of_carbon_dioxide atmosphere_mass_of_carbon_dioxide:time2:atmos:1:co2vmr:co2vmr convert to mass
 Amon:co2massClim:atmosphere_mass_of_carbon_dioxide:time2:atmos:1:UNKNOWN:UNKNOWN
 Amon:evspsbl:water_evaporation_flux:longitude latitude time:atmos:1:QFLX:QFLX no change
 Amon:fco2antt:tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
@@ -32,7 +32,7 @@ Amon:huss:specific_humidity:longitude latitude time height2m:atmos:1:QREFHT:QREF
 Amon:mc:atmosphere_net_upward_convective_mass_flux:longitude latitude alevhalf time:atmos:3:CMFMC CMFMCDZM PS:CMFMC + CMFMCDZM on model levels, no change
 Amon:n2o:mole_fraction_of_nitrous_oxide_in_air mole_fraction_of_nitrous_oxide_in_air:longitude latitude plevs time:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:n2oClim:mole_fraction_of_nitrous_oxide_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
-Amon:n2oglobal:mole_fraction_of_nitrous_oxide_in_air mole_fraction_of_nitrous_oxide_in_air:time time2:atmos atmosChem:1:n2ovmr:n2ovmr convert to mass
+Amon:n2oglobal:mole_fraction_of_nitrous_oxide_in_air mole_fraction_of_nitrous_oxide_in_air:time2:atmos atmosChem:1:n2ovmr:n2ovmr convert to mass
 Amon:n2oglobalClim:mole_fraction_of_nitrous_oxide_in_air:time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
 Amon:prAdjust:precipitation_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
 Amon:pr:precipitation_flux:longitude latitude time:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
