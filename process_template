@@ -332,20 +332,39 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 #
 # All time splitting should be done now, ready for var_splitting
 #
-    for FILE in `/bin/ls $CASE.$HIST.????-??.nc $CASE.$HIST.????.nc` ; do
-      ./var_split $FILE erase
-      if [ $? -ne 0 ] ; then
-        echo "Error from var_split on file "$FILE
-        ./procstat.sh error process_template
-        exit 1
-      else
-        touch .proc.$FILE
-      fi
-      if [ -f .proc.$FILE ] ; then
-        touch .comp.$FILE
-        rm -f .proc.$FILE
-      fi
-    done
+    if [ -f $CASE.$HIST.$YEARNOW.????-??.nc ] ; then
+      for FILE in `/bin/ls $CASE.$HIST.????-??.nc` ; do
+        ./var_split $FILE erase
+        if [ $? -ne 0 ] ; then
+          echo "Error from var_split on file "$FILE
+          ./procstat.sh error process_template
+          exit 1
+        else
+          touch .proc.$FILE
+        fi
+        if [ -f .proc.$FILE ] ; then
+          touch .comp.$FILE
+          rm -f .proc.$FILE
+        fi
+      done
+    fi
+#
+    if [ -f $CASE.$HIST.$YEARNOW.????.nc ] ; then
+      for FILE in `/bin/ls $CASE.$HIST.????.nc` ; do
+        ./var_split $FILE erase
+        if [ $? -ne 0 ] ; then
+          echo "Error from var_split on file "$FILE
+          ./procstat.sh error process_template
+          exit 1
+        else
+          touch .proc.$FILE
+        fi
+        if [ -f .proc.$FILE ] ; then
+          touch .comp.$FILE
+          rm -f .proc.$FILE
+        fi
+      done
+    fi
 #
     if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 1 ] ; then
       touch $YRCHECK
