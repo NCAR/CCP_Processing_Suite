@@ -44,20 +44,14 @@ HOSTNAME=`hostname`
 # need to follow a naming convention for the logfiles
 # execute and save to files
 #
-case "${LOCATION}" in
-  NC )                                        # NCAR experiments
+case "$HOSTNAME" in 
+  silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
     LOGFILE=`ls ~/CCP_Processing_Suite/log*${CASE}*${HIST}*`
     date > ${FILEPS}
     ps auwx | grep ${USER} >> ${FILEPS}
     date > ${FILELOG}
     tail -n 40 ${LOGFILE} >> ${FILELOG} ;;
-  NE )                                        # NERSC experiments
-    LOGFILE=`ls ~/CCP_Processing_Suite/log*${CASE}*${HIST}*` 
-    date > ${FILEPS}
-    ps auwx | grep ${USER} >> ${FILEPS}
-    date > ${FILELOG}
-    tail -n 40 ${LOGFILE} >> ${FILELOG} ;;
-  OR )                                        # ORNL experiments
+  lens* )                                  # lens @ ORNL
     LOGFILE=`ls ~/CCP_Processing_Suite/*.ER`
     date > ${FILEPS}
     qstat >> ${FILEPS}
