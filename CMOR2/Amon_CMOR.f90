@@ -247,16 +247,16 @@ program Amon_CMOR
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
-        case ('ps')
-           cmor_var_id = cmor_variable(                            &
-                table=mycmor%table_file,                           &
-                table_entry=xw(ixw)%entry,                         &
-                units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(1)/), &
-                missing_value=var_info(var_found(1,1))%missing_value,&
-                positive=mycmor%positive,                          &
-                original_name=original_name,                       &
-                comment=xw(ixw)%comment)
+!!$        case ('ps')
+!!$           cmor_var_id = cmor_variable(                            &
+!!$                table=mycmor%table_file,                           &
+!!$                table_entry=xw(ixw)%entry,                         &
+!!$                units=var_info(var_found(1,1))%units,                &
+!!$                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(1)/), &
+!!$                missing_value=var_info(var_found(1,1))%missing_value,&
+!!$                positive=mycmor%positive,                          &
+!!$                original_name=original_name,                       &
+!!$                comment=xw(ixw)%comment)
         case ('clw','cli','cl','mc')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
@@ -312,7 +312,7 @@ program Amon_CMOR
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
@@ -368,7 +368,7 @@ program Amon_CMOR
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
@@ -433,7 +433,7 @@ program Amon_CMOR
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
@@ -498,7 +498,7 @@ program Amon_CMOR
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
@@ -567,7 +567,7 @@ program Amon_CMOR
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
@@ -645,7 +645,7 @@ program Amon_CMOR
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
@@ -726,7 +726,7 @@ program Amon_CMOR
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
@@ -797,7 +797,7 @@ program Amon_CMOR
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
@@ -883,7 +883,7 @@ program Amon_CMOR
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
