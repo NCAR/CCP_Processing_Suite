@@ -393,11 +393,6 @@ program Do6hrLev_CMOR
         if (allocated(psdata))   deallocate(psdata)
         if (allocated(indat3a))  deallocate(indat3a)
         if (allocated(indat4a))  deallocate(indat4a)
-        do ivar = 1,xw(ixw)%ncesm_vars
-           do ifile = 1,nc_nfiles(ivar)
-              call close_cdf(myncid(ifile,ivar))
-           enddo
-        enddo
         !
         ! Reset
         !
