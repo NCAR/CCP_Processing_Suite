@@ -302,7 +302,7 @@ program Do6hrLev_CMOR
                  enddo
               enddo
            enddo
-           call close_cdf(myncid(ifile,ivar))
+           call close_cdf(myncid(1,1))
            if (allocated(time))    deallocate(time)
            if (allocated(indat3a)) deallocate(indat3a)
            error_flag = cmor_close()
