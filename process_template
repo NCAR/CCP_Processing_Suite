@@ -332,7 +332,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 #
 # All time splitting should be done now, ready for var_splitting
 #
-    if [ -f $CASE.$HIST.$YEARNOW.????-??.nc ] ; then
+    if [ -f $CASE.$HIST.$YEARNOW-??.nc ] ; then
       for FILE in `/bin/ls $CASE.$HIST.????-??.nc` ; do
         ./var_split $FILE erase
         if [ $? -ne 0 ] ; then
@@ -349,7 +349,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
       done
     fi
 #
-    if [ -f $CASE.$HIST.$YEARNOW.????.nc ] ; then
+    if [ -f $CASE.$HIST.$YEARNOW.nc ] ; then
       for FILE in `/bin/ls $CASE.$HIST.????.nc` ; do
         ./var_split $FILE erase
         if [ $? -ne 0 ] ; then
