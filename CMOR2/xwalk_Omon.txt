@@ -97,7 +97,7 @@ Omon:intpnitrate:net_primary_mole_productivity_of_carbon_due_to_nitrate_utilizat
 Omon:intppico:net_primary_mole_productivity_of_carbon_by_picophytoplankton:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
 Omon:intpp:net_primary_mole_productivity_of_carbon_by_phytoplankton:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
 Omon:masscello:sea_water_mass_per_unit_area:longitude latitude olevel time:ocean:1:UNKNOWN:UNKNOWN
-Omon:masso:sea_water_mass:time:ocean:1:UNKNOWN:UNKNOWN
+Omon:masso:sea_water_mass:time:ocean:1:PD:Integrate PD over ocean volume
 Omon:mfo:sea_water_transport_across_line:oline time:ocean:1:UNKNOWN:UNKNOWN
 Omon:mlotst:ocean_mixed_layer_thickness_defined_by_sigma_t:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 Omon:mlotstsq:square_of_ocean_mixed_layer_thickness_defined_by_sigma_t:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN

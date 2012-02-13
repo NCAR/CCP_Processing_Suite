@@ -40,7 +40,7 @@ subroutine get_ocn_grid
      endif
   enddo
   !
-  allocate(ocn_t_lons(nlons,nlats),ocn_t_lats(nlons,nlats),kmt(nlons,nlats))
+  allocate(ocn_t_lons(nlons,nlats),ocn_t_lats(nlons,nlats),ocn_t_area(nlons,nlats),kmt(nlons,nlats))
   allocate(ocn_t_lons_bnds(4,nlons,nlats),ocn_t_lats_bnds(4,nlons,nlats))
   allocate(ocn_t_levs(nlevs),ocn_t_levs_bnds(2,nlevs),ocn_t_dz(nlevs))
   !
@@ -55,6 +55,7 @@ subroutine get_ocn_grid
   call read_var(gridid,'ULONG',ocn_u_lons)
   call read_var(gridid,'ULAT',ocn_u_lats)
   call read_var(gridid,'KMT',kmt)
+  call read_var(gridid,'TAREA',ocn_t_area)
   call read_var(gridid,'z_t',ocn_t_levs)
   call read_var(gridid,'dz',ocn_t_dz)
   call read_var(gridid,'lat_aux_grid',ocn_trans_lats)

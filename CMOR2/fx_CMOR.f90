@@ -507,15 +507,13 @@ program fx_CMOR
               case ('volcello')
                  call get_ocn_grid
                  write(*,*) 'volcello: ',nlons,nlats
-                 allocate(indat2a(nlons,nlats),cmordat3d(nlons,nlats,nlevs))
-                 write(*,*) 'TO READ: ',trim(var_info(var_found(1,1))%name)
-                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 allocate(cmordat3d(nlons,nlats,nlevs))
                  cmordat3d = var_info(var_found(1,1))%missing_value
                  do k = 1,nlevs
                     do j = 1,nlats
                        do i = 1,nlons
                           if (kmt(i,j).ge.k) then
-                             cmordat3d(i,j,k) = (indat2a(i,j)*ocn_t_levs(k))/(100. * 100. * 100.)
+                             cmordat3d(i,j,k) = (ocn_t_area(i,j)*ocn_t_levs(k))/1.e6
                           else
                              cmordat3d(i,j,k) = var_info(var_found(1,1))%missing_value
                           endif

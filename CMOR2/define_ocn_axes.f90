@@ -166,7 +166,7 @@ subroutine define_ocn_axes(dimensions)
            idim = idim + 1
         end select ! dimnames(i)
      enddo
-  case ( 'so','thetao','tos','sos','volo','hfss','pr','prsn','rlds','rsds','rsntds','agessc','rhopoto','tossq')
+  case ( 'so','thetao','tos','sos','hfss','pr','prsn','rlds','rsds','rsntds','agessc','rhopoto','tossq','zos')
      ! T-grid fields
      do i = 1,naxes
         select case(dimnames(i))
@@ -251,6 +251,20 @@ subroutine define_ocn_axes(dimensions)
                 coord_vals=ocn_t_levs,        &
                 cell_bounds=ocn_t_levs_bnds)
            write(*,*) 'olevel   defined, axis_id: ',idim,axis_ids(idim)
+           idim = idim + 1
+        end select ! dimnames(i)
+     enddo
+  case ('masso','soga','thetaoga','volo','zosga','zossga','zostoga')
+     ! Time-dependent-only fields
+     do i = 1,naxes
+        select case(dimnames(i))
+        case ('time')
+           call cmor_set_table(table_ids(1))
+           axis_ids(idim) = cmor_axis(        &
+                table_entry=dimnames(i),      &
+                units=dimunits(i),            &
+                interval='30 days')
+           write(*,'('' dimension: '',a,'' defined: '',i4,'' units: '',a)') 'time',axis_ids(idim),trim(dimunits(i))
            idim = idim + 1
         end select ! dimnames(i)
      enddo

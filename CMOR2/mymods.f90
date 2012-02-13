@@ -112,7 +112,7 @@ module grid_info
   real,dimension(:,:,:),allocatable::ice_lats_bnds,ice_lons_bnds
   real,dimension(:),    allocatable::ocn_t_levs,ocn_trans_lats,ocn_trans_levs,ocn_t_dz
   real,dimension(:,:),  allocatable::ocn_t_levs_bnds,ocn_trans_lats_bnds,ocn_trans_levs_bnds
-  real,dimension(:,:),  allocatable::ocn_t_lats,ocn_t_lons
+  real,dimension(:,:),  allocatable::ocn_t_lats,ocn_t_lons,ocn_t_area
   real,dimension(:,:,:),allocatable::ocn_t_lats_bnds,ocn_t_lons_bnds
   real,dimension(:,:),  allocatable::ocn_u_lats,ocn_u_lons
   real,dimension(:,:,:),allocatable::ocn_u_lats_bnds,ocn_u_lons_bnds
