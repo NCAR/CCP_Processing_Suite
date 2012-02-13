@@ -700,13 +700,14 @@ program Omon_CMOR
                        do k = 1,nlevs
                           do j = 1,nlats
                              do i = 1,nlons
-                                if (indat3a(i,j,k).ne.spval) indat1a(it) = indat1a(it) + (indat3a(i,j,k)*(ocn_t_area(i,j)*ocn_t_levs(k)))
+                                if (indat3a(i,j,k).ne.spval) indat1a(it) = indat1a(it) + (indat3a(i,j,k)*(ocn_t_area(i,j)*ocn_t_dz(k)))
                              enddo
                           enddo
                        enddo
                        write(*,*) 'TMASS: ',indat1a(it)/1.e24
                     enddo
                  enddo
+                 call close_cdf(myncid(ifile,ivar))
                  !
                  indat1a = indat1a/1000.
                  error_flag = cmor_write(                &
@@ -730,7 +731,6 @@ program Omon_CMOR
                     write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                  endif
               enddo
-              call close_cdf(myncid(ifile,ivar))
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
            enddo
