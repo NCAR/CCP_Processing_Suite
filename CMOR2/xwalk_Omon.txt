@@ -178,10 +178,10 @@ Omon:zmicro:mole_concentration_of_microzooplankton_expressed_as_carbon_in_sea_wa
 Omon:zo2min:depth_at_shallowest_local_minimum_in_vertical_profile_of_mole_concentration_of_dissolved_molecular_oxygen_in_sea_water:longitude latitude time:ocnBgchem:1:O2_ZMIN_DEPTH:O2_ZMIN_DEPTH
 Omon:zoocmisc:mole_concentration_of_miscellaneous_zooplankton_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
 Omon:zooc:mole_concentration_of_zooplankton_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:zooC:zooC
-Omon:zosga:global_average_sea_level_change:time:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
-Omon:zos:sea_surface_height_above_geoid:longitude latitude time:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
-Omon:zossga:global_average_steric_sea_level_change:time:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
-Omon:zossq:square_of_sea_surface_height_above_geoid:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:zostoga:global_average_thermosteric_sea_level_change:time:ocean:4:SSH PD TEMP SALT:SSH,PD,TEMP,SALT
+Omon:zosga:global_average_sea_level_change:time:ocean:1:ave_slc:ave_slc from Aixue's SLC code; derived from SSH PD TEMP SALT
+Omon:zos:sea_surface_height_above_geoid:longitude latitude time:ocean:1:slc:slc from Aixue's SLC code; derived from SSH PD TEMP SALT
+Omon:zossga:global_average_steric_sea_level_change:time:ocean:1:ave_delta_steric:ave_delta_steric from Aixue's SLC code; derived from SSH PD TEMP SALT
+Omon:zossq:square_of_sea_surface_height_above_geoid:longitude latitude time:ocean:0:UNAVAILABLE:UNAVAILABLE
+Omon:zostoga:global_average_thermosteric_sea_level_change:time:ocean:1:ave_slc_t:ave_slc_t from Aixue's SLC code; derived from SSH PD TEMP SALT
 Omon:zsatarag:minimum_depth_of_aragonite_undersaturation_in_sea_water:longitude latitude time:ocnBgchem:1:zsatarag:zsatarag
 Omon:zsatcalc:minimum_depth_of_calcite_undersaturation_in_sea_water:longitude latitude time:ocnBgchem:1:zsatcalc:zsatcalc
