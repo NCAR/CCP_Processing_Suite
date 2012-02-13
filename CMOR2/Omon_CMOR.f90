@@ -240,7 +240,7 @@ program Omon_CMOR
         write(*,*) 'original_name = ',trim(original_name)
         !
         select case (xw(ixw)%entry)
-        case ('thetao','so','agessc','uo','vo','rhopoto')
+        case ('thetao','so','agessc','uo','vo','rhopoto','cfc11')
            ! Full-column fields
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
