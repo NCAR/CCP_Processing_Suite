@@ -2,8 +2,8 @@
 3hr:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:LHFLX:LHFLX no change
 3hr:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:SHFLX:SHFLX no change
 3hr:huss:specific_humidity:longitude latitude time1 height2m:atmos:1:QREFHT:QREFHT no change
-3hr:mrro:runoff_flux:longitude latitude time:land:3:QOVER QDRAI QRGWL:QOVER + QDRAI + QRGWL
-3hr:mrsos:moisture_content_of_soil_layer:longitude latitude time1 sdepth1:land:2:SOILICE SOILLIQ:Integrate SOILICE + SOILLIQ over top 10cm
+3hr:mrro:runoff_flux:longitude latitude time:land:1:QRUNOFF:QRUNOFF
+3hr:mrsos:moisture_content_of_soil_layer:longitude latitude time1 sdepth1:land:1:SOILWATER_10CM:SOILWATER_10CM
 3hr:pr:precipitation_flux:longitude latitude time:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
 3hr:prc:convective_precipitation_flux:longitude latitude time:atmos:1:PRECC:PRECC unit conversion
 3hr:prsn:snowfall_flux:longitude latitude time:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion

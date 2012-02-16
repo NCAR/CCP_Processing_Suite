@@ -4,8 +4,8 @@ day:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:SHFLX
 day:hur:relative_humidity:longitude latitude plev8 time:atmos:2:RELHUM PS:RELHUM interpolated to standard plevs
 day:hus:specific_humidity:longitude latitude plev8 time:atmos:2:Q PS:Q interpolated to standard plevs
 day:huss:specific_humidity:longitude latitude time height2m:atmos:1:QREFHT:QREFHT no change
-day:mrro:runoff_flux:longitude latitude time:land:3:QOVER QDRAI QRGWL:QOVER + QDRAI + QRGWL
-day:mrsos:moisture_content_of_soil_layer:longitude latitude time sdepth1:land:2:SOILICE SOILLIQ:Integrate SOILICE + SOILLIQ over top 10cm
+day:mrro:runoff_flux:longitude latitude time:land:1:QRUNOFF:QRUNOFF
+day:mrsos:moisture_content_of_soil_layer:longitude latitude time sdepth1:land:1:SOILWATER_10CM:SOILWATER_10CM
 day:omldamax:ocean_mixed_layer_thickness_defined_by_mixing_scheme:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 day:pr:precipitation_flux:longitude latitude time:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
 day:prc:convective_precipitation_flux:longitude latitude time:atmos:1:PRECC:PRECC unit conversion
@@ -24,7 +24,7 @@ day:sfcWindmax:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:
 day:sic:sea_ice_area_fraction:longitude latitude time:seaIce ocean:1:aice:aice1
 day:sit:sea_ice_thickness:longitude latitude time:seaIce ocean:1:hi:hi unchanged
 day:snc:surface_snow_area_fraction:longitude latitude time:landIce land:1:FSNO:FSNO
-day:snw:surface_snow_amount:longitude latitude time:landIce land:2:SNOWICE SNOWLIQ:SNOWICE + SNOWLIQ
+day:snw:surface_snow_amount:longitude latitude time:landIce land:1:SNOWDP
 day:ta:air_temperature:longitude latitude plev8 time:atmos:2:T PS:T interpolated to standard plevs
 day:tas:air_temperature:longitude latitude time height2m:atmos:1:TREFHT:TREFHT no change
 day:tasmax:air_temperature:longitude latitude time height2m:atmos:1:TREFHTMX:TREFHTMX no change

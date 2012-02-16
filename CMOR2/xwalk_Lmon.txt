@@ -32,10 +32,10 @@ Lmon:lai:leaf_area_index:longitude latitude time:land:1:TLAI:TLAI
 Lmon:landCoverFrac:area_fraction:longitude latitude vegtype time:land:0:UNAVAILABLE:UNAVAILABLE
 Lmon:mrfso:soil_frozen_water_content:longitude latitude time:land landIce:1:SOILICE:SOILICE integrated over all layers
 Lmon:mrlsl:moisture_content_of_soil_layer:longitude latitude sdepth time:land:2:SOILLIQ SOILICE:SOILLIQ + SOILICE at each soil depth
-Lmon:mrro:runoff_flux:longitude latitude time:land:3:QOVER QDRAI QRGWL:QOVER + QDRAI + QRGWL
+Lmon:mrro:runoff_flux:longitude latitude time:land:1:QRUNOFF:QRUNOFF
 Lmon:mrros:surface_runoff_flux:longitude latitude time:land:1:QOVER:QOVER 
 Lmon:mrso:soil_moisture_content:longitude latitude time:land:2:SOILICE SOILLIQ:Integrate SOILICE + SOILLIQ over all layers
-Lmon:mrsos:moisture_content_of_soil_layer:longitude latitude time sdepth1:land:2:SOILICE SOILLIQ:Integrate SOILICE + SOILLIQ over top 10cm
+Lmon:mrsos:moisture_content_of_soil_layer:longitude latitude time1 sdepth1:land:1:SOILWATER_10CM:SOILWATER_10CM
 Lmon:nbp:surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes:longitude latitude time:land:1:NBP:NBP
 Lmon:nep:surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes_excluding_anthropogenic_land_use_change:longitude latitude time:land:1:UNKNOWN::UNKNOWN
 Lmon:npp:net_primary_productivity_of_carbon:longitude latitude time:land:1:NPP:NPP
