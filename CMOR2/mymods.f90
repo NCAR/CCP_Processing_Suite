@@ -39,7 +39,7 @@ module exp_info
   type SimInfo
      character(len=256)::case,loc,model_id,expt_id,rip_code,cmip,run_refcase,run_refdate
      character(len=256)::begin_end,grid,compset,repotag,start_fin,mach,dout,forcing
-     integer::begyr,endyr,length
+     integer::begyr,endyr,length,ens
   end type SimInfo
   integer::num_exp,exp_found,parent_found
   character(len=256)::case_read,comp_read

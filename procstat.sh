@@ -33,7 +33,7 @@ FILEBASE=${CASE}.${HIST}.${TPER} ; export FILEBASE
 FILEPS=${FILEBASE}.ps ; export FILEPS
 FILELOG=${FILEBASE}.log ; export FILELOG
 FILEDF=${FILEBASE}.df ; export FILEDF
-FILEHSI=${FILEBASE}.hsi; export FILEHSI
+#FILEHSI=${FILEBASE}.hsi; export FILEHSI
 
 #
 # get current user name and pp hostname
@@ -71,24 +71,24 @@ df -h >> ${FILEDF}
 #
 #
 # If NCAR MSS msrcp command exists, use it.
-date > ${FILEHSI}
+#date > ${FILEHSI}
 
 #
 # all sites should be using hsi
-TEST4HSI=`which hsi 2<&1`
-if [ $? -eq 0 ] ; then
-    rm -f tossme
-    hsi -q "cd $MSSPROC; ls -Fl" >& tossme
-    if [ $? -eq 0 ] ; then
-      egrep "\.${HIST}\." tossme | cut -c60- >> $FILEHSI
-      rm -f tossme
-    else
-      echo "procstat : (files may not have been written yet) Error on hsi from "$MSSPROC >> $FILEHSI
-      rm -f tossme
-    fi
-else
-    echo "procstat.sh: cannot find hsi command." >> $FILEHSI
-fi
+#TEST4HSI=`which hsi 2<&1`
+#if [ $? -eq 0 ] ; then
+#    rm -f tossme
+#    hsi -q "cd $MSSPROC; ls -Fl" >& tossme
+#    if [ $? -eq 0 ] ; then
+#      egrep "\.${HIST}\." tossme | cut -c60- >> $FILEHSI
+#      rm -f tossme
+#    else
+#      echo "procstat : (files may not have been written yet) Error on hsi from "$MSSPROC >> $FILEHSI
+#      rm -f tossme
+#    fi
+#else
+#    echo "procstat.sh: cannot find hsi command." >> $FILEHSI
+#fi
 
 #
 # create the mail messages
@@ -98,7 +98,7 @@ MAILTO=procstat@cgd.ucar.edu
 mail -s "procstat ${FILEPS}" ${MAILTO} < ${FILEPS}
 mail -s "procstat ${FILELOG}" ${MAILTO} < ${FILELOG}
 mail -s "procstat ${FILEDF}" ${MAILTO} < ${FILEDF}
-mail -s "procstat ${FILEHSI}" ${MAILTO} < ${FILEHSI}
+#mail -s "procstat ${FILEHSI}" ${MAILTO} < ${FILEHSI}
 
 #
 # check if procstat.sh was called with an argument either start, error or complete

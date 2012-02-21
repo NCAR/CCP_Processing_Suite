@@ -121,7 +121,7 @@ program Amon_CMOR
                  ntimes(1,ivar) = dim_info(n)%length
               endif
            enddo
-           call read_att_text(myncid(1,1),'time','units',time_units)
+           call read_att_text(myncid(1,ivar),'time','units',time_units)
            !
            do n=1,var_counter
               if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
@@ -133,10 +133,10 @@ program Amon_CMOR
               stop
            endif
            !
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,ivar)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,ivar)))
            !
-           do n=1,ntimes(1,1)
+           do n=1,ntimes(1,ivar)
               time_counter = n
               call read_var(myncid(1,ivar),'time_bnds',time_bnds(:,n))
               time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
@@ -803,7 +803,7 @@ program Amon_CMOR
                  time_counter = it
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2a)
-                 where (indat3a > 1.e6) indat3a = spval
+!                 where (indat3a > 1.e6) indat3a = spval
                  tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(        &
                       var_id        = cmor_var_id,   &
