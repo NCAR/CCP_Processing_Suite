@@ -411,6 +411,7 @@ program day_CMOR
                           cmordat2d = spval
                        endwhere
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       write(*,'(i6,3f15.1)') it,tbnd(1,1),tval(1),tbnd(2,1)
                        error_flag = cmor_write(      &
                             var_id        = cmor_var_id, &
                             data          = cmordat2d,   &
