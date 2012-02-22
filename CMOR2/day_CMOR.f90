@@ -340,8 +340,7 @@ program day_CMOR
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
                           write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                          stop
-                       else
+                          stop                       else
                           write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
                        endif
                     endif
@@ -375,15 +374,9 @@ program day_CMOR
                     time_counter = n
                     call read_var(myncid(ifile,ivar),'time_bnds',time_bnds(:,n))
                  enddo
+                 time_bnds(1,:) = time_bnds(2,:)
+                 time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
-                 write(*,'(''time original  1 : '',3f12.3)') time_bnds(1,1),time(1),time_bnds(2,1)
-                 write(*,'(''time original  2 : '',3f12.3)') time_bnds(1,2),time(2),time_bnds(2,2)
-                 write(*,'(''               N : '',3f12.3)') time_bnds(1,ntimes(ifile,ivar)),time(ntimes(ifile,ivar)),time_bnds(2,ntimes(ifile,ivar))
-                 time_bnds = time_bnds + 1
-                 time = (time_bnds(1,:)+time_bnds(2,:))/2.
-                 write(*,'(''time corrected 1 : '',3f12.3)') time_bnds(1,1),time(1),time_bnds(2,1)
-                 write(*,'(''time corrected 2 : '',3f12.3)') time_bnds(1,2),time(2),time_bnds(2,2)
-                 write(*,'(''               N : '',3f12.3)') time_bnds(1,ntimes(ifile,ivar)),time(ntimes(ifile,ivar)),time_bnds(2,ntimes(ifile,ivar))
                  !
                  if (ntimes(ifile,ivar) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks(ifile)= 5
@@ -461,7 +454,8 @@ program day_CMOR
                     time_counter = n
                     call read_var(myncid(ifile,ivar),'time_bnds',time_bnds(:,n))
                  enddo
-                 time_bnds(1,1) = time_bnds(1,1) - 1
+                 time_bnds(1,:) = time_bnds(2,:)
+                 time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
                  if (ntimes(ifile,ivar) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
@@ -534,7 +528,8 @@ program day_CMOR
                     time_counter = n
                     call read_var(myncid(ifile,ivar),'time_bnds',time_bnds(:,n))
                  enddo
-                 time_bnds(1,1) = time_bnds(1,1) - 1
+                 time_bnds(1,:) = time_bnds(2,:)
+                 time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
                  if (ntimes(ifile,ivar) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
@@ -612,7 +607,8 @@ program day_CMOR
                     time_counter = n
                     call read_var(myncid(ifile,ivar),'time_bnds',time_bnds(:,n))
                  enddo
-                 time_bnds(1,1) = time_bnds(1,1) - 1
+                 time_bnds(1,:) = time_bnds(2,:)
+                 time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
                  if (ntimes(ifile,ivar) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
@@ -690,7 +686,8 @@ program day_CMOR
                     time_counter = n
                     call read_var(myncid(ifile,1),'time_bnds',time_bnds(:,n))
                  enddo
-                 time_bnds(1,1) = time_bnds(1,1) - 1
+                 time_bnds(1,:) = time_bnds(2,:)
+                 time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
@@ -785,7 +782,8 @@ program day_CMOR
                     time_counter = n
                     call read_var(myncid(ifile,ivar),'time_bnds',time_bnds(:,n))
                  enddo
-                 time_bnds(1,1) = time_bnds(1,1) - 1
+                 time_bnds(1,:) = time_bnds(2,:)
+                 time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
