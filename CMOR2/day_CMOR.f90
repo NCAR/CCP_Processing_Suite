@@ -340,7 +340,8 @@ program day_CMOR
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
                           write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                          stop                       else
+                          stop                       
+                       else
                           write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
                        endif
                     endif
@@ -509,6 +510,13 @@ program day_CMOR
                  enddo
               enddo
            enddo
+           error_flag = cmor_close()
+           if (error_flag < 0) then
+              write(*,'(''ERROR CMOR close of '',a)') cmor_filename(1:128)
+              stop
+           else
+              write(*,'(''GOOD CMOR close of '',a)') cmor_filename(1:128)
+           endif
         case ('rlus')
            !
            ! rlus: Add FLDS + FLNS
@@ -584,6 +592,13 @@ program day_CMOR
                  enddo
               enddo
            enddo
+           error_flag = cmor_close()
+           if (error_flag < 0) then
+              write(*,'(''ERROR CMOR close of '',a)') cmor_filename(1:128)
+              stop
+           else
+              write(*,'(''GOOD CMOR close of '',a)') cmor_filename(1:128)
+           endif
         case ('rsus','rsuscs','rsut','rsutcs','rtmt')
            !
            ! rsus   : FSDS  - FSNS
@@ -663,6 +678,13 @@ program day_CMOR
                  enddo
               enddo
            enddo
+           error_flag = cmor_close()
+           if (error_flag < 0) then
+              write(*,'(''ERROR CMOR close of '',a)') cmor_filename(1:128)
+              stop
+           else
+              write(*,'(''GOOD CMOR close of '',a)') cmor_filename(1:128)
+           endif
         case ('ta','ua','va','hus','hur','wap','zg')
            !
            ! Vertically interpolate to standard pressure levels
@@ -838,6 +860,7 @@ program day_CMOR
                        cmor_filename(1:) = ' '
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
+
                           write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
                           stop
                        else
@@ -848,6 +871,13 @@ program day_CMOR
                  enddo
               enddo
            enddo
+           error_flag = cmor_close()
+           if (error_flag < 0) then
+              write(*,'(''ERROR CMOR close of '',a)') cmor_filename(1:128)
+              stop
+           else
+              write(*,'(''GOOD CMOR close of '',a)') cmor_filename(1:128)
+           endif
         end select
         if (allocated(indat2a))   deallocate(indat2a)
         if (allocated(indat2b))   deallocate(indat2b)
@@ -875,12 +905,6 @@ program day_CMOR
         if (allocated(time))      deallocate(time)
         if (allocated(time_bnds)) deallocate(time_bnds)
         !
-!!$              error_flag = cmor_close()
-!!$              if (error_flag < 0) then
-!!$                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-!!$              else
-!!$                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-!!$              endif
         call reset_netcdf_var
      endif
   enddo xwalk_loop
