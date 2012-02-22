@@ -296,7 +296,8 @@ program day_CMOR
                     time_counter = n
                     call read_var(myncid(ifile,ivar),'time_bnds',time_bnds(:,n))
                  enddo
-                 time_bnds(1,1) = time_bnds(1,1) - 1
+                 time_bnds(1,:) = time_bnds(2,:)
+                 time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
                  if (ntimes(ifile,ivar) == 56940) then         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
@@ -347,6 +348,13 @@ program day_CMOR
                  enddo
               enddo
            enddo
+           error_flag = cmor_close()
+           if (error_flag < 0) then
+              write(*,'(''ERROR CMOR close of '',a)') cmor_filename(1:128)
+              stop
+           else
+              write(*,'(''GOOD CMOR close of '',a)') cmor_filename(1:128)
+           endif
         case ('pr','prsn')
            !
            ! pr  : Add PRECC + PRECL  , unit change from m s-1 to kg m-2 s-1
