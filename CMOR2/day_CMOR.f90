@@ -366,13 +366,16 @@ program day_CMOR
            allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
            allocate(cmordat2d(nlons,nlats))
            if (nc_nfiles(1) == nc_nfiles(2)) then
-              do ifile = 1,nc_nfiles(ivar)
-                 call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-                 call get_dims(myncid(ifile,ivar))
-                 call get_vars(myncid(ifile,ivar))
+              do ifile = 1,nc_nfiles(1)
+                 call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+                 call get_dims(myncid(ifile,1))
+                 call get_vars(myncid(ifile,1))
+                 call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
+                 call get_dims(myncid(ifile,2))
+                 call get_vars(myncid(ifile,2))
                  !
-                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
-                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
+                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
+                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
                  !
                  do n = 1,ntimes(ifile,1)
                     time_counter = n
@@ -398,13 +401,13 @@ program day_CMOR
                  case default
                     nchunks(ifile)= 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  end select
                  do ic = 1,nchunks(ifile)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
-                       call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2a)
-                       call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2b)
+                       call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
+                       call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2b)
                        where ((indat2a /= spval).and.(indat2b /= spval))
                           cmordat2d = (indat2a + indat2b)*1000.
                        elsewhere
