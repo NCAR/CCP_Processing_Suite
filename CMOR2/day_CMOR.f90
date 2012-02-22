@@ -374,15 +374,15 @@ program day_CMOR
                  if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
                  if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
                  !
-                 do n = 1,ntimes(ifile,ivar)
+                 do n = 1,ntimes(ifile,1)
                     time_counter = n
-                    call read_var(myncid(ifile,ivar),'time_bnds',time_bnds(:,n))
+                    call read_var(myncid(ifile,1),'time_bnds',time_bnds(:,n))
                  enddo
                  time_bnds(1,:) = time_bnds(2,:)
                  time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
-                 select case (ntimes(ifile,ivar))
+                 select case (ntimes(ifile,1))
                  case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks(ifile)= 5
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
