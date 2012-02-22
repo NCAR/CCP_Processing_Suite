@@ -365,7 +365,7 @@ program day_CMOR
            !
            allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
            allocate(cmordat2d(nlons,nlats))
-           do ivar = 1,xw(ixw)%ncesm_vars
+           if (nc_nfiles(1) == nc_nfiles(2)) then
               do ifile = 1,nc_nfiles(ivar)
                  call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
                  call get_dims(myncid(ifile,ivar))
@@ -437,7 +437,7 @@ program day_CMOR
                     endif
                  enddo
               enddo
-           enddo
+           endif
            error_flag = cmor_close()
            if (error_flag < 0) then
               write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
