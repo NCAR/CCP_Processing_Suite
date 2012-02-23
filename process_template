@@ -1,6 +1,6 @@
-   CASE=xxxCASExxx ; export CASE
-   HIST=xxxHISTxxx ; export HIST
-   TPER=xxxTPERxxx ; export TPER
+CASE=xxxCASExxx ; export CASE
+HIST=xxxHISTxxx ; export HIST
+TPER=xxxTPERxxx ; export TPER
 #
 # Template for processing CCSM history netCDF files into single-field format 
 #
