@@ -289,8 +289,9 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 #
 # Check for exactly 365 samples from the same year
 #
-          NTIMES=`$NCKS -s "%8.8i\n" -F -H -C -v date $FILE | egrep "^[0-9]" | cut -c1-4 | uniq | wc -l`
-          if [ $NTIMES -eq 1 ] ; then
+          NTIMES=`$NCKS -s "%8.8i\n" -F -H -C -v date $FILE | egrep "^[0-9]" | wc -l`
+          NYEARS=`$NCKS -s "%8.8i\n" -F -H -C -v date $FILE | egrep "^[0-9]" | cut -c1-4 | uniq | wc -l`
+          if [ $NTIMES -eq 365 ] && [ $NYEARS -eq 1 ] ; then
             echo "time_split not required on "$FILE" 1 year length already from same year. Renaming."
             TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
             mv $FILE $TRIMD
