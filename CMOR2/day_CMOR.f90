@@ -342,10 +342,10 @@ program day_CMOR
                        cmor_filename(1:) = ' '
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
-                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                           stop                       
                        else
-                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                        endif
                     endif
                  enddo
@@ -353,10 +353,10 @@ program day_CMOR
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
-              write(*,'(''ERROR CMOR close of '',a)') cmor_filename(1:128)
+              write(*,'(''ERROR CMOR close of '',a)') trim(cmor_filename(1:))
               stop
            else
-              write(*,'(''GOOD CMOR close of '',a)') cmor_filename(1:128)
+              write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
            endif
         case ('pr','prsn')
            !
@@ -431,10 +431,10 @@ program day_CMOR
                        cmor_filename(1:) = ' '
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
-                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                           stop
                        else
-                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                        endif
                     endif
                  enddo
@@ -513,10 +513,10 @@ program day_CMOR
                        cmor_filename(1:) = ' '
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
-                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                           stop
                        else
-                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                        endif
                     endif
                  enddo
@@ -524,10 +524,10 @@ program day_CMOR
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
-              write(*,'(''ERROR CMOR close of '',a)') cmor_filename(1:128)
+              write(*,'(''ERROR CMOR close of '',a)') trim(cmor_filename(1:))
               stop
            else
-              write(*,'(''GOOD CMOR close of '',a)') cmor_filename(1:128)
+              write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
            endif
         case ('rlus')
            !
@@ -601,10 +601,10 @@ program day_CMOR
                        cmor_filename(1:) = ' '
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
-                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                           stop
                        else
-                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                        endif
                     endif
                  enddo
@@ -692,10 +692,10 @@ program day_CMOR
                        cmor_filename(1:) = ' '
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
-                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                           stop
                        else
-                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                        endif
                     endif
                  enddo
@@ -792,10 +792,10 @@ program day_CMOR
                        cmor_filename(1:) = ' '
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
-                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                           stop
                        else
-                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                        endif
                     endif
                  enddo
@@ -895,10 +895,10 @@ program day_CMOR
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
 
-                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                           stop
                        else
-                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                        endif
                     endif
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
@@ -907,10 +907,10 @@ program day_CMOR
            endif
            error_flag = cmor_close()
            if (error_flag < 0) then
-              write(*,'(''ERROR CMOR close of '',a)') cmor_filename(1:128)
+              write(*,'(''ERROR CMOR close of '',a)') trim(cmor_filename(1:))
               stop
            else
-              write(*,'(''GOOD CMOR close of '',a)') cmor_filename(1:128)
+              write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
            endif
         end select
         if (allocated(indat2a))   deallocate(indat2a)

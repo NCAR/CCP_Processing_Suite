@@ -243,7 +243,7 @@ program Omon_CMOR
         write(*,*) 'original_name = ',trim(original_name)
         !
         select case (xw(ixw)%entry)
-        case ('thetao','so','agessc','uo','vo','rhopoto','cfc11')
+        case ('thetao','so','agessc','uo','vo','rhopoto','cfc11','wmo','wmosq')
            ! Full-column fields
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
@@ -583,6 +583,94 @@ program Omon_CMOR
         case ('thetao','agessc','uo','vo','rhopoto')
            !
            ! thetao,agessc,uo,vo,rhopoto: No changes
+           !
+           allocate(indat3a(nlons,nlats,nlevs))
+           do ivar = 1,xw(ixw)%ncesm_vars
+              do ifile = 1,nc_nfiles(ivar)
+                 call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                 call get_dims(myncid(ifile,ivar))
+                 call get_vars(myncid(ifile,ivar))
+                 !
+                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
+                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
+                 !
+                 do n=1,ntimes(ifile,ivar)
+                    time_counter = n
+                    call read_var(myncid(ifile,ivar),'time_bound',time_bnds(:,n))
+                 enddo
+                 !
+                 time_bnds(1,1) = int(time_bnds(1,1))-1
+                 time = (time_bnds(1,:)+time_bnds(2,:))/2.
+                 !
+                 select case (ntimes(ifile,ivar))
+                 case ( 1152 )               ! RCP all in one file from 2005-2100
+                    nchunks(ifile) = 10
+                    tidx1(1) =  13
+                    tidx2(1) =  60
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 119
+                    enddo
+                 case ( 1872 ) ! 20C from 1850-2005
+                    nchunks(ifile) = 16
+                    tidx1(1) =   1
+                    tidx2(1) = 120
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 119
+                    enddo
+                 case default
+                    nchunks(ifile)   = 1
+                    tidx1(1:nchunks(ifile)) =  1
+                 end select
+                 !
+                 tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
+                 !
+                 write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+                 do ic = 1,nchunks(ifile)
+                    do it = tidx1(ic),tidx2(ic)
+                       time_counter = it
+                       !
+                       indat3a = spval
+                       call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
+                       !
+                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       error_flag = cmor_write(          &
+                            var_id        = cmor_var_id, &
+                            data          = indat3a,     &
+                            ntimes_passed = 1,           &
+                            time_vals     = tval,        &
+                            time_bnds     = tbnd)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                          stop
+                       endif
+                    enddo
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    !
+                    cmor_filename = ' '
+                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                       stop
+                    else
+                       write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+                    endif
+                 enddo
+                 call close_cdf(myncid(ifile,ivar))
+                 if (allocated(time))      deallocate(time)
+                 if (allocated(time_bnds)) deallocate(time_bnds)
+              enddo
+           enddo
+           error_flag = cmor_close()
+           if (error_flag < 0) then
+              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+           else
+              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+           endif
+        case ('wmo','wmosq')
+           !
+           ! wmo,wmosq: Multiply WVEL (WVEL2) by 
            !
            allocate(indat3a(nlons,nlats,nlevs))
            do ivar = 1,xw(ixw)%ncesm_vars
