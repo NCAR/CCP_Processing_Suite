@@ -25,13 +25,18 @@ fi
 #
 # Get files - check if hsi exists first
 #
-TEST4HSI=`which hsi 2<&1`
+TEST4HSI=`which hsi 2>&1`
 if [ $? -eq 0 ] ; then
-  hsi -q "cd ${ARCHIVE_PROC} ; cget -u ${CASE}.${HIST}.{${VARS}}.*.nc"
-  if [ $? -ne 0 ] ; then
-    echo "Error on hsi get of "$ARCHIVE_PROC" files. Stopping."
-    ./procstat.sh error mss_var_read
-    exit 1
+  hsi -q "ls -d ${ARCHIVE_PROC}" > /dev/null 2>&1
+  if [ $? -eq 0 ] ; then
+    hsi -q "cd ${ARCHIVE_PROC} ; cget -u ${CASE}.${HIST}.{${VARS}}.*.nc"
+    if [ $? -ne 0 ] ; then
+      echo "Error on hsi get of "$ARCHIVE_PROC" files. Stopping."
+      ./procstat.sh error mss_var_read
+      exit 1
+    fi
+  else
+    echo "Assuming files are already on disk, as "${ARCHIVE_PROC}" not found."
   fi
 else
   echo "Cannot find hsi command."

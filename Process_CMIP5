@@ -78,7 +78,7 @@ fi
 #
 # Start to build processing script
 #
-CMIP5_SCRIPT=${CASE}_${HIST}_cmip5_process.sh
+CMIP5_SCRIPT=${CASE}_${HIST}_${TABL}_process.sh
 rm -f $CMIP5_SCRIPT
 #
 # Acquire PROCHOST
