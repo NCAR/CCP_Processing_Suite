@@ -111,7 +111,6 @@ program day_CMOR
         do ivar = 1,xw(ixw)%ncesm_vars
            do ifile = 1,nc_nfiles(ivar)
               call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-              !                    write(*,'(''OPENING: '',a80,'' myncid: '',i10)') trim(ncfile(ifile,ivar)),myncid(ifile,ivar)
               call get_dims(myncid(ifile,ivar))
               call get_vars(myncid(ifile,ivar))
               !
@@ -276,7 +275,7 @@ program day_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('ccb','cct','clivi','clwvi','evspsbl','hfls','hfss','hurs','huss',&
+        case ('rhs','cct','clivi','clwvi','evspsbl','hfls','hfss','hurs','huss',&
               'prw','psl','ps','rldscs','rlds','rlutcs','rlut','rsdscs','rsds','rsdt',&
               'sci','tas','tasmax','tasmin','tauu','tauv','ts','clt')
            !

@@ -670,7 +670,7 @@ program Omon_CMOR
            endif
         case ('wmo','wmosq')
            !
-           ! wmo,wmosq: Multiply WVEL (WVEL2) by 
+           ! wmo,wmosq: Multiply WVEL (WVEL2) by PD to get vertical mass transport
            !
            allocate(indat3a(nlons,nlats,nlevs))
            do ivar = 1,xw(ixw)%ncesm_vars
