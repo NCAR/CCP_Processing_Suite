@@ -277,8 +277,8 @@ program day_CMOR
         !
         select case (xw(ixw)%entry)
         case ('ccb','cct','clivi','clwvi','evspsbl','hfls','hfss','hurs','huss',&
-             'prw','psl','ps','rldscs','rlds','rlutcs','rlut','rsdscs','rsds','rsdt',&
-             'sci','tas','tasmax','tasmin','tauu','tauv','ts')
+              'prw','psl','ps','rldscs','rlds','rlutcs','rlut','rsdscs','rsds','rsdt',&
+              'sci','tas','tasmax','tasmin','tauu','tauv','ts','clt')
            !
            ! No change
            !
