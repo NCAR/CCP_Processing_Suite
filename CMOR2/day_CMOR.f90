@@ -535,24 +535,27 @@ program day_CMOR
            !
            allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
            allocate(cmordat2d(nlons,nlats))
-           do ivar = 1,xw(ixw)%ncesm_vars
-              do ifile = 1,nc_nfiles(ivar)
-                 call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-                 call get_dims(myncid(ifile,ivar))
-                 call get_vars(myncid(ifile,ivar))
+           if (nc_nfiles(1) == nc_nfiles(2)) then
+              do ifile = 1,nc_nfiles(1)
+                 call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+                 call get_dims(myncid(ifile,1))
+                 call get_vars(myncid(ifile,1))
+                 call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
+                 call get_dims(myncid(ifile,2))
+                 call get_vars(myncid(ifile,2))
                  !
-                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
-                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
+                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
+                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
                  !
-                 do n = 1,ntimes(ifile,ivar)
+                 do n = 1,ntimes(ifile,1)
                     time_counter = n
-                    call read_var(myncid(ifile,ivar),'time_bnds',time_bnds(:,n))
+                    call read_var(myncid(ifile,1),'time_bnds',time_bnds(:,n))
                  enddo
                  time_bnds(1,:) = time_bnds(2,:)
                  time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
-                 select case (ntimes(ifile,ivar))
+                 select case (ntimes(ifile,1))
                  case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks(ifile)= 5
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
@@ -568,22 +571,22 @@ program day_CMOR
                  case default
                     nchunks(ifile)= 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  end select
                  do ic = 1,nchunks(ifile)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
-                       call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2a)
-                       call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2b)
+                       call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
+                       call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2b)
                        where ((indat2a /= spval).and.(indat2b /= spval))
-                          cmordat2d = (indat2a + indat2b)
+                          cmordat2d = (indat2a + indat2b)*1000.
                        elsewhere
                           cmordat2d = spval
                        endwhere
-                       tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(      &
                             var_id        = cmor_var_id, &
-                            data          = cmordat2d, &
+                            data          = cmordat2d,   &
                             ntimes_passed = 1,       &
                             time_vals     = tval,    &
                             time_bnds     = tbnd)
@@ -594,7 +597,7 @@ program day_CMOR
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                     !
-                    if (ic < nchunks(ifile)) then
+                    if (nchunks(ifile) /= 1) then
                        cmor_filename(1:) = ' '
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
@@ -606,13 +609,12 @@ program day_CMOR
                     endif
                  enddo
               enddo
-           enddo
+           endif
            error_flag = cmor_close()
            if (error_flag < 0) then
-              write(*,'(''ERROR CMOR close of '',a)') cmor_filename(1:128)
-              stop
+              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            else
-              write(*,'(''GOOD CMOR close of '',a)') cmor_filename(1:128)
+              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            endif
         case ('rsus','rsuscs','rsut','rsutcs','rtmt')
            !
@@ -624,24 +626,27 @@ program day_CMOR
            !
            allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
            allocate(cmordat2d(nlons,nlats))
-           do ivar = 1,xw(ixw)%ncesm_vars
-              do ifile = 1,nc_nfiles(ivar)
-                 call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-                 call get_dims(myncid(ifile,ivar))
-                 call get_vars(myncid(ifile,ivar))
+           if (nc_nfiles(1) == nc_nfiles(2)) then
+              do ifile = 1,nc_nfiles(1)
+                 call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+                 call get_dims(myncid(ifile,1))
+                 call get_vars(myncid(ifile,1))
+                 call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
+                 call get_dims(myncid(ifile,2))
+                 call get_vars(myncid(ifile,2))
                  !
-                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
-                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
+                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
+                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
                  !
-                 do n = 1,ntimes(ifile,ivar)
+                 do n = 1,ntimes(ifile,1)
                     time_counter = n
-                    call read_var(myncid(ifile,ivar),'time_bnds',time_bnds(:,n))
+                    call read_var(myncid(ifile,1),'time_bnds',time_bnds(:,n))
                  enddo
                  time_bnds(1,:) = time_bnds(2,:)
                  time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
-                 select case (ntimes(ifile,ivar))
+                 select case (ntimes(ifile,1))
                  case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks(ifile)= 5
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
@@ -657,22 +662,22 @@ program day_CMOR
                  case default
                     nchunks(ifile)= 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  end select
                  do ic = 1,nchunks(ifile)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
-                       call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2a)
-                       call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2b)
+                       call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
+                       call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2b)
                        where ((indat2a /= spval).and.(indat2b /= spval))
                           cmordat2d = indat2a - indat2b
                        elsewhere
                           cmordat2d = spval
                        endwhere
-                       tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                       tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(      &
                             var_id        = cmor_var_id, &
-                            data          = cmordat2d, &
+                            data          = cmordat2d,   &
                             ntimes_passed = 1,       &
                             time_vals     = tval,    &
                             time_bnds     = tbnd)
@@ -683,7 +688,7 @@ program day_CMOR
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                     !
-                    if (ic < nchunks(ifile)) then
+                    if (nchunks(ifile) /= 1) then
                        cmor_filename(1:) = ' '
                        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                        if (error_flag < 0) then
@@ -695,13 +700,12 @@ program day_CMOR
                     endif
                  enddo
               enddo
-           enddo
+           endif
            error_flag = cmor_close()
            if (error_flag < 0) then
-              write(*,'(''ERROR CMOR close of '',a)') cmor_filename(1:128)
-              stop
+              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            else
-              write(*,'(''GOOD CMOR close of '',a)') cmor_filename(1:128)
+              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            endif
         case ('ta','ua','va','hus','hur','wap','zg')
            !
@@ -745,10 +749,10 @@ program day_CMOR
                     nchunks(ifile)= 3
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
                     tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
-                 case default
-                    nchunks(ifile)= 1
-                    tidx1(1:nchunks(ifile)) = 1
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                 case ( 11315 )         ! LGM MOAR, 31 years, 5 * 5 year + 1 * 6 year chunks
+                    nchunks(ifile)= 6
+                    tidx1(1:nchunks(ifile)) = (/    1,  1826,  3651,  5476,  7301,  9126/)      ! 1870, 1875, 1880, 1885, 1890, 1895
+                    tidx2(1:nchunks(ifile)) = (/ 1825,  3650,  5475,  7300,  9125, 11315/)      ! 1874, 1879, 1884, 1889, 1894, 1900
                  end select
                  do ic = 1,nchunks(ifile)
                     do it = tidx1(ic),tidx2(ic)
@@ -808,18 +812,21 @@ program day_CMOR
            ! break up into nicely-sized chunks along time
            !
            allocate(indat3a(nlons,nlats,nlevs),indat2a(nlons,nlats))
-           do ivar = 1,xw(ixw)%ncesm_vars
-              do ifile = 1,nc_nfiles(ivar)
-                 call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-                 call get_dims(myncid(ifile,ivar))
-                 call get_vars(myncid(ifile,ivar))
+           if (nc_nfiles(1) == nc_nfiles(2)) then
+              do ifile = 1,nc_nfiles(1)
+                 call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+                 call get_dims(myncid(ifile,1))
+                 call get_vars(myncid(ifile,1))
+                 call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
+                 call get_dims(myncid(ifile,2))
+                 call get_vars(myncid(ifile,2))
                  !
-                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
-                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
+                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
+                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
                  !
-                 do n = 1,ntimes(ifile,ivar)
+                 do n = 1,ntimes(ifile,1)
                     time_counter = n
-                    call read_var(myncid(ifile,ivar),'time_bnds',time_bnds(:,n))
+                    call read_var(myncid(ifile,1),'time_bnds',time_bnds(:,n))
                  enddo
                  time_bnds(1,:) = time_bnds(2,:)
                  time_bnds(2,:) = time_bnds(1,:) + 1
@@ -840,10 +847,14 @@ program day_CMOR
                     nchunks(ifile)= 3
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
                     tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
-                 case default
-                    nchunks(ifile)= 1
-                    tidx1(1:nchunks(ifile)) = 1
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
+                 case ( 11315 )         ! LGM MOAR, 31 years, one file per year, since no vertical interpolation
+                    nchunks(1) = ntimes(1,1)/365
+                    tidx1(1) =   1
+                    tidx2(1) = 365
+                    do ic = 2,nchunks(1)
+                       tidx1(ic) = tidx2(ic-1) +   1
+                       tidx2(ic) = tidx1(ic)   + 364
+                    enddo
                  end select
                  do ic = 1,nchunks(ifile)
                     do it = tidx1(ic),tidx2(ic)
@@ -890,7 +901,7 @@ program day_CMOR
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  enddo
               enddo
-           enddo
+           endif
            error_flag = cmor_close()
            if (error_flag < 0) then
               write(*,'(''ERROR CMOR close of '',a)') cmor_filename(1:128)
