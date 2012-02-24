@@ -240,12 +240,12 @@ program day_CMOR
         write(*,*) 'original_name = ',trim(original_name)
         !
         select case (xw(ixw)%entry)
-        case ('ta','ua','va','hus','hur','wap','zg','tro3','tro3Clim','co2','co2Clim','ch4','ch4Clim','n2o','n2oClim')
+        case ('ta','ua','va','hus','hur','wap','zg')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4)/),  &
+                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(4),axis_ids(1)/),  &
                 missing_value=var_info(var_found(1,1))%missing_value,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
@@ -255,7 +255,7 @@ program day_CMOR
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4)/),  &
+                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(4),axis_ids(1)/),  &
                 missing_value=var_info(var_found(1,1))%missing_value,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
@@ -736,7 +736,7 @@ program day_CMOR
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
-                 select case (ntimes(ifile,ivar))
+                 select case (ntimes(ifile,1))
                  case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks(ifile)= 5
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
@@ -753,6 +753,10 @@ program day_CMOR
                     nchunks(ifile)= 6
                     tidx1(1:nchunks(ifile)) = (/    1,  1826,  3651,  5476,  7301,  9126/)      ! 1870, 1875, 1880, 1885, 1890, 1895
                     tidx2(1:nchunks(ifile)) = (/ 1825,  3650,  5475,  7300,  9125, 11315/)      ! 1874, 1879, 1884, 1889, 1894, 1900
+                 case default
+                    nchunks(ifile)= 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  end select
                  do ic = 1,nchunks(ifile)
                     do it = tidx1(ic),tidx2(ic)
@@ -834,7 +838,7 @@ program day_CMOR
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
-                 select case (ntimes(ifile,ivar))
+                 select case (ntimes(ifile,1))
                  case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks(ifile)= 5
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
@@ -859,9 +863,8 @@ program day_CMOR
                  do ic = 1,nchunks(ifile)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
-                       call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
-                       call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2a)
-                       where (indat3a > 5000.) indat3a = spval
+                       call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                       call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2a)
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(        &
                             var_id        = cmor_var_id,   &
