@@ -12,6 +12,12 @@ subroutine get_ice_grid
   !
   integer::gridid,i,j,n,length
   !
+  inquire(file='ice_grid_gx1.nc',exist=exists)
+  if (.not.(exists)) then
+     write(*,*) 'Cannot find ice_grid_gx1.nc - STOPPING.'
+     stop
+  endif
+  !
   call open_cdf(gridid,'ice_grid_gx1.nc',.true.)
   !
   ! Read time-invariant dimensions and variables from 'ice_grid_gx1.nc'

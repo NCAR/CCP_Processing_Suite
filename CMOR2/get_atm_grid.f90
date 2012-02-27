@@ -13,6 +13,12 @@ subroutine get_atm_grid
   double precision,allocatable,dimension(:)::slon,slat
   integer::gridid,i,j,k,n,length
   !
+  inquire(file='atm_grid_f09.nc',exist=exists)
+  if (.not.(exists)) then
+     write(*,*) 'Cannot find atm_grid_f09.nc - STOPPING.'
+     stop
+  endif
+  !
   call open_cdf(gridid,'atm_grid_f09.nc',.true.)
   !
   ! Read time-invariant dimensions and variables from 'atm_grid_f09.nc'

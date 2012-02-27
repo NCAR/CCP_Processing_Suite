@@ -12,6 +12,12 @@ subroutine get_lnd_grid
   !
   integer::gridid,i,j,k,n,length
   !
+  inquire(file='lnd_grid_f09.nc',exist=exists)
+  if (.not.(exists)) then
+     write(*,*) 'Cannot find lnd_grid_f09.nc - STOPPING.'
+     stop
+  endif
+  !
   call open_cdf(gridid,'lnd_grid_f09.nc',.true.)
   !
   ! Read time-invariant dimensions and variables from 'lnd_grid_f09.nc'

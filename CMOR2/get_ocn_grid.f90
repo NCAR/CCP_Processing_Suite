@@ -11,7 +11,13 @@ subroutine get_ocn_grid
   implicit none
   !
   integer::gridid,i,j,n,length
+  logical::exists
   !
+  inquire(file='ocn_grid_gx1.nc',exist=exists)
+  if (.not.(exists)) then
+     write(*,*) 'Cannot find ocn_grid_gx1.nc - STOPPING.'
+     stop
+  endif
   call open_cdf(gridid,'ocn_grid_gx1.nc',.true.)
   !
   ! Read time-invariant dimensions and variables from 'ocn_grid_gx1.nc'
