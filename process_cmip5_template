@@ -68,6 +68,7 @@ case "$PROCHOST" in
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
     HISTBASE=/CCSM/csm                   ; export HISTBASE
+    SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
     else
@@ -79,6 +80,7 @@ case "$PROCHOST" in
     PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
     HISTBASE=/CCSM/csm                   ; export HISTBASE
+    SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
     else
@@ -90,6 +92,7 @@ case "$PROCHOST" in
     PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
     HISTBASE=/CCSM/csm                            ; export HISTBASE
+    SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/contrib/lib:/glade/home/strandwg/lib:/fs/local/lib
     else
@@ -100,6 +103,7 @@ case "$PROCHOST" in
   euclid* )                                # euclid @ NERSC
     PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
+    SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
     else
@@ -110,6 +114,7 @@ case "$PROCHOST" in
   lens* )                                  # lens @ ORNL
     PROCBASE=/tmp/work/$USER/$CASE                     ; export PROCBASE
     ARCHIVE_BASE=/f2/ccsm/csm                          ; export ARCHIVE_BASE
+    SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
     else
