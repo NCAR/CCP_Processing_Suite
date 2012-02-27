@@ -19,9 +19,9 @@ CMORD=${HOME}/CCP_Processing_Suite/CMOR2
 XWALK=xwalk_fx.txt
 #
 ln -s -f ${CMORD}/Tables          .
-ln -s -f ${CMORD}/atm_grid_f09.nc .
-ln -s -f ${CMORD}/lnd_grid_f09.nc .
-ln -s -f ${CMORD}/ocn_grid_gx1.nc .
+ln -s -f ${CMORD}/GridFiles/atm_grid_f09.nc .
+ln -s -f ${CMORD}/GridFiles/lnd_grid_f09.nc .
+ln -s -f ${CMORD}/GridFiles/ocn_grid_gx1.nc .
 #
 # Assume all fields in xwalk to be processed
 #
@@ -52,9 +52,9 @@ fi
 #
 WHOAMI=`whoami`
 PRCHST=`hostname`
-SVNREV=`svn info $SVN | egrep "Rev:"`
-SVNDAT=`svn info $SVN | egrep "Date:"`
-SVNUID=`svn info $SVN | egrep "UUID:"`
+SVNREV=`$SVNBIN info $SVN | egrep "Rev:"`
+SVNDAT=`$SVNBIN info $SVN | egrep "Date:"`
+SVNUID=`$SVNBIN info $SVN | egrep "UUID:"`
 echo $WHOAMI >> Info_in.fx
 echo $PRCHST >> Info_in.fx
 echo $SVNREV >> Info_in.fx

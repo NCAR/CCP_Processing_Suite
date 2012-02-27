@@ -2,7 +2,6 @@ CASE=xxxCASExxx ; export CASE
 HIST=xxxHISTxxx ; export HIST
 TABL=xxxTABLxxx ; export TABL
 VARS="xxxVARSxxx" ; export VARS
-echo $VARS
 #
 # Template for processing single-field CESM netCDF files into CMIP5 format
 #
@@ -68,6 +67,7 @@ case "$PROCHOST" in
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
     HISTBASE=/CCSM/csm                   ; export HISTBASE
+    SVNBIN=/usr/bin/svn                  ; export SVNBIN
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
     else
@@ -79,6 +79,7 @@ case "$PROCHOST" in
     PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
     HISTBASE=/CCSM/csm                   ; export HISTBASE
+    SVNBIN=/usr/bin/svn                  ; export SVNBIN
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
     else
@@ -89,7 +90,8 @@ case "$PROCHOST" in
   mirage* )                                # DASG @ CISL/NCAR
     PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
-    HISTBASE=/CCSM/csm                   ; export HISTBASE
+    HISTBASE=/CCSM/csm                            ; export HISTBASE
+    SVNBIN=/fs/local/bin/svn                      ; export SVNBIN
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/contrib/lib:/glade/home/strandwg/lib:/fs/local/lib
     else
@@ -100,6 +102,7 @@ case "$PROCHOST" in
   euclid* )                                # euclid @ NERSC
     PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
+    SVNBIN=/usr/common/usg/bin/svn
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
     else
@@ -170,7 +173,7 @@ ARCHIVE_CMIP5=$ARCHIVE_BASE/CMIP5
 # Location of single-field format files on archive
 #
 case "$TABL" in
-  Amon | Lmon | OImon | Omon | cfMon | aero )
+  Amon | Lmon | OImon | Omon | LImon | cfMon | aero )
     ARCHIVE_PROC=${ARCHIVE_PROC}/monthly  ;;
   day | cfDay )
     ARCHIVE_PROC=${ARCHIVE_PROC}/daily   ;;
@@ -271,22 +274,21 @@ echo "BEGIN : procstat"
 #
 # Get archive listing
 #
-cd $CACHEDIR
-ARCHIVE_LIST=archive.$CASE.$HIST.VARS
-if [ ! -f $ARCHIVE_LIST ] ; then
-  echo "Getting archival list of "$CASE" "$HIST
-  ../mss_list $ARCHIVE_LIST
-  if [ $? -ne 0 ] ; then
-    echo "Error from mss_list"
-    ./procstat.sh error mss_list
-    exit 1
-  fi
-fi
+#cd $CACHEDIR
+#ARCHIVE_LIST=archive.$CASE.$HIST.VARS
+#if [ ! -f $ARCHIVE_LIST ] ; then
+#  echo "Getting archival list of "$CASE" "$HIST
+#  ../mss_list $ARCHIVE_LIST
+#  if [ $? -ne 0 ] ; then
+#    echo "Error from mss_list"
+#    ./procstat.sh error mss_list
+#    exit 1
+#  fi
+#fi
 #
 # Retrieve files from archive
 #
 cd $CACHEDIR
-pwd
 ../mss_var_read $ARCHIVE_PROC $CMIP5_VARS
 if [ $? -ne 0 ] ; then
   echo "Error from mss_var_read"

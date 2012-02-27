@@ -222,6 +222,8 @@ program day_CMOR
            var_info(var_found(1,1))%units = '1'
         case ('hurs','cl')
            var_info(var_found(1,1))%units = '%'
+        case ('rhs')
+           var_info(var_found(1,1))%units = '%'
         case ('prc','pr','prsn')
            var_info(var_found(1,1))%units = 'kg m-2 s-1'
         end select
