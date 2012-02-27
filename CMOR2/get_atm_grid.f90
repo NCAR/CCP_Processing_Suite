@@ -12,6 +12,7 @@ subroutine get_atm_grid
   !
   double precision,allocatable,dimension(:)::slon,slat
   integer::gridid,i,j,k,n,length
+  logical::exists
   !
   inquire(file='atm_grid_f09.nc',exist=exists)
   if (.not.(exists)) then

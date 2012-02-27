@@ -63,8 +63,8 @@ OBJ	= mymods.o \
 	  get_cmor_info.o \
 	  get_exp_metadata.o \
  	  build_filenames.o \
-	  define_atm_axes.o \
 	  define_lnd_axes.o \
+	  define_atm_axes.o \
 	  define_ice_axes.o \
 	  define_ocn_axes.o \
 	  load_expt.o \

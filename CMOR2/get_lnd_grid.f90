@@ -11,6 +11,7 @@ subroutine get_lnd_grid
   implicit none
   !
   integer::gridid,i,j,k,n,length
+  logical::exists
   !
   inquire(file='lnd_grid_f09.nc',exist=exists)
   if (.not.(exists)) then

@@ -129,12 +129,14 @@ esac
 #
 export LD_LIBRARY_PATH
 #
-# If CMOR binary and/or run script not available, quit
+# Rebuild CMOR binary
 #
-if [ ! -f $BINDIR/${TABL}_CMOR ] ; then
-  echo ${BINDIR}"/"${TABL}"_CMOR NOT found. Please compile. Stopping."
-  exit 1
-fi
+echo "Building "${BINDIR}"/"${TABL}"_CMOR"
+cd ${BASEDIR}/CMOR2
+make ${TABL}"_CMOR"
+#
+# If CMOR run script or xwalk not available, quit
+#
 if [ ! -f $BASEDIR/CMOR2/Run${TABL} ] ; then
   echo ${BASEDIR}"/CMOR2/Run"${TABL}" NOT found. Please create. Stopping."
   exit 1

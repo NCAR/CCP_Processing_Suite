@@ -11,6 +11,7 @@ subroutine get_ice_grid
   implicit none
   !
   integer::gridid,i,j,n,length
+  logical::exists
   !
   inquire(file='ice_grid_gx1.nc',exist=exists)
   if (.not.(exists)) then
