@@ -583,10 +583,14 @@ program LImon_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                    call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2a)
-                    call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat2a)
-                    where (indat2a /= var_info(var_found(1,1))%missing_value)
-                       cmordat2d = indat2a+indat2b+indat2c
+                    call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                    call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat2c)
+                    where ((indat2a /= var_info(var_found(1,1))%missing_value).and.&
+                           (indat2b /= var_info(var_found(1,2))%missing_value).and.&
+                           (indat2c /= var_info(var_found(1,3))%missing_value))
+                    cmordat2d = indat2a+indat2b+indat2c
+                    elsewhere
+                    cmordat2d = var_info(var_found(1,1))%missing_value
                     endwhere
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(      &

@@ -410,6 +410,10 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
         ./concatenate_data Y2D
         ./store_to_archive
       fi
+      if [ "$HIST" = "cam2.h2" ] && [ "$TPER" = "day" ] ; then
+        ./concatenate_data Y2D
+        ./store_to_archive
+      fi
     fi
   fi
 done
