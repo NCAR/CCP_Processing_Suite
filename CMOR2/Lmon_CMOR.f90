@@ -292,8 +292,8 @@ program Lmon_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-!        case ('evspsblveg','evspsblsoi','tran','mrros','prveg','lai','mrsos','mrro')
-        case ('evspsblveg','evspsblsoi','tran','mrros','prveg','lai','mrro')
+        case ('evspsblveg','evspsblsoi','tran','mrros','prveg','lai','mrsos','mrro')
+!        case ('evspsblveg','evspsblsoi','tran','mrros','prveg','lai','mrro')
            !
            ! No change
            !
@@ -638,74 +638,74 @@ program Lmon_CMOR
 !!$                 endif
 !!$              endif
 !!$           enddo
-        case ('mrsos')
-           !
-           ! Integrate SOILICE and SOILIQ over top 10 cm
-           !
-           allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs))
-           allocate(work3da(nlons,nlats,nlevs),work3db(nlons,nlats,nlevs))
-           allocate(cmordat2d(nlons,nlats))
-           !
-           ! Determine amount of data to write, to keep close to ~2 GB limit
-           !
-           select case(ntimes(1,1))
-           case ( 1872,1140,3612,6012,12012 )  ! All data
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
-           case ( 1152 )  ! RCP, 2005-2100, skip 2006
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 13
-              tidx2(1:nchunks(1)) = ntimes(1,1)
-           case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 3613
-              tidx2(1:nchunks(1)) = ntimes(1,1)
-           end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
-           do ic = 1,nchunks(1)
-              do it = tidx1(ic),tidx2(ic)
-                 time_counter = it
-                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                 call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat3b)
-                 work3da = 0. ; work3db = 0.
-                 do k = 1,4
-                    do j = 1,nlats
-                       do i = 1,nlons
-                          if (indat3a(i,j,k) /= spval) work3da(i,j,k) = indat3a(i,j,k)*lnd_dzsoi(i,j,k)
-                          if (indat3b(i,j,k) /= spval) work3db(i,j,k) = indat3b(i,j,k)*lnd_dzsoi(i,j,k)
-                       enddo
-                    enddo
-                 enddo
-                 cmordat2d = (sum(work3da,dim=3) + sum(work3db,dim=3))/sum(lnd_dzsoi(1,1,1:4))
-                 where (cmordat2d == 0.) 
-                    cmordat2d = 1.e20
-                 endwhere
-                 tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-                 error_flag = cmor_write(       &
-                      var_id        = cmor_var_id,  &
-                      data          = cmordat2d,&
-                      ntimes_passed = 1,        &
-                      time_vals     = tval,     &
-                      time_bnds     = tbnd)
-                 if (error_flag < 0) then
-                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                    stop
-                 endif
-              enddo
-              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-              !
-              if (ic < nchunks(1)) then
-                 cmor_filename(1:) = ' '
-                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                 if (error_flag < 0) then
-                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                    stop
-                 else
-                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                 endif
-              endif
-           enddo
+!!$        case ('mrsos')
+!!$           !
+!!$           ! Integrate SOILICE and SOILIQ over top 10 cm
+!!$           !
+!!$           allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs))
+!!$           allocate(work3da(nlons,nlats,nlevs),work3db(nlons,nlats,nlevs))
+!!$           allocate(cmordat2d(nlons,nlats))
+!!$           !
+!!$           ! Determine amount of data to write, to keep close to ~2 GB limit
+!!$           !
+!!$           select case(ntimes(1,1))
+!!$           case ( 1872,1140,3612,6012,12012 )  ! All data
+!!$              nchunks(1) = 1
+!!$              tidx1(1:nchunks(1)) = 1
+!!$              tidx2(1:nchunks(1)) = ntimes(1,1)
+!!$           case ( 1152 )  ! RCP, 2005-2100, skip 2006
+!!$              nchunks(1) = 1
+!!$              tidx1(1:nchunks(1)) = 13
+!!$              tidx2(1:nchunks(1)) = ntimes(1,1)
+!!$           case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
+!!$              nchunks(1) = 1
+!!$              tidx1(1:nchunks(1)) = 3613
+!!$              tidx2(1:nchunks(1)) = ntimes(1,1)
+!!$           end select
+!!$           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+!!$           do ic = 1,nchunks(1)
+!!$              do it = tidx1(ic),tidx2(ic)
+!!$                 time_counter = it
+!!$                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
+!!$                 call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat3b)
+!!$                 work3da = 0. ; work3db = 0.
+!!$                 do k = 1,4
+!!$                    do j = 1,nlats
+!!$                       do i = 1,nlons
+!!$                          if (indat3a(i,j,k) /= spval) work3da(i,j,k) = indat3a(i,j,k)*lnd_dzsoi(i,j,k)
+!!$                          if (indat3b(i,j,k) /= spval) work3db(i,j,k) = indat3b(i,j,k)*lnd_dzsoi(i,j,k)
+!!$                       enddo
+!!$                    enddo
+!!$                 enddo
+!!$                 cmordat2d = (sum(work3da,dim=3) + sum(work3db,dim=3))/sum(lnd_dzsoi(1,1,1:4))
+!!$                 where (cmordat2d == 0.) 
+!!$                    cmordat2d = 1.e20
+!!$                 endwhere
+!!$                 tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+!!$                 error_flag = cmor_write(       &
+!!$                      var_id        = cmor_var_id,  &
+!!$                      data          = cmordat2d,&
+!!$                      ntimes_passed = 1,        &
+!!$                      time_vals     = tval,     &
+!!$                      time_bnds     = tbnd)
+!!$                 if (error_flag < 0) then
+!!$                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+!!$                    stop
+!!$                 endif
+!!$              enddo
+!!$              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+!!$              !
+!!$              if (ic < nchunks(1)) then
+!!$                 cmor_filename(1:) = ' '
+!!$                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+!!$                 if (error_flag < 0) then
+!!$                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+!!$                    stop
+!!$                 else
+!!$                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+!!$                 endif
+!!$              endif
+!!$           enddo
         case ('mrso')
            !
            ! Integrate SOILICE and SOILIQ over all layers
