@@ -488,7 +488,9 @@ program LImon_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                    where (indat2a /= var_info(var_found(1,1))%missing_value)
+                    where (indat2a > (0.1*var_info(var_found(1,1))%missing_value))
+                       cmordat2d = 1.e20
+                    elsewhere
                        cmordat2d = 100*indat2a
                     endwhere
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
