@@ -314,6 +314,9 @@ program LImon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1)
+           enddo
         case ('snm')
            !
            ! snm  : QMELT, spval set to zero
@@ -379,6 +382,9 @@ program LImon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1)
+           enddo
         case ('snw')
            !
            ! snw : SNOWDP, convert from m to kg m-2 by multiplying by 1000
@@ -453,6 +459,9 @@ program LImon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1)
+           enddo
         case ('snc')
            !
            ! snc : FSNO, mulitply by 100 to get percentage
@@ -528,6 +537,9 @@ program LImon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1)
+           enddo
         case ('sootsn')
            !
            ! sootsn : SNOBCMSL + SNODSTMSL + SNOOCMSL
@@ -610,6 +622,11 @@ program LImon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1)
+              call close_cdf(myncid(ifile,2)
+              call close_cdf(myncid(ifile,3)
+           enddo
         end select
         if (allocated(indat2a))   deallocate(indat2a)
         if (allocated(indat2b))   deallocate(indat2b)
@@ -619,11 +636,6 @@ program LImon_CMOR
         if (allocated(indat3b))   deallocate(indat3b)
         if (allocated(work3da))   deallocate(work3da)
         if (allocated(work3db))   deallocate(work3db)
-        do ivar = 1,xw(ixw)%ncesm_vars
-           do ifile = 1,nc_nfiles(ivar)
-              call close_cdf(myncid(ifile,ivar))
-           enddo
-        enddo
         !
         ! Reset
         !
