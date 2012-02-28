@@ -315,7 +315,7 @@ program LImon_CMOR
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            endif
            do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1)
+              call close_cdf(myncid(ifile,1))
            enddo
         case ('snm')
            !
@@ -383,7 +383,7 @@ program LImon_CMOR
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            endif
            do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1)
+              call close_cdf(myncid(ifile,1))
            enddo
         case ('snw')
            !
@@ -460,7 +460,7 @@ program LImon_CMOR
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            endif
            do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1)
+              call close_cdf(myncid(ifile,1))
            enddo
         case ('snc')
            !
@@ -538,7 +538,7 @@ program LImon_CMOR
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            endif
            do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1)
+              call close_cdf(myncid(ifile,1))
            enddo
         case ('sootsn')
            !
@@ -623,9 +623,9 @@ program LImon_CMOR
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            endif
            do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1)
-              call close_cdf(myncid(ifile,2)
-              call close_cdf(myncid(ifile,3)
+              call close_cdf(myncid(ifile,1))
+              call close_cdf(myncid(ifile,2))
+              call close_cdf(myncid(ifile,3))
            enddo
         end select
         if (allocated(indat2a))   deallocate(indat2a)
