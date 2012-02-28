@@ -268,6 +268,7 @@ program LImon_CMOR
                  call read_var(myncid(ifile,1),'time_bounds',time_bnds(:,n))
                  if (n == 1) time_bnds(1,n) = 0.
               enddo
+              time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
               case ( 1872,1140,3612,6012,12012 )  ! All data
