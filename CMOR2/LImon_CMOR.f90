@@ -582,9 +582,6 @@ program LImon_CMOR
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
-                    write(*,*) trim(var_info(var_found(ifile,1))%name)
-                    write(*,*) trim(var_info(var_found(ifile,2))%name)
-                    write(*,*) trim(var_info(var_found(ifile,3))%name)
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
                     call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2b)
                     call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat2c)
