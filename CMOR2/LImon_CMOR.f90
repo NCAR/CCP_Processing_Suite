@@ -31,7 +31,6 @@ program LImon_CMOR
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
   integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ilev,ic,jfile
-  real::spval
   logical::does_exist
   !
   ! GO!
@@ -222,8 +221,6 @@ program LImon_CMOR
         case ('snm')
            var_info(var_found(1,1))%units = 'kg m-2 s-1'
         end select
-        !
-        spval=var_info(var_found(1,1))%missing_value
         !
         write(*,*) 'calling cmor_variable:'
         write(*,*) 'table         = ',trim(mycmor%table_file)
@@ -502,7 +499,7 @@ program LImon_CMOR
                     time_counter = it
                     call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
                     where (indat2a > (0.1*var_info(var_found(1,1))%missing_value))
-                       cmordat2d = 1.e20
+                       cmordat2d = var_info(var_found(1,1))%missing_value
                     elsewhere
                        cmordat2d = 100*indat2a
                     endwhere
