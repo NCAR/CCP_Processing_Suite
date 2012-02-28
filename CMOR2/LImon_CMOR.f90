@@ -263,11 +263,11 @@ program LImon_CMOR
               if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
               if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
               !
-              do n=1,ntimes(ifile,1)
+              do n=1,ntimes(1,1)
                  time_counter = n
-                 call read_var(myncid(ifile,1),'time_bounds',time_bnds(:,n))
+                 call read_var(myncid(1,ivar),'time_bounds',time_bnds(:,n))
+                 if (n == 1) time_bnds(1,n) = 0.
               enddo
-              time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
               case ( 1872,1140,3612,6012,12012 )  ! All data
@@ -329,7 +329,8 @@ program LImon_CMOR
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
-                 call read_var(myncid(ifile,1),'time_bounds',time_bnds(:,n))
+                 call read_var(myncid(1,ivar),'time_bounds',time_bnds(:,n))
+                 if (n == 1) time_bnds(1,n) = 0.
               enddo
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
@@ -393,7 +394,8 @@ program LImon_CMOR
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
-                 call read_var(myncid(ifile,1),'time_bounds',time_bnds(:,n))
+                 call read_var(myncid(1,ivar),'time_bounds',time_bnds(:,n))
+                 if (n == 1) time_bnds(1,n) = 0.
               enddo
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
@@ -464,9 +466,10 @@ program LImon_CMOR
               if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
               if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
               !
-              do n=1,ntimes(ifile,1)
+              do n=1,ntimes(1,1)
                  time_counter = n
-                 call read_var(myncid(ifile,1),'time_bounds',time_bnds(:,n))
+                 call read_var(myncid(1,ivar),'time_bounds',time_bnds(:,n))
+                 if (n == 1) time_bnds(1,n) = 0.
               enddo
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
@@ -545,9 +548,10 @@ program LImon_CMOR
               if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
               if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
               !
-              do n=1,ntimes(ifile,1)
+              do n=1,ntimes(1,1)
                  time_counter = n
-                 call read_var(myncid(ifile,1),'time_bounds',time_bnds(:,n))
+                 call read_var(myncid(1,ivar),'time_bounds',time_bnds(:,n))
+                 if (n == 1) time_bnds(1,n) = 0.
               enddo
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
