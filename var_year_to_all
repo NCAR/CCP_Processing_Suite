@@ -50,7 +50,7 @@ DHT2=1
 while [ $IDOT -le $NDOT ] ; do
   CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
   case "$CURC" in
-    cam2 | clm2 | pop | csim | cice )
+    cam2 | cam | clm2 | pop | csim | cice )
       DCAS=`expr '(' $IDOT ')' '-' '1'`
       DVAR=`expr '(' $IDOT ')' '+' '1'`
       DHT1=$IDOT ;;

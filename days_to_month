@@ -1,6 +1,6 @@
 #!/bin/sh
 # 
-# Check for ncl
+# Check for ncrcat
 #
 if [ ! $NCRCAT ] ; then
   TEST4NCRCAT=`which ncrcat 2>&1`
@@ -44,7 +44,7 @@ DPFX=1
 while [ $IDOT -le $NDOT ] ; do
   CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
   case "$CURC" in
-    cam2 )
+    cam2 | cam )
       DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
     clm2 )
       DPFX=`expr '(' $IDOT ')' '+' '1'` ;;

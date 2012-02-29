@@ -49,7 +49,7 @@ DPFX=1
 while [ $IDOT -le $NDOT ] ; do
   CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
   case "$CURC" in
-    cam2 )
+    cam2 | cam )
       DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
     clm2 )
       DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
@@ -66,7 +66,7 @@ COMP=`echo $FILE | cut -d"." -f${DCMP}`
 #
 NT=`$NCKS -M $FILE | egrep "Record" | cut -d"=" -f3`
 #
-if [ "$COMP" = "cam2" ] ; then
+if [ "$COMP" = "cam2" ] || [ "$COMP" = "cam" ] ; then
   IT=1
   while [ $IT -le $NT ] ; do
     TM=`$NCKS -s "%8.8i\n" -F -H -C -v date    -d time,${IT},${IT} $FILE`

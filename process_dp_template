@@ -117,7 +117,7 @@ HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
 # Convert history type to component name
 #
 case "$HTYP" in
-  cam2 )
+  cam2 | cam )
     COMP_NAME=atm ;;
   clm2 ) 
     COMP_NAME=lnd ;;
@@ -276,7 +276,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 # Check on data type to see if it needs time splitting and reconcatenating first
 #
     case "$HIST" in
-      cam2.h1 | cam2.h2 | cam2.h3 | cam2.h4 | cam2.h5 )
+      cam2.h1 | cam2.h2 | cam2.h3 | cam2.h4 | cam2.h5 | cam.h1 | cam.h2 | cam.h3 | cam.h4 | cam.h5 )
         for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??-?????.nc` ; do
 #
 # Check for exactly 365 samples from the same year

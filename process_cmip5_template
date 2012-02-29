@@ -154,7 +154,7 @@ HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
 # Convert history type to component name
 #
 case "$HTYP" in
-  cam2 )
+  cam2 | cam )
     COMP_NAME=atm ;;
   clm2 ) 
     COMP_NAME=lnd ;;
