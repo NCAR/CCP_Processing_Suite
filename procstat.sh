@@ -42,16 +42,18 @@ case "$HOSTNAME" in
     ps auwx | grep ${USER} >> ${FILEPS}
     date > ${FILELOG}
     if [ -f $LOGFILE ] ; then
-      tail -n 40 ${LOGFILE} >> ${FILELOG} ;;
+      tail -n 40 ${LOGFILE} >> ${FILELOG}
     fi
+    ;;
   lens* )                                  # lens @ ORNL
     LOGFILE=`ls ~/CCP_Processing_Suite/*.ER`
     date > ${FILEPS}
     qstat >> ${FILEPS}
     date > ${FILELOG}
     if [ -f $LOGFILE ] ; then
-      tail -n 40 ${LOGFILE} >> ${FILELOG} ;;
+      tail -n 40 ${LOGFILE} >> ${FILELOG}
     fi
+    ;;
   * )
     date > ${FILELOG}
     echo "procstat : LOGFILE does not exist for "${LOCATION}" - "${FILEBASE} >> ${FILELOG}
