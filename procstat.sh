@@ -10,41 +10,22 @@ function DEBUG()
 {
  [ "$_DEBUG" == "on" ] &&  $@
 }
-
-# for debugging, hardcode - will get these from env. vars.
-#
-#CASE=b40.20th.bcarb.1deg.008
-#HIST=cam2.h0
-#TPER=
-#TABL=Amon
-#HTYP=atm
-#LOCATION=NE
-#PROCHOST=mirage1
-#MSSPROC=/CCSM/csm/b40.20th.bcarb.1deg.008/atm/proc/tseries/monthly
-#ARCHIVE_CMIP5=/CCSM/csm/CMIP5
-
 #
 # for CMIP5 processing TPER not set but TABL is so use that for TPER
 #
 if ! [ $TPER ] ; then
     TPER=$TABL
 fi
-
 #
 # generate a base filename
 #
-#FILEBASE=${CASE}_${HIST}_${TPER}_${DO_PROC}_${DO_CMIP} ; export FILEBASE
 FILEBASE=${CASE}.${HIST}.${TPER} ; export FILEBASE
-
-
 #
 # generate the filenames to be used
 #
 FILEPS=${FILEBASE}.ps ; export FILEPS
 FILELOG=${FILEBASE}.log ; export FILELOG
 FILEDF=${FILEBASE}.df ; export FILEDF
-FILEHSI=${FILEBASE}.hsi; export FILEHSI
-
 #
 # get current user name and pp hostname
 #
@@ -56,66 +37,36 @@ HOSTNAME=`hostname`
 #
 case "$HOSTNAME" in 
   silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
-    LOGFILE=`ls ~/CCP_Processing_Suite/log*${CASE}*${HIST}*`
+    LOGFILE=`ls ~/CCP_Processing_Suite/log.${CASE}_${HIST}_process.sh`
     date > ${FILEPS}
     ps auwx | grep ${USER} >> ${FILEPS}
     date > ${FILELOG}
-    tail -n 40 ${LOGFILE} >> ${FILELOG} ;;
+    if [ -f $LOGFILE ] ; then
+      tail -n 40 ${LOGFILE} >> ${FILELOG} ;;
+    fi
   lens* )                                  # lens @ ORNL
     LOGFILE=`ls ~/CCP_Processing_Suite/*.ER`
     date > ${FILEPS}
     qstat >> ${FILEPS}
     date > ${FILELOG}
-    tail -n 40 ${LOGFILE} >> ${FILELOG} ;;
+    if [ -f $LOGFILE ] ; then
+      tail -n 40 ${LOGFILE} >> ${FILELOG} ;;
+    fi
   * )
     date > ${FILELOG}
     echo "procstat : LOGFILE does not exist for "${LOCATION}" - "${FILEBASE} >> ${FILELOG}
     ;;
 esac
-
+#
 date > ${FILEDF}
 df -h >> ${FILEDF}
-
-#
-# get the mass store listing to see where we are in the processing using $MSSPROC
-#
-#
-# If NCAR MSS msrcp command exists, use it.
-date > ${FILEHSI}
-
-#
-# all sites should be using hsi
-# ASB - 2/23/2012 MSSPROC may not be defined for CMIP5/CMOR processing so test first
-#
-if ! [ $MSSPROC ] ; then
-    TEST4HSI=`which hsi 2<&1`
-    if [ $? -eq 0 ] ; then
-	rm -f tossme
-	hsi -q "cd $MSSPROC; ls -Fl" >& tossme
-	if [ $? -eq 0 ] ; then
-	    egrep "\.${HIST}\." tossme | cut -c60- >> $FILEHSI
-	    rm -f tossme
-	else
-	    echo "procstat : (files may not have been written yet) Error on hsi from "$MSSPROC >> $FILEHSI
-	    rm -f tossme
-	fi
-    else
-	echo "procstat.sh: cannot find hsi command." >> $FILEHSI
-    fi
-else
-    echo "procstat.sh: CMIP5 processing. For processed files, see individual processing locations or "$ARCHIVE_CMIP5 >> $FILEHSI
-fi
-
 #
 # create the mail messages
 #
 MAILTO=procstat@cgd.ucar.edu
-
 mail -s "procstat ${FILEPS}" ${MAILTO} < ${FILEPS}
 mail -s "procstat ${FILELOG}" ${MAILTO} < ${FILELOG}
 mail -s "procstat ${FILEDF}" ${MAILTO} < ${FILEDF}
-mail -s "procstat ${FILEHSI}" ${MAILTO} < ${FILEHSI}
-
 #
 # check if procstat.sh was called with an argument either start, error or complete
 # if so, then send an email to trigger an automatic update of the
@@ -126,7 +77,7 @@ if [ $# -ge 1 ] ; then
 # get the user name and corresponding email address to notify user
 #
     case "$USER" in
-    'aliceb' | 'ilana' | 'strandwg' | 'hteng' | 'jma' )
+    'aliceb' | 'ilana' | 'strandwg' | 'hteng' | 'jma' | 'asphilli' )
          MAILTOUSER=${USER}@ucar.edu ;;
     'abertini')
          MAILTOUSER=aliceb@ucar.edu  ;;
