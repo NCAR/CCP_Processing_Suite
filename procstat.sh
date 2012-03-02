@@ -37,26 +37,19 @@ HOSTNAME=`hostname`
 #
 case "$HOSTNAME" in 
   silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
-    LOGFILE=`ls ~/CCP_Processing_Suite/log.${CASE}_${HIST}_process.sh`
     date > ${FILEPS}
     ps auwx | grep ${USER} >> ${FILEPS}
     date > ${FILELOG}
-    if [ -f $LOGFILE ] ; then
-      tail -n 40 ${LOGFILE} >> ${FILELOG}
-    fi
     ;;
   lens* )                                  # lens @ ORNL
-    LOGFILE=`ls ~/CCP_Processing_Suite/*.ER`
     date > ${FILEPS}
     qstat >> ${FILEPS}
     date > ${FILELOG}
-    if [ -f $LOGFILE ] ; then
-      tail -n 40 ${LOGFILE} >> ${FILELOG}
-    fi
     ;;
   * )
     date > ${FILELOG}
-    echo "procstat : LOGFILE does not exist for "${LOCATION}" - "${FILEBASE} >> ${FILELOG}
+    echo "procstat: "${HOSTNAME}" unknown - "${FILEBASE} >> ${FILELOG}
+    exit 1
     ;;
 esac
 #
