@@ -182,6 +182,8 @@ subroutine load_exp(exp_file)
      case ('decadal1961','decadal1966','decadal1971','decadal1975','decadal1976','decadal1980',&
            'decadal1981','decadal1985','decadal1986','decadal1990','decadal1991','decadal1995','decadal1996')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU'
+     case ('decadal2000','decadal2001','decadal2002','decadal2003','decadal2004','decadal2005','decadal2006')
+        exp(i)%forcing(1:)      = 'Sl GHG SS Ds SD BC MD OC Oz AA LU'
      case ('esmControl')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('esmFdbk1')
