@@ -313,7 +313,7 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
-              case ( 1152 ) ! RCP, skip 2005
+              case ( 60, 1152 ) ! RCP, skip 2005
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 13
               case default
@@ -376,15 +376,15 @@ program Omon_CMOR
                  time_bnds(1,1) = int(time_bnds(1,1))-1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
-                 select case (ntimes(ifile,ivar))
-                 case ( 1152 ) ! RCP, skip 2005
+                 select case (ntimes(ifile,1))
+                 case ( 60, 1152 ) ! RCP, skip 2005
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
                  case default
                     nchunks(ifile)   = 1
                     tidx1(1:nchunks(ifile)) =  1
                  end select
-                 tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
                  do ic = 1,nchunks(ifile)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
@@ -442,15 +442,15 @@ program Omon_CMOR
                  time_bnds(1,1) = int(time_bnds(1,1))-1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
-                 select case (ntimes(ifile,ivar))
-                 case ( 1152 ) ! RCP, skip 2005
+                 select case (ntimes(ifile,1))
+                 case ( 60, 1152 ) ! RCP, skip 2005
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
                  case default
                     nchunks(ifile)   = 1
                     tidx1(1:nchunks(ifile)) =  1
                  end select
-                 tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
                  do ic = 1,nchunks(ifile)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
@@ -471,15 +471,6 @@ program Omon_CMOR
                        endif
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                    !
-                    cmor_filename = ' '
-                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
-                       stop
-                    else
-                       write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
-                    endif
                  enddo
                  call close_cdf(myncid(ifile,ivar))
                  if (allocated(time))      deallocate(time)
@@ -514,15 +505,15 @@ program Omon_CMOR
                  time_bnds(1,1) = int(time_bnds(1,1))-1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
-                 select case (ntimes(ifile,ivar))
-                 case ( 1152 ) ! RCP, skip 2005
+                 select case (ntimes(ifile,1))
+                 case ( 60, 1152 ) ! RCP, skip 2005
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
                  case default
                     nchunks(ifile)   = 1
                     tidx1(1:nchunks(ifile)) =  1
                  end select
-                 tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
                  do ic = 1,nchunks(ifile)
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
@@ -546,17 +537,6 @@ program Omon_CMOR
                        endif
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                    !
-                    if ((it-1) /= tidx2(ic)) then
-                       cmor_filename = ' '
-                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                       if (error_flag < 0) then
-                          write(*,'(''ERROR close & preserve: '',a)') cmor_filename(1:128)
-                          stop
-                       else
-                          write(*,'('' GOOD close & preserve: '',a)') cmor_filename(1:128)
-                       endif
-                    endif
                  enddo
                  call close_cdf(myncid(ifile,ivar))
                  if (allocated(time))      deallocate(time)
@@ -592,6 +572,9 @@ program Omon_CMOR
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
                  select case (ntimes(ifile,ivar))
+                 case ( 60 ) ! RCP, skip 2005
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 13
                  case ( 1152 )               ! RCP all in one file from 2005-2100
                     nchunks(ifile) = 10
                     tidx1(1) =  13
@@ -680,6 +663,10 @@ program Omon_CMOR
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
                  select case (ntimes(ifile,ivar))
+                 case ( 60 )               ! RCP from 2005-2009, skip 2005
+                    nchunks(ifile)   = 1
+                    tidx1(nchunks(ifile)) = 13
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
                  case ( 1152 )               ! RCP all in one file from 2005-2100
                     nchunks(ifile) = 10
                     tidx1(1) =  13
@@ -795,7 +782,6 @@ program Omon_CMOR
                           enddo
                        enddo
                     enddo
-                    write(*,*) 'MASSO: ',indat1a(it)
                  enddo
               enddo
               call close_cdf(myncid(ifile,1))
@@ -813,15 +799,6 @@ program Omon_CMOR
                  stop
               endif
               write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-              !
-!!$              cmor_filename = ' '
-!!$              error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-!!$              if (error_flag < 0) then
-!!$                 write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
-!!$                 stop
-!!$              else
-!!$                 write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
-!!$              endif
               if (allocated(indat1a))   deallocate(indat1a)
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
@@ -855,6 +832,10 @@ program Omon_CMOR
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
                  select case (ntimes(ifile,ivar))
+                 case ( 60 )               ! RCP from 2005-2009, skip 2005
+                    nchunks(ifile)   = 1
+                    tidx1(nchunks(ifile)) = 13
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
                  case ( 1152 )               ! RCP all in one file from 2005-2100
                     nchunks(ifile) = 10
                     tidx1(1) =  13

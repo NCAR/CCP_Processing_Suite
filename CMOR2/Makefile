@@ -23,7 +23,7 @@ ifeq ($(MACH),silver)
   UIDINC  = -I${UIDDIR}/include
   UIDLIB  = -L${UIDDIR}/lib -luuid
   FC	  = /usr/local/pgi/linux86/bin/pgf95
-  FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -module ${CMRDIR} -Mbounds
+  FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -module ${CMRDIR} -Mbounds -fpic
 endif
 #
 # 'mirage' cluser in CISL
