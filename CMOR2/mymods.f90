@@ -3,11 +3,11 @@
 !
 module max_parms
   !
-  integer,parameter::max_entries   = 10000
-  integer,parameter::max_exprmnt   = 10000
-  integer,parameter::max_cesm_vars =    10
-  integer,parameter::max_ncfiles   =  1000
-  integer,parameter::max_nchunks   =  1000
+  integer,parameter::max_entries   = 100000
+  integer,parameter::max_exprmnt   =  10000
+  integer,parameter::max_cesm_vars =     10
+  integer,parameter::max_ncfiles   =   1000
+  integer,parameter::max_nchunks   =   1000
   !
 end module max_parms
 !

@@ -64,7 +64,7 @@ Omon:hfibthermds:heat_flux_into_sea_water_due_to_iceberg_thermodynamics:longitud
 Omon:hfls:surface_downward_latent_heat_flux:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfnorthba:northward_ocean_heat_transport_due_to_bolus_advection:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfnorthdiff:northward_ocean_heat_transport_due_to_diffusion:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfnorth:northward_ocean_heat_transport:longitude latitude time:ocean:1:N_HEAT:N_HEAT
+Omon:hfnorth:northward_ocean_heat_transport:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfrainds:temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfrunoffds2d:temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfrunoffds:temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water:longitude latitude olevel time:ocean:1:UNKNOWN:UNKNOWN

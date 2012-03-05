@@ -73,6 +73,14 @@ case "$PROCHOST" in
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
     ;;
 
+  modeling1* )                                # modeling1 in ACD
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/usr/local/bin/ncks              ; export NCKS
+    NCRCAT=/usr/local/bin/ncrcat          ; export NCRCAT
+    PROCBASE=/data6/$USER/$CASE           ; export PROCBASE
+    ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
+    ;;
+
   mirage* )                                # DASG @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/fs/local/bin/ncks                       ; export NCKS

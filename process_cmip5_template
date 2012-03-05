@@ -76,6 +76,17 @@ case "$PROCHOST" in
     fi
     ;;
 
+  modeling1* )                                # modeling1 in ACD
+    PROCBASE=/data6/$USER/$CASE           ; export PROCBASE
+    ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
+    SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
+    if ! [ $LD_LIBRARY_PATH ] ; then
+      LD_LIBRARY_PATH=/data1/strandwg/software/uuid-1.6.2/lib
+    else
+      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/data1/strandwg/software/uuid-1.6.2/lib
+    fi
+    ;;
+
   tramhill* | hurricane* )                 # tramhill/hurricane @ CGD/NCAR
     PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
