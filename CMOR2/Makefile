@@ -30,8 +30,8 @@ endif
 ifeq ($(MACH),mirage)
   NCFDIR  = /fs/local/apps/netcdf-4.1.3_pgi
   UDUDIR  = /fs/local/apps/udunits-2.1.19
-  UIDDIR  = /glade/home/strandwg/cmor2/uuid-1.6.2
-  CMRDIR  = /glade/home/strandwg/cmor2/cmor
+  UIDDIR  = /glade/home/strandwg/software/uuid-1.6.2
+  CMRDIR  = /glade/home/strandwg/software/cmor
   HD5DIR  = /fs/local/apps/hdf5-1.8.7
   KRBDIR  = /usr/lib64
 #
@@ -42,7 +42,8 @@ ifeq ($(MACH),mirage)
   UDULIB  = -L${UDUDIR}/lib -ludunits2 -lexpat
   UIDINC  = -I${UIDDIR}/include
   UIDLIB  = -L${UIDDIR}/lib -luuid
-  FC	  = /fs/local/bin/pgf95
+  FC	  = /fs/local/bin/pgfortran
+  FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -fpic
 endif
 #
 #

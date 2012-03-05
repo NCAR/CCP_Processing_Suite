@@ -73,6 +73,9 @@ echo $COMP >> Omon_in.${CASE}.${COMP}
 #
 WHOAMI=`whoami`
 PRCHST=`hostname`
+if [ ! $SVNBIN ] ; then
+  SVNBIN=`which svn` ; export SVNBIN
+fi
 SVNREV=`$SVNBIN info $SVN | egrep "Rev:"`
 SVNDAT=`$SVNBIN info $SVN | egrep "Date:"`
 SVNUID=`$SVNBIN info $SVN | egrep "UUID:"`

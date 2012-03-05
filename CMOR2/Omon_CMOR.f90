@@ -123,7 +123,6 @@ program Omon_CMOR
                  endif
               enddo
               call read_att_text(myncid(ifile,ivar),'time','units',time_units)
-              write(*,'(''read_att_text, time_units: '',a)') trim(time_units)
               !
               do n=1,var_counter
                  if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
@@ -230,8 +229,6 @@ program Omon_CMOR
            mycmor%positive = 'up'
         end select
         !
-        spval=var_info(var_found(1,1))%missing_value
-        !
         write(*,*) 'calling cmor_variable:'
         write(*,*) 'table         = ',trim(mycmor%table_file)
         write(*,*) 'table_entry   = ',trim(xw(ixw)%entry)
@@ -328,7 +325,7 @@ program Omon_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     !
-                    indat3a = spval
+                    indat3a = var_info(var_found(ifile,1))%missing_value
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     cmordat2d = indat3a(:,:,1)
                     !
@@ -348,14 +345,6 @@ program Omon_CMOR
               enddo
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
-              cmor_filename = ' '
-              error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-              if (error_flag < 0) then
-                 write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
-                 stop
-              else
-                 write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
-              endif
               call close_cdf(myncid(ifile,1))
            enddo
            error_flag = cmor_close()
@@ -400,9 +389,9 @@ program Omon_CMOR
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        !
-                       indat3a = spval
+                       indat3a = var_info(var_found(ifile,1))%missing_value
                        call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
-                       where (indat3a(:,:,1) /= spval)
+                       where (indat3a(:,:,1) /= var_info(var_found(ifile,1))%missing_value)
                           cmordat2d = indat3a(:,:,1)*1000.
                        endwhere
                        !
@@ -466,7 +455,7 @@ program Omon_CMOR
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        !
-                       indat2a = spval
+                       indat2a = var_info(var_found(ifile,1))%missing_value
                        call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2a)
                        !
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
@@ -538,9 +527,9 @@ program Omon_CMOR
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        !
-                       indat2a = spval
+                       indat2a = var_info(var_found(ifile,1))%missing_value
                        call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat2a)
-                       where (indat2a /= spval)
+                       where (indat2a /= var_info(var_found(ifile,1))%missing_value)
                           indat2a = indat2a * (1.e6 * 1000.) ! 10^6 m3 s-1 to kg s-1
                        endwhere
                        !
@@ -631,7 +620,7 @@ program Omon_CMOR
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        !
-                       indat3a = spval
+                       indat3a = var_info(var_found(ifile,1))%missing_value
                        call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
                        !
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
@@ -719,7 +708,7 @@ program Omon_CMOR
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        !
-                       indat3a = spval
+                       indat3a = var_info(var_found(ifile,1))%missing_value
                        call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
                        !
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
@@ -763,6 +752,7 @@ program Omon_CMOR
            allocate(indat3a(nlons,nlats,nlevs))
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+              write(*,*) 'OPENING: ',myncid(ifile,1),trim(ncfile(ifile,1))
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
@@ -778,53 +768,64 @@ program Omon_CMOR
               time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
-              nchunks(ifile)   = 1
-              tidx1(nchunks(ifile)) = 1
-              tidx2(nchunks(ifile)) = ntimes(ifile,1)
-              !
+              select case (ntimes(ifile,1))
+              case ( 60 ) ! 2005 - 2009 of RCP, skip 2005
+                 nchunks(ifile)   = 1
+                 tidx1(nchunks(ifile)) = 13
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              case default
+                 nchunks(ifile)   = 1
+                 tidx1(nchunks(ifile)) = 1
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              end select
               write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
-              indat1a = 0.
+              !
+              indat1a = var_info(var_found(ifile,1))%missing_value
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
-                    indat3a = spval
+                    indat3a = var_info(var_found(ifile,1))%missing_value
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     do k = 1,nlevs
                        do j = 1,nlats
                           do i = 1,nlons
-                             if (indat3a(i,j,k).ne.spval) indat1a(it) = indat1a(it) + (indat3a(i,j,k)*(ocn_t_area(i,j)*ocn_t_dz(k)))
+                             if (indat3a(i,j,k).ne.var_info(var_found(ifile,1))%missing_value) then
+                                indat1a(it) = indat3a(i,j,k)*(ocn_t_area(i,j)*ocn_t_dz(k))
+                             endif
                           enddo
                        enddo
                     enddo
+                    write(*,*) 'MASSO: ',indat1a(it)
                  enddo
               enddo
               call close_cdf(myncid(ifile,1))
               !
               indat1a = indat1a/1000.
+              !
               error_flag = cmor_write(                &
-                   var_id        = cmor_var_id,       &
-                   data          = indat1a,           &
-                   ntimes_passed = ntimes(ifile,1),&
-                   time_vals     = time,              &
-                   time_bnds     = time_bnds)
+                   var_id        = cmor_var_id,                  &
+                   data          = indat1a(tidx1(1):tidx2(1)), &
+                   ntimes_passed = ((tidx2(1)-tidx1(1))+1),    &
+                   time_vals     = time(tidx1(1):tidx2(1)),    &
+                   time_bnds     = time_bnds(:,tidx1(1):tidx2(1)))
               if (error_flag < 0) then
                  write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                  stop
               endif
               write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
               !
-              cmor_filename = ' '
-              error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-              if (error_flag < 0) then
-                 write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
-                 stop
-              else
-                 write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
-              endif
-              if (allocated(indat1a)) deallocate(indat1a)
+!!$              cmor_filename = ' '
+!!$              error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+!!$              if (error_flag < 0) then
+!!$                 write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+!!$                 stop
+!!$              else
+!!$                 write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+!!$              endif
+              if (allocated(indat1a))   deallocate(indat1a)
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
            enddo
-           if (allocated(time))      deallocate(time)
-           if (allocated(time_bnds)) deallocate(time_bnds)
            error_flag = cmor_close()
            if (error_flag < 0) then
               write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
@@ -881,9 +882,9 @@ program Omon_CMOR
                     do it = tidx1(ic),tidx2(ic)
                        time_counter = it
                        !
-                       indat3a = spval
+                       indat3a = var_info(var_found(ifile,1))%missing_value
                        call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
-                       where (indat3a /= spval)
+                       where (indat3a /= var_info(var_found(ifile,1))%missing_value)
                           indat3a = indat3a*1000.
                        endwhere
                        !
@@ -933,7 +934,7 @@ program Omon_CMOR
                  if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
                  if (.not.(allocated(indat1a)))   allocate(indat1a(ntimes(ifile,ivar)))
                  !
-                 indat1a = spval
+                 indat1a = var_info(var_found(ifile,1))%missing_value
                  do n=1,ntimes(ifile,ivar)
                     time_counter = n
                     call read_var(myncid(ifile,ivar),'time_bound',time_bnds(:,n))
@@ -1081,20 +1082,20 @@ program Omon_CMOR
                        !
                        call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat4a)
                        !
-                       cmordat3d = spval
-                       cmordat3d(:,:,2) = spval ! Indo-Pacific not supplied
+                       cmordat3d = var_info(var_found(ifile,1))%missing_value
+                       cmordat3d(:,:,2) = var_info(var_found(ifile,1))%missing_value ! Indo-Pacific not supplied
                        !
                        ! Convert from Sv to kg s-1
                        !
                        where (indat4a(:,:,1,2) /= 0.)
                           cmordat3d(:,:,1) = indat4a(:,:,1,2)*1.e6*1.e3
                        elsewhere
-                          cmordat3d(:,:,1) = spval
+                          cmordat3d(:,:,1) = var_info(var_found(ifile,1))%missing_value
                        endwhere
                        where (indat4a(:,:,1,1) /= 0.)
                           cmordat3d(:,:,3) = indat4a(:,:,1,1)*1.e6*1.e3
                        elsewhere
-                          cmordat3d(:,:,3) = spval
+                          cmordat3d(:,:,3) = var_info(var_found(ifile,1))%missing_value
                        endwhere
                        !
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
