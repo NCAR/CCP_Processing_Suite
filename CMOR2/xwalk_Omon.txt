@@ -1,187 +1,33 @@
 Omon:agessc:sea_water_age_since_surface_contact:longitude latitude olevel time:ocean:1:IAGE:IAGE
-Omon:arag:mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:bacc:mole_concentration_of_bacteria_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:bfe:mole_concentration_of_particulate_organic_matter_expressed_as_iron_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:bsi:mole_concentration_of_particulate_matter_expressed_as_silicon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:calc:mole_concentration_of_calcite_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
 Omon:cfc11:moles_of_cfc11_per_unit_mass_in_sea_water:longitude latitude olevel time:ocean:1:CFC11:CFC11
-Omon:chlcalc:mass_concentration_of_calcareous_phytoplankton_expressed_as_chlorophyll_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:chldiat:mass_concentration_of_diatoms_expressed_as_chlorophyll_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:chldiaz:mass_concentration_of_diazotrophs_expressed_as_chlorophyll_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:diazChl:diazChl
-Omon:chlmisc:mass_concentration_of_miscellaneous_phytoplankton_expressed_as_chlorophyll_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:chl:mass_concentration_of_phytoplankton_expressed_as_chlorophyll_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:chlpico:mass_concentration_of_picophytoplankton_expressed_as_chlorophyll_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:co3:mole_concentration_of_carbonate_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:CO3:CO3
-Omon:co3satarag:mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water_at_saturation:longitude latitude time depth0m:ocnBgchem:1:co3_sat_arag:co3_sat_arag
-Omon:co3satcalc:mole_concentration_of_calcite_expressed_as_carbon_in_sea_water_at_saturation:longitude latitude time depth0m:ocnBgchem:1:co3_sat_calc:co3_sat_calc
-Omon:detoc:mole_concentration_of_organic_detritus_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:dfe:mole_concentration_of_dissolved_iron_in_sea_water:longitude latitude time depth0m:ocnBgchem:2:DOFe Fe:DOFe + Fe
-Omon:dissic:mole_concentration_of_dissolved_inorganic_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:DIC:DIC
-Omon:dissoc:mole_concentration_of_dissolved_organic_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:DOC:DOC
-Omon:dms:mole_concentration_of_dimethyl_sulfide_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:dpco2:surface_carbon_dioxide_partial_pressure_difference_between_sea_water_and_air:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:dpo2:surface_molecular_oxygen_partial_pressure_difference_between_sea_water_and_air:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:eparag100:sinking_mole_flux_of_aragonite_expressed_as_carbon_in_sea_water:longitude latitude time depth100m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:epc100:sinking_mole_flux_of_particulate_organic_matter_expressed_as_carbon_in_sea_water:longitude latitude time depth100m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:epcalc100:sinking_mole_flux_of_calcite_expressed_as_carbon_in_sea_water:longitude latitude time depth100m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:epfe100:sinking_mole_flux_of_particulate_iron_in_sea_water:longitude latitude time depth100m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:epsi100:sinking_mole_flux_of_particulate_silicon_in_sea_water:longitude latitude time depth100m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:evs:water_evaporation_flux:longitude latitude time:ocean:1:1:UNKNOWN:UNKNOWN
-Omon:fbddtalk:integral_wrt_depth_of_tendency_of_sea_water_alkalinity_expressed_as_mole_equivalent_due_to_biological_processes:longitude latitude time olayer100m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:fbddtdic:tendency_of_ocean_mole_content_of_dissolved_inorganic_carbon_due_to_biological_processes:longitude latitude time olayer100m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:fbddtdife:tendency_of_ocean_mole_content_of_dissolved_inorganic_iron_due_to_biological_processes:longitude latitude time olayer100m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:fbddtdin:tendency_of_ocean_mole_content_of_dissolved_inorganic_nitrogen_due_to_biological_processes:longitude latitude time olayer100m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:fbddtdip:tendency_of_ocean_mole_content_of_dissolved_inorganic_phosphorus_due_to_biological_processes:longitude latitude time olayer100m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:fbddtdisi:tendency_of_ocean_mole_content_of_dissolved_inorganic_silicon_due_to_biological_processes:longitude latitude time olayer100m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:fddtalk:integral_wrt_depth_of_tendency_of_sea_water_alkalinity_expressed_as_mole_equivalent:longitude latitude time olayer100m:ocnBgchem:1:tend_zint_100m_ALK:tend_zint_100m_ALK
-Omon:fddtdic:tendency_of_ocean_mole_content_of_dissolved_inorganic_carbon:longitude latitude time olayer100m:ocnBgchem:1:tend_zint_100m_DIC:tend_zint_100m_DIC
-Omon:fddtdife:tendency_of_ocean_mole_content_of_dissolved_inorganic_iron:longitude latitude time olayer100m:ocnBgchem:1:tend_zint_100m_Fe:tend_zint_100m_Fe
-Omon:fddtdin:tendency_of_ocean_mole_content_of_dissolved_inorganic_nitrogen:longitude latitude time olayer100m:ocnBgchem:1:tend_zint_100m_NO3:tend_zint_100m_NO3
-Omon:fddtdip:tendency_of_ocean_mole_content_of_dissolved_inorganic_phosphorus:longitude latitude time olayer100m:ocnBgchem:1:tend_zint_100m_PO4:tend_zint_100m_PO4
-Omon:fddtdisi:tendency_of_ocean_mole_content_of_dissolved_inorganic_silicon:longitude latitude time olayer100m:ocnBgchem:1:tend_zint_100m_SiO3:tend_zint_100m_SiO3
-Omon:fgco2:surface_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:fgdms:surface_upward_mole_flux_of_dimethyl_sulfide:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:fgo2:surface_downward_mole_flux_of_molecular_oxygen:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:ficeberg2d:water_flux_into_sea_water_from_icebergs:longitude latitude time:ocean:0:UNAVAILABLE::UNAVAILABLE
-Omon:ficeberg:water_flux_into_sea_water_from_icebergs:longitude latitude olevel time:ocean:0:UNAVAILABLE::UNAVAILABLE
-Omon:frc:tendency_of_ocean_mole_content_of_carbon_due_to_sedimentation:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:frfe:tendency_of_ocean_mole_content_of_iron_due_to_sedimentation:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:friver:water_flux_into_sea_water_from_rivers:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:frn:tendency_of_ocean_mole_content_of_elemental_nitrogen_due_to_denitrification_and_sedimentation:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:fsc:tendency_of_ocean_mole_content_of_carbon_due_to_runoff_and_sediment_dissolution:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:fsfe:tendency_of_ocean_mole_content_of_iron_due_to_deposition_and_runoff_and_sediment_dissolution:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:fsitherm:water_flux_into_sea_water_due_to_sea_ice_thermodynamics:longitude latitude time:ocean seaIce:1:UNKNOWN:UNKNOWN
-Omon:fsn:tendency_of_ocean_mole_content_of_elemental_nitrogen_due_to_deposition_and_fixation_and_runoff:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:hfbasinba:northward_ocean_heat_transport_due_to_bolus_advection:latitude basin time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfbasindiff:northward_ocean_heat_transport_due_to_diffusion:latitude basin time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfbasin:northward_ocean_heat_transport:latitude basin time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfcorr:heat_flux_correction:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfds:surface_downward_heat_flux_in_sea_water:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfevapds:temperature_flux_due_to_evaporation_expressed_as_heat_flux_out_of_sea_water:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfgeou:upward_geothermal_heat_flux_at_sea_floor:longitude latitude time:ocean:0:N/A:Set to zero for all runs
-Omon:hfibthermds2d:heat_flux_into_sea_water_due_to_iceberg_thermodynamics:longitude latitude time:ocean:0:UNAVAILABLE::UNAVAILABLE
-Omon:hfibthermds:heat_flux_into_sea_water_due_to_iceberg_thermodynamics:longitude latitude olevel time:ocean:0:UNAVAILABLE::UNAVAILABLE
-Omon:hfls:surface_downward_latent_heat_flux:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfnorthba:northward_ocean_heat_transport_due_to_bolus_advection:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfnorthdiff:northward_ocean_heat_transport_due_to_diffusion:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfnorth:northward_ocean_heat_transport:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfrainds:temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfrunoffds2d:temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfrunoffds:temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water:longitude latitude olevel time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfsifrazil2d:heat_flux_into_sea_water_due_to_freezing_of_frazil_ice:longitude latitude time:ocean seaIce:1:UNKNOWN:UNKNOWN
-Omon:hfsifrazil:heat_flux_into_sea_water_due_to_freezing_of_frazil_ice:longitude latitude olevel time:ocean seaIce:1:UNKNOWN:UNKNOWN
-Omon:hfsithermds2d:heat_flux_into_sea_water_due_to_sea_ice_thermodynamics:longitude latitude time:ocean seaIce:1:UNKNOWN:UNKNOWN
-Omon:hfsithermds:heat_flux_into_sea_water_due_to_sea_ice_thermodynamics:longitude latitude olevel time:ocean seaIce:1:UNKNOWN:UNKNOWN
-Omon:hfsnthermds2d:heat_flux_into_sea_water_due_to_snow_thermodynamics:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfsnthermds:heat_flux_into_sea_water_due_to_snow_thermodynamics:longitude latitude olevel time:ocean:1:UNKNOWN:UNKNOWN
 Omon:hfss:surface_downward_sensible_heat_flux:longitude latitude time:ocean:1:SENH_F:SENH_F
-Omon:hfxba:ocean_heat_x_transport_due_to_bolus_advection:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfxdiff:ocean_heat_x_transport_due_to_diffusion:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfx:ocean_heat_x_transport:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfyba:ocean_heat_y_transport_due_to_bolus_advection:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfydiff:ocean_heat_y_transport_due_to_diffusion:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:hfy:ocean_heat_y_transport:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:htovgyre:northward_ocean_heat_transport_due_to_gyre:latitude basin time:ocean:1:UNKNOWN:UNKNOWN
-Omon:htovovrt:northward_ocean_heat_transport_due_to_overturning:latitude basin time:ocean:1:UNKNOWN:UNKNOWN
-Omon:intdic:ocean_mass_content_of_dissolved_inorganic_carbon:longitude latitude time:ocnBgchem:1:DIC:Integrate DIC over depth
-Omon:intparag:tendency_of_ocean_mole_content_of_aragonite_expressed_as_carbon_due_to_biological_production:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:intpbfe:tendency_of_ocean_mole_content_of_iron_due_to_biological_production:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:intpbsi:tendency_of_ocean_mole_content_of_silicon_due_to_biological_production:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:intpcalcite:tendency_of_ocean_mole_content_of_calcite_expressed_as_carbon_due_to_biological_production:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:intpcalc:net_primary_mole_productivity_of_carbon_by_calcareous_phytoplankton:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:intpdiat:net_primary_mole_productivity_of_carbon_by_diatoms:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:intpdiaz:net_primary_mole_productivity_of_carbon_by_diazotrophs:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:intpmisc:net_primary_mole_productivity_of_carbon_by_miscellaneous_phytoplankton:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:intpn2:tendency_of_ocean_mole_content_of_elemental_nitrogen_due_to_fixation:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:intpnitrate:net_primary_mole_productivity_of_carbon_due_to_nitrate_utilization:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:intppico:net_primary_mole_productivity_of_carbon_by_picophytoplankton:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:intpp:net_primary_mole_productivity_of_carbon_by_phytoplankton:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:masscello:sea_water_mass_per_unit_area:longitude latitude olevel time:ocean:1:UNKNOWN:UNKNOWN
 Omon:masso:sea_water_mass:time:ocean:1:PD:Integrate PD over ocean volume
-Omon:mfo:sea_water_transport_across_line:oline time:ocean:1:UNKNOWN:UNKNOWN
-Omon:mlotst:ocean_mixed_layer_thickness_defined_by_sigma_t:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:mlotstsq:square_of_ocean_mixed_layer_thickness_defined_by_sigma_t:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 Omon:msftbarot:ocean_barotropic_mass_streamfunction:longitude latitude time:ocean:1:BSF:BSF
-Omon:msftmrhozba:ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection:latitude rho basin time:ocean:1:UNKNOWN:UNKNOWN
-Omon:msftmrhoz:ocean_meridional_overturning_mass_streamfunction:latitude rho basin time:ocean:1:UNKNOWN:UNKNOWN
-Omon:msftmyzba:ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection:latitude olevel basin time:ocean:1:UNKNOWN:UNKNOWN
 Omon:msftmyz:ocean_meridional_overturning_mass_streamfunction:latitude olevel basin time:ocean:1:MOC:MOC converted from Sv to kg s-1
-Omon:msftyrhozba:ocean_y_overturning_mass_streamfunction_due_to_bolus_advection:latitude rho basin time:ocean:1:UNKNOWN:UNKNOWN
-Omon:msftyrhoz:ocean_y_overturning_mass_streamfunction:latitude rho basin time:ocean:1:UNKNOWN:UNKNOWN
-Omon:msftyyzba:ocean_y_overturning_mass_streamfunction_due_to_bolus_advection:latitude olevel basin time:ocean:1:UNKNOWN:UNKNOWN
-Omon:msftyyz:ocean_y_overturning_mass_streamfunction:latitude olevel basin time:ocean:1:UNKNOWN:UNKNOWN
-Omon:nh4:mole_concentration_of_ammonium_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:NH4:NH4
-Omon:no3:mole_concentration_of_nitrate_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:NO3:NO3
-Omon:o2min:mole_concentration_of_dissolved_molecular_oxygen_in_sea_water_at_shallowest_local_minimum_in_vertical_profile:longitude latitude time:ocnBgchem:1:tend_zint_100m_O2:tend_zint_100m_O2
-Omon:o2:mole_concentration_of_molecular_oxygen_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:O2:O2
-Omon:omldamax:ocean_mixed_layer_thickness_defined_by_mixing_scheme:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:omlmax:ocean_mixed_layer_thickness_defined_by_mixing_scheme:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:pbo:sea_water_pressure_at_sea_floor:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:ph:sea_water_ph_reported_on_total_scale:longitude latitude time depth0m:ocnBgchem:1:pH_3D:Integrate pH_3D over depth
-Omon:phycalc:mole_concentration_of_calcareous_phytoplankton_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:phyc:mole_concentration_of_phytoplankton_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:spC:spC
-Omon:phydiat:mole_concentration_of_diatoms_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:phydiaz:mole_concentration_of_diazotrophs_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:diazC:diazC
-Omon:phyfe:mole_concentration_of_phytoplankton_expressed_as_iron_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:spFe:spFe
-Omon:phymisc:mole_concentration_of_miscellaneous_phytoplankton_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:phyn:mole_concentration_of_phytoplankton_expressed_as_nitrogen_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:phypico:mole_concentration_of_picophytoplankton_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:phyp:mole_concentration_of_phytoplankton_expressed_as_phosphorus_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:physi:mole_concentration_of_phytoplankton_expressed_as_silicon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:po4:mole_concentration_of_phosphate_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:PO4:PO4
-Omon:pon:mole_concentration_of_particulate_organic_matter_expressed_as_nitrogen_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:pop:mole_concentration_of_particulate_organic_matter_expressed_as_phosphorus_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
 Omon:pr:rainfall_flux:longitude latitude time:ocean:1:PREC_F:PREC_F
 Omon:prsn:snowfall_flux:longitude latitude time:ocean:1:SNOW_F:SNOW_F
-Omon:pso:sea_water_pressure_at_sea_water_surface:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 Omon:rhopoto:sea_water_potential_density:longitude latitude olevel time:ocean:1:PD:PD
 Omon:rlds:surface_net_downward_longwave_flux:longitude latitude time:ocean:2:LWUP_F LWDN_F:LWUP_F,LWDN_F
-Omon:rsds:downwelling_shortwave_flux_in_sea_water:longitude latitude olevel time:ocean:1:UNKNOWN:UNKNOWN
 Omon:rsntds:net_downward_shortwave_flux_at_sea_water_surface:longitude latitude time:ocean:1:QSW_HTP:QSW_HTP
-Omon:sfdsi:downward_sea_ice_basal_salt_flux:longitude latitude time:ocean seaIce:1:UNKNOWN:UNKNOWN
-Omon:sfriver:salt_flux_into_sea_water_from_rivers:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:si:mole_concentration_of_silicate_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:SiO3:SiO3
-Omon:sltovgyre:northward_ocean_salt_transport_due_to_gyre:latitude basin time:ocean:1:UNKNOWN:UNKNOWN
-Omon:sltovovrt:northward_ocean_salt_transport_due_to_overturning:latitude basin time:ocean:1:UNKNOWN:UNKNOWN
 Omon:soga:sea_water_salinity:time:ocean:1:SALT:SALT weighted global average
 Omon:so:sea_water_salinity:longitude latitude olevel time:ocean:1:SALT:SALT
 Omon:sos:sea_surface_salinity:longitude latitude time:ocean:1:SALT:SALT at topmost level
-Omon:spco2:surface_partial_pressure_of_carbon_dioxide_in_sea_water:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:talk:sea_water_alkalinity_expressed_as_mole_equivalent:longitude latitude time depth0m:ocnBgchem:1:ALK:Integrate ALK over depth
-Omon:tauucorr:surface_downward_x_stress_correction:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 Omon:tauuo:surface_downward_x_stress:longitude latitude time:ocean:1:TAUX:TAUX
-Omon:tauvcorr:surface_downward_y_stress_correction:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 Omon:tauvo:surface_downward_y_stress:longitude latitude time:ocean:1:TAUY:TAUY
 Omon:thetaoga:sea_water_potential_temperature:time:ocean:1:TEMP:TEMP weighted global average, units C to K
 Omon:thetao:sea_water_potential_temperature:longitude latitude olevel time:ocean:1:TEMP:TEMP no change, units from C to K
 Omon:thkcello:cell_thickness:longitude latitude olevel time:ocean:0:N/A:Inapplicable as cell thickness is fixed (dz)
 Omon:tos:sea_surface_temperature:longitude latitude time:ocean:1:TEMP:TEMP at topmost level, units from C to K
 Omon:tossq:square_of_sea_surface_temperature:longitude latitude time:ocean:1:TEMP2:TEMP2
-Omon:umo:ocean_mass_x_transport:longitude latitude olevel time:ocean:2:UVEL PD DXU:UVEL,PD,DXU
+Omon:umo:ocean_mass_x_transport:longitude latitude olevel time:ocean:0:UVEL PD:UVEL times PD times volume
 Omon:uo:sea_water_x_velocity:longitude latitude olevel time:ocean:1:UVEL:UVEL units from cm s-1 to m s-1
-Omon:vmo:ocean_mass_y_transport:longitude latitude olevel time:ocean:2:VVEL PD DYU:VVEL,PD,DYU
-Omon:volo:sea_water_volume:time:ocean:1:PD:PD
+Omon:vmo:ocean_mass_y_transport:longitude latitude olevel time:ocean:0:VVEL PD:VVEL times PD times volume
+Omon:volo:sea_water_volume:time:ocean:0:PD:PD
 Omon:vo:sea_water_y_velocity:longitude latitude olevel time:ocean:1:VVEL:VVEL units from cm s-1 to m s-1
-Omon:vsfcorr:virtual_salt_flux_correction:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:vsfevap:virtual_salt_flux_into_sea_water_due_to_evaporation:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:vsf:virtual_salt_flux_into_sea_water:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:vsfpr:virtual_salt_flux_into_sea_water_due_to_rainfall:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:vsfriver:virtual_salt_flux_into_sea_water_from_rivers:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:vsfsit:virtual_salt_flux_into_sea_water_due_to_sea_ice_thermodynamics:longitude latitude time:ocean seaIce:1:UNKNOWN:UNKNOWN
-Omon:wfcorr:water_flux_correction:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:wfonocorr:water_flux_into_sea_water_without_flux_correction:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:wfo:water_flux_into_sea_water:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-Omon:wmo:upward_ocean_mass_transport:longitude latitude olevel time:ocean:2:WVEL PD:WVEL,PD
-Omon:wmosq:square_of_upward_ocean_mass_transport:longitude latitude olevel time:ocean:2:WVEL2 PD:WVEL2,PD
-Omon:zmeso:mole_concentration_of_mesozooplankton_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:zmicro:mole_concentration_of_microzooplankton_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:zo2min:depth_at_shallowest_local_minimum_in_vertical_profile_of_mole_concentration_of_dissolved_molecular_oxygen_in_sea_water:longitude latitude time:ocnBgchem:1:O2_ZMIN_DEPTH:O2_ZMIN_DEPTH
-Omon:zoocmisc:mole_concentration_of_miscellaneous_zooplankton_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
-Omon:zooc:mole_concentration_of_zooplankton_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:zooC:zooC
+Omon:wmo:upward_ocean_mass_transport:longitude latitude olevel time:ocean:0:WVEL PD:WVEL,PD
+Omon:wmosq:square_of_upward_ocean_mass_transport:longitude latitude olevel time:ocean:0:WVEL2 PD:WVEL2,PD
 Omon:zosga:global_average_sea_level_change:time:ocean:1:ave_slc:ave_slc from Aixue's SLC code; derived from SSH PD TEMP SALT
 Omon:zos:sea_surface_height_above_geoid:longitude latitude time:ocean:1:slc:slc from Aixue's SLC code; derived from SSH PD TEMP SALT
 Omon:zossga:global_average_steric_sea_level_change:time:ocean:1:ave_delta_steric:ave_delta_steric from Aixue's SLC code; derived from SSH PD TEMP SALT
-Omon:zossq:square_of_sea_surface_height_above_geoid:longitude latitude time:ocean:0:UNAVAILABLE:UNAVAILABLE
 Omon:zostoga:global_average_thermosteric_sea_level_change:time:ocean:1:ave_slc_t:ave_slc_t from Aixue's SLC code; derived from SSH PD TEMP SALT
-Omon:zsatarag:minimum_depth_of_aragonite_undersaturation_in_sea_water:longitude latitude time:ocnBgchem:1:zsatarag:zsatarag
-Omon:zsatcalc:minimum_depth_of_calcite_undersaturation_in_sea_water:longitude latitude time:ocnBgchem:1:zsatcalc:zsatcalc
