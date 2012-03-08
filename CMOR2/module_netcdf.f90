@@ -7,9 +7,9 @@ module counters_netcdf_jfl
   integer :: var_counter  = 0
   integer :: time_counter = 0
   integer :: file_counter = 0
-  integer, parameter :: dim_max = 10000
-  integer, parameter :: var_max = 10000
-  integer, parameter :: fil_max = 10000
+  integer, parameter :: dim_max =  10000
+  integer, parameter :: var_max = 100000
+  integer, parameter :: fil_max =  10000
   !
 end module counters_netcdf_jfl
 !
