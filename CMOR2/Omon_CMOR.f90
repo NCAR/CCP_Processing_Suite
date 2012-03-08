@@ -346,6 +346,10 @@ program Omon_CMOR
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
               call close_cdf(myncid(ifile,1))
+              dim_counter  = 0
+              var_counter  = 0
+              time_counter = 0
+              file_counter = 0
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -413,6 +417,10 @@ program Omon_CMOR
                  if (allocated(time))      deallocate(time)
                  if (allocated(time_bnds)) deallocate(time_bnds)
               enddo
+              dim_counter  = 0
+              var_counter  = 0
+              time_counter = 0
+              file_counter = 0
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -476,6 +484,10 @@ program Omon_CMOR
                  if (allocated(time))      deallocate(time)
                  if (allocated(time_bnds)) deallocate(time_bnds)
               enddo
+              dim_counter  = 0
+              var_counter  = 0
+              time_counter = 0
+              file_counter = 0
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -542,6 +554,10 @@ program Omon_CMOR
                  if (allocated(time))      deallocate(time)
                  if (allocated(time_bnds)) deallocate(time_bnds)
               enddo
+              dim_counter  = 0
+              var_counter  = 0
+              time_counter = 0
+              file_counter = 0
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -633,6 +649,10 @@ program Omon_CMOR
                  if (allocated(time))      deallocate(time)
                  if (allocated(time_bnds)) deallocate(time_bnds)
               enddo
+              dim_counter  = 0
+              var_counter  = 0
+              time_counter = 0
+              file_counter = 0
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -725,6 +745,10 @@ program Omon_CMOR
                  if (allocated(time))      deallocate(time)
                  if (allocated(time_bnds)) deallocate(time_bnds)
               enddo
+              dim_counter  = 0
+              var_counter  = 0
+              time_counter = 0
+              file_counter = 0
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -819,6 +843,10 @@ program Omon_CMOR
                  if (allocated(time))      deallocate(time)
                  if (allocated(time_bnds)) deallocate(time_bnds)
               enddo
+              dim_counter  = 0
+              var_counter  = 0
+              time_counter = 0
+              file_counter = 0
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -987,6 +1015,10 @@ program Omon_CMOR
               if (allocated(indat1a))   deallocate(indat1a)
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
+              dim_counter  = 0
+              var_counter  = 0
+              time_counter = 0
+              file_counter = 0
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -1152,6 +1184,10 @@ program Omon_CMOR
                     endif
                  enddo
               enddo
+              dim_counter  = 0
+              var_counter  = 0
+              time_counter = 0
+              file_counter = 0
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then

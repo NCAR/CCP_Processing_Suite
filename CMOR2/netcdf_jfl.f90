@@ -1091,6 +1091,46 @@ subroutine read_var_d_2(ncid,var_name,array)
   return
 end subroutine read_var_d_2
 !
+subroutine read_var_d_3(ncid,var_name,array)
+  !
+  use definitions_netcdf_jfl
+  use counters_netcdf_jfl
+  !
+  implicit none
+  !
+  include 'netcdf.inc'
+  !
+  ! arguments
+  !
+  integer ncid
+  character(*) var_name
+  double precision array(:,:,:)
+  !
+  include 'get_var_double.inc'
+  !
+  return
+end subroutine read_var_d_3
+!
+subroutine read_var_d_4(ncid,var_name,array)
+  !
+  use definitions_netcdf_jfl
+  use counters_netcdf_jfl
+  !
+  implicit none
+  !
+  include 'netcdf.inc'
+  !
+  ! arguments
+  !
+  integer ncid
+  character(*) var_name
+  double precision array(:,:,:,:)
+  !
+  include 'get_var_double.inc'
+  !
+  return
+end subroutine read_var_d_4
+!
 subroutine read_var_c_0(ncid,var_name,array)
   !
   use definitions_netcdf_jfl

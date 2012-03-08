@@ -285,6 +285,16 @@ module interfaces_netcdf_jfl
        character(*), intent(in) :: var_name
        double precision, intent(in) :: array(:,:)
      end subroutine read_var_d_2
+     subroutine read_var_d_3(ncid,var_name,array)
+       integer     , intent(in) :: ncid
+       character(*), intent(in) :: var_name
+       double precision, intent(in) :: array(:,:,:)
+     end subroutine read_var_d_3
+     subroutine read_var_d_4(ncid,var_name,array)
+       integer     , intent(in) :: ncid
+       character(*), intent(in) :: var_name
+       double precision, intent(in) :: array(:,:,:,:)
+     end subroutine read_var_d_4
   end interface
   !
 end module interfaces_netcdf_jfl
