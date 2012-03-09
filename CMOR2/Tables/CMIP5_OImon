@@ -937,7 +937,7 @@ modeling_realm:    seaIce
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     divergence_of_sea_ice_velocity
+standard_name:     divergence_of_sea_ice
 units:             s-1
 cell_methods:      time: mean (weighted by area of sea ice)
 cell_measures:     area: areacello
