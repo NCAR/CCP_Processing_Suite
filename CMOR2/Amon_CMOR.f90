@@ -877,6 +877,10 @@ program Amon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
               tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
+           case ( 2400 )  ! WACCM from 96-295 (200 y) chunks from 96-149, 150-199, 200-249, 250-295
+              nchunks(1) = 4
+              tidx1(1:nchunks(1)) = (/   1, 649,1249,1849/) !   96,  150, 200, 250
+              tidx2(1:nchunks(1)) = (/ 648,1248,1848,2400/) !  149,  199, 249, 295
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -963,6 +967,10 @@ program Amon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
               tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
+           case ( 2400 )  ! WACCM from 96-295 (200 y) chunks from 96-149, 150-199, 200-249, 250-295
+              nchunks(1) = 4
+              tidx1(1:nchunks(1)) = (/   1, 649,1249,1849/) !   96,  150, 200, 250
+              tidx2(1:nchunks(1)) = (/ 648,1248,1848,2400/) !  149,  199, 249, 295
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
