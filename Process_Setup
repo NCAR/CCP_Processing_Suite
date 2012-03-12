@@ -60,32 +60,29 @@ if ! [ $LOCATION ] ; then
   exit 1
 fi
 #
-# Start to build processing script
+PROCHOST=`hostname`;export PROCHOST
+#
+# Build processing script
 #
 CCPS_SCRIPT=${CASE}_${HIST}_process.sh
 rm -f $CCPS_SCRIPT
 #
-case "$LOCATION" in
-  NC ) # NCAR experiments
+case "$PROCHOST" in 
+  silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
     echo "#!/bin/sh" > $CCPS_SCRIPT
     cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
                            | sed -e "s/xxxHISTxxx/$HIST/g" \
-                           | sed -e "s/xxxTPERxxx/$TPER/g" \
+                           | sed -e "s/xxxTABLxxx/$TABL/g" \
                            >> $CCPS_SCRIPT ;;
-  NE ) # NERSC experiments
-    cat ./NERSC_batch      >> $CCPS_SCRIPT
+  lens* )                                  # lens @ ORNL
+    cat ./ORNL_batch > $CCPS_SCRIPT
     cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
                            | sed -e "s/xxxHISTxxx/$HIST/g" \
-                           | sed -e "s/xxxTPERxxx/$TPER/g" \
-                           >> $CCPS_SCRIPT ;;
-  OR ) # ORNL experiments
-    cat ./ORNL_batch       >> $CCPS_SCRIPT
-    cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                           | sed -e "s/xxxHISTxxx/$HIST/g" \
-                           | sed -e "s/xxxTPERxxx/$TPER/g" \
+                           | sed -e "s/xxxTABLxxx/$TABL/g" \
                            >> $CCPS_SCRIPT ;;
   * )
-    echo "Unable to build script because "$LOCATION" not found in "$EXPFILE
+    echo "Unable to build script because "$PROCHOST" unknown."
+    ./procstat.sh error process_template
     exit 1 ;;
 esac
 #
@@ -99,16 +96,11 @@ read DORUN
 #
 if [ "$DORUN" = "Y" ] ; then
   echo "Running "${CCPS_SCRIPT}
-  case "$LOCATION" in
-    NC )
-      ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
-    NE )
-      ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
-    OR ) 
+  case "$PROCHOST" in
+    lens* )
       ( /usr/bin/qsub ./${CCPS_SCRIPT} ) ;;
     * )
-      echo "Unable to run script because "$LOCATION" not found in "$EXPFILE
-      exit 1 ;;
+      ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
   esac
 else
   echo "Will not run "${CCPS_SCRIPT}

@@ -62,32 +62,29 @@ if ! [ $LOCATION ] ; then
   exit 1
 fi
 #
+PROCHOST=`hostname`;export PROCHOST
+#
 # Start to build processing script
 #
 CCPS_SCRIPT=${CASE}_${HIST}_process.sh
 rm -f $CCPS_SCRIPT
 #
-case "$LOCATION" in
-  NC ) # NCAR experiments
+case "$PROCHOST" in 
+  silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
     echo "#!/bin/sh" > $CCPS_SCRIPT
     cat ./process_dp_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                           | sed -e "s/xxxHISTxxx/$HIST/g" \
-                           | sed -e "s/xxxTPERxxx/$TPER/g" \
-                           >> $CCPS_SCRIPT ;;
-  NE ) # NERSC experiments
-#    cat ./NERSC_batch      >> $CCPS_SCRIPT
+                              | sed -e "s/xxxHISTxxx/$HIST/g" \
+                              | sed -e "s/xxxTABLxxx/$TABL/g" \
+                              >> $CCPS_SCRIPT ;;
+  lens* )                                  # lens @ ORNL
+    cat ./ORNL_batch  > $CCPS_SCRIPT
     cat ./process_dp_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                           | sed -e "s/xxxHISTxxx/$HIST/g" \
-                           | sed -e "s/xxxTPERxxx/$TPER/g" \
-                           >> $CCPS_SCRIPT ;;
-  OR ) # ORNL experiments
-#    cat ./ORNL_batch       >> $CCPS_SCRIPT
-    cat ./process_dp_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                           | sed -e "s/xxxHISTxxx/$HIST/g" \
-                           | sed -e "s/xxxTPERxxx/$TPER/g" \
-                           >> $CCPS_SCRIPT ;;
+                              | sed -e "s/xxxHISTxxx/$HIST/g" \
+                              | sed -e "s/xxxTABLxxx/$TABL/g" \
+                              >> $CCPS_SCRIPT ;;
   * )
-    echo "Unable to build script because "$LOCATION" not found in "$EXPFILE
+    echo "Unable to build script because "$PROCHOST" unknown."
+    ./procstat.sh error process_dp_template
     exit 1 ;;
 esac
 #
@@ -100,7 +97,6 @@ echo "Run script now? (Y only, all else NO)"
 read DORUN
 #
 if [ "$DORUN" = "Y" ] ; then
-  PROCHOST=`hostname`;export PROCHOST
   echo "Running "${CCPS_SCRIPT}
   case "$PROCHOST" in
     lens* )

@@ -95,7 +95,7 @@ if [ "$VARS" ] ; then
                                    | sed -e "s/xxxVARSxxx/$VARS/g" \
                                    >> $CMIP5_SCRIPT ;;
     lens* )                                  # lens @ ORNL
-      cat ./ORNL_batch             >> $CMIP5_SCRIPT
+      cat ./ORNL_batch > $CMIP5_SCRIPT
       cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
                                    | sed -e "s/xxxHISTxxx/$HIST/g" \
                                    | sed -e "s/xxxTABLxxx/$TABL/g" \
