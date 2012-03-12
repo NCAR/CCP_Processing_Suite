@@ -37,7 +37,15 @@ XWALK=xwalk_Amon.txt
 #
 ln -s -f ${BASED}/experiments.txt           .
 ln -s -f ${CMORD}/Tables                    .
-ln -s -f ${CMORD}/GridFiles/atm_grid_f09.nc .
+#
+case "$CASE" in
+  *wcm* )
+    ln -s -f ${CMORD}/GridFiles/atm_grid_f19.nc .
+    ;;
+  * ) 
+    ln -s -f ${CMORD}/GridFiles/atm_grid_f09.nc .
+    ;;
+esac
 #
 # Assume all fields in xwalk to be processed
 #
@@ -69,6 +77,7 @@ echo $COMP >> Amon_in.${CASE}.${COMP}
 #
 # Set up various tracking information to be read in and made global metadata
 #
+SVNBIN=`which svn`
 WHOAMI=`whoami`
 PRCHST=`hostname`
 SVNREV=`$SVNBIN info $SVN | egrep "Rev:"`

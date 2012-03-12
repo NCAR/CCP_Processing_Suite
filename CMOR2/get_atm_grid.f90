@@ -7,22 +7,31 @@ subroutine get_atm_grid
   use interfaces_netcdf_jfl
   use definitions_netcdf_jfl
   use grid_info
+  use exp_info
   !
   implicit none
   !
   double precision,allocatable,dimension(:)::slon,slat
+  character(len=256)::gridfile
   integer::gridid,i,j,k,n,length
   logical::exists
   !
-  inquire(file='atm_grid_f09.nc',exist=exists)
+  select case (exp(exp_found)%model_id)
+  case ('CESM1-WACCM')
+     gridfile = 'atm_grid_f19.nc'
+  case default
+     gridfile = 'atm_grid_f09.nc'
+  end select
+  !
+  inquire(file=trim(gridfile),exist=exists)
   if (.not.(exists)) then
-     write(*,*) 'Cannot find atm_grid_f09.nc - STOPPING.'
+     write(*,*) 'Cannot find ',trim(gridfile),' - STOPPING.'
      stop
   endif
   !
-  call open_cdf(gridid,'atm_grid_f09.nc',.true.)
+  call open_cdf(gridid,trim(gridfile),.true.)
   !
-  ! Read time-invariant dimensions and variables from 'atm_grid_f09.nc'
+  ! Read time-invariant dimensions and variables from gridfile
   !
   call get_dims(gridid)
   !
@@ -37,6 +46,8 @@ subroutine get_atm_grid
         nlevs = dim_info(n)%length
      case('ilev') 
         nilevs = dim_info(n)%length
+     case('plev23') 
+        nplev23 = dim_info(n)%length
      case('plev17') 
         nplev17 = dim_info(n)%length
      case('plev8') 
@@ -51,24 +62,25 @@ subroutine get_atm_grid
   allocate(atm_lons_bnds(2,nlons),atm_lats_bnds(2,nlats))
   allocate(atm_levs(nlevs),atm_levs_bnds(nlevs+1))
   allocate(atm_ilevs(nilevs),atm_ilevs_bnds(nilevs+1))
-  allocate(atm_plev17(nplev17),atm_plev8(nplev8),atm_plev7(nplev7),atm_plev3(nplev3))
+  allocate(atm_plev23(nplev23),atm_plev17(nplev17),atm_plev8(nplev8),atm_plev7(nplev7),atm_plev3(nplev3))
   allocate(a_coeff(nlevs),b_coeff(nlevs),a_coeff_bnds(nlevs+1),b_coeff_bnds(nlevs+1))
   !
   call get_vars(gridid)
-  call read_var(gridid,'lon'  ,atm_lons)
-  call read_var(gridid,'lat'  ,atm_lats)
+  call read_var(gridid,'lon'   ,atm_lons)
+  call read_var(gridid,'lat'   ,atm_lats)
+  call read_var(gridid,'plev23',atm_plev23)
   call read_var(gridid,'plev17',atm_plev17)
-  call read_var(gridid,'plev8',atm_plev8)
-  call read_var(gridid,'plev7',atm_plev7)
-  call read_var(gridid,'plev3',atm_plev3)
-  call read_var(gridid,'lev'  ,atm_levs)
-  call read_var(gridid,'ilev' ,atm_levs_bnds)
-  call read_var(gridid,'ilev' ,atm_ilevs)
-  call read_var(gridid,'hyam' ,a_coeff)
-  call read_var(gridid,'hyai' ,a_coeff_bnds)
-  call read_var(gridid,'hybm' ,b_coeff)
-  call read_var(gridid,'hybi' ,b_coeff_bnds)
-  call read_var(gridid,'P0'   ,p0)
+  call read_var(gridid,'plev8' ,atm_plev8)
+  call read_var(gridid,'plev7' ,atm_plev7)
+  call read_var(gridid,'plev3' ,atm_plev3)
+  call read_var(gridid,'lev'   ,atm_levs)
+  call read_var(gridid,'ilev'  ,atm_levs_bnds)
+  call read_var(gridid,'ilev'  ,atm_ilevs)
+  call read_var(gridid,'hyam'  ,a_coeff)
+  call read_var(gridid,'hyai'  ,a_coeff_bnds)
+  call read_var(gridid,'hybm'  ,b_coeff)
+  call read_var(gridid,'hybi'  ,b_coeff_bnds)
+  call read_var(gridid,'P0'    ,p0)
   !
   ! Create atm_ilev_bnds from regular levs
   !

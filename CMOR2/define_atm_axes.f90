@@ -8,6 +8,7 @@ subroutine define_atm_axes(dimensions)
   use files_info
   use table_info
   use grid_info
+  use exp_info
   use mycmor_info
   !
   implicit none
@@ -120,13 +121,24 @@ subroutine define_atm_axes(dimensions)
         write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('plevs')
-        axis_ids(idim) = cmor_axis(        &
-             table=mycmor%table_file,      &
-             table_entry=dimnames(i),      &
-             length=SIZE(atm_plev17),       &
-             units=dimunits(i),            &
-             coord_vals=atm_plev17)
-        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        select case(exp(exp_found)%model_id)
+        case ('CESM1-WACCM')
+           axis_ids(idim) = cmor_axis(        &
+                table=mycmor%table_file,      &
+                table_entry=dimnames(i),      &
+                length=SIZE(atm_plev23),       &
+                units=dimunits(i),            &
+                coord_vals=atm_plev23)
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        case default
+           axis_ids(idim) = cmor_axis(        &
+                table=mycmor%table_file,      &
+                table_entry=dimnames(i),      &
+                length=SIZE(atm_plev17),       &
+                units=dimunits(i),            &
+                coord_vals=atm_plev17)
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        end select
         idim = idim + 1
      case ('plev8')
         axis_ids(idim) = cmor_axis(        &
