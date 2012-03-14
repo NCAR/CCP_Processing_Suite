@@ -87,7 +87,7 @@ PROCHOST=`hostname`;export PROCHOST
 #
 if [ "$VARS" ] ; then
   case "$PROCHOST" in 
-    silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
+    silver* | tramhill* | hurricane* | mirage* | modeling1* | euclid* )  # NCAR and NERSC machines
       echo "#!/bin/sh" > $CMIP5_SCRIPT
       cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
                                    | sed -e "s/xxxHISTxxx/$HIST/g" \
@@ -108,7 +108,7 @@ if [ "$VARS" ] ; then
   esac
 else
   case "$PROCHOST" in 
-    silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
+    silver* | tramhill* | hurricane* | mirage* | modeling1* | euclid* )  # NCAR and NERSC machines
       echo "#!/bin/sh" > $CMIP5_SCRIPT
       cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
                                    | sed -e "s/xxxHISTxxx/$HIST/g" \
