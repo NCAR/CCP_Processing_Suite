@@ -305,16 +305,17 @@ program Lmon_CMOR
            case ( 1872,1140,3612,6012,12012 )  ! All data
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 13
-              tidx2(1:nchunks(1)) = ntimes(1,1)
            case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
            end select
+           tidx2(1:nchunks(1)) = ntimes(1,1)
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
@@ -360,16 +361,17 @@ program Lmon_CMOR
            case ( 1872,1140,3612,6012,12012 )  ! All data
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 13
-              tidx2(1:nchunks(1)) = ntimes(1,1)
            case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
            end select
+           tidx2(1:nchunks(1)) = ntimes(1,1)
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
@@ -413,16 +415,17 @@ program Lmon_CMOR
            case ( 1872,1140,3612,6012,12012 )  ! All data
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 13
-              tidx2(1:nchunks(1)) = ntimes(1,1)
            case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
            end select
+           tidx2(1:nchunks(1)) = ntimes(1,1)
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
@@ -477,7 +480,11 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
            end select
+           tidx2(1:nchunks(1)) = ntimes(1,1)
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
@@ -538,7 +545,11 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
            end select
+           tidx2(1:nchunks(1)) = ntimes(1,1)
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
@@ -729,7 +740,11 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
            end select
+           tidx2(1:nchunks(1)) = ntimes(1,1)
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
@@ -784,16 +799,17 @@ program Lmon_CMOR
            case ( 1872,1140,3612,6012,12012 )  ! All data
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 13
-              tidx2(1:nchunks(1)) = ntimes(1,1)
            case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
            end select
+           tidx2(1:nchunks(1)) = ntimes(1,1)
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
@@ -867,6 +883,10 @@ program Lmon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
               tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
@@ -932,6 +952,10 @@ program Lmon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
               tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)

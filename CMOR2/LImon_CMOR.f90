@@ -280,6 +280,10 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case default
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 1
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -348,6 +352,10 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case default
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 1
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -416,6 +424,10 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case default
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 1
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -493,6 +505,10 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case default
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 1
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -578,6 +594,10 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case default
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 1
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
