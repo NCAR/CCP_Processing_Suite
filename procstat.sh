@@ -36,7 +36,7 @@ HOSTNAME=`hostname`
 # execute and save to files
 #
 case "$HOSTNAME" in 
-  silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
+  silver* | tramhill* | hurricane* | mirage* | euclid* | modeling1* )  # NCAR and NERSC machines
     date > ${FILEPS}
     ps auwx | grep ${USER} >> ${FILEPS}
     date > ${FILELOG}
@@ -72,7 +72,7 @@ if [ $# -ge 1 ] ; then
 # get the user name and corresponding email address to notify user
 #
     case "$USER" in
-    'aliceb' | 'ilana' | 'strandwg' | 'hteng' | 'jma' | 'asphilli' )
+    'aliceb' | 'ilana' | 'strandwg' | 'hteng' | 'jma' | 'asphilli' | 'tilmes' | 'higginsm' )
          MAILTOUSER=${USER}@ucar.edu ;;
     'abertini')
          MAILTOUSER=aliceb@ucar.edu  ;;

@@ -140,7 +140,7 @@ read DORUN
 if [ "$DORUN" = "Y" ] ; then
   echo "Running "${CMIP5_SCRIPT}
   case "$PROCHOST" in 
-    silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
+    silver* | tramhill* | hurricane* | mirage* | euclid* | modeling1* )  # NCAR and NERSC machines
       ( ./${CMIP5_SCRIPT} > log.${CMIP5_SCRIPT} 2>&1 & ) ;;
     lens* )                                  # lens @ ORNL
       ( /usr/bin/qsub ./${CMIP5_SCRIPT} ) ;;
