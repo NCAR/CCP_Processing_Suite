@@ -63,6 +63,13 @@ esac
 # 230 - 239  MACH (hardware)
 # 240 - end  DOUT_L_MSROOT (history file location on archive)
 #
+if [ $PATH ] ; then
+  PATH=${HOME}/bin
+else
+  PATH=${HOME}/bin:${PATH}
+fi
+export PATH
+#
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
   LOCATION=`egrep "^$CASE " $EXPFILE | cut -c60- | cut -d" " -f1`
