@@ -52,7 +52,7 @@ endif
 #
 # 'mirage' cluser in CISL
 #
-feq ($(MACH),mirage)
+ifeq ($(MACH),mirage)
   NCFDIR  = /fs/local/apps/netcdf-4.1.3_pgi
   UDUDIR  = /fs/local/apps/udunits-2.1.19
   UIDDIR  = /glade/home/strandwg/software/uuid-1.6.2
