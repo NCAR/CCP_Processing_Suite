@@ -27,11 +27,18 @@ if [ ! $ARCHIVE_HIST ] ; then
   echo "mss_read: ARCHIVE_HIST undefined. Exit."
 fi
 #
-# Get files - check if hsi exists first
+# If hsi command exists, use it.
 #
 TEST4HSI=`which hsi 2<&1`
 if [ $? -eq 0 ] ; then
-  hsi -q "cget -u ${ARCHIVE_HIST}/${CASE}.${HIST}.${YEARNOW}*"
+  PROCHOST=`hostname`;export PROCHOST
+  case "$PROCHOST" in 
+    modeling1* )  # Funny bash implementation of hsi 
+      HSI="hsi -s nocache" ;;
+    * )           # Everywhere else
+      HSI="hsi -q" ;;
+  esac
+  $HSI "cget -u ${ARCHIVE_HIST}/${CASE}.${HIST}.${YEARNOW}*"
   if [ $? -ne 0 ] ; then
     echo "Error on hsi get of "$ARCHIVE_HIST"/"$ARCHIVE_FILES
     ./procstat.sh error mss_read

@@ -15,7 +15,15 @@ fi
 #
 TEST4HSI=`which hsi 2<&1`
 if [ $? -eq 0 ] ; then
-  hsi -q "cd $ARCHIVE_PROC ; ls" 2>&1 | egrep "\.${HIST}\." > $ARCHIVE_L 2>&1 
+  PROCHOST=`hostname`;export PROCHOST
+  case "$PROCHOST" in 
+    modeling1* )  # Funny bash implementation of hsi 
+      HSI="hsi -s nocache" ;;
+    * )           # Everywhere else
+      HSI="hsi -q" ;;
+  esac
+#
+  $HSI "cd $ARCHIVE_PROC ; ls" 2>&1 | egrep "\.${HIST}\." > $ARCHIVE_L 2>&1 
   if [ $? -ne 0 ] ; then
     echo "Error on mss_var_list from "$ARCHIVE_PROC
     ./procstat.sh error mss_var_list
