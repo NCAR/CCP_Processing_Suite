@@ -37,8 +37,7 @@ if [ -f $EXPFILE ] ; then
    COMPSET=`egrep "^$CASE " $EXPFILE | cut -c170- | cut -d" " -f1`
    REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c190- | cut -d" " -f1`
   HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c230- | cut -d" " -f1`
-#  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c240- | cut -d" " -f1`
-  HISTBASE=/CCSM/csm
+  VARSBASE=/CCSM/csm
 else
   echo "Cannot find $EXPFILE. EXIT"
   ./procstat.sh error process_cmip5_template
@@ -68,7 +67,6 @@ case "$PROCHOST" in
   silver* )                                # silver @ CGD/NCAR
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
-    HISTBASE=/CCSM/csm                   ; export HISTBASE
     SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
@@ -91,7 +89,6 @@ case "$PROCHOST" in
   tramhill* | hurricane* )                 # tramhill/hurricane @ CGD/NCAR
     PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
-    HISTBASE=/CCSM/csm                   ; export HISTBASE
     SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
@@ -103,34 +100,11 @@ case "$PROCHOST" in
   mirage* )                                # DASG @ CISL/NCAR
     PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
-    HISTBASE=/CCSM/csm                            ; export HISTBASE
     SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/contrib/lib:/glade/home/strandwg/lib:/fs/local/lib
     else
       LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/glade/home/strandwg/lib
-    fi
-    ;;
-
-  euclid* )                                # euclid @ NERSC
-    PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
-    ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
-    SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
-    if ! [ $LD_LIBRARY_PATH ] ; then
-      LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
-    else
-      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
-    fi
-    ;;
-
-  lens* )                                  # lens @ ORNL
-    PROCBASE=/tmp/work/$USER/$CASE                     ; export PROCBASE
-    ARCHIVE_BASE=/f2/ccsm/csm                          ; export ARCHIVE_BASE
-    SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
-    if ! [ $LD_LIBRARY_PATH ] ; then
-      LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
-    else
-      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
     fi
     ;;
   * ) 
@@ -141,7 +115,7 @@ esac
 #
 export LD_LIBRARY_PATH
 #
-# Rebuild CMOR binary
+# Build CMOR binary
 #
 echo "Building "${BINDIR}"/"${TABL}"_CMOR"
 cd ${BASEDIR}/CMOR2
@@ -183,7 +157,7 @@ esac
 # Set up local directory names and archival names
 #
 LOCAL_PROC=$PROCBASE/$TABL
-ARCHIVE_PROC=$HISTBASE/$CASE/$COMP_NAME/proc/tseries
+ARCHIVE_PROC=$VARSBASE/$CASE/$COMP_NAME/proc/tseries
 ARCHIVE_CMIP5=$ARCHIVE_BASE/CMIP5
 #
 # Location of single-field format files on archive
