@@ -166,7 +166,7 @@ subroutine define_ocn_axes(dimensions)
            idim = idim + 1
         end select ! dimnames(i)
      enddo
-  case ( 'so','thetao','tos','sos','hfss','pr','prsn','rlds','rsds','rsntds','agessc','rhopoto','tossq','zos')
+  case ( 'so','thetao','tos','sos','hfss','pr','prsn','rlds','rsds','rsntds','agessc','rhopoto','tossq','zos','cfc11')
      ! T-grid fields
      do i = 1,naxes
         select case(dimnames(i))
