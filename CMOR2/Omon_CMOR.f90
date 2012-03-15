@@ -593,9 +593,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            endif
-        case ('thetao','agessc','uo','vo','rhopoto')
+        case ('thetao','agessc','uo','vo','rhopoto','cfc11')
            !
-           ! thetao,agessc,uo,vo,rhopoto: No changes
+           ! No changes
            !
            allocate(indat3a(nlons,nlats,nlevs))
            do ivar = 1,xw(ixw)%ncesm_vars
