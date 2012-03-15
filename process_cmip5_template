@@ -37,7 +37,8 @@ if [ -f $EXPFILE ] ; then
    COMPSET=`egrep "^$CASE " $EXPFILE | cut -c170- | cut -d" " -f1`
    REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c190- | cut -d" " -f1`
   HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c230- | cut -d" " -f1`
-  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c240- | cut -d" " -f1`
+#  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c240- | cut -d" " -f1`
+  HISTBASE=/CCSM/csm
 else
   echo "Cannot find $EXPFILE. EXIT"
   ./procstat.sh error process_cmip5_template
