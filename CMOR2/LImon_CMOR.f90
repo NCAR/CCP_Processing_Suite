@@ -36,21 +36,12 @@ program LImon_CMOR
   ! GO!
   !
   mycmor%table_file = 'LImon'
-  xwalk_file = 'xwalk_'//trim(mycmor%table_file)//'.txt'
-  !
-  ! Get table information
-  !
-  mycmor%table_file = 'Tables/CMIP5_'//trim(mycmor%table_file)
-  inquire(file=mycmor%table_file,exist=does_exist)
-  if (.not.(does_exist)) then
-     write(*,*) 'Cannot find ',trim(mycmor%table_file),'. Dying.'
-     stop
-  endif
   !
   ! Get "crossxwalk" (xwalk) information
   !   Provides information on relationship between CMOR variables and
   !   model variables
   !
+  xwalk_file = 'xwalk_'//trim(mycmor%table_file)//'.txt'
   call load_xwalk(xwalk_file)
   !
   ! Get experiment information
@@ -64,6 +55,15 @@ program LImon_CMOR
   ! Get experiment metadata from exp table and input case information
   !
   call get_exp_metadata
+  !
+  ! Get table information
+  !
+  mycmor%table_file = 'Tables/'//trim(exp(exp_found)%cmip)//'_'//trim(mycmor%table_file)
+  inquire(file=mycmor%table_file,exist=does_exist)
+  if (.not.(does_exist)) then
+     write(*,*) 'Cannot find ',trim(mycmor%table_file),'. Dying.'
+     stop
+  endif
   !
   ! Get grid information
   !

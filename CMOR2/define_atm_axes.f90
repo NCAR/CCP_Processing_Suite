@@ -70,7 +70,7 @@ subroutine define_atm_axes(dimensions)
      select case(dimnames(i))
      case ('time','time1','time2')
         select case (mycmor%table_file)
-        case ('Tables/CMIP5_Amon')
+        case ('Tables/CMIP5_Amon','Tables/GeoMIP_Amon')
            axis_ids(idim) = cmor_axis(  &
                 table=mycmor%table_file,&
                 table_entry=dimnames(i),&
@@ -78,7 +78,7 @@ subroutine define_atm_axes(dimensions)
                 interval='30 days')
            write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
            idim = idim + 1
-        case ('Tables/CMIP5_day')
+        case ('Tables/CMIP5_day','Tables/GeoMIP_day')
            axis_ids(idim) = cmor_axis(  &
                 table=mycmor%table_file,&
                 table_entry=dimnames(i),&
@@ -86,7 +86,7 @@ subroutine define_atm_axes(dimensions)
                 interval='1 day')
            write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
            idim = idim + 1
-        case ('Tables/CMIP5_6hrLev','Tables/CMIP5_6hrPlev')
+        case ('Tables/CMIP5_6hrLev','Tables/CMIP5_6hrPlev','Tables/GeoMIP_6hrLev','Tables/GeoMIP_6hrPlev')
            axis_ids(idim) = cmor_axis(  &
                 table=mycmor%table_file,&
                 table_entry=dimnames(i),&

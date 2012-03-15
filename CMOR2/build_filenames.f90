@@ -48,18 +48,19 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
 !  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,begyr,endyr,trim(table)
   !
   select case (table)
-  case ('Tables/CMIP5_Amon','Tables/CMIP5_Lmon','Tables/CMIP5_LImon','Tables/CMIP5_Omon','Tables/CMIP5_OImon','Tables/CMIP5_aero','Tables/CMIP5_cfMon')
+  case ('Tables/CMIP5_Amon','Tables/CMIP5_Lmon','Tables/CMIP5_LImon','Tables/CMIP5_Omon','Tables/CMIP5_OImon','Tables/CMIP5_aero','Tables/CMIP5_cfMon',&
+        'Tables/GeoMIP_Amon','Tables/GeoMIP_Lmon','Tables/GeoMIP_LImon','Tables/GeoMIP_Omon','Tables/GeoMIP_OImon','Tables/GeoMIP_aero','Tables/GeoMIP_cfMon')
      dtbeg = '01' ; dtend = '12'
-  case ('Tables/CMIP5_day','Tables/CMIP5_cfDay')
+  case ('Tables/CMIP5_day','Tables/CMIP5_cfDay','Tables/GeoMIP_day','Tables/GeoMIP_cfDay')
      dtbeg = '0101' ; dtend = '1231'
-  case ('Tables/CMIP5_6hrLev','Tables/CMIP5_6hrPlev')
+  case ('Tables/CMIP5_6hrLev','Tables/CMIP5_6hrPlev','Tables/GeoMIP_6hrLev','Tables/GeoMIP_6hrPlev')
      dtbeg = '010100Z' ; dtend = '123118Z'
-  case ('Tables/CMIP5_3hr','Tables/CMIP5_cf3hr')
+  case ('Tables/CMIP5_3hr','Tables/CMIP5_cf3hr','Tables/GeoMIP_3hr','Tables/GeoMIP_cf3hr')
      dtbeg = '010100Z' ; dtend = '123121Z'
   end select
   !
   select case (table)
-  case ('Tables/CMIP5_OImon')
+  case ('Tables/CMIP5_OImon','Tables/GeoMIP_OImon')
      exists = .false.
      all_continue = .true.
      do year1 = begyr,endyr

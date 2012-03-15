@@ -112,7 +112,8 @@ subroutine load_exp(exp_file)
            exp(iexp)%loc(1:)         = adjustl(instring( 60: 61))
            exp(iexp)%expt_id(1:)     = adjustl(instring( 65: 79))
            exp(iexp)%rip_code(1:)    = adjustl(instring( 80: 89))
-           exp(iexp)%cmip(1:)        = adjustl(instring( 90: 94))
+           if (instring(90:94) == 'cm5') exp(iexp)%cmip(1:) = 'CMIP5'
+           if (instring(90:94) == 'gmp') exp(iexp)%cmip(1:) = 'GeoMIP'
            exp(iexp)%run_refcase(1:) = adjustl(instring( 95:134))
            exp(iexp)%run_refdate(1:) = adjustl(instring(135:149))
            exp(iexp)%begin_end(1:)   = adjustl(instring(150:159))
@@ -257,6 +258,12 @@ subroutine load_exp(exp_file)
      case ('sstClimSulfate')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('volcIn2010')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('G1')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('G2')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('G3S')
         exp(i)%forcing(1:)      = 'unknown forcings'
      end select
   enddo
