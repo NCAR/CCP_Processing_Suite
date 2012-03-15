@@ -1,5 +1,5 @@
 #
-# Makefile for CESM CMOR code
+# Makefile for CESM CMOR codeb40.abrupt4xco2_solar.beta19.001_cam2.h0_process.sh
 #
 MACH = $(shell echo $(HOST) | cut -c1-6)
 null =
