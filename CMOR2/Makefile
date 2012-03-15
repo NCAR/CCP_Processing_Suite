@@ -1,7 +1,7 @@
 #
 # Makefile for CESM CMOR codeb40.abrupt4xco2_solar.beta19.001_cam2.h0_process.sh
 #
-MACH = $(shell echo $(HOST) | cut -c1-6)
+MACH = $(shell echo $(HOSTNAME) | cut -c1-6)
 null =
 FC   = $(null)
 #
@@ -23,7 +23,7 @@ ifeq ($(MACH),silver)
   UIDINC  = -I${UIDDIR}/include
   UIDLIB  = -L${UIDDIR}/lib -luuid
   FC	  = /usr/local/pgi/linux86/bin/pgf95
-  FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -module ${CMRDIR} -Mbounds -fpic
+  FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -Mbounds -fpic
 endif
 #
 # 'modeling1' at NCAR/ACD
@@ -44,7 +44,7 @@ ifeq ($(MACH),modeli)
   UIDINC  = -I${UIDDIR}/include
   UIDLIB  = -L${UIDDIR}/lib -luuid
   FC      = /usr/pgi/linux86-64/11.3/bin/pgf95
-  FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -module ${CMRDIR} -Mbounds -fpic
+  FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -Mbounds -fpic
 #
   HD5INC  = -I${HD5DIR}/include
   HD5LIB  = -L${HD5DIR} -lhdf5_hl -lhdf5 -lz -lm
