@@ -339,7 +339,7 @@ program day_CMOR
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  !
-                 if (ic < nchunks(ifile)) then
+                 if (ic .le. nchunks(ifile)) then
                     cmor_filename(1:) = ' '
                     error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                     if (error_flag < 0) then
@@ -348,26 +348,23 @@ program day_CMOR
                     else
                        write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                     endif
-                 else
-                    error_flag = cmor_close()
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR CMOR close of '',a)') trim(cmor_filename(1:))
-                       stop
-                    else
-                       write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
-                    endif
                  endif
               enddo
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
+              !
+              dim_counter  = 0
+              var_counter  = 0
+              time_counter = 0
+              file_counter = 0
            enddo
-!!$           error_flag = cmor_close()
-!!$           if (error_flag < 0) then
-!!$              write(*,'(''ERROR CMOR close of '',a)') trim(cmor_filename(1:))
-!!$              stop
-!!$           else
-!!$              write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
-!!$           endif
+           !
+           error_flag = cmor_close()
+           if (error_flag < 0) then
+              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+           else
+              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+           endif
         case ('pr','prsn')
            !
            ! pr  : Add PRECC + PRECL  , unit change from m s-1 to kg m-2 s-1

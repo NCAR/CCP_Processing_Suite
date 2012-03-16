@@ -24,7 +24,7 @@ day:sfcWindmax:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:
 day:sic:sea_ice_area_fraction:longitude latitude time:seaIce ocean:1:aice:aice1
 day:sit:sea_ice_thickness:longitude latitude time:seaIce ocean:1:hi:hi unchanged
 day:snc:surface_snow_area_fraction:longitude latitude time:landIce land:1:FSNO:FSNO
-day:snw:surface_snow_amount:longitude latitude time:landIce land:1:SNOWDP
+day:snw:surface_snow_amount:longitude latitude time:landIce land:1:SNOWDP:SNOWDP
 day:ta:air_temperature:longitude latitude plev8 time:atmos:2:T PS:T interpolated to standard plevs
 day:tas:air_temperature:longitude latitude time height2m:atmos:1:TREFHT:TREFHT no change
 day:tasmax:air_temperature:longitude latitude time height2m:atmos:1:TREFHTMX:TREFHTMX no change

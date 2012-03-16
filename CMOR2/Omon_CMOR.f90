@@ -242,7 +242,6 @@ program Omon_CMOR
         write(*,*) 'original_name = ',trim(original_name)
         !
         select case (xw(ixw)%entry)
-!        case ('thetao','so','agessc','uo','vo','rhopoto','cfc11','wmo','wmosq')
         case ('thetao','so','agessc','uo','vo','rhopoto','cfc11')
            ! Full-column fields
            cmor_var_id = cmor_variable(                            &
@@ -294,7 +293,12 @@ program Omon_CMOR
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
         end select
-        write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id
+        if (cmor_var_id .gt. 0) then
+           write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id
+        else
+           write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id
+           cycle xwalk_loop
+        endif
         !
         ! Perform derivations and cycle through time, writing data too
         !
