@@ -294,10 +294,10 @@ program Omon_CMOR
                 comment=xw(ixw)%comment)
         end select
         if (abs(cmor_var_id) .gt. 1000) then
-           write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id
-        else
            write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id
            cycle xwalk_loop
+        else
+           write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id
         endif
         !
         ! Perform derivations and cycle through time, writing data too
