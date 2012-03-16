@@ -116,9 +116,6 @@ esac
 MAILTO=procstat@cgd.ucar.edu
 
 mail -s "procstat ${FILELOG}" ${MAILTO} < ${FILELOG}
-#mail -s "procstat ${FILEDF}" ${MAILTO} < ${FILEDF}
-#mail -s "procstat ${FILEPS}" ${MAILTO} < ${FILEPS}
-#mail -s "procstat ${FILEHSI}" ${MAILTO} < ${FILEHSI}
 
 #
 # check if procstat.sh was called with an argument either start, error or complete
@@ -154,7 +151,7 @@ if [ $# -ge 1 ] ; then
 	    echo "PP_HOST = ${HOSTNAME}" >> tossme
 	    echo "USER = ${USER}" >> tossme
 	    echo "NOTE = This email is being sent to you automatically from the procstat.sh program. For more details, go to the procstat web at http://webint.cgd.ucar.edu/project/ccr/procstat/cgi-bin/index.cgi." >> tossme
-	    mail -s "procstat ${FILESTART}" ${MAILTO} -c ${MAILTOUSER} < tossme
+	    mail -s "procstat ${FILESTART}" ${MAILTO},${MAILTOUSER} < tossme
 	    rm -f tossme
     fi
     if test $1 = "error" 
@@ -170,7 +167,7 @@ if [ $# -ge 1 ] ; then
 	    echo "USER = ${USER}" >> tossme
 	    echo "CALLING_PROGRAM = $2" >> tossme
 	    echo "NOTE = This email is being sent to you automatically from the procstat.sh program. For more details, go to the procstat web at http://webint.cgd.ucar.edu/project/ccr/procstat/cgi-bin/index.cgi." >> tossme
-	    mail -s "procstat ${FILEERROR}" ${MAILTO} -c ${MAILTOUSER} < tossme
+	    mail -s "procstat ${FILEERROR}" ${MAILTO},${MAILTOUSER} < tossme
 	    rm -f tossme
     fi
     if test $1 = "complete" 
@@ -185,7 +182,7 @@ if [ $# -ge 1 ] ; then
 	    echo "PP_HOST = ${HOSTNAME}" >> tossme
 	    echo "USER = ${USER}" >> tossme
 	    echo "NOTE = This email is being sent to you automatically from the procstat.sh program. For more details, go to the procstat web at http://webint.cgd.ucar.edu/project/ccr/procstat/cgi-bin/index.cgi. Please double check log file and mass storage listing for any errors and then manually change the status to COMPLETE." >> tossme
-	    mail -s "procstat ${FILECOMPLETE}" ${MAILTO} -c ${MAILTOUSER} < tossme
+	    mail -s "procstat ${FILECOMPLETE}" ${MAILTO},${MAILTOUSER} < tossme
 	    rm -f tossme
     fi
 fi

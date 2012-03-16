@@ -64,9 +64,9 @@ esac
 # 240 - end  DOUT_L_MSROOT (history file location on archive)
 #
 if [ ! $PATH ] ; then
-  PATH=${HOME}/bin
+  PATH=${HOME}/bin:/usr/local/hpss/bin
 else
-  PATH=${HOME}/bin:${PATH}
+  PATH=${HOME}/bin:/usr/local/hpss/bin:${PATH}
 fi
 export PATH
 #
