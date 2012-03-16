@@ -24,6 +24,7 @@ if [ $? -eq 0 ] ; then
     * )           # Everywhere else
       HSI="hsi -q" ;;
   esac
+  echo "HSI command: "${HSI}
 #
   $HSI "mkdir -p $ARCHIVE_D"
   $HSI "chmod 775 $ARCHIVE_D"

@@ -22,6 +22,7 @@ if [ $? -eq 0 ] ; then
     * )           # Everywhere else
       HSI="hsi -q" ;;
   esac
+  echo "HSI command: "${HSI}
 #
   $HSI "ls -Fl $ARCHIVE_HIST" 2>&1 | egrep "\.${HIST}\." | cut -c60- > $ARCHIVE_L 2>&1 
   if [ $? -ne 0 ] ; then

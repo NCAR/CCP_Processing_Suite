@@ -30,12 +30,13 @@ if [ $? -eq 0 ] ; then
   PROCHOST=`hostname`;export PROCHOST
   case "$PROCHOST" in 
     modeling1* )  # Funny bash implementation of hsi 
-      HSI="hsi -s nocache" ;;
+      HSI="hsi -s nocache -q" ;;
     * )           # Everywhere else
       HSI="hsi -q" ;;
   esac
+  echo "HSI command: "${HSI}
 #
-  $HSI "ls -d ${ARCHIVE_PROC}" > /dev/null 2>&1
+  $HSI "ls -d ${ARCHIVE_PROC}"
   if [ $? -eq 0 ] ; then
     if [ "$HIST" = "cice.h" ] || [ "$HIST" = "cice.h1" ] ; then
       $HSI "cd ${ARCHIVE_PROC} ; cget -u ${CASE}.${HIST}.{${VARS}}_?h.*.nc"

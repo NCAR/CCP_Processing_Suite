@@ -38,6 +38,8 @@ if [ $? -eq 0 ] ; then
     * )           # Everywhere else
       HSI="hsi -q" ;;
   esac
+  echo "HSI command: "${HSI}
+#
   $HSI "cget -u ${ARCHIVE_HIST}/${CASE}.${HIST}.${YEARNOW}*"
   if [ $? -ne 0 ] ; then
     echo "Error on hsi get of "$ARCHIVE_HIST"/"$ARCHIVE_FILES
