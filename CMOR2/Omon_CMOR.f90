@@ -293,7 +293,7 @@ program Omon_CMOR
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
         end select
-        if (cmor_var_id .gt. 0) then
+        if (abs(cmor_var_id) .gt. 1000) then
            write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id
         else
            write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id
