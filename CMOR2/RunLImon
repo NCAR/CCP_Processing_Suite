@@ -73,6 +73,7 @@ echo $COMP >> LImon_in.${CASE}.${COMP}
 #
 WHOAMI=`whoami`
 PRCHST=`hostname`
+SVNBIN=`which svn`
 SVNREV=`$SVNBIN info $SVN | egrep "Rev:"`
 SVNDAT=`$SVNBIN info $SVN | egrep "Date:"`
 SVNUID=`$SVNBIN info $SVN | egrep "UUID:"`
@@ -81,6 +82,15 @@ echo $PRCHST >> Info_in.${CASE}.${COMP}
 echo $SVNREV >> Info_in.${CASE}.${COMP}
 echo $SVNDAT >> Info_in.${CASE}.${COMP}
 echo $SVNUID >> Info_in.${CASE}.${COMP}
-cat LImon_in.${CASE}.${COMP} | LImon_CMOR
+#
+CBIND=${HOME}/bin
+if [ -f ${CBIND}/LImon_CMOR ] ; then
+  ln -s -f ${CBIND}/LImon_CMOR .
+else
+  echo "LImon_CMOR NOT FOUND in "${CBIND}". Rebuild."
+  exit 1
+fi
+#
+cat LImon_in.${CASE}.${COMP} | ./LImon_CMOR
 #
 #rm -f LImon_in.${CASE}.${COMP}

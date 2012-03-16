@@ -30,6 +30,7 @@ else
    echo '   ./RunAmon b40.20th.track1.deg.008 cam2.h0 "tas ta pr"'
 fi
 #
+CBIND=${HOME}/bin
 BASED=${HOME}/CCP_Processing_Suite
 CMORD=${HOME}/CCP_Processing_Suite/CMOR2
 #
@@ -88,6 +89,14 @@ echo $PRCHST >> Info_in.${CASE}.${COMP}
 echo $SVNREV >> Info_in.${CASE}.${COMP}
 echo $SVNDAT >> Info_in.${CASE}.${COMP}
 echo $SVNUID >> Info_in.${CASE}.${COMP}
-cat Amon_in.${CASE}.${COMP} | Amon_CMOR
+#
+if [ -f ${CBIND}/Amon_CMOR ] ; then
+  ln -s -f ${CBIND}/Amon_CMOR .
+else
+  echo "Amon_CMOR NOT FOUND in "${CBIND}". Rebuild."
+  exit 1
+fi
+#
+cat Amon_in.${CASE}.${COMP} | ./Amon_CMOR
 #
 #rm -f Amon_in.${CASE}.${COMP}

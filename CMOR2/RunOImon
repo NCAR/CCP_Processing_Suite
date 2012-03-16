@@ -32,6 +32,7 @@ fi
 #
 BASED=${HOME}/CCP_Processing_Suite
 CMORD=${HOME}/CCP_Processing_Suite/CMOR2
+CBIND=${HOME}/bin
 #
 XWALK=xwalk_OImon.txt
 #
@@ -71,6 +72,7 @@ echo $COMP >> OImon_in.${CASE}.${COMP}
 #
 WHOAMI=`whoami`
 PRCHST=`hostname`
+SVNBIN=`which svn`
 SVNREV=`$SVNBIN info $SVN | egrep "Rev:"`
 SVNDAT=`$SVNBIN info $SVN | egrep "Date:"`
 SVNUID=`$SVNBIN info $SVN | egrep "UUID:"`
@@ -79,6 +81,14 @@ echo $PRCHST >> Info_in.${CASE}.${COMP}
 echo $SVNREV >> Info_in.${CASE}.${COMP}
 echo $SVNDAT >> Info_in.${CASE}.${COMP}
 echo $SVNUID >> Info_in.${CASE}.${COMP}
-cat OImon_in.${CASE}.${COMP} | OImon_CMOR
+#
+if [ -f ${CBIND}/OImon_CMOR ] ; then
+  ln -s -f ${CBIND}/OImon_CMOR .
+else
+  echo "OImon_CMOR NOT FOUND in "${CBIND}". Rebuild."
+  exit 1
+fi
+#
+cat OImon_in.${CASE}.${COMP} | ./OImon_CMOR
 #
 #rm -f OImon_in.${CASE}.${COMP}

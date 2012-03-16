@@ -242,7 +242,8 @@ program Omon_CMOR
         write(*,*) 'original_name = ',trim(original_name)
         !
         select case (xw(ixw)%entry)
-        case ('thetao','so','agessc','uo','vo','rhopoto','cfc11','wmo','wmosq')
+!        case ('thetao','so','agessc','uo','vo','rhopoto','cfc11','wmo','wmosq')
+        case ('thetao','so','agessc','uo','vo','rhopoto','cfc11')
            ! Full-column fields
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
@@ -1006,12 +1007,12 @@ program Omon_CMOR
                  enddo
               enddo
            enddo
-           write(*,'(''VOLUME (cm^3): '',3e20.10)') minval(volume),maxval(volume),sum(volume)
-           write(*,'(''VOLUME (km^3): '',3e20.10)') minval(volume)/1.e15,maxval(volume)/1.e15,sum(volume)/1.e15
+!           write(*,'(''VOLUME (cm^3): '',3e20.10)') minval(volume),maxval(volume),sum(volume)
+!           write(*,'(''VOLUME (km^3): '',3e20.10)') minval(volume)/1.e15,maxval(volume)/1.e15,sum(volume)/1.e15
            !
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
-              write(*,*) 'OPENING: ',myncid(ifile,1),trim(ncfile(ifile,1))
+!              write(*,*) 'OPENING: ',myncid(ifile,1),trim(ncfile(ifile,1))
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
@@ -1056,7 +1057,7 @@ program Omon_CMOR
               enddo
               call close_cdf(myncid(ifile,1))
               !
-              write(*,*) 'MIN: ',minval(indat1a),'MAX: ',maxval(indat1a)
+!              write(*,*) 'MIN: ',minval(indat1a),'MAX: ',maxval(indat1a)
               if (xw(ixw)%entry == 'masso') then
                  indat1a = indat1a/1000.
               elseif (xw(ixw)%entry == 'thetaoga') then
@@ -1064,7 +1065,7 @@ program Omon_CMOR
               elseif (xw(ixw)%entry == 'soga') then
                  indat1a = 1.e6*(indat1a/sum(volume))
               endif
-              write(*,*) 'MIN: ',minval(indat1a),'MAX: ',maxval(indat1a)
+!              write(*,*) 'MIN: ',minval(indat1a),'MAX: ',maxval(indat1a)
               !
               error_flag = cmor_write(                &
                    var_id        = cmor_var_id,                  &

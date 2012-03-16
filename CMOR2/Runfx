@@ -15,6 +15,7 @@ fi
 #
 BASED=${HOME}/CCP_Processing_Suite
 CMORD=${HOME}/CCP_Processing_Suite/CMOR2
+CBIND=${HOME}/bin
 #
 XWALK=xwalk_fx.txt
 #
@@ -52,6 +53,7 @@ fi
 #
 WHOAMI=`whoami`
 PRCHST=`hostname`
+SVNBIN=`which svn`
 SVNREV=`$SVNBIN info $SVN | egrep "Rev:"`
 SVNDAT=`$SVNBIN info $SVN | egrep "Date:"`
 SVNUID=`$SVNBIN info $SVN | egrep "UUID:"`
@@ -60,5 +62,12 @@ echo $PRCHST >> Info_in.fx
 echo $SVNREV >> Info_in.fx
 echo $SVNDAT >> Info_in.fx
 echo $SVNUID >> Info_in.fx
-fx_CMOR
 #
+if [ -f ${CBIND}/fx_CMOR ] ; then
+  ln -s -f ${CBIND}/fx_CMOR .
+else
+  echo "fx_CMOR NOT FOUND in "${CBIND}". Rebuild."
+  exit 1
+fi
+#
+./fx_CMOR
