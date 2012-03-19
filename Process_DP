@@ -74,13 +74,13 @@ case "$PROCHOST" in
     echo "#!/bin/sh" > $CCPS_SCRIPT
     cat ./process_dp_template | sed -e "s/xxxCASExxx/$CASE/g" \
                               | sed -e "s/xxxHISTxxx/$HIST/g" \
-                              | sed -e "s/xxxTABLxxx/$TABL/g" \
+                              | sed -e "s/xxxTPERxxx/$TPER/g" \
                               >> $CCPS_SCRIPT ;;
   lens* )                                  # lens @ ORNL
     cat ./ORNL_batch  > $CCPS_SCRIPT
     cat ./process_dp_template | sed -e "s/xxxCASExxx/$CASE/g" \
                               | sed -e "s/xxxHISTxxx/$HIST/g" \
-                              | sed -e "s/xxxTABLxxx/$TABL/g" \
+                              | sed -e "s/xxxTPERxxx/$TPER/g" \
                               >> $CCPS_SCRIPT ;;
   * )
     echo "Unable to build script because "$PROCHOST" unknown."
