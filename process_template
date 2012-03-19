@@ -330,7 +330,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
         done ;;
       pop.h2 | pop.h.nday1 )
         for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-01.nc` ; do
-          TRIMD=`echo $FILE | sed -e 's/\-01\.nc/\.nc/g'| sed -e 's/\-02\.nc/\.nc/g'`
+          TRIMD=`echo $FILE | sed -e 's/\-01\.nc$/\.nc/g'`
           mv $FILE $TRIMD
           echo "time_split not required on "$FILE" 1 month already."
         done ;;
