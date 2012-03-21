@@ -1,0 +1,164 @@
+#!/bin/sh
+#
+# RunCMOR
+#
+if [ $# -eq 0 ] ; then
+   echo 'Usage: RunCMOR case comp table "CMIP5 fields"'
+   echo ""
+   echo "  case is required"
+   echo "  comp is required"
+   echo "  table is required"
+   echo '  "CMIP5_fields" is optional - if not given, then all fields in xwalk will be processed'
+   echo "   Otherwise, blank-delimited list inside double quotes, example:"
+   echo ""
+   echo '   ./RunCMOR b40.20th.track1.deg.008 clm2.h0 Lmon "fFire fLuc lai"'
+   exit 1
+elif [ $# -eq 3 ] ; then
+   CASE=$1
+   COMP=$2
+   TABL=$3
+elif [ $# -eq 4 ] ; then
+   CASE=$1
+   COMP=$2
+   TABL=$3
+   VARS=$4
+else
+   echo 'Usage: RunCMOR case comp table "CMIP5 fields"'
+   echo ""
+   echo "  case is required"
+   echo "  comp is required"
+   echo "  table is required"
+   echo '  "CMIP5_fields" is optional - if not given, then all fields in xwalk will be processed'
+   echo "   Otherwise, blank-delimited list inside double quotes, example:"
+   echo ""
+   echo '   ./RunCMOR b40.20th.track1.deg.008 clm2.h0 Lmon "fFire fLuc lai"'
+   exit 1
+fi
+#
+LD_LIBRARY_PATH=/usr/local/netcdf-4.1.3-pgi-hpf-cc-11.5-0/lib:/usr/lib64/mpich2/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
+#
+BASED=${HOME}/CCP_Processing_Suite
+CMORD=${HOME}/CCP_Processing_Suite/CMOR2
+#
+ln -s -f ${BASED}/experiments.txt           .
+#
+# Get appropriate grid and xwalk files based on information in experiments.txt
+#
+MIP=`egrep "^${CASE} " experiments.txt | cut -c90-94`
+case "$MIP" in
+  cm5* )
+    XWALK=xwalk_CMIP5_${TABL} ;;
+  gmp* ) 
+    XWALK=xwalk_GeoMIP_${TABL} ;;
+  tmp* ) 
+    XWALK=xwalk_TAMIP_${TABL} ;;
+  * )
+    echo "Unknown MIP for CASE "${CASE}": "${MIP}
+    echo "Stopping"
+    ./procstat.sh error RunCMOR
+    exit 1 ;;
+esac
+#
+MOD=`egrep "^${CASE} " experiments.txt | cut -c45-59`
+#
+case "$TABL" in
+  3hr | 6hrLev | 6hrPlev | aero | Amon | day | cf3hr | cfDay | cfMon | cfOff | cfSite )
+    case "$MOD" in
+      CESM1-CAM5 )
+        GRIDF=atm_grid_cam5_f09.nc ;;
+      * )
+        GRIDF=atm_grid_cam4_f09.nc ;;
+    esac ;;
+  LImon | Lmon )
+    case "$MOD" in
+      * )
+        GRIDF=lnd_grid_f09.nc ;;
+    esac ;;
+  Oclim | Omon | Oyr )
+    case "$MOD" in
+      * )
+        GRIDF=ocn_grid_gx1.nc ;;
+    esac ;;
+  OImon )
+    case "$MOD" in
+      * )
+        GRIDF=ice_grid_gx1.nc ;;
+    esac ;;
+  * ) 
+    echo "Unable to continue because "$TABL" not known table. Stopping."
+    ./procstat.sh error RunCMOR
+    exit 1 ;;
+esac
+#
+# Check for xwalk and grid files
+#
+if [ ! -f ${CMORD}/Xwalks/${XWALK} ] ; then
+  echo "xwalk file "${CMORD}"/Xwalks/"${XWALK}" not found."
+  echo "Stopping"
+  ./procstat.sh error RunCMOR
+  exit 1
+fi
+#
+if [ ! -f ${CMORD}/GridFiles/${GRIDF} ] ; then
+  echo "grid file "${CMORD}"/GridFiles/"${GRIDF}" not found."
+  echo "Stopping"
+  ./procstat.sh error RunCMOR
+  exit 1
+fi
+#
+ln -s -f ${CMORD}/Tables             .
+ln -s -f ${CMORD}/GridFiles/${GRIDF} .
+#
+# Assume all fields in xwalk to be processed
+#
+if [ $# -eq 3 ] ; then
+  echo "Linking "${CMORD}"/Xwalks/"${XWALK}
+  ln -s -f ${CMORD}/Xwalks/${XWALK} .
+fi
+#
+# Create new xwalk file containing just the fields to be processed
+#
+if [ $# -eq 4 ] ; then
+  echo "Creating new xwalk file from default "${XWALK}
+  rm -f ${XWALK}
+  for ivar in `echo $VARS` ; do
+    egrep ":${ivar}:" ${CMORD}/Xwalks/${XWALK} >> ${XWALK} 
+    echo $ivar" added to "${XWALK}
+  done
+fi
+#
+# Do it!
+#
+rm -f ${TABL}_in.${CASE}.${COMP} Info_in.${CASE}.${COMP}
+if [ ! -d ./CMOR ] ; then
+  mkdir ./CMOR
+fi
+#
+echo $CASE >> ${TABL}_in.${CASE}.${COMP}
+echo $COMP >> ${TABL}_in.${CASE}.${COMP}
+#
+# Set up various tracking information to be read in and made global metadata
+#
+WHOAMI=`whoami`
+PRCHST=`hostname`
+SVNBIN=`which svn`
+SVNREV=`$SVNBIN info $SVN | egrep "Rev:"`
+SVNDAT=`$SVNBIN info $SVN | egrep "Date:"`
+SVNUID=`$SVNBIN info $SVN | egrep "UUID:"`
+echo $WHOAMI >> Info_in.${CASE}.${COMP}
+echo $PRCHST >> Info_in.${CASE}.${COMP}
+echo $SVNREV >> Info_in.${CASE}.${COMP}
+echo $SVNDAT >> Info_in.${CASE}.${COMP}
+echo $SVNUID >> Info_in.${CASE}.${COMP}
+#
+CBIND=${HOME}/bin
+if [ -f ${CBIND}/${TABL}_CMOR ] ; then
+  ln -s -f ${CBIND}/${TABL}_CMOR .
+else
+  echo "${TABL}_CMOR NOT FOUND in "${CBIND}". Rebuild."
+  exit 1
+fi
+#
+cat ${TABL}_in.${CASE}.${COMP} | ./${TABL}_CMOR
+#
+#rm -f ${TABL}_in.${CASE}.${COMP}

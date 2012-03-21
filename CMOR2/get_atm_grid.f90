@@ -19,8 +19,10 @@ subroutine get_atm_grid
   select case (exp(exp_found)%model_id)
   case ('CESM1-WACCM')
      gridfile = 'atm_grid_f19.nc'
+  case ('CESM1-CAM5')
+     gridfile = 'atm_grid_cam5_f09.nc'
   case default
-     gridfile = 'atm_grid_f09.nc'
+     gridfile = 'atm_grid_cam4_f09.nc'
   end select
   !
   inquire(file=trim(gridfile),exist=exists)

@@ -39,13 +39,6 @@ program Amon_CMOR
   !
   mycmor%table_file = 'Amon'
   !
-  ! Get "crossxwalk" (xwalk) information
-  !   Provides information on relationship between CMOR variables and
-  !   model variables
-  !
-  xwalk_file = 'xwalk_'//trim(mycmor%table_file)//'.txt'
-  call load_xwalk(xwalk_file)
-  !
   ! Get experiment information
   !
   exp_file = 'experiments.txt'
@@ -57,6 +50,13 @@ program Amon_CMOR
   ! Get experiment metadata from exp table and input case information
   !
   call get_exp_metadata
+  !
+  ! Get "crossxwalk" (xwalk) information
+  !   Provides information on relationship between CMOR variables and
+  !   model variables
+  !
+  xwalk_file = 'xwalk_'//trim(exp(exp_found)%cmip)//'_'//trim(mycmor%table_file)
+  call load_xwalk(xwalk_file)
   !
   ! Get table information
   !
@@ -132,16 +132,7 @@ program Amon_CMOR
               write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
               stop
            endif
-           !
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,ivar)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,ivar)))
-           !
-           do n=1,ntimes(1,ivar)
-              time_counter = n
-              call read_var(myncid(1,ivar),'time_bnds',time_bnds(:,n))
-              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
-              !                    write(*,'(''TIMES: '',3f12.4)') time_bnds(1,n),time(n),time_bnds(2,n)
-           enddo
+!           call close_cdf(myncid(1,ivar))
         enddo
         !
         ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
@@ -690,6 +681,21 @@ program Amon_CMOR
                  endif
               enddo
            case default
+              do ivar = 1,xw(ixw)%ncesm_vars
+                 do ifile = 1,nc_nfiles(ivar)
+                    call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                    call get_dims(myncid(ifile,ivar))
+                    call get_vars(myncid(ifile,ivar))
+                    if (.not.(allocated(time)))      allocate(time(ntimes(1,ivar)))
+                    if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,ivar)))
+                    !
+                    do n=1,ntimes(ifile,ivar)
+                       time_counter = n
+                       call read_var(myncid(ifile,ivar),'time_bnds',time_bnds(:,n))
+                       time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+                    enddo
+                 enddo
+              enddo
               !
               ! Vertically interpolate to standard pressure levels
               !

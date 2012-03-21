@@ -41,13 +41,6 @@ program Omon_CMOR
   !
   mycmor%table_file = 'Omon'
   !
-  ! Get "crossxwalk" (xwalk) information
-  !   Provides information on relationship between CMOR variables and
-  !   model variables
-  !
-  xwalk_file = 'xwalk_'//trim(mycmor%table_file)//'.txt'
-  call load_xwalk(xwalk_file)
-  !
   ! Get experiment information
   !
   exp_file = 'experiments.txt'
@@ -59,6 +52,13 @@ program Omon_CMOR
   ! Get experiment metadata from exp table and input case information
   !
   call get_exp_metadata
+  !
+  ! Get "crossxwalk" (xwalk) information
+  !   Provides information on relationship between CMOR variables and
+  !   model variables
+  !
+  xwalk_file = 'xwalk_'//trim(exp(exp_found)%cmip)//'_'//trim(mycmor%table_file)
+  call load_xwalk(xwalk_file)
   !
   ! Get table information
   !

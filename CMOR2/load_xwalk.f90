@@ -35,7 +35,7 @@ subroutine load_xwalk(xw_file)
      xw(i)%ncesm_vars       = 0
   enddo
   !
-  inquire(file=xw_file,exist=does_exist)
+  inquire(file=trim(xw_file),exist=does_exist)
   if (.not.(does_exist)) then
      write(*,*) 'Cannot find ',trim(xw_file),'. Dying.'
      stop

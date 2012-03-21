@@ -121,18 +121,6 @@ echo "Building "${BINDIR}"/"${TABL}"_CMOR"
 cd ${BASEDIR}/CMOR2
 make ${TABL}"_CMOR"
 #
-# If CMOR run script or xwalk not available, quit
-#
-if [ ! -f $BASEDIR/CMOR2/Run${TABL} ] ; then
-  echo ${BASEDIR}"/CMOR2/Run"${TABL}" NOT found. Please create. Stopping."
-  exit 1
-fi
-XWALK=${BASEDIR}/CMOR2/xwalk_${TABL}.txt
-if [ ! -f $XWALK ] ; then
-  echo ${XWALK}" NOT found. Please create. Stopping."
-  exit 1
-fi
-#
 # Strip off first part of $HIST
 #
 HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
@@ -249,7 +237,7 @@ ln -s -f $BASEDIR/experiments.txt  .
 ln -s -f $BASEDIR/mss_list         .
 ln -s -f $BASEDIR/mss_var_read     .
 ln -s -f $BASEDIR/mss_cmip5_write  .
-ln -s -f $BASEDIR/CMOR2/Run${TABL} .
+ln -s -f $BASEDIR/CMOR2/RunCMOR    .
 ln -s -f $BASEDIR/store_to_archive .
 ln -s -f $BASEDIR/procstat.sh      .
 #
@@ -291,9 +279,9 @@ fi
 cd $LOCAL_PROC
 if [ "$VARS" ] ; then
   echo $VARS
-  ./Run${TABL} $CASE $HIST "$VARS"
+  ./RunCMOR $CASE $HIST $TABL "$VARS"
 else
-  ./Run${TABL} $CASE $HIST
+  ./RunCMOR $CASE $HIST $TABL
 fi
 #
 # Store completed data on archival system
