@@ -5,9 +5,10 @@ module max_parms
   !
   integer,parameter::max_entries   = 100000
   integer,parameter::max_exprmnt   =  10000
-  integer,parameter::max_cesm_vars =     10
-  integer,parameter::max_ncfiles   =   1000
+  integer,parameter::max_cesm_vars =      3
+  integer,parameter::max_ncfiles   =    110
   integer,parameter::max_nchunks   =   1000
+  integer,parameter::max_ntimes    = 400000
   !
 end module max_parms
 !
@@ -97,6 +98,7 @@ module files_info
   integer,dimension(max_cesm_vars)::nc_nfilesnh,nc_nfilessh ! For OImon processing
   integer,dimension(max_ncfiles,max_cesm_vars)::myncid,var_found,ntimes
   integer,dimension(max_ncfiles,max_cesm_vars)::myncidnh,myncidsh ! For OImon processing
+  real   ,dimension(max_ncfiles,max_cesm_vars,max_ntimes)::timevals
   integer::ifile
   logical::all_continue
   !

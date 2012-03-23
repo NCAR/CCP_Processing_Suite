@@ -213,7 +213,7 @@ if [ "$TPER" != "mon" ] ; then
 fi
 ln -s -f $BASEDIR/mss_list         .
 ln -s -f $BASEDIR/mss_read         .
-ln -s -f $BASEDIR/mss_write        .
+ln -s -f $BASEDIR/mss_write_dp     .
 ln -s -f $BASEDIR/var_split        .
 ln -s -f $BASEDIR/var_mon_to_year  .
 ln -s -f $BASEDIR/var_year_to_dec  .
@@ -221,7 +221,7 @@ ln -s -f $BASEDIR/var_year_to_all  .
 ln -s -f $BASEDIR/var_dec_to_cen   .
 ln -s -f $BASEDIR/add_year         .
 ln -s -f $BASEDIR/concatenate_data .
-ln -s -f $BASEDIR/store_to_archive .
+ln -s -f $BASEDIR/store_to_archive_dp .
 ln -s -f $BASEDIR/procstat.sh      .
 #
 cd $LOCAL_PROC
@@ -398,7 +398,7 @@ echo "Final concatenating of "$CASE"."$HIST" at "`date`
 #
 # Store completed data on archival system
 #
-./store_to_archive
+./store_to_archive_dp
 if [ $? -ne 0 ] ; then
   echo "store_to_archive failed"
   ./procstat.sh error process_template
