@@ -60,15 +60,17 @@ HOSTNAME=`hostname`
 #
 case "$HOSTNAME" in 
   silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
-    LOGFILE=`ls ~/CCP_Processing_Suite/log*${CASE}*${HIST}*`
-#    date > ${FILEPS}
-#    ps auwx | grep ${USER} >> ${FILEPS}
-    date > ${FILELOG}
-    tail -n 40 ${LOGFILE} >> ${FILELOG} ;;
+    LOGFILE=$HOME/CCP_Processing_Suite/log.${CASE}_${HIST}_process.sh
+    if [ -f $LOGFILE ] ; then
+      date > ${FILELOG}
+      tail -n 40 ${LOGFILE} >> ${FILELOG}
+    else
+      touch $LOGFILE
+      date > ${FILELOG}
+      tail -n 40 ${LOGFILE} >> ${FILELOG}
+    fi ;;
   lens* )                                  # lens @ ORNL
     LOGFILE=`ls ~/CCP_Processing_Suite/*.ER`
-#    date > ${FILEPS}
-#    qstat >> ${FILEPS}
     date > ${FILELOG}
     tail -n 40 ${LOGFILE} >> ${FILELOG} ;;
   * )
@@ -76,40 +78,6 @@ case "$HOSTNAME" in
     echo "procstat : LOGFILE does not exist for "${LOCATION}" - "${FILEBASE} >> ${FILELOG}
     ;;
 esac
-
-#date > ${FILEDF}
-#df -h >> ${FILEDF}
-
-#
-# get the mass store listing to see where we are in the processing using $MSSPROC
-#
-#
-# If NCAR MSS msrcp command exists, use it.
-#date > ${FILEHSI}
-
-#
-# all sites should be using hsi
-# ASB - 2/23/2012 MSSPROC may not be defined for CMIP5/CMOR processing so test first
-#
-#if ! [ $MSSPROC ] ; then
-#    TEST4HSI=`which hsi 2<&1`
-#    if [ $? -eq 0 ] ; then
-#	rm -f tossme
-#	hsi -q "cd $MSSPROC; ls -Fl" >& tossme
-#	if [ $? -eq 0 ] ; then
-#	    egrep "\.${HIST}\." tossme | cut -c60- >> $FILEHSI
-#	    rm -f tossme
-#	else
-#	    echo "procstat : (files may not have been written yet) Error on hsi from "$MSSPROC >> $FILEHSI
-#	    rm -f tossme
-#	fi
-#    else
-#	echo "procstat.sh: cannot find hsi command." >> $FILEHSI
-#    fi
-#else
-#    echo "procstat.sh: CMIP5 processing. For processed files, see individual processing locations or "$ARCHIVE_CMIP5 >> $FILEHSI
-#fi
-
 #
 # create the mail messages
 #
