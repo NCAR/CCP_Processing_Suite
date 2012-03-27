@@ -275,8 +275,9 @@ program OImon_CMOR
         !
         select case (ntimes(1,1))
         case ( 6012 )  ! pre-industrial control, 501 years, 250 and 251 year chunks
-           nchunks(1)          =  1
-           tidx1(1:nchunks(1)) =  1
+           nchunks(1) =  2
+           tidx1(1:nchunks(1)) = (/   1,3000/)
+           tidx2(1:nchunks(1)) = (/3001,ntimes(1,1)/)
         case ( 1152 ) ! RCP, skip 2005
            nchunks(1)          =  1
            tidx1(1:nchunks(1)) = 13
