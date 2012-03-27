@@ -21,14 +21,14 @@ module definitions_netcdf_jfl
   !
   type DimInfo
      character(len=132)::name,file_name
-     integer           ::id,length
+     integer           ::id,length,ncid
   end type DimInfo
   !
   type VarInfo
      character(len=132)   ::name,format,type,file_name,units
      real                 ::missing_value,FillValue
      integer              ::int_missing_value,int_FillValue
-     integer              ::id,nvdims
+     integer              ::id,nvdims,ncid
      integer,dimension(10)::vdims
   end type VarInfo
   !

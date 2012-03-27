@@ -21,7 +21,7 @@ program OImon_CMOR
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag,cmor_var_id
-  real,dimension(:,:),allocatable::indat2anh,indat2ash,indat2bnh,indat2bsh,cmordat
+  real,dimension(:,:),allocatable::nh_data1,sh_data1,nh_data2,sh_data2,cmordat
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::time_bnds
   double precision,dimension(1)  ::tval
@@ -30,7 +30,7 @@ program OImon_CMOR
   ! Other variables
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
-  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ic
+  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,itab,ixw,ic,nlons_nh,nlats_nh,nlons_sh,nlats_sh,tot_lats
   integer,dimension(:),allocatable::i_indices,j_indices
   real::spval
   logical::does_exist
@@ -81,10 +81,6 @@ program OImon_CMOR
   !
   ! Step through CMOR table entries to see what CESM fields we can read and in process, and if so, do it!
   !
-  call parse_rip
-  !
-  ! Step through CMOR table entries to see what CESM fields we can read and in process, and if so, do it!
-  !
   xwalk_loop: do ixw = 1,num_xw
      call reset_netcdf_var
      mycmor%positive = ' '
@@ -104,7 +100,6 @@ program OImon_CMOR
            xw(ixw)%ncesm_vars = 0
            all_continue = .false.
         else
-           write(*,'(''CHECKING AVAILABILITY OF: '',a,''.'',a,''.'',a,''_(nh|sh).* FILES'')') trim(case_read),trim(comp_read),trim(xw(ixw)%cesm_vars(ivar))
            call build_filenames(case_read,comp_read,xw(ixw)%cesm_vars(ivar),ivar,exp(exp_found)%begyr,exp(exp_found)%endyr,mycmor%table_file)
         endif
      enddo
@@ -116,22 +111,22 @@ program OImon_CMOR
            !
            ! Get NH data and time values
            !
-           call open_cdf(myncidnh(1,ivar),trim(ncfilenh(1,ivar)),.true.)
-           write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfilenh(1,ivar)),myncidnh(1,ivar)
-           call get_dims(myncidnh(1,ivar))
-           call get_vars(myncidnh(1,ivar))
+           call open_cdf(myncid_nh(1,ivar),trim(ncfile_nh(1,ivar)),.true.)
+           write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfile_nh(1,ivar)),myncid_nh(1,ivar)
+           call get_dims(myncid_nh(1,ivar))
+           call get_vars(myncid_nh(1,ivar))
            !
            do n=1,dim_counter
-              length = len_trim(dim_info(n)%name)
-              if(dim_info(n)%name(:length).eq.'time') then
-                 ntimes(1,1) = dim_info(n)%length
-              endif
+              if (dim_info(n)%name.eq.'time') ntimes(1,1) = dim_info(n)%length
+              if (dim_info(n)%name.eq.'ni')   nlons_nh    = dim_info(n)%length
+              if (dim_info(n)%name.eq.'nj')   nlats_nh    = dim_info(n)%length
            enddo
-           call read_att_text(myncidnh(1,ivar),'time','units',time_units)
+           call read_att_text(myncid_nh(1,ivar),'time','units',time_units)
            !
            do n=1,var_counter
               if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
                  var_found(1,ivar) = n
+                 xw_found = ixw
               endif
            enddo
            if (var_found(1,ivar) == 0) then
@@ -139,35 +134,27 @@ program OImon_CMOR
               stop
            endif
            !
-           if (.not.(allocated(time)))      then
-              allocate(time(ntimes(1,1)))
-           endif
-           if (.not.(allocated(time_bnds))) then
-              allocate(time_bnds(2,ntimes(1,1)))
-           endif
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
            !
            do n=1,ntimes(1,1)
               time_counter = n
-              call read_var(myncidnh(1,ivar),'time_bounds',time_bnds(:,n))
+              call read_var(myncid_nh(1,ivar),'time_bounds',time_bnds(:,n))
               time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
            enddo
            !
            ! Get SH data info
            !
-           call open_cdf(myncidsh(1,ivar),trim(ncfilesh(1,ivar)),.true.)
-           write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfilesh(1,ivar)),myncidsh(1,ivar)
-           call get_dims(myncidsh(1,ivar))
-           call get_vars(myncidsh(1,ivar))
+           call open_cdf(myncid_sh(1,ivar),trim(ncfile_sh(1,ivar)),.true.)
+           write(*,'(''OPENING: '',a80,'' ncid: '',i10)') trim(ncfile_sh(1,ivar)),myncid_sh(1,ivar)
+           call get_dims(myncid_sh(1,ivar))
+           call get_vars(myncid_sh(1,ivar))
            !
            do n=1,var_counter
-              if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
-                 var_found(1,ivar) = n
-              endif
+              if (dim_info(n)%name.eq.'time') ntimes(1,1) = dim_info(n)%length
+              if (dim_info(n)%name.eq.'ni')   nlons_sh    = dim_info(n)%length
+              if (dim_info(n)%name.eq.'nj')   nlats_sh    = dim_info(n)%length
            enddo
-           if (var_found(1,ivar) == 0) then
-              write(*,*) trim(xw(ixw)%cesm_vars(ivar)),' NEVER FOUND. STOP.'
-              stop
-           endif
         enddo
      endif
      if (all_continue) then
@@ -238,12 +225,15 @@ program OImon_CMOR
         !
         ! Make manual alterations so that CMOR works. Silly code!
         !
-        allocate(indat2anh(nlons,104),indat2ash(nlons,76),cmordat(nlons,384))
+        tot_lats = nlats_nh+nlats_sh+204
+!        write(*,*) 'allocate nh: ',nlons_nh,nlats_nh,' sh: ',nlons_sh,nlats_sh,' gl: ',nlons_nh,nlats_nh+nlats_sh+204
+        allocate(nh_data1(nlons_nh,nlats_nh),sh_data1(nlons_sh,nlats_sh),cmordat(nlons_nh,tot_lats))
+        !
         if (xw(ixw)%ncesm_vars == 1) then
            write(original_name,'(a)') xw(ixw)%cesm_vars(1)
         endif
         if (xw(ixw)%ncesm_vars .ge. 2) then
-           allocate(indat2bnh(nlons,104),indat2bsh(nlons,76))
+           allocate(nh_data2(nlons_nh,nlats_nh),sh_data2(nlons_sh,nlats_sh))
            write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(ivar)),ivar=1,xw(ixw)%ncesm_vars)
         endif
         !
@@ -266,7 +256,7 @@ program OImon_CMOR
         write(*,*) 'table_entry   = ',trim(xw(ixw)%entry)
         write(*,*) 'dimensions    = ',trim(xw(ixw)%dims)
         write(*,*) 'units         = ',trim(var_info(var_found(1,1))%units)
-        write(*,*) 'axis_ids      = ',axis_ids(1:naxes)
+        write(*,*) 'axis_ids      = ',grid_id(1),axis_ids(1:naxes)
         write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
         write(*,*) 'positive      = ',trim(mycmor%positive)
         write(*,*) 'original_name = ',trim(original_name)
@@ -285,32 +275,35 @@ program OImon_CMOR
         !
         select case (ntimes(1,1))
         case ( 6012 )  ! pre-industrial control, 501 years, 250 and 251 year chunks
-           nchunks(1) = 1
-           tidx1(1:nchunks(1)) = 13
+           nchunks(1)          =  1
+           tidx1(1:nchunks(1)) =  1
         case ( 1152 ) ! RCP, skip 2005
-           nchunks(1) = 1
+           nchunks(1)          =  1
            tidx1(1:nchunks(1)) = 13
         case default
-           nchunks(1)   = 1
+           nchunks(1)          =  1
            tidx1(1:nchunks(1)) =  1
         end select
         tidx2(nchunks(1)) = ntimes(1,1)
         do ic = 1,nchunks(1)
            do it = tidx1(ic),tidx2(ic)
               time_counter = it
-              if (xw(ixw)%ncesm_vars == 1) then
-                 call read_var(myncidnh(1,1),var_info(var_found(1,1))%name,indat2anh)
-                 call read_var(myncidsh(1,1),var_info(var_found(1,1))%name,indat2ash)
-                 cmordat(:,  1: 76) = indat2ash(:,1: 76)
-                 cmordat(:,281:384) = indat2anh(:,1:104)
-              endif
+              cmordat = 0.
+              call read_var(myncid_sh(1,1),var_info(var_found(1,1))%name,sh_data1)
+              call read_var(myncid_nh(1,1),var_info(var_found(1,1))%name,nh_data1)
+              !
+              cmordat(:,  1:nlats_sh) = sh_data1
+              cmordat(:,281:tot_lats) = nh_data1 
               !
               ! Perform necessary derivations
               !
               select case (xw(ixw)%entry)
               case ('bmelt','evap','grCongel','grFrazil','pr','prsn','snomelt','snoToIce','tmelt')
-                 ! Convert cm day-1 to kg m-2 s-1
-                 cmordat = cmordat * (1./86400.) * (1./100.) * 1000.
+                 ! Convert cm day-1 to kg m-2 s-1 (divide by 86400 s day-1, divide by 100 cm m-1, times 1000 kg m-3)
+                 ! divide by (86400*100) * 1000 = divide by 8640
+                 where (cmordat .ne. spval)
+                    cmordat = cmordat/8640
+                 endwhere
               end select
               !
               ! Write 'em, Dano!
@@ -342,14 +335,14 @@ program OImon_CMOR
               endif
            endif
         enddo
-        if (allocated(indat2anh)) deallocate(indat2anh)
-        if (allocated(indat2bnh)) deallocate(indat2bnh)
-        if (allocated(indat2ash)) deallocate(indat2ash)
-        if (allocated(indat2bsh)) deallocate(indat2bsh)
+        if (allocated(nh_data1)) deallocate(nh_data1)
+        if (allocated(nh_data2)) deallocate(nh_data2)
+        if (allocated(sh_data1)) deallocate(sh_data1)
+        if (allocated(sh_data2)) deallocate(sh_data2)
         if (allocated(cmordat))   deallocate(cmordat)
         do ivar = 1,xw(ixw)%ncesm_vars
-           call close_cdf(myncidnh(1,ivar))
-           call close_cdf(myncidsh(1,ivar))
+           call close_cdf(myncid_nh(1,ivar))
+           call close_cdf(myncid_sh(1,ivar))
         enddo
         !
         ! Reset

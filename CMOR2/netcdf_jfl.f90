@@ -366,6 +366,7 @@ subroutine get_dims(ncid)
      dim_info(dim_counter)%name      = name
      dim_info(dim_counter)%length    = length
      dim_info(dim_counter)%file_name = nc_filename(file_counter)
+     dim_info(dim_counter)%ncid      = ncid
   end do
   !
   return
@@ -458,6 +459,7 @@ subroutine get_vars(ncid)
      if(status.ne.nf_noerr) call handle_err(status)
      !
      var_counter = var_counter + 1
+     var_info(var_counter)%ncid              = ncid
      var_info(var_counter)%id                = n
      var_info(var_counter)%name              = name
      var_info(var_counter)%units             = units

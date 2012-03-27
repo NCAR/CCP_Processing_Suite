@@ -93,11 +93,11 @@ module files_info
   use max_parms
   !
   character(len=256),dimension(max_ncfiles,max_cesm_vars)::ncfile
-  character(len=256),dimension(max_ncfiles,max_cesm_vars)::ncfilenh,ncfilesh ! For OImon processing
+  character(len=256),dimension(max_ncfiles,max_cesm_vars)::ncfile_nh,ncfile_sh ! For OImon processing
   integer,dimension(max_cesm_vars)::nc_nfiles
-  integer,dimension(max_cesm_vars)::nc_nfilesnh,nc_nfilessh ! For OImon processing
+  integer,dimension(max_cesm_vars)::nc_nfiles_nh,nc_nfiles_sh ! For OImon processing
   integer,dimension(max_ncfiles,max_cesm_vars)::myncid,var_found,ntimes
-  integer,dimension(max_ncfiles,max_cesm_vars)::myncidnh,myncidsh ! For OImon processing
+  integer,dimension(max_ncfiles,max_cesm_vars)::myncid_nh,myncid_sh ! For OImon processing
   real   ,dimension(max_ncfiles,max_cesm_vars,max_ntimes)::timevals
   integer::ifile
   logical::all_continue
@@ -111,8 +111,8 @@ module grid_info
   real,dimension(:),    allocatable::atm_plev23,atm_plev17,atm_plev8,atm_plev7,atm_plev3
   real,dimension(:,:),  allocatable::atm_lats_bnds,atm_lons_bnds
   real,dimension(:),    allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
-  real,dimension(:,:),  allocatable::ice_lats,ice_lons
-  real,dimension(:,:,:),allocatable::ice_lats_bnds,ice_lons_bnds
+  real,dimension(:,:),  allocatable::ice_t_lats,ice_t_lons,ice_u_lats,ice_u_lons
+  real,dimension(:,:,:),allocatable::ice_t_lats_bnds,ice_t_lons_bnds,ice_u_lats_bnds,ice_u_lons_bnds
   real,dimension(:),    allocatable::ocn_t_levs,ocn_trans_lats,ocn_trans_levs,ocn_t_dz
   real,dimension(:,:),  allocatable::ocn_t_levs_bnds,ocn_trans_lats_bnds,ocn_trans_levs_bnds
   real,dimension(:,:),  allocatable::ocn_t_lats,ocn_t_lons,ocn_t_area

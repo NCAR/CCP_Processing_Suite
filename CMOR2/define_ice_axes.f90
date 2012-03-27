@@ -9,6 +9,7 @@ subroutine define_ice_axes(dimensions)
   use grid_info
   use files_info
   use mycmor_info
+  use xwalk_info
   !
   implicit none
   real,dimension(:),allocatable::i_indices,j_indices
@@ -17,11 +18,11 @@ subroutine define_ice_axes(dimensions)
   integer::i,j,idim,table_id
   integer,dimension(0:10)::idxb
   !
-  allocate(i_indices(nlons),j_indices(nlats))
+  allocate(i_indices(nlons),j_indices(384))
   do i = 1,nlons
      i_indices(i) = i
   enddo
-  do j = 1,nlats
+  do j = 1,384
      j_indices(j) = j
   enddo
   !
@@ -78,22 +79,34 @@ subroutine define_ice_axes(dimensions)
         axis_ids(idim) = cmor_axis(        &
              table_entry='i_index',      &
              units='1',&
-             coord_vals=i_indices)
-        write(*,*) 'longitude defined, axis_id: ',idim,axis_ids(idim)
+             coord_vals=i_indices,&
+             length=size(i_indices))
+        write(*,*) 'longitude defined, axis_id: ',idim,axis_ids(idim),size(i_indices)
         idim = idim + 1
      case ('latitude')
         call cmor_set_table(table_ids(2))
         axis_ids(idim) = cmor_axis(        &
              table_entry='j_index',       &
              units='1',&
-             coord_vals=j_indices)
-        write(*,*) 'latitude defined, axis_id: ',idim,axis_ids(idim)
-        grid_id(1) = cmor_grid(                    &
-             axis_ids=(/axis_ids(1),axis_ids(2)/), &
-             latitude=ice_lats,                    &
-             longitude=ice_lons,                   &
-             latitude_vertices=ice_lats_bnds,      &
-             longitude_vertices=ice_lons_bnds)
+             coord_vals=j_indices,&
+             length=size(j_indices))
+        write(*,*) 'latitude defined, axis_id: ',idim,axis_ids(idim),size(j_indices)
+        select case (xw(xw_found)%entry)
+        case ('strairx','strairy','strocnx','strocny')
+           grid_id(1) = cmor_grid(                    &
+                axis_ids=(/axis_ids(1),axis_ids(2)/), &
+                latitude=ice_u_lats,                    &
+                longitude=ice_u_lons,                   &
+                latitude_vertices=ice_u_lats_bnds,      &
+                longitude_vertices=ice_u_lons_bnds)
+        case default
+           grid_id(1) = cmor_grid(                    &
+                axis_ids=(/axis_ids(1),axis_ids(2)/), &
+                latitude=ice_t_lats,                    &
+                longitude=ice_t_lons,                   &
+                latitude_vertices=ice_t_lats_bnds,      &
+                longitude_vertices=ice_t_lons_bnds)
+        end select
         write(*,*) 'CMOR GRID defined, grid_id: ',grid_id(1)
         idim = idim + 1
      case ('time')

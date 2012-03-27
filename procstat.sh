@@ -60,7 +60,7 @@ HOSTNAME=`hostname`
 #
 case "$HOSTNAME" in 
   silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
-    LOGFILE=$HOME/CCP_Processing_Suite/log.${CASE}_${HIST}_process.sh
+    LOGFILE=$HOME/CCP_Processing_Suite/log.${CASE}_${HIST}_${TPER}_process.sh
     if [ -f $LOGFILE ] ; then
       date > ${FILELOG}
       tail -n 40 ${LOGFILE} >> ${FILELOG}

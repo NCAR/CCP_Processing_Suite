@@ -29,6 +29,7 @@ if [ -f $EXPFILE ] ; then
   LOCATION=`egrep "^$CASE " $EXPFILE | cut -c60-  | cut -d" " -f1`
    DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c65-  | cut -d" " -f1`
    REALIZN=`egrep "^$CASE " $EXPFILE | cut -c80-  | cut -d" " -f1`
+   MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c90-  | cut -d" " -f1`
     PARENT=`egrep "^$CASE " $EXPFILE | cut -c95-  | cut -d" " -f1`
     BRANCH=`egrep "^$CASE " $EXPFILE | cut -c135- | cut -d" " -f1`
    YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c150-153`
@@ -121,6 +122,26 @@ echo "Building "${BINDIR}"/"${TABL}"_CMOR"
 cd ${BASEDIR}/CMOR2
 make ${TABL}"_CMOR"
 #
+# Locate XWALK file
+#
+case "$MIPNAME" in
+  cm5 )
+    XWALK=${BASEDIR}/CMOR2/Xwalks/xwalk_CMIP5_${TABL} ;;
+  gmp )
+    XWALK=${BASEDIR}/CMOR2/Xwalks/xwalk_GeoMIP_${TABL} ;;
+  tmp )
+    XWALK=${BASEDIR}/CMOR2/Xwalks/xwalk_TAMIP_${TABL} ;;
+  * )
+    echo "MIP name "${MIPNAME}" unknown. Stopping."
+    exit 1 ;;
+esac
+if [ ! -f $XWALK ] ; then
+  echo "xwalk file "${XWALK}" NOT found. Stopping."
+  exit 1
+else
+  echo "xwalk file "${XWALK}" located."
+fi
+#
 # Strip off first part of $HIST
 #
 HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
@@ -184,7 +205,7 @@ cat ./VARS_TO_DO | sort | uniq | egrep -v "(UNKNOWN|UNAVAILABLE)" > ./tmp.VARS_T
 mv ./tmp.VARS_TO_DO ./VARS_TO_DO
 #
 TEMPVARS=`cat ./VARS_TO_DO` ; rm -f ./VARS_TO_DO
-CMIP5_VARS=`echo $TEMPVARS | sed -e 's/ /,/g'`
+CCSM_VARS=`echo $TEMPVARS | sed -e 's/ /,/g'`
 #
 CACHEDIR=${LOCAL_PROC}/data
 #
@@ -267,7 +288,7 @@ echo "BEGIN : procstat"
 # Retrieve files from archive
 #
 cd $CACHEDIR
-../mss_var_read $ARCHIVE_PROC $CMIP5_VARS
+../mss_var_read $ARCHIVE_PROC $CCSM_VARS
 if [ $? -ne 0 ] ; then
   echo "Error from mss_var_read"
   ./procstat.sh error mss_var_read

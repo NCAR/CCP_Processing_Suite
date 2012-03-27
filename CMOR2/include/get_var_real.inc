@@ -8,17 +8,14 @@ logical time_dependent
 ! find info
 !
 index_info = -1
-do j=1,file_counter
-  do i=1,var_counter
-     length = len_trim(var_info(i)%name)
-     if(var_info(i)%name(:length).eq.var_name.and.var_info(i)%file_name.eq.nc_filename(j)) then
-        index_info = i
-        exit
-     endif
-  end do
+do i=1,var_counter
+   if ((var_info(i)%name.eq.var_name).and.(var_info(i)%ncid.eq.ncid)) then
+      index_info = i
+      exit
+   endif
 end do
 if(index_info.eq.-1) then
-   write(*,*) 'ERROR: ',trim(var_name),' is not in ',trim(nc_filename(1))
+   write(*,*) 'ERROR: ',trim(var_name),' NOT FOUND in NCID: ',ncid
    write(*,*) 'STOPPING'
    stop
 endif
@@ -26,8 +23,7 @@ endif
 ! check if the variable is time-dependent
 !
 time_dependent = .false.
-if(index(var_info(index_info)%format,'time').ne.0)&
-  time_dependent = .true.
+if(index(var_info(index_info)%format,'time').ne.0) time_dependent = .true.
 !
 if(time_dependent) then
    do i=1,var_info(index_info)%nvdims-1

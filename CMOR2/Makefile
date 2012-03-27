@@ -23,6 +23,7 @@ ifeq ($(MACH),silver)
   UIDINC  = -I${UIDDIR}/include
   UIDLIB  = -L${UIDDIR}/lib -luuid
   FC	  = /usr/local/pgi/linux86/bin/pgf95
+#  FFLAGS  = -V -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -Mbounds -fpic
   FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -Mbounds -fpic
 endif
 #

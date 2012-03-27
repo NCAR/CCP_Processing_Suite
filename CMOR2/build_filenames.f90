@@ -1,39 +1,3 @@
-!!$program DRIVE_build_filenames
-!!$  use exp_info
-!!$  use xwalk_info
-!!$  use files_info
-!!$  implicit none
-!!$  integer::i,j,ixw
-!!$  !
-!!$  case_read = 'b40.1850.track1.1deg.006'
-!!$  comp_read = 'pop.h'
-!!$  xw_found  = 1
-!!$  exp_found = 1
-!!$  ixw       = 1
-!!$  xw(ixw)%cesm_vars(1) = 'SALT'
-!!$  xw(ixw)%cesm_vars(2) = 'TEMP'
-!!$  xw(ixw)%ncesm_vars   = 2
-!!$  exp(exp_found)%begyr =  800
-!!$  exp(exp_found)%endyr = 1300
-!!$  !
-!!$  ncfile(:,:)(1:) = ' '
-!!$  nc_nfiles(:)    = 0
-!!$  !
-!!$  do j = 1,xw(ixw)%ncesm_vars
-!!$     do i = 1,1
-!!$        call build_filenames(i,j,exp(exp_found)%begyr,exp(exp_found)%endyr)
-!!$     enddo
-!!$     do i = 1,nc_nfiles(j)
-!!$        write(*,'(''I: '',2i8,5x,a)') i,j,trim(ncfile(i,j))
-!!$     enddo
-!!$  enddo
-!!$  write(*,*) nc_nfiles(1:10)
-!!$  do j = 1,xw(ixw)%ncesm_vars
-!!$     do i = 1,nc_nfiles(j)
-!!$        write(*,'(''O: '',2i8,5x,a)') i,j,trim(ncfile(i,j))
-!!$     enddo
-!!$  enddo
-!!$end program DRIVE_build_filenames
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
   use files_info
@@ -77,8 +41,8 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
                    year2,trim(dtend(idt))
               inquire(file=checkname,exist=exists)
               if (exists) then
-                 nc_nfilesnh(ivar) = nc_nfilesnh(ivar) + 1
-                 ncfilenh(nc_nfilesnh(ivar),ivar) = checkname
+                 nc_nfiles_nh(ivar) = nc_nfiles_nh(ivar) + 1
+                 ncfile_nh(nc_nfiles_nh(ivar),ivar) = checkname
               endif
               write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
                    trim(case),&
@@ -88,20 +52,20 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
                    year2,trim(dtend(idt))
               inquire(file=checkname,exist=exists)
               if (exists) then
-                 nc_nfilessh(ivar) = nc_nfilessh(ivar) + 1
-                 ncfilesh(nc_nfilessh(ivar),ivar) = checkname
+                 nc_nfiles_sh(ivar) = nc_nfiles_sh(ivar) + 1
+                 ncfile_sh(nc_nfiles_sh(ivar),ivar) = checkname
               endif
            enddo
         enddo
      enddo
      !
-     all_continue = all_continue.and.(nc_nfilesnh(ivar) /= 0)
-     all_continue = all_continue.and.(nc_nfilessh(ivar) /= 0)
+     all_continue = all_continue.and.(nc_nfiles_nh(ivar) /= 0)
+     all_continue = all_continue.and.(nc_nfiles_sh(ivar) /= 0)
      write(*,*) 'build_filenames all_continue: ',all_continue
-     if (all_continue) write(*,'(''nfiles NH: '',20i5)') nc_nfilesnh(1:ivar)
-     if (all_continue) write(*,'(''nfiles SH: '',20i5)') nc_nfilessh(1:ivar)
-!     if (all_continue) write(*,'(''NH  files: '',10(a))') (trim(ncfilenh(i,ivar)),i=1,nc_nfilesnh(ivar))
-!     if (all_continue) write(*,'(''SH  files: '',10(a))') (trim(ncfilenh(i,ivar)),i=1,nc_nfilessh(ivar))
+     if (all_continue) write(*,'(''nfiles NH: '',20i5)') nc_nfiles_nh(1:ivar)
+     if (all_continue) write(*,'(''nfiles SH: '',20i5)') nc_nfiles_sh(1:ivar)
+     if (all_continue) write(*,'(''NH  files: '',10(a))') (trim(ncfile_nh(i,ivar)),i=1,nc_nfiles_nh(ivar))
+     if (all_continue) write(*,'(''SH  files: '',10(a))') (trim(ncfile_sh(i,ivar)),i=1,nc_nfiles_sh(ivar))
   case default
      exists = .false.
      do year1 = begyr,endyr
