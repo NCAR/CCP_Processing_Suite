@@ -1,13 +1,9 @@
- variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min
-clcalipso|clcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Cloud Area Fraction|location alt40 time1|real|%||time: point|atmos||||||||
-clcalipso2|clcalipso2|cloud_area_fraction_in_atmosphere_layer|CALIPSO Cloud Fraction Undetected by CloudSat|location alt40 time1|real|%||time: point|atmos||||||||
-cfadDbze94|cfadDbze94|histogram_of_equivalent_reflectivity_factor_over_height_above_reference_ellipsoid|CloudSat Radar Reflectivity CFAD|location alt40 dbze time1|real|1||time: point|atmos||||||||
-cfadLidarsr532|cfadLidarsr532|histogram_of_backscattering_ratio_over_height_above_reference_ellipsoid|CALIPSO Scattering Ratio CFAD|location alt40 scatratio time1|real|1||time: point|atmos||||||||
-parasolRefl|parasolRefl|toa_bidirectional_reflectance|PARASOL Reflectance|location sza5 time1|real|1||time: point|atmos||||||||
-cltcalipso|cltcalipso|cloud_area_fraction|CALIPSO Total Cloud Fraction|location time1|real|%||time: point|atmos||||||||
-cllcalipso|cllcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Low Level Cloud Fraction|location time1 p840|real|%||time: point|atmos||||||||
-clmcalipso|clmcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Mid Level Cloud Fraction|location time1 p560|real|%||time: point|atmos||||||||
-clhcalipso|clhcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO High Level Cloud Fraction|location time1 p220|real|%||time: point|atmos||||||||
-lon|lon|longitude|Longitude|location time1|real|degrees_east||time: point|atmos||||||||
-lat|lat|latitude|Latitude|location time1|real|degrees_north||time: point|atmos||||||||
-toffset|toffset|time|Offset Time|location time1|real|day|||atmos||||||||
+TAMIP_3hrCurt:clcalipso:cloud_area_fraction_in_atmosphere_layer:location alt40 time1:atmos:
+TAMIP_3hrCurt:clcalipso2:cloud_area_fraction_in_atmosphere_layer:location alt40 time1:atmos:
+TAMIP_3hrCurt:cfadDbze94:histogram_of_equivalent_reflectivity_factor_over_height_above_reference_ellipsoid:location alt40 dbze time1:atmos:
+TAMIP_3hrCurt:cfadLidarsr532:histogram_of_backscattering_ratio_over_height_above_reference_ellipsoid:location alt40 scatratio time1:atmos:
+TAMIP_3hrCurt:parasolRefl:toa_bidirectional_reflectance:location sza5 time1:atmos:
+TAMIP_3hrCurt:cltcalipso:cloud_area_fraction:location time1:atmos:
+TAMIP_3hrCurt:cllcalipso:cloud_area_fraction_in_atmosphere_layer:location time1 p840:atmos:
+TAMIP_3hrCurt:clmcalipso:cloud_area_fraction_in_atmosphere_layer:location time1 p560:atmos:
+TAMIP_3hrCurt:clhcalipso:cloud_area_fraction_in_atmosphere_layer:location time1 p220:atmos:

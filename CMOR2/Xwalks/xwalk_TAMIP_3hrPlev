@@ -1,9 +1,8 @@
- variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min
-ua|ua|eastward_wind|Eastward Wind|longitude latitude plev8 time|real|m s-1||time: mean|atmos||||||||
-va|va|northward_wind|Northward Wind|longitude latitude plev8 time|real|m s-1||time: mean|atmos||||||||
-ta|ta|air_temperature|Air Temperature|longitude latitude plev8 time|real|K||time: mean|atmos||||||||
-hus|hus|specific_humidity|Specific Humidity|longitude latitude plev8 time|real|1||time: mean|atmos||||||||
-wap|wap|lagrangian_tendency_of_air_pressure|omega (=dp/dt)|longitude latitude plev8 time|real|Pa s-1||time: mean|atmos||||||||
-zg|zg|geopotential_height|Geopotential Height|longitude latitude plev8 time|real|m||time: mean|atmos||||||||
-hur|hur|relative_humidity|Relative Humidity|longitude latitude plev8 time|real|%||time: mean|atmos||||||||
-clisccp|clisccp|cloud_area_fraction_in_atmosphere_layer|ISCCP Cloud Area Fraction|longitude latitude tau plev7 time|real|%||time: mean|atmos||||||||
+TAMIP_3hrPlev:ua:eastward_wind:longitude latitude plev8 time:atmos:2:U PS:U interpolated to standard plev8
+TAMIP_3hrPlev:va:northward_wind:longitude latitude plev8 time:atmos:2:V PS:V interpolated to standard plev8
+TAMIP_3hrPlev:ta:air_temperature:longitude latitude plev8 time:atmos:2:T PS:T interpolated to standard plev8
+TAMIP_3hrPlev:hus:specific_humidity:longitude latitude plev8 time:atmos:2:Q PS:Q interpolated to standard plev8
+TAMIP_3hrPlev:wap:lagrangian_tendency_of_air_pressure:longitude latitude plev8 time:atmos:2:OMEGA PS:OMEGA interpolated to standard plev8
+TAMIP_3hrPlev:zg:geopotential_height:longitude latitude plev8 time:atmos:2:Z3 PS:Z3 interpolated to standard plev8
+TAMIP_3hrPlev:hur:relative_humidity:longitude latitude plev8 time:atmos:2:RELHUM PS:RELHUM interpolated to standard plev8
+TAMIP_3hrPlev:clisccp:cloud_area_fraction_in_atmosphere_layer:longitude latitude tau plev7 time:atmos:1:FISCCP_COSP:FISCCP_COSP

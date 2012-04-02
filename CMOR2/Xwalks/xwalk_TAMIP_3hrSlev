@@ -1,43 +1,42 @@
- variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min
-tas|tas|air_temperature|Near-Surface Air Temperature|longitude latitude time height2m|real|K||time: mean|atmos||||||||
-ts|ts|surface_temperature|Surface Temperature|longitude latitude time|real|K||time: mean|atmos||||||||
-psl|psl|air_pressure_at_sea_level|Sea Level Pressure|longitude latitude time|real|Pa||time: mean|atmos||||||||
-ps|ps|surface_air_pressure|Surface Air Pressure|longitude latitude time|real|Pa||time: mean|atmos||||||||
-uas|uas|eastward_wind|Eastward Near-Surface Wind Speed|longitude latitude time height10m|real|m s-1||time: mean|atmos||||||||
-vas|vas|northward_wind|Northward Near-Surface Wind Speed|longitude latitude time height10m|real|m s-1||time: mean|atmos||||||||
-sfcWind|sfcWind|wind_speed|Near-Surface Wind Speed|longitude latitude time height10m|real|m s-1||time: mean|atmos||||||||
-hurs|hurs|relative_humidity|Near-Surface Relative Humidity|longitude latitude time height2m|real|%||time: mean|atmos||||||||
-huss|huss|specific_humidity|Near-Surface Specific Humidity|longitude latitude time height2m|real|1||time: mean|atmos||||||||
-pr|pr|precipitation_flux|Precipitation|longitude latitude time|real|kg m-2 s-1||time: mean|atmos||||||||
-prsn|prsn|snowfall_flux|Snowfall Flux|longitude latitude time|real|kg m-2 s-1||time: mean|atmos||||||||
-prc|prc|convective_precipitation_flux|Convective Precipitation|longitude latitude time|real|kg m-2 s-1||time: mean|atmos||||||||
-evspsbl|evspsbl|water_evaporation_flux|Evaporation|longitude latitude time|real|kg m-2 s-1||time: mean|atmos||||||||
-sbl|sbl|water_sublimation_flux|Surface Snow and Ice Sublimation Flux|longitude latitude time|real|kg m-2 s-1||time: mean|atmos||||||||
-tauu|tauu|surface_downward_eastward_stress|Surface Downward Eastward Wind Stress|longitude latitude time|real|Pa||time: mean|atmos||||down||||
-tauv|tauv|surface_downward_northward_stress|Surface Downward Northward Wind Stress|longitude latitude time|real|Pa||time: mean|atmos||||down||||
-hfls|hfls|surface_upward_latent_heat_flux|Surface Upward Latent Heat Flux|longitude latitude time|real|W m-2||time: mean|atmos||||up||||
-hfss|hfss|surface_upward_sensible_heat_flux|Surface Upward Sensible Heat Flux|longitude latitude time|real|W m-2||time: mean|atmos||||up||||
-rlds|rlds|surface_downwelling_longwave_flux_in_air|Surface Downwelling Longwave Radiation|longitude latitude time|real|W m-2||time: mean|atmos||||down||||
-rlus|rlus|surface_upwelling_longwave_flux_in_air|Surface Upwelling Longwave Radiation|longitude latitude time|real|W m-2||time: mean|atmos||||up||||
-rsds|rsds|surface_downwelling_shortwave_flux_in_air|Surface Downwelling Shortwave Radiation|longitude latitude time|real|W m-2||time: mean|atmos||||down||||
-rsus|rsus|surface_upwelling_shortwave_flux_in_air|Surface Upwelling Shortwave Radiation|longitude latitude time|real|W m-2||time: mean|atmos||||up||||
-rsdscs|rsdscs|surface_downwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Shortwave Radiation|longitude latitude time|real|W m-2||time: mean|atmos||||down||||
-rsuscs|rsuscs|surface_upwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Upwelling Clear-Sky Shortwave Radiation|longitude latitude time|real|W m-2||time: mean|atmos||||up||||
-rldscs|rldscs|surface_downwelling_longwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Longwave Radiation|longitude latitude time|real|W m-2||time: mean|atmos||||down||||
-rsdt|rsdt|toa_incoming_shortwave_flux|TOA Incident Shortwave Radiation|longitude latitude time|real|W m-2||time: mean|atmos||||down||||
-rsut|rsut|toa_outgoing_shortwave_flux|TOA Outgoing Shortwave Radiation|longitude latitude time|real|W m-2||time: mean|atmos||||up||||
-rlut|rlut|toa_outgoing_longwave_flux|TOA Outgoing Longwave Radiation|longitude latitude time|real|W m-2||time: mean|atmos||||up||||
-rlutcs|rlutcs|toa_outgoing_longwave_flux_assuming_clear_sky|TOA Outgoing Clear-Sky Longwave Radiation|longitude latitude time|real|W m-2||time: mean|atmos||||up||||
-rsutcs|rsutcs|toa_outgoing_shortwave_flux_assuming_clear_sky|TOA Outgoing Clear-Sky Shortwave Radiation|longitude latitude time|real|W m-2||time: mean|atmos||||up||||
-prw|prw|atmosphere_water_vapor_content|Water Vapor Path|longitude latitude time|real|kg m-2||time: mean|atmos||||||||
-clt|clt|cloud_area_fraction|Total Cloud Fraction|longitude latitude time|real|%||time: mean|atmos||||||||
-clwvi|clwvi|atmosphere_cloud_condensed_water_content|Condensed Water Path|longitude latitude time|real|kg m-2||time: mean|atmos||||||||
-clivi|clivi|atmosphere_cloud_ice_content|Ice Water Path|longitude latitude time|real|kg m-2||time: mean|atmos||||||||
-rtmt|rtmt|net_downward_radiative_flux_at_top_of_atmosphere_model|Net Downward Flux at Top of Model|longitude latitude time|real|W m-2||time: mean|atmos||||down||||
-ccb|ccb|air_pressure_at_convective_cloud_base|Air Pressure at Convective Cloud Base|longitude latitude time|real|Pa||time: mean|atmos||||||||
-cct|cct|air_pressure_at_convective_cloud_top|Air Pressure at Convective Cloud Top|longitude latitude time|real|Pa||time: mean|atmos||||||||
-ci|ci||Fraction of Time Convection Occurs|longitude latitude time|real|1||time: mean|atmos||||||||
-sci|sci||Fraction of Time Shallow Convection Occurs|longitude latitude time|real|1||time: mean|atmos||||||||
-cltisccp|cltisccp|cloud_area_fraction|ISCCP Total Total Cloud Fraction|longitude latitude time|real|%||time: mean|atmos||||||||
-albisccp|albisccp|cloud_albedo|ISCCP Mean Cloud Albedo|longitude latitude time|real|1||time: mean|atmos||||||||
-pctisccp|pctisccp|air_pressure_at_cloud_top|ISCCP Mean Cloud Top Pressure|longitude latitude time|real|Pa||time: mean|atmos||||||||
+TAMIP_3hrSlev:tas:air_temperature:longitude latitude time height2m:atmos:1:TREFHT:TREFHT no change
+TAMIP_3hrSlev:ts:surface_temperature:longitude latitude time:atmos:1:TS:TS no change
+TAMIP_3hrSlev:psl:air_pressure_at_sea_level:longitude latitude time:atmos:1:PSL:PSL no change
+TAMIP_3hrSlev:ps:surface_air_pressure:longitude latitude time:atmos:1:PS:PS no change
+TAMIP_3hrSlev:uas:eastward_wind:longitude latitude time height10m:atmos:
+TAMIP_3hrSlev:vas:northward_wind:longitude latitude time height10m:atmos:
+TAMIP_3hrSlev:sfcWind:wind_speed:longitude latitude time height10m:atmos:
+TAMIP_3hrSlev:hurs:relative_humidity:longitude latitude time height2m:atmos:1:RHREFHT:RHREFHT no change
+TAMIP_3hrSlev:huss:specific_humidity:longitude latitude time height2m:atmos:1:QREFHT:QREFHT no change
+TAMIP_3hrSlev:pr:precipitation_flux:longitude latitude time:atmos:1:PRECT:PRECT unit conversion
+TAMIP_3hrSlev:prsn:snowfall_flux:longitude latitude time:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
+TAMIP_3hrSlev:prc:convective_precipitation_flux:longitude latitude time:atmos:1:PRECC:PRECC unit conversion
+TAMIP_3hrSlev:evspsbl:water_evaporation_flux:longitude latitude time:atmos:1:QFLX:QFLX no change
+TAMIP_3hrSlev:sbl:water_sublimation_flux:longitude latitude time:atmos:0:UNAVAILABLE:UNAVAILABLE
+TAMIP_3hrSlev:tauu:surface_downward_eastward_stress:longitude latitude time:atmos:1:TAUX:TAUX no change
+TAMIP_3hrSlev:tauv:surface_downward_northward_stress:longitude latitude time:atmos:1:TAUY:TAUY no change
+TAMIP_3hrSlev:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:LHFLX:LHFLX no change
+TAMIP_3hrSlev:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:SHFLX:SHFLX no change
+TAMIP_3hrSlev:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:1:FLDS:FLDS no change
+TAMIP_3hrSlev:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:2:FLDS FLNS:FLDS + FLNS
+TAMIP_3hrSlev:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:FSDS:FSDS no change
+TAMIP_3hrSlev:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:2:FSDS FSNS:FSDS - FSNS
+TAMIP_3hrSlev:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FSDSC:FSDSC no change
+TAMIP_3hrSlev:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:2:FSDSC FSNSC:FSDSC - FSNSC
+TAMIP_3hrSlev:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FLDSC:FLDSC no change
+TAMIP_3hrSlev:rsdt:toa_incoming_shortwave_flux:longitude latitude time:atmos:1:SOLIN:SOLIN no change
+TAMIP_3hrSlev:rsut:toa_outgoing_shortwave_flux:longitude latitude time:atmos:2:SOLIN FSNTOA:SOLIN - FSNTOA
+TAMIP_3hrSlev:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:1:FLUT:FLUT no change
+TAMIP_3hrSlev:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:longitude latitude time:atmos:1:FLUTC:FLUTC no change
+TAMIP_3hrSlev:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude latitude time:atmos:2:SOLIN FSNTOAC:SOLIN - FSNTOAC
+TAMIP_3hrSlev:prw:atmosphere_water_vapor_content:longitude latitude time:atmos:1:TMQ:TMQ no change
+TAMIP_3hrSlev:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT unit conversion
+TAMIP_3hrSlev:clwvi:atmosphere_cloud_condensed_water_content:longitude latitude time:atmos:1:TGCLDLWP:TGCLDLWP no change
+TAMIP_3hrSlev:clivi:atmosphere_cloud_ice_content:longitude latitude time:atmos:1:TGCLDIWP:TGCLDIWP no change
+TAMIP_3hrSlev:rtmt:net_downward_radiative_flux_at_top_of_atmosphere_model:longitude latitude time:atmos:2:FSNT FLNT:FSNT - FLNT
+TAMIP_3hrSlev:ccb:air_pressure_at_convective_cloud_base:longitude latitude time:atmos:1:PCLDBOT:PCLDBOT
+TAMIP_3hrSlev:cct:air_pressure_at_convective_cloud_top:longitude latitude time:atmos:1:PCLDTOP:PCLDTOP
+TAMIP_3hrSlev:ci:convection_time_fraction:longitude latitude time:atmos:1:FREQZM:FREQZM unit conversion
+TAMIP_3hrSlev:sci:shallow_convection_time_fraction:site time1:atmos:1:FREQSH:FREQSH no change
+TAMIP_3hrSlev:cltisccp:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT_ISCCP:CLDTOT_ISCCP
+TAMIP_3hrSlev:albisccp:cloud_albedo:longitude latitude time:atmos:1:MEANCLDALB_ISCCP:MEANCLDALB_ISCCP
+TAMIP_3hrSlev:pctisccp:air_pressure_at_cloud_top:longitude latitude time:atmos:1:MEANPTOP_ISCCP:MEANPTOP_ISCCP

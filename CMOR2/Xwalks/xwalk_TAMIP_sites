@@ -1,85 +1,72 @@
- variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min
-orog|orog|surface_altitude|Surface Altitude|site|real|m|||atmos||||||1.00E+04|-700|
-p0|||vertical coordinate formula term: reference pressure|||Pa|||||||||||
-ptop|||pressure at top of model|||Pa|||||||||||
-a|||vertical coordinate formula term: a(k)|alevel|double||||||||||||
-b|||vertical coordinate formula term: b(k)|alevel|double||||||||||||
-a_bnds|||vertical coordinate formula term: a(k+1/2)|alevel|double||||||||||||
-b_bnds|||vertical coordinate formula term: b(k+1/2)|alevel|double||||||||||||
-ap|||vertical coordinate formula term: ap(k)|alevel|double|Pa|||||||||||
-ap_bnds|||vertical coordinate formula term: ap(k+1/2)|alevel|double|Pa|||||||||||
-ztop|||height of top of model|||m|||||||||||
-tas|tas|air_temperature|Near-Surface Air Temperature|site time height2m|real|K||time: point|atmos||||||||
-ts|ts|surface_temperature|Surface Temperature|site time|real|K||time: point|atmos||||||||
-psl|psl|air_pressure_at_sea_level|Sea Level Pressure|site time|real|Pa||time: point|atmos||||||||
-ps|ps|surface_air_pressure|Surface Air Pressure|site time|real|Pa||time: point|atmos||||||||
-uas|uas|eastward_wind|Eastward Near-Surface Wind Speed|site time height10m|real|m s-1||time: point|atmos||||||||
-vas|vas|northward_wind|Northward Near-Surface Wind Speed|site time height10m|real|m s-1||time: point|atmos||||||||
-sfcWind|sfcWind|wind_speed|Near-Surface Wind Speed|site time height10m|real|m s-1||time: point|atmos||||||||
-hurs|hurs|relative_humidity|Near-Surface Relative Humidity|site time height2m|real|%||time: point|atmos||||||||
-huss|huss|specific_humidity|Near-Surface Specific Humidity|site time height2m|real|1||time: point|atmos||||||||
-pr|pr|precipitation_flux|Precipitation|site time|real|kg m-2 s-1||time: point|atmos||||||||
-prsn|prsn|snowfall_flux|Snowfall Flux|site time|real|kg m-2 s-1||time: point|atmos||||||||
-prc|prc|convective_precipitation_flux|Convective Precipitation|site time|real|kg m-2 s-1||time: point|atmos||||||||
-evspsbl|evspsbl|water_evaporation_flux|Evaporation|site time|real|kg m-2 s-1||time: point|atmos||||||||
-sbl|sbl|water_sublimation_flux|Surface Snow and Ice Sublimation Flux|site time|real|kg m-2 s-1||time: point|atmos||||||||
-tauu|tauu|surface_downward_eastward_stress|Surface Downward Eastward Wind Stress|site time|real|Pa||time: point|atmos||||down||||
-tauv|tauv|surface_downward_northward_stress|Surface Downward Northward Wind Stress|site time|real|Pa||time: point|atmos||||down||||
-hfls|hfls|surface_upward_latent_heat_flux|Surface Upward Latent Heat Flux|site time|real|W m-2||time: point|atmos||||up||||
-hfss|hfss|surface_upward_sensible_heat_flux|Surface Upward Sensible Heat Flux|site time|real|W m-2||time: point|atmos||||up||||
-rlds|rlds|surface_downwelling_longwave_flux_in_air|Surface Downwelling Longwave Radiation|site time|real|W m-2||time: point|atmos||||down||||
-rlus|rlus|surface_upwelling_longwave_flux_in_air|Surface Upwelling Longwave Radiation|site time|real|W m-2||time: point|atmos||||up||||
-rsds|rsds|surface_downwelling_shortwave_flux_in_air|Surface Downwelling Shortwave Radiation|site time|real|W m-2||time: point|atmos||||down||||
-rsus|rsus|surface_upwelling_shortwave_flux_in_air|Surface Upwelling Shortwave Radiation|site time|real|W m-2||time: point|atmos||||up||||
-rsdscs|rsdscs|surface_downwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Shortwave Radiation|site time|real|W m-2||time: point|atmos||||down||||
-rsuscs|rsuscs|surface_upwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Upwelling Clear-Sky Shortwave Radiation|site time|real|W m-2||time: point|atmos||||up||||
-rldscs|rldscs|surface_downwelling_longwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Longwave Radiation|site time|real|W m-2||time: point|atmos||||down||||
-rsdt|rsdt|toa_incoming_shortwave_flux|TOA Incident Shortwave Radiation|site time|real|W m-2||time: point|atmos||||down||||
-rsut|rsut|toa_outgoing_shortwave_flux|TOA Outgoing Shortwave Radiation|site time|real|W m-2||time: point|atmos||||up||||
-rlut|rlut|toa_outgoing_longwave_flux|TOA Outgoing Longwave Radiation|site time|real|W m-2||time: point|atmos||||up||||
-rlutcs|rlutcs|toa_outgoing_longwave_flux_assuming_clear_sky|TOA Outgoing Clear-Sky Longwave Radiation|site time|real|W m-2||time: point|atmos||||up||||
-rsutcs|rsutcs|toa_outgoing_shortwave_flux_assuming_clear_sky|TOA Outgoing Clear-Sky Shortwave Radiation|site time|real|W m-2||time: point|atmos||||up||||
-prw|prw|atmosphere_water_vapor_content|Water Vapor Path|site time|real|kg m-2||time: point|atmos||||||||
-clt|clt|cloud_area_fraction|Total Cloud Fraction|site time|real|%||time: point|atmos||||||||
-clwvi|clwvi|atmosphere_cloud_condensed_water_content|Condensed Water Path|site time|real|kg m-2||time: point|atmos||||||||
-clivi|clivi|atmosphere_cloud_ice_content|Ice Water Path|site time|real|kg m-2||time: point|atmos||||||||
-rtmt|rtmt|net_downward_radiative_flux_at_top_of_atmosphere_model|Net Downward Flux at Top of Model|site time|real|W m-2||time: point|atmos||||down||||
-ccb|ccb|air_pressure_at_convective_cloud_base|Air Pressure at Convective Cloud Base|site time|real|Pa||time: point|atmos||||||||
-cct|cct|air_pressure_at_convective_cloud_top|Air Pressure at Convective Cloud Top|site time|real|Pa||time: point|atmos||||||||
-ci|ci||Fraction of Time Convection Occurs|site time|real|1||time: point|atmos||||||||
-sci|sci||Fraction of Time Shallow Convection Occurs|site time|real|1||time: point|atmos||||||||
-cl|cl|cloud_area_fraction_in_atmosphere_layer|Cloud Area Fraction|alevel site time|real|%||time: point|atmos||||||||
-clw|clw|mass_fraction_of_cloud_liquid_water_in_air|Mass Fraction of Cloud Liquid Water|alevel site time|real|1||time: point|atmos||||||||
-cli|cli|mass_fraction_of_cloud_ice_in_air|Mass Fraction of Cloud Ice|alevel site time|real|1||time: point|atmos||||||||
-mc|mc|atmosphere_convective_mass_flux|Convective Mass Flux|alevhalf site time|real|kg m-2 s-1||time: point|atmos||||up||||
-ta|ta|air_temperature|Air Temperature|alevel site time|real|K||time: point|atmos||||||||
-ua|ua|eastward_wind|Eastward Wind|alevel site time|real|m s-1||time: point|atmos||||||||
-va|va|northward_wind|Northward Wind|alevel site time|real|m s-1||time: point|atmos||||||||
-hus|hus|specific_humidity|Specific Humidity|alevel site time|real|1||time: point|atmos||||||||
-hur|hur|relative_humidity|Relative Humidity|alevel site time|real|%||time: point|atmos||||||||
-wap|wap|lagrangian_tendency_of_air_pressure|omega (=dp/dt)|alevel site time|real|Pa s-1||time: point|atmos||||||||
-zg|zg|geopotential_height|Geopotential Height|alevel site time|real|m||time: point|atmos||||||||
-rlu|rlu|upwelling_longwave_flux_in_air|Upwelling Longwave Radiation|alevel site time|real|W m-2||time: point|atmos||||up||||
-rsu|rsu|upwelling_shortwave_flux_in_air|Upwelling Shortwave Radiation|alevel site time|real|W m-2||time: point|atmos||||up||||
-rld|rld|downwelling_longwave_flux_in_air|Downwelling Longwave Radiation|alevel site time|real|W m-2||time: point|atmos||||down||||
-rsd|rsd|downwelling_shortwave_flux_in_air|Downwelling Shortwave Radiation|alevel site time|real|W m-2||time: point|atmos||||down||||
-rlucs|rlucs|upwelling_longwave_flux_in_air_assuming_clear_sky|Upwelling Clear-Sky Longwave Radiation|alevel site time|real|W m-2||time: point|atmos||||up||||
-rsucs|rsucs|upwelling_shortwave_flux_in_air_assuming_clear_sky|Upwelling Clear-Sky Shortwave Radiation|alevel site time|real|W m-2||time: point|atmos||||up||||
-rldcs|rldcs|downwelling_longwave_flux_in_air_assuming_clear_sky|Downwelling Clear-Sky Longwave Radiation|alevel site time|real|W m-2||time: point|atmos||||down||||
-rsdcs|rsdcs|downwelling_shortwave_flux_in_air_assuming_clear_sky|Downwelling Clear-Sky Shortwave Radiation|alevel site time|real|W m-2||time: point|atmos||||down||||
-tnt|tnt|tendency_of_air_temperature|Tendency of Air Temperature|alevel site time|real|K s-1||time: point|atmos||||||||
-tnta|tnta|tendency_of_air_temperature_due_to_advection|Tendency of Air Temperature due to Advection|alevel site time|real|K s-1||time: point|atmos||||||||
-tntmp|tntmp|tendency_of_air_temperature_due_to_model_physics|Tendency of Air Temperature due to Diabatic Processes|alevel site time|real|K s-1||time: point|atmos||||||||
-tntscpbl|tntscpbl|tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing|Tendency of Air Temperature due to Stratiform Cloud Condensation and Evaporation|alevel site time|real|K s-1||time: point|atmos||||||||
-tntr|tntr|tendency_of_air_temperature_due_to_radiative_heating|Tendency of Air Temperature due to Radiative Heating|alevel site time|real|K s-1||time: point|atmos||||||||
-tntc|tntc|tendency_of_air_temperature_due_to_convection|Tendency of Air Temperature due to Moist Convection|alevel site time|real|K s-1||time: point|atmos||||||||
-tnhus|tnhus|tendency_of_specific_humidity|Tendency of Specific Humidity|alevel site time|real|s-1||time: point|atmos||||||||
-tnhusa|tnhusa|tendency_of_specific_humidity_due_to_advection|Tendency of Specific Humidity due to Advection|alevel site time|real|s-1||time: point|atmos||||||||
-tnhusc|tnhusc|tendency_of_specific_humidity_due_to_convection|Tendency of Specific Humidity due to Convection|alevel site time|real|s-1||time: point|atmos||||||||
-tnhusd|tnhusd|tendency_of_specific_humidity_due_to_diffusion|Tendency of Specific Humidity due to Diffusion|alevel site time|real|s-1||time: point|atmos||||||||
-tnhusscpbl|tnhusscpbl|tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing|Tendency of Specific Humidity due to Stratiform Cloud Condensation and Evaporation|alevel site time|real|s-1||time: point|atmos||||||||
-tnhusmp|tnhusmp|tendency_of_specific_humidity_due_to_model_physics|Tendency of Specific Humidity due to Model Physics|alevel site time|real|s-1||time: point|atmos||||||||
-evu|evu|atmosphere_momentum_diffusivity|Eddy Viscosity Coefficient for Momentum Variables|alevel site time|real|m2 s-1||time: point|atmos||||||||
-edt|edt|atmosphere_heat_diffusivity|Eddy Diffusivity Coefficient for Temperature Variable|alevel site time|real|m2 s-1||time: point|atmos||||||||
-pfull|pfull|air_pressure|Pressure on Model Levels|alevel site time|real|Pa||time: point|atmos||||||||
-phalf|phalf|air_pressure|Pressure on Model Half-Levels|site alevhalf time|real|Pa||time: point|atmos||||||||
+TAMIP_sites:tas:air_temperature:site time height2m:atmos:1:TREFHT:TREFHT no change
+TAMIP_sites:ts:surface_temperature:site time:atmos:1:TS:TS no change
+TAMIP_sites:psl:air_pressure_at_sea_level:site time:atmos:1:PSL:PSL no change
+TAMIP_sites:ps:surface_air_pressure:site time:atmos:1:PS:PS no change
+TAMIP_sites:uas:eastward_wind:site time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+TAMIP_sites:vas:northward_wind:site time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+TAMIP_sites:sfcWind:wind_speed:site time height10m:atmos:1:U10:U10
+TAMIP_sites:hurs:relative_humidity:site time height2m:atmos:1:RHREFHT:RHREFHT no change
+TAMIP_sites:huss:specific_humidity:site time height2m:atmos:1:QREFHT:QREFHT no change
+TAMIP_sites:pr:precipitation_flux:site time:atmos:1:PRECT:PRECT unit conversion
+TAMIP_sites:prsn:snowfall_flux:site time:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
+TAMIP_sites:prc:convective_precipitation_flux:site time:atmos:1:PRECC:PRECC unit conversion
+TAMIP_sites:evspsbl:water_evaporation_flux:site time:atmos:1:QFLX:QFLX no change
+TAMIP_sites:sbl:water_sublimation_flux:site time:atmos:0:UNAVAILABLE:UNAVAILABLE
+TAMIP_sites:tauu:surface_downward_eastward_stress:site time:atmos:1:TAUX:TAUX no change
+TAMIP_sites:tauv:surface_downward_northward_stress:site time:atmos:1:TAUY:TAUY no change
+TAMIP_sites:hfls:surface_upward_latent_heat_flux:site time:atmos:1:LHFLX:LHFLX no change
+TAMIP_sites:hfss:surface_upward_sensible_heat_flux:site time:atmos:1:SHFLX:SHFLX no change
+TAMIP_sites:rlds:surface_downwelling_longwave_flux_in_air:site time:atmos:1:FLDS:FLDS no change
+TAMIP_sites:rlus:surface_upwelling_longwave_flux_in_air:site time:atmos:2:FLDS FLNS:FLDS + FLNS
+TAMIP_sites:rsds:surface_downwelling_shortwave_flux_in_air:site time:atmos:1:FSDS:FSDS no change
+TAMIP_sites:rsus:surface_upwelling_shortwave_flux_in_air:site time:atmos:2:FSDS FSNS:FSDS - FSNS
+TAMIP_sites:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:site time:atmos:1:FSDSC:FSDSC no change
+TAMIP_sites:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:site time:atmos:2:FSDSC FSNSC:FSDSC - FSNSC
+TAMIP_sites:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:site time:atmos:1:FLDSC:FLDSC no change
+TAMIP_sites:rsdt:toa_incoming_shortwave_flux:site time:atmos:1:SOLIN:SOLIN no change
+TAMIP_sites:rsut:toa_outgoing_shortwave_flux:site time:atmos:2:SOLIN FSNTOA:SOLIN - FSNTOA
+TAMIP_sites:rlut:toa_outgoing_longwave_flux:site time:atmos:1:FLUT:FLUT no change
+TAMIP_sites:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:site time:atmos:1:FLUTC:FLUTC no change
+TAMIP_sites:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:site time:atmos:2:SOLIN FSNTOAC:SOLIN - FSNTOAC
+TAMIP_sites:prw:atmosphere_water_vapor_content:site time:atmos:1:TMQ:TMQ no change
+TAMIP_sites:clt:cloud_area_fraction:site time:atmos:1:CLDTOT:CLDTOT unit conversion
+TAMIP_sites:clwvi:atmosphere_cloud_condensed_water_content:site time:atmos:1:TGCLDLWP:TGCLDLWP no change
+TAMIP_sites:clivi:atmosphere_cloud_ice_content:site time:atmos:1:TGCLDIWP:TGCLDIWP no change
+TAMIP_sites:rtmt:net_downward_radiative_flux_at_top_of_atmosphere_model:site time:atmos:2:FSNT FLNT:FSNT - FLNT
+TAMIP_sites:ccb:air_pressure_at_convective_cloud_base:site time:atmos:1:PCLDBOT:PCLDBOT
+TAMIP_sites:cct:air_pressure_at_convective_cloud_top:site time:atmos:1:PCLDTOP:PCLDTOP
+TAMIP_sites:ci:convection_time_fraction:site time:atmos:1:FREQZM:FREQZM unit conversion
+TAMIP_sites:sci:shallow_convection_time_fraction:site time:atmos:1:FREQSH:FREQSH no change
+TAMIP_sites:cl:cloud_area_fraction_in_atmosphere_layer:alevel site time:atmos:2:CLOUD PS:CLOUD on model levels, no change
+TAMIP_sites:clw:mass_fraction_of_cloud_liquid_water_in_air:alevel site time:atmos:2:CLDLIQ PS:CLDLIQ on model levels, no change
+TAMIP_sites:cli:mass_fraction_of_cloud_ice_in_air:alevel site time:atmos:2:CLDICE PS:CLDICE on model levels, no change
+TAMIP_sites:mc:atmosphere_convective_mass_flux:alevhalf site time:atmos:3:CMFMC CMFMCDZM PS:CMFMC + CMFMCDZM on model levels, no change
+TAMIP_sites:ta:air_temperature:alevel site time:atmos:2:T PS:T no change
+TAMIP_sites:ua:eastward_wind:alevel site time:atmos:2:U PS:U no change
+TAMIP_sites:va:northward_wind:alevel site time:atmos:2:V PS:V no change
+TAMIP_sites:hus:specific_humidity:alevel site time:atmos:2:Q PS:Q no change
+TAMIP_sites:hur:relative_humidity:alevel site time:atmos:2:RELHUM PS:RELHUM no change
+TAMIP_sites:wap:lagrangian_tendency_of_air_pressure:alevel site time:atmos:2:OMEGA PS:OMEGA no change
+TAMIP_sites:zg:geopotential_height:alevel site time:atmos:2:Z3 PS:Z3 no change
+TAMIP_sites:rlu:upwelling_longwave_flux_in_air:alevel site time:atmos:
+TAMIP_sites:rsu:upwelling_shortwave_flux_in_air:alevel site time:atmos:
+TAMIP_sites:rld:downwelling_longwave_flux_in_air:alevel site time:atmos:
+TAMIP_sites:rsd:downwelling_shortwave_flux_in_air:alevel site time:atmos:
+TAMIP_sites:rlucs:upwelling_longwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:
+TAMIP_sites:rsucs:upwelling_shortwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:
+TAMIP_sites:rldcs:downwelling_longwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:
+TAMIP_sites:rsdcs:downwelling_shortwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:
+TAMIP_sites:tnt:tendency_of_air_temperature:alevel site time:atmos:
+TAMIP_sites:tnta:tendency_of_air_temperature_due_to_advection:alevel site time:atmos:
+TAMIP_sites:tntmp:tendency_of_air_temperature_due_to_model_physics:alevel site time:atmos:
+TAMIP_sites:tntscpbl:tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:alevel site time:atmos:
+TAMIP_sites:tntr:tendency_of_air_temperature_due_to_radiative_heating:alevel site time:atmos:
+TAMIP_sites:tntc:tendency_of_air_temperature_due_to_convection:alevel site time:atmos:
+TAMIP_sites:tnhus:tendency_of_specific_humidity:alevel site time:atmos:
+TAMIP_sites:tnhusa:tendency_of_specific_humidity_due_to_advection:alevel site time:atmos:
+TAMIP_sites:tnhusc:tendency_of_specific_humidity_due_to_convection:alevel site time:atmos:
+TAMIP_sites:tnhusd:tendency_of_specific_humidity_due_to_diffusion:alevel site time:atmos:
+TAMIP_sites:tnhusscpbl:tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:alevel site time:atmos:
+TAMIP_sites:tnhusmp:tendency_of_specific_humidity_due_to_model_physics:alevel site time:atmos:
+TAMIP_sites:evu:atmosphere_momentum_diffusivity:alevel site time:atmos:
+TAMIP_sites:edt:atmosphere_heat_diffusivity:alevel site time:atmos:
