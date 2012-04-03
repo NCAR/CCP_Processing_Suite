@@ -1,6 +1,6 @@
 CMIP5_OImon:ageice:age_of_sea_ice:longitude latitude time:seaIce:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_OImon:bmelt:tendency_of_sea_ice_amount_due_to_basal_melting:longitude latitude time:seaIce:1:meltb:meltb
-CMIP5_OImon:divice:divergence_of_sea_ice velocity:longitude latitude time:seaIce:1:divu:divu
+CMIP5_OImon:divice:divergence_of_sea_ice_velocity:longitude latitude time:seaIce:1:divu:divu
 CMIP5_OImon:eshrice:eastward_derivative_of_northward_sea_ice_velocity:longitude latitude time:seaIce:1:UNKNOWN:UNKNOWN
 CMIP5_OImon:evap:water_evaporation_flux:longitude latitude time:seaIce:1:evap_ai:evap_ai
 CMIP5_OImon:grCongel:tendency_of_sea_ice_amount_due_to_congelation_ice_accumulation:longitude latitude time:seaIce:1:congel:congel

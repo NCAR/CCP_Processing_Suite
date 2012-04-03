@@ -77,7 +77,8 @@ case "$PROCHOST" in
 
   mirage* )                                # DASG @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/fs/local/bin/ncks                       ; export NCKS
+    NCKS=/contrib/nco-4.1.0/bin/ncks              ; export NCKS
+#    NCKS=/fs/local/bin/ncks                       ; export NCKS
     NCRCAT=/fs/local/bin/ncrcat                   ; export NCRCAT
     NCARG_ROOT=/fs/local/apps/ncl-5.2.0           ; export NCARG_ROOT
     PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE

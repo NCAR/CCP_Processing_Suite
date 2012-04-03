@@ -13,42 +13,20 @@ function DEBUG()
 {
  [ "$_DEBUG" == "on" ] &&  $@
 }
-
-# for debugging, hardcode - will get these from env. vars.
-#
-#CASE=b40.20th.bcarb.1deg.008
-#HIST=cam2.h0
-#TPER=
-#TABL=Amon
-#HTYP=atm
-#LOCATION=NE
-#PROCHOST=mirage1
-#MSSPROC=/CCSM/csm/b40.20th.bcarb.1deg.008/atm/proc/tseries/monthly
-#ARCHIVE_CMIP5=/CCSM/csm/CMIP5
-
 #
 # for CMIP5 processing TPER not set but TABL is so use that for TPER
 #
 if ! [ $TPER ] ; then
-    TPER=$TABL
+   TPER=$TABL
 fi
-
 #
 # generate a base filename
 #
-#FILEBASE=${CASE}_${HIST}_${TPER}_${DO_PROC}_${DO_CMIP} ; export FILEBASE
 FILEBASE=${CASE}.${HIST}.${TPER} ; export FILEBASE
-
-
 #
 # generate the filenames to be used
 #
-
 FILELOG=${FILEBASE}.log ; export FILELOG
-#FILEDF=${FILEBASE}.df ; export FILEDF
-#FILEPS=${FILEBASE}.ps ; export FILEPS
-#FILEHSI=${FILEBASE}.hsi; export FILEHSI
-
 #
 # get current user name and pp hostname
 #
@@ -82,9 +60,7 @@ esac
 # create the mail messages
 #
 MAILTO=procstat@cgd.ucar.edu
-
 mail -s "procstat ${FILELOG}" ${MAILTO} < ${FILELOG}
-
 #
 # check if procstat.sh was called with an argument either start, error or complete
 # if so, then send an email to trigger an automatic update of the
@@ -94,67 +70,61 @@ if [ $# -ge 1 ] ; then
 #
 # get the user name and corresponding email address to notify user
 #
-    case "$USER" in
-    'aliceb' | 'ilana' | 'strandwg' | 'hteng' | 'jma' | 'asphilli' | 'tilmes' | 'higginsm' )
-         MAILTOUSER=${USER}@ucar.edu ;;
-    'abertini')
-         MAILTOUSER=aliceb@ucar.edu  ;;
-    'jmarb')
-         MAILTOUSER=jma@ucar.edu     ;;
-    'wgstrand')
-         MAILTOUSER=strandwg@ucar.edu ;;
-    esac
-
+  case "$USER" in
+  'aliceb' | 'ilana' | 'strandwg' | 'hteng' | 'jma' | 'asphilli' | 'tilmes' | 'higginsm' )
+       MAILTOUSER=${USER}@ucar.edu ;;
+  'abertini')
+       MAILTOUSER=aliceb@ucar.edu  ;;
+  'jmarb')
+       MAILTOUSER=jma@ucar.edu     ;;
+  'wgstrand')
+       MAILTOUSER=strandwg@ucar.edu ;;
+  esac
+#
+  rm -f tossme
+  if test $1 = "start" then ;  
+    FILESTART=start.${FILEBASE} ; export FILESTART
+    echo "STATUS = START" >> tossme
+    echo "CASE = ${CASE}" >> tossme
+    echo "HIST = ${HIST}" >> tossme
+    echo "TPER = ${TPER}" >> tossme
+    echo "LOCATION = ${LOCATION}" >> tossme
+    echo "HTYP = ${HTYP}" >> tossme
+    echo "PP_HOST = ${HOSTNAME}" >> tossme
+    echo "USER = ${USER}" >> tossme
+    echo "NOTE = This email is being sent to you automatically from the procstat.sh program. For more details, go to the procstat web at http://webint.cgd.ucar.edu/project/ccr/procstat/cgi-bin/index.cgi." >> tossme
+    mail -s "procstat ${FILESTART}" ${MAILTO},${MAILTOUSER} < tossme
     rm -f tossme
-    
-    if test $1 = "start" 
-	then
-	    FILESTART=start.${FILEBASE} ; export FILESTART
-	    echo "STATUS = START" > tossme
-	    echo "CASE = ${CASE}" >> tossme
-	    echo "HIST = ${HIST}" >> tossme
-	    echo "TPER = ${TPER}" >> tossme
-	    echo "LOCATION = ${LOCATION}" >> tossme
-	    echo "HTYP = ${HTYP}" >> tossme
-	    echo "PP_HOST = ${HOSTNAME}" >> tossme
-	    echo "USER = ${USER}" >> tossme
-	    echo "NOTE = This email is being sent to you automatically from the procstat.sh program. For more details, go to the procstat web at http://webint.cgd.ucar.edu/project/ccr/procstat/cgi-bin/index.cgi." >> tossme
-	    mail -s "procstat ${FILESTART}" ${MAILTO},${MAILTOUSER} < tossme
-	    rm -f tossme
-    fi
-    if test $1 = "error" 
-        then
-	    FILEERROR=error.${FILEBASE} ; export FILEERROR
-	    echo "STATUS = ERROR" > tossme
-	    echo "CASE = ${CASE}" >> tossme
-	    echo "HIST = ${HIST}" >> tossme
-	    echo "TPER = ${TPER}" >> tossme
-	    echo "LOCATION = ${LOCATION}" >> tossme
-	    echo "HTYP = ${HTYP}" >> tossme
-	    echo "PP_HOST = ${HOSTNAME}" >> tossme
-	    echo "USER = ${USER}" >> tossme
-	    echo "CALLING_PROGRAM = $2" >> tossme
-	    echo "NOTE = This email is being sent to you automatically from the procstat.sh program. For more details, go to the procstat web at http://webint.cgd.ucar.edu/project/ccr/procstat/cgi-bin/index.cgi." >> tossme
-	    mail -s "procstat ${FILEERROR}" ${MAILTO},${MAILTOUSER} < tossme
-	    rm -f tossme
-    fi
-    if test $1 = "complete" 
-        then
-	    FILECOMPLETE=complete.${FILEBASE} ; export FILECOMPLETE
-	    echo "STATUS = COMPLETE" > tossme
-	    echo "CASE = ${CASE}" >> tossme
-	    echo "HIST = ${HIST}" >> tossme
-	    echo "TPER = ${TPER}" >> tossme
-	    echo "LOCATION = ${LOCATION}" >> tossme
-	    echo "HTYP = ${HTYP}" >> tossme
-	    echo "PP_HOST = ${HOSTNAME}" >> tossme
-	    echo "USER = ${USER}" >> tossme
-	    echo "NOTE = This email is being sent to you automatically from the procstat.sh program. For more details, go to the procstat web at http://webint.cgd.ucar.edu/project/ccr/procstat/cgi-bin/index.cgi. Please double check log file and mass storage listing for any errors and then manually change the status to COMPLETE." >> tossme
-	    mail -s "procstat ${FILECOMPLETE}" ${MAILTO},${MAILTOUSER} < tossme
-	    rm -f tossme
-    fi
+  fi
+  if test $1 = "error" then ; 
+    FILEERROR=error.${FILEBASE} ; export FILEERROR
+    echo "STATUS = ERROR" >> tossme
+    echo "CASE = ${CASE}" >> tossme
+    echo "HIST = ${HIST}" >> tossme
+    echo "TPER = ${TPER}" >> tossme
+    echo "LOCATION = ${LOCATION}" >> tossme
+    echo "HTYP = ${HTYP}" >> tossme
+    echo "PP_HOST = ${HOSTNAME}" >> tossme
+    echo "USER = ${USER}" >> tossme
+    echo "CALLING_PROGRAM = $2" >> tossme
+    echo "NOTE = This email is being sent to you automatically from the procstat.sh program. For more details, go to the procstat web at http://webint.cgd.ucar.edu/project/ccr/procstat/cgi-bin/index.cgi." >> tossme
+    mail -s "procstat ${FILEERROR}" ${MAILTO},${MAILTOUSER} < tossme
+    rm -f tossme
+  fi
+  if test $1 = "complete" then ;
+    FILECOMPLETE=complete.${FILEBASE} ; export FILECOMPLETE
+    echo "STATUS = COMPLETE" >> tossme
+    echo "CASE = ${CASE}" >> tossme
+    echo "HIST = ${HIST}" >> tossme
+    echo "TPER = ${TPER}" >> tossme
+    echo "LOCATION = ${LOCATION}" >> tossme
+    echo "HTYP = ${HTYP}" >> tossme
+    echo "PP_HOST = ${HOSTNAME}" >> tossme
+    echo "USER = ${USER}" >> tossme
+    echo "NOTE = This email is being sent to you automatically from the procstat.sh program. For more details, go to the procstat web at http://webint.cgd.ucar.edu/project/ccr/procstat/cgi-bin/index.cgi. Please double check log file and mass storage listing for any errors and then manually change the status to COMPLETE." >> tossme
+    mail -s "procstat ${FILECOMPLETE}" ${MAILTO},${MAILTOUSER} < tossme
+    rm -f tossme
+  fi
 fi
-
 _DEBUG="off"
-
 #echo "procstat = finish"
