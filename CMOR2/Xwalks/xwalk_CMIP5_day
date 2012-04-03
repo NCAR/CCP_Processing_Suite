@@ -1,42 +1,42 @@
-day:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT unit conversion
-day:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:LHFLX:LHFLX no change
-day:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:SHFLX:SHFLX no change
-day:hur:relative_humidity:longitude latitude plev8 time:atmos:2:RELHUM PS:RELHUM interpolated to standard plevs
-day:hus:specific_humidity:longitude latitude plev8 time:atmos:2:Q PS:Q interpolated to standard plevs
-day:huss:specific_humidity:longitude latitude time height2m:atmos:1:QREFHT:QREFHT no change
-day:mrro:runoff_flux:longitude latitude time:land:1:QRUNOFF:QRUNOFF
-day:mrsos:moisture_content_of_soil_layer:longitude latitude time sdepth1:land:1:SOILWATER_10CM:SOILWATER_10CM
-day:omldamax:ocean_mixed_layer_thickness_defined_by_mixing_scheme:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-day:pr:precipitation_flux:longitude latitude time:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
-day:prc:convective_precipitation_flux:longitude latitude time:atmos:1:PRECC:PRECC unit conversion
-day:prsn:snowfall_flux:longitude latitude time:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
-day:psl:air_pressure_at_sea_level:longitude latitude time:atmos:1:PSL:PSL no change
-day:rhs:relative_humidity:longitude latitude time height2m:atmos:1:RHREFHT:RHREFHT
-day:rhsmax:relative_humidity:longitude latitude time height2m:atmos:0:UNAVAILABLE:UNAVAILABLE
-day:rhsmin:relative_humidity:longitude latitude time height2m:atmos:0:UNAVAILABLE:UNAVAILABLE
-day:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:1:FLDS:FLDS no change
-day:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:2:FLDS FLNS:FLDS + FLNS
-day:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:1:FLUT:FLUT no change
-day:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:FSDS:FSDS no change
-day:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:2:FSDS FSNS:FSDS - FSNS
-day:sfcWind:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
-day:sfcWindmax:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
-day:sic:sea_ice_area_fraction:longitude latitude time:seaIce ocean:1:aice:aice1
-day:sit:sea_ice_thickness:longitude latitude time:seaIce ocean:1:hi:hi unchanged
-day:snc:surface_snow_area_fraction:longitude latitude time:landIce land:1:FSNO:FSNO
-day:snw:surface_snow_amount:longitude latitude time:landIce land:1:SNOWDP:SNOWDP
-day:ta:air_temperature:longitude latitude plev8 time:atmos:2:T PS:T interpolated to standard plevs
-day:tas:air_temperature:longitude latitude time height2m:atmos:1:TREFHT:TREFHT no change
-day:tasmax:air_temperature:longitude latitude time height2m:atmos:1:TREFHTMX:TREFHTMX no change
-day:tasmin:air_temperature:longitude latitude time height2m:atmos:1:TREFHTMN:TREFHTMN no change
-day:tos:surface_temperature:longitude latitude time:ocean:1:TEMP:TEMP at topmost level, units from C to K
-day:tossq:square_of_sea_surface_temperature:longitude latitude time:ocean:1:SST2:SST2
-day:tslsi:surface_temperature:longitude latitude time:land:1:UNKNOWN:UNKNOWN
-day:ua:eastward_wind:longitude latitude plev8 time:atmos:2:U PS:U interpolated to standard plevs
-day:uas:eastward_wind:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
-day:usi:sea_ice_x_velocity:longitude latitude time:seaIce ocean:1:uvel:uvel
-day:va:northward_wind:longitude latitude plev8 time:atmos:2:V PS:V interpolated to standard plevs
-day:vas:northward_wind:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
-day:vsi:sea_ice_y_velocity:longitude latitude time:seaIce ocean:1:vvel:vvel
-day:wap:lagrangian_tendency_of_air_pressure:longitude latitude plev8 time:atmos:2:OMEGA PS:OMEGA interpolated to standard plevs
-day:zg:geopotential_height:longitude latitude plev8 time:atmos:2:Z3 PS:Z3 interpolated to standard plevs
+CMIP5_day:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT unit conversion
+CMIP5_day:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:LHFLX:LHFLX no change
+CMIP5_day:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:SHFLX:SHFLX no change
+CMIP5_day:hur:relative_humidity:longitude latitude plev8 time:atmos:2:RELHUM PS:RELHUM interpolated to standard plevs
+CMIP5_day:hus:specific_humidity:longitude latitude plev8 time:atmos:2:Q PS:Q interpolated to standard plevs
+CMIP5_day:huss:specific_humidity:longitude latitude time height2m:atmos:1:QREFHT:QREFHT no change
+CMIP5_day:mrro:runoff_flux:longitude latitude time:land:1:QRUNOFF:QRUNOFF
+CMIP5_day:mrsos:moisture_content_of_soil_layer:longitude latitude time sdepth1:land:1:SOILWATER_10CM:SOILWATER_10CM
+CMIP5_day:omldamax:ocean_mixed_layer_thickness_defined_by_mixing_scheme:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
+CMIP5_day:pr:precipitation_flux:longitude latitude time:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
+CMIP5_day:prc:convective_precipitation_flux:longitude latitude time:atmos:1:PRECC:PRECC unit conversion
+CMIP5_day:prsn:snowfall_flux:longitude latitude time:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
+CMIP5_day:psl:air_pressure_at_sea_level:longitude latitude time:atmos:1:PSL:PSL no change
+CMIP5_day:rhs:relative_humidity:longitude latitude time height2m:atmos:1:RHREFHT:RHREFHT
+CMIP5_day:rhsmax:relative_humidity:longitude latitude time height2m:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_day:rhsmin:relative_humidity:longitude latitude time height2m:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_day:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:1:FLDS:FLDS no change
+CMIP5_day:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:2:FLDS FLNS:FLDS + FLNS
+CMIP5_day:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:1:FLUT:FLUT no change
+CMIP5_day:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:FSDS:FSDS no change
+CMIP5_day:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:2:FSDS FSNS:FSDS - FSNS
+CMIP5_day:sfcWind:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_day:sfcWindmax:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_day:sic:sea_ice_area_fraction:longitude latitude time:seaIce ocean:1:aice:aice1
+CMIP5_day:sit:sea_ice_thickness:longitude latitude time:seaIce ocean:1:hi:hi unchanged
+CMIP5_day:snc:surface_snow_area_fraction:longitude latitude time:landIce land:1:FSNO:FSNO
+CMIP5_day:snw:surface_snow_amount:longitude latitude time:landIce land:1:SNOWDP:SNOWDP
+CMIP5_day:ta:air_temperature:longitude latitude plev8 time:atmos:2:T PS:T interpolated to standard plevs
+CMIP5_day:tas:air_temperature:longitude latitude time height2m:atmos:1:TREFHT:TREFHT no change
+CMIP5_day:tasmax:air_temperature:longitude latitude time height2m:atmos:1:TREFHTMX:TREFHTMX no change
+CMIP5_day:tasmin:air_temperature:longitude latitude time height2m:atmos:1:TREFHTMN:TREFHTMN no change
+CMIP5_day:tos:surface_temperature:longitude latitude time:ocean:1:TEMP:TEMP at topmost level, units from C to K
+CMIP5_day:tossq:square_of_sea_surface_temperature:longitude latitude time:ocean:1:SST2:SST2
+CMIP5_day:tslsi:surface_temperature:longitude latitude time:land:1:UNKNOWN:UNKNOWN
+CMIP5_day:ua:eastward_wind:longitude latitude plev8 time:atmos:2:U PS:U interpolated to standard plevs
+CMIP5_day:uas:eastward_wind:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_day:usi:sea_ice_x_velocity:longitude latitude time:seaIce ocean:1:uvel:uvel
+CMIP5_day:va:northward_wind:longitude latitude plev8 time:atmos:2:V PS:V interpolated to standard plevs
+CMIP5_day:vas:northward_wind:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_day:vsi:sea_ice_y_velocity:longitude latitude time:seaIce ocean:1:vvel:vvel
+CMIP5_day:wap:lagrangian_tendency_of_air_pressure:longitude latitude plev8 time:atmos:2:OMEGA PS:OMEGA interpolated to standard plevs
+CMIP5_day:zg:geopotential_height:longitude latitude plev8 time:atmos:2:Z3 PS:Z3 interpolated to standard plevs

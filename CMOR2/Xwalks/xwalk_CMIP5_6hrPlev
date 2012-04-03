@@ -1,4 +1,4 @@
-6HrPlev:psl:air_pressure_at_sea_level:longitude latitude time1:atmos:1:PSL:PSL no change
-6HrPlev:ta:air_temperature:longitude latitude plev3 time1:atmos:2:T PS:T interpolated to standard plev3
-6HrPlev:ua:eastward_wind:longitude latitude plev3 time1:atmos:2:U PS:U interpolated to standard plev3
-6HrPlev:va:northward_wind:longitude latitude plev3 time1:atmos:2:V PS:V interpolated to standard plev3
+CMIP5_6HrPlev:psl:air_pressure_at_sea_level:longitude latitude time1:atmos:1:PSL:PSL no change
+CMIP5_6HrPlev:ta:air_temperature:longitude latitude plev3 time1:atmos:2:T PS:T interpolated to standard plev3
+CMIP5_6HrPlev:ua:eastward_wind:longitude latitude plev3 time1:atmos:2:U PS:U interpolated to standard plev3
+CMIP5_6HrPlev:va:northward_wind:longitude latitude plev3 time1:atmos:2:V PS:V interpolated to standard plev3

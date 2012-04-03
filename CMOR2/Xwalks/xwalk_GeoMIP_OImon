@@ -15,7 +15,7 @@ OImon:pr:rainfall_flux:longitude latitude time:seaIce:1:rain_ai:rain_ai
 OImon:prsn:snowfall_flux:longitude latitude time:seaIce:1:snow_ai:snow_ai
 OImon:ridgice:tendency_of_sea_ice_area_fraction_due_to_ridging:longitude latitude time:seaIce:1:UNKNOWN:UNKNOWN
 OImon:rldssi:surface_downwelling_longwave_flux_in_air:longitude latitude time:seaIce:1:flwdn:flwdn
-OImon:rlussi:surface_upwelling_longwave_flux_in_air:longitude latitude time:seaIce:1:flwup:flwup
+OImon:rlussi:surface_upwelling_longwave_flux_in_air:longitude latitude time:seaIce:1:flwup_ai:flwup
 OImon:rsdssi:surface_downwelling_shortwave_flux_in_air:longitude latitude time:seaIce:1:fswdn:fswdn
 OImon:rsussi:surface_upwelling_shortwave_flux_in_air:longitude latitude time:seaIce:1:UNKNOWN:UNKNOWN
 OImon:sblsi:surface_snow_and_ice_sublimation_flux:longitude latitude time:seaIce:1:UNKNOWN:UNKNOWN

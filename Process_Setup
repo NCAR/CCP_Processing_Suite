@@ -53,7 +53,7 @@ PROCHOST=`hostname`;export PROCHOST
 #
 # Build processing script
 #
-CCPS_SCRIPT=${CASE}_${HIST}_process.sh
+CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
 rm -f $CCPS_SCRIPT
 #
 case "$PROCHOST" in 

@@ -1,12 +1,12 @@
-fx:areacella:cell_area:longitude latitude:atmos land:1:AREA:AREA
-fx:areacello:cell_area:longitude latitude:ocean:1:TAREA:TAREA convert cm2 to m2
-fx:basin:region:longitude latitude:ocean:1:REGION_MASK:REGION_MASK
-fx:deptho:sea_floor_depth_below_geoid:longitude latitude:ocean:1:HT:HT convert cm to m
-fx:hfgeou:upward_geothermal_heat_flux_at_sea_floor:longitude latitude:ocean:0:UNAVAILABLE:Always set to zero in POP namelist
-fx:mrsofc:soil_moisture_content_at_field_capacity:longitude latitude:land:1:WATSAT:WATSAT
-fx:rootd:root_depth:longitude latitude:land:1:UNKNOWN:UNKNOWN
-fx:sftgif:land_ice_area_fraction:longitude latitude:land:1:PCT_GLACIER:PCT_GLACIER
-fx:sftlf:land_area_fraction:longitude latitude:atmos:1:LANDFRAC:LANDFRAC no change
-fx:sftof:sea_area_fraction:longitude latitude:ocean:0:UNAVAILABLE:Not clear what this means in terms of POP
-fx:thkcello:cell_thickness:longitude latitude olevel:ocean:1:dz:dz at each gridcell
-fx:volcello:ocean_volume:longitude latitude olevel:ocean:1:TAREA:TAREA times dz, convert cm3 to m3
+CMIP5_fx:areacella:cell_area:longitude latitude:atmos land:1:AREA:AREA
+CMIP5_fx:areacello:cell_area:longitude latitude:ocean:1:TAREA:TAREA convert cm2 to m2
+CMIP5_fx:basin:region:longitude latitude:ocean:1:REGION_MASK:REGION_MASK
+CMIP5_fx:deptho:sea_floor_depth_below_geoid:longitude latitude:ocean:1:HT:HT convert cm to m
+CMIP5_fx:hfgeou:upward_geothermal_heat_flux_at_sea_floor:longitude latitude:ocean:0:UNAVAILABLE:Always set to zero in POP namelist
+CMIP5_fx:mrsofc:soil_moisture_content_at_field_capacity:longitude latitude:land:1:WATSAT:WATSAT
+CMIP5_fx:rootd:root_depth:longitude latitude:land:1:UNKNOWN:UNKNOWN
+CMIP5_fx:sftgif:land_ice_area_fraction:longitude latitude:land:1:PCT_GLACIER:PCT_GLACIER
+CMIP5_fx:sftlf:land_area_fraction:longitude latitude:atmos:1:LANDFRAC:LANDFRAC no change
+CMIP5_fx:sftof:sea_area_fraction:longitude latitude:ocean:0:UNAVAILABLE:Not clear what this means in terms of POP
+CMIP5_fx:thkcello:cell_thickness:longitude latitude olevel:ocean:1:dz:dz at each gridcell
+CMIP5_fx:volcello:ocean_volume:longitude latitude olevel:ocean:1:TAREA:TAREA times dz, convert cm3 to m3

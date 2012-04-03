@@ -31,7 +31,7 @@ if [ -f $EXPFILE ] ; then
     PARENT=`egrep "^$CASE " $EXPFILE | cut -c100- | cut -d" " -f1`
     BRANCH=`egrep "^$CASE " $EXPFILE | cut -c140- | cut -d" " -f1`
    YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c155-158`
-   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c159-163`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c160-163`
        RES=`egrep "^$CASE " $EXPFILE | cut -c165- | cut -d" " -f1`
    COMPSET=`egrep "^$CASE " $EXPFILE | cut -c175- | cut -d" " -f1`
    REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c195- | cut -d" " -f1`
