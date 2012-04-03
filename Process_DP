@@ -46,19 +46,8 @@ fi
 # 240 - end  DOUT_L_MSROOT (history file location on archive)
 #
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
-if [ -f $EXPFILE ] ; then
-  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c60- | cut -d" " -f1`
-      CMIP=`egrep "^$CASE " $EXPFILE | cut -c90- | cut -d" " -f1`
-  if [ "$CMIP" = "N/A" ] ; then
-      CMIP="byv";export $CMIP
-  fi
-else
+if ! [ -f $EXPFILE ] ; then
   echo "Cannot find "$EXPFILE". EXIT"
-  exit 1
-fi
-#
-if ! [ $LOCATION ] ; then
-  echo "Unable to build script because case '"$CASE"' not found in "$EXPFILE
   exit 1
 fi
 #

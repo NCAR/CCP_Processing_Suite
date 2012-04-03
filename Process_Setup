@@ -28,35 +28,24 @@ esac
 #
 #  Columns   Field
 #   1 -  40  CCSM case name
-#  45 -  59  model_id (CCSM4, CESM1, CCSM4-BGC, CCSM4-FSCHEM, CCSM4-WACCM, etc)
-#  60 -  61  Location (NC = NCAR; NE = NERSC; OR = ORNL)
-#  65 -  79  Official MIP name, or very brief description (N/A if not applicable)
-#  80 -  89  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
-#  90 -  94  MIP (cm3 or cm5) experiment (N/A if not applicable)
-#  95 - 134  RUN_REFCASE (parent case)
-# 135 - 149  RUN_REFDATE (branch date, yyyy-mm-dd)
-# 150 - 159  years of experiment (YYYY if unknown)
-# 160 - 169  GRID (resolution)
-# 170 - 199  COMPSET (N/A if not applicable)
-# 180 - 209  REPOTAG (N/A if not applicable)
-# 210 - 229  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
-# 230 - 239  MACH (hardware)
-# 240 - end  DOUT_L_MSROOT (history file location on archive)
+#  45 -  64  model_id (CCSM4, CESM-CAM5, CESM-BGC, CESM-CHEM, CESM-WACCM, CESM1-CAM5.1-FV2, etc)
+#  65 -  66  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  70 -  84  Official MIP name, or very brief description (N/A if not applicable)
+#  85 -  94  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+#  95 -  99  MIP (cm3 or cm5) experiment (N/A if not applicable)
+# 100 - 139  RUN_REFCASE (parent case)
+# 140 - 154  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 155 - 164  years of experiment (YYYY if unknown)
+# 165 - 174  GRID (resolution)
+# 175 - 194  COMPSET (N/A if not applicable)
+# 195 - 214  REPOTAG (N/A if not applicable)
+# 215 - 234  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 235 - 244  MACH (hardware)
+# 245 - end  DOUT_L_MSROOT (history file location on archive)
 #
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
-if [ -f $EXPFILE ] ; then
-  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c60- | cut -d" " -f1`
-      CMIP=`egrep "^$CASE " $EXPFILE | cut -c90- | cut -d" " -f1`
-  if [ "$CMIP" = "N/A" ] ; then
-      CMIP="byv";export $CMIP
-  fi
-else
+if ! [ -f $EXPFILE ] ; then
   echo "Cannot find "$EXPFILE". EXIT"
-  exit 1
-fi
-#
-if ! [ $LOCATION ] ; then
-  echo "Unable to build script because case '"$CASE"' not found in "$EXPFILE
   exit 1
 fi
 #

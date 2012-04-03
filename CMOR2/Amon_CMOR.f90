@@ -132,7 +132,6 @@ program Amon_CMOR
               write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
               stop
            endif
-!           call close_cdf(myncid(1,ivar))
         enddo
         !
         ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
@@ -283,6 +282,18 @@ program Amon_CMOR
            !
            allocate(indat2a(nlons,nlats))
            !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
@@ -338,6 +349,18 @@ program Amon_CMOR
            ! prc : PRECC, unit change from m s-1 to kg m-2 s-1
            !
            allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
@@ -404,6 +427,18 @@ program Amon_CMOR
            allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
            allocate(cmordat2d(nlons,nlats))
            !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
@@ -468,6 +503,18 @@ program Amon_CMOR
            !
            allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
            allocate(cmordat2d(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
@@ -538,6 +585,18 @@ program Amon_CMOR
            allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
            allocate(cmordat2d(nlons,nlats))
            !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
@@ -599,6 +658,22 @@ program Amon_CMOR
         case ('ta','ua','va','hus','hur','wap','zg')
            select case(exp(exp_found)%model_id)
            case ('CESM1-WACCM')
+              !
+              do ivar = 1,xw(ixw)%ncesm_vars
+                 do ifile = 1,nc_nfiles(ivar)
+                    call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                    call get_dims(myncid(ifile,ivar))
+                    call get_vars(myncid(ifile,ivar))
+                    if (.not.(allocated(time)))      allocate(time(ntimes(1,ivar)))
+                    if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,ivar)))
+                    !
+                    do n=1,ntimes(ifile,ivar)
+                       time_counter = n
+                       call read_var(myncid(ifile,ivar),'time_bnds',time_bnds(:,n))
+                       time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+                    enddo
+                 enddo
+              enddo
               !
               ! Vertically interpolate to standard pressure levels
               !
@@ -681,6 +756,9 @@ program Amon_CMOR
                  endif
               enddo
            case default
+              !
+              ! All other models
+              !
               do ivar = 1,xw(ixw)%ncesm_vars
                  do ifile = 1,nc_nfiles(ivar)
                     call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
@@ -784,6 +862,18 @@ program Amon_CMOR
            !
            allocate(indat3a(nlons,nlats,nlevs))
            !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
@@ -854,6 +944,18 @@ program Amon_CMOR
            ! break up into nicely-sized chunks along time
            !
            allocate(indat3a(nlons,nlats,nlevs),indat2a(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
@@ -944,6 +1046,18 @@ program Amon_CMOR
            !
            allocate(indat3a(nlons,nlats,nilevs),indat3b(nlons,nlats,nilevs),indat2a(nlons,nlats))
            allocate(cmordat3d(nlons,nlats,nilevs))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !

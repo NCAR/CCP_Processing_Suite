@@ -62,20 +62,20 @@ subroutine load_exp(exp_file)
   !
   !  Columns   Field
   !   1 -  40  CCSM case name
-  !  45 -  59  model_id (CCSM4, CESM1, CCSM4-BGC, CCSM4-FSCHEM, CCSM4-WACCM, etc)
-  !  60 -  61  Location (NC = NCAR; NE = NERSC; OR = ORNL)
-  !  65 -  79  Official MIP name, or very brief description (N/A if not applicable
-  !  80 -  89  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
-  !  90 -  94  MIP (cm3 or cm5) experiment (N/A if not applicable)
-  !  95 - 134  RUN_REFCASE (parent case)
-  ! 135 - 149  RUN_REFDATE (branch date, yyyy-mm-dd)
-  ! 150 - 159  years of experiment (YYYY if unknown)
-  ! 160 - 169  GRID (resolution)
-  ! 170 - 189  COMPSET (N/A if not applicable)
-  ! 190 - 209  REPOTAG (N/A if not applicable)
-  ! 210 - 229  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
-  ! 230 - 239  MACH (hardware)
-  ! 240 - end  DOUT_L_MSROOT (history file location on archive)
+  !  45 -  64  model_id (CCSM4, CESM-CAM5, CESM-BGC, CESM-CHEM, CESM-WACCM, CESM1-CAM5.1-FV2, etc)
+  !  65 -  66  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+  !  70 -  84  Official MIP name, or very brief description (N/A if not applicable)
+  !  85 -  94  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+  !  95 -  99  MIP (cm3 or cm5) experiment (N/A if not applicable)
+  ! 100 - 139  RUN_REFCASE (parent case)
+  ! 140 - 154  RUN_REFDATE (branch date, yyyy-mm-dd)
+  ! 155 - 164  years of experiment (YYYY if unknown)
+  ! 165 - 174  GRID (resolution)
+  ! 175 - 194  COMPSET (N/A if not applicable)
+  ! 195 - 214  REPOTAG (N/A if not applicable)
+  ! 215 - 234  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+  ! 235 - 244  MACH (hardware)
+  ! 245 - end  DOUT_L_MSROOT (history file location on archive)
   !
   inquire(file=trim(exp_file),exist=does_exist)
   if (.not.(does_exist)) then
@@ -108,21 +108,21 @@ subroutine load_exp(exp_file)
      if (iostat == 0) then
         if (instring(1:1) /= '#') then
            exp(iexp)%case(1:)        = adjustl(instring(  1: 40))
-           exp(iexp)%model_id(1:)    = adjustl(instring( 45: 59))
-           exp(iexp)%loc(1:)         = adjustl(instring( 60: 61))
-           exp(iexp)%expt_id(1:)     = adjustl(instring( 65: 79))
-           exp(iexp)%rip_code(1:)    = adjustl(instring( 80: 89))
-           if (instring(90:94) == 'cm5') exp(iexp)%cmip(1:) = 'CMIP5'
-           if (instring(90:94) == 'gmp') exp(iexp)%cmip(1:) = 'GeoMIP'
-           exp(iexp)%run_refcase(1:) = adjustl(instring( 95:134))
-           exp(iexp)%run_refdate(1:) = adjustl(instring(135:149))
-           exp(iexp)%begin_end(1:)   = adjustl(instring(150:159))
-           exp(iexp)%grid(1:)        = adjustl(instring(160:169))
-           exp(iexp)%compset(1:)     = adjustl(instring(170:189))
-           exp(iexp)%repotag(1:)     = adjustl(instring(190:209))
-           exp(iexp)%start_fin(1:)   = adjustl(instring(210:229))
-           exp(iexp)%mach(1:)        = adjustl(instring(230:239))
-           exp(iexp)%dout(1:)        = adjustl(instring(240:len_trim(instring)))
+           exp(iexp)%model_id(1:)    = adjustl(instring( 45: 64))
+           exp(iexp)%loc(1:)         = adjustl(instring( 65: 66))
+           exp(iexp)%expt_id(1:)     = adjustl(instring( 70: 84))
+           exp(iexp)%rip_code(1:)    = adjustl(instring( 85: 94))
+           if (instring(95:99) == 'cm5') exp(iexp)%cmip(1:) = 'CMIP5'
+           if (instring(95:99) == 'gmp') exp(iexp)%cmip(1:) = 'GeoMIP'
+           exp(iexp)%run_refcase(1:) = adjustl(instring(100:139))
+           exp(iexp)%run_refdate(1:) = adjustl(instring(140:154))
+           exp(iexp)%begin_end(1:)   = adjustl(instring(155:164))
+           exp(iexp)%grid(1:)        = adjustl(instring(165:174))
+           exp(iexp)%compset(1:)     = adjustl(instring(175:194))
+           exp(iexp)%repotag(1:)     = adjustl(instring(195:214))
+           exp(iexp)%start_fin(1:)   = adjustl(instring(215:234))
+           exp(iexp)%mach(1:)        = adjustl(instring(235:244))
+           exp(iexp)%dout(1:)        = adjustl(instring(245:len_trim(instring)))
            iexp = iexp + 1
         endif
      endif
