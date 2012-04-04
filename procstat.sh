@@ -82,7 +82,7 @@ if [ $# -ge 1 ] ; then
   esac
 #
   rm -f tossme
-  if test $1 = "start" then ;  
+  if test $1 = "start" ; then  
     FILESTART=start.${FILEBASE} ; export FILESTART
     echo "STATUS = START" >> tossme
     echo "CASE = ${CASE}" >> tossme
@@ -96,7 +96,7 @@ if [ $# -ge 1 ] ; then
     mail -s "procstat ${FILESTART}" ${MAILTO},${MAILTOUSER} < tossme
     rm -f tossme
   fi
-  if test $1 = "error" then ; 
+  if test $1 = "error" ; then 
     FILEERROR=error.${FILEBASE} ; export FILEERROR
     echo "STATUS = ERROR" >> tossme
     echo "CASE = ${CASE}" >> tossme
@@ -111,7 +111,7 @@ if [ $# -ge 1 ] ; then
     mail -s "procstat ${FILEERROR}" ${MAILTO},${MAILTOUSER} < tossme
     rm -f tossme
   fi
-  if test $1 = "complete" then ;
+  if test $1 = "complete" ; then
     FILECOMPLETE=complete.${FILEBASE} ; export FILECOMPLETE
     echo "STATUS = COMPLETE" >> tossme
     echo "CASE = ${CASE}" >> tossme
