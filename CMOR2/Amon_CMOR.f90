@@ -1000,7 +1000,6 @@ program Amon_CMOR
                  time_counter = it
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2a)
-!                 where (indat3a > 1.e6) indat3a = spval
                  tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(        &
                       var_id        = cmor_var_id,   &

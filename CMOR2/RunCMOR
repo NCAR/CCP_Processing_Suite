@@ -44,7 +44,9 @@ ln -s -f ${BASED}/experiments.txt           .
 #
 # Get appropriate grid and xwalk files based on information in experiments.txt
 #
-MIP=`egrep "^${CASE} " experiments.txt | cut -c90-94`
+MIP=`egrep "^${CASE} " experiments.txt | cut -c95- | cut -d" " -f1`
+MOD=`egrep "^${CASE} " experiments.txt | cut -c45- | cut -d" " -f1`
+#
 case "$MIP" in
   cm5* )
     XWALK=xwalk_CMIP5_${TABL} ;;
@@ -58,8 +60,6 @@ case "$MIP" in
     ./procstat.sh error RunCMOR
     exit 1 ;;
 esac
-#
-MOD=`egrep "^${CASE} " experiments.txt | cut -c45-59`
 #
 case "$TABL" in
   3hr | 6hrLev | 6hrPlev | aero | Amon | day | cf3hr | cfDay | cfMon | cfOff | cfSite )

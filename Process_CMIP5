@@ -75,7 +75,7 @@ if ! [ -f $EXPFILE ] ; then
   echo "Cannot find "$EXPFILE". EXIT"
   exit 1
 fi
-y#
+#
 # Start to build processing script
 #
 CMIP5_SCRIPT=${CASE}_${HIST}_${TABL}_process.sh

@@ -29,6 +29,7 @@ if [ -f $EXPFILE ] ; then
   LOCATION=`egrep "^$CASE " $EXPFILE | cut -c65-  | cut -d" " -f1`
    DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c70-  | cut -d" " -f1`
    REALIZN=`egrep "^$CASE " $EXPFILE | cut -c85-  | cut -d" " -f1`
+   MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c95-  | cut -d" " -f1`
     PARENT=`egrep "^$CASE " $EXPFILE | cut -c100- | cut -d" " -f1`
     BRANCH=`egrep "^$CASE " $EXPFILE | cut -c140- | cut -d" " -f1`
    YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c155-158`
