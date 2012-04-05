@@ -260,11 +260,11 @@ subroutine load_exp(exp_file)
      case ('volcIn2010')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('G1')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'GHG (CO2 at 4XCO2) Sl (reduced to balance TOA) SS Ds SD BC MD OC Oz AA LU'
      case ('G2')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'GHG (CO2 at 1%/year increase) Sl (reduced to balance TOA) SS Ds SD BC MD OC Oz AA LU'
      case ('G3S')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'GHG (RCP4.5) Sl (reduced to balance TOA) SS Ds SD BC MD OC Oz AA LU'
      end select
   enddo
   !
