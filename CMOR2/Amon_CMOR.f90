@@ -695,6 +695,10 @@ program Amon_CMOR
                  nchunks(1) = 2
                  tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
                  tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+              case ( 900 )
+                 nchunks(1) = 2
+                 tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+                 tidx2(1:nchunks(1)) = (/600, 900/)      ! 1899, 1924
               case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
                  nchunks(1) = int(ntimes(1,1)/600)
                  tidx1(1) =   1
@@ -795,6 +799,10 @@ program Amon_CMOR
                  nchunks(1) = 2
                  tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
                  tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+              case ( 900 )
+                 nchunks(1) = 2
+                 tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+                 tidx2(1:nchunks(1)) = (/600, 900/)      ! 1899, 1924
               case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
                  nchunks(1) = int(ntimes(1,1)/600)
                  tidx1(1) =   1
@@ -889,6 +897,10 @@ program Amon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+           case ( 900 )
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+              tidx2(1:nchunks(1)) = (/600, 900/)      ! 1899, 1924
            case ( 6012 )  ! pre-industrial control, 50 year chunks
               nchunks(1) = 10
               tidx1(1) =   1
@@ -972,6 +984,10 @@ program Amon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+           case ( 900 )
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+              tidx2(1:nchunks(1)) = (/600, 900/)      ! 1899, 1924
            case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
               nchunks(1) = int(ntimes(1,1)/600)
               tidx1(1) =   1
@@ -1073,6 +1089,10 @@ program Amon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+           case ( 900 )
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+              tidx2(1:nchunks(1)) = (/600, 900/)      ! 1899, 1924
            case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
               nchunks(1) = int(ntimes(1,1)/600)
               tidx1(1) =   1

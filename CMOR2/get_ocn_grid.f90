@@ -98,8 +98,8 @@ subroutine get_ocn_grid
   !
   ! Convert ocn_t_levs and ocn_t_levs_bnds from cm to m
   !
-  ocn_t_levs            = ocn_t_levs            / 100.
-  ocn_t_levs_bnds       = ocn_t_levs_bnds       / 100.
+  ocn_t_levs          = ocn_t_levs          / 100.
+  ocn_t_levs_bnds     = ocn_t_levs_bnds     / 100.
   ocn_trans_levs      = ocn_trans_levs      / 100.
   ocn_trans_levs_bnds = ocn_trans_levs_bnds / 100.
   !

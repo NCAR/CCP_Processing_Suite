@@ -109,7 +109,7 @@ end module files_info
 module grid_info
   real,dimension(:),    allocatable::atm_lats,atm_lons,atm_levs,atm_levs_bnds,atm_ilevs,atm_ilevs_bnds
   real,dimension(:),    allocatable::atm_plev23,atm_plev17,atm_plev8,atm_plev7,atm_plev3
-  real,dimension(:,:),  allocatable::atm_lats_bnds,atm_lons_bnds
+  real,dimension(:,:),  allocatable::atm_lats_bnds,atm_lons_bnds,landfrac,phis
   real,dimension(:),    allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
   real,dimension(:,:),  allocatable::ice_t_lats,ice_t_lons,ice_u_lats,ice_u_lons
   real,dimension(:,:,:),allocatable::ice_t_lats_bnds,ice_t_lons_bnds,ice_u_lats_bnds,ice_u_lons_bnds

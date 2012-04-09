@@ -8,6 +8,7 @@ subroutine get_atm_grid
   use definitions_netcdf_jfl
   use grid_info
   use exp_info
+  use mycmor_info
   !
   implicit none
   !
@@ -62,6 +63,7 @@ subroutine get_atm_grid
   enddo
   allocate(atm_lons(nlons),atm_lats(nlats),slon(nlons),slat(nlats))
   allocate(atm_lons_bnds(2,nlons),atm_lats_bnds(2,nlats))
+  allocate(landfrac(nlons,nlats),phis(nlons,nlats))
   allocate(atm_levs(nlevs),atm_levs_bnds(nlevs+1))
   allocate(atm_ilevs(nilevs),atm_ilevs_bnds(nilevs+1))
   allocate(atm_plev23(nplev23),atm_plev17(nplev17),atm_plev8(nplev8),atm_plev7(nplev7),atm_plev3(nplev3))
@@ -83,6 +85,8 @@ subroutine get_atm_grid
   call read_var(gridid,'hybm'  ,b_coeff)
   call read_var(gridid,'hybi'  ,b_coeff_bnds)
   call read_var(gridid,'P0'    ,p0)
+  call read_var(gridid,'LANDFRAC',landfrac)
+  call read_var(gridid,'PHIS'  ,phis)
   !
   ! Create atm_ilev_bnds from regular levs
   !
