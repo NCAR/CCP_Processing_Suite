@@ -4,7 +4,7 @@ subroutine get_exp_metadata
   use mycmor_info
   implicit none
   !
-  integer::iexp
+  integer::iexp,refyear,refmon,refday
   !
   exp_found = 0
   do iexp = 1,num_exp
@@ -34,7 +34,10 @@ subroutine get_exp_metadata
      write(*,*) 'MATCH parent: ',trim(case_read),' ',trim(exp(parent_found)%case),' ',trim(exp(parent_found)%rip_code)
      mycmor%parent_experiment_id  = exp(parent_found)%expt_id(1:)
      mycmor%parent_experiment_rip = exp(parent_found)%rip_code(1:)
-     read(exp(exp_found)%run_refdate(1:4),'(f4.0)') mycmor%branch_time
+     read(exp(exp_found)%run_refdate(1: 4),'(i2.2)') refyear
+     mycmor%branch_time = refyear
+     read(exp(exp_found)%run_refdate(6: 7),'(i2.2)') refmon
+     read(exp(exp_found)%run_refdate(9:10),'(f2.2)') refday
   else
      if (trim(exp(exp_found)%run_refcase) == "N/A") then
         mycmor%parent_experiment_id  = "N/A"

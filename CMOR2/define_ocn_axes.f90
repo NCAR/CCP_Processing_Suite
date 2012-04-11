@@ -119,7 +119,7 @@ subroutine define_ocn_axes(dimensions)
            idim = idim + 1
         end select ! dimnames(i)
      enddo
-  case ('msftbarot','tauuo','tauvo','uo','vo')
+  case ('msftbarot','tauuo','tauvo','uo','vo','umo','vmo')
      ! U-grid fields: BSF, TAUX, TAUY, UVEL, VVEL
      do i = 1,naxes
         select case(dimnames(i))
@@ -166,7 +166,7 @@ subroutine define_ocn_axes(dimensions)
            idim = idim + 1
         end select ! dimnames(i)
      enddo
-  case ( 'so','thetao','tos','sos','hfss','pr','prsn','rlds','rsds','rsntds','agessc','rhopoto','tossq','zos','cfc11')
+  case ( 'so','thetao','tos','sos','hfss','pr','prsn','rlds','rsds','rsntds','agessc','rhopoto','tossq','zos','cfc11','wmo','wmosq')
      ! T-grid fields
      do i = 1,naxes
         select case(dimnames(i))

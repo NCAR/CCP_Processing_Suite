@@ -68,6 +68,7 @@ subroutine get_atm_grid
   allocate(atm_ilevs(nilevs),atm_ilevs_bnds(nilevs+1))
   allocate(atm_plev23(nplev23),atm_plev17(nplev17),atm_plev8(nplev8),atm_plev7(nplev7),atm_plev3(nplev3))
   allocate(a_coeff(nlevs),b_coeff(nlevs),a_coeff_bnds(nlevs+1),b_coeff_bnds(nlevs+1))
+  allocate(cosp_tau(7),cosp_tau_bnds(2,7))
   !
   call get_vars(gridid)
   call read_var(gridid,'lon'   ,atm_lons)
@@ -87,6 +88,10 @@ subroutine get_atm_grid
   call read_var(gridid,'P0'    ,p0)
   call read_var(gridid,'LANDFRAC',landfrac)
   call read_var(gridid,'PHIS'  ,phis)
+  !
+  cosp_tau      = (/ 0.15, 0.8, 2.45, 6.5, 16.2, 41.5, 219.5/)
+  cosp_tau_bnds(1,1:7) = (/ 0   , 0.3, 1.3 , 3.6,  9.4, 23  ,  60/)
+  cosp_tau_bnds(2,1:7) = (/ 0.3 , 1.3, 3.6 , 9.4, 23  , 60  , 379/)
   !
   ! Create atm_ilev_bnds from regular levs
   !

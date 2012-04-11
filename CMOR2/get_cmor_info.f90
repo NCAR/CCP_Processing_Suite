@@ -60,13 +60,14 @@ subroutine get_cmor_info
   !
   ! References
   !
-  select case (trim(adjustl(exp(exp_found)%model_id)))
+  select case (exp(exp_found)%model_id)
   case ('CCSM4')
      mycmor%references    = 'Gent P. R., et.al. 2011: The Community Climate System Model version 4. J. Climate, doi: 10.1175/2011JCLI4083.1'
      mycmor%institute_id  = 'NCAR'
      mycmor%institution   = 'NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case ('CESM1-CAM5')
-     mycmor%references    = 'TBD'
+     mycmor%references    = 'Neale, R., et.al. 2012: Coupled simulations from CESM1 using the Community Atmosphere Model version 5: (CAM5).'//&
+          ' See also http://www.cesm.ucar.edu/publications'
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case ('CESM1-BGC')
@@ -74,16 +75,34 @@ subroutine get_cmor_info
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case ('CESM1-FASTCHEM')
+     mycmor%references    = 'Cameron-Smith, P., et.al. 2012: CESM1 with superfast chemistry.'//&
+          ' See also http://www.cesm.ucar.edu/publications'
      mycmor%references    = 'TBD'
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case ('CESM1-WACCM')
-     mycmor%references    = 'TBD'
+     mycmor%references    = 'Cameron-Smith, P., et.al. 2012: CESM1 with superfast chemistry.'//&
+          ' See also http://www.cesm.ucar.edu/publications'
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case default
      write(*,*) 'Unknown model_id: ',trim(adjustl(exp(exp_found)%model_id)),' Stopping.'
      stop
+  end select
+  !
+  ! Global comment
+  !
+  select case (exp(exp_found)%expt_id)
+  case ('tamip200810','tamip200901','tamip200904','tamip200907')
+     mycmor%comment = 'Land, aerosols, and the atmospheric fast processes were spun up as follows: \n'//&
+          'A 5-year (2003-01-01 to 2008-05-01) free-running (no nudging) AMIP run was made to bring the \n'//&
+          'land/atmosphere state to reasonable equilibrium (using monthly mean AMIP SSTs); \n'//&
+          'Beginning from 2008-05-01 and running through the entire Transpose-AMIP period, the simulation \n'//&
+          'was then nudged using 6hr YOTC analyses in the CAPT protocol (described in Phillips, et al, 2004: "Evaluating \n'//&
+          'Parameterizations in General Circulation Models: Climate Simulation Meets Weather Prediction", BAMS, 85, 1903-1915). \n'//&
+          'Daily YOTC SSTs and sea-ice cover data were used.'
+  case default
+     mycmor%comment = 'CESM home page: http://www.cesm.ucar.edu'
   end select
   !leap_year    =
   !leap_month   =

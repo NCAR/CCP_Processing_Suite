@@ -51,8 +51,9 @@ subroutine get_ocn_grid
   allocate(ocn_t_levs(nlevs),ocn_t_levs_bnds(2,nlevs),ocn_t_dz(nlevs))
   !
   allocate(ocn_u_lons(nlons,nlats),ocn_u_lats(nlons,nlats),kmt(nlons,nlats))
+  allocate(ocn_u_hus(nlons,nlats),ocn_u_huw(nlons,nlats))
   allocate(ocn_u_lons_bnds(4,nlons,nlats),ocn_u_lats_bnds(4,nlons,nlats))
-  !
+ !
   allocate(ocn_trans_lats(nlats_trans),ocn_trans_lats_bnds(2,nlats_trans))
   allocate(ocn_trans_levs(nmoc_z),ocn_trans_levs_bnds(2,nmoc_z))
   !
@@ -62,6 +63,8 @@ subroutine get_ocn_grid
   call read_var(gridid,'ULAT',ocn_u_lats)
   call read_var(gridid,'KMT',kmt)
   call read_var(gridid,'TAREA',ocn_t_area)
+  call read_var(gridid,'HUW',ocn_u_huw)
+  call read_var(gridid,'HUS',ocn_u_hus)
   call read_var(gridid,'z_t',ocn_t_levs)
   call read_var(gridid,'dz',ocn_t_dz)
   call read_var(gridid,'lat_aux_grid',ocn_trans_lats)

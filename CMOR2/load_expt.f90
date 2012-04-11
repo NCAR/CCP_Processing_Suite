@@ -114,6 +114,7 @@ subroutine load_exp(exp_file)
            exp(iexp)%rip_code(1:)    = adjustl(instring( 85: 94))
            if (instring(95:99) == 'cm5') exp(iexp)%cmip(1:) = 'CMIP5'
            if (instring(95:99) == 'gmp') exp(iexp)%cmip(1:) = 'GeoMIP'
+           if (instring(95:99) == 'tmp') exp(iexp)%cmip(1:) = 'TAMIP'
            exp(iexp)%run_refcase(1:) = adjustl(instring(100:139))
            exp(iexp)%run_refdate(1:) = adjustl(instring(140:154))
            exp(iexp)%begin_end(1:)   = adjustl(instring(155:164))
@@ -132,10 +133,20 @@ subroutine load_exp(exp_file)
   !
   ! Parse out beginning/ending years
   do iexp = 1,num_exp
-     if (exp(iexp)%begin_end /= 'YYYY-YYYY') then
-        read(exp(iexp)%begin_end(1:4),'(i4.4)') exp(iexp)%begyr
-        read(exp(iexp)%begin_end(6:9),'(i4.4)') exp(iexp)%endyr
+     if (exp(iexp)%expt_id(1:5) == 'tamip') then
+        read(exp(iexp)%expt_id(6:9),'(i4.4)') exp(iexp)%begyr
+        exp(iexp)%endyr = exp(iexp)%begyr
         exp(iexp)%length = (exp(iexp)%endyr-exp(iexp)%begyr)+1
+!        write(*,'(''load_expt: '',a,5x,i4)') trim(exp(iexp)%expt_id),exp(iexp)%begyr
+     else
+        if (exp(iexp)%begin_end /= 'YYYY-YYYY') then
+           read(exp(iexp)%begin_end(1:4),'(i4.4)') exp(iexp)%begyr
+           read(exp(iexp)%begin_end(6:9),'(i4.4)') exp(iexp)%endyr
+           exp(iexp)%length = (exp(iexp)%endyr-exp(iexp)%begyr)+1
+        else
+           write(*,'(''load_expt: YEARS UNDEFINED FOR '',a,'' STOPPING.'')') trim(exp(iexp)%expt_id)
+           stop
+        endif
      endif
   enddo
   ! Possible forcings:
@@ -265,6 +276,8 @@ subroutine load_exp(exp_file)
         exp(i)%forcing(1:)      = 'GHG (CO2 at 1%/year increase) Sl (reduced to balance TOA) SS Ds SD BC MD OC Oz AA LU'
      case ('G3S')
         exp(i)%forcing(1:)      = 'GHG (RCP4.5) Sl (reduced to balance TOA) SS Ds SD BC MD OC Oz AA LU'
+     case ('tamip200810','tamip200901','tamip200904','tamip200907')
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
      end select
   enddo
   !

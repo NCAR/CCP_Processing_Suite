@@ -48,25 +48,25 @@ TAMIP_sites:hus:specific_humidity:alevel site time:atmos:2:Q PS:Q no change
 TAMIP_sites:hur:relative_humidity:alevel site time:atmos:2:RELHUM PS:RELHUM no change
 TAMIP_sites:wap:lagrangian_tendency_of_air_pressure:alevel site time:atmos:2:OMEGA PS:OMEGA no change
 TAMIP_sites:zg:geopotential_height:alevel site time:atmos:2:Z3 PS:Z3 no change
-TAMIP_sites:rlu:upwelling_longwave_flux_in_air:alevel site time:atmos:
-TAMIP_sites:rsu:upwelling_shortwave_flux_in_air:alevel site time:atmos:
-TAMIP_sites:rld:downwelling_longwave_flux_in_air:alevel site time:atmos:
-TAMIP_sites:rsd:downwelling_shortwave_flux_in_air:alevel site time:atmos:
-TAMIP_sites:rlucs:upwelling_longwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:
-TAMIP_sites:rsucs:upwelling_shortwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:
-TAMIP_sites:rldcs:downwelling_longwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:
-TAMIP_sites:rsdcs:downwelling_shortwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:
-TAMIP_sites:tnt:tendency_of_air_temperature:alevel site time:atmos:
-TAMIP_sites:tnta:tendency_of_air_temperature_due_to_advection:alevel site time:atmos:
-TAMIP_sites:tntmp:tendency_of_air_temperature_due_to_model_physics:alevel site time:atmos:
-TAMIP_sites:tntscpbl:tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:alevel site time:atmos:
-TAMIP_sites:tntr:tendency_of_air_temperature_due_to_radiative_heating:alevel site time:atmos:
-TAMIP_sites:tntc:tendency_of_air_temperature_due_to_convection:alevel site time:atmos:
-TAMIP_sites:tnhus:tendency_of_specific_humidity:alevel site time:atmos:
-TAMIP_sites:tnhusa:tendency_of_specific_humidity_due_to_advection:alevel site time:atmos:
-TAMIP_sites:tnhusc:tendency_of_specific_humidity_due_to_convection:alevel site time:atmos:
-TAMIP_sites:tnhusd:tendency_of_specific_humidity_due_to_diffusion:alevel site time:atmos:
-TAMIP_sites:tnhusscpbl:tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:alevel site time:atmos:
-TAMIP_sites:tnhusmp:tendency_of_specific_humidity_due_to_model_physics:alevel site time:atmos:
-TAMIP_sites:evu:atmosphere_momentum_diffusivity:alevel site time:atmos:
-TAMIP_sites:edt:atmosphere_heat_diffusivity:alevel site time:atmos:
+TAMIP_sites:rlu:upwelling_longwave_flux_in_air:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:rsu:upwelling_shortwave_flux_in_air:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:rld:downwelling_longwave_flux_in_air:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:rsd:downwelling_shortwave_flux_in_air:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:rlucs:upwelling_longwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:rsucs:upwelling_shortwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:rldcs:downwelling_longwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:rsdcs:downwelling_shortwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnt:tendency_of_air_temperature:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnta:tendency_of_air_temperature_due_to_advection:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tntmp:tendency_of_air_temperature_due_to_model_physics:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tntscpbl:tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tntr:tendency_of_air_temperature_due_to_radiative_heating:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tntc:tendency_of_air_temperature_due_to_convection:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnhus:tendency_of_specific_humidity:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnhusa:tendency_of_specific_humidity_due_to_advection:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnhusc:tendency_of_specific_humidity_due_to_convection:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnhusd:tendency_of_specific_humidity_due_to_diffusion:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnhusscpbl:tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnhusmp:tendency_of_specific_humidity_due_to_model_physics:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:evu:atmosphere_momentum_diffusivity:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:edt:atmosphere_heat_diffusivity:alevel site time:atmos:1:UNKNOWN:UNKNOWN
