@@ -803,19 +803,13 @@ program Omon_CMOR
            endif
         case ('wmo','wmosq')
            !
-           ! wmo,wmosq: Multiply WVEL (WVEL2) by PD and TAREA to get vertical mass transport
+           ! wmo,wmosq: 0.5 * (WVEL(i,j,k) + WVEL(i,j,k+1)) * TAREA(i,j) * rho_0
            !
-           allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nlevs))
-!           write(*,'(''wmo allocate: '',3i5)') nlons,nlats,nlevs
+           allocate(indat3a(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nlevs))
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
-              call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
-!              write(*,'(''wmo open_cdf :'',i6,5x,a)') myncid(ifile,1),trim(ncfile(ifile,1))
-!              write(*,'(''wmo open_cdf :'',i6,5x,a)') myncid(ifile,2),trim(ncfile(ifile,2))
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
-              call get_dims(myncid(ifile,2))
-              call get_vars(myncid(ifile,2))
               !
               if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
               if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
@@ -862,25 +856,21 @@ program Omon_CMOR
                     time_counter = it
                     !
                     indat3a   = var_info(var_found(ifile,1))%missing_value
-                    indat3b   = var_info(var_found(ifile,2))%missing_value
                     cmordat3d = var_info(var_found(ifile,1))%missing_value
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
-!                    write(*,'(''read_var :'',i6,5x,a,5x)') myncid(ifile,1),var_info(var_found(ifile,1))%name
-!                    write(*,'(''read_var :'',i6,5x,a,5x)') myncid(ifile,2),var_info(var_found(ifile,2))%name
-                    do k = 1,nlevs
+                    do k = 1,nlevs-1
                        do j = 1,nlats
                           do i = 1,nlons
                              if (indat3a(i,j,k) /= var_info(var_found(ifile,1))%missing_value) then
-                                cmordat3d(i,j,k) = (indat3a(i,j,k)*indat3b(i,j,k)*ocn_t_area(i,j))/1000. ! g s-1 to kg s-1
+                                cmordat3d(i,j,k) = ((0.5*(indat3a(i,j,k)+indat3a(i,j,k+1)))*ocn_t_area(i,j)*rho_0)/1000. ! g s-1 to kg s-1
                              else
                                 cmordat3d(i,j,k) = var_info(var_found(ifile,1))%missing_value
                              endif
                           enddo
                        enddo
                     enddo
+                    cmordat3d(:,:,nlevs) = 0.
                     !
-!                    write(*,'(''calculated at T: '',i6,5x,a,5x)') time_counter
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(          &
                          var_id        = cmor_var_id, &
@@ -977,7 +967,7 @@ program Omon_CMOR
                     cmordat3d = var_info(var_found(ifile,1))%missing_value
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     do k = 1,nlevs
-                       do j = 1,nlats
+                       do j = 2,nlats
                           do i = 1,nlons
                              if (indat3a(i,j,k) /= var_info(var_found(ifile,1))%missing_value) then
                                 cmordat3d(i,j,k) = ((0.5*(indat3a(i,j,k)+indat3a(i,j-1,k)))*ocn_t_hte(i,j)*ocn_t_dz(k)*rho_0)/1000. ! g s-1 to kg s-1
@@ -987,6 +977,7 @@ program Omon_CMOR
                           enddo
                        enddo
                     enddo
+                    cmordat3d(:,1,:) = 0.
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(          &
@@ -1084,13 +1075,19 @@ program Omon_CMOR
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     do k = 1,nlevs
                        do j = 1,nlats
-                          do i = 1,nlons
+                          do i = 2,nlons
                              if (indat3a(i,j,k) /= var_info(var_found(ifile,1))%missing_value) then
                                 cmordat3d(i,j,k) = ((0.5*(indat3a(i,j,k)+indat3a(i-1,j,k)))*ocn_t_htn(i,j)*ocn_t_dz(k)*rho_0)/1000. ! g s-1 to kg s-1
                              else
                                 cmordat3d(i,j,k) = var_info(var_found(ifile,1))%missing_value
                              endif
                           enddo
+                       enddo
+                    enddo
+                    do k = 1,nlevs
+                       do j = 1,nlats
+                          if (indat3a(1,j,k) /= var_info(var_found(ifile,1))%missing_value) &
+                             cmordat3d(1,j,k) = ((0.5*(indat3a(1,j,k)+indat3a(nlons,j,k)))*ocn_t_htn(1,j)*ocn_t_dz(k)*rho_0)/1000. ! g s-1 to kg s-1
                        enddo
                     enddo
                     !

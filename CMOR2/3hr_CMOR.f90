@@ -1,5 +1,6 @@
 program Do3hr_CMOR
-  ! Convert CCSM4 atm data from single-field format to CMOR-compliant format
+  ! Convert CCSM4 atm monthly (cam2.h0) data from single-field format
+  ! to CMOR-compliant format
   !
   ! NOTE: 'model_id' and first part of 'source' MUST MATCH or CMOR will throw error
   !
@@ -20,8 +21,7 @@ program Do3hr_CMOR
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag,cmor_var_id
-  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,cmordat2d,psdata
-  real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db
+  real,dimension(:,:),allocatable::indat2a,indat2b,indat2c,cmordat2d,psdata
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::time_bnds
   double precision,dimension(1)  ::tval
@@ -120,7 +120,7 @@ program Do3hr_CMOR
                  ntimes(1,ivar) = dim_info(n)%length
               endif
            enddo
-           call read_att_text(myncid(1,1),'time','units',time_units)
+           call read_att_text(myncid(1,ivar),'time','units',time_units)
            !
            do n=1,var_counter
               if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
@@ -131,16 +131,6 @@ program Do3hr_CMOR
               write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
               stop
            endif
-           !
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
-           !
-           do n=1,ntimes(1,1)
-              time_counter = n
-              call read_var(myncid(1,ivar),'time_bnds',time_bnds(:,n))
-              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
-              !                    write(*,'(''TIMES: '',3f12.4)') time_bnds(1,n),time(n),time_bnds(2,n)
-           enddo
         enddo
         !
         ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
@@ -239,7 +229,7 @@ program Do3hr_CMOR
              table=mycmor%table_file,                           &
              table_entry=xw(ixw)%entry,                         &
              units=var_info(var_found(1,1))%units,                &
-             axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3)/),  &
+             axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(1)/), &
              missing_value=var_info(var_found(1,1))%missing_value,&
              positive=mycmor%positive,                          &
              original_name=original_name,                       &
@@ -250,11 +240,25 @@ program Do3hr_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('clt','hfls','hfss','huss','mrro','mrsos','ps','rlds','rldscs','rsds','rsdscs','tas')
+        case ('ccb','cct','clivi','clwvi','evspsbl','hfls','hfss','hurs',&
+             'prw','psl','rldscs','rlds','rlutcs','rlut','rsdscs','rsds','rsdt',&
+             'sci','tasmax','tasmin','tauu','tauv','ts','ci','clt')
            !
-           ! No change, time-mean fields
+           ! No change
            !
            allocate(indat2a(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
@@ -276,7 +280,7 @@ program Do3hr_CMOR
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
@@ -306,11 +310,89 @@ program Do3hr_CMOR
                  endif
               endif
            enddo
+        case ('tas','huss','ps')
+           !
+           ! No change - no time bounds, instantaneous values
+           !
+           allocate(indat2a(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time',time(n))
+           enddo
+           !
+           ! Determine amount of data to write, to keep close to ~2 GB limit
+           !
+           select case(ntimes(1,1))
+           case ( 14600 )  ! RCP, 2005-2100, skip 2006
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 2921
+              tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 29200 )  !
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/    1,14601/)
+              tidx2(1:nchunks(1)) = (/14600,29200/)
+           case ( 32120 )  !
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/    1,14601/)
+              tidx2(1:nchunks(1)) = (/14600,32120/)
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+           end select
+           tidx2(1:nchunks(1)) = ntimes(1,1)
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           do ic = 1,nchunks(1)
+              do it = tidx1(ic),tidx2(ic)
+                 time_counter = it
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 tval(1) = time(it)
+                 error_flag = cmor_write(          &
+                      var_id        = cmor_var_id, &
+                      data          = indat2a,     &
+                      ntimes_passed = 1,           &
+                      time_vals     = tval)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
+              enddo
+              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              !
+              if (ic < nchunks(1)) then
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              endif
+           enddo
         case ('prc')
            !
            ! prc : PRECC, unit change from m s-1 to kg m-2 s-1
            !
            allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
@@ -327,8 +409,12 @@ program Do3hr_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
@@ -373,6 +459,18 @@ program Do3hr_CMOR
            allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
            allocate(cmordat2d(nlons,nlats))
            !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
@@ -388,8 +486,12 @@ program Do3hr_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
@@ -434,6 +536,18 @@ program Do3hr_CMOR
            allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
            allocate(cmordat2d(nlons,nlats))
            !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
@@ -449,8 +563,12 @@ program Do3hr_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
@@ -499,6 +617,18 @@ program Do3hr_CMOR
            allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
            allocate(cmordat2d(nlons,nlats))
            !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
@@ -514,8 +644,12 @@ program Do3hr_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it

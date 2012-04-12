@@ -94,6 +94,14 @@ subroutine define_atm_axes(dimensions)
                 interval='6 hours')
            write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
            idim = idim + 1
+        case ('Tables/CMIP5_3hr')
+           axis_ids(idim) = cmor_axis(  &
+                table=mycmor%table_file,&
+                table_entry=dimnames(i),&
+                units=time_units,       &
+                interval='3 hours')
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           idim = idim + 1
         case ('Tables/TAMIP_3hrCurt','Tables/TAMIP_3hrMlev','Tables/TAMIP_3hrPlev','Tables/TAMIP_3hrSlev')
            axis_ids(idim) = cmor_axis(  &
                 table=mycmor%table_file,&

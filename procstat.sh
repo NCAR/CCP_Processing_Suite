@@ -71,14 +71,14 @@ if [ $# -ge 1 ] ; then
 # get the user name and corresponding email address to notify user
 #
   case "$USER" in
-  'aliceb' | 'ilana' | 'strandwg' | 'hteng' | 'jma' | 'asphilli' | 'tilmes' | 'higginsm' )
-       MAILTOUSER=${USER}@ucar.edu ;;
   'abertini')
        MAILTOUSER=aliceb@ucar.edu  ;;
   'jmarb')
        MAILTOUSER=jma@ucar.edu     ;;
   'wgstrand')
        MAILTOUSER=strandwg@ucar.edu ;;
+  * )
+       MAILTOUSER=${USER}@ucar.edu ;;
   esac
 #
   rm -f tossme
