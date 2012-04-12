@@ -59,16 +59,27 @@ subroutine get_atm_grid
         nplev7 = dim_info(n)%length
      case('plev3') 
         nplev3 = dim_info(n)%length
+     case('cosp_tau') 
+        ncosp_tau = dim_info(n)%length
+     case('cosp_prs') 
+        ncosp_prs = dim_info(n)%length
+     case('ncol') 
+        nsites = dim_info(n)%length
      end select
   enddo
   allocate(atm_lons(nlons),atm_lats(nlats),slon(nlons),slat(nlats))
   allocate(atm_lons_bnds(2,nlons),atm_lats_bnds(2,nlats))
   allocate(landfrac(nlons,nlats),phis(nlons,nlats))
-  allocate(atm_levs(nlevs),atm_levs_bnds(nlevs+1))
+  allocate(atm_levs(nlevs),atm_levs_bnds(nlevs+1),atm_sites(nsites))
   allocate(atm_ilevs(nilevs),atm_ilevs_bnds(nilevs+1))
   allocate(atm_plev23(nplev23),atm_plev17(nplev17),atm_plev8(nplev8),atm_plev7(nplev7),atm_plev3(nplev3))
   allocate(a_coeff(nlevs),b_coeff(nlevs),a_coeff_bnds(nlevs+1),b_coeff_bnds(nlevs+1))
-  allocate(cosp_tau(7),cosp_tau_bnds(2,7))
+  allocate(cosp_tau(ncosp_tau),cosp_tau_bnds(2,ncosp_tau))
+  allocate(cosp_prs(ncosp_prs),cosp_prs_bnds(2,ncosp_prs))
+  !
+  do i = 1,nsites
+     atm_sites(i) = i
+  enddo
   !
   call get_vars(gridid)
   call read_var(gridid,'lon'   ,atm_lons)
@@ -88,10 +99,14 @@ subroutine get_atm_grid
   call read_var(gridid,'P0'    ,p0)
   call read_var(gridid,'LANDFRAC',landfrac)
   call read_var(gridid,'PHIS'  ,phis)
-  !
-  cosp_tau      = (/ 0.15, 0.8, 2.45, 6.5, 16.2, 41.5, 219.5/)
-  cosp_tau_bnds(1,1:7) = (/ 0   , 0.3, 1.3 , 3.6,  9.4, 23  ,  60/)
-  cosp_tau_bnds(2,1:7) = (/ 0.3 , 1.3, 3.6 , 9.4, 23  , 60  , 379/)
+  call read_var(gridid,'cosp_tau',cosp_tau)
+  call read_var(gridid,'cosp_tau_bnds',cosp_tau_bnds)
+  cosp_tau(ncosp_tau) = 100.
+  cosp_tau_bnds(2,ncosp_tau) = 100000.
+  call read_var(gridid,'cosp_prs',cosp_prs)
+  call read_var(gridid,'cosp_prs_bnds',cosp_prs_bnds)
+  cosp_prs      = cosp_prs      * 100
+  cosp_prs_bnds = cosp_prs_bnds * 100
   !
   ! Create atm_ilev_bnds from regular levs
   !

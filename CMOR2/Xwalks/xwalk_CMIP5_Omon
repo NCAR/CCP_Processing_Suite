@@ -157,9 +157,9 @@ CMIP5_Omon:thetao:sea_water_potential_temperature:longitude latitude olevel time
 CMIP5_Omon:thkcello:cell_thickness:longitude latitude olevel time:ocean:0:N/A:Inapplicable as cell thickness is fixed (dz)
 CMIP5_Omon:tos:sea_surface_temperature:longitude latitude time:ocean:1:TEMP:TEMP at topmost level, units from C to K
 CMIP5_Omon:tossq:square_of_sea_surface_temperature:longitude latitude time:ocean:1:TEMP2:TEMP2
-CMIP5_Omon:umo:ocean_mass_x_transport:longitude latitude olevel time:ocean:2:UVEL PD:UVEL times PD times volume
+CMIP5_Omon:umo:ocean_mass_x_transport:longitude latitude olevel time:ocean:1:UVEL:0.5*(UVEL(i,j)+UVEL(i,j-1))*HTE*dz*rho_0
 CMIP5_Omon:uo:sea_water_x_velocity:longitude latitude olevel time:ocean:1:UVEL:UVEL units from cm s-1 to m s-1
-CMIP5_Omon:vmo:ocean_mass_y_transport:longitude latitude olevel time:ocean:2:VVEL PD:VVEL times PD times volume
+CMIP5_Omon:vmo:ocean_mass_y_transport:longitude latitude olevel time:ocean:1:VVEL:0.5*(VVEL(i,j)+VVEL(i-1,j))*HTN*dz*rho_0
 CMIP5_Omon:volo:sea_water_volume:time:ocean:1:PD:PD
 CMIP5_Omon:vo:sea_water_y_velocity:longitude latitude olevel time:ocean:1:VVEL:VVEL units from cm s-1 to m s-1
 CMIP5_Omon:vsfcorr:virtual_salt_flux_correction:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN

@@ -108,24 +108,25 @@ end module files_info
 ! Grid information
 !
 module grid_info
-  real,dimension(:),    allocatable::atm_lats,atm_lons,atm_levs,atm_levs_bnds,atm_ilevs,atm_ilevs_bnds,cosp_tau
-  real,dimension(:),    allocatable::atm_plev23,atm_plev17,atm_plev8,atm_plev7,atm_plev3
-  real,dimension(:,:),  allocatable::atm_lats_bnds,atm_lons_bnds,landfrac,phis,cosp_tau_bnds
+  real,dimension(:),    allocatable::atm_lats,atm_lons,atm_levs,atm_levs_bnds,atm_ilevs,atm_ilevs_bnds,cosp_tau,cosp_prs
+  real,dimension(:),    allocatable::atm_plev23,atm_plev17,atm_plev8,atm_plev7,atm_plev7_bnds,atm_plev3
+  real,dimension(:,:),  allocatable::atm_lats_bnds,atm_lons_bnds,landfrac,phis,cosp_tau_bnds,cosp_prs_bnds
   real,dimension(:),    allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
   real,dimension(:,:),  allocatable::ice_t_lats,ice_t_lons,ice_u_lats,ice_u_lons
   real,dimension(:,:,:),allocatable::ice_t_lats_bnds,ice_t_lons_bnds,ice_u_lats_bnds,ice_u_lons_bnds
   real,dimension(:),    allocatable::ocn_t_levs,ocn_trans_lats,ocn_trans_levs,ocn_t_dz
   real,dimension(:,:),  allocatable::ocn_t_levs_bnds,ocn_trans_lats_bnds,ocn_trans_levs_bnds
-  real,dimension(:,:),  allocatable::ocn_t_lats,ocn_t_lons,ocn_t_area,ocn_u_huw,ocn_u_hus
+  real,dimension(:,:),  allocatable::ocn_t_lats,ocn_t_lons,ocn_t_area,ocn_t_hte,ocn_t_htn
   real,dimension(:,:,:),allocatable::ocn_t_lats_bnds,ocn_t_lons_bnds
   real,dimension(:,:),  allocatable::ocn_u_lats,ocn_u_lons
   real,dimension(:,:,:),allocatable::ocn_u_lats_bnds,ocn_u_lons_bnds
   integer,dimension(:,:),allocatable::kmt
-  real,dimension(:),    allocatable::lnd_lats,lnd_lons,lnd_levs,lnd_levs_bnds
+  real,dimension(:),    allocatable::lnd_lats,lnd_lons,lnd_levs,lnd_levs_bnds,atm_sites
   real,dimension(:,:,:),allocatable::lnd_zsoi,lnd_dzsoi  ! CLM soil depth (m), CLM soil layer thickness (m)
   real,dimension(:,:),  allocatable::lnd_lats_bnds,lnd_lons_bnds
   real::p0
-  integer::nlons,nlats,nlevs,nilevs,nplev23,nplev17,nplev8,nplev7,nplev3,naxes,zfactor_id
+  integer::nlons,nlats,nlevs,nilevs,nplev23,nplev17,nplev8,nplev7,nplev3,ncosp_tau,ncosp_prs,nsites
+  integer::naxes,zfactor_id
   integer::nlats_trans,nmoc_z,ntrans_reg,nmoc_comp,ntrans_comp
   integer,dimension(1)::grid_id
   integer,dimension(10)::axis_ids

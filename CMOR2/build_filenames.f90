@@ -66,7 +66,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
      if (all_continue) write(*,'(''nfiles SH: '',20i5)') nc_nfiles_sh(1:ivar)
      if (all_continue) write(*,'(''NH  files: '',10(a))') (trim(ncfile_nh(i,ivar)),i=1,nc_nfiles_nh(ivar))
      if (all_continue) write(*,'(''SH  files: '',10(a))') (trim(ncfile_sh(i,ivar)),i=1,nc_nfiles_sh(ivar))
-  case ('Tables/TAMIP_3hrCurt','Tables/TAMIP_3hrMlev','Tables/TAMIP_3hrPlev','Tables/TAMIP_3hrSlev')
+  case ('Tables/TAMIP_3hrCurt','Tables/TAMIP_3hrMlev','Tables/TAMIP_3hrPlev','Tables/TAMIP_3hrSlev','Tables/TAMIP_sites')
      exists = .false.
      write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''.nc'')') &
           trim(case),&

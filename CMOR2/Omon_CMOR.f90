@@ -18,6 +18,8 @@ program Omon_CMOR
   !
   implicit none
   !
+  real,parameter::rho_0 = 1.0 ! 1 g/cm^3 instead of PD since we have a Boussinesq model
+  !
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag,cmor_var_id
@@ -919,16 +921,13 @@ program Omon_CMOR
            endif
         case ('umo')
            !
-           ! umo: Multiply UVEL by PD and HUW to get ocean X mass transport
+           ! umo: 0.5 * (UVEL(i,j) + UVEL(i,j-1)) * HTE(i,j) * dz(k) * rho_0 (rho_0 = 1 g cm-3)
            !
-           allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nlevs))
+           allocate(indat3a(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nlevs))
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
-              call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
-              call get_dims(myncid(ifile,2))
-              call get_vars(myncid(ifile,2))
               !
               if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
               if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
@@ -975,15 +974,13 @@ program Omon_CMOR
                     time_counter = it
                     !
                     indat3a   = var_info(var_found(ifile,1))%missing_value
-                    indat3b   = var_info(var_found(ifile,2))%missing_value
                     cmordat3d = var_info(var_found(ifile,1))%missing_value
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
                     do k = 1,nlevs
                        do j = 1,nlats
                           do i = 1,nlons
                              if (indat3a(i,j,k) /= var_info(var_found(ifile,1))%missing_value) then
-                                cmordat3d(i,j,k) = (indat3a(i,j,k)*indat3b(i,j,k)*ocn_u_huw(i,j)*ocn_t_dz(k))/1000. ! g s-1 to kg s-1
+                                cmordat3d(i,j,k) = ((0.5*(indat3a(i,j,k)+indat3a(i,j-1,k)))*ocn_t_hte(i,j)*ocn_t_dz(k)*rho_0)/1000. ! g s-1 to kg s-1
                              else
                                 cmordat3d(i,j,k) = var_info(var_found(ifile,1))%missing_value
                              endif
@@ -1015,7 +1012,6 @@ program Omon_CMOR
                  endif
               enddo
               call close_cdf(myncid(ifile,1))
-              call close_cdf(myncid(ifile,2))
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
               dim_counter  = 0
@@ -1031,16 +1027,13 @@ program Omon_CMOR
            endif
         case ('vmo')
            !
-           ! vmo: Multiply VVEL by PD and HUS to get ocean Y mass transport
+           ! vmo: 0.5 * (VVEL(i,j) + VVEL(i-1,j)) * HTN(i,j) * dz(k) * rho_0
            !
-           allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nlevs))
+           allocate(indat3a(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nlevs))
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
-              call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
-              call get_dims(myncid(ifile,2))
-              call get_vars(myncid(ifile,2))
               !
               if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
               if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
@@ -1087,15 +1080,13 @@ program Omon_CMOR
                     time_counter = it
                     !
                     indat3a   = var_info(var_found(ifile,1))%missing_value
-                    indat3b   = var_info(var_found(ifile,2))%missing_value
                     cmordat3d = var_info(var_found(ifile,1))%missing_value
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
                     do k = 1,nlevs
                        do j = 1,nlats
                           do i = 1,nlons
                              if (indat3a(i,j,k) /= var_info(var_found(ifile,1))%missing_value) then
-                                cmordat3d(i,j,k) = (indat3a(i,j,k)*indat3b(i,j,k)*ocn_u_hus(i,j)*ocn_t_dz(k))/1000. ! g s-1 to kg s-1
+                                cmordat3d(i,j,k) = ((0.5*(indat3a(i,j,k)+indat3a(i-1,j,k)))*ocn_t_htn(i,j)*ocn_t_dz(k)*rho_0)/1000. ! g s-1 to kg s-1
                              else
                                 cmordat3d(i,j,k) = var_info(var_found(ifile,1))%missing_value
                              endif

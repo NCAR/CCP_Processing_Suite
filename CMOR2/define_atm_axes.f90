@@ -102,12 +102,29 @@ subroutine define_atm_axes(dimensions)
                 interval='3 hours')
            write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
            idim = idim + 1
+        case ('Tables/TAMIP_sites')
+           axis_ids(idim) = cmor_axis(  &
+                table=mycmor%table_file,&
+                table_entry=dimnames(i),&
+                units=time_units,       &
+                interval='30 minutes')
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           idim = idim + 1
         end select
      end select
   enddo
   !
   do i = 1,naxes
      select case(dimnames(i))
+     case ('site')
+        axis_ids(idim) = cmor_axis(        &
+             table=mycmor%table_file,      &
+             table_entry=dimnames(i),      &
+             units=dimunits(i),            &
+             length=SIZE(atm_sites),       &
+             coord_vals=atm_sites)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        idim = idim + 1
      case ('latitude')
         axis_ids(idim) = cmor_axis(        &
              table=mycmor%table_file,      &
@@ -171,9 +188,10 @@ subroutine define_atm_axes(dimensions)
         axis_ids(idim) = cmor_axis(        &
              table=mycmor%table_file,      &
              table_entry=dimnames(i),      &
-             length=SIZE(atm_plev7),       &
+             length=SIZE(cosp_prs),        &
              units=dimunits(i),            &
-             coord_vals=atm_plev7)
+             coord_vals=cosp_prs,          &
+             cell_bounds=cosp_prs_bnds)
         write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('plev3')

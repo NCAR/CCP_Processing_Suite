@@ -12,12 +12,12 @@ CMIP5_3hr:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:
 CMIP5_3hr:rldscs:downwelling_longwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FLDSC:FLDSC no change
 CMIP5_3hr:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:2:FLDS FLNS:FLDS + FLNS
 CMIP5_3hr:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:FSDS:FSDS no change
-CMIP5_3hr:rsdsdiff:surface_diffuse_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+CMIP5_3hr:rsdsdiff:surface_diffuse_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_3hr:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FSDSC:FSDSC no change
 CMIP5_3hr:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:2:FSDS FSNS:FSDS - FSNS
 CMIP5_3hr:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:2:FSDSC FSNSC:FSDSC - FSNSC
-CMIP5_3hr:tslsi:surface_temperature:longitude latitude time1:land:1:UNKNOWN:UNKNOWN
-CMIP5_3hr:tso:sea_surface_temperature:longitude latitude time1:ocean:1:UNKNOWN:UNKNOWN
+CMIP5_3hr:tslsi:surface_temperature:longitude latitude time1:land:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_3hr:tso:sea_surface_temperature:longitude latitude time1:ocean:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_3hr:tas:air_temperature:longitude latitude time1 height2m:atmos:1:TREFHT:TREFHT no change
 CMIP5_3hr:uas:eastward_wind:longitude latitude time1 height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_3hr:vas:northward_wind:longitude latitude time1 height10m:atmos:0:UNAVAILABLE:UNAVAILABLE

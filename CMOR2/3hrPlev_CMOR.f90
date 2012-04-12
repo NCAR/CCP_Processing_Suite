@@ -21,8 +21,9 @@ program Do3hrPlev_CMOR
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag,cmor_var_id
-  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,cmordat2d,psdata
-  real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db
+  real,dimension(:,:)    ,allocatable::indat2a,indat2b,indat2c,cmordat2d,psdata
+  real,dimension(:,:,:)  ,allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db
+  real,dimension(:,:,:,:),allocatable::indat4a
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::time_bnds
   double precision,dimension(1)  ::tval
@@ -237,12 +238,12 @@ program Do3hrPlev_CMOR
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
-        case ('clisscp')
+        case ('clisccp')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4)/),  &
+                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4),axis_ids(5)/),  &
                 missing_value=var_info(var_found(1,1))%missing_value,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
@@ -255,8 +256,6 @@ program Do3hrPlev_CMOR
         !
         select case (xw(ixw)%entry)
         case ('ta','ua','va','hus','hur','wap','zg')
-           !
-           ! All other models
            !
            do ivar = 1,xw(ixw)%ncesm_vars
               do ifile = 1,nc_nfiles(ivar)
@@ -276,7 +275,7 @@ program Do3hrPlev_CMOR
            !
            ! Vertically interpolate to standard pressure levels
            !
-           allocate(indat3a(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nplev17))
+           allocate(indat3a(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nplev8))
            allocate(psdata(nlons,nlats))
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
@@ -331,12 +330,100 @@ program Do3hrPlev_CMOR
                  !
                  ! Do vertical interpolation to pressure levels
                  !
-                 call vertint(indat3a,cmordat3d,atm_levs,atm_plev17*0.01,psdata,spval,nlons,nlats,nlevs,nlevs+1,nplev17)
+                 call vertint(indat3a,cmordat3d,atm_levs,atm_plev8*0.01,psdata,spval,nlons,nlats,nlevs,nlevs+1,nplev8)
                  !
                  tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(        &
                       var_id        = cmor_var_id,   &
                       data          = cmordat3d, &
+                      ntimes_passed = 1,         &
+                      time_vals     = tval,      &
+                      time_bnds     = tbnd)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
+              enddo
+              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              !
+              if (ic < nchunks(1)) then
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              endif
+           enddo
+        case ('clisccp')
+           !
+           do ivar = 1,xw(ixw)%ncesm_vars
+              do ifile = 1,nc_nfiles(ivar)
+                 call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+                 call get_dims(myncid(ifile,ivar))
+                 call get_vars(myncid(ifile,ivar))
+                 if (.not.(allocated(time)))      allocate(time(ntimes(1,ivar)))
+                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,ivar)))
+                 !
+                 do n=1,ntimes(ifile,ivar)
+                    time_counter = n
+                    call read_var(myncid(ifile,ivar),'time_bnds',time_bnds(:,n))
+                    time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+                 enddo
+              enddo
+           enddo
+           !
+           allocate(indat4a(nlons,nlats,ncosp_tau,ncosp_prs))
+           !
+           ! Determine amount of data to write, to keep close to ~2 GB limit
+           !
+           select case(ntimes(1,1))
+           case ( 1872 )  ! 20C, 1850-2005, ~50y chunks
+              nchunks(1) = 3
+              tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
+              tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1950, 2005
+           case ( 1152 )  ! RCP, 2005-2100, skip 2006
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
+              tidx2(1:nchunks(1)) = (/540,1152/)      ! 2049, 2100
+           case ( 1140 )  ! RCP, 2006-2100
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
+              tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+           case ( 900 )
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+              tidx2(1:nchunks(1)) = (/600, 900/)      ! 1899, 1924
+           case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
+              nchunks(1) = int(ntimes(1,1)/600)
+              tidx1(1) =   1
+              tidx2(1) = 600
+              do ic = 2,nchunks(1)
+                 tidx1(ic) = tidx2(ic-1) + 1
+                 tidx2(ic) = tidx1(ic) + 599
+              enddo
+              tidx2(nchunks(1)) = ntimes(1,1)
+           case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
+              tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
+           end select
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           do ic = 1,nchunks(1)
+              do it = tidx1(ic),tidx2(ic)
+                 time_counter = it
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat4a)
+                 !
+                 tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                 error_flag = cmor_write(        &
+                      var_id        = cmor_var_id,   &
+                      data          = indat4a,   &
                       ntimes_passed = 1,         &
                       time_vals     = tval,      &
                       time_bnds     = tbnd)
@@ -367,6 +454,7 @@ program Do3hrPlev_CMOR
         if (allocated(indat3b))   deallocate(indat3b)
         if (allocated(work3da))   deallocate(work3da)
         if (allocated(work3db))   deallocate(work3db)
+        if (allocated(indat4a))   deallocate(indat4a)
         do ivar = 1,xw(ixw)%ncesm_vars
            call close_cdf(myncid(1,ivar))
         enddo

@@ -799,6 +799,10 @@ program Amon_CMOR
                  nchunks(1) = 2
                  tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
                  tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+              case ( 828 )
+                 nchunks(1) = 2
+                 tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+                 tidx2(1:nchunks(1)) = (/600, 828/)      ! 1899, 1918
               case ( 900 )
                  nchunks(1) = 2
                  tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
@@ -897,6 +901,10 @@ program Amon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+           case ( 828 )
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+              tidx2(1:nchunks(1)) = (/600, 828/)      ! 1899, 1918
            case ( 900 )
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
@@ -984,6 +992,10 @@ program Amon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+           case ( 828 )
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+              tidx2(1:nchunks(1)) = (/600, 828/)      ! 1899, 1918
            case ( 900 )
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
@@ -1089,6 +1101,10 @@ program Amon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+           case ( 828 )
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+              tidx2(1:nchunks(1)) = (/600, 828/)      ! 1899, 1918
            case ( 900 )
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
