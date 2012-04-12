@@ -381,7 +381,6 @@ program Do3hr_CMOR
                     endif
                  endif
               enddo
-              call reset_netcdf_var
               call close_cdf(myncid(ifile,1))
            enddo
         case ('prc')
