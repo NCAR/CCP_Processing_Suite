@@ -692,10 +692,6 @@ program Do3hr_CMOR
         if (allocated(indat2b))   deallocate(indat2b)
         if (allocated(indat2c))   deallocate(indat2c)
         if (allocated(cmordat2d)) deallocate(cmordat2d)
-        if (allocated(indat3a))   deallocate(indat3a)
-        if (allocated(indat3b))   deallocate(indat3b)
-        if (allocated(work3da))   deallocate(work3da)
-        if (allocated(work3db))   deallocate(work3db)
         do ivar = 1,xw(ixw)%ncesm_vars
            call close_cdf(myncid(1,ivar))
         enddo
