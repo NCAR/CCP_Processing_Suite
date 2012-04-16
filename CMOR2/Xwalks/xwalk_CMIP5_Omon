@@ -171,8 +171,8 @@ CMIP5_Omon:vsfsit:virtual_salt_flux_into_sea_water_due_to_sea_ice_thermodynamics
 CMIP5_Omon:wfcorr:water_flux_correction:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:wfonocorr:water_flux_into_sea_water_without_flux_correction:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:wfo:water_flux_into_sea_water:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-CMIP5_Omon:wmo:upward_ocean_mass_transport:longitude latitude olevel time:ocean:2:WVEL PD:WVEL,PD
-CMIP5_Omon:wmosq:square_of_upward_ocean_mass_transport:longitude latitude olevel time:ocean:2:WVEL2 PD:WVEL2,PD
+CMIP5_Omon:wmo:upward_ocean_mass_transport:longitude latitude olevel time:ocean:1:WVEL:0.5*(WVEL(i,j,k)+WVEL(i,j,k+1))*TAREA*rho_0
+CMIP5_Omon:wmosq:square_of_upward_ocean_mass_transport:longitude latitude olevel time:ocean:1:WVEL2:0.5*(WVEL2(i,j,k)+WVEL2(i,j,k+1))*TAREA*rho_0
 CMIP5_Omon:zmeso:mole_concentration_of_mesozooplankton_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:zmicro:mole_concentration_of_microzooplankton_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:zo2min:depth_at_shallowest_local_minimum_in_vertical_profile_of_mole_concentration_of_dissolved_molecular_oxygen_in_sea_water:longitude latitude time:ocnBgchem:1:O2_ZMIN_DEPTH:O2_ZMIN_DEPTH

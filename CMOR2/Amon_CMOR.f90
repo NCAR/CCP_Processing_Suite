@@ -800,9 +800,16 @@ program Amon_CMOR
                  tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
                  tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
               case ( 828 )
-                 nchunks(1) = 2
-                 tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
-                 tidx2(1:nchunks(1)) = (/600, 828/)      ! 1899, 1918
+                 select case (case_read)
+                 case ( 'b40.1850_ramp_solar.beta19.005')
+                    nchunks(1) = 2
+                    tidx1(1:nchunks(1)) = (/  1, 589/)      ! 1850, 1900
+                    tidx2(1:nchunks(1)) = (/588, 828/)      ! 1899, 1919
+                 case default
+                    nchunks(1) = 2
+                    tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+                    tidx2(1:nchunks(1)) = (/600, 828/)      ! 1899, 1918
+                 end select
               case ( 900 )
                  nchunks(1) = 2
                  tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
@@ -993,9 +1000,16 @@ program Amon_CMOR
               tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
            case ( 828 )
-              nchunks(1) = 2
-              tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
-              tidx2(1:nchunks(1)) = (/600, 828/)      ! 1899, 1918
+              select case (case_read)
+              case ( 'b40.1850_ramp_solar.beta19.005')
+                 nchunks(1) = 2
+                 tidx1(1:nchunks(1)) = (/  1, 589/)      ! 1850, 1900
+                 tidx2(1:nchunks(1)) = (/588, 828/)      ! 1899, 1919
+              case default
+                 nchunks(1) = 2
+                 tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+                 tidx2(1:nchunks(1)) = (/600, 828/)      ! 1899, 1918
+              end select
            case ( 900 )
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
@@ -1102,9 +1116,20 @@ program Amon_CMOR
               tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
            case ( 828 )
+              select case (case_read)
+              case ( 'b40.1850_ramp_solar.beta19.005')
+                 nchunks(1) = 2
+                 tidx1(1:nchunks(1)) = (/  1, 589/)      ! 1850, 1900
+                 tidx2(1:nchunks(1)) = (/588, 828/)      ! 1899, 1919
+              case default
+                 nchunks(1) = 2
+                 tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+                 tidx2(1:nchunks(1)) = (/600, 828/)      ! 1899, 1918
+              end select
+           case ( 829 )
               nchunks(1) = 2
-              tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
-              tidx2(1:nchunks(1)) = (/600, 828/)      ! 1899, 1918
+              tidx1(1:nchunks(1)) = (/  1, 590/)      ! 1850, 1900
+              tidx2(1:nchunks(1)) = (/589, 829/)      ! 1899, 1918
            case ( 900 )
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900

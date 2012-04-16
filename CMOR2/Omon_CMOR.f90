@@ -223,8 +223,10 @@ program Omon_CMOR
         ! Modify units as necessary to accomodate udunits' inability to convert 
         !
         select case (xw(ixw)%entry)
-        case ('msftmyz','msftbarot','wmo','wmosq','umo','vmo')
+        case ('msftmyz','msftbarot','wmo','umo','vmo')
            var_info(var_found(1,1))%units = 'kg s-1'
+        case ('wmosq')
+           var_info(var_found(1,1))%units = 'kg2 s-2'
         case ('masso')
            var_info(var_found(1,1))%units = 'kg'
         case ('cfc11')
@@ -895,7 +897,6 @@ program Omon_CMOR
                  endif
               enddo
               call close_cdf(myncid(ifile,1))
-              call close_cdf(myncid(ifile,2))
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
               dim_counter  = 0
@@ -1115,7 +1116,6 @@ program Omon_CMOR
                  endif
               enddo
               call close_cdf(myncid(ifile,1))
-              call close_cdf(myncid(ifile,2))
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
               dim_counter  = 0
