@@ -802,7 +802,7 @@ program Amon_CMOR
               case ( 2664 )  ! FASTCHEM piControl
                  nchunks(1) = 5
                  tidx1(1:nchunks(1)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
-                 tidx2(1:nchunks(1)) = (/306, 960,1560,2160,2664/) ! 0099,0149,0199,0249,0291
+                 tidx2(1:nchunks(1)) = (/360, 960,1560,2160,2664/) ! 0099,0149,0199,0249,0291
               case ( 828 )
                  select case (case_read)
                  case ( 'b40.1850_ramp_solar.beta19.005')
@@ -1006,7 +1006,7 @@ program Amon_CMOR
            case ( 2664 )  ! FASTCHEM piControl
               nchunks(1) = 5
               tidx1(1:nchunks(1)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
-              tidx2(1:nchunks(1)) = (/306, 960,1560,2160,2664/) ! 0099,0149,0199,0249,0291
+              tidx2(1:nchunks(1)) = (/360, 960,1560,2160,2664/) ! 0099,0149,0199,0249,0291
            case ( 828 )
               select case (case_read)
               case ( 'b40.1850_ramp_solar.beta19.005')
@@ -1126,7 +1126,7 @@ program Amon_CMOR
            case ( 2664 )  ! FASTCHEM piControl
               nchunks(1) = 5
               tidx1(1:nchunks(1)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
-              tidx2(1:nchunks(1)) = (/306, 960,1560,2160,2664/) ! 0099,0149,0199,0249,0291
+              tidx2(1:nchunks(1)) = (/360, 960,1560,2160,2664/) ! 0099,0149,0199,0249,0291
            case ( 828 )
               select case (case_read)
               case ( 'b40.1850_ramp_solar.beta19.005')
