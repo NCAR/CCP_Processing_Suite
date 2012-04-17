@@ -870,6 +870,10 @@ program Lmon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+           case ( 2664 )  ! FASTCHEM piControl
+              nchunks(1) = 5
+              tidx1(1:nchunks(1)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
+              tidx2(1:nchunks(1)) = (/360, 960,1560,2160,2664/) ! 0099,0149,0199,0249,0291
            case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
               nchunks(1) = int(ntimes(1,1)/600)
               tidx1(1) =   1
@@ -935,6 +939,10 @@ program Lmon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/540,1152/)      ! 2049, 2100
+           case ( 2664 )  ! FASTCHEM piControl
+              nchunks(1) = 5
+              tidx1(1:nchunks(1)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
+              tidx2(1:nchunks(1)) = (/360, 960,1560,2160,2664/) ! 0099,0149,0199,0249,0291
            case ( 1140 )  ! RCP, 2006-2100
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
