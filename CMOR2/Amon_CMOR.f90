@@ -31,7 +31,7 @@ program Amon_CMOR
   ! Other variables
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
-  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,ixw,ilev,ic
+  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,ixw,ilev,ic,jfile
   real::spval
   logical::does_exist
   !
@@ -132,12 +132,9 @@ program Amon_CMOR
                  write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
                  stop
               endif
-              call close_cdf(myncid(ifile,ivar))
               !
            enddo
         enddo
-        !
-        myncid = 0
         !
         ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
         !
@@ -1102,15 +1099,20 @@ program Amon_CMOR
            allocate(cmordat3d(nlons,nlats,nilevs))
            !
            do ifile = 1,nc_nfiles(1)
-              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
-              call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
-              call open_cdf(myncid(ifile,3),trim(ncfile(ifile,3)),.true.)
-              call get_dims(myncid(ifile,1))
-              call get_vars(myncid(ifile,1))
-              call get_dims(myncid(ifile,2))
-              call get_vars(myncid(ifile,2))
-              call get_dims(myncid(ifile,3))
-              call get_vars(myncid(ifile,3))
+!!$              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+!!$              call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
+!!$              call open_cdf(myncid(ifile,3),trim(ncfile(ifile,3)),.true.)
+!!$              write(*,'(''open_cdf: '',i10,5x,a)') myncid(ifile,1),trim(ncfile(ifile,1))
+!!$              write(*,'(''open_cdf: '',i10,5x,a)') myncid(ifile,2),trim(ncfile(ifile,2))
+!!$              write(*,'(''open_cdf: '',i10,5x,a)') myncid(ifile,3),trim(ncfile(ifile,3))
+!!$              call get_dims(myncid(ifile,1)) ; call get_vars(myncid(ifile,1))
+!!$              call get_dims(myncid(ifile,2)) ; call get_vars(myncid(ifile,2))
+!!$              call get_dims(myncid(ifile,3)) ; call get_vars(myncid(ifile,3))
+!!$              !
+!!$              do jfile = 1,252
+!!$                 write(*,'(''var_info '',i5,'': '',a10,2i8,5x,5i4)') &
+!!$                      jfile,trim(var_info(jfile)%name),var_info(jfile)%ncid,var_info(jfile)%nvdims,var_info(jfile)%vdims(1:var_info(jfile)%nvdims)
+!!$              enddo
               if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
               if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
               !
@@ -1181,7 +1183,7 @@ program Amon_CMOR
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
-              do ic = 1,nchunks(1)
+              do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
@@ -1217,20 +1219,19 @@ program Amon_CMOR
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  !
-                 if (ic < nchunks(1)) then
-                    cmor_filename(1:) = ' '
-                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                       stop
-                    else
-                       write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                    endif
-                 endif
               enddo
-              call close_cdf(myncid(ifile,1))
-              call close_cdf(myncid(ifile,2))
-              call close_cdf(myncid(ifile,3))              
+              if ((ic-1) == nchunks(ifile)) then
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              endif
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
            enddo
         end select
         if (allocated(indat2a))   deallocate(indat2a)
@@ -1242,7 +1243,9 @@ program Amon_CMOR
         if (allocated(work3da))   deallocate(work3da)
         if (allocated(work3db))   deallocate(work3db)
         do ivar = 1,xw(ixw)%ncesm_vars
-           call close_cdf(myncid(1,ivar))
+           do ifile = 1,nc_nfiles(ivar)
+              call close_cdf(myncid(ifile,ivar))
+           enddo
         enddo
         !
         ! Reset

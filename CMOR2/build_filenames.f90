@@ -10,7 +10,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
   character(len=256),dimension(2)::dtbeg,dtend
   logical::exists
   !
-  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,begyr,endyr,trim(table)
+!  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,begyr,endyr,trim(table)
   !
   select case (table)
   case ('Tables/CMIP5_Amon','Tables/CMIP5_Lmon','Tables/CMIP5_LImon','Tables/CMIP5_Omon','Tables/CMIP5_OImon','Tables/CMIP5_aero','Tables/CMIP5_cfMon',&
