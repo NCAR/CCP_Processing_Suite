@@ -1100,10 +1100,10 @@ program Amon_CMOR
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
-              call open_cdf(myncid(ifile,2),trim(ncfile(ifile,1)),.true.)
+              call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
               call get_dims(myncid(ifile,2))
               call get_vars(myncid(ifile,2))
-              call open_cdf(myncid(ifile,3),trim(ncfile(ifile,1)),.true.)
+              call open_cdf(myncid(ifile,3),trim(ncfile(ifile,3)),.true.)
               call get_dims(myncid(ifile,3))
               call get_vars(myncid(ifile,3))
               if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
@@ -1223,6 +1223,9 @@ program Amon_CMOR
                     endif
                  endif
               enddo
+              call close_cdf(myncid(ifile,1))
+              call close_cdf(myncid(ifile,2))
+              call close_cdf(myncid(ifile,3))              
            enddo
         end select
         if (allocated(indat2a))   deallocate(indat2a)
