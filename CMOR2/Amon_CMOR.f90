@@ -1178,9 +1178,9 @@ program Amon_CMOR
               case default
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 1
-                 tidx2(1:nchunks(ifile)) = ntimes(1,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
-              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
               do ic = 1,nchunks(1)
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
