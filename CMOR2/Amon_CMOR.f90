@@ -109,30 +109,35 @@ program Amon_CMOR
      !
      if (all_continue) then
         do ivar = 1,xw(ixw)%ncesm_vars
-           write(*,'(''TO OPEN: '',a)') trim(ncfile(nc_nfiles(ivar),ivar))
-           call open_cdf(myncid(1,ivar),trim(ncfile(1,ivar)),.true.)
-           write(*,'(''OPENING: '',a,'' myncid: '',i10)') trim(ncfile(1,ivar)),myncid(1,ivar)
-           call get_dims(myncid(1,ivar))
-           call get_vars(myncid(1,ivar))
-           !
-           do n=1,dim_counter
-              length = len_trim(dim_info(n)%name)
-              if(dim_info(n)%name(:length).eq.'time') then
-                 ntimes(1,ivar) = dim_info(n)%length
+           do ifile = 1,nc_nfiles(ivar)
+              call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+              call get_dims(myncid(ifile,ivar))
+              call get_vars(myncid(ifile,ivar))
+              !
+              do n=1,dim_counter
+                 length = len_trim(dim_info(n)%name)
+                 if(dim_info(n)%name(:length).eq.'time') then
+                    ntimes(ifile,ivar) = dim_info(n)%length
+                 endif
+              enddo
+              call read_att_text(myncid(ifile,ivar),'time','units',time_units)
+              !
+              do n=1,var_counter
+                 if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
+                    var_found(ifile,ivar) = n
+                    xw_found = ixw
+                 endif
+              enddo
+              if (var_found(ifile,ivar) == 0) then
+                 write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
+                 stop
               endif
+              call close_cdf(myncid(ifile,ivar))
+              !
            enddo
-           call read_att_text(myncid(1,ivar),'time','units',time_units)
-           !
-           do n=1,var_counter
-              if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
-                 var_found(1,ivar) = n
-              endif
-           enddo
-           if (var_found(1,ivar) == 0) then
-              write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
-              stop
-           endif
         enddo
+        !
+        myncid = 0
         !
         ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
         !
@@ -1098,12 +1103,12 @@ program Amon_CMOR
            !
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+              call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
+              call open_cdf(myncid(ifile,3),trim(ncfile(ifile,3)),.true.)
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
-              call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
               call get_dims(myncid(ifile,2))
               call get_vars(myncid(ifile,2))
-              call open_cdf(myncid(ifile,3),trim(ncfile(ifile,3)),.true.)
               call get_dims(myncid(ifile,3))
               call get_vars(myncid(ifile,3))
               if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
