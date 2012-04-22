@@ -2,8 +2,8 @@ CMIP5_3hr:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT 
 CMIP5_3hr:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:LHFLX:LHFLX no change
 CMIP5_3hr:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:SHFLX:SHFLX no change
 CMIP5_3hr:huss:specific_humidity:longitude latitude time1 height2m:atmos:1:QREFHT:QREFHT no change
-CMIP5_3hr:mrro:runoff_flux:longitude latitude time:land:1:QRUNOFF:QRUNOFF
-CMIP5_3hr:mrsos:moisture_content_of_soil_layer:longitude latitude time1 sdepth1:land:1:SOILWATER_10CM:SOILWATER_10CM
+CMIP5_3hr:mrro:runoff_flux:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_3hr:mrsos:moisture_content_of_soil_layer:longitude latitude time1 sdepth1:land:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_3hr:pr:precipitation_flux:longitude latitude time:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
 CMIP5_3hr:prc:convective_precipitation_flux:longitude latitude time:atmos:1:PRECC:PRECC unit conversion
 CMIP5_3hr:prsn:snowfall_flux:longitude latitude time:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion

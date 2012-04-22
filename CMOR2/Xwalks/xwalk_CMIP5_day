@@ -6,7 +6,7 @@ CMIP5_day:hus:specific_humidity:longitude latitude plev8 time:atmos:2:Q PS:Q int
 CMIP5_day:huss:specific_humidity:longitude latitude time height2m:atmos:1:QREFHT:QREFHT no change
 CMIP5_day:mrro:runoff_flux:longitude latitude time:land:1:QRUNOFF:QRUNOFF
 CMIP5_day:mrsos:moisture_content_of_soil_layer:longitude latitude time sdepth1:land:1:SOILWATER_10CM:SOILWATER_10CM
-CMIP5_day:omldamax:ocean_mixed_layer_thickness_defined_by_mixing_scheme:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
+CMIP5_day:omldamax:ocean_mixed_layer_thickness_defined_by_mixing_scheme:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
 CMIP5_day:pr:precipitation_flux:longitude latitude time:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
 CMIP5_day:prc:convective_precipitation_flux:longitude latitude time:atmos:1:PRECC:PRECC unit conversion
 CMIP5_day:prsn:snowfall_flux:longitude latitude time:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
@@ -21,16 +21,16 @@ CMIP5_day:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time
 CMIP5_day:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:2:FSDS FSNS:FSDS - FSNS
 CMIP5_day:sfcWind:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_day:sfcWindmax:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
-CMIP5_day:sic:sea_ice_area_fraction:longitude latitude time:seaIce ocean:1:aice:aice1
-CMIP5_day:sit:sea_ice_thickness:longitude latitude time:seaIce ocean:1:hi:hi unchanged
+CMIP5_day:sic:sea_ice_area_fraction:longitude latitude time:seaIce ocean:1:aice_d:aice_d no change
+CMIP5_day:sit:sea_ice_thickness:longitude latitude time:seaIce ocean:1:hi_d:hi_d no change
 CMIP5_day:snc:surface_snow_area_fraction:longitude latitude time:landIce land:1:FSNO:FSNO
 CMIP5_day:snw:surface_snow_amount:longitude latitude time:landIce land:1:SNOWDP:SNOWDP
 CMIP5_day:ta:air_temperature:longitude latitude plev8 time:atmos:2:T PS:T interpolated to standard plevs
 CMIP5_day:tas:air_temperature:longitude latitude time height2m:atmos:1:TREFHT:TREFHT no change
 CMIP5_day:tasmax:air_temperature:longitude latitude time height2m:atmos:1:TREFHTMX:TREFHTMX no change
 CMIP5_day:tasmin:air_temperature:longitude latitude time height2m:atmos:1:TREFHTMN:TREFHTMN no change
-CMIP5_day:tos:surface_temperature:longitude latitude time:ocean:1:TEMP:TEMP at topmost level, units from C to K
-CMIP5_day:tossq:square_of_sea_surface_temperature:longitude latitude time:ocean:1:SST2:SST2
+CMIP5_day:tos:surface_temperature:longitude latitude time:ocean:1:SST:SST, units from C to K
+CMIP5_day:tossq:square_of_sea_surface_temperature:longitude latitude time:ocean:1:SST2:SST2, units from C to K
 CMIP5_day:tslsi:surface_temperature:longitude latitude time:land:1:UNKNOWN:UNKNOWN
 CMIP5_day:ua:eastward_wind:longitude latitude plev8 time:atmos:2:U PS:U interpolated to standard plevs
 CMIP5_day:uas:eastward_wind:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE

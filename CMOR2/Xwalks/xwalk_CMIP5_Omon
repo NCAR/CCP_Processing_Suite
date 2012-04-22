@@ -42,8 +42,8 @@ CMIP5_Omon:fddtdisi:tendency_of_ocean_mole_content_of_dissolved_inorganic_silico
 CMIP5_Omon:fgco2:surface_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:fgdms:surface_upward_mole_flux_of_dimethyl_sulfide:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:fgo2:surface_downward_mole_flux_of_molecular_oxygen:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
-CMIP5_Omon:ficeberg2d:water_flux_into_sea_water_from_icebergs:longitude latitude time:ocean:0:UNAVAILABLE::UNAVAILABLE
-CMIP5_Omon:ficeberg:water_flux_into_sea_water_from_icebergs:longitude latitude olevel time:ocean:0:UNAVAILABLE::UNAVAILABLE
+CMIP5_Omon:ficeberg2d:water_flux_into_sea_water_from_icebergs:longitude latitude time:ocean:0:UNAVAILABLE:Not applicable
+CMIP5_Omon:ficeberg:water_flux_into_sea_water_from_icebergs:longitude latitude olevel time:ocean:0:UNAVAILABLE:Not applicable
 CMIP5_Omon:frc:tendency_of_ocean_mole_content_of_carbon_due_to_sedimentation:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:frfe:tendency_of_ocean_mole_content_of_iron_due_to_sedimentation:longitude latitude time:ocnBgchem:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:friver:water_flux_into_sea_water_from_rivers:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
@@ -58,9 +58,9 @@ CMIP5_Omon:hfbasin:northward_ocean_heat_transport:latitude basin time:ocean:1:UN
 CMIP5_Omon:hfcorr:heat_flux_correction:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:hfds:surface_downward_heat_flux_in_sea_water:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:hfevapds:temperature_flux_due_to_evaporation_expressed_as_heat_flux_out_of_sea_water:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-CMIP5_Omon:hfgeou:upward_geothermal_heat_flux_at_sea_floor:longitude latitude time:ocean:0:N/A:Set to zero for all runs
-CMIP5_Omon:hfibthermds2d:heat_flux_into_sea_water_due_to_iceberg_thermodynamics:longitude latitude time:ocean:0:UNAVAILABLE::UNAVAILABLE
-CMIP5_Omon:hfibthermds:heat_flux_into_sea_water_due_to_iceberg_thermodynamics:longitude latitude olevel time:ocean:0:UNAVAILABLE::UNAVAILABLE
+CMIP5_Omon:hfgeou:upward_geothermal_heat_flux_at_sea_floor:longitude latitude time:ocean:0:UNAVAILABLE:Not applicable
+CMIP5_Omon:hfibthermds2d:heat_flux_into_sea_water_due_to_iceberg_thermodynamics:longitude latitude time:ocean:0:UNAVAILABLE:Not applicable
+CMIP5_Omon:hfibthermds:heat_flux_into_sea_water_due_to_iceberg_thermodynamics:longitude latitude olevel time:ocean:0:UNAVAILABLE:Not applicable
 CMIP5_Omon:hfls:surface_downward_latent_heat_flux:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:hfnorthba:northward_ocean_heat_transport_due_to_bolus_advection:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:hfnorthdiff:northward_ocean_heat_transport_due_to_diffusion:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
@@ -102,12 +102,12 @@ CMIP5_Omon:mfo:sea_water_transport_across_line:oline time:ocean:1:UNKNOWN:UNKNOW
 CMIP5_Omon:mlotst:ocean_mixed_layer_thickness_defined_by_sigma_t:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:mlotstsq:square_of_ocean_mixed_layer_thickness_defined_by_sigma_t:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:msftbarot:ocean_barotropic_mass_streamfunction:longitude latitude time:ocean:1:BSF:BSF
-CMIP5_Omon:msftmrhozba:ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection:latitude rho basin time:ocean:1:UNKNOWN:UNKNOWN
-CMIP5_Omon:msftmrhoz:ocean_meridional_overturning_mass_streamfunction:latitude rho basin time:ocean:1:UNKNOWN:UNKNOWN
+CMIP5_Omon:msftmrhozba:ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection:latitude rho basin time:ocean:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_Omon:msftmrhoz:ocean_meridional_overturning_mass_streamfunction:latitude rho basin time:ocean:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_Omon:msftmyzba:ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection:latitude olevel basin time:ocean:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:msftmyz:ocean_meridional_overturning_mass_streamfunction:latitude olevel basin time:ocean:1:MOC:MOC converted from Sv to kg s-1
-CMIP5_Omon:msftyrhozba:ocean_y_overturning_mass_streamfunction_due_to_bolus_advection:latitude rho basin time:ocean:1:UNKNOWN:UNKNOWN
-CMIP5_Omon:msftyrhoz:ocean_y_overturning_mass_streamfunction:latitude rho basin time:ocean:1:UNKNOWN:UNKNOWN
+CMIP5_Omon:msftyrhozba:ocean_y_overturning_mass_streamfunction_due_to_bolus_advection:latitude rho basin time:ocean:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_Omon:msftyrhoz:ocean_y_overturning_mass_streamfunction:latitude rho basin time:ocean:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_Omon:msftyyzba:ocean_y_overturning_mass_streamfunction_due_to_bolus_advection:latitude olevel basin time:ocean:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:msftyyz:ocean_y_overturning_mass_streamfunction:latitude olevel basin time:ocean:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:nh4:mole_concentration_of_ammonium_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:NH4:NH4
@@ -115,7 +115,7 @@ CMIP5_Omon:no3:mole_concentration_of_nitrate_in_sea_water:longitude latitude tim
 CMIP5_Omon:o2min:mole_concentration_of_dissolved_molecular_oxygen_in_sea_water_at_shallowest_local_minimum_in_vertical_profile:longitude latitude time:ocnBgchem:1:tend_zint_100m_O2:tend_zint_100m_O2
 CMIP5_Omon:o2:mole_concentration_of_molecular_oxygen_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:O2:O2
 CMIP5_Omon:omldamax:ocean_mixed_layer_thickness_defined_by_mixing_scheme:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
-CMIP5_Omon:omlmax:ocean_mixed_layer_thickness_defined_by_mixing_scheme:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
+CMIP5_Omon:omlmax:ocean_mixed_layer_thickness_defined_by_mixing_scheme:longitude latitude time:ocean:1:XMXL:XMXL
 CMIP5_Omon:pbo:sea_water_pressure_at_sea_floor:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:ph:sea_water_ph_reported_on_total_scale:longitude latitude time depth0m:ocnBgchem:1:pH_3D:Integrate pH_3D over depth
 CMIP5_Omon:phycalc:mole_concentration_of_calcareous_phytoplankton_expressed_as_carbon_in_sea_water:longitude latitude time depth0m:ocnBgchem:1:UNKNOWN:UNKNOWN

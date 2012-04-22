@@ -473,7 +473,7 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
            endif
-        case ('tauuo','tauvo','hfss','pr','prsn','rsds','rsntds','zos')
+        case ('tauuo','tauvo','hfss','pr','prsn','rsds','rsntds','zos','omlmax')
            !
            ! tauuo,tauvo,hfss,pr,prsn,rsds,rsntds: No changes
            !

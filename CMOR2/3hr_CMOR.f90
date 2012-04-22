@@ -108,29 +108,30 @@ program Do3hr_CMOR
      !
      if (all_continue) then
         do ivar = 1,xw(ixw)%ncesm_vars
-           write(*,'(''TO OPEN: '',a)') trim(ncfile(nc_nfiles(ivar),ivar))
-           call open_cdf(myncid(1,ivar),trim(ncfile(1,ivar)),.true.)
-           write(*,'(''OPENING: '',a,'' myncid: '',i10)') trim(ncfile(1,ivar)),myncid(1,ivar)
-           call get_dims(myncid(1,ivar))
-           call get_vars(myncid(1,ivar))
-           !
-           do n=1,dim_counter
-              length = len_trim(dim_info(n)%name)
-              if(dim_info(n)%name(:length).eq.'time') then
-                 ntimes(1,ivar) = dim_info(n)%length
+           do ifile = 1,nc_nfiles(ivar)
+              call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+              call get_dims(myncid(ifile,ivar))
+              call get_vars(myncid(ifile,ivar))
+              !
+              do n=1,dim_counter
+                 length = len_trim(dim_info(n)%name)
+                 if(dim_info(n)%name(:length).eq.'time') then
+                    ntimes(ifile,ivar) = dim_info(n)%length
+                 endif
+              enddo
+              write(*,'(''OPENED: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,ivar)),myncid(ifile,ivar),ntimes(ifile,ivar)
+              call read_att_text(myncid(ifile,ivar),'time','units',time_units)
+              !
+              do n=1,var_counter
+                 if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
+                    var_found(ifile,ivar) = n
+                 endif
+              enddo
+              if (var_found(ifile,ivar) == 0) then
+                 write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
+                 stop
               endif
            enddo
-           call read_att_text(myncid(1,ivar),'time','units',time_units)
-           !
-           do n=1,var_counter
-              if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
-                 var_found(1,ivar) = n
-              endif
-           enddo
-           if (var_found(1,ivar) == 0) then
-              write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
-              stop
-           endif
         enddo
         !
         ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
@@ -244,9 +245,7 @@ program Do3hr_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('ccb','cct','clivi','clwvi','evspsbl','hfls','hfss','hurs',&
-             'prw','psl','rldscs','rlds','rlutcs','rlut','rsdscs','rsds','rsdt',&
-             'sci','tasmax','tasmin','tauu','tauv','ts','ci','clt')
+        case ('clt','hfls','hfss','rlds','rldscs','rsds','rsdscs')
            !
            ! No change
            !
@@ -266,24 +265,28 @@ program Do3hr_CMOR
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
-           select case(ntimes(1,1))
-           case ( 1872,1140,3612,6012,12012 )  ! All data
+           select case(ntimes(ifile,1))
+           case ( 14600 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
-           case ( 1152 )  ! RCP, 2005-2100, skip 2006
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 13
-              tidx2(1:nchunks(1)) = ntimes(1,1)
-           case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 3613
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+              tidx1(1:nchunks(1)) = 2921
+              tidx2(1:nchunks(1)) = ntimes(ifile,1)
+           case ( 29199 )  !
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/    1,14600/)
+              tidx2(1:nchunks(1)) = (/14599,29199/)
+           case ( 29200 )  !
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/    1,14601/)
+              tidx2(1:nchunks(1)) = (/14600,29200/)
+           case ( 32120 )  !
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/    1,14601/)
+              tidx2(1:nchunks(1)) = (/14600,32120/)
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
+           tidx2(1:nchunks(1)) = ntimes(ifile,1)
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
@@ -321,11 +324,7 @@ program Do3hr_CMOR
            allocate(indat2a(nlons,nlats))
            !
            do ifile = 1,nc_nfiles(1)
-              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
-              call get_dims(myncid(ifile,1))
-              call get_vars(myncid(ifile,1))
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (.not.(allocated(time))) allocate(time(ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -336,24 +335,27 @@ program Do3hr_CMOR
               !
               select case(ntimes(ifile,1))
               case ( 14600 )  ! RCP, 2005-2100, skip 2006
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = 2921
-                 tidx2(1:nchunks(1)) = ntimes(ifile,1)
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 2921
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case ( 29199 )  !
+                 nchunks(ifile) = 2
+                 tidx1(1:nchunks(ifile)) = (/    1,14600/)
+                 tidx2(1:nchunks(ifile)) = (/14599,29199/)
               case ( 29200 )  !
-                 nchunks(1) = 2
-                 tidx1(1:nchunks(1)) = (/    1,14601/)
-                 tidx2(1:nchunks(1)) = (/14600,29200/)
+                 nchunks(ifile) = 2
+                 tidx1(1:nchunks(ifile)) = (/    1,14601/)
+                 tidx2(1:nchunks(ifile)) = (/14600,29200/)
               case ( 32120 )  !
-                 nchunks(1) = 2
-                 tidx1(1:nchunks(1)) = (/    1,14601/)
-                 tidx2(1:nchunks(1)) = (/14600,32120/)
+                 nchunks(ifile) = 2
+                 tidx1(1:nchunks(ifile)) = (/    1,14601/)
+                 tidx2(1:nchunks(ifile)) = (/14600,32120/)
               case default
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = 1
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
               end select
-              tidx2(1:nchunks(1)) = ntimes(ifile,1)
-              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
-              do ic = 1,nchunks(1)
+              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+              do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
@@ -370,18 +372,17 @@ program Do3hr_CMOR
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  !
-                 if (ic < nchunks(1)) then
-                    cmor_filename(1:) = ' '
-                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                       stop
-                    else
-                       write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                    endif
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
                  endif
               enddo
               call close_cdf(myncid(ifile,1))
+              if (allocated(time)) deallocate(time)
            enddo
         case ('prc')
            !
@@ -403,24 +404,24 @@ program Do3hr_CMOR
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
-           select case(ntimes(1,1))
-           case ( 1872,1140,3612,6012,12012 )  ! All data
+           select case(ntimes(ifile,1))
+           case ( 14600 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
-           case ( 1152 )  ! RCP, 2005-2100, skip 2006
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 13
-              tidx2(1:nchunks(1)) = ntimes(1,1)
-           case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 3613
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+              tidx1(1:nchunks(1)) = 2921
+              tidx2(1:nchunks(1)) = ntimes(ifile,1)
+           case ( 29200 )  !
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/    1,14601/)
+              tidx2(1:nchunks(1)) = (/14600,29200/)
+           case ( 32120 )  !
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/    1,14601/)
+              tidx2(1:nchunks(1)) = (/14600,32120/)
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
+           tidx2(1:nchunks(1)) = ntimes(ifile,1)
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
@@ -480,24 +481,24 @@ program Do3hr_CMOR
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
-           select case(ntimes(1,1))
-           case ( 1872,1140,3612,6012,12012 )  ! All data
+           select case(ntimes(ifile,1))
+           case ( 14600 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
-           case ( 1152 )  ! RCP, 2005-2100, skip 2006
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 13
-              tidx2(1:nchunks(1)) = ntimes(1,1)
-           case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 3613
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+              tidx1(1:nchunks(1)) = 2921
+              tidx2(1:nchunks(1)) = ntimes(ifile,1)
+           case ( 29200 )  !
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/    1,14601/)
+              tidx2(1:nchunks(1)) = (/14600,29200/)
+           case ( 32120 )  !
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/    1,14601/)
+              tidx2(1:nchunks(1)) = (/14600,32120/)
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
+           tidx2(1:nchunks(1)) = ntimes(ifile,1)
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
@@ -557,24 +558,24 @@ program Do3hr_CMOR
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
-           select case(ntimes(1,1))
-           case ( 1872,1140,3612,6012,12012 )  ! All data
+           select case(ntimes(ifile,1))
+           case ( 14600 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
-           case ( 1152 )  ! RCP, 2005-2100, skip 2006
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 13
-              tidx2(1:nchunks(1)) = ntimes(1,1)
-           case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 3613
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+              tidx1(1:nchunks(1)) = 2921
+              tidx2(1:nchunks(1)) = ntimes(ifile,1)
+           case ( 29200 )  !
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/    1,14601/)
+              tidx2(1:nchunks(1)) = (/14600,29200/)
+           case ( 32120 )  !
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/    1,14601/)
+              tidx2(1:nchunks(1)) = (/14600,32120/)
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
+           tidx2(1:nchunks(1)) = ntimes(ifile,1)
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
@@ -613,13 +614,10 @@ program Do3hr_CMOR
                  endif
               endif
            enddo
-        case ('rsus','rsuscs','rsut','rsutcs','rtmt')
+        case ('rsus','rsuscs')
            !
            ! rsus   : FSDS  - FSNS
            ! rsuscs : FSDSC - FSNSC
-           ! rsut   : SOLIN - FSNTOA
-           ! rsutcs : SOLIN - FSNTOAC
-           ! rtmt   : FSNT  - FLNT
            !
            allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
            allocate(cmordat2d(nlons,nlats))
@@ -638,24 +636,24 @@ program Do3hr_CMOR
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
-           select case(ntimes(1,1))
-           case ( 1872,1140,3612,6012,12012 )  ! All data
+           select case(ntimes(ifile,1))
+           case ( 14600 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
-           case ( 1152 )  ! RCP, 2005-2100, skip 2006
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 13
-              tidx2(1:nchunks(1)) = ntimes(1,1)
-           case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 3613
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+              tidx1(1:nchunks(1)) = 2921
+              tidx2(1:nchunks(1)) = ntimes(ifile,1)
+           case ( 29200 )  !
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/    1,14601/)
+              tidx2(1:nchunks(1)) = (/14600,29200/)
+           case ( 32120 )  !
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/    1,14601/)
+              tidx2(1:nchunks(1)) = (/14600,32120/)
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
+           tidx2(1:nchunks(1)) = ntimes(ifile,1)
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
@@ -699,9 +697,6 @@ program Do3hr_CMOR
         if (allocated(indat2b))   deallocate(indat2b)
         if (allocated(indat2c))   deallocate(indat2c)
         if (allocated(cmordat2d)) deallocate(cmordat2d)
-        do ivar = 1,xw(ixw)%ncesm_vars
-           call close_cdf(myncid(1,ivar))
-        enddo
         !
         ! Reset
         !
