@@ -685,36 +685,6 @@ program Amon_CMOR
               ! Determine amount of data to write, to keep close to ~2 GB limit
               !
               select case(ntimes(1,1))
-              case ( 1872 )  ! 20C, 1850-2005, ~50y chunks
-                 nchunks(1) = 3
-                 tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
-                 tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1950, 2005
-              case ( 1152 )  ! RCP, 2005-2100, skip 2006
-                 nchunks(1) = 2
-                 tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
-                 tidx2(1:nchunks(1)) = (/540,1152/)      ! 2049, 2100
-              case ( 1140 )  ! RCP, 2006-2100
-                 nchunks(1) = 2
-                 tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
-                 tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
-              case ( 900 )
-                 nchunks(1) = 2
-                 tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
-                 tidx2(1:nchunks(1)) = (/600, 900/)      ! 1899, 1924
-              case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
-                 nchunks(1) = int(ntimes(1,1)/600)
-                 tidx1(1) =   1
-                 tidx2(1) = 600
-                 do ic = 2,nchunks(1)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic) + 599
-                 enddo
-                 tidx2(nchunks(1)) = ntimes(1,1)
-              case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
-                 nchunks(1) = 2
-                 tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
-                 tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
-              case default
                  nchunks(1) = 1
                  tidx1(1:nchunks(1)) = 1
                  tidx2(1:nchunks(1)) = ntimes(1,1)
