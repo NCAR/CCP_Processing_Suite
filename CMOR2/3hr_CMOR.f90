@@ -108,6 +108,24 @@ program Do3hr_CMOR
      !
      if (all_continue) then
         do ivar = 1,xw(ixw)%ncesm_vars
+<<<<<<< .mine
+           do ifile = 1,nc_nfiles(ivar)
+              call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
+              write(*,'(''OPENING: '',a,'' myncid: '',i10)') trim(ncfile(ifile,ivar)),myncid(ifile,ivar)/65536
+              call get_dims(myncid(ifile,ivar))
+              call get_vars(myncid(ifile,ivar))
+              !
+              call read_att_text(myncid(ifile,ivar),'time','units',time_units)
+              !
+              do n=1,var_counter
+                 if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
+                    var_found(ifile,ivar) = n
+                 endif
+              enddo
+              if (var_found(ifile,ivar) == 0) then
+                 write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
+                 stop
+=======
            do ifile = 1,nc_nfiles(ivar)
               call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
               call get_dims(myncid(ifile,ivar))
@@ -130,6 +148,7 @@ program Do3hr_CMOR
               if (var_found(ifile,ivar) == 0) then
                  write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
                  stop
+>>>>>>> .r698
               endif
            enddo
         enddo
@@ -324,7 +343,21 @@ program Do3hr_CMOR
            allocate(indat2a(nlons,nlats))
            !
            do ifile = 1,nc_nfiles(1)
+<<<<<<< .mine
+              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+              call get_dims(myncid(ifile,1))
+              call get_vars(myncid(ifile,1))
+              do n=1,dim_counter
+                 length = len_trim(dim_info(n)%name)
+                 if(dim_info(n)%name(:length).eq.'time') then
+                    ntimes(ifile,1) = dim_info(n)%length
+                 endif
+              enddo
+              write(*,'(''OPENING: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1)/65536,ntimes(ifile,1)
               if (.not.(allocated(time))) allocate(time(ntimes(ifile,1)))
+=======
+              if (.not.(allocated(time))) allocate(time(ntimes(ifile,1)))
+>>>>>>> .r698
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -335,6 +368,11 @@ program Do3hr_CMOR
               !
               select case(ntimes(ifile,1))
               case ( 14600 )  ! RCP, 2005-2100, skip 2006
+<<<<<<< .mine
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) =  2921
+                 tidx2(1:nchunks(1)) = 14600
+=======
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 2921
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
@@ -342,6 +380,7 @@ program Do3hr_CMOR
                  nchunks(ifile) = 2
                  tidx1(1:nchunks(ifile)) = (/    1,14600/)
                  tidx2(1:nchunks(ifile)) = (/14599,29199/)
+>>>>>>> .r698
               case ( 29200 )  !
                  nchunks(ifile) = 2
                  tidx1(1:nchunks(ifile)) = (/    1,14601/)
@@ -354,8 +393,13 @@ program Do3hr_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 1
               end select
+<<<<<<< .mine
+              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+              do ic = 1,nchunks(1)
+=======
               write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
               do ic = 1,nchunks(ifile)
+>>>>>>> .r698
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
@@ -381,6 +425,9 @@ program Do3hr_CMOR
                     write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
                  endif
               enddo
+              if (allocated(time)) deallocate(time)
+           enddo
+           do ifile = 1,nc_nfiles(1)
               call close_cdf(myncid(ifile,1))
               if (allocated(time)) deallocate(time)
            enddo
@@ -697,6 +744,14 @@ program Do3hr_CMOR
         if (allocated(indat2b))   deallocate(indat2b)
         if (allocated(indat2c))   deallocate(indat2c)
         if (allocated(cmordat2d)) deallocate(cmordat2d)
+<<<<<<< .mine
+        do ivar = 1,xw(ixw)%ncesm_vars
+           do ifile = 1,nc_nfiles(ivar)
+              call close_cdf(myncid(ifile,ivar))
+           enddo
+        enddo
+=======
+>>>>>>> .r698
         !
         ! Reset
         !
