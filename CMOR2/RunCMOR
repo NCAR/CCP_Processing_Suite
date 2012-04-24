@@ -73,6 +73,10 @@ case "$TABL" in
     esac ;;
   LImon | Lmon )
     case "$MOD" in
+      CESM1-CAM5 )
+        GRIDF=lnd_grid_f09.nc ;;
+      CESM1-WACCM )
+        GRIDF=lnd_grid_f19.nc ;;
       * )
         GRIDF=lnd_grid_f09.nc ;;
     esac ;;
