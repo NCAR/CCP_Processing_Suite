@@ -870,10 +870,6 @@ program Lmon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
-           case ( 2400 )  ! WACCM piControl
-              nchunks(1) = 2
-              tidx1(1:nchunks(1)) = (/   1,1249/) ! 0096,0200
-              tidx2(1:nchunks(1)) = (/1248,2400/) ! 0199,0295
            case ( 2664 )  ! FASTCHEM piControl
               nchunks(1) = 5
               tidx1(1:nchunks(1)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
@@ -943,10 +939,6 @@ program Lmon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/540,1152/)      ! 2049, 2100
-           case ( 2400 )  ! WACCM piControl
-              nchunks(1) = 2
-              tidx1(1:nchunks(1)) = (/   1,1249/) ! 0096,0200
-              tidx2(1:nchunks(1)) = (/1248,2400/) ! 0199,0295
            case ( 2664 )  ! FASTCHEM piControl
               nchunks(1) = 5
               tidx1(1:nchunks(1)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
