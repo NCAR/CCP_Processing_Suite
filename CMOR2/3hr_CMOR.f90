@@ -324,7 +324,7 @@ program Do3hr_CMOR
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
-                 call read_var(myncid(ifile,1),'time',time(:,n))
+                 call read_var(myncid(ifile,1),'time',time(n))
               enddo
               !
               ! Determine amount of data to write, to keep close to ~2 GB limit
