@@ -316,16 +316,15 @@ program Do3hr_CMOR
            !
            ! No change - no time bounds, instantaneous values
            !
+           allocate(indat2a(nlons,nlats))
            !
            do ifile = 1,nc_nfiles(1)
               write(*,'(''OPENING: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1)/65536,ntimes(ifile,1)
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (.not.(allocated(time))) allocate(time(ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
-                 call read_var(myncid(ifile,1),'time_bnds',time_bnds(:,n))
-                 time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+                 call read_var(myncid(ifile,1),'time',time(:,n))
               enddo
               !
               ! Determine amount of data to write, to keep close to ~2 GB limit
@@ -352,18 +351,12 @@ program Do3hr_CMOR
                     cmordat2d = spval
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
                     ! 
-                    where (indat2a /= spval)
-                       cmordat2d = indat2a*1000.
-                    elsewhere
-                       cmordat2d = spval
-                    endwhere
-                    tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    tval(1)   = time(it)
                     error_flag = cmor_write(      &
                          var_id        = cmor_var_id, &
-                         data          = cmordat2d, &
+                         data          = indat2a, &
                          ntimes_passed = 1,       &
-                         time_vals     = tval,    &
-                         time_bnds     = tbnd)
+                         time_vals     = tval)
                     if (error_flag < 0) then
                        write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
@@ -381,8 +374,7 @@ program Do3hr_CMOR
                        write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
                     endif
                  endif
-                 if (allocated(time))      deallocate(time)
-                 if (allocated(time_bnds)) deallocate(time_bnds)
+                 if (allocated(time)) deallocate(time)
               enddo
            enddo
         case ('prc')
