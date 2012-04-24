@@ -313,6 +313,10 @@ program day_CMOR
                  nchunks(ifile)= 2
                  tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
                  tidx2(1:nchunks(ifile)) = (/18250, 25185/)      ! 1899, 1918
+              case ( 27375 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
+                 tidx2(1:nchunks(ifile)) = (/18250, 27375/)      ! 1899, 1924
               case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                  nchunks(ifile)= 5
                  tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
@@ -408,6 +412,10 @@ program day_CMOR
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
                     tidx2(1:nchunks(ifile)) = (/18250, 25185/)      ! 1899, 1918
+                 case ( 27375 )
+                    nchunks(ifile)= 2
+                    tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
+                    tidx2(1:nchunks(ifile)) = (/18250, 27375/)      ! 1899, 1924
                  case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks(ifile)= 5
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
@@ -496,6 +504,10 @@ program day_CMOR
                  nchunks(ifile)= 2
                  tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
                  tidx2(1:nchunks(ifile)) = (/18250, 25185/)      ! 1899, 1918
+              case ( 27375 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
+                 tidx2(1:nchunks(ifile)) = (/18250, 27375/)      ! 1899, 1924
               case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                  nchunks(ifile)= 5
                  tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
