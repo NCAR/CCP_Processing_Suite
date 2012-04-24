@@ -7,21 +7,31 @@ subroutine get_lnd_grid
   use interfaces_netcdf_jfl
   use definitions_netcdf_jfl
   use grid_info
+  use exp_info
+  use mycmor_info
   !
   implicit none
   !
+  character(len=256)::gridfile
   integer::gridid,i,j,k,n,length
   logical::exists
   !
-  inquire(file='lnd_grid_f09.nc',exist=exists)
+  select case (exp(exp_found)%model_id)
+  case ('CESM1-WACCM')
+     gridfile = 'lnd_grid_f19.nc'
+  case default
+     gridfile = 'lnd_grid_f09.nc'
+  end select
+  !
+  inquire(file=trim(gridfile),exist=exists)
   if (.not.(exists)) then
-     write(*,*) 'Cannot find lnd_grid_f09.nc - STOPPING.'
+     write(*,*) 'Cannot find ',trim(gridfile),' - STOPPING.'
      stop
   endif
   !
-  call open_cdf(gridid,'lnd_grid_f09.nc',.true.)
+  call open_cdf(gridid,trim(gridfile),.true.)
   !
-  ! Read time-invariant dimensions and variables from 'lnd_grid_f09.nc'
+  ! Read time-invariant dimensions and variables from gridfile
   !
   call get_dims(gridid)
   !
