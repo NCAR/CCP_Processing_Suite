@@ -44,8 +44,8 @@ ln -s -f ${BASED}/experiments.txt           .
 #
 # Get appropriate grid and xwalk files based on information in experiments.txt
 #
-MIP=`egrep "^${CASE} " experiments.txt | cut -c95- | cut -d" " -f1`
-MOD=`egrep "^${CASE} " experiments.txt | cut -c45- | cut -d" " -f1`
+MIP=`egrep "^${CASE} " experiments.txt | cut -c105- | cut -d" " -f1`
+MOD=`egrep "^${CASE} " experiments.txt | cut -c55-  | cut -d" " -f1`
 #
 case "$MIP" in
   cm5* )
