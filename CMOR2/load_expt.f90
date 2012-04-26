@@ -53,7 +53,8 @@ subroutine load_exp(exp_file)
   implicit none
   !
   integer::iostat,i,j,iexp
-  character(len=256)::instring,exp_file
+  character(len=256)::exp_file
+  character(len=384)::instring
   logical::does_exist
   !
   ! Get experiment information
@@ -61,21 +62,22 @@ subroutine load_exp(exp_file)
   ! Master CCSM experiment list
   !
   !  Columns   Field
-  !   1 -  40  CCSM case name
-  !  45 -  64  model_id (CCSM4, CESM-CAM5, CESM-BGC, CESM-CHEM, CESM-WACCM, CESM1-CAM5.1-FV2, etc)
-  !  65 -  66  Location (NC = NCAR; NE = NERSC; OR = ORNL)
-  !  70 -  84  Official MIP name, or very brief description (N/A if not applicable)
-  !  85 -  94  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
-  !  95 -  99  MIP (cm3 or cm5) experiment (N/A if not applicable)
-  ! 100 - 139  RUN_REFCASE (parent case)
-  ! 140 - 154  RUN_REFDATE (branch date, yyyy-mm-dd)
-  ! 155 - 164  years of experiment (YYYY if unknown)
-  ! 165 - 174  GRID (resolution)
-  ! 175 - 194  COMPSET (N/A if not applicable)
-  ! 195 - 214  REPOTAG (N/A if not applicable)
-  ! 215 - 234  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
-  ! 235 - 244  MACH (hardware)
-  ! 245 - end  DOUT_L_MSROOT (history file location on archive)
+  !   1 -  54  CCSM case name
+  !  55 -  74  model_id (CCSM4, CESM-CAM5, CESM-BGC, CESM-CHEM, CESM-WACCM, CESM1-CAM5.1-FV2, etc)
+  !  75 -  76  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+  !  80 -  94  Official MIP name, or very brief description (N/A if not applicable)
+  !  95 - 104  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+  ! 105 - 109  MIP (cm3 or cm5) experiment (N/A if not applicable)
+  ! 110 - 149  RUN_REFCASE (parent case)
+  ! 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
+  ! 165 - 174  years of experiment (YYYY if unknown)
+  ! 175 - 184  GRID (resolution)
+  ! 185 - 204  COMPSET (N/A if not applicable)
+  ! 205 - 224  REPOTAG (N/A if not applicable)
+  ! 225 - 244  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+  ! 245 - 254  MACH (hardware)
+  ! 255 - end  DOUT_L_MSROOT (history file location on archive)
+  !
   !
   inquire(file=trim(exp_file),exist=does_exist)
   if (.not.(does_exist)) then
@@ -107,23 +109,23 @@ subroutine load_exp(exp_file)
      read(20,'(a)',iostat=iostat) instring
      if (iostat == 0) then
         if (instring(1:1) /= '#') then
-           exp(iexp)%case(1:)        = adjustl(instring(  1: 40))
-           exp(iexp)%model_id(1:)    = adjustl(instring( 45: 64))
-           exp(iexp)%loc(1:)         = adjustl(instring( 65: 66))
-           exp(iexp)%expt_id(1:)     = adjustl(instring( 70: 84))
-           exp(iexp)%rip_code(1:)    = adjustl(instring( 85: 94))
-           if (instring(95:99) == 'cm5') exp(iexp)%cmip(1:) = 'CMIP5'
-           if (instring(95:99) == 'gmp') exp(iexp)%cmip(1:) = 'GeoMIP'
-           if (instring(95:99) == 'tmp') exp(iexp)%cmip(1:) = 'TAMIP'
-           exp(iexp)%run_refcase(1:) = adjustl(instring(100:139))
-           exp(iexp)%run_refdate(1:) = adjustl(instring(140:154))
-           exp(iexp)%begin_end(1:)   = adjustl(instring(155:164))
-           exp(iexp)%grid(1:)        = adjustl(instring(165:174))
-           exp(iexp)%compset(1:)     = adjustl(instring(175:194))
-           exp(iexp)%repotag(1:)     = adjustl(instring(195:214))
-           exp(iexp)%start_fin(1:)   = adjustl(instring(215:234))
-           exp(iexp)%mach(1:)        = adjustl(instring(235:244))
-           exp(iexp)%dout(1:)        = adjustl(instring(245:len_trim(instring)))
+           exp(iexp)%case(1:)        = adjustl(instring(  1: 54))
+           exp(iexp)%model_id(1:)    = adjustl(instring( 55: 74))
+           exp(iexp)%loc(1:)         = adjustl(instring( 75: 76))
+           exp(iexp)%expt_id(1:)     = adjustl(instring( 80: 94))
+           exp(iexp)%rip_code(1:)    = adjustl(instring( 95:104))
+           if (instring(105:109) == 'cm5') exp(iexp)%cmip(1:) = 'CMIP5'
+           if (instring(105:109) == 'gmp') exp(iexp)%cmip(1:) = 'GeoMIP'
+           if (instring(105:109) == 'tmp') exp(iexp)%cmip(1:) = 'TAMIP'
+           exp(iexp)%run_refcase(1:) = adjustl(instring(110:149))
+           exp(iexp)%run_refdate(1:) = adjustl(instring(150:164))
+           exp(iexp)%begin_end(1:)   = adjustl(instring(165:174))
+           exp(iexp)%grid(1:)        = adjustl(instring(175:184))
+           exp(iexp)%compset(1:)     = adjustl(instring(185:204))
+           exp(iexp)%repotag(1:)     = adjustl(instring(205:224))
+           exp(iexp)%start_fin(1:)   = adjustl(instring(225:244))
+           exp(iexp)%mach(1:)        = adjustl(instring(245:254))
+           exp(iexp)%dout(1:)        = adjustl(instring(255:len_trim(instring)))
            iexp = iexp + 1
         endif
      endif

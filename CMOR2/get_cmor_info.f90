@@ -81,10 +81,15 @@ subroutine get_cmor_info
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case ('CESM1-WACCM')
-     mycmor%references    = 'Cameron-Smith, P., et.al. 2012: CESM1 with superfast chemistry.'//&
+     mycmor%references    = 'Marsh, D., et.al. 2012: WACCM4 simulations of atmospheric trends from 1850 to present.'//&
           ' See also http://www.cesm.ucar.edu/publications'
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
+  case ('CESM1-CAM5.1-FV2')
+     mycmor%references    = 'Neale, R. B. et al. (2011a) Description of the NCAR Community Atmosphere Model (CAM5), Technical Report NCAR/TN-486+STR.\n'//&
+          'Gent P. R., et.al. 2011: The Community Climate System Model version 4. J. Climate, doi: 10.1175/2011JCLI4083.1'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
+     mycmor%institution   = 'PNNL (Pacific Northwest National Laboratory) Richland, WA, USA/NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case default
      write(*,*) 'Unknown model_id: ',trim(adjustl(exp(exp_found)%model_id)),' Stopping.'
      stop

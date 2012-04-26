@@ -24,25 +24,6 @@ case "$TPER" in
     exit 1 ;;
 esac
 #
-# Extract information from "experiments.txt"
-#
-#  Columns   Field
-#   1 -  40  CCSM case name
-#  45 -  64  model_id (CCSM4, CESM-CAM5, CESM-BGC, CESM-CHEM, CESM-WACCM, CESM1-CAM5.1-FV2, etc)
-#  65 -  66  Location (NC = NCAR; NE = NERSC; OR = ORNL)
-#  70 -  84  Official MIP name, or very brief description (N/A if not applicable)
-#  85 -  94  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
-#  95 -  99  MIP (cm3 or cm5) experiment (N/A if not applicable)
-# 100 - 139  RUN_REFCASE (parent case)
-# 140 - 154  RUN_REFDATE (branch date, yyyy-mm-dd)
-# 155 - 164  years of experiment (YYYY if unknown)
-# 165 - 174  GRID (resolution)
-# 175 - 194  COMPSET (N/A if not applicable)
-# 195 - 214  REPOTAG (N/A if not applicable)
-# 215 - 234  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
-# 235 - 244  MACH (hardware)
-# 245 - end  DOUT_L_MSROOT (history file location on archive)
-#
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if ! [ -f $EXPFILE ] ; then
   echo "Cannot find "$EXPFILE". EXIT"

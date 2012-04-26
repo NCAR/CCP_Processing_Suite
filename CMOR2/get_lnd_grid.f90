@@ -17,7 +17,7 @@ subroutine get_lnd_grid
   logical::exists
   !
   select case (exp(exp_found)%model_id)
-  case ('CESM1-WACCM')
+  case ('CESM1-WACCM','CCSM4-FV2','CESM1-CAM5.1-FV2')
      gridfile = 'lnd_grid_f19.nc'
   case default
      gridfile = 'lnd_grid_f09.nc'

@@ -8,36 +8,36 @@ VARS="xxxVARSxxx" ; export VARS
 # Extract information from "experiments.txt"
 #
 #  Columns   Field
-#   1 -  40  CCSM case name
-#  45 -  64  model_id (CCSM4, CESM-CAM5, CESM-BGC, CESM-CHEM, CESM-WACCM, CESM1-CAM5.1-FV2, etc)
-#  65 -  66  Location (NC = NCAR; NE = NERSC; OR = ORNL)
-#  70 -  84  Official MIP name, or very brief description (N/A if not applicable)
-#  85 -  94  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
-#  95 -  99  MIP (cm3 or cm5) experiment (N/A if not applicable)
-# 100 - 139  RUN_REFCASE (parent case)
-# 140 - 154  RUN_REFDATE (branch date, yyyy-mm-dd)
-# 155 - 164  years of experiment (YYYY if unknown)
-# 165 - 174  GRID (resolution)
-# 175 - 194  COMPSET (N/A if not applicable)
-# 195 - 214  REPOTAG (N/A if not applicable)
-# 215 - 234  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
-# 235 - 244  MACH (hardware)
-# 245 - end  DOUT_L_MSROOT (history file location on archive)
+#   1 -  54  CCSM case name
+#  55 -  74  model_id (CCSM4, CESM-CAM5, CESM-BGC, CESM-CHEM, CESM-WACCM, CESM1-CAM5.1-FV2, etc)
+#  75 -  76  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  80 -  94  Official MIP name, or very brief description (N/A if not applicable)
+#  95 - 104  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+# 105 - 109  MIP (cm3 or cm5) experiment (N/A if not applicable)
+# 110 - 149  RUN_REFCASE (parent case)
+# 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 165 - 174  years of experiment (YYYY if unknown)
+# 175 - 184  GRID (resolution)
+# 185 - 204  COMPSET (N/A if not applicable)
+# 205 - 224  REPOTAG (N/A if not applicable)
+# 225 - 244  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 245 - 254  MACH (hardware)
+# 255 - end  DOUT_L_MSROOT (history file location on archive)
 #
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
-  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c65-  | cut -d" " -f1`
-   DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c70-  | cut -d" " -f1`
-   REALIZN=`egrep "^$CASE " $EXPFILE | cut -c85-  | cut -d" " -f1`
-   MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c95-  | cut -d" " -f1`
-    PARENT=`egrep "^$CASE " $EXPFILE | cut -c100- | cut -d" " -f1`
-    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c140- | cut -d" " -f1`
-   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c155-158`
-   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c160-163`
-       RES=`egrep "^$CASE " $EXPFILE | cut -c165- | cut -d" " -f1`
-   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c175- | cut -d" " -f1`
-   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c195- | cut -d" " -f1`
-  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c235- | cut -d" " -f1`
+  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c75-  | cut -d" " -f1`
+   DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c80-  | cut -d" " -f1`
+   REALIZN=`egrep "^$CASE " $EXPFILE | cut -c95-  | cut -d" " -f1`
+   MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c105-  | cut -d" " -f1`
+    PARENT=`egrep "^$CASE " $EXPFILE | cut -c110- | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c165-168`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c170-173`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c175- | cut -d" " -f1`
+   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c185- | cut -d" " -f1`
+   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c205- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c245- | cut -d" " -f1`
   VARSBASE=/CCSM/csm
 else
   echo "Cannot find $EXPFILE. EXIT"
