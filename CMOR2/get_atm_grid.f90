@@ -103,8 +103,6 @@ subroutine get_atm_grid
   call read_var(gridid,'PHIS'  ,phis)
   call read_var(gridid,'cosp_tau',cosp_tau)
   call read_var(gridid,'cosp_tau_bnds',cosp_tau_bnds)
-!  cosp_tau(ncosp_tau) = 100.
-!  cosp_tau_bnds(2,ncosp_tau) = 100000.
   call read_var(gridid,'cosp_prs',cosp_prs)
   call read_var(gridid,'cosp_prs_bnds',cosp_prs_bnds)
   cosp_prs      = cosp_prs      * 100
