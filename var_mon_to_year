@@ -53,28 +53,30 @@ DHT2=`expr '(' $DHT1 ')' '+' '1'`
 DVAR=`expr '(' $DVAR ')' '+' '1'`
 DTIM=`expr '(' $DVAR ')' '+' '1'`
 #
-CASES=`ls | egrep '\.....\-..\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
- VARS=`ls | egrep '\.....\-..\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
- HIST=`ls | egrep '\.....\-..\.nc$' | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
+CASES=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
+ VARS=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+ HIST=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
 #
 # Check for pop.h.nday1
 #
 if [ "$HIST" = "pop.h" ] ; then
   DYCK=`expr '(' $DHT2 ')' '+' '1'`
-  ODAY=`ls | egrep '\.....\-..\.nc$' | cut -d"." -f${DYCK} | sort | uniq`
+  ODAY=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f${DYCK} | sort | uniq`
   if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
     DHT2=$DYCK
     DVAR=`expr '(' $DVAR ')' '+' '1'`
     DTIM=`expr '(' $DVAR ')' '+' '1'`
-    VARS=`ls | egrep '\.....\-..\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
-    HIST=`ls | egrep '\.....\-..\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+    VARS=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+    HIST=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
   fi
 fi
 #
 for c in $CASES ; do      
   for h in $HIST ; do
     for v in $VARS ; do
-      YEARS=`ls | egrep "${c}\.${h}\.${v}\.....\-..\.nc" | cut -d"." -f${DTIM} | cut -c1-4 | uniq`
+      YEARS4=`ls | egrep "${c}\.${h}\.${v}\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DTIM} | cut -c1-4 | sort | uniq`
+      YEARS5=`ls | egrep "${c}\.${h}\.${v}\.[0-9][0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DTIM} | cut -c1-5 | sort | uniq`
+      YEARS=${YEARS4}" "${YEARS5}
       for y in $YEARS ; do
         NUM=`ls ${c}\.${h}\.${v}\.${y}-??\.nc | wc -l`
         if [ $NUM -eq 12 ] ; then

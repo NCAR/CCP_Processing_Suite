@@ -31,7 +31,7 @@ fi
 #
 # Parse first filename
 #
-FILE=`ls | egrep '\.....\.nc$' | head -n 1`
+FILE=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | head -n 1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1
@@ -62,22 +62,22 @@ DHT2=`expr '(' $DHT1 ')' '+' '1'`
 DVAR=`expr '(' $DVAR ')' '+' '1'`
 DTIM=`expr '(' $DVAR ')' '+' '1'`
 #
-CASES=`ls | egrep '\.....\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
- VARS=`ls | egrep '\.....\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
- HIST=`ls | egrep '\.....\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
- COMP=`ls | egrep '\.....\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
+CASES=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
+ VARS=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+ HIST=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+ COMP=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
 #
 # Check for pop.h.nday1/h2
 #
 if [ "$HIST" = "pop.h" ] ; then
   DYCK=`expr '(' $DHT2 ')' '+' '1'`
-  ODAY=`ls | egrep '\.....\.nc$' | cut -d"." -f${DYCK} | sort | uniq`
+  ODAY=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DYCK} | sort | uniq`
   if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
     DHT2=$DYCK
     DVAR=`expr '(' $DVAR ')' '+' '1'`
     DTIM=`expr '(' $DVAR ')' '+' '1'`
-    VARS=`ls | egrep '\.....\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
-    HIST=`ls | egrep '\.....\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+    VARS=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+    HIST=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
   fi
 fi
 #
@@ -85,10 +85,10 @@ for c in $CASES ; do
   for h in $HIST ; do
     for v in $VARS ; do
       if [ $YRCOUNT ] ; then
-        NUM=`ls ${c}.${h}.${v}.????.nc | wc -l`
+        NUM=`ls ${c}.${h}.${v}.*.nc | wc -l`
         if [ $NUM = $YRCOUNT ] ; then
-          Y0=`ls ${c}.${h}.${v}.????.nc | head -n 1 | cut -d"." -f${DTIM}`
-          Y1=`ls ${c}.${h}.${v}.????.nc | tail -n 1 | cut -d"." -f${DTIM}`
+          Y0=`ls ${c}.${h}.${v}.*.nc | head -n 1 | cut -d"." -f${DTIM}`
+          Y1=`ls ${c}.${h}.${v}.*.nc | tail -n 1 | cut -d"." -f${DTIM}`
           if [ "$TPER" = "mon" ] ; then 
             DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
           fi
@@ -102,11 +102,11 @@ for c in $CASES ; do
             DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123121Z.nc
           fi
           if [ "$TPER" = "m30" ] ; then 
-            DF=CAT.${c}.${h}.${v}.${d}001010000Z-${d}912312330Z.nc
+            DF=CAT.${c}.${h}.${v}.${Y0}001010000Z-${Y1}912312330Z.nc
           fi
-          $NCRCAT -O ${c}.${h}.${v}.????.nc $DF
+          $NCRCAT -O ${c}.${h}.${v}.*.nc $DF
           if [ $? = 0 ] ; then
-            rm -f ${c}.${h}.${v}.????.nc
+            rm -f ${c}.${h}.${v}.*.nc
             echo "Concatenated "$DF" and checked year count: "$YRCOUNT
           else
             echo "Failure on concat of "${c}"."${h}"."${v}" files"
@@ -118,8 +118,8 @@ for c in $CASES ; do
           echo "Count is "$NUM" should be "$YRCOUNT
         fi
       else
-        Y0=`ls ${c}.${h}.${v}.????.nc | head -n 1 | cut -d"." -f${DTIM}`
-        Y1=`ls ${c}.${h}.${v}.????.nc | tail -n 1 | cut -d"." -f${DTIM}`
+        Y0=`ls ${c}.${h}.${v}.*.nc | head -n 1 | cut -d"." -f${DTIM}`
+        Y1=`ls ${c}.${h}.${v}.*.nc | tail -n 1 | cut -d"." -f${DTIM}`
         if [ "$TPER" = "mon" ] ; then 
           DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
         fi
@@ -133,11 +133,11 @@ for c in $CASES ; do
           DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123121Z.nc
         fi
         if [ "$TPER" = "m30" ] ; then 
-          DF=CAT.${c}.${h}.${v}.${d}001010000Z-${d}912312330Z.nc
+          DF=CAT.${c}.${h}.${v}.${Y0}001010000Z-${Y1}912312330Z.nc
         fi
-        $NCRCAT -O ${c}.${h}.${v}.????.nc $DF
+        $NCRCAT -O ${c}.${h}.${v}.*.nc $DF
         if [ $? = 0 ] ; then
-          rm -f ${c}.${h}.${v}.????.nc
+          rm -f ${c}.${h}.${v}.*.nc
           echo "Concatenated "$DF" and WITHOUT checking year count"
         else
           echo "Failure on concat of "${c}"."${h}"."${v}" files"
