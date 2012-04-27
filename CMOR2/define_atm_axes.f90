@@ -238,11 +238,20 @@ subroutine define_atm_axes(dimensions)
              units=' ',                  &
              zfactor_values=a_coeff,     &
              zfactor_bounds=a_coeff_bnds)
-        zfactor_id = cmor_zfactor(       &
-             zaxis_id=ilev,        &
-             zfactor_name='ps',          &
-             axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(1)/), &
-             units='Pa')
+        select case (mycmor%table_file)
+        case ('Tables/TAMIP_sites')
+           zfactor_id = cmor_zfactor(       &
+                zaxis_id=ilev,        &
+                zfactor_name='ps',          &
+                axis_ids=(/axis_ids(2),axis_ids(1)/), &
+                units='Pa')
+        case default
+           zfactor_id = cmor_zfactor(       &
+                zaxis_id=ilev,        &
+                zfactor_name='ps',          &
+                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(1)/), &
+                units='Pa')
+        end select
         axis_ids(idim) = ilev
         write(*,'('' dimension: '',a,'' defined: '',i4)') 'standard_hybrid_sigma',axis_ids(idim)
         idim = idim + 1

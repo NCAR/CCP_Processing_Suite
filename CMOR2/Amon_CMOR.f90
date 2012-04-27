@@ -962,10 +962,16 @@ program Amon_CMOR
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
-           case ( 1872 )  ! 20C, 1850-2005, ~50y chunks
-              nchunks(1) = 3
-              tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
-              tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1950, 2005
+           case ( 1872 )  ! 20C, 1850-2005
+              if (nlevs .eq. 30) then ! CAM5, ~25y chunks
+                 nchunks(ifile) = 7
+                 tidx1(1:nchunks(ifile)) = (/  1, 301, 601, 801,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
+                 tidx2(1:nchunks(ifile)) = (/300, 600, 900,1200,1500,1872/) ! 1874, 1899, 1924, 1949, 1974, 2005
+              else  ! 20C, 1850-2005, ~50y chunks
+                 nchunks(ifile) = 3
+                 tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
+                 tidx2(1:nchunks(ifile)) = (/600,1200,1872/) ! 1899, 1950, 2005
+              endif
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
@@ -1080,10 +1086,16 @@ program Amon_CMOR
               ! Determine amount of data to write, to keep close to ~2 GB limit
               !
               select case(ntimes(ifile,1))
-              case ( 1872 )  ! 20C, 1850-2005, ~50y chunks
-                 nchunks(ifile) = 3
-                 tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
-                 tidx2(1:nchunks(ifile)) = (/600,1200,1872/) ! 1899, 1950, 2005
+              case ( 1872 )  ! 20C, 1850-2005
+                 if (nilevs .eq. 31) then ! CAM5, ~25y chunks
+                    nchunks(ifile) = 7
+                    tidx1(1:nchunks(ifile)) = (/  1, 301, 601, 801,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
+                    tidx2(1:nchunks(ifile)) = (/300, 600, 900,1200,1500,1872/) ! 1874, 1899, 1924, 1949, 1974, 2005
+                 else  ! 20C, 1850-2005, ~50y chunks
+                    nchunks(ifile) = 3
+                    tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
+                    tidx2(1:nchunks(ifile)) = (/600,1200,1872/) ! 1899, 1950, 2005
+                 endif
               case ( 1152 )  ! RCP, 2005-2100, skip 2006
                  nchunks(ifile) = 2
                  tidx1(1:nchunks(ifile)) = (/ 13, 541/)      ! 2006, 2050
