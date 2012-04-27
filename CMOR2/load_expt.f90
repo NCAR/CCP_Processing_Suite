@@ -178,7 +178,7 @@ subroutine load_exp(exp_file)
      case ('1pctCO2')
         exp(i)%forcing(1:)      = 'GHG (CO2 only)'
      case ('abrupt4xCO2')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'GHG (CO2 only, instantaneously to 4X)'
      case ('amip')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
      case ('amip4K')
