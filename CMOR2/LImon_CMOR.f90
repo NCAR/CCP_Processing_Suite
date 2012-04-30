@@ -119,6 +119,7 @@ program LImon_CMOR
                  endif
               enddo
               call read_att_text(myncid(ifile,ivar),'time','units',time_units)
+              write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,ivar)),myncid(ifile,ivar),ntimes(ifile,ivar)
               do n=1,var_counter
                  if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
                     var_found(ifile,ivar) = n
@@ -131,7 +132,6 @@ program LImon_CMOR
                  write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
                  stop
               endif
-              call close_cdf(myncid(ifile,ivar))
            enddo
         enddo
         !
@@ -254,17 +254,16 @@ program LImon_CMOR
            !
            allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
            do ifile = 1,nc_nfiles(1)
-              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
-              call get_dims(myncid(ifile,1))
-              call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time)) deallocate(time)
+              allocate(time(ntimes(ifile,1)))
+              if (allocated(time_bnds)) deallocate(time_bnds)
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(1,1)
                  time_counter = n
                  call read_var(myncid(ifile,1),'time_bounds',time_bnds(:,n))
-                 if (n == 1) time_bnds(1,n) = 0.
+!                 if (n == 1) time_bnds(1,n) = 0.
               enddo
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
@@ -282,9 +281,9 @@ program LImon_CMOR
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               case default
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = 1
-                 tidx2(1:nchunks(1)) = ntimes(1,1)
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(1,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -309,16 +308,25 @@ program LImon_CMOR
                     endif
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 if (ic <= nchunks(ifile)) then
+                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    cmor_filename = ' '
+                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR close chunk: '',i1,'' of '',a)') ic,trim(cmor_filename)
+                       stop
+                    else
+                       write(*,'(''GOOD close chunk : '',i2,'' of '',a)') ic,trim(cmor_filename)
+                    endif
+                 else
+                    error_flag = cmor_close()
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                    else
+                       write(*,'(''GOOD cmor_close of  : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                    endif
+                 endif
               enddo
-           enddo
-           error_flag = cmor_close()
-           if (error_flag < 0) then
-              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-           else
-              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-           endif
-           do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1))
            enddo
         case ('snm')
            !
@@ -354,9 +362,9 @@ program LImon_CMOR
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               case default
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = 1
-                 tidx2(1:nchunks(1)) = ntimes(1,1)
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(1,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -426,9 +434,9 @@ program LImon_CMOR
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               case default
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = 1
-                 tidx2(1:nchunks(1)) = ntimes(1,1)
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(1,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -515,9 +523,9 @@ program LImon_CMOR
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               case default
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = 1
-                 tidx2(1:nchunks(1)) = ntimes(1,1)
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(1,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)

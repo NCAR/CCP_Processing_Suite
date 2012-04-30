@@ -96,7 +96,6 @@ subroutine define_lnd_axes(dimensions)
              table=mycmor%table_file,      &
              table_entry=dimnames(i),      &
              units=dimunits(i),            &
-!             length=ntimes,                &
              interval='30 days')
         idim = idim + 1
      end select
