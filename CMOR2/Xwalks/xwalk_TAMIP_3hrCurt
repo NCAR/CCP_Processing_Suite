@@ -1,9 +1,9 @@
-TAMIP_3hrCurt:clcalipso:cloud_area_fraction_in_atmosphere_layer:location alt40 time1:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrCurt:clcalipso2:cloud_area_fraction_in_atmosphere_layer:location alt40 time1:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrCurt:cfadDbze94:histogram_of_equivalent_reflectivity_factor_over_height_above_reference_ellipsoid:location alt40 dbze time1:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrCurt:cfadLidarsr532:histogram_of_backscattering_ratio_over_height_above_reference_ellipsoid:location alt40 scatratio time1:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrCurt:parasolRefl:toa_bidirectional_reflectance:location sza5 time1:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrCurt:cltcalipso:cloud_area_fraction:location time1:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrCurt:cllcalipso:cloud_area_fraction_in_atmosphere_layer:location time1 p840:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrCurt:clmcalipso:cloud_area_fraction_in_atmosphere_layer:location time1 p560:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrCurt:clhcalipso:cloud_area_fraction_in_atmosphere_layer:location time1 p220:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_3hrCurt:clcalipso:cloud_area_fraction_in_atmosphere_layer:location alt40 time1:atmos:1:CLD_CAL:CLD_CAL no change
+TAMIP_3hrCurt:clcalipso2:cloud_area_fraction_in_atmosphere_layer:location alt40 time1:atmos:1:CLD_CAL_NOTCS:CLD_CAL_NOTCS:no change
+TAMIP_3hrCurt:cfadDbze94:histogram_of_equivalent_reflectivity_factor_over_height_above_reference_ellipsoid:location alt40 dbze time1:atmos:1:CFAD_DBZE94_CS:CFAD_DBZE94_CS no change
+TAMIP_3hrCurt:cfadLidarsr532:histogram_of_backscattering_ratio_over_height_above_reference_ellipsoid:location alt40 scatratio time1:atmos:1:CFAD_SR532_CAL:CFAD_SR532_CAL no change
+TAMIP_3hrCurt:parasolRefl:toa_bidirectional_reflectance:location sza5 time1:atmos:1:RFL_PARASOL:RFL_PARASOL no change
+TAMIP_3hrCurt:cltcalipso:cloud_area_fraction:location time1:atmos:1:CLDTOT_CAL:CLDTOT_CAL no change
+TAMIP_3hrCurt:cllcalipso:cloud_area_fraction_in_atmosphere_layer:location time1 p840:atmos:1:CLDLOW_CAL:CLDLOW_CAL no change
+TAMIP_3hrCurt:clmcalipso:cloud_area_fraction_in_atmosphere_layer:location time1 p560:atmos:1:CLDMED_CAL:CLDMED_CAL no change
+TAMIP_3hrCurt:clhcalipso:cloud_area_fraction_in_atmosphere_layer:location time1 p220:atmos:1:CLDHGH_CAL:CLDHGHu_CAL no change

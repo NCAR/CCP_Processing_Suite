@@ -107,7 +107,7 @@ OBJ	= mymods.o \
 	  get_lnd_grid.o \
 	  get_atm_grid.o
 
-all:	  Amon_CMOR 3hrSlev_CMOR 3hrMlev_CMOR 3hrPlev_CMOR sites_CMOR day_CMOR Lmon_CMOR LImon_CMOR OImon_CMOR Omon_CMOR fx_CMOR 6hrLev_CMOR 6hrPlev_CMOR 3hr_CMOR.f90
+all:	  Amon_CMOR 3hrSlev_CMOR 3hrMlev_CMOR 3hrCurt_CMOR 3hrPlev_CMOR sites_CMOR day_CMOR Lmon_CMOR LImon_CMOR OImon_CMOR Omon_CMOR fx_CMOR 6hrLev_CMOR 6hrPlev_CMOR 3hr_CMOR.f90
 
 Amon_CMOR: $(OBJ) Amon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Amon_CMOR.o \
@@ -120,6 +120,10 @@ Amon_CMOR: $(OBJ) Amon_CMOR.o
 3hrMlev_CMOR: $(OBJ) 3hrMlev_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) 3hrMlev_CMOR.o \
 	-o $(EXEDIR)/3hrMlev_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
+
+3hrCurt_CMOR: $(OBJ) 3hrCurt_CMOR.o
+	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) 3hrCurt_CMOR.o \
+	-o $(EXEDIR)/3hrCurt_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
 
 sites_CMOR: $(OBJ) sites_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) sites_CMOR.o \
@@ -242,6 +246,9 @@ Amon_CMOR.o: Amon_CMOR.f90 $(OBJ)
 
 3hrMlev_CMOR.o: 3hrMlev_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c 3hrMlev_CMOR.f90
+
+3hrCurt_CMOR.o: 3hrCurt_CMOR.f90 $(OBJ)
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c 3hrCurt_CMOR.f90
 
 sites_CMOR.o: sites_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c sites_CMOR.f90

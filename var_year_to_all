@@ -89,6 +89,9 @@ for c in $CASES ; do
         if [ $NUM = $YRCOUNT ] ; then
           Y0=`ls ${c}.${h}.${v}.*.nc | head -n 1 | cut -d"." -f${DTIM}`
           Y1=`ls ${c}.${h}.${v}.*.nc | tail -n 1 | cut -d"." -f${DTIM}`
+          if [ "$TPER" = "ann" ] ; then 
+            DF=CAT.${c}.${h}.${v}.${Y0}-${Y1}.nc
+          fi
           if [ "$TPER" = "mon" ] ; then 
             DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
           fi
@@ -120,6 +123,9 @@ for c in $CASES ; do
       else
         Y0=`ls ${c}.${h}.${v}.*.nc | head -n 1 | cut -d"." -f${DTIM}`
         Y1=`ls ${c}.${h}.${v}.*.nc | tail -n 1 | cut -d"." -f${DTIM}`
+        if [ "$TPER" = "ann" ] ; then 
+          DF=CAT.${c}.${h}.${v}.${Y0}-${Y1}.nc
+        fi
         if [ "$TPER" = "mon" ] ; then 
           DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
         fi

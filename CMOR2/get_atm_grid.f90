@@ -62,9 +62,13 @@ subroutine get_atm_grid
      case('plev3') 
         nplev3 = dim_info(n)%length
      case('cosp_tau') 
-        ncosp_tau = dim_info(n)%length
+        ncosp_tau  = dim_info(n)%length
      case('cosp_prs') 
-        ncosp_prs = dim_info(n)%length
+        ncosp_prs  = dim_info(n)%length
+     case('cosp_ht') 
+        ncosp_ht   = dim_info(n)%length
+     case('cosp_dbze') 
+        ncosp_dbze = dim_info(n)%length
      case('ncol') 
         nsites = dim_info(n)%length
      end select
@@ -78,6 +82,8 @@ subroutine get_atm_grid
   allocate(a_coeff(nlevs),b_coeff(nlevs),a_coeff_bnds(nlevs+1),b_coeff_bnds(nlevs+1))
   allocate(cosp_tau(ncosp_tau),cosp_tau_bnds(2,ncosp_tau))
   allocate(cosp_prs(ncosp_prs),cosp_prs_bnds(2,ncosp_prs))
+  allocate(cosp_ht(ncosp_ht),cosp_ht_bnds(2,ncosp_ht))
+  allocate(cosp_dbze(ncosp_dbze),cosp_dbze_bnds(2,ncosp_dbze))
   !
   do i = 1,nsites
      atm_sites(i) = i
@@ -107,6 +113,10 @@ subroutine get_atm_grid
   call read_var(gridid,'cosp_prs_bnds',cosp_prs_bnds)
   cosp_prs      = cosp_prs      * 100
   cosp_prs_bnds = cosp_prs_bnds * 100
+  call read_var(gridid,'cosp_ht',cosp_ht)
+  call read_var(gridid,'cosp_ht_bnds',cosp_ht_bnds)
+  call read_var(gridid,'cosp_dbze',cosp_dbze)
+  call read_var(gridid,'cosp_dbze_bnds',cosp_dbze_bnds)
   !
   ! Create atm_ilev_bnds from regular levs
   !

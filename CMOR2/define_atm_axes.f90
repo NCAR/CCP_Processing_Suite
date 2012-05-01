@@ -12,10 +12,16 @@ subroutine define_atm_axes(dimensions)
   use mycmor_info
   !
   implicit none
+  integer,dimension(:),allocatable::location
   character(len=256),intent(in)::dimensions
   !
   integer::i,j,idim,error_flag,ilev
   integer,dimension(0:10)::idxb
+  !
+  allocate(location(nlons*nlats))
+  do i = 1,nlons*nlats
+     location(i) = i
+  enddo
   !
   ! Parse "dimensions" to find names and how many
   !
@@ -124,6 +130,45 @@ subroutine define_atm_axes(dimensions)
   !
   do i = 1,naxes
      select case(dimnames(i))
+     case ('location')
+        axis_ids(idim) = cmor_axis(        &
+             table=mycmor%table_file,      &
+             table_entry=dimnames(i),      &
+             units=dimunits(i),            &
+             length=SIZE(location),        &
+             coord_vals=location)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        idim = idim + 1
+     case ('p220')
+        axis_ids(idim) = cmor_axis(        &
+             table=mycmor%table_file,      &
+             table_entry=dimnames(i),      &
+             units=dimunits(i),            &
+             length=1)
+!             length=1,                     &
+!             coord_vals=22000.)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        idim = idim + 1
+     case ('p560')
+        axis_ids(idim) = cmor_axis(        &
+             table=mycmor%table_file,      &
+             table_entry=dimnames(i),      &
+             units=dimunits(i),            &
+             length=1)
+!             length=1,                     &
+!             coord_vals=56000.)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        idim = idim + 1
+     case ('p840')
+        axis_ids(idim) = cmor_axis(        &
+             table=mycmor%table_file,      &
+             table_entry=dimnames(i),      &
+             units=dimunits(i),            &
+             length=1)
+!             length=1,                     &
+!             coord_vals=84000.)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        idim = idim + 1
      case ('site')
         axis_ids(idim) = cmor_axis(        &
              table=mycmor%table_file,      &
@@ -131,6 +176,26 @@ subroutine define_atm_axes(dimensions)
              units=dimunits(i),            &
              length=SIZE(atm_sites),       &
              coord_vals=atm_sites)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        idim = idim + 1
+     case ('alt40')
+        axis_ids(idim) = cmor_axis(        &
+             table=mycmor%table_file,      &
+             table_entry=dimnames(i),      &
+             units=dimunits(i),            &
+             length=SIZE(cosp_ht),         &
+             coord_vals=cosp_ht,           &
+             cell_bounds=cosp_ht_bnds)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        idim = idim + 1
+     case ('dbze')
+        axis_ids(idim) = cmor_axis(        &
+             table=mycmor%table_file,      &
+             table_entry=dimnames(i),      &
+             units=dimunits(i),            &
+             length=SIZE(cosp_dbze),       &
+             coord_vals=cosp_dbze,         &
+             cell_bounds=cosp_dbze_bnds)
         write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('latitude')

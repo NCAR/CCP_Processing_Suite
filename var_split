@@ -68,7 +68,7 @@ DCMP=$DHT1
 #
 COMP=`echo $FILE | cut -d"." -f${DCMP}`
 #
-# Check to see if $FILE is a POP daily tape denoted by 'pop.h.h2|nday1' string
+# Check to see if $FILE is a POP daily tape denoted by 'pop.h.h2|nday1|pop.h.ecosys.year1' string
 #
 if [ "$COMP" = "pop" ] ; then
   DYCK=`expr '(' $DCMP ')' '+' '2'`
@@ -76,6 +76,10 @@ if [ "$COMP" = "pop" ] ; then
   if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
     DPFX=`expr '(' $DPFX ')' '+' '1'`
     DSFX=`expr '(' $DSFX ')' '+' '1'`
+  fi
+  if [ "$ODAY" = "ecosys" ] ; then
+    DPFX=`expr '(' $DPFX ')' '+' '2'`
+    DSFX=`expr '(' $DSFX ')' '+' '2'`
   fi
 fi
 #

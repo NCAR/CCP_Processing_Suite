@@ -144,6 +144,8 @@ ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
 ARCHIVE_PROC=$ARCHIVE_BASE/$CASE/$COMP_NAME/proc/tseries
 #
 case "$TPER" in
+  ann )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/annual   ;;
   mon )
     ARCHIVE_PROC=${ARCHIVE_PROC}/monthly  ;;
   day )
@@ -214,10 +216,13 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
-if [ "$TPER" != "mon" ] ; then
-  ln -s -f $BASEDIR/time_split     .
-  ln -s -f $BASEDIR/days_to_month  .
-fi
+case "$TPER" in
+  day | hr6 | hr3 | m30 )
+    ln -s -f $BASEDIR/time_split     .
+    ln -s -f $BASEDIR/days_to_month  .
+    ;;
+esac
+#
 ln -s -f $BASEDIR/mss_list         .
 ln -s -f $BASEDIR/mss_read         .
 ln -s -f $BASEDIR/mss_write        .
@@ -389,7 +394,9 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 # Concatenate all months into respective years, at every year done 
 #
     echo "Concatenating years at "${YEARNOW}" at "`date`
-    ./concatenate_data M2Y
+    if [ "$TPER" != "ann" ] ; then
+      ./concatenate_data M2Y
+    fi
   fi
 #
   YEARNOW=`expr $YEARNOW - 1`
