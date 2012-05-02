@@ -276,6 +276,10 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 13
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = 1812
               case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 3613
@@ -357,6 +361,10 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 13
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = 1812
               case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 3613
@@ -429,6 +437,10 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 13
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = 1812
               case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 3613
@@ -518,6 +530,10 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 13
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = 1812
               case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 3613
