@@ -118,6 +118,7 @@ program Do6hrLev_CMOR
                  endif
               enddo
               call read_att_text(myncid(ifile,ivar),'time','units',time_units)
+              write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,ivar)),myncid(ifile,ivar),ntimes(ifile,ivar)
               !
               do n=1,var_counter
                  if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
@@ -304,7 +305,6 @@ program Do6hrLev_CMOR
                  enddo
               enddo
            enddo
-           call close_cdf(myncid(1,1))
            error_flag = cmor_close()
            if (error_flag < 0) then
               write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i10)') ,trim(xw(ixw)%entry),error_flag
