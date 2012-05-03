@@ -323,8 +323,12 @@ program Do6hrLev_CMOR
            !
            if (nc_nfiles(1) == nc_nfiles(2)) then
               do ifile = 1,nc_nfiles(1)
-                 if (.not.(allocated(indat4a))) allocate(indat4a(nlons,nlats,nlevs,ntimes(ifile,1)))
-                 if (.not.(allocated(psdata)))  allocate(psdata(nlons,nlats,ntimes(ifile,1)))
+                 if (allocated(indat4a)) deallocate(indat4a)
+                 if (allocated(psdata))  deallocate(psdata)
+                 if (allocated(time))    deallocate(time)
+                 allocate(time(ntimes(ifile,1)))
+                 allocate(indat4a(nlons,nlats,nlevs,ntimes(ifile,1)))
+                 allocate(psdata(nlons,nlats,ntimes(ifile,1)))
                  call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
                  call get_dims(myncid(ifile,1))
                  call get_vars(myncid(ifile,1))
@@ -332,7 +336,6 @@ program Do6hrLev_CMOR
                  call get_dims(myncid(ifile,2))
                  call get_vars(myncid(ifile,2))
                  !
-                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
                  !
                  do n = 1,ntimes(ifile,1)
                     time_counter = n
