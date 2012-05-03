@@ -57,7 +57,10 @@ while [ $IDOT -le $NDOT ] ; do
   esac
   IDOT=`expr '(' $IDOT ')' '+' '1'`
 done
+#
 DCMP=$DHT1
+COMP=`echo $FILE | cut -d"." -f${DCMP}`
+#
 DHT2=`expr '(' $DHT1 ')' '+' '1'`
 DVAR=`expr '(' $DVAR ')' '+' '1'`
 DTIM=`expr '(' $DVAR ')' '+' '1'`
@@ -67,7 +70,7 @@ CASES=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cu
  HIST=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
  COMP=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
 #
-# Check for pop.h.nday1/h2
+# Check for pop.h.nday1/h2/ecosys
 #
 if [ "$HIST" = "pop.h" ] ; then
   DYCK=`expr '(' $DHT2 ')' '+' '1'`
@@ -75,6 +78,14 @@ if [ "$HIST" = "pop.h" ] ; then
   if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
     DHT2=$DYCK
     DVAR=`expr '(' $DVAR ')' '+' '1'`
+    DTIM=`expr '(' $DVAR ')' '+' '1'`
+    VARS=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+    HIST=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+  fi
+  if [ "$ODAY" = "ecosys" ] ; then
+    DHT2=$DYCK
+    DHT2=`expr '(' $DHT2 ')' '+' '1'`
+    DVAR=`expr '(' $DVAR ')' '+' '2'`
     DTIM=`expr '(' $DVAR ')' '+' '1'`
     VARS=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
     HIST=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`

@@ -253,16 +253,16 @@ program Do6hrLev_CMOR
            !
            do ivar = 1,xw(ixw)%ncesm_vars
               do ifile = 1,nc_nfiles(ivar)
-                 deallocate(indat3a)
+                 if (allocated(indat3a)) deallocate(indat3a)
                  allocate(indat3a(nlons,nlats,ntimes(ifile,ivar)))
-                 deallocate(time)
+                 if (allocated(time)) deallocate(time)
                  allocate(time(ntimes(ifile,ivar)))
                  !
                  call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
                  call get_dims(myncid(ifile,ivar))
                  call get_vars(myncid(ifile,ivar))
                  do n=1,ntimes(ifile,ivar)
-                    time_counter = n
+                  time_counter = n
                     call read_var(myncid(ifile,ivar),'time',time(n))
                  enddo
                  call read_var(myncid(ifile,ivar),var_info(var_found(ifile,ivar))%name,indat3a)
