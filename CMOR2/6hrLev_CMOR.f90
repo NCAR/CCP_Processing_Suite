@@ -283,7 +283,7 @@ program Do6hrLev_CMOR
                     tidx1(1:nchunks(ifile)) = 1
                     tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
                  end select
-                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 write(*,'(''# chunks '',i3,'':'',10((i10,''-'',i10),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
                  do ic = 1,nchunks(ifile)
                     nt = (tidx2(ic)-tidx1(ic)) + 1
                     error_flag = cmor_write(          &
@@ -292,10 +292,10 @@ program Do6hrLev_CMOR
                          ntimes_passed = nt,           &
                          time_vals     = time(tidx1(ic):tidx2(ic)))
                     if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),ic
+                       write(*,'(''ERROR writing '',a,'' T# '',i10)') trim(xw(ixw)%entry),ic
                        stop
                     endif
-                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    write(*,'(''DONE writing '',a,'' T# '',i10,'' chunk# '',i10)') trim(xw(ixw)%entry),it-1,ic
                     !
                     cmor_filename = ' '
                     error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
@@ -312,9 +312,9 @@ program Do6hrLev_CMOR
            call close_cdf(myncid(1,1))
            error_flag = cmor_close()
            if (error_flag < 0) then
-              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i10)') ,trim(xw(ixw)%entry),error_flag
            else
-              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i10)') ,trim(xw(ixw)%entry),error_flag
            endif
         case ('ta','ua','va','hus')
            !
@@ -338,6 +338,7 @@ program Do6hrLev_CMOR
                     time_counter = n
                     call read_var(myncid(ifile,1),'time',time(n))
                  enddo
+                 write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat4a)
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,psdata)
                  !
@@ -357,7 +358,7 @@ program Do6hrLev_CMOR
                     tidx1(1:nchunks(ifile)) = 1
                     tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
                  end select
-                 write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+                 write(*,'(''# chunks '',i3,'':'',10((i10,''-'',i10),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
                  do ic = 1,nchunks(1)
                     nt = (tidx2(ic) - tidx1(ic)) + 1
                     error_flag = cmor_write(        &
@@ -366,7 +367,7 @@ program Do6hrLev_CMOR
                          ntimes_passed = nt,           &
                          time_vals     = time(tidx1(ic):tidx2(ic)))
                     if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       write(*,'(''ERROR writing '',a,'' T# '',i10)') trim(xw(ixw)%entry),it
                        stop
                     endif
                     error_flag = cmor_write(        &
@@ -376,10 +377,10 @@ program Do6hrLev_CMOR
                          time_vals     = time(tidx1(ic):tidx2(ic)),&
                          store_with    = cmor_var_id)
                     if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       write(*,'(''ERROR writing '',a,'' T# '',i10)') trim(xw(ixw)%entry),it
                        stop
                     endif
-                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    write(*,'(''DONE writing '',a,'' T# '',i10,'' chunk# '',i10)') trim(xw(ixw)%entry),it-1,ic
                     !
                     cmor_filename = ' '
                     error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
@@ -394,9 +395,9 @@ program Do6hrLev_CMOR
            endif
            error_flag = cmor_close()
            if (error_flag < 0) then
-              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i10)') ,trim(xw(ixw)%entry),error_flag
            else
-              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i10)') ,trim(xw(ixw)%entry),error_flag
            endif
         end select
         if (allocated(psdata))   deallocate(psdata)
