@@ -21,7 +21,9 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
      dtbeg(1) = '0101' ; dtend(1) = '1231'
      dtbeg(2) = '0102' ; dtend(2) = '1231'
   case ('Tables/CMIP5_6hrLev','Tables/CMIP5_6hrPlev','Tables/GeoMIP_6hrLev','Tables/GeoMIP_6hrPlev')
-     ndt = 1 ; dtbeg(1) = '010100Z' ; dtend(1) = '123118Z'
+     ndt = 2
+     dtbeg(1) = '010100Z' ; dtend(1) = '123118Z'
+     dtbeg(2) = '010106Z' ; dtend(2) = '123118Z'
   case ('Tables/CMIP5_3hr','Tables/CMIP5_cf3hr','Tables/GeoMIP_3hr','Tables/GeoMIP_cf3hr')
      ndt = 1 ; dtbeg(1) = '010100Z' ; dtend(1) = '123121Z'
   end select
