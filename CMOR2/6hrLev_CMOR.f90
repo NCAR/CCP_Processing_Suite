@@ -253,8 +253,11 @@ program Do6hrLev_CMOR
            !
            do ivar = 1,xw(ixw)%ncesm_vars
               do ifile = 1,nc_nfiles(ivar)
-                 if (.not.(allocated(indat3a))) allocate(indat3a(nlons,nlats,ntimes(ifile,ivar)))
-                 if (.not.(allocated(time)))    allocate(time(ntimes(ifile,ivar)))
+                 deallocate(indat3a)
+                 allocate(indat3a(nlons,nlats,ntimes(ifile,ivar)))
+                 deallocate(time)
+                 allocate(time(ntimes(ifile,ivar)))
+                 !
                  call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
                  call get_dims(myncid(ifile,ivar))
                  call get_vars(myncid(ifile,ivar))
@@ -271,6 +274,10 @@ program Do6hrLev_CMOR
                     nchunks(ifile) = 4
                     tidx1(1:nchunks(ifile)) = (/  1, 361, 725, 1093/)
                     tidx2(1:nchunks(ifile)) = (/360, 724,1092, ntimes(1,1)/)
+                 case ( 1459 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
+                    nchunks(ifile) = 4
+                    tidx1(1:nchunks(ifile)) = (/  1, 360, 724, 1092/)
+                    tidx2(1:nchunks(ifile)) = (/359, 723,1091, ntimes(1,1)/)
                  case default
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
@@ -303,8 +310,6 @@ program Do6hrLev_CMOR
               enddo
            enddo
            call close_cdf(myncid(1,1))
-           if (allocated(time))    deallocate(time)
-           if (allocated(indat3a)) deallocate(indat3a)
            error_flag = cmor_close()
            if (error_flag < 0) then
               write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
@@ -342,11 +347,15 @@ program Do6hrLev_CMOR
                  case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
                     nchunks(ifile) = 4
                     tidx1(1:nchunks(ifile)) = (/  1, 361, 725, 1093/)
-                    tidx2(1:nchunks(ifile)) = (/360, 724,1092, ntimes(ifile,1)/)
+                    tidx2(1:nchunks(ifile)) = (/360, 724,1092, ntimes(1,1)/)
+                 case ( 1459 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
+                    nchunks(ifile) = 4
+                    tidx1(1:nchunks(ifile)) = (/  1, 360, 724, 1092/)
+                    tidx2(1:nchunks(ifile)) = (/359, 723,1091, ntimes(1,1)/)
                  case default
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,ivar)
                  end select
                  write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
                  do ic = 1,nchunks(1)
