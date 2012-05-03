@@ -129,8 +129,6 @@ program Do6hrLev_CMOR
                  write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
                  stop
               endif
-              call close_cdf(myncid(ifile,ivar))
-              !
            enddo
         enddo
         !
@@ -258,9 +256,6 @@ program Do6hrLev_CMOR
                  if (allocated(time)) deallocate(time)
                  allocate(time(ntimes(ifile,ivar)))
                  !
-                 call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
-                 call get_dims(myncid(ifile,ivar))
-                 call get_vars(myncid(ifile,ivar))
                  do n=1,ntimes(ifile,ivar)
                   time_counter = n
                     call read_var(myncid(ifile,ivar),'time',time(n))
@@ -329,21 +324,14 @@ program Do6hrLev_CMOR
                  allocate(time(ntimes(ifile,1)))
                  allocate(indat4a(nlons,nlats,nlevs,ntimes(ifile,1)))
                  allocate(psdata(nlons,nlats,ntimes(ifile,1)))
-                 call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
-                 call get_dims(myncid(ifile,1))
-                 call get_vars(myncid(ifile,1))
-                 call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
-                 call get_dims(myncid(ifile,2))
-                 call get_vars(myncid(ifile,2))
-                 !
                  !
                  do n = 1,ntimes(ifile,1)
                     time_counter = n
                     call read_var(myncid(ifile,1),'time',time(n))
                  enddo
                  write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
-                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat4a)
-                 call read_var(myncid(1,2),var_info(var_found(1,2))%name,psdata)
+                 call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat4a)
+                 call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,psdata)
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
@@ -351,11 +339,11 @@ program Do6hrLev_CMOR
                  case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
                     nchunks(ifile) = 4
                     tidx1(1:nchunks(ifile)) = (/  1, 361, 725, 1093/)
-                    tidx2(1:nchunks(ifile)) = (/360, 724,1092, ntimes(1,1)/)
+                    tidx2(1:nchunks(ifile)) = (/360, 724,1092, ntimes(ifile,1)/)
                  case ( 1459 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
                     nchunks(ifile) = 4
                     tidx1(1:nchunks(ifile)) = (/  1, 360, 724, 1092/)
-                    tidx2(1:nchunks(ifile)) = (/359, 723,1091, ntimes(1,1)/)
+                    tidx2(1:nchunks(ifile)) = (/359, 723,1091, ntimes(ifile,1)/)
                  case default
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
