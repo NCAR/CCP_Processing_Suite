@@ -265,9 +265,8 @@ program Do6hrPlev_CMOR
               do n=1,ntimes(ifile,1)
                  time_counter = n
                  call read_var(myncid(ifile,1),'time',time(n))
+                 call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a(:,:,n))
               enddo
-              call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-              write(*,'(''MIN,MAX: '',2f12.5)') minval(indat3a),maxval(indat3a)
               !
               ! Determine amount of data to write, to keep close to ~2 GB limit
               !
