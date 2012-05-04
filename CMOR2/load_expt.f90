@@ -199,7 +199,7 @@ subroutine load_exp(exp_file)
      case ('decadal2000','decadal2001','decadal2002','decadal2003','decadal2004','decadal2005','decadal2006')
         exp(i)%forcing(1:)      = 'Sl GHG SS Ds SD BC MD OC Oz AA LU'
      case ('esmControl')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'Sl GHG SS Ds SD BC MD OC Oz AA (all fixed at 1850 values)'
      case ('esmFdbk1')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('esmFdbk2')
@@ -209,9 +209,9 @@ subroutine load_exp(exp_file)
      case ('esmFixClim2')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('esmHistorical')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU'
      case ('esmrcp85')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'Sl GHG SS Ds SA BC MD OC Oz AA'
      case ('historical')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU'
      case ('historicalExt')
