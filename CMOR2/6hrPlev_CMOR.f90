@@ -119,6 +119,7 @@ program Do6hrPlev_CMOR
                  endif
               enddo
               call read_att_text(myncid(ifile,ivar),'time','units',time_units)
+              write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,ivar)),myncid(ifile,ivar),ntimes(ifile,ivar)
               !
               do n=1,var_counter
                  if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
@@ -254,11 +255,14 @@ program Do6hrPlev_CMOR
            !
            do ivar = 1,xw(ixw)%ncesm_vars
               do ifile = 1,nc_nfiles(ivar)
-                 if (.not.(allocated(indat3a))) allocate(indat3a(nlons,nlats,ntimes(ifile,ivar)))
-                 if (.not.(allocated(time)))    allocate(time(ntimes(ifile,ivar)))
+                 if (allocated(indat3a)) deallocate(indat3a)
+                 if (allocated(time))    deallocate(time)
+                 allocate(indat3a(nlons,nlats,ntimes(ifile,ivar)))
+                 allocate(time(ntimes(ifile,ivar)))
                  call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
                  call get_dims(myncid(ifile,ivar))
                  call get_vars(myncid(ifile,ivar))
+                 write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,ivar)),myncid(ifile,ivar),ntimes(ifile,ivar)
                  do n=1,ntimes(ifile,ivar)
                     time_counter = n
                     call read_var(myncid(ifile,ivar),'time',time(n))
@@ -308,19 +312,23 @@ program Do6hrPlev_CMOR
            !
            if (nc_nfiles(1) == nc_nfiles(2)) then
               do ifile = 1,nc_nfiles(1)
-                 if (.not.(allocated(indat3a))) allocate(indat3a(nlons,nlats,nlevs))
-                 if (.not.(allocated(vintrpd))) allocate(vintrpd(nlons,nlats,size(atm_plev3)))
-                 if (.not.(allocated(psdata)))  allocate(psdata(nlons,nlats))
-                 if (.not.(allocated(time)))    allocate(time(ntimes(ifile,1)))
+                 if (allocated(indat3a)) deallocate(indat3a)
+                 if (allocated(time))    deallocate(time)
+                 if (allocated(vintrpd)) deallocate(vintrpd)
+                 if (allocated(psdata))  deallocate(psdata)
+                 allocate(indat3a(nlons,nlats,nlevs))
+                 allocate(vintrpd(nlons,nlats,size(atm_plev3)))
+                 allocate(psdata(nlons,nlats))
+                 allocate(time(ntimes(ifile,1)))
                  !
                  call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
-                 write(*,*) 'OPENED: ',trim(ncfile(ifile,1)),' NCID: ',myncid(ifile,1)
                  call get_dims(myncid(ifile,1))
                  call get_vars(myncid(ifile,1))
                  call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
-                 write(*,*) 'OPENED: ',trim(ncfile(ifile,2)),' NCID: ',myncid(ifile,2)
                  call get_dims(myncid(ifile,2))
                  call get_vars(myncid(ifile,2))
+                 write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
+                 write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,2)),myncid(ifile,2),ntimes(ifile,2)
                  !
                  !
                  do n = 1,ntimes(ifile,1)
