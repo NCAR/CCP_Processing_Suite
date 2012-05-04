@@ -258,15 +258,16 @@ program Do6hrPlev_CMOR
               if (allocated(time))    deallocate(time)
               allocate(indat3a(nlons,nlats,ntimes(ifile,1)))
               allocate(time(ntimes(ifile,1)))
-!              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
-!              call get_dims(myncid(ifile,1))
-!              call get_vars(myncid(ifile,1))
+              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+              call get_dims(myncid(ifile,1))
+              call get_vars(myncid(ifile,1))
               write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
               do n=1,ntimes(ifile,1)
                  time_counter = n
                  call read_var(myncid(ifile,1),'time',time(n))
               enddo
               call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+              write(*,'(''MIN,MAX: '',2f12.5)') minval(indat3a),maxval(indat3a)
               !
               ! Determine amount of data to write, to keep close to ~2 GB limit
               !
