@@ -131,7 +131,7 @@ program Do6hrPlev_CMOR
                  write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
                  stop
               endif
-              call close_cdf(myncid(ifile,ivar))
+!              call close_cdf(myncid(ifile,ivar))
               !
            enddo
         enddo
@@ -258,9 +258,9 @@ program Do6hrPlev_CMOR
               if (allocated(time))    deallocate(time)
               allocate(indat3a(nlons,nlats,ntimes(ifile,1)))
               allocate(time(ntimes(ifile,1)))
-              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
-              call get_dims(myncid(ifile,1))
-              call get_vars(myncid(ifile,1))
+!              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+!              call get_dims(myncid(ifile,1))
+!              call get_vars(myncid(ifile,1))
               write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -293,9 +293,6 @@ program Do6hrPlev_CMOR
               else
                  write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
               endif
-              call close_cdf(myncid(ifile,1))
-              if (allocated(time))    deallocate(time)
-              if (allocated(indat3a)) deallocate(indat3a)
            enddo
         case ('ta','ua','va')
            !
