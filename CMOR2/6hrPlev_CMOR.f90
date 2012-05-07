@@ -285,15 +285,25 @@ program Do6hrPlev_CMOR
                     write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),ic
                     stop
                  endif
-                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),nt,ic
+                 write(*,'(''DONE writing '',a,'' T# '',i10,'' chunk# '',i10)') trim(xw(ixw)%entry),it-1,ic
+                 !
+                 cmor_filename = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+                 endif
               enddo
-              error_flag = cmor_close()
-              if (error_flag < 0) then
-                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-              else
-                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-              endif
+              call close_cdf(myncid(ifile,1))
            enddo
+           error_flag = cmor_close()
+           if (error_flag < 0) then
+              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+           else
+              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+           endif
         case ('ta','ua','va')
            !
            ! Vertically interpolate data to 3 pressure levels
