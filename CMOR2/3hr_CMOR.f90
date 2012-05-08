@@ -351,7 +351,6 @@ program Do3hr_CMOR
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
-                    cmordat2d = spval
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
                     ! 
                     tval(1)   = time(it)
