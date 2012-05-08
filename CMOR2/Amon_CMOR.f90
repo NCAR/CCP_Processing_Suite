@@ -993,7 +993,7 @@ program Amon_CMOR
            case ( 1872 )  ! 20C, 1850-2005
               select case(exp(exp_found)%model_id)
               case ('CESM1-CAM5')
-                 nchunks(ifile) = 7
+                 nchunks(ifile) = 6
                  tidx1(1:nchunks(ifile)) = (/  1, 301, 601, 901,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
                  tidx2(1:nchunks(ifile)) = (/300, 600, 900,1200,1500,1872/) ! 1874, 1899, 1924, 1949, 1974, 2005
               case default
@@ -1122,7 +1122,7 @@ program Amon_CMOR
               case ( 1872 )  ! 20C, 1850-2005
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-CAM5')
-                    nchunks(ifile) = 7
+                    nchunks(ifile) = 6
                     tidx1(1:nchunks(ifile)) = (/  1, 301, 601, 901,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
                     tidx2(1:nchunks(ifile)) = (/300, 600, 900,1200,1500,1872/) ! 1874, 1899, 1924, 1949, 1974, 2005
                  case default
