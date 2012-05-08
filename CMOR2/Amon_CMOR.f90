@@ -993,7 +993,7 @@ program Amon_CMOR
            case ( 1872 )  ! 20C, 1850-2005
               if (nlevs .eq. 30) then ! CAM5, ~25y chunks
                  nchunks(ifile) = 7
-                 tidx1(1:nchunks(ifile)) = (/  1, 301, 601, 801,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
+                 tidx1(1:nchunks(ifile)) = (/  1, 301, 601, 901,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
                  tidx2(1:nchunks(ifile)) = (/300, 600, 900,1200,1500,1872/) ! 1874, 1899, 1924, 1949, 1974, 2005
               else  ! 20C, 1850-2005, ~50y chunks
                  nchunks(ifile) = 3
@@ -1115,13 +1115,13 @@ program Amon_CMOR
                  time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
               enddo
               !
-              ! Determine amount of data to write, to keep close to ~2 GB limit
+              ! Determine amount of data to write, to keep close to ~4 GB limit
               !
               select case(ntimes(ifile,1))
               case ( 1872 )  ! 20C, 1850-2005
                  if (nilevs .eq. 31) then ! CAM5, ~25y chunks
                     nchunks(ifile) = 7
-                    tidx1(1:nchunks(ifile)) = (/  1, 301, 601, 801,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
+                    tidx1(1:nchunks(ifile)) = (/  1, 301, 601, 901,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
                     tidx2(1:nchunks(ifile)) = (/300, 600, 900,1200,1500,1872/) ! 1874, 1899, 1924, 1949, 1974, 2005
                  else  ! 20C, 1850-2005, ~50y chunks
                     nchunks(ifile) = 3
