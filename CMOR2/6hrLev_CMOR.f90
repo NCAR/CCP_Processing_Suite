@@ -271,15 +271,11 @@ program Do6hrLev_CMOR
               case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
                  nchunks(1) = 4
                  tidx1(1:nchunks(1)) = (/  1, 361, 725, 1093/)
-                 tidx2(1:nchunks(1)) = (/360, 724,1092, ntimes(ifile,1)/)
+                 tidx2(1:nchunks(1)) = (/360, 724,1092, 1460/)
               case ( 1459 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
                  nchunks(1) = 4
                  tidx1(1:nchunks(1)) = (/  1, 360, 724, 1092/)
-                 tidx2(1:nchunks(1)) = (/359, 723,1091, ntimes(ifile,1)/)
-              case default
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = 1
-                 tidx2(1:nchunks(1)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(1)) = (/359, 723,1091, 1459/)
               end select
               write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
               do ic = 1,nchunks(1)
@@ -343,15 +339,11 @@ program Do6hrLev_CMOR
                  case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
                     nchunks(ifile) = 4
                     tidx1(1:nchunks(ifile)) = (/  1, 361, 725, 1093/)
-                    tidx2(1:nchunks(ifile)) = (/360, 724,1092, ntimes(ifile,1)/)
+                    tidx2(1:nchunks(ifile)) = (/360, 724,1092, 1460/)
                  case ( 1459 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
                     nchunks(ifile) = 4
                     tidx1(1:nchunks(ifile)) = (/  1, 360, 724, 1092/)
-                    tidx2(1:nchunks(ifile)) = (/359, 723,1091, ntimes(ifile,1)/)
-                 case default
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = 1
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = (/359, 723,1091, 1459/)
                  end select
                  write(*,'(''# chunks '',i3,'':'',10((i10,''-'',i10),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
                  do ic = 1,nchunks(ifile)
