@@ -295,16 +295,15 @@ program Do6hrLev_CMOR
                  enddo
                  write(*,'(''DONE WRITING '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  cmor_filename = ' '
-                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (ic <  nchunks(1)) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (ic == nchunks(1)) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=0)
                  if (error_flag < 0) then
-                    write(*,'(''ERROR keep_close of : '',a,'' flag: '',i6,'' file: '',a)') ,trim(xw(ixw)%entry),error_flag,trim(cmor_filename)
+                    write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
                     stop
                  else
-                    write(*,'('' GOOD keep_close of : '',a,'' flag: '',i6,'' file: '',a)') ,trim(xw(ixw)%entry),error_flag,trim(cmor_filename)
+                    write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                  endif
-                 !
               enddo
-              write(*,'(''DONE '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic-1
            enddo
         case ('ta','ua','va','hus')
            !
@@ -373,29 +372,19 @@ program Do6hrLev_CMOR
                        endif
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i10,'' chunk# '',i10)') trim(xw(ixw)%entry),it-1,ic
-                    !
-                    if (ic < nchunks(ifile)) then
-                       cmor_filename = ' '
-                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                       if (error_flag < 0) then
-                          write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
-                          stop
-                       else
-                          write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
-                       endif
+                    cmor_filename = ' '
+                    if (ic <  nchunks(ifile)) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                    if (ic == nchunks(ifile)) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=0)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                       stop
+                    else
+                       write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                     endif
                  enddo
               enddo
            endif
         end select
-        error_flag = cmor_close()
-        if (error_flag < 0) then
-           write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-        else
-           write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
-        endif
-        if (allocated(psdata))   deallocate(psdata)
-        if (allocated(indat3a))  deallocate(indat3a)
         !
         ! Reset
         !
