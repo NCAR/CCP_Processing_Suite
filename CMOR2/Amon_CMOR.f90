@@ -991,15 +991,16 @@ program Amon_CMOR
            !
            select case(ntimes(1,1))
            case ( 1872 )  ! 20C, 1850-2005
-              if (nlevs .eq. 30) then ! CAM5, ~25y chunks
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-CAM5')
                  nchunks(ifile) = 7
                  tidx1(1:nchunks(ifile)) = (/  1, 301, 601, 901,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
                  tidx2(1:nchunks(ifile)) = (/300, 600, 900,1200,1500,1872/) ! 1874, 1899, 1924, 1949, 1974, 2005
-              else  ! 20C, 1850-2005, ~50y chunks
+              case default
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
                  tidx2(1:nchunks(ifile)) = (/600,1200,1872/) ! 1899, 1950, 2005
-              endif
+              end select
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(ifile) = 3
               tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
@@ -1119,15 +1120,16 @@ program Amon_CMOR
               !
               select case(ntimes(ifile,1))
               case ( 1872 )  ! 20C, 1850-2005
-                 if (nilevs .eq. 31) then ! CAM5, ~25y chunks
+                 select case(exp(exp_found)%model_id)
+                 case ('CESM1-CAM5')
                     nchunks(ifile) = 7
                     tidx1(1:nchunks(ifile)) = (/  1, 301, 601, 901,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
                     tidx2(1:nchunks(ifile)) = (/300, 600, 900,1200,1500,1872/) ! 1874, 1899, 1924, 1949, 1974, 2005
-                 else  ! 20C, 1850-2005, ~50y chunks
+                 case default
                     nchunks(ifile) = 3
                     tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
                     tidx2(1:nchunks(ifile)) = (/600,1200,1872/) ! 1899, 1950, 2005
-                 endif
+                 end select
               case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
