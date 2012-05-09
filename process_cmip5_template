@@ -67,6 +67,7 @@ PROCHOST=`hostname`;export PROCHOST
 case "$PROCHOST" in 
   silver* )                                # silver @ CGD/NCAR
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
+    DISK_BASE=/datalocal/proc             ; export DISK_BASE
     ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
     SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
     if ! [ $LD_LIBRARY_PATH ] ; then
@@ -78,6 +79,7 @@ case "$PROCHOST" in
 
   modeling1* )                                # modeling1 in ACD
     PROCBASE=/data6/$USER/$CASE           ; export PROCBASE
+    DISK_BASE=/data6                       ; export DISK_BASE
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
     SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
     if ! [ $LD_LIBRARY_PATH ] ; then
@@ -89,6 +91,7 @@ case "$PROCHOST" in
 
   tramhill* | hurricane* )                 # tramhill/hurricane @ CGD/NCAR
     PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
+    DISK_BASE=/project/yampa01             ; export DISK_BASE
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
     SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
     if ! [ $LD_LIBRARY_PATH ] ; then
@@ -100,6 +103,7 @@ case "$PROCHOST" in
 
   mirage* )                                # DASG @ CISL/NCAR
     PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE
+    DISK_BASE=/glade/data01/CMIP5/CCSM/csm         ; export DISK_BASE
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
     SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
     if ! [ $LD_LIBRARY_PATH ] ; then
@@ -167,19 +171,24 @@ esac
 #
 LOCAL_PROC=$PROCBASE/$TABL
 ARCHIVE_PROC=$VARSBASE/$CASE/$COMP_NAME/proc/tseries
+DISK_BASE=$DISK_BASE/$CASE/$COMP_NAME/proc/tseries
 ARCHIVE_CMIP5=$ARCHIVE_BASE/CMIP5
 #
 # Location of single-field format files on archive
 #
 case "$TABL" in
   Amon | Lmon | OImon | Omon | LImon | cfMon | aero )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly  ;;
+    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly
+    DISK_BASE=${DISK_BASE}/monthly  ;;
   day | cfDay )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/daily   ;;
+    ARCHIVE_PROC=${ARCHIVE_PROC}/daily
+    DISK_BASE=${DISK_BASE}/daily  ;;
   6hrLev | 6hrPlev )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6  ;;
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6
+    DISK_BASE=${DISK_BASE}/hourly6  ;;
   3hr | cf3hr )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly3  ;;
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly3
+    DISK_BASE=${DISK_BASE}/hourly3  ;;
   * ) 
     echo "Unable to continue because directory for "$TABL" not known."
     ./procstat.sh error process_cmip5_template
@@ -242,6 +251,7 @@ echo "     Processing host : "$PROCHOST      ; export PROCHOST
 echo " Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
 echo "      Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
 echo "   Archive cache dir : "$CACHEDIR      ; export CACHEDIR
+echo "    Local disk cache : "${DISK_BASE}   ; export DISK_BASE
 echo " Processing code dir : "$BASEDIR       ; export BASEDIR
 echo "          Binary dir : "$BINDIR        ; export BINDIR
 echo "         CMOR binary : "$BINDIR"/"${TABL}"_CMOR"
@@ -255,9 +265,9 @@ fi
 cd $LOCAL_PROC
 #
 ln -s -f $BASEDIR/experiments.txt  .
-ln -s -f $BASEDIR/mss_list         .
-ln -s -f $BASEDIR/mss_var_read     .
-ln -s -f $BASEDIR/mss_cmip5_write  .
+ln -s -f $BASEDIR/archive_list         .
+ln -s -f $BASEDIR/archive_var_read     .
+ln -s -f $BASEDIR/archive_cmip5_write  .
 ln -s -f $BASEDIR/CMOR2/RunCMOR    .
 ln -s -f $BASEDIR/store_to_archive .
 ln -s -f $BASEDIR/procstat.sh      .
@@ -273,29 +283,39 @@ echo "BEGIN : procstat"
 #
 # Get archive listing
 #
-#cd $CACHEDIR
+#cd $DISK_BASE
 #ARCHIVE_LIST=archive.$CASE.$HIST.VARS
 #if [ ! -f $ARCHIVE_LIST ] ; then
 #  echo "Getting archival list of "$CASE" "$HIST
-#  ../mss_list $ARCHIVE_LIST
+#  ../archive_list $ARCHIVE_LIST
 #  if [ $? -ne 0 ] ; then
-#    echo "Error from mss_list"
-#    ./procstat.sh error mss_list
+#    echo "Error from archive_list"
+#    ./procstat.sh error archive_list
 #    exit 1
 #  fi
 #fi
 #
 # Retrieve files from archive
 #
-cd $CACHEDIR
-../mss_var_read $ARCHIVE_PROC $CCSM_VARS
+if [ ! -d $DISK_BASE ] ; then
+  mkdir -p $DISK_BASE
+fi
+#
+cd $DISK_BASE
+ln -s -f $BASEDIR/archive_var_read .
+./archive_var_read $ARCHIVE_PROC $CCSM_VARS
 if [ $? -ne 0 ] ; then
-  echo "Error from mss_var_read"
-  ./procstat.sh error mss_var_read
+  echo "Error from archive_var_read"
+  ./procstat.sh error archive_var_read
   exit 1
 fi
 #
 # Run CMOR processor code
+#
+echo "CACHEDIR : "${CACHEDIR}
+echo "DISK_BASE: "${DISK_BASE}
+cd $CACHEDIR
+ln -s -f ${DISK_BASE}/${CASE}.${HIST}*nc .
 #
 cd $LOCAL_PROC
 if [ "$VARS" ] ; then

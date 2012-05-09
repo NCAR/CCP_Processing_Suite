@@ -213,9 +213,9 @@ if [ "$TPER" != "mon" ] ; then
   ln -s -f $BASEDIR/time_split     .
   ln -s -f $BASEDIR/days_to_month  .
 fi
-ln -s -f $BASEDIR/mss_list         .
-ln -s -f $BASEDIR/mss_read         .
-ln -s -f $BASEDIR/mss_write_dp     .
+ln -s -f $BASEDIR/archive_list         .
+ln -s -f $BASEDIR/archive_read         .
+ln -s -f $BASEDIR/archive_write_dp     .
 ln -s -f $BASEDIR/var_split        .
 ln -s -f $BASEDIR/var_mon_to_year  .
 ln -s -f $BASEDIR/var_year_to_dec  .
@@ -239,7 +239,7 @@ echo "BEGIN : procstat"
 ARCHIVE_LIST=archive.$CASE.$HIST
 if [ ! -f $ARCHIVE_LIST ] ; then
   echo "Getting archival list of "$CASE" "$HIST
-  ./mss_list $ARCHIVE_LIST
+  ./archive_list $ARCHIVE_LIST
 fi
 #
 while [ $YEARNOW -ge $YEARBEG ] ; do
@@ -254,9 +254,9 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
         ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* .
       fi
     else
-      ./mss_read $ARCHIVE_LIST $YEARNOW
+      ./archive_read $ARCHIVE_LIST $YEARNOW
       if [ $? -ne 0 ] ; then
-        echo "Error from mss_read"
+        echo "Error from archive_read"
        ./procstat.sh error process_template
        exit 1
       fi

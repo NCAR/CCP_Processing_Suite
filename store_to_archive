@@ -14,7 +14,7 @@ if [ `ls CAT.*.nc | wc -l` != 0 ] ; then
     SFILE=`echo $cfile | sed -e 's/^CAT\.//g'`
     mv $cfile $SFILE
   done
-  ../mss_write $ARCHIVE_PROC
+  ../archive_write $ARCHIVE_PROC
 fi
 #
 cd $LOCAL_PROC

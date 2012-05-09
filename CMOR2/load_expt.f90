@@ -201,13 +201,13 @@ subroutine load_exp(exp_file)
      case ('esmControl')
         exp(i)%forcing(1:)      = 'Sl GHG SS Ds SD BC MD OC Oz AA (all fixed at 1850 values)'
      case ('esmFdbk1')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'GHG (CO2 only, 1% increase/year, radiation only) Sl SS Ds SD BC MD OC Oz AA (all fixed at 1850 values)'
      case ('esmFdbk2')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'GHG (CO2 only, historical + RCP4.5, radiation only) Sl SS Ds SD BC MD OC Oz AA (all fixed at 1850 values)'
      case ('esmFixClim1')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'GHG (CO2 only, 1% increase/year, carbon cycle only) Sl SS Ds SD BC MD OC Oz AA (all fixed at 1850 values)'
      case ('esmFixClim2')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'GHG (CO2 only, historical + RCP4.5, carbon cycle only) Sl SS Ds SD BC MD OC Oz AA (all fixed at 1850 values)'
      case ('esmHistorical')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU'
      case ('esmrcp85')

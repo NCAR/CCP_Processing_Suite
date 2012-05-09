@@ -48,7 +48,7 @@ process_template: Used by Process_Setup, with changes given by the arguments to
 experiments.txt : An ASCII-formatted listing of the relevant metadata for each
                   experiment; details on the format are given in the file
 
-mss_* scripts
+archive_* scripts
 store_to_archive: Interfaces to the archival system
 
 var_split       : Splits the history netCDF file into its component fields
