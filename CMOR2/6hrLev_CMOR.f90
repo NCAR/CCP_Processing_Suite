@@ -295,7 +295,7 @@ program Do6hrLev_CMOR
                  enddo
                  write(*,'(''DONE WRITING '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  cmor_filename = ' '
-                 if (ic <  nchunks(1)) then
+!                 if (ic <  nchunks(1)) then
                     error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                     if (error_flag < 0) then
                        write(*,'(''ERROR keep_close, ic:'',i10,5x,a)') ic,cmor_filename(1:128)
@@ -303,15 +303,15 @@ program Do6hrLev_CMOR
                     else
                        write(*,'('' GOOD keep_close, ic:'',i10,5x,a)') ic,cmor_filename(1:128)
                     endif
-                 else
-                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=0)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR done_close, ic:'',i10,5x,a)') ic,cmor_filename(1:128)
-                       stop
-                    else
-                       write(*,'('' GOOD done_close, ic:'',i10,5x,a)') ic,cmor_filename(1:128)
-                    endif
-                 endif
+!!$                 else
+!!$                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=0)
+!!$                    if (error_flag < 0) then
+!!$                       write(*,'(''ERROR done_close, ic:'',i10,5x,a)') ic,cmor_filename(1:128)
+!!$                       stop
+!!$                    else
+!!$                       write(*,'('' GOOD done_close, ic:'',i10,5x,a)') ic,cmor_filename(1:128)
+!!$                    endif
+!!$                 endif
               enddo
            enddo
         case ('ta','ua','va','hus')
@@ -394,6 +394,13 @@ program Do6hrLev_CMOR
               enddo
            endif
         end select
+        error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=0)
+        if (error_flag < 0) then
+           write(*,'(''ERROR done_close, ic:'',i10,5x,a)') ic,cmor_filename(1:128)
+           stop
+        else
+           write(*,'('' GOOD done_close, ic:'',i10,5x,a)') ic,cmor_filename(1:128)
+        endif
         !
         ! Reset
         !
