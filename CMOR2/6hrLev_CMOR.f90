@@ -298,18 +298,18 @@ program Do6hrLev_CMOR
                  if (ic <  nchunks(1)) then
                     error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                     if (error_flag < 0) then
-                       write(*,'(''ERROR keep_close: '',a)') cmor_filename(1:128)
+                       write(*,'(''ERROR keep_close, ic:'',i10,5x,a)') ic,cmor_filename(1:128)
                        stop
                     else
-                       write(*,'('' GOOD keep_close: '',a)') cmor_filename(1:128)
+                       write(*,'('' GOOD keep_close, ic:'',i10,5x,a)') ic,cmor_filename(1:128)
                     endif
                  else
                     error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=0)
                     if (error_flag < 0) then
-                       write(*,'(''ERROR cmor_close: '',a)') cmor_filename(1:128)
+                       write(*,'(''ERROR done_close, ic:'',i10,5x,a)') ic,cmor_filename(1:128)
                        stop
                     else
-                       write(*,'('' GOOD cmor_close: '',a)') cmor_filename(1:128)
+                       write(*,'('' GOOD done_close, ic:'',i10,5x,a)') ic,cmor_filename(1:128)
                     endif
                  endif
               enddo
