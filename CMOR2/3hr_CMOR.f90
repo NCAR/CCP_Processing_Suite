@@ -269,7 +269,7 @@ program Do3hr_CMOR
               !
               select case(ntimes(ifile,1))
               case ( 14600, 17520, 29200, 32120 )  !
-                 nchunks(ifile) = int(ntimes(ifile,1)/2920)
+                 nchunks(ifile) = ntimes(ifile,1)/2920
                  tidx1(1) =    1
                  tidx2(1) = 2920
                  do ic = 2,nchunks(ifile)
