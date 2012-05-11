@@ -1,40 +1,40 @@
 CMIP5_OImon:ageice:age_of_sea_ice:longitude latitude time:seaIce:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_OImon:bmelt:tendency_of_sea_ice_amount_due_to_basal_melting:longitude latitude time:seaIce:1:meltb:meltb
 CMIP5_OImon:divice:divergence_of_sea_ice_velocity:longitude latitude time:seaIce:1:divu:divu
-CMIP5_OImon:eshrice:eastward_derivative_of_northward_sea_ice_velocity:longitude latitude time:seaIce:1:UNKNOWN:UNKNOWN
+CMIP5_OImon:eshrice:eastward_derivative_of_northward_sea_ice_velocity:longitude latitude time:seaIce:0:UNAVAIALABLE:UNAVAILABLE
 CMIP5_OImon:evap:water_evaporation_flux:longitude latitude time:seaIce:1:evap_ai:evap_ai
 CMIP5_OImon:grCongel:tendency_of_sea_ice_amount_due_to_congelation_ice_accumulation:longitude latitude time:seaIce:1:congel:congel
 CMIP5_OImon:grFrazil:tendency_of_sea_ice_amount_due_to_frazil_ice_accumulation_in_leads:longitude latitude time:seaIce:1:frazil:frazil
 CMIP5_OImon:grLateral:tendency_of_sea_ice_amount_due_to_lateral_growth_of_ice_floes:longitude latitude time:seaIce:0:UNAVAILABLE:UNAVAILABLE
-CMIP5_OImon:hcice:integral_of_sea_ice_temperature_wrt_depth_expressed_as_heat_content:longitude latitude time:seaIce:1:qin:qin
+CMIP5_OImon:hcice:integral_of_sea_ice_temperature_wrt_depth_expressed_as_heat_content:longitude latitude time:seaIce:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_OImon:hflssi:surface_upward_latent_heat_flux:longitude latitude time:seaIce:1:flat_ai:flat_ai
 CMIP5_OImon:hfssi:surface_upward_sensible_heat_flux:longitude latitude time:seaIce:1:fsens_ai:fsens_ai
 CMIP5_OImon:ialb:sea_ice_albedo:longitude latitude time:seaIce:0:UNAVAILABLE:UNAVAILABLE
-CMIP5_OImon:nshrice:northward_derivative_of_eastward_sea_ice_velocity:longitude latitude time:seaIce:1:UNKNOWN:UNKNOWN
+CMIP5_OImon:nshrice:northward_derivative_of_eastward_sea_ice_velocity:longitude latitude time:seaIce:0:UNAVAIALABLE:UNAVAILABLE
 CMIP5_OImon:pr:rainfall_flux:longitude latitude time:seaIce:1:rain_ai:rain_ai
 CMIP5_OImon:prsn:snowfall_flux:longitude latitude time:seaIce:1:snow_ai:snow_ai
-CMIP5_OImon:ridgice:tendency_of_sea_ice_area_fraction_due_to_ridging:longitude latitude time:seaIce:1:UNKNOWN:UNKNOWN
+CMIP5_OImon:ridgice:tendency_of_sea_ice_area_fraction_due_to_ridging:longitude latitude time:seaIce:0:UNAVAIALABLE:UNAVAILABLE
 CMIP5_OImon:rldssi:surface_downwelling_longwave_flux_in_air:longitude latitude time:seaIce:1:flwdn:flwdn
 CMIP5_OImon:rlussi:surface_upwelling_longwave_flux_in_air:longitude latitude time:seaIce:1:flwup_ai:flwup
 CMIP5_OImon:rsdssi:surface_downwelling_shortwave_flux_in_air:longitude latitude time:seaIce:1:fswdn:fswdn
-CMIP5_OImon:rsussi:surface_upwelling_shortwave_flux_in_air:longitude latitude time:seaIce:1:UNKNOWN:UNKNOWN
-CMIP5_OImon:sblsi:surface_snow_and_ice_sublimation_flux:longitude latitude time:seaIce:1:UNKNOWN:UNKNOWN
+CMIP5_OImon:rsussi:surface_upwelling_shortwave_flux_in_air:longitude latitude time:seaIce:0:UNAVAIALABLE:UNAVAILABLE
+CMIP5_OImon:sblsi:surface_snow_and_ice_sublimation_flux:longitude latitude time:seaIce:0:UNAVAIALABLE:UNAVAILABLE
 CMIP5_OImon:sic:sea_ice_area_fraction:longitude latitude time:seaIce ocean:1:aice:aice
-CMIP5_OImon:sim:sea_ice_and_surface_snow_amount:longitude latitude time:seaIce ocean:1:UNKNOWN:UNKNOWN
+CMIP5_OImon:sim:sea_ice_and_surface_snow_amount:longitude latitude time:seaIce ocean:0:UNAVAIALABLE:UNAVAILABLE
 CMIP5_OImon:sit:sea_ice_thickness:longitude latitude time:seaIce ocean:1:hi:hi unchanged
-CMIP5_OImon:snc:surface_snow_area_fraction:longitude latitude time:seaIce:1:UNKNOWN:UNKNOWN
+CMIP5_OImon:snc:surface_snow_area_fraction:longitude latitude time:seaIce:0:UNAVAIALABLE:UNAVAILABLE
 CMIP5_OImon:snd:surface_snow_thickness:longitude latitude time:seaIce:1:hs:hs
 CMIP5_OImon:snomelt:surface_snow_melt_flux:longitude latitude time:seaIce:1:melts:melts
 CMIP5_OImon:snoToIce:tendency_of_sea_ice_amount_due_to_snow_conversion:longitude latitude time:seaIce:1:snoice:snoice
-CMIP5_OImon:ssi:sea_ice_salinity:longitude latitude time:seaIce:1:UNKNOWN:UNKNOWN
+CMIP5_OImon:ssi:sea_ice_salinity:longitude latitude time:seaIce:0:UNAVAIALABLE:UNAVAILABLE
 CMIP5_OImon:strairx:surface_downward_x_stress:longitude latitude time:seaIce:1:strairx:strairx
 CMIP5_OImon:strairy:surface_downward_y_stress:longitude latitude time:seaIce:1:strairy:strairy
 CMIP5_OImon:streng:compressive_strength_of_sea_ice:longitude latitude time:seaIce:1:strength:strength
 CMIP5_OImon:strocnx:upward_x_stress_at_sea_ice_base:longitude latitude time:seaIce ocean:1:strocnx:strocnx
 CMIP5_OImon:strocny:upward_y_stress_at_sea_ice_base:longitude latitude time:seaIce ocean:1:strocny:strocny
 CMIP5_OImon:tmelt:tendency_of_sea_ice_amount_due_to_surface_melting:longitude latitude time:seaIce:1:meltt:meltt
-CMIP5_OImon:transifs:sea_ice_transport_across_line:time:seaIce:1:UNKNOWN:UNKNOWN
-CMIP5_OImon:transix:sea_ice_x_transport:longitude latitude time:seaIce:1:UNKNOWN:UNKNOWN
-CMIP5_OImon:transiy:sea_ice_y_transport:longitude latitude time:seaIce:1:UNKNOWN:UNKNOWN
+CMIP5_OImon:transifs:sea_ice_transport_across_line:time:seaIce:0:UNAVAIALABLE:UNAVAILABLE
+CMIP5_OImon:transix:sea_ice_x_transport:longitude latitude time:seaIce:0:UNAVAIALABLE:UNAVAILABLE
+CMIP5_OImon:transiy:sea_ice_y_transport:longitude latitude time:seaIce:0:UNAVAIALABLE:UNAVAILABLE
 CMIP5_OImon:tsice:surface_temperature:longitude latitude time:seaIce:1:Tsfc:Tsfc
-CMIP5_OImon:tsnint:sea_ice_surface_temperature:longitude latitude time:seaIce:1:UNKNOWN:UNKNOWN
+CMIP5_OImon:tsnint:sea_ice_surface_temperature:longitude latitude time:seaIce:0:UNAVAIALABLE:UNAVAILABLE

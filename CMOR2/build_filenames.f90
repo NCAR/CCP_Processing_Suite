@@ -10,7 +10,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
   character(len=256),dimension(2)::dtbeg,dtend
   logical::exists
   !
-!  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,begyr,endyr,trim(table)
+  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,begyr,endyr,trim(table)
   !
   select case (table)
   case ('Tables/CMIP5_Amon','Tables/CMIP5_Lmon','Tables/CMIP5_LImon','Tables/CMIP5_Omon','Tables/CMIP5_OImon','Tables/CMIP5_aero','Tables/CMIP5_cfMon',&
@@ -31,7 +31,6 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
   select case (table)
   case ('Tables/CMIP5_OImon','Tables/GeoMIP_OImon')
      exists = .false.
-     all_continue = .true.
      do year1 = begyr,endyr
         do year2 = endyr,begyr,-1
            do idt = 1,ndt
@@ -70,7 +69,6 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
      if (all_continue) write(*,'(''SH  files: '',10(a))') (trim(ncfile_sh(i,ivar)),i=1,nc_nfiles_sh(ivar))
   case ('Tables/TAMIP_3hrCurt','Tables/TAMIP_3hrMlev','Tables/TAMIP_3hrPlev','Tables/TAMIP_3hrSlev','Tables/TAMIP_sites')
      exists = .false.
-     all_continue = .true.
      write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''.nc'')') &
           trim(case),&
           trim(comp),&
@@ -89,7 +87,6 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
 !     if (all_continue) write(*,'('' files: '',100(a))') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
   case default
      exists = .false.
-     all_continue = .true.
      do year1 = begyr,endyr
         do year2 = endyr,begyr,-1
            do idt = 1,ndt

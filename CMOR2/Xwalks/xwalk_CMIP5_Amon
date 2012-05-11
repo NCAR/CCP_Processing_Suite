@@ -3,7 +3,7 @@ CMIP5_Amon:cct:air_pressure_at_convective_cloud_top:longitude latitude time:atmo
 CMIP5_Amon:cfc113global:mole_fraction_of_cfc113_in_air:time:atmos atmosChem:1:UNKNOWN:UNKNOWN
 CMIP5_Amon:cfc11global:mole_fraction_of_cfc11_in_air:time:atmos atmosChem:1:f11vmr:f11vmr convert to mass
 CMIP5_Amon:cfc12global:mole_fraction_of_cfc12_in_air:time:atmos atmosChem:1:f12vmr:f12vmr convert to mass
-CMIP5_Amon:ch4:mole_fraction_of_methane_in_air:longitude latitude plevs time:atmos atmosChem:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:ch4:mole_fraction_of_methane_in_air:longitude latitude plevs time:atmos atmosChem:2:CH4 PS:CH4 interpolated to standard plevs
 CMIP5_Amon:ch4Clim:mole_fraction_of_methane_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
 CMIP5_Amon:ch4global:mole_fraction_of_methane_in_air:time2:atmos atmosChem:1:ch4vmr:ch4vmr convert to mass
 CMIP5_Amon:ch4globalClim:mole_fraction_of_methane_in_air:time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
@@ -14,7 +14,7 @@ CMIP5_Amon:clivi:atmosphere_cloud_ice_content:longitude latitude time:atmos:1:TG
 CMIP5_Amon:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT unit conversion
 CMIP5_Amon:clw:mass_fraction_of_cloud_liquid_water_in_air:longitude latitude alevel time:atmos:2:CLDLIQ PS:CLDLIQ on model levels, no change
 CMIP5_Amon:clwvi:atmosphere_cloud_condensed_water_content:longitude latitude time:atmos:1:TGCLDLWP:TGCLDLWP no change
-CMIP5_Amon:co2:mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time:atmos:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:co2:mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time:atmos:2:CO2 PS:CO2 interpolated to standard plevs
 CMIP5_Amon:co2Clim:mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time2:atmos:1:UNKNOWN:UNKNOWN
 CMIP5_Amon:co2mass:atmosphere_mass_of_carbon_dioxide:time2:atmos:1:co2vmr:co2vmr convert to mass
 CMIP5_Amon:co2massClim:atmosphere_mass_of_carbon_dioxide:time2:atmos:1:UNKNOWN:UNKNOWN
@@ -30,7 +30,7 @@ CMIP5_Amon:hurs:relative_humidity:longitude latitude time height2m:atmos:1:RHREF
 CMIP5_Amon:hus:specific_humidity:longitude latitude plevs time:atmos:2:Q PS:Q interpolated to standard plevs
 CMIP5_Amon:huss:specific_humidity:longitude latitude time height2m:atmos:1:QREFHT:QREFHT no change
 CMIP5_Amon:mc:atmosphere_net_upward_convective_mass_flux:longitude latitude alevhalf time:atmos:3:CMFMC CMFMCDZM PS:CMFMC + CMFMCDZM on model levels, no change
-CMIP5_Amon:n2o:mole_fraction_of_nitrous_oxide_in_air:longitude latitude plevs time:atmos atmosChem:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:n2o:mole_fraction_of_nitrous_oxide_in_air:longitude latitude plevs time:atmos atmosChem:2:N2O PS:N2O interpolated to standard plevs
 CMIP5_Amon:n2oClim:mole_fraction_of_nitrous_oxide_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
 CMIP5_Amon:n2oglobal:mole_fraction_of_nitrous_oxide_in_air:time2:atmos atmosChem:1:n2ovmr:n2ovmr convert to mass
 CMIP5_Amon:n2oglobalClim:mole_fraction_of_nitrous_oxide_in_air:time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
@@ -65,7 +65,7 @@ CMIP5_Amon:tasmax:air_temperature:longitude latitude time height2m:atmos:1:TREFM
 CMIP5_Amon:tasmin:air_temperature:longitude latitude time height2m:atmos:1:TREFMNAV:TREFMNAV no change
 CMIP5_Amon:tauu:surface_downward_eastward_stress:longitude latitude time:atmos:1:TAUX:TAUX no change
 CMIP5_Amon:tauv:surface_downward_northward_stress:longitude latitude time:atmos:1:TAUY:TAUY no change
-CMIP5_Amon:tro3:mole_fraction_of_ozone_in_air:longitude latitude plevs time:atmos atmosChem:2:O3VMR PS:O3VMR interpolated to standard plevs
+CMIP5_Amon:tro3:mole_fraction_of_ozone_in_air:longitude latitude plevs time:atmos atmosChem:2:O3 PS:O3 interpolated to standard plevs
 CMIP5_Amon:tro3Clim:mole_fraction_of_ozone_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
 CMIP5_Amon:tsAdjust:surface_temperature:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
 CMIP5_Amon:ts:surface_temperature:longitude latitude time:atmos:1:TS:TS no change
