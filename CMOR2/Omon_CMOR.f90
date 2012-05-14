@@ -93,13 +93,13 @@ program Omon_CMOR
      !
      ! The meaty part
      !
-     if (xw(ixw)%ncesm_vars == 0) then
+     if (xw(ixw)%ncesm_vars==0) then
         write(*,'(a,'' is UNAVAILABLE.'')') trim(xw(ixw)%entry)
         all_continue = .false.
      endif
      !
      do ivar = 1,xw(ixw)%ncesm_vars
-        if (trim(xw(ixw)%cesm_vars(ivar)) == 'UNKNOWN') then
+        if (trim(xw(ixw)%cesm_vars(ivar))=='UNKNOWN') then
            write(*,'(a,'' has UNKNOWN equivalence.'')') trim(xw(ixw)%entry)
            xw(ixw)%ncesm_vars = 0
            all_continue = .false.
@@ -112,6 +112,7 @@ program Omon_CMOR
      ! Open CESM file(s) and get information(s)
      !
      if (all_continue) then
+        write(*,*) 'AVAILABLE: ',trim(case_read),trim(comp_read),trim(xw(ixw)%cesm_vars(ivar))
         do ivar = 1,xw(ixw)%ncesm_vars
            do ifile = 1,nc_nfiles(ivar)
               call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
@@ -127,12 +128,12 @@ program Omon_CMOR
               call read_att_text(myncid(ifile,ivar),'time','units',time_units)
               !
               do n=1,var_counter
-                 if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
+                 if (trim(var_info(n)%name)==trim(xw(ixw)%cesm_vars(ivar))) then
                     var_found(ifile,ivar) = n
                     xw_found = ixw
                  endif
               enddo
-              if (var_found(ifile,ivar) == 0) then
+              if (var_found(ifile,ivar)==0) then
                  write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
                  stop
               endif
@@ -210,13 +211,13 @@ program Omon_CMOR
         ! 
         ! Make manual alterations so that CMOR works. Silly code!
         !
-        if (xw(ixw)%ncesm_vars == 1) then
+        if (xw(ixw)%ncesm_vars==1) then
            write(original_name,'(a)') xw(ixw)%cesm_vars(1)
         endif
-        if (xw(ixw)%ncesm_vars == 2) then
+        if (xw(ixw)%ncesm_vars==2) then
            write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(jvar)),jvar=1,xw(ixw)%ncesm_vars)
         endif
-        if (xw(ixw)%ncesm_vars == 3) then
+        if (xw(ixw)%ncesm_vars==3) then
            write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(jvar)),jvar=1,xw(ixw)%ncesm_vars)
         endif
         !
@@ -369,8 +370,8 @@ program Omon_CMOR
               var_counter  = 0
               time_counter = 0
               file_counter = 0
-              if (exp(exp_found)%expt_id == 'past1000') then
-                 if (tcount == 6001) then
+              if (exp(exp_found)%expt_id=='past1000') then
+                 if (tcount==6001) then
                     cmor_filename = ' '
                     error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                     if (error_flag < 0) then
@@ -454,8 +455,8 @@ program Omon_CMOR
               var_counter  = 0
               time_counter = 0
               file_counter = 0
-              if (exp(exp_found)%expt_id == 'past1000') then
-                 if (tcount == 6001) then
+              if (exp(exp_found)%expt_id=='past1000') then
+                 if (tcount==6001) then
                     cmor_filename = ' '
                     error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                     if (error_flag < 0) then
@@ -652,6 +653,20 @@ program Omon_CMOR
                        tidx1(ic) = tidx2(ic-1) + 1
                        tidx2(ic) = tidx1(ic) + 119
                     enddo
+                 case ( 300 ) ! 30 years
+                    nchunks(ifile) = 3
+                    tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
+                    tidx2(1:nchunks(ifile)) = (/120, 240, 300/)
+                 case ( 360 ) ! 30 years
+                    if ((exp(exp_found)%begyr==2006).and.(exp(exp_found)%endyr==2035)) then
+                       nchunks(ifile) = 4
+                       tidx1(1:nchunks(ifile)) = (/  1,  49, 169, 289/)
+                       tidx2(1:nchunks(ifile)) = (/ 48, 168, 288, 360/)
+                    else
+                       nchunks(ifile) = 3
+                       tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
+                       tidx2(1:nchunks(ifile)) = (/120, 240, 360/)
+                    endif
                  case default
                     nchunks(ifile)   = 1
                     tidx1(1:nchunks(ifile)) =  1
@@ -845,6 +860,20 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+              case ( 300 ) ! 30 years
+                 nchunks(ifile) = 3
+                 tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
+                 tidx2(1:nchunks(ifile)) = (/120, 240, 300/)
+              case ( 360 ) ! 30 years
+                 if ((exp(exp_found)%begyr==2006).and.(exp(exp_found)%endyr==2035)) then
+                    nchunks(ifile) = 4
+                    tidx1(1:nchunks(ifile)) = (/  1,  49, 169, 289/)
+                    tidx2(1:nchunks(ifile)) = (/ 48, 168, 288, 360/)
+                 else
+                    nchunks(ifile) = 3
+                    tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
+                    tidx2(1:nchunks(ifile)) = (/120, 240, 360/)
+                 endif
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) =  1
@@ -952,6 +981,20 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+              case ( 300 ) ! 30 years
+                 nchunks(ifile) = 3
+                 tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
+                 tidx2(1:nchunks(ifile)) = (/120, 240, 300/)
+              case ( 360 ) ! 30 years
+                 if ((exp(exp_found)%begyr==2006).and.(exp(exp_found)%endyr==2035)) then
+                    nchunks(ifile) = 4
+                    tidx1(1:nchunks(ifile)) = (/  1,  49, 169, 289/)
+                    tidx2(1:nchunks(ifile)) = (/ 48, 168, 288, 360/)
+                 else
+                    nchunks(ifile) = 3
+                    tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
+                    tidx2(1:nchunks(ifile)) = (/120, 240, 360/)
+                 endif
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) =  1
@@ -1059,6 +1102,20 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+              case ( 300 ) ! 30 years
+                 nchunks(ifile) = 3
+                 tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
+                 tidx2(1:nchunks(ifile)) = (/120, 240, 300/)
+              case ( 360 ) ! 30 years
+                 if ((exp(exp_found)%begyr==2006).and.(exp(exp_found)%endyr==2035)) then
+                    nchunks(ifile) = 4
+                    tidx1(1:nchunks(ifile)) = (/  1,  49, 169, 289/)
+                    tidx2(1:nchunks(ifile)) = (/ 48, 168, 288, 360/)
+                 else
+                    nchunks(ifile) = 3
+                    tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
+                    tidx2(1:nchunks(ifile)) = (/120, 240, 360/)
+                 endif
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) =  1
@@ -1172,6 +1229,20 @@ program Omon_CMOR
                        tidx1(ic) = tidx2(ic-1) + 1
                        tidx2(ic) = tidx1(ic) + 119
                     enddo
+                 case ( 300 ) ! 30 years
+                    nchunks(ifile) = 3
+                    tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
+                    tidx2(1:nchunks(ifile)) = (/120, 240, 300/)
+                 case ( 360 ) ! 30 years
+                    if ((exp(exp_found)%begyr==2006).and.(exp(exp_found)%endyr==2035)) then
+                       nchunks(ifile) = 4
+                       tidx1(1:nchunks(ifile)) = (/  1,  49, 169, 289/)
+                       tidx2(1:nchunks(ifile)) = (/ 48, 168, 288, 360/)
+                    else
+                       nchunks(ifile) = 3
+                       tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
+                       tidx2(1:nchunks(ifile)) = (/120, 240, 360/)
+                    endif
                  case default
                     nchunks(ifile)   = 1
                     tidx1(1:nchunks(ifile)) =  1
@@ -1296,11 +1367,11 @@ program Omon_CMOR
               call close_cdf(myncid(ifile,1))
               !
 !              write(*,*) 'MIN: ',minval(indat1a),'MAX: ',maxval(indat1a)
-              if (xw(ixw)%entry == 'masso') then
+              if (xw(ixw)%entry=='masso') then
                  indat1a = indat1a/1000.
-              elseif (xw(ixw)%entry == 'thetaoga') then
+              elseif (xw(ixw)%entry=='thetaoga') then
                  indat1a = indat1a/sum(volume)
-              elseif (xw(ixw)%entry == 'soga') then
+              elseif (xw(ixw)%entry=='soga') then
                  indat1a = 1.e6*(indat1a/sum(volume))
               endif
 !              write(*,*) 'MIN: ',minval(indat1a),'MAX: ',maxval(indat1a)

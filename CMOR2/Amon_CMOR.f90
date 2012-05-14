@@ -811,8 +811,8 @@ program Amon_CMOR
                     nchunks(ifile) = 2
                     tidx1(1:nchunks(ifile)) = (/  1, 601/)      ! 1850, 1900
                     tidx2(1:nchunks(ifile)) = (/600, 900/)      ! 1899, 1924
-                 case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
-                    nchunks(ifile) = int(ntimes(1,1)/600)
+                 case ( 1680,3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
+                    nchunks(ifile) = ntimes(1,1)/600
                     tidx1(1) =   1
                     tidx2(1) = 600
                     do ic = 2,nchunks(ifile)
@@ -940,8 +940,8 @@ program Amon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
               tidx2(1:nchunks(1)) = (/600, 900/)      ! 1899, 1924
-           case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
-              nchunks(1) = int(ntimes(1,1)/600)
+           case ( 1680,3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
+              nchunks(1) = int(ntimes(1,1)/600)+1
               tidx1(1) =   1
               tidx2(1) = 600
               do ic = 2,nchunks(1)
@@ -1082,6 +1082,10 @@ program Amon_CMOR
                     tidx2(ic) = tidx1(ic) + 599
                  enddo
                  tidx2(nchunks(ifile)) = ntimes(1,1)
+              case ( 1680 )
+                 nchunks(ifile) = 3
+                 tidx1(1:nchunks(ifile)) = (/  1, 601, 1201/)
+                 tidx2(1:nchunks(ifile)) = (/600,1200, 1680/)
               case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
                  nchunks(ifile) = 2
                  tidx1(1:nchunks(ifile)) = (/3613,4213/) ! 1850, 1900, 1951

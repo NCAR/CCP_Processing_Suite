@@ -115,14 +115,8 @@ echo ""
 echo $CMIP5_SCRIPT" ready to run"
 echo ""
 #
-if [ $# -eq 3 ] ; then
-  echo "Run script now? (Y only, all else NO)"
-  read DORUN
-elif [ $# -eq 4 ] ; then
-  if [ "$4" = "Y" ] ; then
-    DORUN="Y"
-  fi
-fi
+echo "Run script now? (Y only, all else NO)"
+read DORUN
 #
 if [ "$DORUN" = "Y" ] ; then
   echo "Running "${CMIP5_SCRIPT}
