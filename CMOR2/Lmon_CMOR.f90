@@ -317,6 +317,10 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = 1812
+           case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = (/2389/) ! 1000
+              tidx2(1:nchunks(1)) = (/6012/) ! 1300
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -380,6 +384,10 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = 1812
+           case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = (/2389/) ! 1000
+              tidx2(1:nchunks(1)) = (/6012/) ! 1300
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -441,6 +449,10 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = 1812
+           case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = (/2389/) ! 1000
+              tidx2(1:nchunks(1)) = (/6012/) ! 1300
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -504,6 +516,10 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = (/2389/) ! 1000
+              tidx2(1:nchunks(1)) = (/6012/) ! 1300
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -573,6 +589,10 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = (/2389/) ! 1000
+              tidx2(1:nchunks(1)) = (/6012/) ! 1300
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -772,6 +792,10 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = (/2389/) ! 1000
+              tidx2(1:nchunks(1)) = (/6012/) ! 1300
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -844,6 +868,10 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = 1812
+           case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = (/2389/) ! 1000
+              tidx2(1:nchunks(1)) = (/6012/) ! 1300
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -917,7 +945,7 @@ program Lmon_CMOR
               nchunks(1) = 5
               tidx1(1:nchunks(1)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
               tidx2(1:nchunks(1)) = (/360, 960,1560,2160,2664/) ! 0099,0149,0199,0249,0291
-           case ( 1680,3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
+           case ( 1680,3612,6012,12012 ) ! piControl,past1000: ~50Y chunks
               nchunks(1) = int(ntimes(1,1)/600)+1
               tidx1(1) =   1
               tidx2(1) = 600
@@ -926,6 +954,10 @@ program Lmon_CMOR
                  tidx2(ic) = tidx1(ic) + 599
               enddo
               tidx2(nchunks(1)) = ntimes(1,1)
+           case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+              nchunks(1) = 6
+              tidx1(1:nchunks(1)) = (/2389,2989,3589,4189,4789,5389/) ! 1000, 1050, 1100, 1150, 1200, 1250
+              tidx2(1:nchunks(1)) = (/2988,3588,4188,4887,5388,6012/) ! 1049, 1099, 1149, 1199, 1249, 1300
            case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
@@ -994,7 +1026,7 @@ program Lmon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
-           case ( 1680,3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
+           case ( 1680,3612,6012,12012 ) ! piControl,past1000: ~50Y chunks
               nchunks(1) = int(ntimes(1,1)/600)+1
               tidx1(1) =   1
               tidx2(1) = 600
@@ -1003,6 +1035,10 @@ program Lmon_CMOR
                  tidx2(ic) = tidx1(ic) + 599
               enddo
               tidx2(nchunks(1)) = ntimes(1,1)
+           case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+              nchunks(1) = 6
+              tidx1(1:nchunks(1)) = (/2389,2989,3589,4189,4789,5389/) ! 1000, 1050, 1100, 1150, 1200, 1250
+              tidx2(1:nchunks(1)) = (/2988,3588,4188,4887,5388,6012/) ! 1049, 1099, 1149, 1199, 1249, 1300
            case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951

@@ -762,6 +762,10 @@ program Omon_CMOR
                        tidx1(ic) = tidx2(ic-1) + 1
                        tidx2(ic) = tidx1(ic) + 119
                     enddo
+                 case ( 300 ) ! 30 years
+                    nchunks(ifile) = 3
+                    tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
+                    tidx2(1:nchunks(ifile)) = (/120, 240, 300/)
                  case default
                     nchunks(ifile)   = 1
                     tidx1(1:nchunks(ifile)) =  1

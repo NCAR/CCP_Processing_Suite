@@ -1,44 +1,44 @@
-CMIP5_cfDay:albisccp:cloud_albedo:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:ccb:air_pressure_at_convective_cloud_base:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:cct:air_pressure_at_convective_cloud_top:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:clcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude alt40 time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:clhcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:cli:mass_fraction_of_cloud_ice_in_air:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:clisccp:cloud_area_fraction_in_atmosphere_layer:longitude latitude plev7 tau time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:clivi:atmosphere_cloud_ice_content:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:cllcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:cl:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:clmcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:cltcalipso:cloud_area_fraction:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:cltisccp:cloud_area_fraction:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:clt:cloud_area_fraction:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:clw:mass_fraction_of_cloud_liquid_water_in_air:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:clwvi:atmosphere_cloud_condensed_water_content:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:hur:relative_humidity:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:hus:specific_humidity:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:mc:atmosphere_net_upward_convective_mass_flux:longitude latitude alevhalf time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:parasolRefl:toa_bidirectional_reflectance:longitude latitude sza5 time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:pctisccp:air_pressure_at_cloud_top:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:prc:convective_precipitation_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:ps:surface_air_pressure:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:rsdt:toa_incoming_shortwave_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:rsut:toa_outgoing_shortwave_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:ta700:air_temperature:longitude latitude time p700:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:ta:air_temperature:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:ua:eastward_wind:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:va:northward_wind:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:wap500:lagrangian_tendency_of_air_pressure:longitude latitude time p500:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:wap:lagrangian_tendency_of_air_pressure:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfDay:zg:geopotential_height:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+CMIP5_cfDay:albisccp:cloud_albedo:longitude latitude time:atmos:1:MEANCLDALB_ISCCP:MEANCLDALB_ISCCP
+CMIP5_cfDay:ccb:air_pressure_at_convective_cloud_base:longitude latitude time:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_cfDay:cct:air_pressure_at_convective_cloud_top:longitude latitude time:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_cfDay:clcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude alt40 time:atmos:1:CLD_CAL:CLD_CAL no change
+CMIP5_cfDay:cl:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:2:CLOUD PS:CLOUD on model levels, no change
+CMIP5_cfDay:clhcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time:atmos:1:CLDHGH_CAL:CLDHGH_CAL no change
+CMIP5_cfDay:cli:mass_fraction_of_cloud_ice_in_air:longitude latitude alevel time:atmos:2:CLDICE PS:CLDICE on model levels, no change
+CMIP5_cfDay:clisccp:cloud_area_fraction_in_atmosphere_layer:longitude latitude plev7 tau time:atmos:1:FISCCP1_COSP:FISCCP1_COSP
+CMIP5_cfDay:clivi:atmosphere_cloud_ice_content:longitude latitude time:atmos:1:TGCLDIWP:TGCLDIWP no change
+CMIP5_cfDay:cllcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time:atmos:1:CLDLOW_CAL:CLDLOW_CAL no change
+CMIP5_cfDay:clmcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time:atmos:1:CLDMED_CAL:CLDMED_CAL no change
+CMIP5_cfDay:cltcalipso:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT_CAL:CLDTOT_CAL no change
+CMIP5_cfDay:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT unit conversion
+CMIP5_cfDay:cltisccp:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT_ISCCP:CLDTOT_ISCCP
+CMIP5_cfDay:clw:mass_fraction_of_cloud_liquid_water_in_air:longitude latitude alevel time:atmos:2:CLDLIQ PS:CLDLIQ on model levels, no change
+CMIP5_cfDay:clwvi:atmosphere_cloud_condensed_water_content:longitude latitude time:atmos:1:TGCLDLWP:TGCLDLWP no change
+CMIP5_cfDay:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:LHFLX:LHFLX no change
+CMIP5_cfDay:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:SHFLX:SHFLX no change
+CMIP5_cfDay:hur:relative_humidity:longitude latitude alevel time:atmos:2:RELHUM PS:RELHUM on model levels
+CMIP5_cfDay:hus:specific_humidity:longitude latitude alevel time:atmos:2:Q PS:Q on model levels
+CMIP5_cfDay:mc:atmosphere_net_upward_convective_mass_flux:longitude latitude alevhalf time:atmos:3:CMFMC CMFMCDZM PS:CMFMC + CMFMCDZM on model levels, no change
+CMIP5_cfDay:parasolRefl:toa_bidirectional_reflectance:longitude latitude sza5 time:atmos:1:RFL_PARASOL:RFL_PARASOL no change
+CMIP5_cfDay:pctisccp:air_pressure_at_cloud_top:longitude latitude time:atmos:1:MEANPTOP_ISCCP:MEANPTOP_ISCCP
+CMIP5_cfDay:prc:convective_precipitation_flux:longitude latitude time:atmos:1:PRECC:PRECC unit conversion
+CMIP5_cfDay:ps:surface_air_pressure:longitude latitude time:atmos:1:PS:PS no change
+CMIP5_cfDay:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FLDSC:FLDSC no change
+CMIP5_cfDay:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:1:FLDS:FLDS no change
+CMIP5_cfDay:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:2:FLDS FLNS:FLDS + FLNS
+CMIP5_cfDay:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:longitude latitude time:atmos:1:FLUTC:FLUTC no change
+CMIP5_cfDay:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:1:FLUT:FLUT no change
+CMIP5_cfDay:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FSDSC:FSDSC no change
+CMIP5_cfDay:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:FSDS:FSDS no change
+CMIP5_cfDay:rsdt:toa_incoming_shortwave_flux:longitude latitude time:atmos:1:SOLIN:SOLIN no change
+CMIP5_cfDay:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:2:FSDSC FSNSC:FSDSC - FSNSC
+CMIP5_cfDay:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:2:FSDS FSNS:FSDS - FSNS
+CMIP5_cfDay:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude latitude time:atmos:2:SOLIN FSNTOAC:SOLIN - FSNTOAC
+CMIP5_cfDay:rsut:toa_outgoing_shortwave_flux:longitude latitude time:atmos:2:SOLIN FSNTOA:SOLIN - FSNTOA
+CMIP5_cfDay:ta700:air_temperature:longitude latitude time p700:atmos:1:T700:T700
+CMIP5_cfDay:ta:air_temperature:longitude latitude alevel time:atmos:2:T PS:T on model levels
+CMIP5_cfDay:ua:eastward_wind:longitude latitude alevel time:atmos:2:U PS:U on model levels
+CMIP5_cfDay:va:northward_wind:longitude latitude alevel time:atmos:2:V PS:V on model levels
+CMIP5_cfDay:wap500:lagrangian_tendency_of_air_pressure:longitude latitude time p500:atmos:1:OMEGA500:OMEGA500
+CMIP5_cfDay:wap:lagrangian_tendency_of_air_pressure:longitude latitude alevel time:atmos:2:OMEGA PS:OMEGA on model levels
+CMIP5_cfDay:zg:geopotential_height:longitude latitude alevel time:atmos:2:Z3 PS:Z3 on model levels
