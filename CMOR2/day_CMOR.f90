@@ -1072,22 +1072,30 @@ program day_CMOR
               enddo
               !
               select case (ntimes(ifile,1))
-              case ( 1872,1140,3612,6012,12012 )  ! All data
-                 nchunks(ifile) = 1
+              case ( 25185 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
+                 tidx2(1:nchunks(ifile)) = (/18250, 25185/)      ! 1899, 1918
+              case ( 27375 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
+                 tidx2(1:nchunks(ifile)) = (/18250, 27375/)      ! 1899, 1924
+              case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
+                 nchunks(ifile)= 5
+                 tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
+                 tidx2(1:nchunks(ifile)) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
+              case ( 35040 )         ! RCP from 2005-2100, use only 2006 onwards, 2 * 35y + 1 * 25y chunks
+                 nchunks(ifile)= 3
+                 tidx1(1:nchunks(ifile)) = (/  366, 13141, 25916/)      ! 2006, 2041, 2076
+                 tidx2(1:nchunks(ifile)) = (/13140, 25915, 35040/)      ! 2040, 2075, 2100
+              case ( 34675 )         ! RCP from 2006-2100, use all times, 2 * 35y + 1 * 25y chunks
+                 nchunks(ifile)= 3
+                 tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
+                 tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
+              case default
+                 nchunks(ifile)= 1
                  tidx1(1:nchunks(ifile)) = 1
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-              case ( 1152 )  ! RCP, 2005-2100, skip 2006
-                 nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 13
-                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-              case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
-                 nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 3613
-                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-              case default
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = 1
-                 tidx2(1:nchunks(1)) = ntimes(1,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -1154,22 +1162,30 @@ program day_CMOR
               enddo
               !
               select case (ntimes(ifile,1))
-              case ( 1872,1140,3612,6012,12012 )  ! All data
-                 nchunks(ifile) = 1
+              case ( 25185 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
+                 tidx2(1:nchunks(ifile)) = (/18250, 25185/)      ! 1899, 1918
+              case ( 27375 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
+                 tidx2(1:nchunks(ifile)) = (/18250, 27375/)      ! 1899, 1924
+              case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
+                 nchunks(ifile)= 5
+                 tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
+                 tidx2(1:nchunks(ifile)) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
+              case ( 35040 )         ! RCP from 2005-2100, use only 2006 onwards, 2 * 35y + 1 * 25y chunks
+                 nchunks(ifile)= 3
+                 tidx1(1:nchunks(ifile)) = (/  366, 13141, 25916/)      ! 2006, 2041, 2076
+                 tidx2(1:nchunks(ifile)) = (/13140, 25915, 35040/)      ! 2040, 2075, 2100
+              case ( 34675 )         ! RCP from 2006-2100, use all times, 2 * 35y + 1 * 25y chunks
+                 nchunks(ifile)= 3
+                 tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
+                 tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
+              case default
+                 nchunks(ifile)= 1
                  tidx1(1:nchunks(ifile)) = 1
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-              case ( 1152 )  ! RCP, 2005-2100, skip 2006
-                 nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 13
-                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-              case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
-                 nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 3613
-                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-              case default
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = 1
-                 tidx2(1:nchunks(1)) = ntimes(1,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
