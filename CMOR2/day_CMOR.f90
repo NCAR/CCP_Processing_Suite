@@ -1066,10 +1066,10 @@ program day_CMOR
               !
               do n=1,ntimes(1,1)
                  time_counter = n
-                 call read_var(myncid(ifile,1),'time_bounds',time_bnds(:,n))
-                 if (n == 1) time_bnds(1,n) = 0.
+                 call read_var(myncid(ifile,1),'time',time(n))
+                 time_bnds(1,n) = time(n) - 0.5
+                 time_bnds(2,n) = time(n) + 0.5
               enddo
-              time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
               case ( 1872,1140,3612,6012,12012 )  ! All data
@@ -1148,10 +1148,10 @@ program day_CMOR
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
-                 call read_var(myncid(ifile,1),'time_bounds',time_bnds(:,n))
-                 if (n == 1) time_bnds(1,n) = 0.
+                 call read_var(myncid(ifile,1),'time',time(n))
+                 time_bnds(1,n) = time(n) - 0.5
+                 time_bnds(2,n) = time(n) + 0.5
               enddo
-              time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
               case ( 1872,1140,3612,6012,12012 )  ! All data
