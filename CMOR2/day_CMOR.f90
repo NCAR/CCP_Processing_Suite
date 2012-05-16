@@ -1138,9 +1138,6 @@ program day_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
-           do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1))
-           enddo
         case ('snw')
            !
            ! snw : SNOWDP, convert from m to kg m-2 by multiplying by 1000
@@ -1227,9 +1224,6 @@ program day_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
-           do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1))
-           enddo
         end select
         if (allocated(indat2a))   deallocate(indat2a)
         if (allocated(indat2b))   deallocate(indat2b)
