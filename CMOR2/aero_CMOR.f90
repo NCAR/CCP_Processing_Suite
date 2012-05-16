@@ -1,4 +1,4 @@
-program Amon_CMOR
+program aero_CMOR
   ! Convert CCSM4 atm monthly (cam2.h0) data from single-field format
   ! to CMOR-compliant format
   !
@@ -21,8 +21,8 @@ program Amon_CMOR
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag,cmor_var_id
-  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,cmordat2d,psdata
-  real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db
+  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,indat2d,indat2e,indat2f,cmordat2d,psdata
+  real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,indat3d,indat3d,indat3f,cmordat3d
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::time_bnds
   double precision,dimension(1)  ::tval
@@ -37,7 +37,7 @@ program Amon_CMOR
   !
   ! GO!
   !
-  mycmor%table_file = 'Amon'
+  mycmor%table_file = 'aero'
   !
   ! Get experiment information
   !
@@ -108,8 +108,6 @@ program Amon_CMOR
      !
      if (all_continue) then
         do ivar = 1,xw(ixw)%ncesm_vars
-!           write(*,'(''AVAILABLE: '',a,''.'',a,''.'',a'')') trim(case_read),trim(comp_read),trim(xw(ixw)%cesm_vars(ivar))
-           write(*,*) 'AVAILABLE: ',trim(case_read),trim(comp_read),trim(xw(ixw)%cesm_vars(ivar))
            do ifile = 1,nc_nfiles(ivar)
               call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
               call get_dims(myncid(ifile,ivar))
@@ -204,18 +202,18 @@ program Amon_CMOR
         !
         ! Modify units as necessary to accomodate udunits' inability to convert 
         !
-        select case (xw(ixw)%entry)
-        case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs','mc')
-           mycmor%positive = 'up'
-        case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt')
-           mycmor%positive = 'down'
-        case ('clt','ci','sci')
-           var_info(var_found(1,1))%units = '1'
-        case ('hurs','cl')
-           var_info(var_found(1,1))%units = '%'
-        case ('prc','pr','prsn')
-           var_info(var_found(1,1))%units = 'kg m-2 s-1'
-        end select
+!!$        select case (xw(ixw)%entry)
+!!$        case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs','mc')
+!!$           mycmor%positive = 'up'
+!!$        case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt')
+!!$           mycmor%positive = 'down'
+!!$        case ('clt','ci','sci')
+!!$           var_info(var_found(1,1))%units = '1'
+!!$        case ('hurs','cl')
+!!$           var_info(var_found(1,1))%units = '%'
+!!$        case ('prc','pr','prsn')
+!!$           var_info(var_found(1,1))%units = 'kg m-2 s-1'
+!!$        end select
         !
         spval=var_info(var_found(1,1))%missing_value
         !
@@ -230,16 +228,6 @@ program Amon_CMOR
         write(*,*) 'original_name = ',trim(original_name)
         !
         select case (xw(ixw)%entry)
-        case ('ta','ua','va','hus','hur','wap','zg','tro3','tro3Clim','co2','co2Clim','ch4','ch4Clim','n2o','n2oClim')
-           cmor_var_id = cmor_variable(                            &
-                table=mycmor%table_file,                           &
-                table_entry=xw(ixw)%entry,                         &
-                units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4)/),  &
-                missing_value=var_info(var_found(1,1))%missing_value,&
-                positive=mycmor%positive,                          &
-                original_name=original_name,                       &
-                comment=xw(ixw)%comment)
         case ('ps')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
@@ -250,7 +238,7 @@ program Amon_CMOR
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
-        case ('clw','cli','cl','mc')
+        case ('cdnc','concaerh2o','concbc','conccmcn','conccn','concdms','concdust','concoa','concso2','concso4','concsoa','concss')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
@@ -260,7 +248,10 @@ program Amon_CMOR
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
-        case default
+        case ('abs550aer','drybc','drydust','dryoa','drypoa','dryso2','dryso4','dryss',&
+             'emibc','emidms','emidust','emiso2','emiso4','emiss',&
+             'loadbc','loaddust','loadpoa','loadso4','loadsoa','loadss',&
+             'od550aer','reffclwtop','wetbc','wetdust','wetoa','wetso2','wetso4','wetss')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
@@ -277,9 +268,7 @@ program Amon_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('ccb','cct','clivi','clwvi','evspsbl','hfls','hfss','hurs','huss',&
-             'prw','psl','ps','rldscs','rlds','rlutcs','rlut','rsdscs','rsds','rsdt',&
-             'sci','tas','tasmax','tasmin','tauu','tauv','ts','ci','clt')
+        case ()
            !
            ! No change
            !
@@ -1153,8 +1142,6 @@ program Amon_CMOR
         if (allocated(cmordat2d)) deallocate(cmordat2d)
         if (allocated(indat3a))   deallocate(indat3a)
         if (allocated(indat3b))   deallocate(indat3b)
-        if (allocated(work3da))   deallocate(work3da)
-        if (allocated(work3db))   deallocate(work3db)
         do ivar = 1,xw(ixw)%ncesm_vars
            do ifile = 1,nc_nfiles(ivar)
               call close_cdf(myncid(ifile,ivar))
@@ -1179,4 +1166,4 @@ program Amon_CMOR
         call reset_netcdf_var
      endif
   enddo xwalk_loop
-end program Amon_CMOR
+end program aero_CMOR

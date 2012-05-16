@@ -311,9 +311,9 @@ program Do3hrCurt_CMOR
               !
               error_flag = cmor_close()
               if (error_flag < 0) then
-                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
               else
-                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
               endif
            enddo
         case ('clcalipso','clcalipso2')
@@ -357,9 +357,9 @@ program Do3hrCurt_CMOR
               !
               error_flag = cmor_close()
               if (error_flag < 0) then
-                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
               else
-                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
               endif
            enddo
         case ('cfadDbze94')
@@ -413,9 +413,9 @@ program Do3hrCurt_CMOR
               else
                  error_flag = cmor_close()
                  if (error_flag < 0) then
-                    write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                    write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
                  else
-                    write(*,'(''GOOD cmor_close of  : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                    write(*,'(''GOOD cmor_close of  : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
                  endif
               endif
            enddo

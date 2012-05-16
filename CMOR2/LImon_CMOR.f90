@@ -325,9 +325,9 @@ program LImon_CMOR
                  else
                     error_flag = cmor_close()
                     if (error_flag < 0) then
-                       write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                       write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
                     else
-                       write(*,'(''GOOD cmor_close of  : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+                       write(*,'(''GOOD cmor_close of  : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
                     endif
                  endif
               enddo
@@ -401,9 +401,9 @@ program LImon_CMOR
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
-              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            else
-              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
            do ifile = 1,nc_nfiles(1)
               call close_cdf(myncid(ifile,1))
@@ -487,9 +487,9 @@ program LImon_CMOR
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
-              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            else
-              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
            do ifile = 1,nc_nfiles(1)
               call close_cdf(myncid(ifile,1))
@@ -584,9 +584,9 @@ program LImon_CMOR
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
-              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            else
-              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') ,trim(xw(ixw)%entry),error_flag
+              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
            do ifile = 1,nc_nfiles(1)
               call close_cdf(myncid(ifile,1))
