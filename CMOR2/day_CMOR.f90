@@ -1120,7 +1120,7 @@ program day_CMOR
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  !
-                 if (ic .le. nchunks(ifile)) then
+                 if (ic < nchunks(ifile)) then
                     cmor_filename(1:) = ' '
                     error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                     if (error_flag < 0) then
@@ -1209,7 +1209,7 @@ program day_CMOR
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  !
-                 if (ic .le. nchunks(ifile)) then
+                 if (ic < nchunks(ifile)) then
                     cmor_filename(1:) = ' '
                     error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                     if (error_flag < 0) then

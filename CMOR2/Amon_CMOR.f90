@@ -1046,9 +1046,16 @@ program Amon_CMOR
                  tidx1(1:nchunks(ifile)) = (/ 13, 541/)      ! 2006, 2050
                  tidx2(1:nchunks(ifile)) = (/540,1152/)      ! 2049, 2100
               case ( 1140 )  ! RCP, 2006-2100
-                 nchunks(ifile) = 2
-                 tidx1(1:nchunks(ifile)) = (/  1, 529/)      ! 2006, 2050
-                 tidx2(1:nchunks(ifile)) = (/528,1140/)      ! 2049, 2100
+                 select case(exp(exp_found)%model_id)
+                 case ('CESM1-CAM5')
+                    nchunks(ifile) = 5
+                    tidx1(1:nchunks(ifile)) = (/  1, 241, 481, 721, 961/) ! 2006, 2026, 2046, 2066, 2086
+                    tidx2(1:nchunks(ifile)) = (/240, 480, 720, 960,1140/) ! 2025, 2045, 2065, 2085, 2100
+                 case default
+                    nchunks(ifile) = 2
+                    tidx1(1:nchunks(ifile)) = (/  1, 529/)      ! 2006, 2050
+                    tidx2(1:nchunks(ifile)) = (/528,1140/)      ! 2049, 2100
+                 end select
               case ( 2664 )  ! FASTCHEM piControl
                  nchunks(ifile) = 5
                  tidx1(1:nchunks(ifile)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
