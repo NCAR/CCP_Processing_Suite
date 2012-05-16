@@ -397,6 +397,7 @@ program day_CMOR
               do n = 1,ntimes(ifile,1)
                  time_counter = n
                  call read_var(myncid(ifile,1),'time_bounds',time_bnds(:,n))
+                 if (n == 1) time_bnds(1,n) = 0.
               enddo
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
@@ -1066,6 +1067,7 @@ program day_CMOR
               do n=1,ntimes(1,1)
                  time_counter = n
                  call read_var(myncid(ifile,1),'time_bounds',time_bnds(:,n))
+                 if (n == 1) time_bnds(1,n) = 0.
               enddo
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
@@ -1147,6 +1149,7 @@ program day_CMOR
               do n=1,ntimes(ifile,1)
                  time_counter = n
                  call read_var(myncid(ifile,1),'time_bounds',time_bnds(:,n))
+                 if (n == 1) time_bnds(1,n) = 0.
               enddo
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
