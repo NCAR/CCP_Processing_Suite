@@ -295,6 +295,7 @@ program Amon_CMOR
               time_counter = n
               call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
               time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+!              write(*,'(''t '',i6,'': '',3f12.4)') n,time_bnds(1,n),time(n),time_bnds(2,n)
            enddo
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
@@ -706,11 +707,9 @@ program Amon_CMOR
               !
               ! Determine amount of data to write, to keep close to ~2 GB limit
               !
-              select case(ntimes(1,1))
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = 1
-                 tidx2(1:nchunks(1)) = ntimes(1,1)
-              end select
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
               write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
               do ic = 1,nchunks(1)
                  do it = tidx1(ic),tidx2(ic)
