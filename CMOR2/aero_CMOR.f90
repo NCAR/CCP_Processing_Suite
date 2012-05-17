@@ -318,7 +318,7 @@ program aero_CMOR
                  endif
               endif
            enddo
-        case ('emibc','emidust','emiso2','loaddust','loadsoa','wetbc','wetoa')
+        case ('emibc','emidust','emiso2','loaddust','loadsoa','wetbc')
            !
            ! Two fields summed
            !
@@ -499,7 +499,7 @@ program aero_CMOR
                  endif
               endif
            enddo
-        case ('wetso4','wetss')
+        case ('wetso4','wetss','wetoa')
            !
            ! Six fields summed
            !
