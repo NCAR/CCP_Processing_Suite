@@ -268,7 +268,7 @@ program aero_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('abs550aer','drydust','dryso2','emidms','emiso4','loadbc','loadpoa','od550aer','ps','reffclwtop','wetso2')
+        case ('abs550aer','drybc','drydust','drypoa','dryso2','emidms','emiso4','loadbc','loadpoa','od550aer','ps','reffclwtop','wetso2')
            !
            ! No change
            !
@@ -318,7 +318,7 @@ program aero_CMOR
                  endif
               endif
            enddo
-        case ('drybc','drypoa','emibc','emidust','emiso2','loaddust','loadsoa','wetbc','wetoa')
+        case ('emibc','emidust','emiso2','loaddust','loadsoa','wetbc','wetoa')
            !
            ! Two fields summed
            !
@@ -377,7 +377,7 @@ program aero_CMOR
                  endif
               endif
            enddo
-        case ('emiss','loadso4','loadss')
+        case ('dryoa','dryso4','dryss','emiss','loadso4','loadss')
            !
            ! Three fields summed
            !
@@ -499,7 +499,7 @@ program aero_CMOR
                  endif
               endif
            enddo
-        case ('dryoa','dryso4','dryss','wetso4','wetss')
+        case ('wetso4','wetss')
            !
            ! Six fields summed
            !

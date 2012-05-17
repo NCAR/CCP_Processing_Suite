@@ -40,18 +40,24 @@ CCPS_SCRIPT=${CASE}_${HIST}_process.sh
 rm -f $CCPS_SCRIPT
 #
 case "$PROCHOST" in 
-  silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
+  silver* | tramhill* | hurricane* | mirage0 | mirage1 | mirage2 | mirage5 | modeling1* | euclid* )  # NCAR and NERSC machines
     echo "#!/bin/sh" > $CCPS_SCRIPT
     cat ./process_dp_template | sed -e "s/xxxCASExxx/$CASE/g" \
                               | sed -e "s/xxxHISTxxx/$HIST/g" \
                               | sed -e "s/xxxTPERxxx/$TPER/g" \
-                              >> $CCPS_SCRIPT ;;
-  lens* )                                  # lens @ ORNL
-    cat ./ORNL_batch  > $CCPS_SCRIPT
+                           >> $CCPS_SCRIPT ;;
+  mirage3 | mirage4 )  # NCAR and NERSC machines
+    cat ./LSF_batch > $CCPS_SCRIPT
     cat ./process_dp_template | sed -e "s/xxxCASExxx/$CASE/g" \
                               | sed -e "s/xxxHISTxxx/$HIST/g" \
                               | sed -e "s/xxxTPERxxx/$TPER/g" \
-                              >> $CCPS_SCRIPT ;;
+                           >> $CCPS_SCRIPT ;;
+  lens* )                                  # lens @ ORNL
+    cat ./ORNL_batch > $CCPS_SCRIPT
+    cat ./process_dp_template | sed -e "s/xxxCASExxx/$CASE/g" \
+                              | sed -e "s/xxxHISTxxx/$HIST/g" \
+                              | sed -e "s/xxxTPERxxx/$TPER/g" \
+                           >> $CCPS_SCRIPT ;;
   * )
     echo "Unable to build script because "$PROCHOST" unknown."
     ./procstat.sh error process_dp_template
@@ -71,6 +77,8 @@ if [ "$DORUN" = "Y" ] ; then
   case "$PROCHOST" in
     lens* )
       ( /usr/bin/qsub ./${CCPS_SCRIPT} ) ;;
+    mirage3 | mirage4 )
+      ( SOME_LSF_COMMAND ./${CCPS_SCRIPT} ) ;;
     * )
       ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
   esac
