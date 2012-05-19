@@ -76,7 +76,7 @@ if [ "$VARS" ] ; then
                                    | sed -e "s/xxxVARSxxx/$VARS/g" \
                                    >> $CMIP5_SCRIPT ;;
     mirage3 | mirage4 )  # NCAR and NERSC machines
-      cat ./LSF_batch | -sed -e "s/NAME/$CMIP5_SCRIPT/g" | "s/USER/$USER/g" > $CMIP5_SCRIPT
+      cat ./LSF_batch | sed -e "s/NAME/$CMIP5_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CMIP5_SCRIPT
       cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
                                    | sed -e "s/xxxHISTxxx/$HIST/g" \
                                    | sed -e "s/xxxTABLxxx/$TABL/g" \
