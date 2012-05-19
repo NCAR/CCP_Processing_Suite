@@ -76,7 +76,7 @@ subroutine define_atm_axes(dimensions)
      select case(dimnames(i))
      case ('time','time1','time2')
         select case (mycmor%table_file)
-        case ('Tables/CMIP5_Amon','Tables/GeoMIP_Amon')
+        case ('Tables/CMIP5_Amon','Tables/GeoMIP_Amon','Tables/CMIP5_aero')
            axis_ids(idim) = cmor_axis(  &
                 table=mycmor%table_file,&
                 table_entry=dimnames(i),&

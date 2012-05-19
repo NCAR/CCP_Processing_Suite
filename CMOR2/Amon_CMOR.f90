@@ -302,9 +302,16 @@ program Amon_CMOR
            !
            select case(ntimes(1,1))
            case ( 1872,1140,3612,6012,12012 )  ! All data
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-WACCM')
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 13
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
+              case default
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 1
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
+              end select
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -374,9 +381,16 @@ program Amon_CMOR
            !
            select case(ntimes(1,1))
            case ( 1872,1140,3612,6012,12012 )  ! All data
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-WACCM')
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 13
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
+              case default
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 1
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
+              end select
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -455,9 +469,16 @@ program Amon_CMOR
            !
            select case(ntimes(1,1))
            case ( 1872,1140,3612,6012,12012 )  ! All data
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-WACCM')
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 13
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
+              case default
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 1
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
+              end select
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -536,9 +557,16 @@ program Amon_CMOR
            !
            select case(ntimes(1,1))
            case ( 1872,1140,3612,6012,12012 )  ! All data
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-WACCM')
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 13
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
+              case default
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 1
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
+              end select
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -621,9 +649,16 @@ program Amon_CMOR
            !
            select case(ntimes(1,1))
            case ( 1872,1140,3612,6012,12012 )  ! All data
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-WACCM')
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 13
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
+              case default
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 1
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
+              end select
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -707,9 +742,15 @@ program Amon_CMOR
               !
               ! Determine amount of data to write, to keep close to ~2 GB limit
               !
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
+              if (ntimes(1,1)==1140) then ! RCP 2005-2099, keep only 2006-2099
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 13
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
+              else
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 1
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
+              endif
               write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
               do ic = 1,nchunks(1)
                  do it = tidx1(ic),tidx2(ic)
@@ -917,9 +958,16 @@ program Amon_CMOR
               tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/540,1152/)      ! 2049, 2100
            case ( 1140 )  ! RCP, 2006-2100
-              nchunks(1) = 2
-              tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
-              tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-WACCM')
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 13
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
+              case default
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 1
+                 tidx2(1:nchunks(1)) = ntimes(1,1)
+              end select
            case ( 2664 )  ! FASTCHEM piControl
               nchunks(1) = 5
               tidx1(1:nchunks(1)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
@@ -1049,8 +1097,8 @@ program Amon_CMOR
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-CAM5')
                     nchunks(ifile) = 5
-                    tidx1(1:nchunks(ifile)) = (/  1, 241, 481, 721, 961/) ! 2006, 2026, 2046, 2066, 2086
-                    tidx2(1:nchunks(ifile)) = (/240, 480, 720, 960,1140/) ! 2025, 2045, 2065, 2085, 2100
+                    tidx1(1:nchunks(ifile)) = (/ 13, 253, 493, 733, 973/) ! 2006, 2026, 2046, 2066, 2086
+                    tidx2(1:nchunks(ifile)) = (/252, 492, 732, 972,1140/) ! 2025, 2045, 2065, 2085, 2100
                  case default
                     nchunks(ifile) = 2
                     tidx1(1:nchunks(ifile)) = (/  1, 529/)      ! 2006, 2050

@@ -141,6 +141,8 @@ program OImon_CMOR
               time_counter = n
               call read_var(myncid_nh(1,ivar),'time_bounds',time_bnds(:,n))
               time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+!              write(*,'(''t '',i6,'': '',3f12.4)') n,time_bnds(1,n),time(n),time_bnds(2,n)
+!              write(*,'(''d '',6x,'': '',3f12.4)') time(n)-time_bnds(1,n),time_bnds(2,n)-time(n),time_bnds(2,n)-time_bnds(1,n)
            enddo
            !
            ! Get SH data info
@@ -313,9 +315,7 @@ program OImon_CMOR
               !
               ! Write 'em, Dano!
               !
-              tval(1)   = time(it)
-              tbnd(1,1) = time_bnds(1,it)
-              tbnd(2,1) = time_bnds(2,it)
+              tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
               error_flag = cmor_write(      &
                    var_id        = cmor_var_id, &
                    data          = cmordat, &

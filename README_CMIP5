@@ -29,7 +29,7 @@ Process_CMIP5: The script the user calls, to create the CMIP5 processing
                script.
 
 process_cmip5_template: Used by Process_CMIP5, with changes given by the argu-
-               ments to Process_CMIP5, to create the processing script.
+               ments to Process_CMIP5, to create the processing script itself.
 
 experiments.txt : An ASCII-formatted listing of the relevant metadata for each
                   experiment; details on the format are given in the file
@@ -40,8 +40,8 @@ procstat.sh     : Script that notifies user of start/finish, problems, etc. It
 
 In the directory CMOR2, the following are the key files:
 
-Run*            : Scripts that run the Fortran CMOR code to create the CMIP5
-                  compliant data
+RunCMOR         : The main script that run the Fortran CMOR code to create the
+                  CMIP5 compliant data
 *_CMOR.f90      : Fortran source code to take single-field postprocessed CESM
                   data and call the CMOR package to create CMIP5-compliant
                   data.
@@ -51,11 +51,27 @@ Gridfiles/*nc   : Required grid description files, specific to component and
 Key shell script variables in process_cmip5_template:
 ===============================================================================
 
-BASEDIR : Must be set to ${HOME}/CCP_Processing_Suite; location of all scripts
-          and files
-BINDIR  : Set to $HOME/bin; location of Fortran binaries
-SVNBIN  : Set to `which svn'; location of svn binary
-PROCBASE: Location of local disk cache in which processing with be done
+BASEDIR   : Must be set to ${HOME}/CCP_Processing_Suite; location of all scripts
+            and files
+
+BINDIR    : Set to $HOME/bin; location of Fortran binaries
+
+SVNBIN    : Set to `which svn'; location of svn binary
+
+PROCBASE  : Location of local disk cache in which the processing will be done.
+            This variable is machine-dependent:
+            silver  : /datalocal/proc/$USER/$CASE
+            mirage* : /glade/data01/CMIP5/proc/$USER/$CASE
+
+DISK_BASE : Location of the disk cache for the previously post-processed data,
+            i.e., the single-field format datasets that are piped through CMOR
+            to create CMIP5-compliant data. This is where the post-processed
+            data are read to from the archival system.
+            This variable is machine-dependent:
+            silver  : /datalocal/proc/$CASE
+            mirage* : /glade/data01/CMIP5/CCSM/csm/$CASE
+            (Depending on the user's group memberships, this may require some
+             manual intervention to correct permissions problems on mirage*.)
 
 These can be modified; look at the process_cmip5_template script to see which
 other shell variables are dependent on them.
@@ -79,7 +95,20 @@ Usage:
 
 2. Run Process_CMIP5:
 
-prompt> Process_Setup some_cesm_casename cam2.h0 mon
+prompt> ./Process_CMIP5 some_CESM_casename cam2.h0 Amon
+
+OR
+
+prompt> ./Process_CMIP5 some_CESM_casename cice.h OImon
+
+OR
+
+prompt> ./Process_CMIP5 some_CESM_casename pop.h Omon "tos sos"
+
+OR
+
+prompt> ./Process_CMIP5 some_CESM_casename clm2.h0 LImon "snd snw"
+
 
 The arguments are as follows:
 

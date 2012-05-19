@@ -76,7 +76,7 @@ if [ "$VARS" ] ; then
                                    | sed -e "s/xxxVARSxxx/$VARS/g" \
                                    >> $CMIP5_SCRIPT ;;
     mirage3 | mirage4 )  # NCAR and NERSC machines
-      cat ./LSF_batch > $CMIP5_SCRIPT
+      cat ./LSF_batch | -sed -e "s/NAME/$CMIP5_SCRIPT/g" | "s/USER/$USER/g" > $CMIP5_SCRIPT
       cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
                                    | sed -e "s/xxxHISTxxx/$HIST/g" \
                                    | sed -e "s/xxxTABLxxx/$TABL/g" \
@@ -104,7 +104,7 @@ else
                                    | sed -e "s/xxxVARSxxx//g" \
                                    >> $CMIP5_SCRIPT ;;
     mirage3 | mirage4 )  # NCAR and NERSC machines
-      cat ./LSF_batch > $CMIP5_SCRIPT
+      cat ./LSF_batch | -sed -e "s/NAME/$CMIP5_SCRIPT/g" | "s/USER/$USER/g" > $CMIP5_SCRIPT
       cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
                                    | sed -e "s/xxxHISTxxx/$HIST/g" \
                                    | sed -e "s/xxxTABLxxx/$TABL/g" \
@@ -140,7 +140,7 @@ if [ "$DORUN" = "Y" ] ; then
     lens* )                                  # lens @ ORNL
       ( /usr/bin/qsub ./${CMIP5_SCRIPT} ) ;;
     mirage3 | mirage4 )  # NCAR mirage LSF machines
-      ( SOME_LSF_COMMAND ./${CMIP5_SCRIPT} ) ;;
+      ( /fs/local/apps/lsf/8.0/linux2.6-glibc2.3-x86_64/bin/bsub < ./${CMIP5_SCRIPT} ) ;;
     * )
       echo "Unable to run script because "$PROCHOST" unknown."
       ./procstat.sh error process_cmip5_template
