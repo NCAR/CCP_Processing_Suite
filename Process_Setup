@@ -45,7 +45,7 @@ case "$PROCHOST" in
                            | sed -e "s/xxxTPERxxx/$TPER/g" \
                            >> $CCPS_SCRIPT ;;
   mirage3 | mirage4 )  # NCAR and NERSC machines
-    cat ./LSF_batch > $CCPS_SCRIPT
+    cat ./LSF_batch | sed -e "s/NAME/$CCPS_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CCPS_SCRIPT
     cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
                            | sed -e "s/xxxHISTxxx/$HIST/g" \
                            | sed -e "s/xxxTPERxxx/$TPER/g" \
@@ -76,7 +76,7 @@ if [ "$DORUN" = "Y" ] ; then
     lens* )
       ( /usr/bin/qsub ./${CCPS_SCRIPT} ) ;;
     mirage3 | mirage4 )
-      ( SOME_LSF_COMMAND ./${CCPS_SCRIPT} ) ;;
+      ( /fs/local/apps/lsf/8.0/linux2.6-glibc2.3-x86_64/bin/bsub < ./${CCPS_SCRIPT} ) ;;
     * )
       ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
   esac
