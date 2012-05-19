@@ -1,9 +1,11 @@
 #!/bin/sh
-
+#
 #BSUB -J NAME
 #BSUB -n 1
 #BSUB -o %J.out
 #BSUB -e %J.out
 #BSUB -B
 #BSUB -N
+#BSUB -P 93300014
 #BSUB -u USER@ucar.edu
+#
