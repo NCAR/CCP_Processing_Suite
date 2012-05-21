@@ -294,15 +294,15 @@ program Do6hrLev_CMOR
                     endif
                  enddo
                  write(*,'(''DONE WRITING '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-!!$                 cmor_filename = ' '
-!!$                 if (ic <  nchunks(ifile)) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 cmor_filename = ' '
+                 if (ic <  nchunks(ifile)) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
 !!$                 if (ic == nchunks(ifile)) error_flag = cmor_close()
-!!$                 if (error_flag < 0) then
-!!$                    write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
-!!$                    stop
-!!$                 else
-!!$                    write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
-!!$                 endif
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+                 endif
               enddo
            enddo
         case ('ta','ua','va','hus')
