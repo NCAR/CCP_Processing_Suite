@@ -184,7 +184,7 @@ subroutine load_exp(exp_file)
      case ('amip4K')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('amip4xCO2')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'GHG (CO2 only, instantaneously to 4X) Sl Vl SS Ds SA BC MD OC Oz AA'
      case ('amipFuture')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('aqua4K')
