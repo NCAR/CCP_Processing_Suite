@@ -267,43 +267,39 @@ program Do6hrLev_CMOR
               !
               ! Determine amount of data to write, to keep close to ~2 GB limit
               !
-              select case(ntimes(ifile,1))
-              case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
-                 nchunks(1) = 4
-                 tidx1(1:nchunks(1)) = (/  1, 361, 725, 1093/)
-                 tidx2(1:nchunks(1)) = (/360, 724,1092, 1460/)
-              case ( 1459 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
-                 nchunks(1) = 4
-                 tidx1(1:nchunks(1)) = (/  1, 360, 724, 1092/)
-                 tidx2(1:nchunks(1)) = (/359, 723,1091, 1459/)
-              end select
-              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
-              do ic = 1,nchunks(1)
-                 do it = tidx1(ic),tidx2(ic)
-                    time_counter = it
-                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,psdata)
-                    tval(1) = time(it)
-                    error_flag = cmor_write(          &
-                         var_id        = cmor_var_id, &
-                         data          = psdata,      &
-                         ntimes_passed = 1,           &
-                         time_vals     = tval)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),ic
-                       stop
-                    endif
-                 enddo
-                 write(*,'(''DONE WRITING '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                 cmor_filename = ' '
-                 if (ic <  nchunks(ifile)) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-!!$                 if (ic == nchunks(ifile)) error_flag = cmor_close()
+!!$              select case(ntimes(ifile,1))
+!!$              case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
+!!$                 nchunks(1) = 4
+!!$                 tidx1(1:nchunks(1)) = (/  1, 361, 725, 1093/)
+!!$                 tidx2(1:nchunks(1)) = (/360, 724,1092, 1460/)
+!!$              case ( 1459 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
+!!$                 nchunks(1) = 4
+!!$                 tidx1(1:nchunks(1)) = (/  1, 360, 724, 1092/)
+!!$                 tidx2(1:nchunks(1)) = (/359, 723,1091, 1459/)
+!!$              end select
+              do it = 1,ntimes(ifile,1)
+                 time_counter = it
+                 call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,psdata)
+                 tval(1) = time(it)
+                 error_flag = cmor_write(          &
+                      var_id        = cmor_var_id, &
+                      data          = psdata,      &
+                      ntimes_passed = 1,           &
+                      time_vals     = tval)
                  if (error_flag < 0) then
-                    write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),ic
                     stop
-                 else
-                    write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                  endif
               enddo
+              write(*,'(''DONE WRITING '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              cmor_filename = ' '
+              error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+              if (error_flag < 0) then
+                 write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                 stop
+              else
+                 write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+              endif
            enddo
         case ('ta','ua','va','hus')
            !
