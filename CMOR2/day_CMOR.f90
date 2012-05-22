@@ -317,6 +317,10 @@ program day_CMOR
                  nchunks(ifile)= 2
                  tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
                  tidx2(1:nchunks(ifile)) = (/18250, 27375/)      ! 1899, 1924
+              case ( 51100 )         ! 140 years, 0001-0140
+                 nchunks(ifile)= 3
+                 tidx1(1:nchunks(ifile)) = (/    1, 18251, 36501/) ! 0001, 0051, 0100
+                 tidx2(1:nchunks(ifile)) = (/18250, 36500, 51100/) ! 0050, 0099, 0140
               case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                  nchunks(ifile)= 5
                  tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
@@ -334,6 +338,7 @@ program day_CMOR
                  tidx1(1:nchunks(ifile)) = 1
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
+              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
@@ -354,15 +359,13 @@ program day_CMOR
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  !
-                 if (ic .le. nchunks(ifile)) then
-                    cmor_filename(1:) = ' '
-                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                       stop                       
-                    else
-                       write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                    endif
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                    stop                       
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                  endif
               enddo
               if (allocated(time))      deallocate(time)
@@ -509,6 +512,10 @@ program day_CMOR
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
                     tidx2(1:nchunks(ifile)) = (/18250, 27375/)      ! 1899, 1924
+                 case ( 51100 )         ! 140 years, 0001-0140 2 * 50 + 1 * 41
+                    nchunks(ifile)= 3
+                    tidx1(1:nchunks(ifile)) = (/    1, 18251, 36501/) ! 0001, 0051, 0100
+                    tidx2(1:nchunks(ifile)) = (/18250, 36500, 51100/) ! 0050, 0099, 0140, 1989, 2005
                  case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks(ifile)= 5
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
@@ -601,6 +608,10 @@ program day_CMOR
                  nchunks(ifile)= 2
                  tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
                  tidx2(1:nchunks(ifile)) = (/18250, 27375/)      ! 1899, 1924
+              case ( 51100 )         ! 140 years, 0001-0140 2 * 50 + 1 * 41
+                 nchunks(ifile)= 3
+                 tidx1(1:nchunks(ifile)) = (/    1, 18251, 36501/) ! 0001, 0051, 0100
+                 tidx2(1:nchunks(ifile)) = (/18250, 36500, 51100/) ! 0050, 0099, 0140, 1989, 2005
               case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                  nchunks(ifile)= 5
                  tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
@@ -641,15 +652,13 @@ program day_CMOR
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  !
-                 if (ic < nchunks(ifile)) then
-                    cmor_filename(1:) = ' '
-                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                       stop
-                    else
-                       write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                    endif
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                  endif
               enddo
               if (allocated(time))      deallocate(time)

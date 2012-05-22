@@ -653,6 +653,14 @@ program Omon_CMOR
                        tidx1(ic) = tidx2(ic-1) + 1
                        tidx2(ic) = tidx1(ic) + 119
                     enddo
+                 case ( 2664 ) ! FASTCHEM piControl from 70-291
+                    nchunks(ifile) = 23
+                    tidx1(1) =   1
+                    tidx2(1) = 120
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 119
+                    enddo
                  case ( 300 ) ! 30 years
                     nchunks(ifile) = 3
                     tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
@@ -762,6 +770,14 @@ program Omon_CMOR
                        tidx1(ic) = tidx2(ic-1) + 1
                        tidx2(ic) = tidx1(ic) + 119
                     enddo
+                 case ( 2664 ) ! FASTCHEM piControl from 70-291
+                    nchunks(ifile) = 23
+                    tidx1(1) =   1
+                    tidx2(1) = 120
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 119
+                    enddo
                  case ( 300 ) ! 25 years
                     nchunks(ifile) = 3
                     tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
@@ -862,6 +878,14 @@ program Omon_CMOR
                  nchunks(ifile) = 10
                  tidx1(1) =  13
                  tidx2(1) =  60
+                 do ic = 2,nchunks(ifile)
+                    tidx1(ic) = tidx2(ic-1) + 1
+                    tidx2(ic) = tidx1(ic) + 119
+                 enddo
+              case ( 2664 ) ! FASTCHEM piControl from 70-291
+                 nchunks(ifile) = 23
+                 tidx1(1) =   1
+                 tidx2(1) = 120
                  do ic = 2,nchunks(ifile)
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
@@ -995,6 +1019,14 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+              case ( 2664 ) ! FASTCHEM piControl from 70-291
+                 nchunks(ifile) = 23
+                 tidx1(1) =   1
+                 tidx2(1) = 120
+                 do ic = 2,nchunks(ifile)
+                    tidx1(ic) = tidx2(ic-1) + 1
+                    tidx2(ic) = tidx1(ic) + 119
+                 enddo
               case ( 300 ) ! 30 years
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
@@ -1110,6 +1142,14 @@ program Omon_CMOR
                  enddo
               case ( 1872 ) ! 20C from 1850-2005
                  nchunks(ifile) = 16
+                 tidx1(1) =   1
+                 tidx2(1) = 120
+                 do ic = 2,nchunks(ifile)
+                    tidx1(ic) = tidx2(ic-1) + 1
+                    tidx2(ic) = tidx1(ic) + 119
+                 enddo
+              case ( 2664 ) ! FASTCHEM piControl from 70-291
+                 nchunks(ifile) = 23
                  tidx1(1) =   1
                  tidx2(1) = 120
                  do ic = 2,nchunks(ifile)
@@ -1237,6 +1277,14 @@ program Omon_CMOR
                     enddo
                  case ( 1872 ) ! 20C from 1850-2005
                     nchunks(ifile) = 16
+                    tidx1(1) =   1
+                    tidx2(1) = 120
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 119
+                    enddo
+                 case ( 2664 ) ! FASTCHEM piControl from 70-291
+                    nchunks(ifile) = 23
                     tidx1(1) =   1
                     tidx2(1) = 120
                     do ic = 2,nchunks(ifile)
@@ -1585,7 +1633,7 @@ program Omon_CMOR
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  !
                  select case (ntimes(ifile,ivar))
-                 case ( 1140, 1872, 2388, 2400 )
+                 case ( 1140, 1872, 2664, 2388, 2400 )
                     nchunks(ifile)= 1
                     tidx1(1:nchunks(ifile)) =  1
                  case ( 1152 )
