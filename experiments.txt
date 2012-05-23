@@ -23,28 +23,6 @@
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345
 #CASE                                                 model_id            LC   MIP name       #/RIP     MIP  RUN_REFCASE                             RUN_REFDATE    bbbb-eeee GRID      COMPSET             REPOTAG             sim start/end       MACH      DOUT
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#
-#
-#
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# 105 - 109  MIP (cm3 or cm5) experiment (N/A if not applicable)
-# 110 - 149  RUN_REFCASE (parent case)
-#                                                                                                  1         1         1         1         1         1         1         1         1         1         2         2         2         2         2         2         2         2
-#        1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7
-# 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
-#   1 -  54  CCSM case name
-# 165 - 174  years of experiment (YYYY if unknown)
-# 175 - 184  GRID (resolution)
-# 185 - 204  COMPSET (N/A if not applicable)
-# 205 - 224  REPOTAG (N/A if not applicable)
-# 225 - 244  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
-#2345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345
-# 245 - 254  MACH (hardware)
-# 255 - end  DOUT_L_MSROOT (history file location on archive)
-#  55 -  74  model_id (CCSM4, CESM-CAM5, CESM-BGC, CESM-CHEM, CESM-WACCM, CESM1-CAM5.1-FV2, etc)
-#  75 -  76  Location (NC = NCAR; NE = NERSC; OR = ORNL)
-#  80 -  94  Official MIP name, or very brief description (N/A if not applicable)
-#  95 - 104  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
 b40_1850_1d_b08c5cn_138j                              CESM1-CAM5          OR   piControl      r1i1p1    cm5  N/A                                     0001-01-01     0001-0319 f09_g16   B1850C5CN           cesm1_0_beta08      2010/12-2011/02     jaguarpf  /home/hannay/csm
 b40_1850_2d_r07c5cn_160jp                             CESM1-CAM5.1-FV2    OR   piControl      r1i1p1    cm5  N/A                                     0045-01-01     0001-0125 f19_g16   B1850C5CN           cesm1_0_rel07       2011/06-2011/07     jaguarpf  /home/hannay/csm
 b40.1850control.beta19.001                            CCSM4               NC   piControl      r4i1p1    gmp  N/A                                     0251-01-01     1850-1899 f09_g16   B1850CN             cesm1_0_beta19      2011/05-2011/05     bluefire  /TILMES/csm
@@ -531,16 +509,16 @@ b40.dp.hd-2005.20C.1d.007                             CCSM4               NE   d
 b40.dp.hd-2005.20C.1d.008                             CCSM4               NE   decadal2005    r8i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2005-2005 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
 b40.dp.hd-2005.20C.1d.009                             CCSM4               NE   decadal2005    r9i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2005-2005 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
 b40.dp.hd-2005.20C.1d.010                             CCSM4               NE   decadal2005    r10i2p1   cm5  b40.20th.track1.1deg.011                2005-01-01     2005-2005 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
-b40.dp.hd-2005.rcp4_5.1d.001                          CCSM4               NE   decadal2005    r1i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2005-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
-b40.dp.hd-2005.rcp4_5.1d.002                          CCSM4               NE   decadal2005    r2i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2005-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
-b40.dp.hd-2005.rcp4_5.1d.003                          CCSM4               NE   decadal2005    r3i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2005-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
-b40.dp.hd-2005.rcp4_5.1d.004                          CCSM4               NE   decadal2005    r4i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2005-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
-b40.dp.hd-2005.rcp4_5.1d.005                          CCSM4               NE   decadal2005    r5i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2005-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
-b40.dp.hd-2005.rcp4_5.1d.006                          CCSM4               NE   decadal2005    r6i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2005-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
-b40.dp.hd-2005.rcp4_5.1d.007                          CCSM4               NE   decadal2005    r7i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2005-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
-b40.dp.hd-2005.rcp4_5.1d.008                          CCSM4               NE   decadal2005    r8i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2005-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
-b40.dp.hd-2005.rcp4_5.1d.009                          CCSM4               NE   decadal2005    r9i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2005-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
-b40.dp.hd-2005.rcp4_5.1d.010                          CCSM4               NE   decadal2005    r10i2p1   cm5  b40.20th.track1.1deg.011                2005-01-01     2005-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
+b40.dp.hd-2005.rcp4_5.1d.001                          CCSM4               NE   decadal2005    r1i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2006-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
+b40.dp.hd-2005.rcp4_5.1d.002                          CCSM4               NE   decadal2005    r2i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2006-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
+b40.dp.hd-2005.rcp4_5.1d.003                          CCSM4               NE   decadal2005    r3i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2006-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
+b40.dp.hd-2005.rcp4_5.1d.004                          CCSM4               NE   decadal2005    r4i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2006-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
+b40.dp.hd-2005.rcp4_5.1d.005                          CCSM4               NE   decadal2005    r5i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2006-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
+b40.dp.hd-2005.rcp4_5.1d.006                          CCSM4               NE   decadal2005    r6i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2006-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
+b40.dp.hd-2005.rcp4_5.1d.007                          CCSM4               NE   decadal2005    r7i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2006-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
+b40.dp.hd-2005.rcp4_5.1d.008                          CCSM4               NE   decadal2005    r8i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2006-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
+b40.dp.hd-2005.rcp4_5.1d.009                          CCSM4               NE   decadal2005    r9i2p1    cm5  b40.20th.track1.1deg.011                2005-01-01     2006-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
+b40.dp.hd-2005.rcp4_5.1d.010                          CCSM4               NE   decadal2005    r10i2p1   cm5  b40.20th.track1.1deg.011                2005-01-01     2006-2014 f09_g16   unknown             unknown             2010/11-2010/11     hopper    /home/c/ccsm/csm
 b40.dp.hd-2006.rcp4_5.1d.001                          CCSM4               OR   decadal2006    r1i2p1    cm5  b40.rcp4_5.1deg.001                     2006-01-01     2006-2035 f09_g16   BRCP45CN            ccsm4_0_beta56      2010/11-2010/11     jaguarpf  /f2/ccsm/csm
 b40.dp.hd-2006.rcp4_5.1d.002                          CCSM4               OR   decadal2006    r2i2p1    cm5  b40.rcp4_5.1deg.001                     2006-01-01     2006-2035 f09_g16   BRCP45CN            ccsm4_0_beta56      2010/11-2010/11     jaguarpf  /f2/ccsm/csm
 b40.dp.hd-2006.rcp4_5.1d.003                          CCSM4               OR   decadal2006    r3i2p1    cm5  b40.rcp4_5.1deg.001                     2006-01-01     2006-2035 f09_g16   BRCP45CN            ccsm4_0_beta56      2010/11-2010/11     jaguarpf  /f2/ccsm/csm

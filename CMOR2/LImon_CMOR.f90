@@ -284,6 +284,10 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = (/2389/) ! 1000
+                 tidx2(1:nchunks(1)) = (/6000/) ! 1300
               case default
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 1
@@ -369,6 +373,10 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = (/2389/) ! 1000
+                 tidx2(1:nchunks(1)) = (/6000/) ! 1300
               case default
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 1
@@ -445,6 +453,10 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = (/2389/) ! 1000
+                 tidx2(1:nchunks(1)) = (/6000/) ! 1300
               case default
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 1
@@ -538,6 +550,10 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = (/2389/) ! 1000
+                 tidx2(1:nchunks(1)) = (/6000/) ! 1300
               case default
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 1

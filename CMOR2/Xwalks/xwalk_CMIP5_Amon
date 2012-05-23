@@ -65,7 +65,7 @@ CMIP5_Amon:tasmax:air_temperature:longitude latitude time height2m:atmos:1:TREFM
 CMIP5_Amon:tasmin:air_temperature:longitude latitude time height2m:atmos:1:TREFMNAV:TREFMNAV no change
 CMIP5_Amon:tauu:surface_downward_eastward_stress:longitude latitude time:atmos:1:TAUX:TAUX no change
 CMIP5_Amon:tauv:surface_downward_northward_stress:longitude latitude time:atmos:1:TAUY:TAUY no change
-CMIP5_Amon:tro3:mole_fraction_of_ozone_in_air:longitude latitude plevs time:atmos atmosChem:2:O3 PS:O3 interpolated to standard plevs
+CMIP5_Amon:tro3:mole_fraction_of_ozone_in_air:longitude latitude plevs time:atmos atmosChem:1:tro3:O3 interpolated to standard plevs
 CMIP5_Amon:tro3Clim:mole_fraction_of_ozone_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
 CMIP5_Amon:tsAdjust:surface_temperature:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
 CMIP5_Amon:ts:surface_temperature:longitude latitude time:atmos:1:TS:TS no change

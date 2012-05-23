@@ -287,11 +287,20 @@ program OImon_CMOR
         case ( 1152 ) ! RCP, skip 2005
            nchunks(1)          =  1
            tidx1(1:nchunks(1)) = 13
+           tidx2(nchunks(1)) = ntimes(1,1)
+        case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+           nchunks(1) = 1
+           tidx1(1:nchunks(1)) = (/2389/) ! 1000
+           tidx2(1:nchunks(1)) = (/6000/) ! 1300
+        case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
+           nchunks(1) = 1
+           tidx1(1:nchunks(1)) = 3613
+           tidx2(1:nchunks(1)) = ntimes(1,1)
         case default
            nchunks(1)          =  1
            tidx1(1:nchunks(1)) =  1
+           tidx2(nchunks(1)) = ntimes(1,1)
         end select
-        tidx2(nchunks(1)) = ntimes(1,1)
         do ic = 1,nchunks(1)
            do it = tidx1(ic),tidx2(ic)
               time_counter = it

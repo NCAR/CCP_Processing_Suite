@@ -320,7 +320,7 @@ program Lmon_CMOR
            case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = (/2389/) ! 1000
-              tidx2(1:nchunks(1)) = (/6012/) ! 1300
+              tidx2(1:nchunks(1)) = (/6000/) ! 1300
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -387,7 +387,7 @@ program Lmon_CMOR
            case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = (/2389/) ! 1000
-              tidx2(1:nchunks(1)) = (/6012/) ! 1300
+              tidx2(1:nchunks(1)) = (/6000/) ! 1300
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -452,7 +452,7 @@ program Lmon_CMOR
            case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = (/2389/) ! 1000
-              tidx2(1:nchunks(1)) = (/6012/) ! 1300
+              tidx2(1:nchunks(1)) = (/6000/) ! 1300
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -519,7 +519,7 @@ program Lmon_CMOR
            case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = (/2389/) ! 1000
-              tidx2(1:nchunks(1)) = (/6012/) ! 1300
+              tidx2(1:nchunks(1)) = (/6000/) ! 1300
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -592,7 +592,7 @@ program Lmon_CMOR
            case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = (/2389/) ! 1000
-              tidx2(1:nchunks(1)) = (/6012/) ! 1300
+              tidx2(1:nchunks(1)) = (/6000/) ! 1300
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -795,7 +795,7 @@ program Lmon_CMOR
            case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = (/2389/) ! 1000
-              tidx2(1:nchunks(1)) = (/6012/) ! 1300
+              tidx2(1:nchunks(1)) = (/6000/) ! 1300
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -871,7 +871,7 @@ program Lmon_CMOR
            case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = (/2389/) ! 1000
-              tidx2(1:nchunks(1)) = (/6012/) ! 1300
+              tidx2(1:nchunks(1)) = (/6000/) ! 1300
            case default
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -957,7 +957,7 @@ program Lmon_CMOR
            case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
               nchunks(1) = 6
               tidx1(1:nchunks(1)) = (/2389,2989,3589,4189,4789,5389/) ! 1000, 1050, 1100, 1150, 1200, 1250
-              tidx2(1:nchunks(1)) = (/2988,3588,4188,4887,5388,6012/) ! 1049, 1099, 1149, 1199, 1249, 1300
+              tidx2(1:nchunks(1)) = (/2988,3588,4188,4788,5388,6000/) ! 1049, 1099, 1149, 1199, 1249, 1300
            case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
@@ -1038,7 +1038,7 @@ program Lmon_CMOR
            case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
               nchunks(1) = 6
               tidx1(1:nchunks(1)) = (/2389,2989,3589,4189,4789,5389/) ! 1000, 1050, 1100, 1150, 1200, 1250
-              tidx2(1:nchunks(1)) = (/2988,3588,4188,4887,5388,6012/) ! 1049, 1099, 1149, 1199, 1249, 1300
+              tidx2(1:nchunks(1)) = (/2988,3588,4188,4788,5388,6000/) ! 1049, 1099, 1149, 1199, 1249, 1300
            case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951

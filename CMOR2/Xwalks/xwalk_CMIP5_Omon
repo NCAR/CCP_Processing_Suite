@@ -135,7 +135,7 @@ CMIP5_Omon:pr:rainfall_flux:longitude latitude time:ocean:1:PREC_F:PREC_F
 CMIP5_Omon:prsn:snowfall_flux:longitude latitude time:ocean:1:SNOW_F:SNOW_F
 CMIP5_Omon:pso:sea_water_pressure_at_sea_water_surface:longitude latitude time:ocean:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:rhopoto:sea_water_potential_density:longitude latitude olevel time:ocean:1:PD:PD
-CMIP5_Omon:rlds:surface_net_downward_longwave_flux:longitude latitude time:ocean:2:LWUP_F LWDN_F:LWUP_F,LWDN_F
+CMIP5_Omon:rlds:surface_net_downward_longwave_flux:longitude latitude time:ocean:3:LWDN_F LWUP_F IFRAC:LWDN_F + LWUP_F where IFRAC = 0
 CMIP5_Omon:rsds:downwelling_shortwave_flux_in_sea_water:longitude latitude olevel time:ocean:1:UNKNOWN:UNKNOWN
 CMIP5_Omon:rsntds:net_downward_shortwave_flux_at_sea_water_surface:longitude latitude time:ocean:1:QSW_HTP:QSW_HTP
 CMIP5_Omon:sfdsi:downward_sea_ice_basal_salt_flux:longitude latitude time:ocean seaIce:1:UNKNOWN:UNKNOWN
