@@ -142,7 +142,7 @@ program Lmon_CMOR
            do n=1,ntimes(1,1)
               time_counter = n
               call read_var(myncid(1,ivar),'time_bounds',time_bnds(:,n))
-              if (n == 1) time_bnds(1,n) = 0.
+!              if (n == 1) time_bnds(1,n) = 0.
               time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
               !                    write(*,'(''TIMES: '',3f12.4)') time_bnds(1,n),time(n),time_bnds(2,n)
            enddo
