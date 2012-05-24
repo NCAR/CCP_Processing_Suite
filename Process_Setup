@@ -44,7 +44,7 @@ case "$PROCHOST" in
                            | sed -e "s/xxxHISTxxx/$HIST/g" \
                            | sed -e "s/xxxTPERxxx/$TPER/g" \
                            >> $CCPS_SCRIPT ;;
-  mirage3 | mirage4 )  # NCAR and NERSC machines
+  mirage3 | mirage4 )
     cat ./LSF_batch | sed -e "s/NAME/$CCPS_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CCPS_SCRIPT
     cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
                            | sed -e "s/xxxHISTxxx/$HIST/g" \

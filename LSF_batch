@@ -2,8 +2,8 @@
 #
 #BSUB -J NAME
 #BSUB -n 1
-#BSUB -o %J.out
-#BSUB -e %J.out
+#BSUB -o NAME.out
+#BSUB -e NAME.out
 #BSUB -B
 #BSUB -N
 #BSUB -P 93300014
