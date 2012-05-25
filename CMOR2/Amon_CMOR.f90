@@ -823,6 +823,10 @@ program Amon_CMOR
                  nchunks(1) = 3
                  tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
                  tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1950, 2005
+              case default
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = (/  1        /)
+                 tidx2(1:nchunks(1)) = (/ntimes(1,1)/)
               end select
               write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
               do ic = 1,nchunks(1)

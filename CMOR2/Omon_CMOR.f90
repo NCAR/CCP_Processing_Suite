@@ -495,8 +495,10 @@ program Omon_CMOR
                  call get_dims(myncid(ifile,ivar))
                  call get_vars(myncid(ifile,ivar))
                  !
-                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
-                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
+                 if (allocated(time))      deallocate(time)
+                 if (allocated(time_bnds)) deallocate(time_bnds)
+                 allocate(time(ntimes(ifile,ivar)))
+                 allocate(time_bnds(2,ntimes(ifile,ivar)))
                  !
                  do n=1,ntimes(ifile,ivar)
                     time_counter = n
@@ -541,6 +543,12 @@ program Omon_CMOR
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  enddo
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
+                 else
+                    write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
+                 endif
                  call close_cdf(myncid(ifile,ivar))
                  if (allocated(time))      deallocate(time)
                  if (allocated(time_bnds)) deallocate(time_bnds)
@@ -1668,10 +1676,11 @@ program Omon_CMOR
                  call get_dims(myncid(ifile,ivar))
                  call get_vars(myncid(ifile,ivar))
                  !
-                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,ivar)))
-                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,ivar)))
+                 if (allocated(time))      deallocate(time)
+                 if (allocated(time_bnds)) deallocate(time_bnds)
+                 allocate(time(ntimes(ifile,ivar)))
+                 allocate(time_bnds(2,ntimes(ifile,ivar)))
                  !
-                 write(*,*) 'tbnds loop: ',ivar,ifile,myncid(ifile,ivar)
                  do n = 1,ntimes(ifile,ivar)
                     time_counter = n
                     call read_var(myncid(ifile,ivar),'time_bound',time_bnds(:,n))
@@ -1690,6 +1699,10 @@ program Omon_CMOR
                     tidx1(1:nchunks(1)) = (/2389/) ! 1000
                     tidx2(1:nchunks(1)) = (/6000/) ! 1300
                  case ( 1152 )
+                    nchunks(ifile)= 1
+                    tidx1(1:nchunks(ifile)) = 13
+                    tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
+                 case default
                     nchunks(ifile)= 1
                     tidx1(1:nchunks(ifile)) = 13
                     tidx2(nchunks(ifile)) = ntimes(ifile,ivar)
