@@ -1020,6 +1020,10 @@ program Amon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/540,1152/)      ! 2049, 2100
+           case ( 1248 )
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/  1, 601/)
+              tidx2(1:nchunks(1)) = (/600,1248/)
            case ( 1140 )  ! RCP, 2006-2100
               select case(exp(exp_found)%model_id)
               case ('CESM1-WACCM')
@@ -1156,6 +1160,10 @@ program Amon_CMOR
                  nchunks(ifile) = 2
                  tidx1(1:nchunks(ifile)) = (/ 13, 541/)      ! 2006, 2050
                  tidx2(1:nchunks(ifile)) = (/540,1152/)      ! 2049, 2100
+              case ( 1248 )
+                 nchunks(ifile) = 2
+                 tidx1(1:nchunks(ifile)) = (/  1, 601/)
+                 tidx2(1:nchunks(ifile)) = (/600,1248/)
               case ( 1140 )  ! RCP, 2006-2100
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-CAM5')
