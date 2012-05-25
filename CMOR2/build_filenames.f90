@@ -32,7 +32,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
   case ('Tables/CMIP5_OImon','Tables/GeoMIP_OImon')
      exists = .false.
      do year1 = begyr,endyr
-        do year2 = endyr,begyr,-1
+        do year2 = endyr,year1,-1
            do idt = 1,ndt
               write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
                    trim(case),&
@@ -88,7 +88,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
   case default
      exists = .false.
      do year1 = begyr,endyr
-        do year2 = endyr,begyr,-1
+        do year2 = endyr,year1,-1
            do idt = 1,ndt
 !              write(*,'(''dtbeg, dtend: '',i4,5x,a,10x,a)') idt,trim(dtbeg(idt)),trim(dtend(idt))
               write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &

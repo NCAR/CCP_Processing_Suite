@@ -112,7 +112,7 @@ program Omon_CMOR
      ! Open CESM file(s) and get information(s)
      !
      if (all_continue) then
-        write(*,*) 'AVAILABLE: ',trim(case_read),trim(comp_read),trim(xw(ixw)%cesm_vars(ivar))
+!        write(*,*) 'AVAILABLE: ',trim(case_read),' ',trim(comp_read),' ',trim(xw(ixw)%cesm_vars(ivar))
         do ivar = 1,xw(ixw)%ncesm_vars
            do ifile = 1,nc_nfiles(ivar)
               call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
