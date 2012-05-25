@@ -823,6 +823,10 @@ program Amon_CMOR
                  nchunks(1) = 3
                  tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
                  tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1950, 2005
+              case ( 1248 )  ! 20C, 1850-2005, ~50y chunks
+                 nchunks(1) = 2
+                 tidx1(1:nchunks(1)) = (/  1, 601/)
+                 tidx2(1:nchunks(1)) = (/600,1248/)
               case default
                  nchunks(1) = 1
                  tidx1(1:nchunks(1)) = (/  1        /)
