@@ -16,13 +16,16 @@ function DEBUG()
 #
 # for CMIP5 processing TPER not set but TABL is so use that for TPER
 #
-if ! [ $TPER ] ; then
-   TPER=$TABL
+if [ $TPER ] ; then
+   ARG3=$TPER
+fi
+if [ $TABL ] ; then
+   ARG3=$TABL
 fi
 #
 # generate a base filename
 #
-FILEBASE=${CASE}.${HIST}.${TPER} ; export FILEBASE
+FILEBASE=${CASE}.${HIST}.${ARG3} ; export FILEBASE
 #
 # generate the filenames to be used
 #
@@ -38,7 +41,7 @@ HOSTNAME=`hostname`
 #
 case "$HOSTNAME" in 
   silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
-    LOGFILE=$HOME/CCP_Processing_Suite/log.${CASE}_${HIST}_${TPER}_process.sh
+    LOGFILE=$HOME/CCP_Processing_Suite/log.${CASE}_${HIST}_${ARG3}_process.sh
     if [ -f $LOGFILE ] ; then
       date > ${FILELOG}
       tail -n 40 ${LOGFILE} >> ${FILELOG}
@@ -87,7 +90,7 @@ if [ $# -ge 1 ] ; then
     echo "STATUS = START" >> tossme
     echo "CASE = ${CASE}" >> tossme
     echo "HIST = ${HIST}" >> tossme
-    echo "TPER = ${TPER}" >> tossme
+    echo "ARG3 = ${ARG3}" >> tossme
     echo "LOCATION = ${LOCATION}" >> tossme
     echo "HTYP = ${HTYP}" >> tossme
     echo "PP_HOST = ${HOSTNAME}" >> tossme
@@ -101,7 +104,7 @@ if [ $# -ge 1 ] ; then
     echo "STATUS = ERROR" >> tossme
     echo "CASE = ${CASE}" >> tossme
     echo "HIST = ${HIST}" >> tossme
-    echo "TPER = ${TPER}" >> tossme
+    echo "ARG3 = ${ARG3}" >> tossme
     echo "LOCATION = ${LOCATION}" >> tossme
     echo "HTYP = ${HTYP}" >> tossme
     echo "PP_HOST = ${HOSTNAME}" >> tossme
@@ -116,7 +119,7 @@ if [ $# -ge 1 ] ; then
     echo "STATUS = COMPLETE" >> tossme
     echo "CASE = ${CASE}" >> tossme
     echo "HIST = ${HIST}" >> tossme
-    echo "TPER = ${TPER}" >> tossme
+    echo "ARG3 = ${ARG3}" >> tossme
     echo "LOCATION = ${LOCATION}" >> tossme
     echo "HTYP = ${HTYP}" >> tossme
     echo "PP_HOST = ${HOSTNAME}" >> tossme
