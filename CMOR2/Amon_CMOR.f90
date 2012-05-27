@@ -941,18 +941,18 @@ program Amon_CMOR
            case ( 1872,1860 )  ! 20C, 1850-2005
               select case(exp(exp_found)%model_id)
               case ('CESM1-CAM5')
-                 nchunks(ifile) = 6
-                 tidx1(1:nchunks(ifile)) = (/  1, 301, 601, 901,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
-                 tidx2(1:nchunks(ifile)) = (/300, 600, 900,1200,1500,1872/) ! 1874, 1899, 1924, 1949, 1974, 2005
+                 nchunks(1) = 6
+                 tidx1(1:nchunks(1)) = (/  1, 301, 601, 901,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
+                 tidx2(1:nchunks(1)) = (/300, 600, 900,1200,1500,1872/) ! 1874, 1899, 1924, 1949, 1974, 2005
               case default
-                 nchunks(ifile) = 3
-                 tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
-                 tidx2(1:nchunks(ifile)) = (/600,1200,ntimes(1,1)/) ! 1899, 1950, 2005
+                 nchunks(1) = 3
+                 tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
+                 tidx2(1:nchunks(1)) = (/600,1200,ntimes(1,1)/) ! 1899, 1950, 2005
               end select
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
-              nchunks(ifile) = 3
-              tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
-              tidx2(1:nchunks(ifile)) = (/600,1200,1812/) ! 1899, 1950, 2000
+              nchunks(1) = 3
+              tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
+              tidx2(1:nchunks(1)) = (/600,1200,1812/) ! 1899, 1950, 2000
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
