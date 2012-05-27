@@ -947,7 +947,7 @@ program Amon_CMOR
               case default
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
-                 tidx2(1:nchunks(ifile)) = (/600,1200,ntimes(ifile,1)/) ! 1899, 1950, 2005
+                 tidx2(1:nchunks(ifile)) = (/600,1200,ntimes(1,1)/) ! 1899, 1950, 2005
               end select
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(ifile) = 3
