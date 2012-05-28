@@ -824,6 +824,10 @@ program Amon_CMOR
                     nchunks(ifile) = 2
                     tidx1(1:nchunks(ifile)) = (/ 13, 541/)      ! 2006, 2050
                     tidx2(1:nchunks(ifile)) = (/540,1152/)      ! 2049, 2100
+                 case ( 1248 )  ! COSP 4XCO2
+                    nchunks(ifile) = 2
+                    tidx1(1:nchunks(ifile)) = (/  1, 601/)
+                    tidx2(1:nchunks(ifile)) = (/600,1248/)
                  case ( 1140 )  ! RCP, 2006-2100
                     nchunks(ifile) = 2
                     tidx1(1:nchunks(ifile)) = (/  1, 529/)      ! 2006, 2050

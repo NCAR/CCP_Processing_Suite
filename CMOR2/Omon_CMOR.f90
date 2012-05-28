@@ -334,7 +334,7 @@ program Omon_CMOR
               select case (ntimes(ifile,1))
               case ( 60, 1152 ) ! RCP, skip 2005
                  nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 13
+                 tidx1(1:nchunks(ifile)) = 1
                  tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
@@ -426,7 +426,7 @@ program Omon_CMOR
               select case (ntimes(ifile,1))
               case ( 60, 1152 ) ! RCP, skip 2005
                  nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 13
+                 tidx1(1:nchunks(ifile)) = 1
                  tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
@@ -520,7 +520,7 @@ program Omon_CMOR
               select case (ntimes(ifile,1))
               case ( 60, 1152 ) ! RCP, skip 2005
                  nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 13
+                 tidx1(1:nchunks(ifile)) = 1
                  tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
@@ -601,7 +601,7 @@ program Omon_CMOR
               select case (ntimes(ifile,1))
               case ( 60, 1152 ) ! RCP, skip 2005
                  nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 13
+                 tidx1(1:nchunks(ifile)) = 1
                  tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
@@ -686,7 +686,7 @@ program Omon_CMOR
               select case (ntimes(ifile,1))
               case ( 60 ) ! RCP, skip 2005
                  nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 13
+                 tidx1(1:nchunks(ifile)) = 1
               case ( 1152 )               ! RCP all in one file from 2005-2100
                  nchunks(ifile) = 10
                  tidx1(1) =  13
@@ -801,7 +801,7 @@ program Omon_CMOR
               select case (ntimes(ifile,1))
               case ( 60 ) ! RCP, skip 2005
                  nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 13
+                 tidx1(1:nchunks(ifile)) = 1
               case ( 1152 )               ! RCP all in one file from 2005-2100
                  nchunks(ifile) = 10
                  tidx1(1) =  13
@@ -919,7 +919,7 @@ program Omon_CMOR
               select case (ntimes(ifile,1))
               case ( 60 )               ! RCP from 2005-2009, skip 2005
                  nchunks(ifile)   = 1
-                 tidx1(nchunks(ifile)) = 13
+                 tidx1(nchunks(ifile)) = 1
                  tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 1152 )               ! RCP all in one file from 2005-2100
                  nchunks(ifile) = 10
@@ -1048,7 +1048,7 @@ program Omon_CMOR
               select case (ntimes(ifile,1))
               case ( 60 )               ! RCP from 2005-2009, skip 2005
                  nchunks(ifile)   = 1
-                 tidx1(nchunks(ifile)) = 13
+                 tidx1(nchunks(ifile)) = 1
                  tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 1152 )               ! RCP all in one file from 2005-2100
                  nchunks(ifile) = 10
@@ -1177,7 +1177,7 @@ program Omon_CMOR
               select case (ntimes(ifile,1))
               case ( 60 )               ! RCP from 2005-2009, skip 2005
                  nchunks(ifile)   = 1
-                 tidx1(nchunks(ifile)) = 13
+                 tidx1(nchunks(ifile)) = 1
                  tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 1152 )               ! RCP all in one file from 2005-2100
                  nchunks(ifile) = 10
@@ -1311,7 +1311,7 @@ program Omon_CMOR
               select case (ntimes(ifile,1))
               case ( 60 )               ! RCP from 2005-2009, skip 2005
                  nchunks(ifile)   = 1
-                 tidx1(nchunks(ifile)) = 13
+                 tidx1(nchunks(ifile)) = 1
                  tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 1152 )               ! RCP all in one file from 2005-2100
                  nchunks(ifile) = 10
@@ -1447,7 +1447,7 @@ program Omon_CMOR
               select case (ntimes(ifile,1))
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  nchunks(ifile)   = 1
-                 tidx1(nchunks(ifile)) = 13
+                 tidx1(nchunks(ifile)) = 1
                  tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
@@ -1539,7 +1539,7 @@ program Omon_CMOR
               select case (ntimes(ifile,1))
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  nchunks(ifile)   = 1
-                 tidx1(nchunks(ifile)) = 13
+                 tidx1(nchunks(ifile)) = 1
                  tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
@@ -1735,7 +1735,7 @@ program Omon_CMOR
                  tidx2(1:nchunks(ifile)) = (/6000,12012/)
               case default
                  nchunks(ifile)= 1
-                 tidx1(1:nchunks(ifile)) = 13
+                 tidx1(1:nchunks(ifile)) = 1
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               !
