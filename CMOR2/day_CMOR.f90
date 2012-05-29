@@ -333,6 +333,10 @@ program day_CMOR
                  nchunks(ifile)= 3
                  tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
                  tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
+              case ( 146730 )        ! LGM from 1499-1900, use 1800-1900 only
+                 nchunks(ifile)= 4
+                 tidx1(1:nchunks(ifile)) = (/109866,118991,128116,137241/)      ! 1800, 1825, 1850, 1875
+                 tidx2(1:nchunks(ifile)) = (/118990,128115,137240,146730/)      ! 1824, 1849, 1874, 1900
               case default
                  nchunks(ifile)= 1
                  tidx1(1:nchunks(ifile)) = 1
@@ -528,6 +532,10 @@ program day_CMOR
                     nchunks(ifile)= 3
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
                     tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
+                 case ( 146730 )        ! LGM from 1499-1900, use 1800-1900 only
+                    nchunks(ifile)= 4
+                    tidx1(1:nchunks(ifile)) = (/109866,118991,128116,137241/)      ! 1800, 1825, 1850, 1875
+                    tidx2(1:nchunks(ifile)) = (/118990,128115,137240,146730/)      ! 1824, 1849, 1874, 1900
                  case default
                     nchunks(ifile)= 1
                     tidx1(1:nchunks(ifile)) = 1
@@ -624,6 +632,10 @@ program day_CMOR
                  nchunks(ifile)= 3
                  tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
                  tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
+              case ( 146730 )        ! LGM from 1499-1900, use 1800-1900 only
+                 nchunks(ifile)= 4
+                 tidx1(1:nchunks(ifile)) = (/109866,118991,128116,137241/)      ! 1800, 1825, 1850, 1875
+                 tidx2(1:nchunks(ifile)) = (/118990,128115,137240,146730/)      ! 1824, 1849, 1874, 1900
               case default
                  nchunks(ifile)= 1
                  tidx1(1:nchunks(ifile)) = 1
