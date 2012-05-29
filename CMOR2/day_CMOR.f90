@@ -337,6 +337,10 @@ program day_CMOR
                  nchunks(ifile)= 4
                  tidx1(1:nchunks(ifile)) = (/109866,118991,128116,137241/)      ! 1800, 1825, 1850, 1875
                  tidx2(1:nchunks(ifile)) = (/118990,128115,137240,146730/)      ! 1824, 1849, 1874, 1900
+              case ( 97820 )        ! abrupt4xCO2 from 1850-2118, use 1850-2000 only
+                 nchunks(ifile)= 6
+                 tidx1(1:nchunks(ifile)) = (/    1, 9126,18251,27376,36501,45626/)      ! 1850, 1875, 1900, 1925, 1950, 1975
+                 tidx2(1:nchunks(ifile)) = (/ 9125,18250,27375,36500,45625,55115/)      ! 1874, 1899, 1924, 1949, 1974, 2000
               case default
                  nchunks(ifile)= 1
                  tidx1(1:nchunks(ifile)) = 1
@@ -532,6 +536,10 @@ program day_CMOR
                     nchunks(ifile)= 3
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
                     tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
+                 case ( 97820 )        ! abrupt4xCO2 from 1850-2118, use 1850-2000 only
+                    nchunks(ifile)= 6
+                    tidx1(1:nchunks(ifile)) = (/    1, 9126,18251,27376,36501,45626/)      ! 1850, 1875, 1900, 1925, 1950, 1975
+                    tidx2(1:nchunks(ifile)) = (/ 9125,18250,27375,36500,45625,55115/)      ! 1874, 1899, 1924, 1949, 1974, 2000
                  case ( 146730 )        ! LGM from 1499-1900, use 1800-1900 only
                     nchunks(ifile)= 4
                     tidx1(1:nchunks(ifile)) = (/109866,118991,128116,137241/)      ! 1800, 1825, 1850, 1875
@@ -632,6 +640,10 @@ program day_CMOR
                  nchunks(ifile)= 3
                  tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
                  tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
+              case ( 97820 )        ! abrupt4xCO2 from 1850-2118, use 1850-2000 only
+                 nchunks(ifile)= 6
+                 tidx1(1:nchunks(ifile)) = (/    1, 9126,18251,27376,36501,45626/)      ! 1850, 1875, 1900, 1925, 1950, 1975
+                 tidx2(1:nchunks(ifile)) = (/ 9125,18250,27375,36500,45625,55115/)      ! 1874, 1899, 1924, 1949, 1974, 2000
               case ( 146730 )        ! LGM from 1499-1900, use 1800-1900 only
                  nchunks(ifile)= 4
                  tidx1(1:nchunks(ifile)) = (/109866,118991,128116,137241/)      ! 1800, 1825, 1850, 1875
