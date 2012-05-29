@@ -182,11 +182,11 @@ subroutine load_exp(exp_file)
      case ('amip')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
      case ('amip4K')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA + 4K SST perturbation'
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA (4K SST perturbation)'
      case ('amip4xCO2')
         exp(i)%forcing(1:)      = 'GHG (CO2 only, instantaneously to 4X) Sl Vl SS Ds SA BC MD OC Oz AA'
      case ('amipFuture')
-        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA + SST perturbation'
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA (and SST perturbation)'
      case ('aqua4K')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('aqua4xCO2')
