@@ -263,9 +263,9 @@ subroutine load_exp(exp_file)
      case ('sst2030')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('sstClim')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA, observed SSTs'
      case ('sstClim4xCO2')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'Sl GHG (CO2 to 4X) Vl SS Ds SA BC MD OC Oz AA, observed SSTs'
      case ('sstClimAerosol')
         exp(i)%forcing(1:)      = 'unknown forcings'
      case ('sstClimSulfate')
