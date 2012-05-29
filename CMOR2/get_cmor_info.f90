@@ -71,7 +71,7 @@ subroutine get_cmor_info
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case ('CESM1-BGC')
-     mycmor%references    = 'TBD\n'//&
+     mycmor%references    = 'Lindsay K., et al.: Preindustrial Control and 20th Century Experiments with the Earth System Model CESM1-(BGC) (in preparation for Journal of Climate).\n'//&
           ' See also http://www.cesm.ucar.edu/publications'
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
