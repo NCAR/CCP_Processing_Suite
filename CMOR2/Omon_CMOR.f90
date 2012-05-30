@@ -24,7 +24,7 @@ program Omon_CMOR
   !
   integer::error_flag,cmor_var_id
   real,dimension(:)    ,allocatable::indat1a
-  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,icefrac,cmordat2d
+  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,icefrac,cmordat2d,sum_dz
   real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db,volume
   real,dimension(:,:,:,:),allocatable::indat4a ! MOC
   double precision,dimension(:)  ,allocatable::time
@@ -498,7 +498,7 @@ program Omon_CMOR
         case ('tauuo','tauvo','hfss','pr','prsn','rsds','rsntds','zos','omlmax',&
               'dpco2','fbddtalk','fbddtdic','fbddtdife','fbddtdip','fbddtdisi',&
               'fddtalk','fddtdic','fddtdife','fddtdip','fddtdisi','fgco2','fgo2',&
-              'o2min','zo2min','spco2','zo2min','zsatarag','zsatcalc')
+              'o2min','zo2min','spco2','zsatarag','zsatcalc')
            !
            ! No changes - just pass through
            !
@@ -1729,7 +1729,7 @@ program Omon_CMOR
                        cmordat2d = indat2a + indat2b
                     elsewhere
                        cmordat2d = spval
-                    elsewhere
+                    endwhere
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(          &
@@ -1755,9 +1755,332 @@ program Omon_CMOR
                  endif
               enddo
            enddo
-        case ('chl','intpnitrate','phyc','phyfe')
+        case ('chl','phyc','phyfe')
            !
-           ! Add three fields
+           ! Add three full-column fields, but use only topmost layer in sum
+           !
+           allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),indat3c(nlons,nlats,nlevs),cmordat2d(nlons,nlats))
+           do ifile = 1,nc_nfiles(1)
+              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+              call get_dims(myncid(ifile,1))
+              call get_vars(myncid(ifile,1))
+              call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
+              call get_dims(myncid(ifile,2))
+              call get_vars(myncid(ifile,2))
+              call open_cdf(myncid(ifile,3),trim(ncfile(ifile,3)),.true.)
+              call get_dims(myncid(ifile,3))
+              call get_vars(myncid(ifile,3))
+              spval=var_info(var_found(1,1))%missing_value
+              !
+              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
+              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              !
+              do n=1,ntimes(ifile,1)
+                 time_counter = n
+                 call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
+              enddo
+              !
+              time_bnds(1,1) = int(time_bnds(1,1))-1
+              time = (time_bnds(1,:)+time_bnds(2,:))/2.
+              select case (ntimes(ifile,1))
+              case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
+                 tidx2(1:nchunks(ifile)) = (/6000/) ! 1300
+              case ( 12012 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/   1, 6001/)
+                 tidx2(1:nchunks(ifile)) = (/6000,12012/)
+              case default
+                 nchunks(ifile)   = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    !
+                    cmordat2d = spval
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
+                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat3c)
+                    do j = 1,nlats
+                       do i = 1,nlons
+                          if ((indat3a(i,j,1) /= spval).and.(indat3b(i,j,1) /= spval).and.(indat3c(i,j,1) /= spval)) then
+                             cmordat2d(i,j) = indat3a(i,j,1) + indat3b(i,j,1) + indat3c(i,j,1)
+                          else
+                             cmordat2d(i,j) = spval
+                          endif
+                       enddo
+                    enddo
+                    !
+                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(          &
+                         var_id        = cmor_var_id, &
+                         data          = cmordat2d,     &
+                         ntimes_passed = 1,           &
+                         time_vals     = tval,        &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 !
+                 cmor_filename = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+                 endif
+              enddo
+           enddo
+        case ('epc100','epcalc100','epfe100','epsi100')
+           !
+           ! Full-column fields, but use only "depth100m" meters; z_t at index 11 - 
+           ! "Please sample those fields at 105m. In the model output, these fields are actually 
+           ! fluxes into the top of the cell, and the top of the cell whose center is at 105m is at 100m."
+           !
+           allocate(indat3a(nlons,nlats,nlevs),cmordat2d(nlons,nlats))
+           do ifile = 1,nc_nfiles(1)
+              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+              call get_dims(myncid(ifile,1))
+              call get_vars(myncid(ifile,1))
+              spval=var_info(var_found(1,1))%missing_value
+              !
+              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
+              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              !
+              do n=1,ntimes(ifile,1)
+                 time_counter = n
+                 call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
+              enddo
+              !
+              time_bnds(1,1) = int(time_bnds(1,1))-1
+              time = (time_bnds(1,:)+time_bnds(2,:))/2.
+              select case (ntimes(ifile,1))
+              case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
+                 tidx2(1:nchunks(ifile)) = (/6000/) ! 1300
+              case ( 12012 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/   1, 6001/)
+                 tidx2(1:nchunks(ifile)) = (/6000,12012/)
+              case default
+                 nchunks(ifile)   = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    !
+                    cmordat2d = spval
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    do j = 1,nlats
+                       do i = 1,nlons
+                          if (indat3a(i,j,11) /= spval) then
+                             cmordat2d(i,j) = indat3a(i,j,11)
+                          else
+                             cmordat2d(i,j) = spval
+                          endif
+                       enddo
+                    enddo
+                    !
+                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(          &
+                         var_id        = cmor_var_id, &
+                         data          = cmordat2d,     &
+                         ntimes_passed = 1,           &
+                         time_vals     = tval,        &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 !
+                 cmor_filename = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+                 endif
+              enddo
+           enddo
+        case ('chldiat','chldiaz','chlpico','co3','co3satarag','co3satcalc','dfe',&
+              'dissic','dissoc','nh4','no3','o2','phycalc','phydiat','phydiaz','phypico','physi','po4','si','zooc')
+           !
+           ! Full-column fields, but use only "depth0m" meters; z_t at index 1
+           !
+           allocate(indat3a(nlons,nlats,nlevs),cmordat2d(nlons,nlats))
+           do ifile = 1,nc_nfiles(1)
+              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+              call get_dims(myncid(ifile,1))
+              call get_vars(myncid(ifile,1))
+              spval=var_info(var_found(1,1))%missing_value
+              !
+              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
+              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              !
+              do n=1,ntimes(ifile,1)
+                 time_counter = n
+                 call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
+              enddo
+              !
+              time_bnds(1,1) = int(time_bnds(1,1))-1
+              time = (time_bnds(1,:)+time_bnds(2,:))/2.
+              select case (ntimes(ifile,1))
+              case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
+                 tidx2(1:nchunks(ifile)) = (/6000/) ! 1300
+              case ( 12012 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/   1, 6001/)
+                 tidx2(1:nchunks(ifile)) = (/6000,12012/)
+              case default
+                 nchunks(ifile)   = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    !
+                    cmordat2d = spval
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    do j = 1,nlats
+                       do i = 1,nlons
+                          if (indat3a(i,j,1) /= spval) then
+                             cmordat2d(i,j) = indat3a(i,j,1)
+                          else
+                             cmordat2d(i,j) = spval
+                          endif
+                       enddo
+                    enddo
+                    !
+                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(          &
+                         var_id        = cmor_var_id, &
+                         data          = cmordat2d,     &
+                         ntimes_passed = 1,           &
+                         time_vals     = tval,        &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 !
+                 cmor_filename = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+                 endif
+              enddo
+           enddo
+        case ('intdic','ph','talk')
+           !
+           ! Single full-column fields, integrate over all of z_t
+           !
+           allocate(indat3a(nlons,nlats,nlevs),cmordat2d(nlons,nlats),sum_dz(nlons,nlats))
+           do ifile = 1,nc_nfiles(1)
+              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+              call get_dims(myncid(ifile,1))
+              call get_vars(myncid(ifile,1))
+              spval=var_info(var_found(1,1))%missing_value
+              !
+              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
+              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              !
+              do n=1,ntimes(ifile,1)
+                 time_counter = n
+                 call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
+              enddo
+              !
+              time_bnds(1,1) = int(time_bnds(1,1))-1
+              time = (time_bnds(1,:)+time_bnds(2,:))/2.
+              select case (ntimes(ifile,1))
+              case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
+                 tidx2(1:nchunks(ifile)) = (/6000/) ! 1300
+              case ( 12012 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/   1, 6001/)
+                 tidx2(1:nchunks(ifile)) = (/6000,12012/)
+              case default
+                 nchunks(ifile)   = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    !
+                    cmordat2d = 0. ; sum_dz = 0.
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    do k = 1,nlevs
+                       do j = 1,nlats
+                          do i = 1,nlons
+                             if (kmt(i,j).ge.k) then
+                                cmordat2d(i,j) = indat3a(i,j,k)*ocn_t_levs(k)
+                                sum_dz(i,j) = sum_dz(i,j) + ocn_t_levs(k)
+                             else
+                                cmordat2d(i,j) = spval
+                             endif
+                          enddo
+                       enddo
+                    enddo
+                    do j = 1,nlats
+                       do i = 1,nlons
+                          if (cmordat2d(i,j) /= spval) then
+                             cmordat2d(i,j) = cmordat2d(i,j) / sum_dz(i,j)
+                          else
+                             cmordat2d(i,j) = spval
+                          endif
+                       enddo
+                    enddo
+                    !
+                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(          &
+                         var_id        = cmor_var_id, &
+                         data          = cmordat2d,     &
+                         ntimes_passed = 1,           &
+                         time_vals     = tval,        &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 !
+                 cmor_filename = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+                 endif
+              enddo
+           enddo
+        case ('intpnitrate')
+           !
+           ! Add three single-level fields
            !
            allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),indat2c(nlons,nlats),cmordat2d(nlons,nlats))
            do ifile = 1,nc_nfiles(1)
@@ -1808,7 +2131,7 @@ program Omon_CMOR
                        cmordat2d = indat2a + indat2b + indat2c
                     elsewhere
                        cmordat2d = spval
-                    elsewhere
+                    endwhere
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(          &
