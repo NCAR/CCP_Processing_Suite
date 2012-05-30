@@ -333,15 +333,18 @@ program day_CMOR
                  nchunks(ifile)= 3
                  tidx1(1:nchunks(ifile)) = (/  366, 13141, 25916/)      ! 2006, 2041, 2076
                  tidx2(1:nchunks(ifile)) = (/13140, 25915, 35040/)      ! 2040, 2075, 2100
-              case ( 18250, 18615, 36500 )         ! 50 or 100-year chunks, N @ 25y each
-                 nchunks(ifile)= ntimes(ifile,1)/9125
-                 tidx1(1) =    1
-                 tidx2(1) = 9125
-                 do ic = 2,nchunks(ifile)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic)   + 9124
-                 enddo
-                 tidx2(nchunks(ifile)) = ntimes(1,1)
+              case ( 36500 )         ! 100-year chunks, break into 25y each
+                 nchunks(ifile)= 4
+                 tidx1(1:nchunks(ifile)) = (/   1, 9126,18251,27376/)
+                 tidx2(1:nchunks(ifile)) = (/9125,18250,27375,36500/)
+              case ( 18250 )         ! 50-year chunks, break into 25y each
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/   1, 9126/)
+                 tidx2(1:nchunks(ifile)) = (/9125,18250/)
+              case ( 18615 )         ! 51, break into 25y + 26y
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/   1, 9126/)
+                 tidx2(1:nchunks(ifile)) = (/9125,18615/)
               case ( 146730 )        ! LGM from 1499-1900, use 1800-1900 only
                  nchunks(ifile)= 4
                  tidx1(1:nchunks(ifile)) = (/109866,118991,128116,137241/)      ! 1800, 1825, 1850, 1875
@@ -549,15 +552,18 @@ program day_CMOR
                     nchunks(ifile)= 3
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
                     tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
-                 case ( 18250, 18615, 36500 )         ! 50 or 100-year chunks, N @ 25y each
-                    nchunks(ifile)= ntimes(ifile,1)/9125
-                    tidx1(1) =    1
-                    tidx2(1) = 9125
-                    do ic = 2,nchunks(ifile)
-                       tidx1(ic) = tidx2(ic-1) + 1
-                       tidx2(ic) = tidx1(ic)   + 9124
-                    enddo
-                    tidx2(nchunks(ifile)) = ntimes(1,1)
+                 case ( 36500 )         ! 100-year chunks, break into 25y each
+                    nchunks(ifile)= 4
+                    tidx1(1:nchunks(ifile)) = (/   1, 9126,18251,27376/)
+                    tidx2(1:nchunks(ifile)) = (/9125,18250,27375,36500/)
+                 case ( 18250 )         ! 50-year chunks, break into 25y each
+                    nchunks(ifile)= 2
+                    tidx1(1:nchunks(ifile)) = (/   1, 9126/)
+                    tidx2(1:nchunks(ifile)) = (/9125,18250/)
+                 case ( 18615 )         ! 51, break into 25y + 26y
+                    nchunks(ifile)= 2
+                    tidx1(1:nchunks(ifile)) = (/   1, 9126/)
+                    tidx2(1:nchunks(ifile)) = (/9125,18615/)
                  case ( 97820 )        ! abrupt4xCO2 from 1850-2118, use 1850-2000 only
                     nchunks(ifile)= 6
                     tidx1(1:nchunks(ifile)) = (/    1, 9126,18251,27376,36501,45626/)      ! 1850, 1875, 1900, 1925, 1950, 1975
@@ -666,15 +672,18 @@ program day_CMOR
                  nchunks(ifile)= 4
                  tidx1(1:nchunks(ifile)) = (/   1, 8761, 17886, 27011/)      ! 0001, 0025, 0050, 0075
                  tidx2(1:nchunks(ifile)) = (/8760,17885, 27010, 37960/)      ! 0024, 0049, 0074, 0104
-              case ( 18250, 18615, 36500 )         ! 50 or 100-year chunks, N @ 25y each
-                 nchunks(ifile)= ntimes(ifile,1)/9125
-                 tidx1(1) =    1
-                 tidx2(1) = 9125
-                 do ic = 2,nchunks(ifile)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic)   + 9124
-                 enddo
-                 tidx2(nchunks(ifile)) = ntimes(1,1)
+              case ( 36500 )         ! 100-year chunks, break into 25y each
+                 nchunks(ifile)= 4
+                 tidx1(1:nchunks(ifile)) = (/   1, 9126,18251,27376/)
+                 tidx2(1:nchunks(ifile)) = (/9125,18250,27375,36500/)
+              case ( 18250 )         ! 50-year chunks, break into 25y each
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/   1, 9126/)
+                 tidx2(1:nchunks(ifile)) = (/9125,18250/)
+              case ( 18615 )         ! 51, break into 25y + 26y
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/   1, 9126/)
+                 tidx2(1:nchunks(ifile)) = (/9125,18615/)
               case ( 97820 )        ! abrupt4xCO2 from 1850-2118, use 1850-2000 only
                  nchunks(ifile)= 6
                  tidx1(1:nchunks(ifile)) = (/    1, 9126,18251,27376,36501,45626/)      ! 1850, 1875, 1900, 1925, 1950, 1975
