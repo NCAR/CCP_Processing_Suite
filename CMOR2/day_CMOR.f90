@@ -582,11 +582,11 @@ program day_CMOR
                        time_counter = it
                        call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
                        call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2b)
-                       where ((indat2a /= spval).and.(indat2b /= spval))
+!                       where ((indat2a /= spval).and.(indat2b /= spval))
                           cmordat2d = (indat2a + indat2b)*1000.
-                       elsewhere
-                          cmordat2d = spval
-                       endwhere
+!                       elsewhere
+!                          cmordat2d = spval
+!                       endwhere
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(      &
                             var_id        = cmor_var_id, &
@@ -601,15 +601,13 @@ program day_CMOR
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                     !
-                    if (nchunks(ifile) /= 1) then
-                       cmor_filename(1:) = ' '
-                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                       if (error_flag < 0) then
-                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                          stop
-                       else
-                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                       endif
+                    cmor_filename(1:) = ' '
+                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                       stop
+                    else
+                       write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                     endif
                  enddo
               enddo

@@ -279,13 +279,14 @@ program Omon_CMOR
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
-        case ('dpco2','dpo2','evs','fgco2','fgdms','fgo2','ficeberg2d','frc','frfe','friver','frn','fsc','fsfe','fsitherm','fsn',&
-              'hfcorr','hfds','hfevapds','hfgeou','hfibthermds2d','hfls','hfnorthba','hfnorthdiff','hfnorth','hfrainds','hfrunoffds2d',&
-              'hfsifrazil2d','hfsithermds2d','hfsnthermds2d','hfss','hfxba','hfxdiff','hfx','hfyba','hfydiff','hfy','intdic',&
-              'intparag','intpbfe','intpbsi','intpcalcite','intpcalc','intpdiat','intpdiaz','intpmisc','intpn2','intpnitrate',&
-              'intppico','intpp','mlotst','mlotstsq','msftbarot','o2min','omldamax','omlmax','pbo','pr','prsn','pso',&
-              'rlds','rsntds','sfdsi','sfriver','sos','spco2','tauucorr','tauuo','tauvcorr','tauvo','tos','tossq','vsfcorr',&
-              'vsfevap','vsf','vsfpr','vsfriver','vsfsit','wfcorr','wfonocorr','wfo','zo2min','zos','zossq','zsatarag','zsatcalc')
+        case ('dpco2','fgco2','fgo2','frn','fsn','intdic','intpbsi','intpcalcite','intpcalc','intpdiat','intpdiaz',&
+              'intpn2','intpnitrate','intppico','intpp','o2min','spco2','zo2min','zsatarag','zsatcalc','hfss',&
+              'msftbarot','omlmax','pr','prsn','rlds','rsntds','sos','tauuo','tauvo','tos','tossq','zos',&
+              'chlcalc','chldiat','chldiaz','chl','chlpico','co3','co3satarag','co3satcalc','dfe','dissic','dissoc',&
+              'epc100','epcalc100','epfe100','epsi100','nh4','no3','o2','ph','phycalc','phyc','phydiat','phydiaz',&
+              'phyfe','phyn','phypico','phyp','physi','po4','si','talk','zooc',&
+              'fbddtalk','fbddtdic','fbddtdife','fbddtdin','fbddtdip','fbddtdisi','fddtalk',&
+              'fddtdic','fddtdife','fddtdin','fddtdip','fddtdisi')
            ! Single-level fields
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
@@ -494,9 +495,12 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
-        case ('tauuo','tauvo','hfss','pr','prsn','rsds','rsntds','zos','omlmax')
+        case ('tauuo','tauvo','hfss','pr','prsn','rsds','rsntds','zos','omlmax',&
+              'dpco2','fbddtalk','fbddtdic','fbddtdife','fbddtdip','fbddtdisi',&
+              'fddtalk','fddtdic','fddtdife','fddtdip','fddtdisi','fgco2','fgo2',&
+              'o2min','zo2min','spco2','zo2min','zsatarag','zsatcalc')
            !
-           ! tauuo,tauvo,hfss,pr,prsn,rsds,rsntds: No changes
+           ! No changes - just pass through
            !
            allocate(indat2a(nlons,nlats))
            do ifile = 1,nc_nfiles(1)
@@ -1651,6 +1655,160 @@ program Omon_CMOR
                     elsewhere
                        cmordat2d = spval
                     endwhere
+                    !
+                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(          &
+                         var_id        = cmor_var_id, &
+                         data          = cmordat2d,     &
+                         ntimes_passed = 1,           &
+                         time_vals     = tval,        &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 !
+                 cmor_filename = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+                 endif
+              enddo
+           enddo
+        case ('fbddtdin','fddtdinrlds')
+           !
+           ! Add two fields
+           !
+           allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),cmordat2d(nlons,nlats))
+           do ifile = 1,nc_nfiles(1)
+              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+              call get_dims(myncid(ifile,1))
+              call get_vars(myncid(ifile,1))
+              call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
+              call get_dims(myncid(ifile,2))
+              call get_vars(myncid(ifile,2))
+              spval=var_info(var_found(1,1))%missing_value
+              !
+              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
+              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              !
+              do n=1,ntimes(ifile,1)
+                 time_counter = n
+                 call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
+              enddo
+              !
+              time_bnds(1,1) = int(time_bnds(1,1))-1
+              time = (time_bnds(1,:)+time_bnds(2,:))/2.
+              select case (ntimes(ifile,1))
+              case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
+                 tidx2(1:nchunks(ifile)) = (/6000/) ! 1300
+              case ( 12012 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/   1, 6001/)
+                 tidx2(1:nchunks(ifile)) = (/6000,12012/)
+              case default
+                 nchunks(ifile)   = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    !
+                    cmordat2d = spval
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2b)
+                    where ((indat2a /= spval).and.(indat2b /= spval))
+                       cmordat2d = indat2a + indat2b
+                    elsewhere
+                       cmordat2d = spval
+                    elsewhere
+                    !
+                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(          &
+                         var_id        = cmor_var_id, &
+                         data          = cmordat2d,     &
+                         ntimes_passed = 1,           &
+                         time_vals     = tval,        &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 !
+                 cmor_filename = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+                 endif
+              enddo
+           enddo
+        case ('chl','intpnitrate','phyc','phyfe')
+           !
+           ! Add three fields
+           !
+           allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),indat2c(nlons,nlats),cmordat2d(nlons,nlats))
+           do ifile = 1,nc_nfiles(1)
+              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+              call get_dims(myncid(ifile,1))
+              call get_vars(myncid(ifile,1))
+              call open_cdf(myncid(ifile,2),trim(ncfile(ifile,2)),.true.)
+              call get_dims(myncid(ifile,2))
+              call get_vars(myncid(ifile,2))
+              call open_cdf(myncid(ifile,3),trim(ncfile(ifile,3)),.true.)
+              call get_dims(myncid(ifile,3))
+              call get_vars(myncid(ifile,3))
+              spval=var_info(var_found(1,1))%missing_value
+              !
+              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
+              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              !
+              do n=1,ntimes(ifile,1)
+                 time_counter = n
+                 call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
+              enddo
+              !
+              time_bnds(1,1) = int(time_bnds(1,1))-1
+              time = (time_bnds(1,:)+time_bnds(2,:))/2.
+              select case (ntimes(ifile,1))
+              case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
+                 tidx2(1:nchunks(ifile)) = (/6000/) ! 1300
+              case ( 12012 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/   1, 6001/)
+                 tidx2(1:nchunks(ifile)) = (/6000,12012/)
+              case default
+                 nchunks(ifile)   = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    !
+                    cmordat2d = spval
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2b)
+                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat2c)
+                    where ((indat2a /= spval).and.(indat2b /= spval).and.(indat2c /= spval))
+                       cmordat2d = indat2a + indat2b + indat2c
+                    elsewhere
+                       cmordat2d = spval
+                    elsewhere
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(          &
