@@ -272,6 +272,20 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 1
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case ( 12000 ) ! BGC controls
+                 select case(exp(exp_found)%model_id)
+                 case ('CESM1-BGC')
+                    select case(exp(exp_found)%expt_id)
+                    case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1201
+                       tidx2(1:nchunks(ifile)) = 7200
+                    case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 3601
+                       tidx2(1:nchunks(ifile)) = 9600
+                    end select
+                 end select
               case ( 1152 )  ! RCP, 2005-2100, skip 2006
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 13
@@ -285,9 +299,9 @@ program LImon_CMOR
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = (/2389/) ! 1000
-                 tidx2(1:nchunks(1)) = (/6000/) ! 1300
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
+                 tidx2(1:nchunks(ifile)) = (/6000/) ! 1300
               case default
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 1
@@ -361,6 +375,20 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 1
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case ( 12000 ) ! BGC controls
+                 select case(exp(exp_found)%model_id)
+                 case ('CESM1-BGC')
+                    select case(exp(exp_found)%expt_id)
+                    case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1201
+                       tidx2(1:nchunks(ifile)) = 7200
+                    case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 3601
+                       tidx2(1:nchunks(ifile)) = 9600
+                    end select
+                 end select
               case ( 1152 )  ! RCP, 2005-2100, skip 2006
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 13
@@ -374,9 +402,9 @@ program LImon_CMOR
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = (/2389/) ! 1000
-                 tidx2(1:nchunks(1)) = (/6000/) ! 1300
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
+                 tidx2(1:nchunks(ifile)) = (/6000/) ! 1300
               case default
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 1
@@ -441,6 +469,20 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 1
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case ( 12000 ) ! BGC controls
+                 select case(exp(exp_found)%model_id)
+                 case ('CESM1-BGC')
+                    select case(exp(exp_found)%expt_id)
+                    case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1201
+                       tidx2(1:nchunks(ifile)) = 7200
+                    case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 3601
+                       tidx2(1:nchunks(ifile)) = 9600
+                    end select
+                 end select
               case ( 1152 )  ! RCP, 2005-2100, skip 2006
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 13
@@ -454,9 +496,9 @@ program LImon_CMOR
                  tidx1(1:nchunks(ifile)) = 3613
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = (/2389/) ! 1000
-                 tidx2(1:nchunks(1)) = (/6000/) ! 1300
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
+                 tidx2(1:nchunks(ifile)) = (/6000/) ! 1300
               case default
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 1
@@ -538,6 +580,20 @@ program LImon_CMOR
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 1
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              case ( 12000 ) ! BGC controls
+                 select case(exp(exp_found)%model_id)
+                 case ('CESM1-BGC')
+                    select case(exp(exp_found)%expt_id)
+                    case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1201
+                       tidx2(1:nchunks(ifile)) = 7200
+                    case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 3601
+                       tidx2(1:nchunks(ifile)) = 9600
+                    end select
+                 end select
               case ( 1152 )  ! RCP, 2005-2100, skip 2006
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = 13

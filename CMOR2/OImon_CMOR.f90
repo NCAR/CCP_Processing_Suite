@@ -284,6 +284,20 @@ program OImon_CMOR
            nchunks(1) =  4
            tidx1(1:nchunks(1)) = (/   1,3001,6001,9001/)
            tidx2(1:nchunks(1)) = (/3000,6000,9000,ntimes(1,1)/)
+        case ( 12000 ) ! BGC controls
+           select case(exp(exp_found)%model_id)
+           case ('CESM1-BGC')
+              select case(exp(exp_found)%expt_id)
+              case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 1201
+                 tidx2(1:nchunks(1)) = 7200
+              case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                 nchunks(1) = 1
+                 tidx1(1:nchunks(1)) = 3601
+                 tidx2(1:nchunks(1)) = 9600
+              end select
+           end select
         case ( 1152 ) ! RCP, skip 2005
            nchunks(1)          =  1
            tidx1(1:nchunks(1)) = 13
