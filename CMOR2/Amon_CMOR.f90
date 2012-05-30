@@ -312,6 +312,20 @@ program Amon_CMOR
                  tidx1(1:nchunks(1)) = 1
                  tidx2(1:nchunks(1)) = ntimes(1,1)
               end select
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1201
+                    tidx2(1:nchunks(1)) = 7200
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3601
+                    tidx2(1:nchunks(1)) = 9600
+                 end select
+              end select
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -390,6 +404,20 @@ program Amon_CMOR
                  nchunks(1) = 1
                  tidx1(1:nchunks(1)) = 1
                  tidx2(1:nchunks(1)) = ntimes(1,1)
+              end select
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1201
+                    tidx2(1:nchunks(1)) = 7200
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3601
+                    tidx2(1:nchunks(1)) = 9600
+                 end select
               end select
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(1) = 1
@@ -479,6 +507,20 @@ program Amon_CMOR
                  tidx1(1:nchunks(1)) = 1
                  tidx2(1:nchunks(1)) = ntimes(1,1)
               end select
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1201
+                    tidx2(1:nchunks(1)) = 7200
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3601
+                    tidx2(1:nchunks(1)) = 9600
+                 end select
+              end select
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -566,6 +608,20 @@ program Amon_CMOR
                  nchunks(1) = 1
                  tidx1(1:nchunks(1)) = 1
                  tidx2(1:nchunks(1)) = ntimes(1,1)
+              end select
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1201
+                    tidx2(1:nchunks(1)) = 7200
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3601
+                    tidx2(1:nchunks(1)) = 9600
+                 end select
               end select
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(1) = 1
@@ -658,6 +714,20 @@ program Amon_CMOR
                  nchunks(1) = 1
                  tidx1(1:nchunks(1)) = 1
                  tidx2(1:nchunks(1)) = ntimes(1,1)
+              end select
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1201
+                    tidx2(1:nchunks(1)) = 7200
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3601
+                    tidx2(1:nchunks(1)) = 9600
+                 end select
               end select
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(1) = 1
@@ -864,6 +934,27 @@ program Amon_CMOR
                        tidx2(ic) = tidx1(ic) + 599
                     enddo
                     tidx2(nchunks(ifile)) = ntimes(1,1)
+                 case ( 12000 ) ! BGC controls
+                    nchunks(ifile) = 10
+                    select case(exp(exp_found)%model_id)
+                    case ('CESM1-BGC')
+                       select case(exp(exp_found)%expt_id)
+                       case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                          tidx1(1) = 1201
+                          tidx2(1) = 1800
+                          do ic = 2,nchunks(ifile)
+                             tidx1(ic) = tidx2(ic-1) + 1
+                             tidx2(ic) = tidx1(ic) + 599
+                          enddo
+                       case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                          tidx1(1) = 3601
+                          tidx2(1) = 4200
+                          do ic = 2,nchunks(ifile)
+                             tidx1(ic) = tidx2(ic-1) + 1
+                             tidx2(ic) = tidx1(ic) + 599
+                          enddo
+                       end select
+                    end select
                  case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
                     nchunks(ifile) = 2
                     tidx1(1:nchunks(ifile)) = (/3613,4213/) ! 1850, 1900, 1951
@@ -1004,6 +1095,27 @@ program Amon_CMOR
                  tidx2(ic) = tidx1(ic) + 599
               enddo
               tidx2(nchunks(1)) = ntimes(1,1)
+           case ( 12000 ) ! BGC controls
+              nchunks(ifile) = 10
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    tidx1(1) = 1201
+                    tidx2(1) = 1800
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 599
+                    enddo
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    tidx1(1) = 3601
+                    tidx2(1) = 4200
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 599
+                    enddo
+                 end select
+              end select
            case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
@@ -1148,6 +1260,27 @@ program Amon_CMOR
                     tidx2(ic) = tidx1(ic) + 599
                  enddo
                  tidx2(nchunks(ifile)) = ntimes(1,1)
+              case ( 12000 ) ! BGC controls
+                 nchunks(ifile) = 10
+                 select case(exp(exp_found)%model_id)
+                 case ('CESM1-BGC')
+                    select case(exp(exp_found)%expt_id)
+                    case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                       tidx1(1) = 1201
+                       tidx2(1) = 1800
+                       do ic = 2,nchunks(ifile)
+                          tidx1(ic) = tidx2(ic-1) + 1
+                          tidx2(ic) = tidx1(ic) + 599
+                       enddo
+                    case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                       tidx1(1) = 3601
+                       tidx2(1) = 4200
+                       do ic = 2,nchunks(ifile)
+                          tidx1(ic) = tidx2(ic-1) + 1
+                          tidx2(ic) = tidx1(ic) + 599
+                       enddo
+                    end select
+                 end select
               case ( 1680 )
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 601, 1201/)
