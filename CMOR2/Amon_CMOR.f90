@@ -1096,21 +1096,21 @@ program Amon_CMOR
               enddo
               tidx2(nchunks(1)) = ntimes(1,1)
            case ( 12000 ) ! BGC controls
-              nchunks(ifile) = 10
+              nchunks(1) = 10
               select case(exp(exp_found)%model_id)
               case ('CESM1-BGC')
                  select case(exp(exp_found)%expt_id)
                  case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
                     tidx1(1) = 1201
                     tidx2(1) = 1800
-                    do ic = 2,nchunks(ifile)
+                    do ic = 2,nchunks(1)
                        tidx1(ic) = tidx2(ic-1) + 1
                        tidx2(ic) = tidx1(ic) + 599
                     enddo
                  case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
                     tidx1(1) = 3601
                     tidx2(1) = 4200
-                    do ic = 2,nchunks(ifile)
+                    do ic = 2,nchunks(1)
                        tidx1(ic) = tidx2(ic-1) + 1
                        tidx2(ic) = tidx1(ic) + 599
                     enddo
