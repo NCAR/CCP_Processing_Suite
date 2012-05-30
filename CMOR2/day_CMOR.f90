@@ -325,6 +325,10 @@ program day_CMOR
                  nchunks(ifile)= 5
                  tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
                  tidx2(1:nchunks(ifile)) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
+              case ( 37960 ) !  b40.4xco2_cosp.cam4.1deg.001 0001-0140
+                 nchunks(ifile)= 4
+                 tidx1(1:nchunks(ifile)) = (/   1, 8761, 17886, 27011/)      ! 0001, 0025, 0050, 0075
+                 tidx2(1:nchunks(ifile)) = (/8760,17885, 27010, 37960/)      ! 0024, 0049, 0074, 0104
               case ( 35040 )         ! RCP from 2005-2100, use only 2006 onwards, 2 * 35y + 1 * 25y chunks
                  nchunks(ifile)= 3
                  tidx1(1:nchunks(ifile)) = (/  366, 13141, 25916/)      ! 2006, 2041, 2076
@@ -537,6 +541,10 @@ program day_CMOR
                     nchunks(ifile)= 3
                     tidx1(1:nchunks(ifile)) = (/  366, 13141, 25916/)      ! 2006, 2041, 2076
                     tidx2(1:nchunks(ifile)) = (/13140, 25915, 35040/)      ! 2040, 2075, 2100
+                 case ( 37960 ) !  b40.4xco2_cosp.cam4.1deg.001 0001-0140
+                    nchunks(ifile)= 4
+                    tidx1(1:nchunks(ifile)) = (/   1, 8761, 17886, 27011/)      ! 0001, 0025, 0050, 0075
+                    tidx2(1:nchunks(ifile)) = (/8760,17885, 27010, 37960/)      ! 0024, 0049, 0074, 0104
                  case ( 34675 )         ! RCP from 2006-2100, use all times, 2 * 35y + 1 * 25y chunks
                     nchunks(ifile)= 3
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
@@ -654,6 +662,10 @@ program day_CMOR
                  nchunks(ifile)= 3
                  tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
                  tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
+              case ( 37960 ) !  b40.4xco2_cosp.cam4.1deg.001 0001-0140
+                 nchunks(ifile)= 4
+                 tidx1(1:nchunks(ifile)) = (/   1, 8761, 17886, 27011/)      ! 0001, 0025, 0050, 0075
+                 tidx2(1:nchunks(ifile)) = (/8760,17885, 27010, 37960/)      ! 0024, 0049, 0074, 0104
               case ( 18250, 18615, 36500 )         ! 50 or 100-year chunks, N @ 25y each
                  nchunks(ifile)= ntimes(ifile,1)/9125
                  tidx1(1) =    1
