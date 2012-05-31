@@ -267,16 +267,6 @@ program Do6hrLev_CMOR
               !
               ! Determine amount of data to write, to keep close to ~2 GB limit
               !
-!!$              select case(ntimes(ifile,1))
-!!$              case ( 1460 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
-!!$                 nchunks(1) = 4
-!!$                 tidx1(1:nchunks(1)) = (/  1, 361, 725, 1093/)
-!!$                 tidx2(1:nchunks(1)) = (/360, 724,1092, 1460/)
-!!$              case ( 1459 )  ! One year, four pieces, one per calendar quarter 01/01-03/31,04/01-06/30,07/01-09/30,10/01-12/31
-!!$                 nchunks(1) = 4
-!!$                 tidx1(1:nchunks(1)) = (/  1, 360, 724, 1092/)
-!!$                 tidx2(1:nchunks(1)) = (/359, 723,1091, 1459/)
-!!$              end select
               do it = 1,ntimes(ifile,1)
                  time_counter = it
                  call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,psdata)

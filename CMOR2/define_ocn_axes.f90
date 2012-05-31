@@ -167,7 +167,7 @@ subroutine define_ocn_axes(dimensions)
         end select ! dimnames(i)
      enddo
   case ( 'so','thetao','tos','sos','hfss','pr','prsn','rlds','rsds','rsntds','agessc','rhopoto','tossq','zos','cfc11','wmo','wmosq','omlmax')
-     ! T-grid fields
+     ! Full column T-grid fields
      do i = 1,naxes
         select case(dimnames(i))
         case ('longitude')
@@ -214,8 +214,14 @@ subroutine define_ocn_axes(dimensions)
            idim = idim + 1
         end select ! dimnames(i)
      enddo
-  case ( 'areacello','basin','deptho','hfgeou','sftof','thkcello','volcello')
-     ! T-grid fields
+  case ( 'areacello','basin','deptho','hfgeou','sftof','thkcello','volcello',&
+         'chl','chlcalc','chldiat','chldiaz','chlpico','co3','co3satarag','co3satcalc',&
+         'dfe','dissic','dissoc','dpco2','epc100','epcalc100','epfe100','epsi100','fbddtalk','fbddtdic','fbddtdife',&
+         'fbddtdin','fbddtdip','fbddtdisi','fddtalk','fddtdic','fddtdife','fddtdin','fddtdip','fddtdisi','fgco2',&
+         'fgo2','frn','fsn','intdic','intpbsi','intpcalc','intpcalcite','intpdiat','intpdiaz','intpn2','intpnitrate',&
+         'intpp','intppico','nh4','no3','o2','o2min','ph','phyc','phycalc','phydiat','phydiaz','phyfe','phyn','phyp',&
+         'phypico','physi','po4','si','spco2','talk','zo2min','zooc','zsatarag','zsatcalc')
+     ! Single-level T-grid fields
      do i = 1,naxes
         select case(dimnames(i))
         case ('longitude')
