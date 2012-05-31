@@ -602,6 +602,14 @@ program Omon_CMOR
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
+              do ivar = 1,var_counter
+                 write(*,*) 'VI: ',trim(var_info(ivar)%name)
+!!$                 if ((trim(var_info(ivar)%name) == 'time_bound').and.&
+!!$                     (var_info(ivar)%ncid.eq.myncid(ifile,1))) then
+!!$                    ivar_index = ivar
+!!$                    exit
+!!$                 endif
+              enddo
               !
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
