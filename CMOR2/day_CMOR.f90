@@ -297,8 +297,10 @@ program day_CMOR
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n = 1,ntimes(ifile,1)
                  time_counter = n
@@ -333,6 +335,14 @@ program day_CMOR
                  nchunks(ifile)= 3
                  tidx1(1:nchunks(ifile)) = (/  366, 13141, 25916/)      ! 2006, 2041, 2076
                  tidx2(1:nchunks(ifile)) = (/13140, 25915, 35040/)      ! 2040, 2075, 2100
+              case ( 36865 )         ! 101-year chunks, break into 3 * 25y + 1 26
+                 nchunks(ifile)= 4
+                 tidx1(1:nchunks(ifile)) = (/   1, 9126,18251,27376/)
+                 tidx2(1:nchunks(ifile)) = (/9125,18250,27375,36865/)
+              case ( 36134 )         ! 99 years minus one day, break into ~4 * 25y
+                 nchunks(ifile)= 4
+                 tidx1(1:nchunks(ifile)) = (/   1, 8760,17885,27010/)
+                 tidx2(1:nchunks(ifile)) = (/8759,17884,27009,36134/)
               case ( 36500 )         ! 100-year chunks, break into 25y each
                  nchunks(ifile)= 4
                  tidx1(1:nchunks(ifile)) = (/   1, 9126,18251,27376/)
@@ -388,8 +398,6 @@ program day_CMOR
                     write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                  endif
               enddo
-              if (allocated(time))      deallocate(time)
-              if (allocated(time_bnds)) deallocate(time_bnds)
               !
               dim_counter  = 0
               var_counter  = 0
@@ -414,8 +422,10 @@ program day_CMOR
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n = 1,ntimes(ifile,1)
                  time_counter = n
@@ -481,8 +491,6 @@ program day_CMOR
                     endif
                  endif
               enddo
-              if (allocated(time))      deallocate(time)
-              if (allocated(time_bnds)) deallocate(time_bnds)
               !
               dim_counter  = 0
               var_counter  = 0
@@ -512,8 +520,10 @@ program day_CMOR
                  call get_dims(myncid(ifile,2))
                  call get_vars(myncid(ifile,2))
                  !
-                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+                 if (allocated(time))      deallocate(time)
+                 if (allocated(time_bnds)) deallocate(time_bnds)
+                 allocate(time(ntimes(ifile,1)))
+                 allocate(time_bnds(2,ntimes(ifile,1)))
                  !
                  do n = 1,ntimes(ifile,1)
                     time_counter = n
@@ -556,6 +566,14 @@ program day_CMOR
                     nchunks(ifile)= 4
                     tidx1(1:nchunks(ifile)) = (/   1, 9126,18251,27376/)
                     tidx2(1:nchunks(ifile)) = (/9125,18250,27375,36500/)
+                 case ( 36865 )         ! 101-year chunks, break into 3 * 25y + 1 26
+                    nchunks(ifile)= 4
+                    tidx1(1:nchunks(ifile)) = (/   1, 9126,18251,27376/)
+                    tidx2(1:nchunks(ifile)) = (/9125,18250,27375,36865/)
+                 case ( 36134 )         ! 99 years minus one day, break into ~4 * 25y
+                    nchunks(ifile)= 4
+                    tidx1(1:nchunks(ifile)) = (/   1, 8760,17885,27010/)
+                    tidx2(1:nchunks(ifile)) = (/8759,17884,27009,36134/)
                  case ( 18250 )         ! 50-year chunks, break into 25y each
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 9126/)
@@ -611,8 +629,6 @@ program day_CMOR
                     endif
                  enddo
               enddo
-              if (allocated(time))      deallocate(time)
-              if (allocated(time_bnds)) deallocate(time_bnds)
            endif
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -630,8 +646,11 @@ program day_CMOR
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              !
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n = 1,ntimes(ifile,1)
                  time_counter = n
@@ -674,6 +693,14 @@ program day_CMOR
                  nchunks(ifile)= 4
                  tidx1(1:nchunks(ifile)) = (/   1, 9126,18251,27376/)
                  tidx2(1:nchunks(ifile)) = (/9125,18250,27375,36500/)
+              case ( 36865 )         ! 101-year chunks, break into 3 * 25y + 1 26
+                 nchunks(ifile)= 4
+                 tidx1(1:nchunks(ifile)) = (/   1, 9126,18251,27376/)
+                 tidx2(1:nchunks(ifile)) = (/9125,18250,27375,36865/)
+              case ( 36134 )         ! 99 years minus one day, break into ~4 * 25y
+                 nchunks(ifile)= 4
+                 tidx1(1:nchunks(ifile)) = (/   1, 8760,17885,27010/)
+                 tidx2(1:nchunks(ifile)) = (/8759,17884,27009,36134/)
               case ( 18250 )         ! 50-year chunks, break into 25y each
                  nchunks(ifile)= 2
                  tidx1(1:nchunks(ifile)) = (/   1, 9126/)
@@ -727,8 +754,6 @@ program day_CMOR
                     write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
                  endif
               enddo
-              if (allocated(time))      deallocate(time)
-              if (allocated(time_bnds)) deallocate(time_bnds)
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -752,8 +777,10 @@ program day_CMOR
                  call get_dims(myncid(ifile,2))
                  call get_vars(myncid(ifile,2))
                  !
-                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+                 if (allocated(time))      deallocate(time)
+                 if (allocated(time_bnds)) deallocate(time_bnds)
+                 allocate(time(ntimes(ifile,1)))
+                 allocate(time_bnds(2,ntimes(ifile,1)))
                  !
                  do n = 1,ntimes(ifile,1)
                     time_counter = n
@@ -817,8 +844,6 @@ program day_CMOR
                     endif
                  enddo
               enddo
-              if (allocated(time))      deallocate(time)
-              if (allocated(time_bnds)) deallocate(time_bnds)
            endif
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -845,8 +870,10 @@ program day_CMOR
                  call get_dims(myncid(ifile,2))
                  call get_vars(myncid(ifile,2))
                  !
-                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+                 if (allocated(time))      deallocate(time)
+                 if (allocated(time_bnds)) deallocate(time_bnds)
+                 allocate(time(ntimes(ifile,1)))
+                 allocate(time_bnds(2,ntimes(ifile,1)))
                  !
                  do n = 1,ntimes(ifile,1)
                     time_counter = n
@@ -910,8 +937,6 @@ program day_CMOR
                     endif
                  enddo
               enddo
-              if (allocated(time))      deallocate(time)
-              if (allocated(time_bnds)) deallocate(time_bnds)
            endif
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -935,8 +960,10 @@ program day_CMOR
                  call get_dims(myncid(ifile,2))
                  call get_vars(myncid(ifile,2))
                  !
-                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+                 if (allocated(time))      deallocate(time)
+                 if (allocated(time_bnds)) deallocate(time_bnds)
+                 allocate(time(ntimes(ifile,1)))
+                 allocate(time_bnds(2,ntimes(ifile,1)))
                  !
                  do n = 1,ntimes(ifile,1)
                     time_counter = n
@@ -1011,8 +1038,6 @@ program day_CMOR
                        endif
                     endif
                  enddo
-                 if (allocated(time))      deallocate(time)
-                 if (allocated(time_bnds)) deallocate(time_bnds)
               enddo
               !
               error_flag = cmor_close()
@@ -1037,8 +1062,10 @@ program day_CMOR
                  call get_dims(myncid(ifile,2))
                  call get_vars(myncid(ifile,2))
                  !
-                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+                 if (allocated(time))      deallocate(time)
+                 if (allocated(time_bnds)) deallocate(time_bnds)
+                 allocate(time(ntimes(ifile,1)))
+                 allocate(time_bnds(2,ntimes(ifile,1)))
                  !
                  do n = 1,ntimes(ifile,1)
                     time_counter = n
@@ -1116,8 +1143,6 @@ program day_CMOR
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  enddo
               enddo
-              if (allocated(time))      deallocate(time)
-              if (allocated(time_bnds)) deallocate(time_bnds)
            endif
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -1136,8 +1161,10 @@ program day_CMOR
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(1,1)
                  time_counter = n
@@ -1223,8 +1250,10 @@ program day_CMOR
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
