@@ -45,7 +45,7 @@ CMIP5_Amon:psl:air_pressure_at_sea_level:longitude latitude time:atmos:1:PSL:PSL
 CMIP5_Amon:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:1:FLDS:FLDS no change
 CMIP5_Amon:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FLDSC:FLDSC no change
 CMIP5_Amon:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:2:FLDS FLNS:FLDS + FLNS
-CMIP5_Amon:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:3:FSNTOA FSNT FLTN:FSNTOA-FSNT+FLNT
+CMIP5_Amon:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:3:FSNTOA FSNT FLNT:FSNTOA-FSNT+FLNT
 CMIP5_Amon:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:longitude latitude time:atmos:1:FLUTC:FLUTC no change
 CMIP5_Amon:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:FSDS:FSDS no change
 CMIP5_Amon:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FSDSC:FSDSC no change
