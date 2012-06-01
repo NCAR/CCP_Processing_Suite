@@ -301,7 +301,7 @@ program Amon_CMOR
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
-           case ( 1872,1860,51140,3612,6012,12012 )  ! All data
+           case ( 1872,1860,51140,3612,6012,12012,1140 )  ! All data
               select case(exp(exp_found)%model_id)
               case ('CESM1-WACCM')
                  nchunks(1) = 1
@@ -1062,6 +1062,10 @@ program Amon_CMOR
                  nchunks(1) = 1
                  tidx1(1:nchunks(1)) = 13
                  tidx2(1:nchunks(1)) = ntimes(1,1)
+              case ('CESM1-CAM5')
+                 nchunks(ifile) = 5
+                 tidx1(1:nchunks(ifile)) = (/  1, 240, 480, 720, 960/) ! 2006, 2026, 2046, 2066, 2086
+                 tidx2(1:nchunks(ifile)) = (/239, 479, 719, 959,1140/) ! 2025, 2045, 2065, 2085, 2100
               case default
                  nchunks(1) = 1
                  tidx1(1:nchunks(1)) = 1
@@ -1221,8 +1225,8 @@ program Amon_CMOR
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-CAM5')
                     nchunks(ifile) = 5
-                    tidx1(1:nchunks(ifile)) = (/ 13, 253, 493, 733, 973/) ! 2006, 2026, 2046, 2066, 2086
-                    tidx2(1:nchunks(ifile)) = (/252, 492, 732, 972,1140/) ! 2025, 2045, 2065, 2085, 2100
+                    tidx1(1:nchunks(ifile)) = (/  1, 240, 480, 720, 960/) ! 2006, 2026, 2046, 2066, 2086
+                    tidx2(1:nchunks(ifile)) = (/239, 479, 719, 959,1140/) ! 2025, 2045, 2065, 2085, 2100
                  case default
                     nchunks(ifile) = 2
                     tidx1(1:nchunks(ifile)) = (/  1, 529/)      ! 2006, 2050

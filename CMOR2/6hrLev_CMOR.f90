@@ -291,6 +291,8 @@ program Do6hrLev_CMOR
                  write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
               endif
            enddo
+           cmor_filename = ' '
+           error_flag = cmor_close()
         case ('ta','ua','va','hus')
            !
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
