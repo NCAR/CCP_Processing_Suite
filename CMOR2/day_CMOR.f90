@@ -985,8 +985,8 @@ program day_CMOR
                     tidx1(1) =   366
                     tidx2(1) =  1825
                     do ic = 2,nchunks(ifile)-1
-                       tidx1(ic) = tidx2(ic-1) + 1
-                       tidx2(ic) = tidx1(ic) + 1825
+                       tidx1(ic) = tidx2(ic-1) +  1
+                       tidx2(ic) = tidx1(ic) + 1824
                     enddo
                     tidx1(nchunks(ifile)) = tidx2(nchunks(ifile)-1) + 1
                     tidx2(nchunks(ifile)) = ntimes(ifile,1)
