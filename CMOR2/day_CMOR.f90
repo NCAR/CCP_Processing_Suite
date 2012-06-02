@@ -980,10 +980,14 @@ program day_CMOR
                     nchunks(ifile)= 5
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
                     tidx2(1:nchunks(ifile)) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
-                 case ( 35040 )         ! RCP from 2005-2100, use only 2006 onwards, 2 * 35y + 1 * 25y chunks
-                    nchunks(ifile)= 3
-                    tidx1(1:nchunks(ifile)) = (/  366, 13141, 25916/)      ! 2006, 2041, 2076
-                    tidx2(1:nchunks(ifile)) = (/13140, 25915, 35040/)      ! 2040, 2075, 2100
+                 case ( 35040 )         ! RCP from 2005-2100, use only 2006 onwards, 19 * 5 year chunks
+                    nchunks(ifile)= 19
+                    tidx1(1) =   366
+                    tidx2(1) =  2191
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 1825
+                    enddo
                  case ( 34675 )         ! RCP from 2006-2100, use all times, 2 * 35y + 1 * 25y chunks
                     nchunks(ifile)= 3
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076

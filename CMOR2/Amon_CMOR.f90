@@ -649,7 +649,7 @@ program Amon_CMOR
                  cmordat2d = spval
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
-                 call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat2b)
+                 call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat2c)
                  ! 
                  where ((indat2a /= spval).and.(indat2b /= spval).and.(indat2b /= spval))
                     cmordat2d = indat2a - indat2b + indat2c
@@ -1269,15 +1269,13 @@ program Amon_CMOR
               enddo
               write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
               !
-              if (ic < nchunks(1)) then
-                 cmor_filename(1:) = ' '
-                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                 if (error_flag < 0) then
-                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                    stop
-                 else
-                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                 endif
+              cmor_filename(1:) = ' '
+              error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+              if (error_flag < 0) then
+                 write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 stop
+              else
+                 write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
               endif
            enddo
         case ('mc')
@@ -1332,6 +1330,10 @@ program Amon_CMOR
                     nchunks(ifile) = 2
                     tidx1(1:nchunks(ifile)) = (/  1, 529/) ! 2006, 2050
                     tidx2(1:nchunks(ifile)) = (/528,1140/) ! 2049, 2100
+                 case ('CESM1-WACCM')
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 13
+                    tidx2(1:nchunks(1)) = ntimes(1,1)
                  case default
                     nchunks(ifile) = 2
                     tidx1(1:nchunks(ifile)) = (/  1, 529/)      ! 2006, 2050
