@@ -34,7 +34,7 @@ CMIP5_cfSites:rlu:upwelling_longwave_flux_in_air:alevel site time1:atmos:1:UNKNO
 CMIP5_cfSites:rlucs:upwelling_longwave_flux_in_air_assuming_clear_sky:alevel site time1:atmos:1:UNKNOWN:UNKNOWN
 CMIP5_cfSites:rlus:surface_upwelling_longwave_flux_in_air:site time1:atmos:1:UNKNOWN:UNKNOWN
 CMIP5_cfSites:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:site time1:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfSites:rlut:toa_outgoing_longwave_flux:site time1:atmos:1:UNKNOWN:UNKNOWN
+CMIP5_cfSites:rlut:toa_outgoing_longwave_flux:site time1:atmos:3:FSNTOA FSNT FLNT:FSNTOA-FSNT+FLNT
 CMIP5_cfSites:rsd:downwelling_shortwave_flux_in_air:alevel site time1:atmos:1:UNKNOWN:UNKNOWN
 CMIP5_cfSites:rsdcs:downwelling_shortwave_flux_in_air_assuming_clear_sky:alevel site time1:atmos:1:UNKNOWN:UNKNOWN
 CMIP5_cfSites:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:site time1:atmos:1:UNKNOWN:UNKNOWN

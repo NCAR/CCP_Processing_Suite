@@ -100,6 +100,7 @@ OBJ	= mymods.o \
 	  add_global_metadata.o \
 	  file_output_times.o \
 	  parse_rip.o \
+	  dphybrid.o \
 	  vertintp.o \
 	  parse_ncfile.o \
 	  get_ice_grid.o \
@@ -199,6 +200,9 @@ file_output_times.o: file_output_times.f90 mymods.o
 
 vertintp.o: vertintp.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c vertintp.f90
+
+dphybrid.o: dphybrid.f90 mymods.o
+	$(FC) $(FFLAGS) $(NCFINC) -c dphybrid.f90
 
 get_atm_grid.o: get_atm_grid.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c get_atm_grid.f90

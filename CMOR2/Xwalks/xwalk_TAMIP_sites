@@ -25,7 +25,7 @@ TAMIP_sites:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:si
 TAMIP_sites:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:site time:atmos:1:FLDSC:FLDSC no change
 TAMIP_sites:rsdt:toa_incoming_shortwave_flux:site time:atmos:1:SOLIN:SOLIN no change
 TAMIP_sites:rsut:toa_outgoing_shortwave_flux:site time:atmos:2:SOLIN FSNTOA:SOLIN - FSNTOA
-TAMIP_sites:rlut:toa_outgoing_longwave_flux:site time:atmos:1:FLUT:FLUT no change
+TAMIP_sites:rlut:toa_outgoing_longwave_flux:site time:atmos:3:FSNTOA FSNT FLNT:FSNTOA-FSNT+FLNT
 TAMIP_sites:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:site time:atmos:1:FLUTC:FLUTC no change
 TAMIP_sites:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:site time:atmos:2:SOLIN FSNTOAC:SOLIN - FSNTOAC
 TAMIP_sites:prw:atmosphere_water_vapor_content:site time:atmos:1:TMQ:TMQ no change

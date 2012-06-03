@@ -59,7 +59,7 @@ CMIP5_cf3hr:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:l
 CMIP5_cf3hr:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time1:atmos:1:FLDS:FLDS no change
 CMIP5_cf3hr:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time1:atmos:2:FLDS FLNS:FLDS + FLNS
 CMIP5_cf3hr:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:longitude latitude time1:atmos:1:FLUTC:FLUTC no change
-CMIP5_cf3hr:rlut:toa_outgoing_longwave_flux:longitude latitude time1:atmos:1:FLUT:FLUT no change
+CMIP5_cf3hr:rlut:toa_outgoing_longwave_flux:longitude latitude time1:atmos:3:FSNTOA FSNT FLNT:FSNTOA-FSNT+FLNT
 CMIP5_cf3hr:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time1:atmos:1:FSDSC:FSDSC no change
 CMIP5_cf3hr:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time1:atmos:1:FSDS:FSDS no change
 CMIP5_cf3hr:rsdt:toa_incoming_shortwave_flux:longitude latitude time1:atmos:1:SOLIN:SOLIN no change

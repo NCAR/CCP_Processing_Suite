@@ -16,7 +16,7 @@ CMIP5_day:rhsmax:relative_humidity:longitude latitude time height2m:atmos:0:UNAV
 CMIP5_day:rhsmin:relative_humidity:longitude latitude time height2m:atmos:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_day:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:1:FLDS:FLDS no change
 CMIP5_day:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:2:FLDS FLNS:FLDS + FLNS
-CMIP5_day:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:1:FLUT:FLUT no change
+CMIP5_day:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:3:FSNTOA FSNT FLNT:FSNTOA-FSNT+FLNT
 CMIP5_day:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:FSDS:FSDS no change
 CMIP5_day:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:2:FSDS FSNS:FSDS - FSNS
 CMIP5_day:sfcWind:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
