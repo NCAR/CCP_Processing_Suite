@@ -1064,12 +1064,12 @@ program Amon_CMOR
                     nchunks(ifile) = 2
                     tidx1(1:nchunks(ifile)) = (/3613,4213/) ! 1850, 1900, 1951
                     tidx2(1:nchunks(ifile)) = (/4212,4824/) ! 1899, 1950, 2005
-                 case ( 2400 )
+                 case ( 2388,2400 )
                     select case(exp(exp_found)%model_id)
                     case ('CCSM4')
                        nchunks(ifile) = 4
                        tidx1(1:nchunks(ifile)) = (/   1, 589,1189,1789/)
-                       tidx2(1:nchunks(ifile)) = (/ 588,1188,1788,2400/)
+                       tidx2(1:nchunks(ifile)) = (/ 588,1188,1788,ntimes(ifile,1)/)
                     end select
                  case default
                     nchunks(ifile) = 1
@@ -1232,7 +1232,7 @@ program Amon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
               tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
-           case ( 2400 )
+           case ( 2388,2400 )
               select case(exp(exp_found)%model_id)
               case ('CESM1-WACCM')
                  nchunks(1) = 4
@@ -1241,7 +1241,7 @@ program Amon_CMOR
               case default
                  nchunks(1) = 4
                  tidx1(1:nchunks(1)) = (/   1, 589,1189,1789/)
-                 tidx2(1:nchunks(1)) = (/ 588,1188,1788,2400/)
+                 tidx2(1:nchunks(1)) = (/ 588,1188,1788,ntimes(1,1)/)
               end select
            case default
               nchunks(1) = 1
@@ -1410,12 +1410,12 @@ program Amon_CMOR
                  nchunks(ifile) = 2
                  tidx1(1:nchunks(ifile)) = (/3613,4213/) ! 1850, 1900, 1951
                  tidx2(1:nchunks(ifile)) = (/4212,4824/) ! 1899, 1950, 2005
-              case ( 2400 )
+              case ( 2388,2400 )
                  select case(exp(exp_found)%model_id)
                  case ('CCSM4')
                     nchunks(ifile) = 4
                     tidx1(1:nchunks(ifile)) = (/   1, 589,1189,1789/)
-                    tidx2(1:nchunks(ifile)) = (/ 588,1188,1788,2400/)
+                    tidx2(1:nchunks(ifile)) = (/ 588,1188,1788,ntimes(ifile,1)/)
                  case ('CESM1-WACCM')
                     nchunks(ifile) = 4
                     tidx1(1:nchunks(ifile)) = (/   1, 649,1249,1849/) !   96,  150, 200, 250
