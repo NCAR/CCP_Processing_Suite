@@ -125,9 +125,9 @@ subroutine get_atm_grid
      atm_ilevs_bnds(k) = atm_levs(k-1)
   enddo
   atm_ilevs_bnds(nilevs+1) = atm_levs(nlevs)+((atm_levs(nlevs)-atm_levs(nlevs-1))*0.5)
-  do k = 1,nlevs
-     write(*,*) atm_levs_bnds(k),atm_levs(k),atm_levs_bnds(k)
-  enddo
+!  do k = 1,nlevs
+!     write(*,*) atm_levs_bnds(k),atm_levs(k),atm_levs_bnds(k)
+!  enddo
   !
   ! Convert Pa values to mb (for vertint)
   !
