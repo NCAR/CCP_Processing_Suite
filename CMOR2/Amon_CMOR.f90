@@ -1171,9 +1171,9 @@ program Amon_CMOR
                  tidx1(1:nchunks(1)) = 13
                  tidx2(1:nchunks(1)) = ntimes(1,1)
               case ('CESM1-CAM5')
-                 nchunks(ifile) = 2
-                 tidx1(1:nchunks(ifile)) = (/  1, 529/) ! 2006, 2050
-                 tidx2(1:nchunks(ifile)) = (/528,1140/) ! 2049, 2100
+                 nchunks(1) = 2
+                 tidx1(1:nchunks(1)) = (/  1, 529/) ! 2006, 2050
+                 tidx2(1:nchunks(1)) = (/528,1140/) ! 2049, 2100
               case default
                  nchunks(1) = 1
                  tidx1(1:nchunks(1)) = 1
@@ -1235,13 +1235,13 @@ program Amon_CMOR
            case ( 2400 )
               select case(exp(exp_found)%model_id)
               case ('CESM1-WACCM')
-                 nchunks(ifile) = 4
-                 tidx1(1:nchunks(ifile)) = (/   1, 649,1249,1849/) !   96,  150, 200, 250
-                 tidx2(1:nchunks(ifile)) = (/ 648,1248,1848,2400/) !  149,  199, 249, 295
+                 nchunks(1) = 4
+                 tidx1(1:nchunks(1)) = (/   1, 649,1249,1849/) !   96,  150, 200, 250
+                 tidx2(1:nchunks(1)) = (/ 648,1248,1848,2400/) !  149,  199, 249, 295
               case default
-                 nchunks(ifile) = 4
-                 tidx1(1:nchunks(ifile)) = (/   1, 589,1189,1789/)
-                 tidx2(1:nchunks(ifile)) = (/ 588,1188,1788,2400/)
+                 nchunks(1) = 4
+                 tidx1(1:nchunks(1)) = (/   1, 589,1189,1789/)
+                 tidx2(1:nchunks(1)) = (/ 588,1188,1788,2400/)
               end select
            case default
               nchunks(1) = 1
