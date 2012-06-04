@@ -340,6 +340,10 @@ program day_CMOR
                  nchunks(ifile)= 4
                  tidx1(1:nchunks(ifile)) = (/   1, 8760,17885,27010/)
                  tidx2(1:nchunks(ifile)) = (/8759,17884,27009,36134/)
+              case ( 34675 )         ! RCP from 2006-2100, use all times, 2 * 35y + 1 * 25y chunks
+                 nchunks(ifile)= 3
+                 tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
+                 tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
               case ( 36500, 36865 )         ! 100-year chunks, break into 25y each, OR
                  nchunks(ifile)= 4          ! 101-year chunks, break into 3 * 25y + 1 26
                  tidx1(1:nchunks(ifile)) = (/   1, 9126,18251,27376/)
