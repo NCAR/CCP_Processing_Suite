@@ -1,7 +1,7 @@
 CASE=xxxCASExxx ; export CASE
 HIST=xxxHISTxxx ; export HIST
 TPER=xxxTPERxxx ; export TPER
-VARS=xxxVARSxxx ; export VARS
+VARS="xxxVARSxxx" ; export VARS
 #
 # Template for processing CCSM history netCDF files into single-field format 
 #
@@ -358,7 +358,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
       for FILE in `/bin/ls $CASE.$HIST.????-??.nc` ; do
         ./var_split_vars $FILE $VARS
         if [ $? -ne 0 ] ; then
-          echo "Error from var_split on file "$FILE
+          echo "Error from var_split_vars on file "$FILE
           ./procstat.sh error process_template
           exit 1
         else
@@ -374,9 +374,9 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
     NFNC=`echo $CASE.$HIST.????.nc | wc -w`
     if [ ${NFNC} -ne 1 ] ; then
       for FILE in `/bin/ls $CASE.$HIST.????.nc` ; do
-        ./var_split $FILE erase
+        ./var_split_vars $FILE erase
         if [ $? -ne 0 ] ; then
-          echo "Error from var_split on file "$FILE
+          echo "Error from var_split_vars on file "$FILE
           ./procstat.sh error process_template
           exit 1
         else
