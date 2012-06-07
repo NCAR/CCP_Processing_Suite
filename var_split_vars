@@ -133,7 +133,7 @@ for V in $TIMEVAR ; do
     " 5 dimensions" )
       for X in $VARS ; do
         if [ "$V" = "$X" ] ; then
-          TIMEV5D=`echo ${TIMEV4D}${V}" "`
+          TIMEV5D=`echo ${TIMEV5D}${V}" "`
         fi
       done ;;
    esac
