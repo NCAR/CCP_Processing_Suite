@@ -356,7 +356,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
     NFNC=`echo $CASE.$HIST.????-??.nc | wc -w`
     if [ ${NFNC} -ne 1 ] ; then
       for FILE in `/bin/ls $CASE.$HIST.????-??.nc` ; do
-        ./var_split_vars $FILE $VARS
+        ./var_split_vars $FILE "$VARS"
         if [ $? -ne 0 ] ; then
           echo "Error from var_split_vars on file "$FILE
           ./procstat.sh error process_template
@@ -374,7 +374,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
     NFNC=`echo $CASE.$HIST.????.nc | wc -w`
     if [ ${NFNC} -ne 1 ] ; then
       for FILE in `/bin/ls $CASE.$HIST.????.nc` ; do
-        ./var_split_vars $FILE $VARS
+        ./var_split_vars $FILE "$VARS"
         if [ $? -ne 0 ] ; then
           echo "Error from var_split_vars on file "$FILE
           ./procstat.sh error process_template
