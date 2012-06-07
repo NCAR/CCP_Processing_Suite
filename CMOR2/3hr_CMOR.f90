@@ -268,7 +268,7 @@ program Do3hr_CMOR
               ! Determine amount of data to write, to keep close to ~2 GB limit
               !
               select case(ntimes(ifile,1))
-              case ( 14600, 17520, 29200, 32120 )  !
+              case ( 14600, 17520, 29200, 32120, 93440 )
                  nchunks(ifile) = ntimes(ifile,1)/2920
                  tidx1(1) =    1
                  tidx2(1) = 2920
@@ -334,7 +334,7 @@ program Do3hr_CMOR
               ! Determine amount of data to write, to keep close to ~2 GB limit
               !
               select case(ntimes(ifile,1))
-              case ( 14600, 17520, 29200, 32120 )  !
+              case ( 14600, 17520, 29200, 32120, 93440 )  !
                  nchunks(ifile) = ntimes(ifile,1)/2920
                  tidx1(1) =    1
                  tidx2(1) = 2920
@@ -398,7 +398,7 @@ program Do3hr_CMOR
               ! Determine amount of data to write, to keep close to ~2 GB limit
               !
               select case(ntimes(ifile,1))
-              case ( 14600, 17520, 29200, 32120 )  !
+              case ( 14600, 17520, 29200, 32120, 93440 )  !
                  nchunks(ifile) = ntimes(ifile,1)/2920
                  tidx1(1) =    1
                  tidx2(1) = 2920
@@ -475,7 +475,7 @@ program Do3hr_CMOR
               ! Determine amount of data to write, to keep close to ~2 GB limit
               !
               select case(ntimes(ifile,1))
-              case ( 14600, 17520, 29200, 32120 )  !
+              case ( 14600, 17520, 29200, 32120, 93440 )  !
                  nchunks(ifile) = ntimes(ifile,1)/2920
                  tidx1(1) =    1
                  tidx2(1) = 2920
@@ -553,7 +553,7 @@ program Do3hr_CMOR
               ! Determine amount of data to write, to keep close to ~2 GB limit
               !
               select case(ntimes(ifile,1))
-              case ( 14600, 17520, 29200, 32120 )  !
+              case ( 14600, 17520, 29200, 32120, 93440 )  !
                  nchunks(ifile) = ntimes(ifile,1)/2920
                  tidx1(1) =    1
                  tidx2(1) = 2920
@@ -633,7 +633,7 @@ program Do3hr_CMOR
               ! Determine amount of data to write, to keep close to ~2 GB limit
               !
               select case(ntimes(ifile,1))
-              case ( 14600, 17520, 29200, 32120 )  !
+              case ( 14600, 17520, 29200, 32120, 93440 )  !
                  nchunks(ifile) = ntimes(ifile,1)/2920
                  tidx1(1) =    1
                  tidx2(1) = 2920

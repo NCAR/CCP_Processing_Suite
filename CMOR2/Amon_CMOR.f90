@@ -288,8 +288,10 @@ program Amon_CMOR
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
            call get_vars(myncid(1,1))
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
            !
            do n=1,ntimes(1,1)
               time_counter = n
@@ -382,8 +384,10 @@ program Amon_CMOR
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
            call get_vars(myncid(1,1))
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
            !
            do n=1,ntimes(1,1)
               time_counter = n
@@ -484,8 +488,10 @@ program Amon_CMOR
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
            call get_vars(myncid(1,1))
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
            !
            do n=1,ntimes(1,1)
               time_counter = n
@@ -691,8 +697,10 @@ program Amon_CMOR
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
            call get_vars(myncid(1,1))
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
            !
            do n=1,ntimes(1,1)
               time_counter = n
@@ -797,8 +805,10 @@ program Amon_CMOR
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
            call get_vars(myncid(1,1))
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
            !
            do n=1,ntimes(1,1)
               time_counter = n
@@ -899,8 +909,10 @@ program Amon_CMOR
                     call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
                     call get_dims(myncid(ifile,ivar))
                     call get_vars(myncid(ifile,ivar))
-                    if (.not.(allocated(time)))      allocate(time(ntimes(1,ivar)))
-                    if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,ivar)))
+                    if (allocated(time))       deallocate(time)
+                    if (allocated(time_bnds))  deallocate(time_bnds)
+                    allocate(time(ntimes(ifile,1)))
+                    allocate(time_bnds(2,ntimes(ifile,1)))
                     !
                     do n=1,ntimes(ifile,ivar)
                        time_counter = n
@@ -975,8 +987,10 @@ program Amon_CMOR
               allocate(indat3a(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nplev23))
               allocate(psdata(nlons,nlats))
               do ifile = 1,nc_nfiles(1)
-                 if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-                 if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+                 if (allocated(time))       deallocate(time)
+                 if (allocated(time_bnds))  deallocate(time_bnds)
+                 allocate(time(ntimes(ifile,1)))
+                 allocate(time_bnds(2,ntimes(ifile,1)))
                  !
                  do n=1,ntimes(ifile,1)
                     time_counter = n
@@ -1116,8 +1130,6 @@ program Amon_CMOR
                     endif
                  enddo
               enddo
-              if (allocated(time))      deallocate(time)
-              if (allocated(time_bnds)) deallocate(time_bnds)
            end select
         case ('clw','cli','cl')
            !
@@ -1129,8 +1141,10 @@ program Amon_CMOR
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
            call get_vars(myncid(1,1))
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
            !
            do n=1,ntimes(1,1)
               time_counter = n
@@ -1140,153 +1154,155 @@ program Amon_CMOR
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
-           select case(ntimes(1,1))
-           case ( 1872,1860 )  ! 20C, 1850-2005
-              select case(exp(exp_found)%model_id)
-              case ('CESM1-CAM5')
-                 nchunks(1) = 6
-                 tidx1(1:nchunks(1)) = (/  1, 301, 601, 901,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
-                 tidx2(1:nchunks(1)) = (/300, 600, 900,1200,1500,1872/) ! 1874, 1899, 1924, 1949, 1974, 2005
-              case default
+           do ifile = 1,nc_nfiles(1)
+              select case(ntimes(ifile,1))
+              case ( 1872,1860 )  ! 20C, 1850-2005
+                 select case(exp(exp_found)%model_id)
+                 case ('CESM1-CAM5')
+                    nchunks(1) = 6
+                    tidx1(1:nchunks(1)) = (/  1, 301, 601, 901,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
+                    tidx2(1:nchunks(1)) = (/300, 600, 900,1200,1500,1872/) ! 1874, 1899, 1924, 1949, 1974, 2005
+                 case default
+                    nchunks(1) = 3
+                    tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
+                    tidx2(1:nchunks(1)) = (/600,1200,ntimes(ifile,1)/) ! 1899, 1950, 2005
+                 end select
+              case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
                  nchunks(1) = 3
                  tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
-                 tidx2(1:nchunks(1)) = (/600,1200,ntimes(1,1)/) ! 1899, 1950, 2005
-              end select
-           case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
-              nchunks(1) = 3
-              tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
-              tidx2(1:nchunks(1)) = (/600,1200,1812/) ! 1899, 1950, 2000
-           case ( 1152 )  ! RCP, 2005-2100, skip 2006
-              nchunks(1) = 2
-              tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
-              tidx2(1:nchunks(1)) = (/540,1152/)      ! 2049, 2100
-           case ( 1248 )
-              nchunks(1) = 2
-              tidx1(1:nchunks(1)) = (/  1, 601/)
-              tidx2(1:nchunks(1)) = (/600,1248/)
-           case ( 1140 )  ! RCP, 2006-2100
-              select case(exp(exp_found)%model_id)
-              case ('CESM1-WACCM')
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = 13
-                 tidx2(1:nchunks(1)) = ntimes(1,1)
-              case ('CESM1-CAM5')
+                 tidx2(1:nchunks(1)) = (/600,1200,1812/) ! 1899, 1950, 2000
+              case ( 1152 )  ! RCP, 2005-2100, skip 2006
                  nchunks(1) = 2
-                 tidx1(1:nchunks(1)) = (/  1, 529/) ! 2006, 2050
-                 tidx2(1:nchunks(1)) = (/528,1140/) ! 2049, 2100
+                 tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
+                 tidx2(1:nchunks(1)) = (/540,1152/)      ! 2049, 2100
+              case ( 1248 )
+                 nchunks(1) = 2
+                 tidx1(1:nchunks(1)) = (/  1, 601/)
+                 tidx2(1:nchunks(1)) = (/600,1248/)
+              case ( 1140 )  ! RCP, 2006-2100
+                 select case(exp(exp_found)%model_id)
+                 case ('CESM1-WACCM')
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 13
+                    tidx2(1:nchunks(1)) = ntimes(ifile,1)
+                 case ('CESM1-CAM5')
+                    nchunks(1) = 2
+                    tidx1(1:nchunks(1)) = (/  1, 529/) ! 2006, 2050
+                    tidx2(1:nchunks(1)) = (/528,1140/) ! 2049, 2100
+                 case default
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1
+                    tidx2(1:nchunks(1)) = ntimes(ifile,1)
+                 end select
+              case ( 2664 )  ! FASTCHEM piControl
+                 nchunks(1) = 5
+                 tidx1(1:nchunks(1)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
+                 tidx2(1:nchunks(1)) = (/360, 960,1560,2160,2664/) ! 0099,0149,0199,0249,0291
+              case ( 828 )
+                 select case (case_read)
+                 case ( 'b40.1850_ramp_solar.beta19.005')
+                    nchunks(1) = 2
+                    tidx1(1:nchunks(1)) = (/  1, 589/)      ! 1850, 1900
+                    tidx2(1:nchunks(1)) = (/588, 828/)      ! 1899, 1919
+                 case default
+                    nchunks(1) = 2
+                    tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+                    tidx2(1:nchunks(1)) = (/600, 828/)      ! 1899, 1918
+                 end select
+              case ( 900 )
+                 nchunks(1) = 2
+                 tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
+                 tidx2(1:nchunks(1)) = (/600, 900/)      ! 1899, 1924
+              case ( 1680,3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
+                 nchunks(1) = int(ntimes(ifile,1)/600)+1
+                 tidx1(1) =   1
+                 tidx2(1) = 600
+                 do ic = 2,nchunks(1)
+                    tidx1(ic) = tidx2(ic-1) + 1
+                    tidx2(ic) = tidx1(ic) + 599
+                 enddo
+                 tidx2(nchunks(1)) = ntimes(ifile,1)
+              case ( 12000 ) ! BGC controls
+                 nchunks(1) = 10
+                 select case(exp(exp_found)%model_id)
+                 case ('CESM1-BGC')
+                    select case(exp(exp_found)%expt_id)
+                    case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                       tidx1(1) = 1201
+                       tidx2(1) = 1800
+                       do ic = 2,nchunks(1)
+                          tidx1(ic) = tidx2(ic-1) + 1
+                          tidx2(ic) = tidx1(ic) + 599
+                       enddo
+                    case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                       tidx1(1) = 3601
+                       tidx2(1) = 4200
+                       do ic = 2,nchunks(1)
+                          tidx1(ic) = tidx2(ic-1) + 1
+                          tidx2(ic) = tidx1(ic) + 599
+                       enddo
+                    end select
+                 end select
+              case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
+                 nchunks(1) = 2
+                 tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
+                 tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
+              case ( 2388,2400 )
+                 select case(exp(exp_found)%model_id)
+                 case ('CESM1-WACCM')
+                    nchunks(1) = 4
+                    tidx1(1:nchunks(1)) = (/   1, 649,1249,1849/) !   96,  150, 200, 250
+                    tidx2(1:nchunks(1)) = (/ 648,1248,1848,2400/) !  149,  199, 249, 295
+                 case default
+                    nchunks(1) = 4
+                    tidx1(1:nchunks(1)) = (/   1, 589,1189,1789/)
+                    tidx2(1:nchunks(1)) = (/ 588,1188,1788,ntimes(ifile,1)/)
+                 end select
               case default
                  nchunks(1) = 1
                  tidx1(1:nchunks(1)) = 1
-                 tidx2(1:nchunks(1)) = ntimes(1,1)
+                 tidx2(1:nchunks(1)) = ntimes(ifile,1)
               end select
-           case ( 2664 )  ! FASTCHEM piControl
-              nchunks(1) = 5
-              tidx1(1:nchunks(1)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
-              tidx2(1:nchunks(1)) = (/360, 960,1560,2160,2664/) ! 0099,0149,0199,0249,0291
-           case ( 828 )
-              select case (case_read)
-              case ( 'b40.1850_ramp_solar.beta19.005')
-                 nchunks(1) = 2
-                 tidx1(1:nchunks(1)) = (/  1, 589/)      ! 1850, 1900
-                 tidx2(1:nchunks(1)) = (/588, 828/)      ! 1899, 1919
-              case default
-                 nchunks(1) = 2
-                 tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
-                 tidx2(1:nchunks(1)) = (/600, 828/)      ! 1899, 1918
-              end select
-           case ( 900 )
-              nchunks(1) = 2
-              tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
-              tidx2(1:nchunks(1)) = (/600, 900/)      ! 1899, 1924
-           case ( 1680,3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
-              nchunks(1) = int(ntimes(1,1)/600)+1
-              tidx1(1) =   1
-              tidx2(1) = 600
-              do ic = 2,nchunks(1)
-                 tidx1(ic) = tidx2(ic-1) + 1
-                 tidx2(ic) = tidx1(ic) + 599
-              enddo
-              tidx2(nchunks(1)) = ntimes(1,1)
-           case ( 12000 ) ! BGC controls
-              nchunks(1) = 10
-              select case(exp(exp_found)%model_id)
-              case ('CESM1-BGC')
-                 select case(exp(exp_found)%expt_id)
-                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
-                    tidx1(1) = 1201
-                    tidx2(1) = 1800
-                    do ic = 2,nchunks(1)
-                       tidx1(ic) = tidx2(ic-1) + 1
-                       tidx2(ic) = tidx1(ic) + 599
-                    enddo
-                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
-                    tidx1(1) = 3601
-                    tidx2(1) = 4200
-                    do ic = 2,nchunks(1)
-                       tidx1(ic) = tidx2(ic-1) + 1
-                       tidx2(ic) = tidx1(ic) + 599
-                    enddo
-                 end select
-              end select
-           case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
-              nchunks(1) = 2
-              tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
-              tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
-           case ( 2388,2400 )
-              select case(exp(exp_found)%model_id)
-              case ('CESM1-WACCM')
-                 nchunks(1) = 4
-                 tidx1(1:nchunks(1)) = (/   1, 649,1249,1849/) !   96,  150, 200, 250
-                 tidx2(1:nchunks(1)) = (/ 648,1248,1848,2400/) !  149,  199, 249, 295
-              case default
-                 nchunks(1) = 4
-                 tidx1(1:nchunks(1)) = (/   1, 589,1189,1789/)
-                 tidx2(1:nchunks(1)) = (/ 588,1188,1788,ntimes(1,1)/)
-              end select
-           case default
-              nchunks(1) = 1
-              tidx1(1:nchunks(1)) = 1
-              tidx2(1:nchunks(1)) = ntimes(1,1)
-           end select
-           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
-           do ic = 1,nchunks(1)
-              do it = tidx1(ic),tidx2(ic)
-                 time_counter = it
-                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                 call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2a)
-                 tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-                 error_flag = cmor_write(        &
-                      var_id        = cmor_var_id,   &
-                      data          = indat3a,   &
-                      ntimes_passed = 1,         &
-                      time_vals     = tval,      &
-                      time_bnds     = tbnd)
+              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+              do ic = 1,nchunks(1)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2a)
+                    tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(        &
+                         var_id        = cmor_var_id,   &
+                         data          = indat3a,   &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                    error_flag = cmor_write(        &
+                         var_id        = zfactor_id,&
+                         data          = indat2a,   &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd,      &
+                         store_with    = cmor_var_id)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 !
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                  if (error_flag < 0) then
-                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
                     stop
-                 endif
-                 error_flag = cmor_write(        &
-                      var_id        = zfactor_id,&
-                      data          = indat2a,   &
-                      ntimes_passed = 1,         &
-                      time_vals     = tval,      &
-                      time_bnds     = tbnd,      &
-                      store_with    = cmor_var_id)
-                 if (error_flag < 0) then
-                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
                  endif
               enddo
-              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-              !
-              cmor_filename(1:) = ' '
-              error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-              if (error_flag < 0) then
-                 write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                 stop
-              else
-                 write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-              endif
            enddo
         case ('mc')
            !
@@ -1299,8 +1315,10 @@ program Amon_CMOR
            allocate(cmordat3d(nlons,nlats,nilevs))
            !
            do ifile = 1,nc_nfiles(1)
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n

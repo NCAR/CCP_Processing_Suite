@@ -121,6 +121,7 @@ program day_CMOR
                  endif
               enddo
               call read_att_text(myncid(ifile,ivar),'time','units',time_units)
+              write(*,*) 'read_att_text: ',myncid(ifile,ivar),' ',trim(time_units)
               do n=1,var_counter
                  if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
                     var_found(ifile,ivar) = n
@@ -133,7 +134,7 @@ program day_CMOR
                  write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
                  stop
               endif
-              call close_cdf(myncid(ifile,ivar))
+!              call close_cdf(myncid(ifile,ivar))
            enddo
         enddo
         !
@@ -356,6 +357,10 @@ program day_CMOR
                  nchunks(ifile)= 4
                  tidx1(1:nchunks(ifile)) = (/109866,118991,128116,137241/)      ! 1800, 1825, 1850, 1875
                  tidx2(1:nchunks(ifile)) = (/118990,128115,137240,146730/)      ! 1824, 1849, 1874, 1900
+              case ( 109865 )        ! MH from 1000-1300
+                 nchunks(ifile)= 6
+                 tidx1(1:nchunks(ifile)) = (/     1, 18251, 36501, 54751, 73001, 91251/)
+                 tidx2(1:nchunks(ifile)) = (/ 18250, 36500, 54750, 73000, 91250,109865/)
               case ( 97820 )        ! abrupt4xCO2 from 1850-2118, use 1850-2000 only
                  nchunks(ifile)= 6
                  tidx1(1:nchunks(ifile)) = (/    1, 9126,18251,27376,36501,45626/)      ! 1850, 1875, 1900, 1925, 1950, 1975
@@ -576,6 +581,10 @@ program day_CMOR
                     nchunks(ifile)= 6
                     tidx1(1:nchunks(ifile)) = (/    1, 9126,18251,27376,36501,45626/)      ! 1850, 1875, 1900, 1925, 1950, 1975
                     tidx2(1:nchunks(ifile)) = (/ 9125,18250,27375,36500,45625,55115/)      ! 1874, 1899, 1924, 1949, 1974, 2000
+                 case ( 109865 )        ! MH from 1000-1300
+                    nchunks(ifile)= 6
+                    tidx1(1:nchunks(ifile)) = (/     1, 18251, 36501, 54751, 73001, 91251/)
+                    tidx2(1:nchunks(ifile)) = (/ 18250, 36500, 54750, 73000, 91250,109865/)
                  case ( 146730 )        ! LGM from 1499-1900, use 1800-1900 only
                     nchunks(ifile)= 4
                     tidx1(1:nchunks(ifile)) = (/109866,118991,128116,137241/)      ! 1800, 1825, 1850, 1875
@@ -969,10 +978,16 @@ program day_CMOR
                     enddo
                     tidx1(nchunks(ifile)) = tidx2(nchunks(ifile)-1) + 1
                     tidx2(nchunks(ifile)) = ntimes(ifile,1)
-                 case ( 34675 )         ! RCP from 2006-2100, use all times, 2 * 35y + 1 * 25y chunks
-                    nchunks(ifile)= 3
-                    tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
-                    tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
+                 case ( 34675 )         ! RCP from 2006-2100, use all times
+                    nchunks(ifile)= 19
+                    tidx1(1) =     1
+                    tidx2(1) =  1460
+                    do ic = 2,nchunks(ifile)-1
+                       tidx1(ic) = tidx2(ic-1) +  1
+                       tidx2(ic) = tidx1(ic) + 1824
+                    enddo
+                    tidx1(nchunks(ifile)) = tidx2(nchunks(ifile)-1) + 1
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
                  case ( 11315 )         ! LGM MOAR, 31 years, 5 * 5 year + 1 * 6 year chunks
                     nchunks(ifile)= 6
                     tidx1(1:nchunks(ifile)) = (/    1,  1826,  3651,  5476,  7301,  9126/)      ! 1870, 1875, 1880, 1885, 1890, 1895
