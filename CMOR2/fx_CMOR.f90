@@ -81,8 +81,10 @@ program fx_CMOR
   ! Get grid information
   !
   mycmor%model_id      = 'CCSM4'
+  exp_found = 1
+  exp(exp_found)%model_id = 'CCSM4'
   call get_atm_grid
-  call get_lnd_grid
+!  call get_lnd_grid
 !  call get_ocn_grid
   !
   ! Set up CMOR subroutine arguments
