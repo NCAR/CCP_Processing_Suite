@@ -247,16 +247,13 @@ subroutine define_ocn_axes(dimensions)
                 latitude_vertices=ocn_t_lats_bnds,      &
                 longitude_vertices=ocn_t_lons_bnds)
            write(*,'('' grid defined: '',i4,'' axis_ids: '',2i10)') grid_id(1),axis_ids(1),axis_ids(2)
-        case ('olevel')
+        case ('time')
            call cmor_set_table(table_ids(1))
            axis_ids(idim) = cmor_axis(        &
-                table=mycmor%table_file,      &
-                table_entry='depth_coord',    &
-                length=nlevs,                 &
+                table_entry=dimnames(i),      &
                 units=dimunits(i),            &
-                coord_vals=ocn_t_levs,        &
-                cell_bounds=ocn_t_levs_bnds)
-           write(*,*) 'olevel   defined, axis_id: ',idim,axis_ids(idim)
+                interval='30 days')
+           write(*,'('' dimension: '',a,'' defined: '',i4,'' units: '',a)') 'time',axis_ids(idim),trim(dimunits(i))
            idim = idim + 1
         end select ! dimnames(i)
      enddo

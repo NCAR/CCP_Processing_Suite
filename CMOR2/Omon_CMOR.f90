@@ -334,9 +334,15 @@ program Omon_CMOR
               !
               select case (ntimes(ifile,1))
               case ( 60, 1152 ) ! RCP, skip 2005
-                 nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 if (exp(exp_found)%begyr==2005) then
+                    nchunks(ifile) = 13
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
@@ -426,9 +432,15 @@ program Omon_CMOR
               !
               select case (ntimes(ifile,1))
               case ( 60, 1152 ) ! RCP, skip 2005
-                 nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 if (exp(exp_found)%begyr==2005) then
+                    nchunks(ifile) = 13
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
@@ -523,9 +535,15 @@ program Omon_CMOR
               !
               select case (ntimes(ifile,1))
               case ( 60, 1152 ) ! RCP, skip 2005
-                 nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 if (exp(exp_found)%begyr==2005) then
+                    nchunks(ifile) = 13
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
@@ -604,9 +622,15 @@ program Omon_CMOR
               !
               select case (ntimes(ifile,1))
               case ( 60, 1152 ) ! RCP, skip 2005
-                 nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 if (exp(exp_found)%begyr==2005) then
+                    nchunks(ifile) = 13
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
@@ -1450,9 +1474,15 @@ program Omon_CMOR
               !
               select case (ntimes(ifile,1))
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
-                 nchunks(ifile)   = 1
-                 tidx1(nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 if (exp(exp_found)%begyr==2005) then
+                    nchunks(ifile) = 13
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
@@ -1542,9 +1572,15 @@ program Omon_CMOR
               !
               select case (ntimes(ifile,1))
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
-                 nchunks(ifile)   = 1
-                 tidx1(nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 if (exp(exp_found)%begyr==2005) then
+                    nchunks(ifile) = 13
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
