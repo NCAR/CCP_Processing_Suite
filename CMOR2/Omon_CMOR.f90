@@ -308,9 +308,10 @@ program Omon_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('tos')
+        case ('chldiat','chldiaz','chlpico','co3','co3satarag','co3satcalc','dfe','tos',&
+              'dissic','dissoc','nh4','no3','o2','phycalc','phydiat','phydiaz','phypico','physi','po4','si','zooc')
            !
-           ! tos: TEMP at k=1
+           ! All fields at at k=1 (depth0m or so)
            !
            if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
            if (.not.(allocated(cmordat2d))) allocate(cmordat2d(nlons,nlats))
@@ -386,18 +387,6 @@ program Omon_CMOR
               var_counter  = 0
               time_counter = 0
               file_counter = 0
-              if (exp(exp_found)%expt_id=='past1000') then
-                 if (tcount==6001) then
-                    cmor_filename = ' '
-                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
-                       stop
-                    else
-                       write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
-                    endif
-                 endif
-              endif
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -2013,88 +2002,6 @@ program Omon_CMOR
                     write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                  endif
               enddo
-           enddo
-        case ('chldiat','chldiaz','chlpico','co3','co3satarag','co3satcalc','dfe',&
-              'dissic','dissoc','nh4','no3','o2','phycalc','phydiat','phydiaz','phypico','physi','po4','si','zooc')
-           !
-           ! Full-column fields, but use only "depth0m" meters; z_t at index 1
-           !
-           allocate(indat3a(nlons,nlats,nlevs),cmordat2d(nlons,nlats))
-           do ifile = 1,nc_nfiles(1)
-              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
-              call get_dims(myncid(ifile,1))
-              call get_vars(myncid(ifile,1))
-              spval=var_info(var_found(1,1))%missing_value
-              !
-              if (allocated(time))       deallocate(time)
-              if (allocated(time_bnds))  deallocate(time_bnds)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
-              !
-              do n=1,ntimes(ifile,1)
-                 time_counter = n
-                 call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
-              enddo
-              !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
-              time = (time_bnds(1,:)+time_bnds(2,:))/2.
-              select case (ntimes(ifile,1))
-              case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
-                 nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
-                 tidx2(1:nchunks(ifile)) = (/6000/) ! 1300
-              case ( 12012 )
-                 nchunks(ifile)= 2
-                 tidx1(1:nchunks(ifile)) = (/   1, 6001/)
-                 tidx2(1:nchunks(ifile)) = (/6000,12012/)
-              case default
-                 nchunks(ifile)   = 1
-                 tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
-              end select
-              do ic = 1,nchunks(ifile)
-                 do it = tidx1(ic),tidx2(ic)
-                    time_counter = it
-                    !
-                    cmordat2d = spval
-                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    do j = 1,nlats
-                       do i = 1,nlons
-                          if (indat3a(i,j,1) /= spval) then
-                             cmordat2d(i,j) = indat3a(i,j,1)
-                          else
-                             cmordat2d(i,j) = spval
-                          endif
-                       enddo
-                    enddo
-                    !
-                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-                    error_flag = cmor_write(          &
-                         var_id        = cmor_var_id, &
-                         data          = cmordat2d,     &
-                         ntimes_passed = 1,           &
-                         time_vals     = tval,        &
-                         time_bnds     = tbnd)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                       stop
-                    endif
-                 enddo
-                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-              enddo
-              call close_cdf(myncid(ifile,1))
-              dim_counter  = 0
-              var_counter  = 0
-              time_counter = 0
-              file_counter = 0
-              !
-              error_flag = cmor_close()
-              if (error_flag < 0) then
-                 write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
-                 stop
-              else
-                 write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
-              endif
            enddo
         case ('intdic','ph','talk')
            !
