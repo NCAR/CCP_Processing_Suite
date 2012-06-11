@@ -2082,9 +2082,12 @@ program Omon_CMOR
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
               enddo
+              call close_cdf(myncid(ifile,1))
+              dim_counter  = 0
+              var_counter  = 0
+              time_counter = 0
+              file_counter = 0
               !
-              cmor_filename = ' '
-!              error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
               error_flag = cmor_close()
               if (error_flag < 0) then
                  write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
