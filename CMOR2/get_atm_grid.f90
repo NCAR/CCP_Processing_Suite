@@ -69,6 +69,8 @@ subroutine get_atm_grid
         ncosp_ht   = dim_info(n)%length
      case('cosp_dbze') 
         ncosp_dbze = dim_info(n)%length
+     case('cosp_sza') 
+        ncosp_sza = dim_info(n)%length
      case('ncol') 
         nsites = dim_info(n)%length
      end select
