@@ -244,13 +244,13 @@ subroutine define_atm_axes(dimensions)
            zfactor_id = cmor_zfactor(       &
                 zaxis_id=ilev,        &
                 zfactor_name='ps',          &
-                axis_ids=(/axis_ids(2),axis_ids(1)/), &
+                axis_ids=(/axis_ids(1),axis_ids(2)/), &
                 units='Pa')
         case default
            zfactor_id = cmor_zfactor(       &
                 zaxis_id=ilev,        &
                 zfactor_name='ps',          &
-                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(1)/), &
+                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3)/), &
                 units='Pa')
         end select
         axis_ids(idim) = ilev
