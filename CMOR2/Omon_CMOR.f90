@@ -1901,16 +1901,17 @@ program Omon_CMOR
                     endif
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                 !
-                 cmor_filename = ' '
-                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                 if (error_flag < 0) then
-                    write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
-                    stop
-                 else
-                    write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
-                 endif
               enddo
+              !
+              cmor_filename = ' '
+!              error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+              error_flag = cmor_close()
+              if (error_flag < 0) then
+                 write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                 stop
+              else
+                 write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+              endif
            enddo
         case ('epc100','epcalc100','epfe100','epsi100')
            !
