@@ -884,10 +884,8 @@ program cfDay_CMOR
                        write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
                     endif
-                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                    !
                  enddo
-                 cmor_filename(1:) = ' '
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
                  if (error_flag < 0) then
                     write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
