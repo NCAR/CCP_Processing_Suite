@@ -822,8 +822,10 @@ program Omon_CMOR
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              allocate(time(ntimes(1,1)))
+              allocate(time_bnds(2,ntimes(1,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -947,8 +949,10 @@ program Omon_CMOR
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              allocate(time(ntimes(1,1)))
+              allocate(time_bnds(2,ntimes(1,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -1082,8 +1086,10 @@ program Omon_CMOR
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              allocate(time(ntimes(1,1)))
+              allocate(time_bnds(2,ntimes(1,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -1217,8 +1223,10 @@ program Omon_CMOR
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              allocate(time(ntimes(1,1)))
+              allocate(time_bnds(2,ntimes(1,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -1357,8 +1365,10 @@ program Omon_CMOR
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              allocate(time(ntimes(1,1)))
+              allocate(time_bnds(2,ntimes(1,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -1498,9 +1508,12 @@ program Omon_CMOR
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
-              if (.not.(allocated(indat1a)))   allocate(indat1a(ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              if (allocated(indat1a))    deallocate(indat1a)
+              allocate(time(ntimes(1,1)))
+              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(indat1a(ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -1596,9 +1609,12 @@ program Omon_CMOR
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
-              if (.not.(allocated(indat1a)))   allocate(indat1a(ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              if (allocated(indat1a))    deallocate(indat1a)
+              allocate(time(ntimes(1,1)))
+              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(indat1a(ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -1688,8 +1704,10 @@ program Omon_CMOR
               call get_vars(myncid(ifile,3))
               spval=var_info(var_found(1,1))%missing_value
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              allocate(time(ntimes(1,1)))
+              allocate(time_bnds(2,ntimes(1,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -1768,8 +1786,10 @@ program Omon_CMOR
               call get_vars(myncid(ifile,2))
               spval=var_info(var_found(1,1))%missing_value
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              allocate(time(ntimes(1,1)))
+              allocate(time_bnds(2,ntimes(1,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -1846,8 +1866,10 @@ program Omon_CMOR
               call get_vars(myncid(ifile,3))
               spval=var_info(var_found(1,1))%missing_value
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              allocate(time(ntimes(1,1)))
+              allocate(time_bnds(2,ntimes(1,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -1926,8 +1948,10 @@ program Omon_CMOR
               call get_vars(myncid(ifile,1))
               spval=var_info(var_found(1,1))%missing_value
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              allocate(time(ntimes(1,1)))
+              allocate(time_bnds(2,ntimes(1,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -2002,8 +2026,10 @@ program Omon_CMOR
               call get_vars(myncid(ifile,1))
               spval=var_info(var_found(1,1))%missing_value
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              allocate(time(ntimes(1,1)))
+              allocate(time_bnds(2,ntimes(1,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -2077,8 +2103,10 @@ program Omon_CMOR
               call get_vars(myncid(ifile,1))
               spval=var_info(var_found(1,1))%missing_value
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              allocate(time(ntimes(1,1)))
+              allocate(time_bnds(2,ntimes(1,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -2170,8 +2198,10 @@ program Omon_CMOR
               call get_vars(myncid(ifile,3))
               spval=var_info(var_found(1,1))%missing_value
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))       deallocate(time)
+              if (allocated(time_bnds))  deallocate(time_bnds)
+              allocate(time(ntimes(1,1)))
+              allocate(time_bnds(2,ntimes(1,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -2221,16 +2251,17 @@ program Omon_CMOR
                     endif
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                 !
-                 cmor_filename = ' '
-                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                 if (error_flag < 0) then
-                    write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
-                    stop
-                 else
-                    write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
-                 endif
               enddo
+              !
+              cmor_filename = ' '
+!                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+              error_flag = cmor_close()
+              if (error_flag < 0) then
+                 write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
+                 stop
+              else
+                 write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
+              endif
            enddo
         case ('msftmyz')
            !
