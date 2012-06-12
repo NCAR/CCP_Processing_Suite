@@ -70,6 +70,64 @@ subroutine define_atm_axes(dimensions)
   enddo
   axis_ids = 0 ; idim = 1
   !
+  ! Define 'time' first
+  !
+  do i = 1,naxes
+     select case(dimnames(i))
+     case ('time','time1','time2')
+        select case (mycmor%table_file)
+        case ('Tables/CMIP5_Amon','Tables/GeoMIP_Amon','Tables/CMIP5_aero','Tables/CMIP5_cfMon')
+           axis_ids(idim) = cmor_axis(  &
+                table=mycmor%table_file,&
+                table_entry=dimnames(i),&
+                units=time_units,       &
+                interval='30 days')
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           idim = idim + 1
+        case ('Tables/CMIP5_day','Tables/GeoMIP_day','Tables/CMIP5_cfDay')
+           axis_ids(idim) = cmor_axis(  &
+                table=mycmor%table_file,&
+                table_entry=dimnames(i),&
+                units=time_units,       &
+                interval='1 day')
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           idim = idim + 1
+        case ('Tables/CMIP5_6hrLev','Tables/CMIP5_6hrPlev','Tables/GeoMIP_6hrLev','Tables/GeoMIP_6hrPlev')
+           axis_ids(idim) = cmor_axis(  &
+                table=mycmor%table_file,&
+                table_entry=dimnames(i),&
+                units=time_units,       &
+                interval='6 hours')
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           idim = idim + 1
+        case ('Tables/CMIP5_3hr','Tables/CMIP5_cf3hr')
+           axis_ids(idim) = cmor_axis(  &
+                table=mycmor%table_file,&
+                table_entry=dimnames(i),&
+                units=time_units,       &
+                interval='3 hours')
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           idim = idim + 1
+        case ('Tables/TAMIP_3hrCurt','Tables/TAMIP_3hrMlev','Tables/TAMIP_3hrPlev','Tables/TAMIP_3hrSlev')
+           axis_ids(idim) = cmor_axis(  &
+                table=mycmor%table_file,&
+                table_entry=dimnames(i),&
+                units=time_units,       &
+                interval='3 hours')
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           idim = idim + 1
+        case ('Tables/TAMIP_sites')
+           axis_ids(idim) = cmor_axis(  &
+                table=mycmor%table_file,&
+                table_entry=dimnames(i),&
+                units=time_units,       &
+                interval='30 minutes')
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           idim = idim + 1
+        end select
+     end select
+  enddo
+  !
   do i = 1,naxes
      select case(dimnames(i))
      case ('location')
@@ -87,6 +145,8 @@ subroutine define_atm_axes(dimensions)
              table_entry=dimnames(i),      &
              units=dimunits(i),            &
              length=1)
+!             length=1,                     &
+!             coord_vals=22000.)
         write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('p560')
@@ -95,6 +155,8 @@ subroutine define_atm_axes(dimensions)
              table_entry=dimnames(i),      &
              units=dimunits(i),            &
              length=1)
+!             length=1,                     &
+!             coord_vals=56000.)
         write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('p840')
@@ -103,6 +165,8 @@ subroutine define_atm_axes(dimensions)
              table_entry=dimnames(i),      &
              units=dimunits(i),            &
              length=1)
+!             length=1,                     &
+!             coord_vals=84000.)
         write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('site')
@@ -162,6 +226,15 @@ subroutine define_atm_axes(dimensions)
              units=dimunits(i),            &
              coord_vals=cosp_tau,          &
              cell_bounds=cosp_tau_bnds)
+        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        idim = idim + 1
+     case ('sza5')
+        axis_ids(idim) = cmor_axis(        &
+             table=mycmor%table_file,      &
+             table_entry=dimnames(i),      &
+             length=SIZE(cosp_sza),        &
+             units=dimunits(i),            &
+             coord_vals=cosp_sza)
         write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('plevs')
@@ -244,13 +317,13 @@ subroutine define_atm_axes(dimensions)
            zfactor_id = cmor_zfactor(       &
                 zaxis_id=ilev,        &
                 zfactor_name='ps',          &
-                axis_ids=(/axis_ids(1),axis_ids(2)/), &
+                axis_ids=(/axis_ids(2),axis_ids(1)/), &
                 units='Pa')
         case default
            zfactor_id = cmor_zfactor(       &
                 zaxis_id=ilev,        &
                 zfactor_name='ps',          &
-                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3)/), &
+                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(1)/), &
                 units='Pa')
         end select
         axis_ids(idim) = ilev
@@ -291,60 +364,6 @@ subroutine define_atm_axes(dimensions)
         axis_ids(idim) = ilev
         write(*,'('' dimension: '',a,'' defined: '',i4)') 'standard_hybrid_sigma',axis_ids(idim)
         idim = idim + 1
-        !
-        ! Define 'time' (and variants) last
-        !
-     case ('time','time1','time2')
-        select case (mycmor%table_file)
-        case ('Tables/CMIP5_Amon','Tables/GeoMIP_Amon','Tables/CMIP5_aero','Tables/CMIP5_cfMon')
-           axis_ids(idim) = cmor_axis(  &
-                table=mycmor%table_file,&
-                table_entry=dimnames(i),&
-                units=time_units,       &
-                interval='30 days')
-           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
-           idim = idim + 1
-        case ('Tables/CMIP5_day','Tables/GeoMIP_day','Tables/CMIP5_cfDay')
-           axis_ids(idim) = cmor_axis(  &
-                table=mycmor%table_file,&
-                table_entry=dimnames(i),&
-                units=time_units,       &
-                interval='1 day')
-           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
-           idim = idim + 1
-        case ('Tables/CMIP5_6hrLev','Tables/CMIP5_6hrPlev','Tables/GeoMIP_6hrLev','Tables/GeoMIP_6hrPlev')
-           axis_ids(idim) = cmor_axis(  &
-                table=mycmor%table_file,&
-                table_entry=dimnames(i),&
-                units=time_units,       &
-                interval='6 hours')
-           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
-           idim = idim + 1
-        case ('Tables/CMIP5_3hr','Tables/CMIP5_cf3hr')
-           axis_ids(idim) = cmor_axis(  &
-                table=mycmor%table_file,&
-                table_entry=dimnames(i),&
-                units=time_units,       &
-                interval='3 hours')
-           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
-           idim = idim + 1
-        case ('Tables/TAMIP_3hrCurt','Tables/TAMIP_3hrMlev','Tables/TAMIP_3hrPlev','Tables/TAMIP_3hrSlev')
-           axis_ids(idim) = cmor_axis(  &
-                table=mycmor%table_file,&
-                table_entry=dimnames(i),&
-                units=time_units,       &
-                interval='3 hours')
-           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
-           idim = idim + 1
-        case ('Tables/TAMIP_sites')
-           axis_ids(idim) = cmor_axis(  &
-                table=mycmor%table_file,&
-                table_entry=dimnames(i),&
-                units=time_units,       &
-                interval='30 minutes')
-           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
-           idim = idim + 1
-        end select
      end select
   enddo
   write(*,'(''CMOR axes defined, axis_ids: '',5i5)') (axis_ids(i),i=1,naxes)

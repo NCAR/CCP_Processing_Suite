@@ -83,6 +83,7 @@ subroutine get_atm_grid
   allocate(atm_plev23(nplev23),atm_plev17(nplev17),atm_plev8(nplev8),atm_plev7(nplev7),atm_plev3(nplev3))
   allocate(a_coeff(nlevs),b_coeff(nlevs),a_coeff_bnds(nlevs+1),b_coeff_bnds(nlevs+1))
   allocate(cosp_tau(ncosp_tau),cosp_tau_bnds(2,ncosp_tau))
+  allocate(cosp_sza(ncosp_sza))
   allocate(cosp_prs(ncosp_prs),cosp_prs_bnds(2,ncosp_prs))
   allocate(cosp_ht(ncosp_ht),cosp_ht_bnds(2,ncosp_ht))
   allocate(cosp_dbze(ncosp_dbze),cosp_dbze_bnds(2,ncosp_dbze))
@@ -111,6 +112,7 @@ subroutine get_atm_grid
   call read_var(gridid,'PHIS'  ,phis)
   call read_var(gridid,'cosp_tau',cosp_tau)
   call read_var(gridid,'cosp_tau_bnds',cosp_tau_bnds)
+  call read_var(gridid,'cosp_sza',cosp_sza)
   call read_var(gridid,'cosp_prs',cosp_prs)
   call read_var(gridid,'cosp_prs_bnds',cosp_prs_bnds)
   cosp_prs      = cosp_prs      * 100
@@ -119,6 +121,10 @@ subroutine get_atm_grid
   call read_var(gridid,'cosp_ht_bnds',cosp_ht_bnds)
   call read_var(gridid,'cosp_dbze',cosp_dbze)
   call read_var(gridid,'cosp_dbze_bnds',cosp_dbze_bnds)
+  !
+  ! Replace given sza5 values ( 0 15 30 45 60 ) with correct values ( 0 20 40 60 80 )
+  !
+  cosp_sza = (/0.,20.,40.,60.,80./)
   !
   ! Create atm_ilev_bnds from regular levs
   !

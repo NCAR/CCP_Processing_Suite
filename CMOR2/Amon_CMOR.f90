@@ -240,21 +240,22 @@ program Amon_CMOR
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
-        case ('clw','cli','cl','mc')
-           cmor_var_id = cmor_variable(                            &
-                table=mycmor%table_file,                           &
-                table_entry='ps',                                  &
-                units='Pa',                                        &
-                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3)/),  &
-                missing_value=var_info(var_found(1,1))%missing_value,&
-                positive=mycmor%positive,                          &
-                original_name='PS',                                &
-                comment='PS, no change')
+        case ('ps')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4)/),  &
+                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(1)/), &
+                missing_value=var_info(var_found(1,1))%missing_value,&
+                positive=mycmor%positive,                          &
+                original_name=original_name,                       &
+                comment=xw(ixw)%comment)
+        case ('clw','cli','cl','mc')
+           cmor_var_id = cmor_variable(                            &
+                table=mycmor%table_file,                           &
+                table_entry=xw(ixw)%entry,                         &
+                units=var_info(var_found(1,1))%units,                &
+                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(4),axis_ids(1)/),  &
                 missing_value=var_info(var_found(1,1))%missing_value,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &

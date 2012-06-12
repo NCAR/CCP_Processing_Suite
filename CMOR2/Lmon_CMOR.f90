@@ -925,10 +925,10 @@ program Lmon_CMOR
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
-           case ( 1872 )  ! 20C, 1850-2005, ~50y chunks
+           case ( 1872,1860 )  ! 20C, 1850-2005, ~50y chunks
               nchunks(1) = 3
               tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
-              tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1950, 2005
+              tidx2(1:nchunks(1)) = (/600,1200,ntimes(1,1)/) ! 1899, 1950, 2005
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
@@ -1006,10 +1006,10 @@ program Lmon_CMOR
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
-           case ( 1872 )  ! 20C, 1850-2005, ~50y chunks
+           case ( 1872, 1860 )  ! 20C, 1850-2005, ~50y chunks
               nchunks(1) = 3
               tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
-              tidx2(1:nchunks(1)) = (/600,1200,1872/) ! 1899, 1950, 2005
+              tidx2(1:nchunks(1)) = (/600,1200,ntimes(1,1)/) ! 1899, 1950, 2005
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050

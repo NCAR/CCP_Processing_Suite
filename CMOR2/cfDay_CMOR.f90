@@ -22,7 +22,7 @@ program cfDay_CMOR
   !
   integer::error_flag,cmor_var_id
   real,dimension(:,:)    ,allocatable::indat2a,indat2b,indat2c,cmordat2d,psdata
-  real,dimension(:,:,:)  ,allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db
+  real,dimension(:,:,:)  ,allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db,parasol
   real,dimension(:,:,:,:),allocatable::indat4a
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::time_bnds
@@ -232,6 +232,8 @@ program cfDay_CMOR
            var_info(var_found(1,1))%units = 'kg m-2'
         case ('snc')
            var_info(var_found(1,1))%units = '%'
+        case ('parasolRefl')
+           var_info(var_found(1,1))%units = '1'
         case ('mrro','mrros')
            ! mm s-1 is the same as kg m-2 s-1
            var_info(var_found(1,1))%units = 'kg m-2 s-1'
@@ -256,7 +258,7 @@ program cfDay_CMOR
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4)/),  &
+                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(4),axis_ids(1)/),  &
                 missing_value=var_info(var_found(1,1))%missing_value,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
@@ -757,9 +759,9 @@ program cfDay_CMOR
                     tidx2(1:nchunks(ifile)) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
                  case ( 1825 ) ! "e" series; use only 2008 - maybe
                     if (trim(case_read)=='f40.amip_4k_cosp.cam4.1deg.001e') then ! Use only 2006-2008
-                       nchunks(ifile)= 1
-                       tidx1(1:nchunks(ifile)) = (/ 731/)
-                       tidx2(1:nchunks(ifile)) = (/1825/)
+                       nchunks(ifile)= 3
+                       tidx1(1:nchunks(ifile)) = (/ 731,1096,1461/)
+                       tidx2(1:nchunks(ifile)) = (/1095,1460,1825/)
                     else
                        nchunks(ifile)= 1
                        tidx1(1:nchunks(ifile)) = (/   1/)
@@ -800,20 +802,15 @@ program cfDay_CMOR
                        endif
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                    !
-                    if (ic < nchunks(ifile)) then
-                       cmor_filename(1:) = ' '
-                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                       if (error_flag < 0) then
-
-                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                          stop
-                       else
-                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                       endif
-                    endif
-                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  enddo
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                 endif
               enddo
            endif
            error_flag = cmor_close()
@@ -906,6 +903,7 @@ program cfDay_CMOR
            !
            ! parasolRefl
            !
+!           allocate(indat3a(nlons,nlats,ncosp_sza),parasol(nlons,nlats,ncosp_sza))
            allocate(indat3a(nlons,nlats,ncosp_sza))
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
@@ -952,6 +950,26 @@ program cfDay_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+!!$ NOT NEEDED
+!!$                    !
+!!$                    ! Linearly interpolate between given levels (0, 15, 30, 45, 60) 
+!!$                    ! and requested levels (0. 20. 40. 60. 80.)
+!!$                    parasol = 1.e20
+!!$                    do j = 1,nlats
+!!$                       do i = 1,nlons
+!!$                          ! k=1 is same
+!!$                          parasol(i,j,        1) = indat3a(i,j,1)
+!!$                          ! k=2 is 2/3 15 (k=2) + 1/3 20 (k=3)
+!!$                          parasol(i,j,        2) = ((2./3.)*indat3a(i,j,2))+((1./3.)*indat3a(i,j,3))
+!!$                          ! k=3 is 1/3 30 (k=3) + 2/3 45 (k=4)
+!!$                          parasol(i,j,        3) = ((1./3.)*indat3a(i,j,3))+((2./3.)*indat3a(i,j,4))
+!!$                          ! k=4 is k=5
+!!$                          parasol(i,j,        4) = indat3a(i,j,ncosp_sza)
+!!$                          ! k=5 is set to missing (80 requires extrpolation, so avoid)
+!!$                          parasol(i,j,ncosp_sza) = 1.e20
+!!$                       enddo
+!!$                    enddo
+!!$ NOT NEEDED
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
                          var_id        = cmor_var_id,   &
@@ -963,28 +981,16 @@ program cfDay_CMOR
                        write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
                     endif
-                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                    !
-                    if (ic < nchunks(ifile)) then
-                       cmor_filename(1:) = ' '
-                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                       if (error_flag < 0) then
-                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                          stop
-                       else
-                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                       endif
-                    endif
-                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
               enddo
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
-              write(*,'(''ERROR CMOR close of '',a)') trim(cmor_filename(1:))
+              write(*,'(''ERROR CMOR close of '',a)') trim(xw(ixw)%entry)
               stop
            else
-              write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
+              write(*,'(''GOOD CMOR close of '',a)')  trim(xw(ixw)%entry)
            endif
         case ('clisccp')
            !
@@ -1047,22 +1053,19 @@ program cfDay_CMOR
                        write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
                     endif
-                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                    !
-                    if (ic < nchunks(ifile)) then
-                       cmor_filename(1:) = ' '
-                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                       if (error_flag < 0) then
-                          write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                          stop
-                       else
-                          write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                       endif
-                    endif
-                    write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
                  enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                 endif
               enddo
            enddo
+           cmor_filename(1:) = ' '
            error_flag = cmor_close()
            if (error_flag < 0) then
               write(*,'(''ERROR CMOR close of '',a)') trim(cmor_filename(1:))
