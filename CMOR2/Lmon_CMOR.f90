@@ -864,6 +864,10 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 3613
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 2400 )  ! RCPs, 2101-2300; 2101-2199, 2200-2300, 100 and 101 year chunks
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
@@ -937,6 +941,10 @@ program Lmon_CMOR
               nchunks(1) = 2
               tidx1(1:nchunks(1)) = (/  1, 529/)      ! 2006, 2050
               tidx2(1:nchunks(1)) = (/528,1140/)      ! 2049, 2100
+           case ( 2400 )  ! RCPs, 2101-2300; 2101-2199, 2200-2300, 100 and 101 year chunks
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/  1 ,1189/)
+              tidx2(1:nchunks(1)) = (/1188,2400/)
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(1) = 3
               tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
@@ -1018,6 +1026,10 @@ program Lmon_CMOR
               nchunks(1) = 5
               tidx1(1:nchunks(1)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
               tidx2(1:nchunks(1)) = (/360, 960,1560,2160,2664/) ! 0099,0149,0199,0249,0291
+           case ( 2400 )  ! RCPs, 2101-2300; 2101-2199, 2200-2300, 100 and 101 year chunks
+              nchunks(1) = 2
+              tidx1(1:nchunks(1)) = (/  1 ,1189/)
+              tidx2(1:nchunks(1)) = (/1188,2400/)
            case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
               nchunks(1) = 3
               tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
