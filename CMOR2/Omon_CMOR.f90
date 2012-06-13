@@ -344,7 +344,7 @@ program Omon_CMOR
                  time_counter = n
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -445,7 +445,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -560,7 +560,7 @@ program Omon_CMOR
                  time_counter = n
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -664,7 +664,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -763,7 +763,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -862,7 +862,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -964,7 +964,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -1056,7 +1056,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -1162,7 +1162,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -1286,7 +1286,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -1413,7 +1413,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -1550,7 +1550,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -1687,7 +1687,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -1829,7 +1829,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -1974,7 +1974,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -2090,7 +2090,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -2198,7 +2198,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               select case (ntimes(ifile,1))
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
@@ -2291,7 +2291,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               select case (ntimes(ifile,1))
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
@@ -2384,7 +2384,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               select case (ntimes(ifile,1))
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
@@ -2475,7 +2475,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               select case (ntimes(ifile,1))
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
@@ -2564,7 +2564,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               select case (ntimes(ifile,1))
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
@@ -2670,7 +2670,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               select case (ntimes(ifile,1))
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
@@ -2771,7 +2771,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
