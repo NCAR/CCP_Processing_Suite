@@ -757,7 +757,7 @@ program cfDay_CMOR
                     nchunks(ifile)= 5
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
                     tidx2(1:nchunks(ifile)) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
-                 case ( 1825 ) ! "e" series; use only 2008 - maybe
+                 case ( 1825 ) ! "e" series; use only 2006-2008; case-specific
                     if (trim(case_read)=='f40.amip_4k_cosp.cam4.1deg.001e') then ! Use only 2006-2008
                        nchunks(ifile)= 3
                        tidx1(1:nchunks(ifile)) = (/ 731,1096,1461/)
