@@ -143,8 +143,6 @@ program Omon_CMOR
                  write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
                  stop
               endif
-              call close_cdf(myncid(ifile,ivar))
-              !
            enddo
         enddo
         !
@@ -418,7 +416,6 @@ program Omon_CMOR
               enddo
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
-              call close_cdf(myncid(ifile,1))
               dim_counter  = 0
               var_counter  = 0
               time_counter = 0
@@ -523,7 +520,6 @@ program Omon_CMOR
               enddo
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
-              call close_cdf(myncid(ifile,1))
               dim_counter  = 0
               var_counter  = 0
               time_counter = 0
@@ -639,7 +635,6 @@ program Omon_CMOR
               enddo
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
-              call close_cdf(myncid(ifile,1))
               dim_counter  = 0
               var_counter  = 0
               time_counter = 0
@@ -742,7 +737,6 @@ program Omon_CMOR
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
               enddo
-              call close_cdf(myncid(ifile,1))
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -841,7 +835,6 @@ program Omon_CMOR
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
               enddo
-              call close_cdf(myncid(ifile,1))
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -940,7 +933,6 @@ program Omon_CMOR
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
               enddo
-              call close_cdf(myncid(ifile,1))
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -1036,7 +1028,6 @@ program Omon_CMOR
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
               enddo
-              call close_cdf(myncid(ifile,1))
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -1136,7 +1127,6 @@ program Omon_CMOR
                     write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
                  endif
               enddo
-              call close_cdf(myncid(ifile,1))
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
               dim_counter  = 0
@@ -1260,7 +1250,6 @@ program Omon_CMOR
                     write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                  endif
               enddo
-              call close_cdf(myncid(ifile,1))
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
            enddo
@@ -1387,7 +1376,6 @@ program Omon_CMOR
                     write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                  endif
               enddo
-              call close_cdf(myncid(ifile,1))
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
            enddo
@@ -1524,7 +1512,6 @@ program Omon_CMOR
                     write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                  endif
               enddo
-              call close_cdf(myncid(ifile,1))
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
               dim_counter  = 0
@@ -1661,7 +1648,6 @@ program Omon_CMOR
                     write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                  endif
               enddo
-              call close_cdf(myncid(ifile,1))
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
               dim_counter  = 0
@@ -1803,7 +1789,6 @@ program Omon_CMOR
                     write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                  endif
               enddo
-              call close_cdf(myncid(ifile,1))
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
               dim_counter  = 0
@@ -1929,7 +1914,6 @@ program Omon_CMOR
                     write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
                  endif
               enddo
-              call close_cdf(myncid(ifile,1))
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
            enddo
@@ -2042,7 +2026,6 @@ program Omon_CMOR
                     enddo
                  enddo
               enddo
-              call close_cdf(myncid(ifile,1))
               !
 !              write(*,*) 'MIN: ',minval(indat1a),'MAX: ',maxval(indat1a)
               if (xw(ixw)%entry=='masso') then
@@ -2151,7 +2134,6 @@ program Omon_CMOR
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat1a)
                  enddo
               enddo
-              call close_cdf(myncid(ifile,1))
               !
               write(*,*) 'MIN: ',minval(indat1a),'MAX: ',maxval(indat1a)
               !
