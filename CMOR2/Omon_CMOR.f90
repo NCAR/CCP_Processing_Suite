@@ -2013,7 +2013,7 @@ program Omon_CMOR
               indat1a = 0.
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
-                    write(*,'(''TIME: '',i10,10x,f10.3)') it,time(it)
+!                    write(*,'(''TIME: '',i10,10x,f10.3)') it,time(it)
                     time_counter = it
                     indat3a = 1.e30
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
