@@ -247,12 +247,12 @@ program cfMon_CMOR
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
-        case ('clisscp')
+        case ('clisccp')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4),axis_ids(5)/),  &
+                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4),axis_ids(5)/),&
                 missing_value=var_info(var_found(1,1))%missing_value,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
@@ -722,10 +722,8 @@ program cfMon_CMOR
               do n = 1,ntimes(ifile,1)
                  time_counter = n
                  call read_var(myncid(ifile,1),'time_bnds',time_bnds(:,n))
+                 time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
               enddo
-              time_bnds(1,:) = time_bnds(2,:)
-              time_bnds(2,:) = time_bnds(1,:) + 1
-              time = (time_bnds(1,:)+time_bnds(2,:))/2.
               write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
               !
               ! Determine amount of data to write, to keep close to ~2 4B limit
@@ -808,10 +806,8 @@ program cfMon_CMOR
               do n = 1,ntimes(ifile,1)
                  time_counter = n
                  call read_var(myncid(ifile,1),'time_bnds',time_bnds(:,n))
+                 time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
               enddo
-              time_bnds(1,:) = time_bnds(2,:)
-              time_bnds(2,:) = time_bnds(1,:) + 1
-              time = (time_bnds(1,:)+time_bnds(2,:))/2.
               write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
               !
               ! Determine amount of data to write, to keep close to ~2 4B limit
