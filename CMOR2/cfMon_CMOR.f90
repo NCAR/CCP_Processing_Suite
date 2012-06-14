@@ -21,8 +21,9 @@ program cfMon_CMOR
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag,cmor_var_id
-  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,cmordat2d,psdata
-  real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db
+  real,dimension(:,:)    ,allocatable::indat2a,indat2b,indat2c,cmordat2d,psdata
+  real,dimension(:,:,:)  ,allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db
+  real,dimension(:,:,:,:),allocatable::indat4a
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::time_bnds
   double precision,dimension(1)  ::tval
@@ -703,6 +704,277 @@ program cfMon_CMOR
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
            enddo
+        case ('clcalipso')
+           !
+           ! clcalipso
+           !
+           allocate(indat3a(nlons,nlats,ncosp_ht))
+           do ifile = 1,nc_nfiles(1)
+              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+              call get_dims(myncid(ifile,1))
+              call get_vars(myncid(ifile,1))
+              !
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
+              !
+              do n = 1,ntimes(ifile,1)
+                 time_counter = n
+                 call read_var(myncid(ifile,1),'time_bnds',time_bnds(:,n))
+              enddo
+              time_bnds(1,:) = time_bnds(2,:)
+              time_bnds(2,:) = time_bnds(1,:) + 1
+              time = (time_bnds(1,:)+time_bnds(2,:))/2.
+              write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
+              !
+              ! Determine amount of data to write, to keep close to ~2 4B limit
+              !
+              select case (ntimes(ifile,1))
+              case ( 9825 )         ! 1979-2005, 1 file per year
+                 nchunks(ifile) = 27
+                 tidx1(1) =   1
+                 tidx2(1) = 365
+                 do ic = 2,nchunks(ifile)
+                    tidx1(ic) = tidx2(ic-1) + 1
+                    tidx2(ic) = tidx1(ic) + 364
+                 enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              case ( 1825 ) ! "e" series; use only 2008 - maybe
+                 if (trim(case_read)=='f40.amip_4k_cosp.cam4.1deg.001e') then ! Use only 2006-2008, one file per year
+                    nchunks(ifile)= 3
+                    tidx1(1:nchunks(ifile)) = (/ 731,1096,1461/)
+                    tidx2(1:nchunks(ifile)) = (/1095,1460,1825/)
+                 else
+                    nchunks(ifile)= 1
+                    tidx1(1:nchunks(ifile)) = (/   1/)
+                    tidx2(1:nchunks(ifile)) = (/1825/)
+                 endif
+              case default
+                 nchunks(ifile)= 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              write(*,'(''# chunks '',i3,'':'',30((i6,''-'',i6),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(        &
+                         var_id        = cmor_var_id,   &
+                         data          = indat3a,   &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                 endif
+              enddo
+           enddo
+           error_flag = cmor_close()
+           if (error_flag < 0) then
+              write(*,'(''ERROR CMOR close of '',a)') trim(cmor_filename(1:))
+              stop
+           else
+              write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
+           endif
+        case ('parasolRefl')
+           !
+           ! parasolRefl
+           !
+!           allocate(indat3a(nlons,nlats,ncosp_sza),parasol(nlons,nlats,ncosp_sza))
+           allocate(indat3a(nlons,nlats,ncosp_sza))
+           do ifile = 1,nc_nfiles(1)
+              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+              call get_dims(myncid(ifile,1))
+              call get_vars(myncid(ifile,1))
+              !
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
+              !
+              do n = 1,ntimes(ifile,1)
+                 time_counter = n
+                 call read_var(myncid(ifile,1),'time_bnds',time_bnds(:,n))
+              enddo
+              time_bnds(1,:) = time_bnds(2,:)
+              time_bnds(2,:) = time_bnds(1,:) + 1
+              time = (time_bnds(1,:)+time_bnds(2,:))/2.
+              write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
+              !
+              ! Determine amount of data to write, to keep close to ~2 4B limit
+              !
+              select case (ntimes(ifile,1))
+              case ( 9825 )         ! 1979-2005, 1 file per year
+                 nchunks(ifile) = 27
+                 tidx1(1) =   1
+                 tidx2(1) = 365
+                 do ic = 2,nchunks(ifile)
+                    tidx1(ic) = tidx2(ic-1) + 1
+                    tidx2(ic) = tidx1(ic) + 364
+                 enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              case ( 1825 ) ! "e" series; use only 2008 - maybe
+                 if (trim(case_read)=='f40.amip_4k_cosp.cam4.1deg.001e') then ! Use only 2006-2008
+                    nchunks(ifile)= 1
+                    tidx1(1:nchunks(ifile)) = (/ 731/)
+                    tidx2(1:nchunks(ifile)) = (/1825/)
+                 else
+                    nchunks(ifile)= 1
+                    tidx1(1:nchunks(ifile)) = (/   1/)
+                    tidx2(1:nchunks(ifile)) = (/1825/)
+                 endif
+              case default
+                 nchunks(ifile)= 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              write(*,'(''# chunks '',i3,'':'',20((i6,''-'',i6),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+!!$ NOT NEEDED
+!!$                    !
+!!$                    ! Linearly interpolate between given levels (0, 15, 30, 45, 60) 
+!!$                    ! and requested levels (0. 20. 40. 60. 80.)
+!!$                    parasol = 1.e20
+!!$                    do j = 1,nlats
+!!$                       do i = 1,nlons
+!!$                          ! k=1 is same
+!!$                          parasol(i,j,        1) = indat3a(i,j,1)
+!!$                          ! k=2 is 2/3 15 (k=2) + 1/3 20 (k=3)
+!!$                          parasol(i,j,        2) = ((2./3.)*indat3a(i,j,2))+((1./3.)*indat3a(i,j,3))
+!!$                          ! k=3 is 1/3 30 (k=3) + 2/3 45 (k=4)
+!!$                          parasol(i,j,        3) = ((1./3.)*indat3a(i,j,3))+((2./3.)*indat3a(i,j,4))
+!!$                          ! k=4 is k=5
+!!$                          parasol(i,j,        4) = indat3a(i,j,ncosp_sza)
+!!$                          ! k=5 is set to missing (80 requires extrpolation, so avoid)
+!!$                          parasol(i,j,ncosp_sza) = 1.e20
+!!$                       enddo
+!!$                    enddo
+!!$ NOT NEEDED
+                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(        &
+                         var_id        = cmor_var_id,   &
+                         data          = indat3a,   &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              enddo
+           enddo
+           error_flag = cmor_close()
+           if (error_flag < 0) then
+              write(*,'(''ERROR CMOR close of '',a)') trim(xw(ixw)%entry)
+              stop
+           else
+              write(*,'(''GOOD CMOR close of '',a)')  trim(xw(ixw)%entry)
+           endif
+        case ('clisccp')
+           !
+           ! clisccp
+           !
+           allocate(indat4a(nlons,nlats,nplev7,ncosp_tau))
+           do ifile = 1,nc_nfiles(1)
+              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
+              call get_dims(myncid(ifile,1))
+              call get_vars(myncid(ifile,1))
+              !
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
+              !
+              do n = 1,ntimes(ifile,1)
+                 time_counter = n
+                 call read_var(myncid(ifile,1),'time_bnds',time_bnds(:,n))
+              enddo
+              time_bnds(1,:) = time_bnds(2,:)
+              time_bnds(2,:) = time_bnds(1,:) + 1
+              time = (time_bnds(1,:)+time_bnds(2,:))/2.
+              write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
+              !
+              ! Determine amount of data to write, to keep close to ~2 4B limit
+              !
+              select case (ntimes(ifile,1))
+              case ( 9825 )         ! 1979-2005, 1 file per year
+                 nchunks(ifile) = 27
+                 tidx1(1) =   1
+                 tidx2(1) = 365
+                 do ic = 2,nchunks(ifile)
+                    tidx1(ic) = tidx2(ic-1) + 1
+                    tidx2(ic) = tidx1(ic) + 364
+                 enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              case ( 1825 ) ! "e" series; use only 2008 - maybe
+                 if (trim(case_read)=='f40.amip_4k_cosp.cam4.1deg.001e') then ! Use only 2006-2008
+                    nchunks(ifile)= 3
+                    tidx1(1:nchunks(ifile)) = (/ 731,1096,1461/)
+                    tidx2(1:nchunks(ifile)) = (/1095,1460,1825/)
+                 else
+                    nchunks(ifile)= 1
+                    tidx1(1:nchunks(ifile)) = (/   1/)
+                    tidx2(1:nchunks(ifile)) = (/1825/)
+                 endif
+              case default
+                 nchunks(ifile)= 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              write(*,'(''# chunks '',i3,'':'',20((i6,''-'',i6),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat4a)
+                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(        &
+                         var_id        = cmor_var_id,&
+                         data          = indat4a,   &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                 endif
+              enddo
+           enddo
+           cmor_filename(1:) = ' '
+           error_flag = cmor_close()
+           if (error_flag < 0) then
+              write(*,'(''ERROR CMOR close of '',a)') trim(cmor_filename(1:))
+              stop
+           else
+              write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
+           endif
         end select
         if (allocated(indat2a))   deallocate(indat2a)
         if (allocated(indat2b))   deallocate(indat2b)
