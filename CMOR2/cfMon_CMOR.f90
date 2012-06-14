@@ -256,7 +256,7 @@ program cfMon_CMOR
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
-        case ('albisccp','cltcalipso','cltisccp','pctisccp','ps','rlut4co2','rlutcs4co2','rsut4co2','rsutcs4co2',
+        case ('albisccp','cltcalipso','cltisccp','pctisccp','ps','rlut4co2','rlutcs4co2','rsut4co2','rsutcs4co2',&
               'clhcalipso','cllcalipso','clmcalipso')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
@@ -274,7 +274,7 @@ program cfMon_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('albisccp','cltcalipso','cltisccp','pctisccp','ps','rlut4co2','rlutcs4co2','rsut4co2','rsutcs4co2',
+        case ('albisccp','cltcalipso','cltisccp','pctisccp','ps','rlut4co2','rlutcs4co2','rsut4co2','rsutcs4co2',&
               'clhcalipso','cllcalipso','clmcalipso')
            !
            ! No change
