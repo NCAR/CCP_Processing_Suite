@@ -65,7 +65,7 @@ CMIP5_cfSites:tntc:tendency_of_air_temperature_due_to_convection:alevel site tim
 CMIP5_cfSites:tntmp:tendency_of_air_temperature_due_to_model_physics:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
 CMIP5_cfSites:tntr:tendency_of_air_temperature_due_to_radiative_heating:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
 CMIP5_cfSites:tntscpbl:tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
-CMIP5_cfSites:tnt:tendency_of_air_temperature:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:tnt:tendency_of_air_temperature:alevel site time1:atmos:2:TTEND_TOT PS:TTEND_TOT on model levels, no change
 CMIP5_cfSites:ts:surface_temperature:site time1:atmos:1:TS:TS no change
 CMIP5_cfSites:ua:eastward_wind:alevel site time1:atmos:2:U PS:U on model levels
 CMIP5_cfSites:uas:eastward_wind:site time1 height10m:atmos:0:UNAVAILABLE:UNAVAILABLE

@@ -161,7 +161,7 @@ CMIP5_Omon:tauvcorr:surface_downward_y_stress_correction:longitude latitude time
 CMIP5_Omon:tauvo:surface_downward_y_stress:longitude latitude time:ocean:1:TAUY:TAUY
 CMIP5_Omon:thetaoga:sea_water_potential_temperature:time:ocean:1:TEMP:TEMP weighted global average, units C to K
 CMIP5_Omon:thetao:sea_water_potential_temperature:longitude latitude olevel time:ocean:1:TEMP:TEMP no change, units from C to K
-CMIP5_Omon:thkcello:cell_thickness:longitude latitude olevel time:ocean:0:N/A:Inapplicable as cell thickness is fixed (dz)
+CMIP5_Omon:thkcello:cell_thickness:longitude latitude olevel time:ocean:0:UNAVAILABLE:Inapplicable as cell thickness is fixed (dz)
 CMIP5_Omon:tos:sea_surface_temperature:longitude latitude time:ocean:1:TEMP:TEMP at topmost level, units from C to K
 CMIP5_Omon:tossq:square_of_sea_surface_temperature:longitude latitude time:ocean:1:TEMP2:TEMP2
 CMIP5_Omon:umo:ocean_mass_x_transport:longitude latitude olevel time:ocean:1:UVEL:0.5*(UVEL(i,j)+UVEL(i,j-1))*HTE*dz*rho_0

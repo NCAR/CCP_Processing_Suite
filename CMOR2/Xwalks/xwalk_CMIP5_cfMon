@@ -95,4 +95,4 @@ CMIP5_cfMon:tntc:tendency_of_air_temperature_due_to_convection:longitude latitud
 CMIP5_cfMon:tntmp:tendency_of_air_temperature_due_to_model_physics:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CMIP5_cfMon:tntr:tendency_of_air_temperature_due_to_radiative_heating:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CMIP5_cfMon:tntscpbl:tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CMIP5_cfMon:tnt:tendency_of_air_temperature:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfMon:tnt:tendency_of_air_temperature:longitude latitude alevel time:atmos:2:TTEND_TOT PS:TTEND_TOT on model levels, no change
