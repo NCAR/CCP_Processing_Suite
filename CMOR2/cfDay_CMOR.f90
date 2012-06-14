@@ -853,8 +853,7 @@ program cfDay_CMOR
               !
               select case (ntimes(ifile,1))
               case ( 9825 )         ! 1979-2005, 1 file per year
-                 nchunks(ifile)= 27
-                 nchunks(ifile) = ntimes(1,1)/600
+                 nchunks(ifile) = 27
                  tidx1(1) =   1
                  tidx2(1) = 365
                  do ic = 2,nchunks(ifile)
