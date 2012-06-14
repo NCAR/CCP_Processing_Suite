@@ -852,10 +852,16 @@ program cfDay_CMOR
               ! Determine amount of data to write, to keep close to ~2 4B limit
               !
               select case (ntimes(ifile,1))
-              case ( 9825 )         ! 4XCO2 from 1979-2005
-                 nchunks(ifile)= 5
-                 tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
-                 tidx2(1:nchunks(ifile)) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
+              case ( 9825 )         ! 1979-2005, 1 file per year
+                 nchunks(ifile)= 27
+                 nchunks(ifile) = ntimes(1,1)/600
+                 tidx1(1) =   1
+                 tidx2(1) = 365
+                 do ic = 2,nchunks(ifile)
+                    tidx1(ic) = tidx2(ic-1) + 1
+                    tidx2(ic) = tidx1(ic) + 364
+                 enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 1825 ) ! "e" series; use only 2008 - maybe
                  if (trim(case_read)=='f40.amip_4k_cosp.cam4.1deg.001e') then ! Use only 2006-2008, one file per year
                     nchunks(ifile)= 3
@@ -871,7 +877,7 @@ program cfDay_CMOR
                  tidx1(1:nchunks(ifile)) = 1
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
-              write(*,'(''# chunks '',i3,'':'',20((i6,''-'',i6),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+              write(*,'(''# chunks '',i3,'':'',30((i6,''-'',i6),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
