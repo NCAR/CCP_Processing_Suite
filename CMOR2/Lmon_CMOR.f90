@@ -305,6 +305,20 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1201
+                    tidx2(1:nchunks(1)) = 7200
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3601
+                    tidx2(1:nchunks(1)) = 9600
+                 end select
+              end select
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 13
@@ -372,6 +386,20 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1201
+                    tidx2(1:nchunks(1)) = 7200
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3601
+                    tidx2(1:nchunks(1)) = 9600
+                 end select
+              end select
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 13
@@ -437,6 +465,20 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1201
+                    tidx2(1:nchunks(1)) = 7200
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3601
+                    tidx2(1:nchunks(1)) = 9600
+                 end select
+              end select
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 13
@@ -504,6 +546,20 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1201
+                    tidx2(1:nchunks(1)) = 7200
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3601
+                    tidx2(1:nchunks(1)) = 9600
+                 end select
+              end select
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 13
@@ -577,6 +633,20 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1201
+                    tidx2(1:nchunks(1)) = 7200
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3601
+                    tidx2(1:nchunks(1)) = 9600
+                 end select
+              end select
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 13
@@ -780,6 +850,20 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1201
+                    tidx2(1:nchunks(1)) = 7200
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3601
+                    tidx2(1:nchunks(1)) = 9600
+                 end select
+              end select
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 13
@@ -856,6 +940,20 @@ program Lmon_CMOR
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1201
+                    tidx2(1:nchunks(1)) = 7200
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3601
+                    tidx2(1:nchunks(1)) = 9600
+                 end select
+              end select
            case ( 1152 )  ! RCP, 2005-2100, skip 2006
               nchunks(1) = 1
               tidx1(1:nchunks(1)) = 13
@@ -962,6 +1060,20 @@ program Lmon_CMOR
                  tidx2(ic) = tidx1(ic) + 599
               enddo
               tidx2(nchunks(1)) = ntimes(1,1)
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 10
+                    tidx1(1:nchunks(1)) = (/1201,1801,2401,3001,3601,4201,4801,5401,6001,6601/)
+                    tidx2(1:nchunks(1)) = (/1800,2400,3000,3600,4200,4800,5400,6000,6600,7200/)
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 10
+                    tidx1(1:nchunks(1)) = (/3601,4201,4801,5401,6001,6601,7201,7801,8401,9001/)
+                    tidx2(1:nchunks(1)) = (/4200,4800,5400,6000,6600,7200,7800,8400,9000,9600/)
+                 end select
+              end select
            case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
               nchunks(1) = 6
               tidx1(1:nchunks(1)) = (/2389,2989,3589,4189,4789,5389/) ! 1000, 1050, 1100, 1150, 1200, 1250
@@ -1047,6 +1159,20 @@ program Lmon_CMOR
                  tidx2(ic) = tidx1(ic) + 599
               enddo
               tidx2(nchunks(1)) = ntimes(1,1)
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 10
+                    tidx1(1:nchunks(1)) = (/1201,1801,2401,3001,3601,4201,4801,5401,6001,6601/)
+                    tidx2(1:nchunks(1)) = (/1800,2400,3000,3600,4200,4800,5400,6000,6600,7200/)
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 10
+                    tidx1(1:nchunks(1)) = (/3601,4201,4801,5401,6001,6601,7201,7801,8401,9001/)
+                    tidx2(1:nchunks(1)) = (/4200,4800,5400,6000,6600,7200,7800,8400,9000,9600/)
+                 end select
+              end select
            case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
               nchunks(1) = 6
               tidx1(1:nchunks(1)) = (/2389,2989,3589,4189,4789,5389/) ! 1000, 1050, 1100, 1150, 1200, 1250

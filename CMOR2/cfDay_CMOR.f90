@@ -109,6 +109,12 @@ program cfDay_CMOR
      ! Open CESM file(s) and get information(s)
      !
      if (all_continue) then
+        call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+        call get_dims(myncid(1,1))
+        call get_vars(myncid(1,1))
+        call read_att_text(myncid(1,1),'time','units',time_units)
+        write(*,'(''time units in: '',i10,5x,a)') myncid(1,1),trim(time_units)
+        call close_cdf(myncid(1,1))
         do ivar = 1,xw(ixw)%ncesm_vars
            do ifile = 1,nc_nfiles(ivar)
               call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
@@ -121,8 +127,6 @@ program cfDay_CMOR
                     ntimes(ifile,ivar) = dim_info(n)%length
                  endif
               enddo
-              call read_att_text(myncid(ifile,ivar),'time','units',time_units)
-              write(*,*) 'read_att_text: ',myncid(ifile,ivar),' ',trim(time_units)
               do n=1,var_counter
                  if (trim(var_info(n)%name) == trim(xw(ixw)%cesm_vars(ivar))) then
                     var_found(ifile,ivar) = n
@@ -749,6 +753,7 @@ program cfDay_CMOR
                  time_bnds(1,:) = time_bnds(2,:)
                  time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
+                 write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
                  !
                  ! Determine amount of data to write, to keep close to ~2 4B limit
                  !
@@ -802,15 +807,15 @@ program cfDay_CMOR
                        endif
                     enddo
                     write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                    cmor_filename(1:) = ' '
+                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                       stop
+                    else
+                       write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                    endif
                  enddo
-                 cmor_filename(1:) = ' '
-                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                 if (error_flag < 0) then
-                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                    stop
-                 else
-                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                 endif
               enddo
            endif
            error_flag = cmor_close()
@@ -842,6 +847,7 @@ program cfDay_CMOR
               time_bnds(1,:) = time_bnds(2,:)
               time_bnds(2,:) = time_bnds(1,:) + 1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
+              write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
               !
               ! Determine amount of data to write, to keep close to ~2 4B limit
               !
@@ -922,6 +928,7 @@ program cfDay_CMOR
               time_bnds(1,:) = time_bnds(2,:)
               time_bnds(2,:) = time_bnds(1,:) + 1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
+              write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
               !
               ! Determine amount of data to write, to keep close to ~2 4B limit
               !
@@ -1014,6 +1021,7 @@ program cfDay_CMOR
               time_bnds(1,:) = time_bnds(2,:)
               time_bnds(2,:) = time_bnds(1,:) + 1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
+              write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
               !
               ! Determine amount of data to write, to keep close to ~2 4B limit
               !
