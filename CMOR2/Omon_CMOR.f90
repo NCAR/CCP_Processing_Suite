@@ -231,7 +231,7 @@ program Omon_CMOR
            var_info(var_found(1,1))%units = 'kg'
         case ('cfc11')
            var_info(var_found(1,1))%units = 'mol kg-1'
-        case ('fbddtalk','fddtalk')
+        case ('fbddtalk','fddtalk','intpp')
            var_info(var_found(1,1))%units = 'mol m-2 s-1'
         case ('talk')
            var_info(var_found(1,1))%units = 'mol m-3'
@@ -1278,8 +1278,8 @@ program Omon_CMOR
               !
               if (allocated(time))       deallocate(time)
               if (allocated(time_bnds))  deallocate(time_bnds)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -1405,8 +1405,8 @@ program Omon_CMOR
               !
               if (allocated(time))       deallocate(time)
               if (allocated(time_bnds))  deallocate(time_bnds)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -1542,8 +1542,8 @@ program Omon_CMOR
               !
               if (allocated(time))       deallocate(time)
               if (allocated(time_bnds))  deallocate(time_bnds)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -1679,8 +1679,8 @@ program Omon_CMOR
               !
               if (allocated(time))       deallocate(time)
               if (allocated(time_bnds))  deallocate(time_bnds)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -1821,8 +1821,8 @@ program Omon_CMOR
               !
               if (allocated(time))       deallocate(time)
               if (allocated(time_bnds))  deallocate(time_bnds)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -1965,8 +1965,8 @@ program Omon_CMOR
               if (allocated(time))       deallocate(time)
               if (allocated(time_bnds))  deallocate(time_bnds)
               if (allocated(indat1a))    deallocate(indat1a)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               allocate(indat1a(ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
@@ -2081,8 +2081,8 @@ program Omon_CMOR
               if (allocated(time))       deallocate(time)
               if (allocated(time_bnds))  deallocate(time_bnds)
               if (allocated(indat1a))    deallocate(indat1a)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               allocate(indat1a(ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
@@ -2190,8 +2190,8 @@ program Omon_CMOR
               !
               if (allocated(time))       deallocate(time)
               if (allocated(time_bnds))  deallocate(time_bnds)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -2283,8 +2283,8 @@ program Omon_CMOR
               !
               if (allocated(time))       deallocate(time)
               if (allocated(time_bnds))  deallocate(time_bnds)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -2376,8 +2376,8 @@ program Omon_CMOR
               !
               if (allocated(time))       deallocate(time)
               if (allocated(time_bnds))  deallocate(time_bnds)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -2467,8 +2467,8 @@ program Omon_CMOR
               !
               if (allocated(time))       deallocate(time)
               if (allocated(time_bnds))  deallocate(time_bnds)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -2556,8 +2556,8 @@ program Omon_CMOR
               !
               if (allocated(time))       deallocate(time)
               if (allocated(time_bnds))  deallocate(time_bnds)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -2645,7 +2645,7 @@ program Omon_CMOR
            endif
         case ('intpp')
            !
-           ! Add three 15-level fields, integrate over z_t_150m
+           ! Add three 15-level fields, integrate over z_t_150m, multiply by 1.e-5 to convert units
            !
            allocate(indat3a(nlons,nlats,15),indat3b(nlons,nlats,15),indat3c(nlons,nlats,15),cmordat2d(nlons,nlats))
            do ifile = 1,nc_nfiles(1)
@@ -2662,8 +2662,8 @@ program Omon_CMOR
               !
               if (allocated(time))       deallocate(time)
               if (allocated(time_bnds))  deallocate(time_bnds)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -2710,9 +2710,9 @@ program Omon_CMOR
                           do i = 1,nlons
                              if (kmt(i,j).ge.k) then
 !                                sum_dz(i,j) = sum_dz(i,j) + ocn_t_dz(k)
-                                cmordat2d(i,j) = ((indat3a(i,j,k)*ocn_t_dz(k))+&
-                                                  (indat3b(i,j,k)*ocn_t_dz(k))+&
-                                                  (indat3c(i,j,k)*ocn_t_dz(k)))
+                                cmordat2d(i,j) = (((indat3a(i,j,k)*ocn_t_dz(k))+&
+                                                   (indat3b(i,j,k)*ocn_t_dz(k))+&
+                                                   (indat3c(i,j,k)*ocn_t_dz(k))))*1.e-5
                              else
                                 cmordat2d(i,j) = spval
                              endif
@@ -2772,8 +2772,8 @@ program Omon_CMOR
               !
               if (allocated(time))       deallocate(time)
               if (allocated(time_bnds))  deallocate(time_bnds)
-              allocate(time(ntimes(1,1)))
-              allocate(time_bnds(2,ntimes(1,1)))
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n

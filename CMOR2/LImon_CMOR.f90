@@ -255,9 +255,9 @@ program LImon_CMOR
            allocate(indat2a(nlons,nlats),cmordat2d(nlons,nlats))
            do ifile = 1,nc_nfiles(1)
               !
-              if (allocated(time)) deallocate(time)
-              allocate(time(ntimes(ifile,1)))
+              if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
+              allocate(time(ntimes(ifile,1)))
               allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(1,1)
@@ -267,10 +267,6 @@ program LImon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
-              case ( 1872,1140,3612,6012,12012 )  ! All data
-                 nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 1
-                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               case ( 12000 ) ! BGC controls
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-BGC')
@@ -359,8 +355,10 @@ program LImon_CMOR
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(ifile,1)
                  time_counter = n
@@ -369,10 +367,6 @@ program LImon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
-              case ( 1872,1140,3612,6012,12012 )  ! All data
-                 nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 1
-                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               case ( 12000 ) ! BGC controls
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-BGC')
@@ -452,8 +446,10 @@ program LImon_CMOR
               call get_dims(myncid(ifile,1))
               call get_vars(myncid(ifile,1))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(1,1)
                  time_counter = n
@@ -462,10 +458,6 @@ program LImon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
-              case ( 1872,1140,3612,6012,12012 )  ! All data
-                 nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 1
-                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               case ( 12000 ) ! BGC controls
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-BGC')
@@ -562,8 +554,10 @@ program LImon_CMOR
               call get_dims(myncid(ifile,3))
               call get_vars(myncid(ifile,3))
               !
-              if (.not.(allocated(time)))      allocate(time(ntimes(ifile,1)))
-              if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(ifile,1)))
+              if (allocated(time))      deallocate(time)
+              if (allocated(time_bnds)) deallocate(time_bnds)
+              allocate(time(ntimes(ifile,1)))
+              allocate(time_bnds(2,ntimes(ifile,1)))
               !
               do n=1,ntimes(1,1)
                  time_counter = n
@@ -572,10 +566,6 @@ program LImon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
-              case ( 1872,1140,3612,6012,12012 )  ! All data
-                 nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = 1
-                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               case ( 12000 ) ! BGC controls
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-BGC')
