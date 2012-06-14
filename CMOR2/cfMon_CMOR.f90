@@ -257,7 +257,8 @@ program cfMon_CMOR
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
-        case ('albisccp','cltcalipso','cltisccp','pctisccp','ps','rlut4co2','rlutcs4co2','rsut4co2','rsutcs4co2',&
+        case ('albisccp','cltcalipso','cltisccp','pctisccp','ps','rlut4co2',&
+              'rlutcs4co2','rsut4co2','rsutcs4co2',&
               'clhcalipso','cllcalipso','clmcalipso')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
@@ -770,15 +771,8 @@ program cfMon_CMOR
                        stop
                     endif
                  enddo
-                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                 if (error_flag < 0) then
-                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                    stop
-                 else
-                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                 endif
               enddo
+              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -874,8 +868,8 @@ program cfMon_CMOR
                        stop
                     endif
                  enddo
-                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
               enddo
+              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -952,16 +946,8 @@ program cfMon_CMOR
                        stop
                     endif
                  enddo
-                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-                 cmor_filename(1:) = ' '
-                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                 if (error_flag < 0) then
-                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                    stop
-                 else
-                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
-                 endif
               enddo
+              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
            enddo
            cmor_filename(1:) = ' '
            error_flag = cmor_close()
