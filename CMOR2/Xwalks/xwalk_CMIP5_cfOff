@@ -1,9 +1,9 @@
-CMIP5_cfOff:cfadDbze94:histogram_of_equivalent_reflectivity_factor_over_height_above_reference_ellipsoid:longitude latitude alt40 dbze time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfOff:cfadLidarsr532:histogram_of_backscattering_ratio_over_height_above_reference_ellipsoid:longitude latitude alt40 scatratio time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfOff:clcalipso2:cloud_area_fraction_in_atmosphere_layer:longitude latitude alt40 time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfOff:clcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude alt40 time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfOff:clhcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time p220:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfOff:cllcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time p840:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfOff:clmcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time p560:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfOff:cltcalipso:cloud_area_fraction:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
-CMIP5_cfOff:parasolRefl:toa_bidirectional_reflectance:longitude latitude sza5 time:atmos:1:UNKNOWN:UNKNOWN
+CMIP5_cfOff:cfadDbze94:histogram_of_equivalent_reflectivity_factor_over_height_above_reference_ellipsoid:longitude latitude alt40 dbze time:atmos:1:CFAD_DBZE94_CS:CFAD_DBZE94_CS no change
+CMIP5_cfOff:cfadLidarsr532:histogram_of_backscattering_ratio_over_height_above_reference_ellipsoid:longitude latitude alt40 scatratio time:atmos:1:CFAD_SR532_CAL:CFAD_SR532_CAL no change
+CMIP5_cfOff:clcalipso2:cloud_area_fraction_in_atmosphere_layer:longitude latitude alt40 time:atmos:1:CLD_CAL_NOTCS:CLD_CAL_NOTCS:no change
+CMIP5_cfOff:clcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude alt40 time:atmos:1:CLD_CAL:CLD_CAL no change
+CMIP5_cfOff:clhcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time p220:atmos:1:CLDHGH_CAL:CLDHGH_CAL no change
+CMIP5_cfOff:cllcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time p840:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfOff:clmcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time p560:atmos:1:CLDMED_CAL:CLDMED_CAL no change
+CMIP5_cfOff:cltcalipso:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT_CAL:CLDTOT_CAL no change
+CMIP5_cfOff:parasolRefl:toa_bidirectional_reflectance:longitude latitude sza5 time:atmos:1:RFL_PARASOL:RFL_PARASOL no change
