@@ -112,6 +112,12 @@ program Omon_CMOR
      ! Open CESM file(s) and get information(s)
      !
      if (all_continue) then
+        call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+        call get_dims(myncid(1,1))
+        call get_vars(myncid(1,1))
+        call read_att_text(myncid(1,1),'time','units',time_units)
+        write(*,'(''time units in: '',i10,5x,a)') myncid(1,1),trim(time_units)
+        call close_cdf(myncid(1,1))
         do ivar = 1,xw(ixw)%ncesm_vars
            do ifile = 1,nc_nfiles(ivar)
               call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
@@ -124,7 +130,8 @@ program Omon_CMOR
                     ntimes(ifile,ivar) = dim_info(n)%length
                  endif
               enddo
-              call read_att_text(myncid(ifile,ivar),'time','units',time_units)
+!              call read_att_text(myncid(ifile,ivar),'time','units',time_units)
+!              write(*,'(''time units in: '',i10,5x,a)') myncid(ifile,ivar),trim(time_units)
               !
               do n=1,var_counter
                  if (trim(var_info(n)%name)==trim(xw(ixw)%cesm_vars(ivar))) then
