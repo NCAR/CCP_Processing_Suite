@@ -1,4 +1,4 @@
- Omon_CMOR
+program Omon_CMOR
   ! Convert CCSM4 ocn monthly (pop.h) data from single-field format
   ! to CMOR-compliant format
   !
