@@ -144,9 +144,8 @@ subroutine define_atm_axes(dimensions)
              table=mycmor%table_file,      &
              table_entry=dimnames(i),      &
              units=dimunits(i),            &
-             length=1)
-!             length=1,                     &
-!             coord_vals=22000.)
+             length=1, &
+             coord_vals=(/22000/))
         write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('p560')
@@ -154,9 +153,8 @@ subroutine define_atm_axes(dimensions)
              table=mycmor%table_file,      &
              table_entry=dimnames(i),      &
              units=dimunits(i),            &
-             length=1)
-!             length=1,                     &
-!             coord_vals=56000.)
+             length=1,                     &
+             coord_vals=(/56000/))
         write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('p840')
@@ -164,9 +162,8 @@ subroutine define_atm_axes(dimensions)
              table=mycmor%table_file,      &
              table_entry=dimnames(i),      &
              units=dimunits(i),            &
-             length=1)
-!             length=1,                     &
-!             coord_vals=84000.)
+             length=1,                     &
+             coord_vals=(/84000/))
         write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('site')
