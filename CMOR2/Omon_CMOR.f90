@@ -349,7 +349,6 @@ program Omon_CMOR
                  time_counter = n
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
-!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -449,7 +448,6 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -495,13 +493,16 @@ program Omon_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     !
-                    indat3a = var_info(var_found(ifile,1))%missing_value
+                    indat3a   = var_info(var_found(ifile,1))%missing_value
+                    cmordat2d = var_info(var_found(ifile,1))%missing_value
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    where (indat3a(:,:,1) /= var_info(var_found(ifile,1))%missing_value)
-                       cmordat2d = 1000*indat3a(:,:,1)
-                    elsewhere
-                       cmordat2d = var_info(var_found(ifile,1))%missing_value
-                    endwhere
+                    do j = 1,nlats
+                       do i = 1,nlons
+                          if (kmt(i,j) == 1) then
+                             cmordat2d = 1000*indat3a(i,j,1)
+                          endif
+                       enddo
+                    enddo
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(          &
@@ -614,7 +615,7 @@ program Omon_CMOR
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     do j = 1,nlats
                        do i = 1,nlons
-                          if (kmt(i,j) == 1) then
+                          if (kmt(i,j) .ge. 1) then
                              cmordat2d(i,j) = indat3a(i,j,1)*1.e-3
                           endif
                        enddo
@@ -632,7 +633,7 @@ program Omon_CMOR
                        stop
                     endif
                  enddo
-                 write(*,'(''DONE writing '',a,'' T# '',2i8,'' chunk# '',i6)') trim(xw(ixw)%entry),tcount,it-1,ic
+                 write(*,'(''DONE writing '',a,'' T# '',i8,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
               enddo
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
@@ -718,7 +719,7 @@ program Omon_CMOR
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
                     do j = 1,nlats
                        do i = 1,nlons
-                          if (indat2a(i,j) /= var_info(var_found(ifile,1))%missing_value) then
+                          if (kmt(i,j) == 1) then
                              indat2a(i,j) = indat2a(i,j) * 1.e-5
                           endif
                        enddo
@@ -816,7 +817,7 @@ program Omon_CMOR
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
                     do j = 1,nlats
                        do i = 1,nlons
-                          if (indat2a(i,j) /= var_info(var_found(ifile,1))%missing_value) then
+                          if (kmt(i,j) == 1) then
                              indat2a(i,j) = indat2a(i,j) * 0.101325
                           endif
                        enddo
@@ -914,7 +915,7 @@ program Omon_CMOR
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
                     do j = 1,nlats
                        do i = 1,nlons
-                          if (indat2a(i,j) /= var_info(var_found(ifile,1))%missing_value) then
+                          if (kmt(i,j) == 1) then
                              indat2a(i,j) = indat2a(i,j) * 12.0e-8
                           endif
                        enddo
@@ -1015,7 +1016,6 @@ program Omon_CMOR
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-!                    write(*,'(''Times: '',53f12.3)') tbnd(1,1),tval(1),tbnd(2,1),tval(1)-tbnd(1,1),tbnd(2,1)-tval(1)
                     error_flag = cmor_write(          &
                          var_id        = cmor_var_id, &
                          data          = indat2a,     &
@@ -1056,7 +1056,6 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -1104,9 +1103,13 @@ program Omon_CMOR
                     !
                     indat2a = var_info(var_found(ifile,1))%missing_value
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
-                    where (indat2a /= var_info(var_found(ifile,1))%missing_value)
-                       indat2a = indat2a * (1.e6 * 1000.) ! 10^6 m3 s-1 to kg s-1
-                    endwhere
+                    do j = 1,nlats
+                       do i = 1,nlons
+                          if (kmt(i,j) == 1) then
+                             indat2a(i,j) = indat2a(i,j) * (1.e6 * 1000.) ! 10^6 m3 s-1 to kg s-1
+                          endif
+                       enddo
+                    enddo
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(          &
@@ -1161,7 +1164,6 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-!              time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
@@ -1350,9 +1352,15 @@ program Omon_CMOR
                     !
                     indat3a = var_info(var_found(ifile,1))%missing_value
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    where (indat3a /= var_info(var_found(ifile,1))%missing_value)
-                       indat3a = indat3a/1.e12
-                    endwhere
+                    do k = 1,nlevs
+                       do j = 1,nlats
+                          do i = 1,nlons
+                             if (kmt(i,j) == k) then
+                                indat3a(i,j,k) = indat3a(i,j,k) / 1.e12
+                             endif
+                          enddo
+                       enddo
+                    enddo
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(          &
@@ -2319,11 +2327,7 @@ program Omon_CMOR
                     call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2b)
                     do j = 1,nlats
                        do i = 1,nlons
-                          if ((indat2a(i,j) /= spval).and.(indat2b(i,j) /= spval)) then
-                             cmordat2d(i,j) = indat2a(i,j) + indat2b(i,j)
-                          else
-                             cmordat2d(i,j) = spval
-                          endif
+                          if (kmt(i,j) == 1) cmordat2d(i,j) = indat2a(i,j) + indat2b(i,j)
                        enddo
                     enddo
                     !
@@ -2413,11 +2417,7 @@ program Omon_CMOR
                     call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat3c)
                     do j = 1,nlats
                        do i = 1,nlons
-                          if ((indat3a(i,j,1) /= spval).and.(indat3b(i,j,1) /= spval).and.(indat3c(i,j,1) /= spval)) then
-                             cmordat2d(i,j) = indat3a(i,j,1) + indat3b(i,j,1) + indat3c(i,j,1)
-                          else
-                             cmordat2d(i,j) = spval
-                          endif
+                          if (kmt(i,j) == 1) cmordat2d(i,j) = indat3a(i,j,1) + indat3b(i,j,1) + indat3c(i,j,1)
                        enddo
                     enddo
                     !
@@ -2693,7 +2693,7 @@ program Omon_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     !
-                    cmordat2d = 0. ; sum_dz = 0.
+                    cmordat2d = merge(0.,spval,kmt.gt.0)
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
                     call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat3c)
@@ -2705,8 +2705,6 @@ program Omon_CMOR
                                      ((((indat3a(i,j,k)*ocn_t_dz(k))+&
                                        (indat3b(i,j,k)*ocn_t_dz(k))+&
                                        (indat3c(i,j,k)*ocn_t_dz(k))))*1.e-5)
-                             else
-                                cmordat2d(i,j) = spval
                              endif
                           enddo
                        enddo
