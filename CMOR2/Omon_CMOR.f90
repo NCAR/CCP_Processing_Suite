@@ -2779,15 +2779,15 @@ program Omon_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     !
-                    cmordat2d = spval
+                    cmordat2d = merge(0.,spval,kmt.gt.0)
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    do j = 1,nlats
-                       do i = 1,nlons
-                          if (indat3a(i,j,11) /= spval) then
-                             cmordat2d(i,j) = indat3a(i,j,11)
-                          else
-                             cmordat2d(i,j) = spval
-                          endif
+                    do k = 1,11
+                       do j = 1,nlats
+                          do i = 1,nlons
+                             if (kmt(i,j).le.k) then
+                                cmordat2d(i,j) = cmordat2d+(indat3a(i,j,k))
+                             endif
+                          enddo
                        enddo
                     enddo
                     !
