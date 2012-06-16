@@ -24,7 +24,7 @@ program Omon_CMOR
   !
   integer::error_flag,cmor_var_id
   real,dimension(:)    ,allocatable::indat1a
-  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,icefrac,cmordat2d,sum_dz
+  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,icefrac,cmordat2d
   real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db,volume
   real,dimension(:,:,:,:),allocatable::indat4a ! MOC
   double precision,dimension(:)  ,allocatable::time
@@ -2820,7 +2820,7 @@ program Omon_CMOR
            ! Single full-column fields, integrate over all of z_t
            ! and convert from mmol/m3 to kg m-2 via *12.0e-8
            !
-           allocate(indat3a(nlons,nlats,nlevs),cmordat2d(nlons,nlats),sum_dz(nlons,nlats))
+           allocate(indat3a(nlons,nlats,nlevs),cmordat2d(nlons,nlats))
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
               call get_dims(myncid(ifile,1))
@@ -3091,94 +3091,6 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
-        case ('intpbsi')
-           !
-           ! Integrate (-bSi_form) over z_t_150m
-           !
-           allocate(indat3a(nlons,nlats,15))
-           do ifile = 1,nc_nfiles(1)
-              call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
-              call get_dims(myncid(ifile,1))
-              call get_vars(myncid(ifile,1))
-              spval=var_info(var_found(1,1))%missing_value
-              !
-              if (allocated(time))       deallocate(time)
-              if (allocated(time_bnds))  deallocate(time_bnds)
-              allocate(time(ntimes(ifile,1)))
-              allocate(time_bnds(2,ntimes(ifile,1)))
-              !
-              do n=1,ntimes(ifile,1)
-                 time_counter = n
-                 call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
-              enddo
-              !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
-              time = (time_bnds(1,:)+time_bnds(2,:))/2.
-              select case (ntimes(ifile,1))
-              case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
-                 nchunks(ifile) = 1
-                 tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
-                 tidx2(1:nchunks(ifile)) = (/6000/) ! 1300
-              case ( 12012 )
-                 nchunks(ifile)= 2
-                 tidx1(1:nchunks(ifile)) = (/   1, 6001/)
-                 tidx2(1:nchunks(ifile)) = (/6000,12012/)
-              case ( 12000 ) ! BGC controls
-                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
-                    nchunks(ifile)= 2
-                    tidx1(1:nchunks(ifile)) = (/1201,4201/)
-                    tidx2(1:nchunks(ifile)) = (/4200,7200/)
-                 endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
-                    nchunks(ifile)= 2
-                    tidx1(1:nchunks(ifile)) = (/   1, 6001/)
-                    tidx2(1:nchunks(ifile)) = (/6000,12012/)
-                 endif
-              case default
-                 nchunks(ifile)   = 1
-                 tidx1(1:nchunks(ifile)) = 1
-                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-              end select
-              do ic = 1,nchunks(ifile)
-                 do it = tidx1(ic),tidx2(ic)
-                    time_counter = it
-                    !
-                    cmordat2d = merge(0.,spval,kmt.gt.0)
-                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    do k = 1,15
-                       do j = 1,nlats
-                          do i = 1,nlons
-                             if (kmt(i,j).ge.k) then
-                                cmordat2d(i,j) = cmordat2d(i,j) + ((-1.*indat3a(i,j,k))*ocn_t_dz(k))
-                             endif
-                          enddo
-                       enddo
-                    enddo
-                    !
-                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-                    error_flag = cmor_write(          &
-                         var_id        = cmor_var_id, &
-                         data          = cmordat2d,     &
-                         ntimes_passed = 1,           &
-                         time_vals     = tval,        &
-                         time_bnds     = tbnd)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-                       stop
-                    endif
-                 enddo
-              enddo
-              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-           enddo
-           !
-           cmor_filename = ' '
-           error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-           if (error_flag < 0) then
-              write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
-              stop
-           else
-              write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
-           endif
         case ('intpcalc','intpdiat','intpdiaz','intpn2','intppico')
            !
            ! Integrate over z_t_150m
@@ -3270,7 +3182,7 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
-        case ('intpcalcite')
+        case ('intpcalcite','intpbsi')
            !
            ! Integrate -1* CaCO3_form over z_t_150m
            !
