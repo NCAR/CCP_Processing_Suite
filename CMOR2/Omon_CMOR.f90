@@ -3183,10 +3183,10 @@ program Omon_CMOR
            !
            ! Integrate over z_t_150m
            !
-           if (allocated(indat3a)) then
-              deallocate(indat3a)
-              allocate(indat3a(nlons,nlats,15))
-           endif
+           if (allocated(indat3a)) deallocate(indat3a)
+           allocate(indat3a(nlons,nlats,15))
+           if (allocated(cmordat2d)) deallocate(cmordat2d)
+           allocate(cmordat2d(nlons,nlats))
            !
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
