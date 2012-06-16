@@ -2785,7 +2785,7 @@ program Omon_CMOR
                        do j = 1,nlats
                           do i = 1,nlons
                              if (kmt(i,j).le.k) then
-                                cmordat2d(i,j) = cmordat2d+(indat3a(i,j,k))
+                                cmordat2d(i,j) = cmordat2d(i,j)+(indat3a(i,j,k))
                              endif
                           enddo
                        enddo
