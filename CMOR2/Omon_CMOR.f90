@@ -236,7 +236,7 @@ program Omon_CMOR
            var_info(var_found(1,1))%units = 'kg'
         case ('cfc11')
            var_info(var_found(1,1))%units = 'mol kg-1'
-        case ('fbddtalk','fddtalk','intpp','frn')
+        case ('fbddtalk','fddtalk','intpp','frn','intppico','intpcalc','intpdiat','intpdiaz','intpn2')
            var_info(var_found(1,1))%units = 'mol m-2 s-1'
         case ('talk')
            var_info(var_found(1,1))%units = 'mol m-3'
@@ -3236,13 +3236,11 @@ program Omon_CMOR
                     time_counter = it
                     cmordat2d = merge(0.,1.e20,kmt.gt.0)
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    write(*,'(i10,5x,a,5x,2f12.3)') myncid(ifile,1),trim(var_info(var_found(ifile,1))%name),&
-                         indat3a(1,1,1),indat3a(nlons,nlats,15)
                     do k = 1,15
                        do j = 1,nlats
                           do i = 1,nlons
                              if (kmt(i,j).ge.k) then
-                                cmordat2d(i,j) = cmordat2d(i,j) + (indat3a(i,j,k)*ocn_t_dz(k))
+                                cmordat2d(i,j) = cmordat2d(i,j) + ((1.0e-5*indat3a(i,j,k))*ocn_t_dz(k))
                              endif
                           enddo
                        enddo
