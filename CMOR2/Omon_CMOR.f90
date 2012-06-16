@@ -251,7 +251,7 @@ program Omon_CMOR
            var_info(var_found(1,1))%units = 'kg m-2'
         case ('hfss','rlds','rsntds','rsds','tauuo','tauvo')
            mycmor%positive = 'up'
-        case ('epc100','epcalc100','epfe100','epsi100','fgo2')
+        case ('epc100','epcalc100','epfe100','epsi100','fgo2','fsn')
            mycmor%positive = 'down'
         end select
         !
@@ -358,11 +358,11 @@ program Omon_CMOR
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  else
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
@@ -390,7 +390,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) =  1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -457,11 +457,11 @@ program Omon_CMOR
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  else
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
@@ -489,7 +489,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) =  1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -574,11 +574,11 @@ program Omon_CMOR
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  else
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
@@ -606,7 +606,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) =  1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -678,11 +678,11 @@ program Omon_CMOR
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  else
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
@@ -710,7 +710,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) =  1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
               do ic = 1,nchunks(ifile)
@@ -776,11 +776,11 @@ program Omon_CMOR
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  else
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
@@ -808,7 +808,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) =  1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
               do ic = 1,nchunks(ifile)
@@ -874,11 +874,11 @@ program Omon_CMOR
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  else
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
@@ -906,7 +906,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) =  1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
               do ic = 1,nchunks(ifile)
@@ -975,11 +975,11 @@ program Omon_CMOR
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  else
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
@@ -1007,7 +1007,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) =  1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
               do ic = 1,nchunks(ifile)
@@ -1065,11 +1065,11 @@ program Omon_CMOR
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  else
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
@@ -1097,7 +1097,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) =  1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -1173,11 +1173,11 @@ program Omon_CMOR
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  else
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 1152 )               ! RCP all in one file from 2005-2100
                  nchunks(ifile) = 10
@@ -1222,7 +1222,7 @@ program Omon_CMOR
                  tidx1(1:nchunks(ifile)) =  1
               end select
               !
-              tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               !
               write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
               do ic = 1,nchunks(ifile)
@@ -1345,7 +1345,7 @@ program Omon_CMOR
                  tidx1(1:nchunks(ifile)) =  1
               end select
               !
-              tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               !
               write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
               do ic = 1,nchunks(ifile)
@@ -1477,7 +1477,7 @@ program Omon_CMOR
                  tidx1(1:nchunks(ifile)) =  1
               end select
               !
-              tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               !
               write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
               do ic = 1,nchunks(ifile)
@@ -1613,7 +1613,7 @@ program Omon_CMOR
                  tidx1(1:nchunks(ifile)) =  1
               end select
               !
-              tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               !
               write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
               do ic = 1,nchunks(ifile)
@@ -1700,11 +1700,11 @@ program Omon_CMOR
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  else
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 1152 )               ! RCP all in one file from 2005-2100
                  nchunks(ifile) = 10
@@ -1749,7 +1749,7 @@ program Omon_CMOR
                  tidx1(1:nchunks(ifile)) =  1
               end select
               !
-              tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               !
               write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
               do ic = 1,nchunks(ifile)
@@ -1841,11 +1841,11 @@ program Omon_CMOR
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  else
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 1152 )               ! RCP all in one file from 2005-2100
                  nchunks(ifile) = 10
@@ -1889,7 +1889,7 @@ program Omon_CMOR
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) =  1
               end select
-              tidx2(nchunks(ifile)) = ntimes(ifile,1)
+              tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               !
               write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
               do ic = 1,nchunks(ifile)
@@ -1985,11 +1985,11 @@ program Omon_CMOR
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  else
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 4824 ) ! LGM from 149901 to 190012; want only 1800-1900
                  nchunks(ifile) = 1
@@ -2016,8 +2016,8 @@ program Omon_CMOR
                  endif
               case default
                  nchunks(ifile)   = 1
-                 tidx1(nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
               !
@@ -2101,11 +2101,11 @@ program Omon_CMOR
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  else
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 1
-                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 4824 ) ! LGM from 149901 to 190012; want only 1800-1900
                  nchunks(ifile) = 1
@@ -2132,8 +2132,8 @@ program Omon_CMOR
                  endif
               case default
                  nchunks(ifile)   = 1
-                 tidx1(nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
               !
@@ -2225,7 +2225,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -2407,7 +2407,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -2499,7 +2499,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -2594,7 +2594,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -2686,7 +2686,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -2773,7 +2773,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -2862,7 +2862,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -2950,7 +2950,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -3044,7 +3044,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -3137,7 +3137,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
@@ -3183,7 +3183,11 @@ program Omon_CMOR
            !
            ! Integrate over z_t_150m
            !
-           allocate(indat3a(nlons,nlats,15))
+           if (allocated(indat3a)) then
+              deallocate(indat3a)
+              allocate(indat3a(nlons,nlats,15))
+           endif
+           !
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
               call get_dims(myncid(ifile,1))
@@ -3225,14 +3229,15 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
-                    !
-                    cmordat2d = merge(0.,spval,kmt.gt.0)
+                    cmordat2d = merge(0.,1.e20,kmt.gt.0)
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    write(*,'(i10,5x,a,5x,2f12.3)') myncid(ifile,1),trim(var_info(var_found(ifile,1))%name),&
+                         indat3a(1,1,1),indat3a(nlons,nlats,15)
                     do k = 1,15
                        do j = 1,nlats
                           do i = 1,nlons
@@ -3319,7 +3324,7 @@ program Omon_CMOR
               case default
                  nchunks(ifile)   = 1
                  tidx1(1:nchunks(ifile)) = 1
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
