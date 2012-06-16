@@ -236,7 +236,7 @@ program Omon_CMOR
            var_info(var_found(1,1))%units = 'kg'
         case ('cfc11')
            var_info(var_found(1,1))%units = 'mol kg-1'
-        case ('fbddtalk','fddtalk','intpp','frn','intppico','intpcalc','intpdiat','intpdiaz','intpn2','intpbsi')
+        case ('fbddtalk','fddtalk','intpp','frn','intppico','intpcalc','intpdiat','intpdiaz','intpn2','intpbsi','intpcalcite')
            var_info(var_found(1,1))%units = 'mol m-2 s-1'
         case ('talk')
            var_info(var_found(1,1))%units = 'mol m-3'
@@ -3288,7 +3288,7 @@ program Omon_CMOR
            endif
         case ('intpcalcite','intpbsi')
            !
-           ! Integrate -1* CaCO3_form over z_t_150m
+           ! Integrate -1*field over z_t_150m
            !
            if (allocated(indat3a)) deallocate(indat3a)
            allocate(indat3a(nlons,nlats,15))
