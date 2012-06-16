@@ -236,7 +236,7 @@ program Omon_CMOR
            var_info(var_found(1,1))%units = 'kg'
         case ('cfc11')
            var_info(var_found(1,1))%units = 'mol kg-1'
-        case ('fbddtalk','fddtalk','intpp','frn','intppico','intpcalc','intpdiat','intpdiaz','intpn2')
+        case ('fbddtalk','fddtalk','intpp','frn','intppico','intpcalc','intpdiat','intpdiaz','intpn2','intpbsi')
            var_info(var_found(1,1))%units = 'mol m-2 s-1'
         case ('talk')
            var_info(var_found(1,1))%units = 'mol m-3'
