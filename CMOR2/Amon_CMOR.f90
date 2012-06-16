@@ -1432,7 +1432,7 @@ program Amon_CMOR
                     tidx1(1:nchunks(ifile)) = (/   1, 649,1249,1849/) !   96,  150, 200, 250
                     tidx2(1:nchunks(ifile)) = (/ 648,1248,1848,ntimes(ifile,1)/) !  149,  199, 249, 295
                  case ('CESM1-CAM5')
-                    nchunks(ifile) = 6 ! 1 deg but 30 levels, 40 y chunks
+                    nchunks(ifile) = 5 ! 1 deg but 30 levels, 40 y chunks
                     tidx1(1:nchunks(ifile)) = (/   1,481, 961,1441,1921/)
                     tidx2(1:nchunks(ifile)) = (/ 480,960,1440,1920,ntimes(ifile,1)/) !  149,  199, 249, 295
                  case default
