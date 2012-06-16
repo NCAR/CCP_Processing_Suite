@@ -3097,7 +3097,7 @@ program Omon_CMOR
            ! multiply by 1.e-5 to convert units
            ! NOx_FLUX + NHy_FLUX + (integrate diaz_Nfix over z_t_150m)
            !
-           allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),indat3c(nlons,nlats,15),cmordat2d(nlons,nlats))
+           allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),indat3a(nlons,nlats,15),cmordat2d(nlons,nlats))
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
               call get_dims(myncid(ifile,1))
@@ -3120,7 +3120,7 @@ program Omon_CMOR
                  call read_var(myncid(ifile,1),'time_bound',time_bnds(:,n))
               enddo
               !
-              time_bnds(1,1) = int(time_bnds(1,1))-1
+              if (ifile.eq.1) time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               select case (ntimes(ifile,1))
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
@@ -3154,12 +3154,12 @@ program Omon_CMOR
                     cmordat2d = merge(0.,spval,kmt.gt.0)
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
                     call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2b)
-                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat3c)
+                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat3a)
                     do k = 1,15
                        do j = 1,nlats
                           do i = 1,nlons
                              if (kmt(i,j).ge.k) then
-                                cmordat2d(i,j) = cmordat2d(i,j) + ((indat3c(i,j,k)*ocn_t_dz(k))*1.e-5)
+                                cmordat2d(i,j) = cmordat2d(i,j) + ((indat3a(i,j,k)*ocn_t_dz(k))*1.e-5)
                              endif
                           enddo
                        enddo
