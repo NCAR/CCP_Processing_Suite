@@ -2692,7 +2692,7 @@ program Omon_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     !
-                    cmordat2d = spval
+                    cmordat2d = merge(0.,spval,kmt.gt.0)
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
                     call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat3c)
@@ -3093,10 +3093,11 @@ program Omon_CMOR
            endif
         case ('fsn')
            !
-           ! Add two single-level + one 15-level fields, integrate it over z_t_150m, multiply by 1.e-5 to convert units
+           ! Add two 15-level fields at k=1 and add another 15-level fields, integrate it over z_t_150m,
+           ! multiply by 1.e-5 to convert units
            ! NOx_FLUX + NHy_FLUX + (integrate diaz_Nfix over z_t_150m)
            !
-           allocate(indat2a(nlons,nlats),indat2a(nlons,nlats),indat3c(nlons,nlats,15),cmordat2d(nlons,nlats))
+           allocate(indat3a(nlons,nlats,15),indat3a(nlons,nlats,15),indat3c(nlons,nlats,15),cmordat2d(nlons,nlats))
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
               call get_dims(myncid(ifile,1))
@@ -3151,23 +3152,18 @@ program Omon_CMOR
                     time_counter = it
                     !
                     cmordat2d = merge(0.,spval,kmt.gt.0)
-                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
-                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2b)
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
                     call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat3c)
                     do k = 1,15
                        do j = 1,nlats
                           do i = 1,nlons
                              if (kmt(i,j).ge.k) then
-                                cmordat2d(i,j) = cmordat2d(i,j) + ((indat3c(i,j,k)*ocn_t_dz(k))*1.e-5)
+                                cmordat2d(i,j) = cmordat2d(i,j) + &
+                                     ((indat3a(i,j,1)+indat3b(i,j,1))*1.e-5) + & 
+                                     ((indat3c(i,j,k)*ocn_t_dz(k))*1.e-5)
                              endif
                           enddo
-                       enddo
-                    enddo
-                    do j = 1,nlats
-                       do i = 1,nlons
-                          if (kmt(i,j).ge.1) then
-                             cmordat2d(i,j) = cmordat2d(i,j) + ((indat2a(i,j)+indat2b(i,j))*1.e-5)
-                          endif
                        enddo
                     enddo
                     !
