@@ -1156,112 +1156,112 @@ program Amon_CMOR
               case ( 1872,1860 )  ! 20C, 1850-2005
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-CAM5')
-                    nchunks(1) = 6
-                    tidx1(1:nchunks(1)) = (/  1, 301, 601, 901,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
-                    tidx2(1:nchunks(1)) = (/300, 600, 900,1200,1500,1872/) ! 1874, 1899, 1924, 1949, 1974, 2005
+                    nchunks(ifile) = 6
+                    tidx1(1:nchunks(ifile)) = (/  1, 301, 601, 901,1201,1501/) ! 1850, 1875, 1900, 1925, 1950, 1975
+                    tidx2(1:nchunks(ifile)) = (/300, 600, 900,1200,1500,1872/) ! 1874, 1899, 1924, 1949, 1974, 2005
                  case default
-                    nchunks(1) = 3
-                    tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
-                    tidx2(1:nchunks(1)) = (/600,1200,ntimes(ifile,1)/) ! 1899, 1950, 2005
+                    nchunks(ifile) = 3
+                    tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
+                    tidx2(1:nchunks(ifile)) = (/600,1200,ntimes(ifile,1)/) ! 1899, 1950, 2005
                  end select
               case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
-                 nchunks(1) = 3
-                 tidx1(1:nchunks(1)) = (/  1, 601,1201/) ! 1850, 1900, 1951
-                 tidx2(1:nchunks(1)) = (/600,1200,1812/) ! 1899, 1950, 2000
+                 nchunks(ifile) = 3
+                 tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
+                 tidx2(1:nchunks(ifile)) = (/600,1200,1812/) ! 1899, 1950, 2000
               case ( 1152 )  ! RCP, 2005-2100, skip 2006
-                 nchunks(1) = 2
-                 tidx1(1:nchunks(1)) = (/ 13, 541/)      ! 2006, 2050
-                 tidx2(1:nchunks(1)) = (/540,1152/)      ! 2049, 2100
+                 nchunks(ifile) = 2
+                 tidx1(1:nchunks(ifile)) = (/ 13, 541/)      ! 2006, 2050
+                 tidx2(1:nchunks(ifile)) = (/540,1152/)      ! 2049, 2100
               case ( 1248 )
-                 nchunks(1) = 2
-                 tidx1(1:nchunks(1)) = (/  1, 601/)
-                 tidx2(1:nchunks(1)) = (/600,1248/)
+                 nchunks(ifile) = 2
+                 tidx1(1:nchunks(ifile)) = (/  1, 601/)
+                 tidx2(1:nchunks(ifile)) = (/600,1248/)
               case ( 1140 )  ! RCP, 2006-2100
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-WACCM')
-                    nchunks(1) = 1
-                    tidx1(1:nchunks(1)) = 13
-                    tidx2(1:nchunks(1)) = ntimes(ifile,1)
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 13
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  case ('CESM1-CAM5')
-                    nchunks(ifile) = 6 ! 1 deg but 30 levels, 40 y chunks
+                    nchunks(ifile) = 5 ! 1 deg but 30 levels, 40 y chunks
                     tidx1(1:nchunks(ifile)) = (/   1,481, 961,1441,1921/)
                     tidx2(1:nchunks(ifile)) = (/ 480,960,1440,1920,ntimes(ifile,1)/) !  149,  199, 249, 295
                  case default
-                    nchunks(1) = 1
-                    tidx1(1:nchunks(1)) = 1
-                    tidx2(1:nchunks(1)) = ntimes(ifile,1)
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  end select
               case ( 2664 )  ! FASTCHEM piControl
-                 nchunks(1) = 5
-                 tidx1(1:nchunks(1)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
-                 tidx2(1:nchunks(1)) = (/360, 960,1560,2160,2664/) ! 0099,0149,0199,0249,0291
+                 nchunks(ifile) = 5
+                 tidx1(1:nchunks(ifile)) = (/  1, 361, 961,1561,2161/) ! 0070,0100,0150,0200,0250
+                 tidx2(1:nchunks(ifile)) = (/360, 960,1560,2160,2664/) ! 0099,0149,0199,0249,0291
               case ( 828 )
                  select case (case_read)
                  case ( 'b40.1850_ramp_solar.beta19.005')
-                    nchunks(1) = 2
-                    tidx1(1:nchunks(1)) = (/  1, 589/)      ! 1850, 1900
-                    tidx2(1:nchunks(1)) = (/588, 828/)      ! 1899, 1919
+                    nchunks(ifile) = 2
+                    tidx1(1:nchunks(ifile)) = (/  1, 589/)      ! 1850, 1900
+                    tidx2(1:nchunks(ifile)) = (/588, 828/)      ! 1899, 1919
                  case default
-                    nchunks(1) = 2
-                    tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
-                    tidx2(1:nchunks(1)) = (/600, 828/)      ! 1899, 1918
+                    nchunks(ifile) = 2
+                    tidx1(1:nchunks(ifile)) = (/  1, 601/)      ! 1850, 1900
+                    tidx2(1:nchunks(ifile)) = (/600, 828/)      ! 1899, 1918
                  end select
               case ( 900 )
-                 nchunks(1) = 2
-                 tidx1(1:nchunks(1)) = (/  1, 601/)      ! 1850, 1900
-                 tidx2(1:nchunks(1)) = (/600, 900/)      ! 1899, 1924
+                 nchunks(ifile) = 2
+                 tidx1(1:nchunks(ifile)) = (/  1, 601/)      ! 1850, 1900
+                 tidx2(1:nchunks(ifile)) = (/600, 900/)      ! 1899, 1924
               case ( 1680,3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
-                 nchunks(1) = int(ntimes(ifile,1)/600)+1
+                 nchunks(ifile) = int(ntimes(ifile,1)/600)+1
                  tidx1(1) =   1
                  tidx2(1) = 600
-                 do ic = 2,nchunks(1)
+                 do ic = 2,nchunks(ifile)
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 599
                  enddo
-                 tidx2(nchunks(1)) = ntimes(ifile,1)
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 12000 ) ! BGC controls
-                 nchunks(1) = 10
+                 nchunks(ifile) = 10
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-BGC')
                     select case(exp(exp_found)%expt_id)
                     case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
                        tidx1(1) = 1201
                        tidx2(1) = 1800
-                       do ic = 2,nchunks(1)
+                       do ic = 2,nchunks(ifile)
                           tidx1(ic) = tidx2(ic-1) + 1
                           tidx2(ic) = tidx1(ic) + 599
                        enddo
                     case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
                        tidx1(1) = 3601
                        tidx2(1) = 4200
-                       do ic = 2,nchunks(1)
+                       do ic = 2,nchunks(ifile)
                           tidx1(ic) = tidx2(ic-1) + 1
                           tidx2(ic) = tidx1(ic) + 599
                        enddo
                     end select
                  end select
               case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only, ~50y chunks
-                 nchunks(1) = 2
-                 tidx1(1:nchunks(1)) = (/3613,4213/) ! 1850, 1900, 1951
-                 tidx2(1:nchunks(1)) = (/4212,4824/) ! 1899, 1950, 2005
+                 nchunks(ifile) = 2
+                 tidx1(1:nchunks(ifile)) = (/3613,4213/) ! 1850, 1900, 1951
+                 tidx2(1:nchunks(ifile)) = (/4212,4824/) ! 1899, 1950, 2005
               case ( 2388,2400 )
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-WACCM')
-                    nchunks(1) = 4
-                    tidx1(1:nchunks(1)) = (/   1, 649,1249,1849/) !   96,  150, 200, 250
-                    tidx2(1:nchunks(1)) = (/ 648,1248,1848,ntimes(ifile,1)/) !  149,  199, 249, 295
+                    nchunks(ifile) = 4
+                    tidx1(1:nchunks(ifile)) = (/   1, 649,1249,1849/) !   96,  150, 200, 250
+                    tidx2(1:nchunks(ifile)) = (/ 648,1248,1848,ntimes(ifile,1)/) !  149,  199, 249, 295
                  case default
-                    nchunks(1) = 4
-                    tidx1(1:nchunks(1)) = (/   1, 589,1189,1789/)
-                    tidx2(1:nchunks(1)) = (/ 588,1188,1788,ntimes(ifile,1)/)
+                    nchunks(ifile) = 4
+                    tidx1(1:nchunks(ifile)) = (/   1, 589,1189,1789/)
+                    tidx2(1:nchunks(ifile)) = (/ 588,1188,1788,ntimes(ifile,1)/)
                  end select
               case default
-                 nchunks(1) = 1
-                 tidx1(1:nchunks(1)) = 1
-                 tidx2(1:nchunks(1)) = ntimes(ifile,1)
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
               end select
-              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
-              do ic = 1,nchunks(1)
+              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+              do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
@@ -1356,9 +1356,9 @@ program Amon_CMOR
                     tidx1(1:nchunks(ifile)) = (/  1, 409, 889/)
                     tidx2(1:nchunks(ifile)) = (/408, 888,1140/)
                  case ('CESM1-WACCM')
-                    nchunks(1) = 1
-                    tidx1(1:nchunks(1)) = 13
-                    tidx2(1:nchunks(1)) = ntimes(1,1)
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 13
+                    tidx2(1:nchunks(ifile)) = ntimes(1,1)
                  case default
                     nchunks(ifile) = 2
                     tidx1(1:nchunks(ifile)) = (/  1, 529/)      ! 2006, 2050
