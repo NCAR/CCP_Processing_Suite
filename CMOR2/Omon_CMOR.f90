@@ -428,6 +428,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('sos')
            !
            ! sos: SALT at k=1, times 1000
@@ -546,6 +549,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('talk')
            !           !
            ! ALK fields at at k=1 (depth0m) and converted from meq/m3 to mol m-3 via * 1.e-3
@@ -650,6 +656,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('fbddtalk','fddtalk')
            !
            ! Convert meq/m3 cm/s to mol m-2 s-1 via * 1.e-5
@@ -748,6 +757,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('dpco2','spco2')
            !
            ! Convert ppmv to Pa via * 0.101325
@@ -846,6 +858,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('fgco2')
            !
            ! Convert mmol/m3 cm/s to kg m-2 s-1 via * 12.0e-8
@@ -944,6 +959,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('tauuo','tauvo','hfss','pr','prsn','rsds','rsntds','zos','omlmax',&
               'fbddtdic','fbddtdife','fbddtdip','fbddtdisi',&
               'fddtdic','fddtdife','fddtdip','fddtdisi','fgo2',&
@@ -1038,11 +1056,15 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('msftbarot')
            !
            ! msftbarot: Convert BSF from Sv to kg s-1
            !
-           if (.not.(allocated(indat2a))) allocate(indat2a(nlons,nlats))
+           if (allocated(indat2a)) deallocate(indat2a(nlons,nlats))
+           allocate(indat2a(nlons,nlats))
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
               call get_dims(myncid(ifile,1))
@@ -1146,6 +1168,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('thetao','agessc','uo','vo','rhopoto')
            !
            ! No changes
@@ -1268,6 +1293,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('cfc11')
            !
            ! cfc11 - convert fmol/cm^3 to mol kg-1
@@ -1400,6 +1428,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('wmo','wmosq')
            !
            ! wmo,wmosq: 0.5 * (WVEL(i,j,k) + WVEL(i,j,k+1)) * TAREA(i,j) * rho_0
@@ -1536,6 +1567,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('umo')
            !
            ! umo: 0.5 * (UVEL(i,j) + UVEL(i,j-1)) * HTE(i,j) * dz(k) * rho_0 (rho_0 = 1 g cm-3)
@@ -1672,6 +1706,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('vmo')
            !
            ! vmo: 0.5 * (VVEL(i,j) + VVEL(i-1,j)) * HTN(i,j) * dz(k) * rho_0
@@ -1813,6 +1850,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('so')
            !
            ! so: SALT*1000 to handle CMOR change to psu bug
@@ -1938,6 +1978,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('soga','thetaoga','masso')
            !
            ! soga     - global average salinity
@@ -2073,6 +2116,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('zosga','zossga','zostoga')
            !
            do ifile = 1,nc_nfiles(1)
@@ -2173,6 +2219,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('rlds')
            !
            ! rlds: LWUP_F + LWDN_F where IFRAC = 0
@@ -2279,6 +2328,11 @@ program Omon_CMOR
                  endif
               enddo
            enddo
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+              call close_cdf(myncid(ifile,2))
+              call close_cdf(myncid(ifile,3))
+           enddo
         case ('fddtdin','fddtdinrlds','fbddtdin')
            !
            ! Add two fields
@@ -2375,6 +2429,10 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+              call close_cdf(myncid(ifile,2))
+           enddo
         case ('chl','phyc','phyfe')
            !
            ! Add three full-column fields, but use only topmost layer in sum
@@ -2476,6 +2534,11 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+              call close_cdf(myncid(ifile,2))
+              call close_cdf(myncid(ifile,3))
+           enddo
         case ('phyp')
            !
            ! Add three 15-level fields, but use only topmost layer in sum
@@ -2581,6 +2644,11 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+              call close_cdf(myncid(ifile,2))
+              call close_cdf(myncid(ifile,3))
+           enddo
         case ('phyn')
            !
            ! Add three 15-level fields, but use only topmost layer in sum
@@ -2685,6 +2753,11 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+              call close_cdf(myncid(ifile,2))
+              call close_cdf(myncid(ifile,3))
+           enddo
         case ('chlcalc')
            !
            ! chlcalc: spChl*(spCaCO3/spC)
@@ -2785,6 +2858,11 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+              call close_cdf(myncid(ifile,2))
+              call close_cdf(myncid(ifile,3))
+           enddo
         case ('epc100','epcalc100','epfe100','epsi100')
            !
            ! Full-column fields, but use only "depth100m" meters; z_t at index 11 - 
@@ -2885,6 +2963,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('intdic')
            !
            ! Single full-column fields, integrate over all of z_t
@@ -2984,6 +3065,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('frn')
            !
            ! Single full-column field, integrate over all of z_t
@@ -3082,6 +3166,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('intpp')
            !
            ! Add three 15-level fields, integrate over z_t_150m, multiply by 1.e-5 to convert units
@@ -3191,6 +3278,11 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+              call close_cdf(myncid(ifile,2))
+              call close_cdf(myncid(ifile,3))
+           enddo
         case ('fsn')
            !
            ! Add single-level fields and add another 15-level field, integrate it over z_t_150m,
@@ -3306,6 +3398,11 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+              call close_cdf(myncid(ifile,2))
+              call close_cdf(myncid(ifile,3))
+           enddo
         case ('intpcalc','intpdiat','intpdiaz','intpn2','intppico')
            !
            ! Integrate over z_t_150m
@@ -3407,6 +3504,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('intpcalcite','intpbsi')
            !
            ! Integrate -1*field over z_t_150m
@@ -3508,6 +3608,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         case ('intpnitrate')
            !
            ! Add three single-level fields
@@ -3609,6 +3712,11 @@ program Omon_CMOR
            else
               write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+              call close_cdf(myncid(ifile,2))
+              call close_cdf(myncid(ifile,3))
+           enddo
         case ('msftmyz')
            !
            ! msftmyz: MOC
@@ -3751,6 +3859,9 @@ program Omon_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
+           do ifile = 1,nc_nfiles(1)
+              call close_cdf(myncid(ifile,1))
+           enddo
         end select
         if (allocated(indat2a))   deallocate(indat2a)
         if (allocated(indat2b))   deallocate(indat2b)
@@ -3759,8 +3870,6 @@ program Omon_CMOR
         if (allocated(cmordat2d)) deallocate(cmordat2d)
         if (allocated(indat3a))   deallocate(indat3a)
         if (allocated(indat3b))   deallocate(indat3b)
-        if (allocated(work3da))   deallocate(work3da)
-        if (allocated(work3db))   deallocate(work3db)
         !
         ! Reset
         !
