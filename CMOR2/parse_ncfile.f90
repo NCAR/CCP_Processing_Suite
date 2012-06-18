@@ -26,22 +26,37 @@ subroutine parse_ncfile(ncfile,case,comp,svar,time)
   integer,parameter::maxdot = 50
   character(len=256)::work
   integer,dimension(maxdot)::idot
-  integer::i,len,c1,c2,p1,p2,v1,v2,t1,t2,ndot
+  integer::i,len,c1,c2,p1,p2,v1,v2,t1,t2,ndot,nslash
   !
   !          1         2         3         4         5
   ! 123456789012345678901234567890123456789012345678901234567890
-  ! b40.20th.track1.1deg.012.cam2.h0.TS.185001-200512.nc
+  ! data/b40.20th.track1.1deg.012.cam2.h0.TS.185001-200512.nc
   !
   work(1:) = ' '
   work(1:) = adjustl(ncfile)
   len      = len_trim(work)
-  ndot = 1
+  !
+  ndot   = 1
+  nslash = 0
+  do i = 1,len
+     if (work(i:i) == "/") then
+        nslash = i + 1
+     endif
+  end do
+  !
+  if (nslash.ne.0) then
+     work(1:) = adjustl(ncfile(nslash:))
+  else
+     work(1:) = adjustl(ncfile)
+  endif
+  !
+  len = len_trim(work)
   do i = 1,len
      if (work(i:i) == ".") then
         idot(ndot) = i
         ndot       = ndot + 1
      endif
-  end do
+  enddo
   ndot = ndot - 1
   c1 = 1
   do i = 2,ndot
