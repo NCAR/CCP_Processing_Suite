@@ -411,7 +411,6 @@ program Omon_CMOR
                        write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
                     endif
-                    tcount = tcount + 1
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',2i8,'' chunk# '',i6)') trim(xw(ixw)%entry),tcount,it-1,ic
               enddo
@@ -435,8 +434,10 @@ program Omon_CMOR
            !
            ! sos: SALT at k=1, times 1000
            !
-           if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
-           if (.not.(allocated(cmordat2d))) allocate(cmordat2d(nlons,nlats))
+           deallocate(indat3a)
+           deallocate(cmordat2d)
+           allocate(indat3a(nlons,nlats,nlevs))
+           allocate(cmordat2d(nlons,nlats))
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
               call get_dims(myncid(ifile,1))
@@ -519,7 +520,6 @@ program Omon_CMOR
                        write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
                     endif
-                    tcount = tcount + 1
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',2i8,'' chunk# '',i6)') trim(xw(ixw)%entry),tcount-1,it-1,ic
               enddo
