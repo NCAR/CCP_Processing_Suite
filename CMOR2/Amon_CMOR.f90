@@ -235,7 +235,7 @@ program Amon_CMOR
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
                 axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4)/),  &
-                missing_value=var_info(var_found(1,1))%missing_value,&
+                missing_value=spval,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
@@ -245,7 +245,7 @@ program Amon_CMOR
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
                 axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(1)/), &
-                missing_value=var_info(var_found(1,1))%missing_value,&
+                missing_value=spval,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
@@ -255,7 +255,7 @@ program Amon_CMOR
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
                 axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(4),axis_ids(1)/),  &
-                missing_value=var_info(var_found(1,1))%missing_value,&
+                missing_value=spval,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
@@ -265,7 +265,7 @@ program Amon_CMOR
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
                 axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3)/),  &
-                missing_value=var_info(var_found(1,1))%missing_value,&
+                missing_value=spval,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
