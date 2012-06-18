@@ -1172,7 +1172,7 @@ program Amon_CMOR
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
            ! break up into nicely-sized chunks along time
            !
-           allocate(indat3a(nlons,nlats,nlevs),indat2a(nlons,nlats))
+           allocate(indat3a(nlons,nlats,nlevs),psdata(nlons,nlats))
            !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
@@ -1304,12 +1304,12 @@ program Amon_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2a)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,psdata)
                     where (abs(indat3a) > spval)
                        indat3a = spval
                     endwhere
-                    where (abs(indat2a) > spval)
-                       indat2a = spval
+                    where (abs(psdata) > spval)
+                       psdata = spval
                     endwhere
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
@@ -1324,7 +1324,7 @@ program Amon_CMOR
                     endif
                     error_flag = cmor_write(        &
                          var_id        = zfactor_id,&
-                         data          = indat2a,   &
+                         data          = psdata,   &
                          ntimes_passed = 1,         &
                          time_vals     = tval,      &
                          time_bnds     = tbnd,      &
@@ -1353,7 +1353,7 @@ program Amon_CMOR
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
            ! break up into nicely-sized chunks along time
            !
-           allocate(indat3a(nlons,nlats,nilevs),indat3b(nlons,nlats,nilevs),indat2a(nlons,nlats))
+           allocate(indat3a(nlons,nlats,nilevs),indat3b(nlons,nlats,nilevs),psdata(nlons,nlats))
            allocate(cmordat3d(nlons,nlats,nilevs))
            !
            do ifile = 1,nc_nfiles(1)
@@ -1496,9 +1496,9 @@ program Amon_CMOR
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
-                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat2a)
-                    where (abs(indat2a) > spval)
-                       indat2a = spval
+                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,psdata)
+                    where (abs(psdata) > spval)
+                       psdata = spval
                     endwhere
                     where (abs(indat3a) > spval)
                        indat3a = spval
@@ -1524,7 +1524,7 @@ program Amon_CMOR
                     endif
                     error_flag = cmor_write(        &
                          var_id        = zfactor_id,&
-                         data          = indat2a,   &
+                         data          = psdata,   &
                          ntimes_passed = 1,         &
                          time_vals     = tval,      &
                          time_bnds     = tbnd,      &
@@ -1548,6 +1548,7 @@ program Amon_CMOR
               if (allocated(time_bnds)) deallocate(time_bnds)
            enddo
         end select
+        if (allocated(psdata))    deallocate(psdata)
         if (allocated(indat2a))   deallocate(indat2a)
         if (allocated(indat2b))   deallocate(indat2b)
         if (allocated(indat2c))   deallocate(indat2c)
