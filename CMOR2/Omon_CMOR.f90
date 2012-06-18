@@ -437,7 +437,6 @@ program Omon_CMOR
            !
            if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
            if (.not.(allocated(cmordat2d))) allocate(cmordat2d(nlons,nlats))
-           tcount = 1
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
               call get_dims(myncid(ifile,1))
@@ -526,22 +525,6 @@ program Omon_CMOR
               enddo
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
-              dim_counter  = 0
-              var_counter  = 0
-              time_counter = 0
-              file_counter = 0
-              if (exp(exp_found)%expt_id=='past1000') then
-                 if (tcount==6001) then
-                    cmor_filename = ' '
-                    error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                    if (error_flag < 0) then
-                       write(*,'(''ERROR close: '',a)') cmor_filename(1:128)
-                       stop
-                    else
-                       write(*,'('' GOOD close: '',a)') cmor_filename(1:128)
-                    endif
-                 endif
-              endif
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
