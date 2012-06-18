@@ -36,20 +36,22 @@ subroutine parse_ncfile(ncfile,case,comp,svar,time)
   work(1:) = adjustl(ncfile)
   len      = len_trim(work)
   !
-  ndot   = 1
   nslash = 0
+  write(*,'(''parse_ncfile: '',a)') work(1:len)
   do i = 1,len
      if (work(i:i) == "/") then
         nslash = i + 1
      endif
   end do
-  !
   if (nslash.ne.0) then
-     work(1:) = adjustl(ncfile(nslash:))
+     work(1:) = ncfile(nslash:len)
   else
      work(1:) = adjustl(ncfile)
   endif
   !
+  write(*,'(''parse_ncfile: '',a)') work(1:len)
+  !
+  ndot   = 1
   len = len_trim(work)
   do i = 1,len
      if (work(i:i) == ".") then
