@@ -76,4 +76,8 @@ subroutine parse_ncfile(ncfile,case,comp,svar,time)
   comp(1:) = work(p1:p2)
   svar(1:) = work(v1:v2)
   time(1:) = work(t1:t2)
+  write(*,'(''parse_ncfile case '',a)') trim(case)
+  write(*,'(''parse_ncfile comp '',a)') trim(comp)
+  write(*,'(''parse_ncfile svar '',a)') trim(svar)
+  write(*,'(''parse_ncfile time '',a)') trim(time)
 end subroutine parse_ncfile
