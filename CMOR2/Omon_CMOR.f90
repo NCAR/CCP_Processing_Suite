@@ -1491,12 +1491,10 @@ program Omon_CMOR
                  elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
                     call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
                     if (ftime(1:4) == '0300') then
-                       write(*,'(''ftime 300: '',a))') trim(ftime)
                        nchunks(ifile) = 1
                        tidx1(1:nchunks(ifile)) = 13
                        tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                     elseif (ftime(1:4) == '0800') then
-                       write(*,'(''ftime 800: '',a))') trim(ftime)
                        nchunks(ifile) = 1
                        tidx1(1:nchunks(ifile)) = 1
                        tidx2(1:nchunks(ifile)) = 12

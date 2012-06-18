@@ -18,6 +18,8 @@ program Amon_CMOR
   !
   implicit none
   !
+  real,parameter::spval = 1.e20
+  !
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag,cmor_var_id
@@ -32,7 +34,6 @@ program Amon_CMOR
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
   integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,ixw,ilev,ic,jfile
-  real::spval
   logical::does_exist
   !
   ! GO!
@@ -217,8 +218,6 @@ program Amon_CMOR
            var_info(var_found(1,1))%units = 'kg m-2 s-1'
         end select
         !
-        spval=var_info(var_found(1,1))%missing_value
-        !
         write(*,*) 'calling cmor_variable:'
         write(*,*) 'table         = ',trim(mycmor%table_file)
         write(*,*) 'table_entry   = ',trim(xw(ixw)%entry)
@@ -300,7 +299,7 @@ program Amon_CMOR
 !              write(*,'(''t '',i6,'': '',3f12.4)') n,time_bnds(1,n),time(n),time_bnds(2,n)
            enddo
            !
-           ! Determine amount of data to write, to keep close to ~2 GB limit
+           ! Determine amount of data to write, to keep close to ~4 GB limit
            !
            select case(ntimes(1,1))
            case ( 1872,1860,51140,3612,6012,12012,1140 )  ! All data
@@ -350,6 +349,9 @@ program Amon_CMOR
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 where (abs(indat2a) > spval)
+                    indat2a = spval
+                 endwhere
                  tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(          &
                       var_id        = cmor_var_id, &
@@ -395,7 +397,7 @@ program Amon_CMOR
               time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
            enddo
            !
-           ! Determine amount of data to write, to keep close to ~2 GB limit
+           ! Determine amount of data to write, to keep close to ~4 GB limit
            !
            select case(ntimes(1,1))
            case ( 1872,1860,1140,3612,6012,12012 )  ! All data
@@ -444,8 +446,10 @@ program Amon_CMOR
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
-                 cmordat2d = spval
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 where (abs(indat2a) > spval)
+                    indat2a = spval
+                 endwhere
                  ! 
                  where (indat2a /= spval)
                     cmordat2d = indat2a*1000.
@@ -499,7 +503,7 @@ program Amon_CMOR
               time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
            enddo
            !
-           ! Determine amount of data to write, to keep close to ~2 GB limit
+           ! Determine amount of data to write, to keep close to ~4 GB limit
            !
            select case(ntimes(1,1))
            case ( 1872,1860,1140,3612,6012,12012 )  ! All data
@@ -551,6 +555,12 @@ program Amon_CMOR
                  cmordat2d = spval
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                 where (abs(indat2a) > spval)
+                    indat2a = spval
+                 endwhere
+                 where (abs(indat2b) > spval)
+                    indat2b = spval
+                 endwhere
                  ! 
                  where ((indat2a /= spval).and.(indat2b /= spval))
                     cmordat2d = (indat2a + indat2b)*1000.
@@ -603,7 +613,7 @@ program Amon_CMOR
               time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
            enddo
            !
-           ! Determine amount of data to write, to keep close to ~2 GB limit
+           ! Determine amount of data to write, to keep close to ~4 GB limit
            !
            select case(ntimes(1,1))
            case ( 1872,1860,1140,3612,6012,12012 )  ! All data
@@ -656,6 +666,15 @@ program Amon_CMOR
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
                  call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat2c)
+                 where (abs(indat2a) > spval)
+                    indat2a = spval
+                 endwhere
+                 where (abs(indat2b) > spval)
+                    indat2b = spval
+                 endwhere
+                 where (abs(indat2c) > spval)
+                    indat2c = spval
+                 endwhere
                  ! 
                  where ((indat2a /= spval).and.(indat2b /= spval).and.(indat2b /= spval))
                     cmordat2d = indat2a - indat2b + indat2c
@@ -708,7 +727,7 @@ program Amon_CMOR
               time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
            enddo
            !
-           ! Determine amount of data to write, to keep close to ~2 GB limit
+           ! Determine amount of data to write, to keep close to ~4 GB limit
            !
            select case(ntimes(1,1))
            case ( 1872,1860,1140,3612,6012,12012 )  ! All data
@@ -760,6 +779,12 @@ program Amon_CMOR
                  cmordat2d = spval
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                 where (abs(indat2a) > spval)
+                    indat2a = spval
+                 endwhere
+                 where (abs(indat2b) > spval)
+                    indat2b = spval
+                 endwhere
                  ! 
                  where ((indat2a /= spval).and.(indat2b /= spval))
                     cmordat2d = (indat2a + indat2b)
@@ -816,7 +841,7 @@ program Amon_CMOR
               time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
            enddo
            !
-           ! Determine amount of data to write, to keep close to ~2 GB limit
+           ! Determine amount of data to write, to keep close to ~4 GB limit
            !
            select case(ntimes(1,1))
            case ( 1872,1860,1140,3612,6012,12012 )  ! All data
@@ -868,6 +893,12 @@ program Amon_CMOR
                  cmordat2d = spval
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                 where (abs(indat2a) > spval)
+                    indat2a = spval
+                 endwhere
+                 where (abs(indat2b) > spval)
+                    indat2b = spval
+                 endwhere
                  ! 
                  where ((indat2a /= spval).and.(indat2b /= spval))
                     cmordat2d = indat2a - indat2b
@@ -927,7 +958,7 @@ program Amon_CMOR
               allocate(indat3a(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nplev23))
               allocate(psdata(nlons,nlats))
               !
-              ! Determine amount of data to write, to keep close to ~2 GB limit
+              ! Determine amount of data to write, to keep close to ~4 GB limit
               !
               if (ntimes(1,1)==1140) then ! RCP 2005-2099, keep only 2006-2099
                  nchunks(1) = 1
@@ -944,10 +975,14 @@ program Amon_CMOR
                     time_counter = it
                     call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
                     call read_var(myncid(1,2),var_info(var_found(1,2))%name,psdata)
-                    !
-                    ! Convert PS to mb from Pa
-                    !
-                    psdata = psdata * 0.01
+                    where (abs(indat3a) > spval)
+                       indat3a = spval
+                    endwhere
+                    where (abs(psdata) > spval)
+                       psdata = spval
+                    elsewhere
+                       psdata = psdata * 0.01
+                    endwhere
                     !
                     cmordat3d = spval
                     !
@@ -998,7 +1033,7 @@ program Amon_CMOR
                     time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
                  enddo
                  !
-                 ! Determine amount of data to write, to keep close to ~2 GB limit
+                 ! Determine amount of data to write, to keep close to ~4 GB limit
                  !
                  select case(ntimes(ifile,1))
                  case ( 1872,1860 )  ! 20C, 1850-2005, ~50y chunks
@@ -1093,10 +1128,14 @@ program Amon_CMOR
                        time_counter = it
                        call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                        call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,psdata)
-                       !
-                       ! Convert PS to mb from Pa
-                       !
-                       psdata = psdata * 0.01
+                       where (abs(indat3a) > spval)
+                          indat3a = spval
+                       endwhere
+                       where (abs(psdata) > spval)
+                          psdata = spval
+                       elsewhere
+                          psdata = psdata * 0.01
+                       endwhere
                        !
                        cmordat3d = spval
                        !
@@ -1149,7 +1188,7 @@ program Amon_CMOR
               time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
            enddo
            !
-           ! Determine amount of data to write, to keep close to ~2 GB limit
+           ! Determine amount of data to write, to keep close to ~4 GB limit
            !
            do ifile = 1,nc_nfiles(1)
               select case(ntimes(ifile,1))
@@ -1265,7 +1304,13 @@ program Amon_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2a)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2a)
+                    where (abs(indat3a) > spval)
+                       indat3a = spval
+                    endwhere
+                    where (abs(indat2a) > spval)
+                       indat2a = spval
+                    endwhere
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
                          var_id        = cmor_var_id,   &
@@ -1452,6 +1497,15 @@ program Amon_CMOR
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
                     call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat2a)
+                    where (abs(indat2a) > spval)
+                       indat2a = spval
+                    endwhere
+                    where (abs(indat3a) > spval)
+                       indat3a = spval
+                    endwhere
+                    where (abs(indat3b) > spval)
+                       indat3b = spval
+                    endwhere
                     where ((indat3a /= spval).and.(indat3b /= spval))
                        cmordat3d = indat3a + indat3b
                     elsewhere
