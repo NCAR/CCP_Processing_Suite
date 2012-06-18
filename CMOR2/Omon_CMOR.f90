@@ -434,8 +434,8 @@ program Omon_CMOR
            !
            ! sos: SALT at k=1, times 1000
            !
-           deallocate(indat3a)
-           deallocate(cmordat2d)
+           if (allocated(indat3a))   deallocate(indat3a)
+           if (allocated(cmordat2d)) deallocate(cmordat2d)
            allocate(indat3a(nlons,nlats,nlevs))
            allocate(cmordat2d(nlons,nlats))
            do ifile = 1,nc_nfiles(1)
@@ -504,7 +504,7 @@ program Omon_CMOR
                     do j = 1,nlats
                        do i = 1,nlons
                           if (kmt(i,j) .ge. 1) then
-                             cmordat2d = 1000*indat3a(i,j,1)
+                             cmordat2d(i,j) = 1000*indat3a(i,j,1)
                           endif
                        enddo
                     enddo
