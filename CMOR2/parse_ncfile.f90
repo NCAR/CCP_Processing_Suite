@@ -37,7 +37,7 @@ subroutine parse_ncfile(ncfile,case,comp,svar,time)
   len      = len_trim(work)
   !
   nslash = 0
-  write(*,'(''parse_ncfile: '',a)') work(1:len)
+!  write(*,'(''parse_ncfile: '',a)') work(1:len)
   do i = 1,len
      if (work(i:i) == "/") then
         nslash = i + 1
@@ -49,7 +49,7 @@ subroutine parse_ncfile(ncfile,case,comp,svar,time)
      work(1:) = adjustl(ncfile)
   endif
   !
-  write(*,'(''parse_ncfile: '',a)') work(1:len)
+!  write(*,'(''parse_ncfile: '',a)') work(1:len)
   !
   ndot   = 1
   len = len_trim(work)
@@ -62,31 +62,20 @@ subroutine parse_ncfile(ncfile,case,comp,svar,time)
   ndot = ndot - 1
   c1 = 1
   do i = 2,ndot
-     if (work(idot(i-1):idot(i)) == '.cam2.') then
-        c2 = idot(i-1)-1
-        p1 = idot(i-1)+1
-        p2 = idot(i+1)-1
-        v1 = idot(i+1)+1
-        v2 = idot(i+2)-1
-        t1 = idot(i+2)+1
-        t2 = idot(i+3)-1
-     endif
-     if (work(idot(i-1):idot(i)) == '.pop.') then
-        c2 = idot(i-1)-1
-        p1 = idot(i-1)+1
-        p2 = idot(i+1)-1
-        v1 = idot(i+1)+1
-        v2 = idot(i+2)-1
-        t1 = idot(i+2)+1
-        t2 = idot(i+3)-1
-     endif
+     c2 = idot(i-1)-1
+     p1 = idot(i-1)+1
+     p2 = idot(i+1)-1
+     v1 = idot(i+1)+1
+     v2 = idot(i+2)-1
+     t1 = idot(i+2)+1
+     t2 = idot(i+3)-1
   enddo
   case(1:) = work(c1:c2)
   comp(1:) = work(p1:p2)
   svar(1:) = work(v1:v2)
   time(1:) = work(t1:t2)
-  write(*,'(''parse_ncfile case '',a)') trim(case)
-  write(*,'(''parse_ncfile comp '',a)') trim(comp)
-  write(*,'(''parse_ncfile svar '',a)') trim(svar)
-  write(*,'(''parse_ncfile time '',a)') trim(time)
+!!$  write(*,'(''parse_ncfile case '',a)') trim(case)
+!!$  write(*,'(''parse_ncfile comp '',a)') trim(comp)
+!!$  write(*,'(''parse_ncfile svar '',a)') trim(svar)
+!!$  write(*,'(''parse_ncfile time '',a)') trim(time)
 end subroutine parse_ncfile
