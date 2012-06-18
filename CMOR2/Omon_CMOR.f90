@@ -35,6 +35,7 @@ program Omon_CMOR
   ! Other variables
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
+  character(len=256)::fcase,fcomp,fsvar,ftime
   integer::i,j,k,m,n,it,ivar,jvar,length,iexp,jexp,ixw,ilev,ic,tcount
   real::spval
   logical::does_exist
@@ -354,6 +355,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60, 1152 ) ! RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -456,6 +493,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60, 1152 ) ! RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -559,6 +632,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60, 1152 ) ! RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -666,6 +775,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60, 1152 ) ! RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -767,6 +912,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60, 1152 ) ! RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -868,6 +1049,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60, 1152 ) ! RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -884,6 +1101,7 @@ program Omon_CMOR
                  tidx2(1:nchunks(ifile)) = (/6000/) ! 1300
               case ( 4824 ) ! LGM from 149901 to 190012; want only 1800-1900
                  nchunks(ifile) = 1
+
                  tidx1(1:nchunks(ifile)) = (/3613/) ! 1800-01
                  tidx2(1:nchunks(ifile)) = (/4824/) ! 1900-12
               case ( 12012 )
@@ -972,6 +1190,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60, 1152 ) ! RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -1066,6 +1320,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60, 1152 ) ! RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -1177,6 +1467,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60 ) ! RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -1438,6 +1764,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60 )               ! RCP from 2005-2009, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -1577,6 +1939,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60 )               ! RCP from 2005-2009, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -1716,6 +2114,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60 )               ! RCP from 2005-2009, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -1860,6 +2294,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60 )               ! RCP from 2005-2009, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -2007,6 +2477,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -2126,6 +2632,42 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -2235,6 +2777,42 @@ program Omon_CMOR
               time_bnds(1,1) = int(time_bnds(1,1))-1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               select case (ntimes(ifile,1))
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
                  nchunks(ifile) = 1
                  tidx1(1:nchunks(ifile)) = (/2389/) ! 1000
@@ -2465,6 +3043,42 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
                  endif
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -2571,6 +3185,42 @@ program Omon_CMOR
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
+                 endif
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
@@ -2682,6 +3332,42 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
                  endif
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -2789,6 +3475,42 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
                  endif
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -2890,6 +3612,42 @@ program Omon_CMOR
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
+                 endif
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
@@ -2993,6 +3751,42 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
                  endif
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -3093,6 +3887,42 @@ program Omon_CMOR
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
+                 endif
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
@@ -3200,6 +4030,42 @@ program Omon_CMOR
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
+                 endif
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
@@ -3317,6 +4183,42 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
                  endif
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -3433,6 +4335,42 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
                  endif
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                 endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
                     nchunks(ifile) = 1
@@ -3536,6 +4474,42 @@ program Omon_CMOR
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
+                 endif
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
@@ -3642,6 +4616,42 @@ program Omon_CMOR
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
+                 endif
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
@@ -3767,6 +4777,42 @@ program Omon_CMOR
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
+                 endif
+              case ( 120 ) ! Decade, but may need to subset
+                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0100') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0600') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+                    call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
+                    if (ftime(1:4) == '0300') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 13
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    elseif (ftime(1:4) == '0800') then
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = 12
+                    else
+                       nchunks(ifile) = 1
+                       tidx1(1:nchunks(ifile)) = 1
+                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    endif
+                 else
+                    nchunks(ifile) = 1
+                    tidx1(1:nchunks(ifile)) = 1
+                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
               case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
                  if (exp(exp_found)%begyr==2005) then
