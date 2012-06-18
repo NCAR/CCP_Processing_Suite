@@ -62,13 +62,15 @@ subroutine parse_ncfile(ncfile,case,comp,svar,time)
   ndot = ndot - 1
   c1 = 1
   do i = 2,ndot
-     c2 = idot(i-1)-1
-     p1 = idot(i-1)+1
-     p2 = idot(i+1)-1
-     v1 = idot(i+1)+1
-     v2 = idot(i+2)-1
-     t1 = idot(i+2)+1
-     t2 = idot(i+3)-1
+     if (work(idot(i-1):idot(i)) == '.pop.') then
+        c2 = idot(i-1)-1
+        p1 = idot(i-1)+1
+        p2 = idot(i+1)-1
+        v1 = idot(i+1)+1
+        v2 = idot(i+2)-1
+        t1 = idot(i+2)+1
+        t2 = idot(i+3)-1
+     endif
   enddo
   case(1:) = work(c1:c2)
   comp(1:) = work(p1:p2)
