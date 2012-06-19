@@ -378,9 +378,9 @@ program cfDay_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
-           do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1))
-           enddo
+!           do ifile = 1,nc_nfiles(1)
+!              call close_cdf(myncid(ifile,1))
+!           enddo
         case ('pr','prsn')
            !
            ! pr  : Add PRECC + PRECL  , unit change from m s-1 to kg m-2 s-1
@@ -465,9 +465,9 @@ program cfDay_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
-           do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1))
-           enddo
+!           do ifile = 1,nc_nfiles(1)
+ !             call close_cdf(myncid(ifile,1))
+ !          enddo
         case ('prc')
            !
            ! prc : PRECC, unit change from m s-1 to kg m-2 s-1
@@ -549,9 +549,9 @@ program cfDay_CMOR
            else
               write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
            endif
-           do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1))
-           enddo
+!           do ifile = 1,nc_nfiles(1)
+ !             call close_cdf(myncid(ifile,1))
+ !          enddo
         case ('rlus')
            !
            ! rlus: Add FLDS + FLNS
@@ -640,9 +640,9 @@ program cfDay_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
-           do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1))
-           enddo
+!           do ifile = 1,nc_nfiles(1)
+ !             call close_cdf(myncid(ifile,1))
+ !          enddo
         case ('rsus','rsuscs','rsut','rsutcs','rtmt')
            !
            ! rsus   : FSDS  - FSNS
@@ -735,9 +735,9 @@ program cfDay_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
-           do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1))
-           enddo
+!           do ifile = 1,nc_nfiles(1)
+ !             call close_cdf(myncid(ifile,1))
+ !          enddo
         case ('cl','cli','clw','hur','hus','ta','ua','va','wap','zg')
            !
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
@@ -842,9 +842,9 @@ program cfDay_CMOR
            else
               write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
            endif
-           do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1))
-           enddo
+!           do ifile = 1,nc_nfiles(1)
+ !             call close_cdf(myncid(ifile,1))
+ !          enddo
         case ('clcalipso')
            !
            ! clcalipso
@@ -930,9 +930,9 @@ program cfDay_CMOR
            else
               write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
            endif
-           do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1))
-           enddo
+!           do ifile = 1,nc_nfiles(1)
+ !             call close_cdf(myncid(ifile,1))
+ !          enddo
         case ('parasolRefl')
            !
            ! parasolRefl
@@ -1032,9 +1032,9 @@ program cfDay_CMOR
            else
               write(*,'(''GOOD CMOR close of '',a)')  trim(xw(ixw)%entry)
            endif
-           do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1))
-           enddo
+!           do ifile = 1,nc_nfiles(1)
+ !             call close_cdf(myncid(ifile,1))
+ !          enddo
         case ('clisccp')
            !
            ! clisccp
@@ -1122,9 +1122,9 @@ program cfDay_CMOR
            else
               write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
            endif
-           do ifile = 1,nc_nfiles(1)
-              call close_cdf(myncid(ifile,1))
-           enddo
+!           do ifile = 1,nc_nfiles(1)
+ !             call close_cdf(myncid(ifile,1))
+ !          enddo
         end select
         if (allocated(indat2a))   deallocate(indat2a)
         if (allocated(indat2b))   deallocate(indat2b)
