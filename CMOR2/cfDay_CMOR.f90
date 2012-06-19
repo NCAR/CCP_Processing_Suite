@@ -770,8 +770,8 @@ program cfDay_CMOR
                  ! Determine amount of data to write, to keep close to ~2 4B limit
                  !
                  select case (ntimes(ifile,1))
-                 case ( 9855 )         ! 1979-2005, 1 file per year
-                    nchunks(ifile) = 27
+                 case ( 2190,3650,4015,9855 )
+                    nchunks(ifile) = ntimes(ifile,1)/365
                     tidx1(1) =   1
                     tidx2(1) = 365
                     do ic = 2,nchunks(ifile)
@@ -842,9 +842,6 @@ program cfDay_CMOR
            else
               write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
            endif
-!           do ifile = 1,nc_nfiles(1)
- !             call close_cdf(myncid(ifile,1))
- !          enddo
         case ('clcalipso')
            !
            ! clcalipso
@@ -872,8 +869,18 @@ program cfDay_CMOR
               ! Determine amount of data to write, to keep close to ~2 4B limit
               !
               select case (ntimes(ifile,1))
-              case ( 9855 )         ! 1979-2005, 1 file per year
-                 nchunks(ifile) = 27
+              case ( 1825 ) ! "e" series; use only 2008 - maybe
+                 if (trim(case_read)=='f40.amip_4k_cosp.cam4.1deg.001e') then ! Use only 2006-2008, one file per year
+                    nchunks(ifile)= 3
+                    tidx1(1:nchunks(ifile)) = (/ 731,1096,1461/)
+                    tidx2(1:nchunks(ifile)) = (/1095,1460,1825/)
+                 else
+                    nchunks(ifile)= 5
+                    tidx1(1:nchunks(ifile)) = (/   1, 366, 731,1096,1461/)
+                    tidx2(1:nchunks(ifile)) = (/ 365, 730,1095,1460,1825/)
+                 endif
+              case ( 2190,3650,4015,9855 )
+                 nchunks(ifile) = ntimes(ifile,1)/365
                  tidx1(1) =   1
                  tidx2(1) = 365
                  do ic = 2,nchunks(ifile)
@@ -881,16 +888,6 @@ program cfDay_CMOR
                     tidx2(ic) = tidx1(ic) + 364
                  enddo
                  tidx2(nchunks(ifile)) = ntimes(ifile,1)
-              case ( 1825 ) ! "e" series; use only 2008 - maybe
-                 if (trim(case_read)=='f40.amip_4k_cosp.cam4.1deg.001e') then ! Use only 2006-2008, one file per year
-                    nchunks(ifile)= 3
-                    tidx1(1:nchunks(ifile)) = (/ 731,1096,1461/)
-                    tidx2(1:nchunks(ifile)) = (/1095,1460,1825/)
-                 else
-                    nchunks(ifile)= 1
-                    tidx1(1:nchunks(ifile)) = (/   1/)
-                    tidx2(1:nchunks(ifile)) = (/1825/)
-                 endif
               case default
                  nchunks(ifile)= 1
                  tidx1(1:nchunks(ifile)) = 1
@@ -930,9 +927,6 @@ program cfDay_CMOR
            else
               write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
            endif
-!           do ifile = 1,nc_nfiles(1)
- !             call close_cdf(myncid(ifile,1))
- !          enddo
         case ('parasolRefl')
            !
            ! parasolRefl
@@ -961,8 +955,8 @@ program cfDay_CMOR
               ! Determine amount of data to write, to keep close to ~2 4B limit
               !
               select case (ntimes(ifile,1))
-              case ( 9855 )         ! 1979-2005, 1 file per year
-                 nchunks(ifile) = 27
+              case ( 2190,3650,4015,9855 )
+                 nchunks(ifile) = ntimes(ifile,1)/365
                  tidx1(1) =   1
                  tidx2(1) = 365
                  do ic = 2,nchunks(ifile)
@@ -1062,8 +1056,8 @@ program cfDay_CMOR
               ! Determine amount of data to write, to keep close to ~2 4B limit
               !
               select case (ntimes(ifile,1))
-              case ( 9855 )         ! 1979-2005, 1 file per year
-                 nchunks(ifile) = 27
+              case ( 2190,3650,4015,9855 )
+                 nchunks(ifile) = ntimes(ifile,1)/365
                  tidx1(1) =   1
                  tidx2(1) = 365
                  do ic = 2,nchunks(ifile)
@@ -1077,9 +1071,9 @@ program cfDay_CMOR
                     tidx1(1:nchunks(ifile)) = (/ 731,1096,1461/)
                     tidx2(1:nchunks(ifile)) = (/1095,1460,1825/)
                  else
-                    nchunks(ifile)= 1
-                    tidx1(1:nchunks(ifile)) = (/   1/)
-                    tidx2(1:nchunks(ifile)) = (/1825/)
+                    nchunks(ifile)= 5
+                    tidx1(1:nchunks(ifile)) = (/   1, 366, 731,1096,1461/)
+                    tidx2(1:nchunks(ifile)) = (/ 365, 730,1095,1460,1825/)
                  endif
               case default
                  nchunks(ifile)= 1
