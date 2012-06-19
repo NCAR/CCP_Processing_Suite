@@ -770,6 +770,12 @@ program cfDay_CMOR
                  ! Determine amount of data to write, to keep close to ~2 4B limit
                  !
                  select case (ntimes(ifile,1))
+                 case ( 9825 ) ! Some missing data, gotta do some rigamarole
+                    nchunks(ifile) = 27
+                    tidx1(1:nchunks(ifile)) = (/    1, 366, 731,1096,1461,1826,2161,2526,2891,3256,3621,3986,4351,4716,&
+                                                 5081,5446,5811,6176,6541,6906,7271,7636,8001,8366,8731,9096,9461/)
+                    tidx2(1:nchunks(ifile)) = (/  365, 730,1095,1460,1825,2160,2525,2890,3255,3620,3985,4350,4715,5080,5445,&
+                                                 5810,6175,6540,6905,7270,7635,8000,8365,8730,9095,9460,9825/)
                  case ( 2190,3650,4015,9855 )
                     nchunks(ifile) = ntimes(ifile,1)/365
                     tidx1(1) =   1
@@ -879,6 +885,12 @@ program cfDay_CMOR
                     tidx1(1:nchunks(ifile)) = (/   1, 366, 731,1096,1461/)
                     tidx2(1:nchunks(ifile)) = (/ 365, 730,1095,1460,1825/)
                  endif
+              case ( 9825 ) ! Some missing data, gotta do some rigamarole
+                 nchunks(ifile) = 27
+                 tidx1(1:nchunks(ifile)) = (/    1, 366, 731,1096,1461,1826,2161,2526,2891,3256,3621,3986,4351,4716,&
+                      5081,5446,5811,6176,6541,6906,7271,7636,8001,8366,8731,9096,9461/)
+                 tidx2(1:nchunks(ifile)) = (/  365, 730,1095,1460,1825,2160,2525,2890,3255,3620,3985,4350,4715,5080,5445,&
+                      5810,6175,6540,6905,7270,7635,8000,8365,8730,9095,9460,9825/)
               case ( 2190,3650,4015,9855 )
                  nchunks(ifile) = ntimes(ifile,1)/365
                  tidx1(1) =   1
@@ -955,6 +967,12 @@ program cfDay_CMOR
               ! Determine amount of data to write, to keep close to ~2 4B limit
               !
               select case (ntimes(ifile,1))
+              case ( 9825 ) ! Some missing data, gotta do some rigamarole
+                 nchunks(ifile) = 27
+                 tidx1(1:nchunks(ifile)) = (/    1, 366, 731,1096,1461,1826,2161,2526,2891,3256,3621,3986,4351,4716,&
+                      5081,5446,5811,6176,6541,6906,7271,7636,8001,8366,8731,9096,9461/)
+                 tidx2(1:nchunks(ifile)) = (/  365, 730,1095,1460,1825,2160,2525,2890,3255,3620,3985,4350,4715,5080,5445,&
+                      5810,6175,6540,6905,7270,7635,8000,8365,8730,9095,9460,9825/)
               case ( 2190,3650,4015,9855 )
                  nchunks(ifile) = ntimes(ifile,1)/365
                  tidx1(1) =   1
@@ -1056,6 +1074,12 @@ program cfDay_CMOR
               ! Determine amount of data to write, to keep close to ~2 4B limit
               !
               select case (ntimes(ifile,1))
+              case ( 9825 ) ! Some missing data, gotta do some rigamarole
+                 nchunks(ifile) = 27
+                 tidx1(1:nchunks(ifile)) = (/    1, 366, 731,1096,1461,1826,2161,2526,2891,3256,3621,3986,4351,4716,&
+                      5081,5446,5811,6176,6541,6906,7271,7636,8001,8366,8731,9096,9461/)
+                 tidx2(1:nchunks(ifile)) = (/  365, 730,1095,1460,1825,2160,2525,2890,3255,3620,3985,4350,4715,5080,5445,&
+                      5810,6175,6540,6905,7270,7635,8000,8365,8730,9095,9460,9825/)
               case ( 2190,3650,4015,9855 )
                  nchunks(ifile) = ntimes(ifile,1)/365
                  tidx1(1) =   1
