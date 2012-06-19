@@ -1526,6 +1526,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 1872 ) ! 20C from 1850-2005
                  nchunks(ifile) = 16
                  tidx1(1) =   1
@@ -1534,6 +1535,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 2664 ) ! FASTCHEM piControl from 70-291
                  nchunks(ifile) = 23
                  tidx1(1) =   1
@@ -1651,6 +1653,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 1872 ) ! 20C from 1850-2005
                  nchunks(ifile) = 16
                  tidx1(1) =   1
@@ -1659,6 +1662,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 2664 ) ! FASTCHEM piControl from 70-291
                  nchunks(ifile) = 23
                  tidx1(1) =   1
@@ -1828,6 +1832,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 1872 ) ! 20C from 1850-2005
                  nchunks(ifile) = 16
                  tidx1(1) =   1
@@ -1836,6 +1841,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 300 ) ! 30 years
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
@@ -2001,6 +2007,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 2664 ) ! FASTCHEM piControl from 70-291
                  nchunks(ifile) = 23
                  tidx1(1) =   1
@@ -2166,6 +2173,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 1872 ) ! 20C from 1850-2005
                  nchunks(ifile) = 16
                  tidx1(1) =   1
@@ -2174,6 +2182,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 2664 ) ! FASTCHEM piControl from 70-291
                  nchunks(ifile) = 23
                  tidx1(1) =   1
@@ -2352,6 +2361,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 2664 ) ! FASTCHEM piControl from 70-291
                  nchunks(ifile) = 23
                  tidx1(1) =   1
