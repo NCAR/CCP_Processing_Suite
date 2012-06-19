@@ -241,6 +241,8 @@ program cfDay_CMOR
         case ('mrro','mrros')
            ! mm s-1 is the same as kg m-2 s-1
            var_info(var_found(1,1))%units = 'kg m-2 s-1'
+        case ('ccb','cct')
+           var_info(var_found(1,1))%units = 'Pa'
         end select
         !
         spval=var_info(var_found(1,1))%missing_value
