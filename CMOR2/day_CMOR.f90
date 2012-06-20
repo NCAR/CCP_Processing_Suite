@@ -964,6 +964,10 @@ program day_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  select case (ntimes(ifile,1))
+                 case ( 7300 )
+                    nchunks(ifile)= 4
+                    tidx1(1:nchunks(ifile)) = (/   1, 1826, 3651, 5476/)
+                    tidx2(1:nchunks(ifile)) = (/1825, 3650, 5475, 7300/)
                  case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
                     nchunks(ifile)= 5
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
@@ -1083,6 +1087,10 @@ program day_CMOR
                     nchunks(ifile)= 5
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551, 38326, 51101/)      ! 1850, 1885, 1920, 1955, 1990
                     tidx2(1:nchunks(ifile)) = (/12775, 25550, 38325, 51100, 56940/)      ! 1884, 1919, 1954, 1989, 2005
+                 case ( 7300 )
+                    nchunks(ifile)= 4
+                    tidx1(1:nchunks(ifile)) = (/   1, 1826, 3651, 5476/)
+                    tidx2(1:nchunks(ifile)) = (/1825, 3650, 5475, 7300/)
                  case ( 35040 )         ! RCP from 2005-2100, use only 2006 onwards, 2 * 35y + 1 * 25y chunks
                     nchunks(ifile)= 3
                     tidx1(1:nchunks(ifile)) = (/  366, 13141, 25916/)      ! 2006, 2041, 2076

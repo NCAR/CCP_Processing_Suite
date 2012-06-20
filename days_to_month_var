@@ -1,6 +1,6 @@
 #!/bin/sh
 # 
-# Check for ncl
+# Check for ncrcat
 #
 if [ ! $NCRCAT ] ; then
   TEST4NCRCAT=`which ncrcat 2>&1`
@@ -8,14 +8,27 @@ if [ ! $NCRCAT ] ; then
     NCRCAT=`which ncrcat`
   else
     echo "NCRCAT not in PATH - UNDEFINED"
-    ./procstat.sh error days_to_month
     exit 1
   fi
+fi
+# 
+# Check for TPER
+#
+if [ ! $TPER ] ; then
+  echo "TPER undefined. Assume daily"
+  TPER="day" ; export TPER
+fi
+# 
+# Check for HIST
+#
+if [ ! $HIST ] ; then
+  echo "HIST undefined. Assume cam2.h1"
+  HIST="cam2.h1" ; export HIST
 fi
 #
 # Parse first filename
 #
-FILE=`ls | egrep "\.[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]\.nc" | head -n 1`
+FILE=`ls | egrep "*.${HIST}.*" | egrep '\.[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]\.nc$' | head -n 1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1
@@ -43,34 +56,65 @@ while [ $IDOT -le $NDOT ] ; do
   IDOT=`expr '(' $IDOT ')' '+' '1'`
 done
 DPFX=`expr '(' $DPFX ')' '+' '1'`
-#
 OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
 FT=`expr '(' $DPFX ')' '+' '1'`
 #
-YEARS=`ls ${OUTPFX}.????????.nc | cut -d"." -f${FT} | cut -c1-4 | sort | uniq`
+# b40.co2ramp_cosp.cam4.1deg.001.cam2.h3.????-??-??-?????.nc
+#
+YEARS=`ls ${OUTPFX}.[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].nc | cut -d"." -f${FT} | cut -c1-4 | sort | uniq`
 for y in $YEARS ; do
-  MON=`ls ${OUTPFX}.${y}????.nc | cut -d"." -f${FT} | cut -c5-6 | uniq`
+  MON=`ls ${OUTPFX}.${y}[0-9][0-9][0-9][0-9].nc | cut -d"." -f${FT} | cut -c5-6 | uniq`
   for m in $MON ; do
   # Jan, Mar, May, Jul, Aug, Oct, Dec
-    if [ "$m" = "01" ] || [ "$m" = "03" ] || [ "$m" = "05" ] || [ "$m" = "07" ] || [ "$m" = "08" ] || [ "$m" = "10" ] || [ "$m" = "12" ] ; then
-      NDAY=31
-    fi
+    case "$m" in
+      01 | 03 | 05 | 07 | 08 | 10 | 12 )
+      case "$TPER" in
+        day )
+          NDAY=31  ;;
+        hr6 )
+          NDAY=124 ;;
+        hr3 )
+          NDAY=248 ;;
+        m30 )
+          NDAY=1488 ;;
+      esac
+    esac
   # Apr, Jun, Sep, Nov
-    if [ "$m" = "04" ] || [ "$m" = "06" ] || [ "$m" = "09" ] || [ "$m" = "11" ] ; then
-      NDAY=30
-    fi
+    case "$m" in
+      04 | 06 | 09 | 11 )
+      case "$TPER" in
+        day )
+          NDAY=30  ;;
+        hr6 )
+          NDAY=120 ;;
+        hr3 )
+          NDAY=240 ;;
+        m30 )
+          NDAY=1440 ;;
+      esac
+    esac
   # Feb
     if [ "$m" = "02" ] ; then
-      NDAY=28
+      case "$TPER" in
+        day )
+          NDAY=28  ;;
+        hr6 )
+          NDAY=112 ;;
+        hr3 )
+          NDAY=224 ;;
+        m30 )
+          NDAY=1344 ;;
+      esac
     fi
-    MDAY=`ls ${OUTPFX}.${y}${m}??.nc | wc -l`
+    MDAY=`ls ${OUTPFX}.${y}${m}[0-3][0-9].nc | wc -l`
     if [ $MDAY -eq $NDAY ] ; then
       MONFIL=${OUTPFX}.${y}-${m}.nc
-      $NCRCAT -O ${OUTPFX}.${y}${m}??.nc $MONFIL
+      $NCRCAT -O ${OUTPFX}.${y}${m}[0-3][0-9].nc $MONFIL
       if [ $? -eq 0 ] ; then
         if [ $# -eq 1 ] ; then
-           rm -f ${OUTPFX}.${y}${m}??.nc
+           rm -f ${OUTPFX}.${y}${m}[0-3][0-9].nc
         fi
+        echo "Created "$MONFIL
       fi
     fi
   done

@@ -84,6 +84,7 @@ for c in $CASES ; do
           if [ $DF ] ; then
             $NCRCAT -O ${c}.${h}.${v}.${y}-??.nc $DF
             if [ $? -eq 0 ] ; then
+              echo "Created: "$DF
               rm -f ${c}.${h}.${v}.${y}-??.nc
             fi
           else
