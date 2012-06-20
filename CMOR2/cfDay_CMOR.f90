@@ -943,7 +943,6 @@ program cfDay_CMOR
            !
            ! parasolRefl
            !
-!           allocate(indat3a(nlons,nlats,ncosp_sza),parasol(nlons,nlats,ncosp_sza))
            allocate(indat3a(nlons,nlats,ncosp_sza))
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
@@ -1002,26 +1001,6 @@ program cfDay_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-!!$ NOT NEEDED
-!!$                    !
-!!$                    ! Linearly interpolate between given levels (0, 15, 30, 45, 60) 
-!!$                    ! and requested levels (0. 20. 40. 60. 80.)
-!!$                    parasol = 1.e20
-!!$                    do j = 1,nlats
-!!$                       do i = 1,nlons
-!!$                          ! k=1 is same
-!!$                          parasol(i,j,        1) = indat3a(i,j,1)
-!!$                          ! k=2 is 2/3 15 (k=2) + 1/3 20 (k=3)
-!!$                          parasol(i,j,        2) = ((2./3.)*indat3a(i,j,2))+((1./3.)*indat3a(i,j,3))
-!!$                          ! k=3 is 1/3 30 (k=3) + 2/3 45 (k=4)
-!!$                          parasol(i,j,        3) = ((1./3.)*indat3a(i,j,3))+((2./3.)*indat3a(i,j,4))
-!!$                          ! k=4 is k=5
-!!$                          parasol(i,j,        4) = indat3a(i,j,ncosp_sza)
-!!$                          ! k=5 is set to missing (80 requires extrpolation, so avoid)
-!!$                          parasol(i,j,ncosp_sza) = 1.e20
-!!$                       enddo
-!!$                    enddo
-!!$ NOT NEEDED
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
                          var_id        = cmor_var_id,   &
@@ -1035,6 +1014,13 @@ program cfDay_CMOR
                     endif
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,trim(cmor_filename(1:))
+                 endif
               enddo
            enddo
            error_flag = cmor_close()
@@ -1044,9 +1030,6 @@ program cfDay_CMOR
            else
               write(*,'(''GOOD CMOR close of '',a)')  trim(xw(ixw)%entry)
            endif
-!           do ifile = 1,nc_nfiles(1)
- !             call close_cdf(myncid(ifile,1))
- !          enddo
         case ('clisccp')
            !
            ! clisccp
