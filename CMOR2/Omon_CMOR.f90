@@ -419,7 +419,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -559,7 +559,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -699,7 +699,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -843,7 +843,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -980,7 +980,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -1118,7 +1118,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -1258,7 +1258,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -1388,7 +1388,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -2546,7 +2546,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -2700,7 +2700,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -2831,7 +2831,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -2940,7 +2940,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -3043,7 +3043,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -3187,7 +3187,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -3334,7 +3334,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -3478,7 +3478,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -3617,7 +3617,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -3756,7 +3756,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -3894,7 +3894,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -4038,7 +4038,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -4191,7 +4191,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -4344,7 +4344,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -4485,7 +4485,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -4628,7 +4628,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
@@ -4790,7 +4790,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/1201,4201/)
                     tidx2(1:nchunks(ifile)) = (/4200,7200/)
                  endif
-                 if (trim(case_read)=='b40.coup_carb.001') then       ! Use only 0301-0800
+                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
