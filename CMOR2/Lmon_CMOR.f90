@@ -900,7 +900,8 @@ program Lmon_CMOR
                        enddo
                     enddo
                  enddo
-                 cmordat2d = (sum(work3da,dim=3) + sum(work3db,dim=3))/sum(lnd_dzsoi,dim=3)
+!                 cmordat2d = (sum(work3da,dim=3) + sum(work3db,dim=3))/sum(lnd_dzsoi,dim=3)
+                 cmordat2d = (sum(work3da,dim=3) + sum(work3db,dim=3))
                  tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(       &
                       var_id        = cmor_var_id,  &
