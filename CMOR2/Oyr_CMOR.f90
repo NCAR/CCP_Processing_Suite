@@ -199,7 +199,7 @@ program Oyr_CMOR
      !
      ! Modify units as necessary to accomodate udunits' inability to convert 
      !
-     select case (xw(kvar)%entry)
+     select case (xw(ixw)%entry)
      case ('msftmyz','msftbarot','wmo','umo','vmo')
         var_info(var_found(1,1))%units = 'kg s-1'
      case ('wmosq')
@@ -228,7 +228,7 @@ program Oyr_CMOR
      end select
      !
      ! All fields are full column
-     cmor_var_id(kvar) = cmor_variable(                            &
+     cmor_var_id(ixw) = cmor_variable(                            &
           table=mycmor%table_file,                           &
           table_entry=xw(ixw)%entry,                         &
           units=var_info(var_found(1,1))%units,              &
@@ -236,14 +236,14 @@ program Oyr_CMOR
           missing_value=var_info(var_found(1,1))%missing_value,&
           positive=mycmor%positive,                          &
           original_name=original_name,                       &
-          comment=xw(kvar)%comment)
-     write(*,'(''cmor_variable name: '',a,'' ixw '',i10,'' var_id '',i10)') trim(xw(ixw)%entry),kvar,cmor_var_id(kvar)
-!!$        if (abs(cmor_var_id(kvar)) .gt. 1000) then
-!!$           write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(kvar)
-!!$           cycle xwalk_loop
-!!$        else
-!!$           write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(kvar)%entry),cmor_var_id(kvar)
-!!$        endif
+          comment=xw(ixw)%comment)
+     write(*,'(''cmor_variable name: '',a,'' ixw '',i10,'' var_id '',i10)') trim(xw(ixw)%entry),ixw,cmor_var_id(ixw)
+     if (abs(cmor_var_id(ixw)) .gt. 1000) then
+        write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(ixw)
+        cycle xwalk_loop
+     else
+        write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(ixw)
+     endif
   enddo xwalk_loop
   !
   ! Open CESM file and get information(s)
@@ -283,7 +283,7 @@ program Oyr_CMOR
            enddo
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
            error_flag = cmor_write(          &
-                var_id        = cmor_var_id(kvar), &
+                var_id        = cmor_var_id(found_xw(jxw)), &
                 data          = cmordat3d,   &
                 ntimes_passed = 1,           &
                 time_vals     = tval,        &
