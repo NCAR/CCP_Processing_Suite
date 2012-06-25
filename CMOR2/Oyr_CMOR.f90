@@ -131,15 +131,6 @@ program Oyr_CMOR
           netcdf_file_action=CMOR_APPEND,&
           logfile=logfile)
      !
-     ! Define axes via 'cmor_axis'
-     !
-     table_ids(1) = cmor_load_table('Tables/CMIP5_Oyr')
-     table_ids(2) = cmor_load_table('Tables/CMIP5_grids')
-     table_ids(3) = cmor_load_table('Tables/CMIP5_fx')
-     call cmor_set_table(table_ids(2))
-     call define_ocn_axes(xw(ixw)%dims)
-     call cmor_set_table(table_ids(1))
-     !
      error_flag = cmor_dataset(                              &
           outpath=mycmor%outpath,                            &
           experiment_id=mycmor%experiment_id,                &
@@ -180,6 +171,15 @@ program Oyr_CMOR
         write(*,*) 'parent_experiment_rip = ',mycmor%parent_experiment_rip
         write(*,*) 'branch_time           = ',mycmor%branch_time
      endif
+     !
+     ! Define axes via 'cmor_axis'
+     !
+     table_ids(1) = cmor_load_table('Tables/CMIP5_Oyr')
+     table_ids(2) = cmor_load_table('Tables/CMIP5_grids')
+     table_ids(3) = cmor_load_table('Tables/CMIP5_fx')
+     call cmor_set_table(table_ids(2))
+     call define_ocn_axes(xw(ixw)%dims)
+     call cmor_set_table(table_ids(1))
      !
      ! Add global metadata
      !
