@@ -68,9 +68,9 @@ subroutine define_ocn_axes(dimensions)
      end select
   enddo
   !
-!  do i = 1,naxes
-!     write(*,*) 'DIMS: ',dimnames(i)(1:32),' UNITS: ',dimunits(i)(1:32)
-!  enddo
+  do i = 1,naxes
+     write(*,*) 'DIMS: ',dimnames(i)(1:32),' UNITS: ',dimunits(i)(1:32)
+  enddo
   axis_ids = 0 ; idim = 1
   !
   ! Define axes depending on CMIP5 field. Complicated
@@ -221,42 +221,93 @@ subroutine define_ocn_axes(dimensions)
          'fgo2','frn','fsn','intdic','intpbsi','intpcalc','intpcalcite','intpdiat','intpdiaz','intpn2','intpnitrate',&
          'intpp','intppico','nh4','no3','o2','o2min','ph','phyc','phycalc','phydiat','phydiaz','phyfe','phyn','phyp',&
          'phypico','physi','po4','si','spco2','talk','zo2min','zooc','zsatarag','zsatcalc')
-     ! Single-level T-grid fields
-     do i = 1,naxes
-        select case(dimnames(i))
-        case ('longitude')
-           call cmor_set_table(table_ids(2))
-           axis_ids(idim) = cmor_axis(        &
-                table_entry='i_index',      &
-                units='1',&
-                coord_vals=i_indices)
-           write(*,*) 'longitude defined, axis_id: ',idim,axis_ids(idim)
-           idim = idim + 1
-        case ('latitude')
-           call cmor_set_table(table_ids(2))
-           axis_ids(idim) = cmor_axis(        &
-                table_entry='j_index',       &
-                units='1',&
-                coord_vals=j_indices)
-           write(*,*) 'latitude  defined, axis_id: ',idim,axis_ids(idim)
-           idim = idim + 1
-           grid_id(1) = cmor_grid(                    &
-                axis_ids=(/axis_ids(1),axis_ids(2)/), &
-                latitude=ocn_t_lats,                    &
-                longitude=ocn_t_lons,                   &
-                latitude_vertices=ocn_t_lats_bnds,      &
-                longitude_vertices=ocn_t_lons_bnds)
-           write(*,'('' grid defined: '',i4,'' axis_ids: '',2i10)') grid_id(1),axis_ids(1),axis_ids(2)
-        case ('time')
-           call cmor_set_table(table_ids(1))
-           axis_ids(idim) = cmor_axis(        &
-                table_entry=dimnames(i),      &
-                units=dimunits(i),            &
-                interval='30 days')
-           write(*,'('' dimension: '',a,'' defined: '',i4,'' units: '',a)') 'time',axis_ids(idim),trim(dimunits(i))
-           idim = idim + 1
-        end select ! dimnames(i)
-     enddo
+     select case (mycmor%table_file)
+     case ('Tables/CMIP5_Omon')
+        ! Single-level T-grid monthly BGC fields
+        do i = 1,naxes
+           select case(dimnames(i))
+           case ('longitude')
+              call cmor_set_table(table_ids(2))
+              axis_ids(idim) = cmor_axis(        &
+                   table_entry='i_index',      &
+                   units='1',&
+                   coord_vals=i_indices)
+              write(*,*) 'longitude defined, axis_id: ',idim,axis_ids(idim)
+              idim = idim + 1
+           case ('latitude')
+              call cmor_set_table(table_ids(2))
+              axis_ids(idim) = cmor_axis(        &
+                   table_entry='j_index',       &
+                   units='1',&
+                   coord_vals=j_indices)
+              write(*,*) 'latitude  defined, axis_id: ',idim,axis_ids(idim)
+              idim = idim + 1
+              grid_id(1) = cmor_grid(                    &
+                   axis_ids=(/axis_ids(1),axis_ids(2)/), &
+                   latitude=ocn_t_lats,                    &
+                   longitude=ocn_t_lons,                   &
+                   latitude_vertices=ocn_t_lats_bnds,      &
+                   longitude_vertices=ocn_t_lons_bnds)
+              write(*,'('' grid defined: '',i4,'' axis_ids: '',2i10)') grid_id(1),axis_ids(1),axis_ids(2)
+           case ('time')
+              call cmor_set_table(table_ids(1))
+              axis_ids(idim) = cmor_axis(        &
+                   table_entry=dimnames(i),      &
+                   units=dimunits(i),            &
+                   interval='30 days')
+              write(*,'('' dimension: '',a,'' defined: '',i4,'' units: '',a)') 'time',axis_ids(idim),trim(dimunits(i))
+              idim = idim + 1
+           end select ! dimnames(i)
+        enddo
+     case ('Tables/CMIP5_Oyr')
+        ! Full column T-grid annual BGC fields
+        do i = 1,naxes
+           select case(dimnames(i))
+           case ('longitude')
+              call cmor_set_table(table_ids(2))
+              axis_ids(idim) = cmor_axis(        &
+                   table_entry='i_index',      &
+                   units='1',&
+                   coord_vals=i_indices)
+              write(*,*) 'longitude defined, axis_id: ',idim,axis_ids(idim)
+              idim = idim + 1
+           case ('latitude')
+              call cmor_set_table(table_ids(2))
+              axis_ids(idim) = cmor_axis(        &
+                   table_entry='j_index',       &
+                   units='1',&
+                   coord_vals=j_indices)
+              write(*,*) 'latitude  defined, axis_id: ',idim,axis_ids(idim)
+              idim = idim + 1
+              grid_id(1) = cmor_grid(                    &
+                   axis_ids=(/axis_ids(1),axis_ids(2)/), &
+                   latitude=ocn_t_lats,                    &
+                   longitude=ocn_t_lons,                   &
+                   latitude_vertices=ocn_t_lats_bnds,      &
+                   longitude_vertices=ocn_t_lons_bnds)
+              write(*,'('' grid defined: '',i4,'' axis_ids: '',2i10)') grid_id(1),axis_ids(1),axis_ids(2)
+           case ('olevel')
+              call cmor_set_table(table_ids(1))
+              axis_ids(idim) = cmor_axis(        &
+                   table=mycmor%table_file,      &
+                   table_entry='depth_coord',    &
+                   length=nlevs,                 &
+                   units=dimunits(i),            &
+                   coord_vals=ocn_t_levs,        &
+                   cell_bounds=ocn_t_levs_bnds)
+              write(*,*) 'olevel   defined, axis_id: ',idim,axis_ids(idim)
+              idim = idim + 1
+           case ('time')
+              call cmor_set_table(table_ids(1))
+              axis_ids(idim) = cmor_axis(        &
+                   table_entry=dimnames(i),      &
+                   units=dimunits(i),            &
+                   interval='365 days')
+              write(*,'('' dimension: '',a,'' defined: '',i4,'' units: '',a)') 'time',axis_ids(idim),trim(dimunits(i))
+              idim = idim + 1
+           end select ! dimnames(i)
+        enddo
+     end select
   case ('masso','soga','thetaoga','volo','zosga','zossga','zostoga')
      ! Time-dependent-only fields
      do i = 1,naxes

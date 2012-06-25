@@ -180,6 +180,7 @@ program Oyr_CMOR
              parent_experiment_id=mycmor%parent_experiment_id,  &
              parent_experiment_rip=mycmor%parent_experiment_rip,&
              branch_time=mycmor%branch_time)
+        write(*,*) 'calendar = ',trim(mycmor%calendar)
         if (error_flag < 0) then
            write(*,*) 'ERROR on cmor_dataset!'
            write(*,*) 'outpath               = ',mycmor%outpath
