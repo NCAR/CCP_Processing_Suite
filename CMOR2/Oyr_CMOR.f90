@@ -312,8 +312,8 @@ program Oyr_CMOR
               stop
            endif
         end select
-        tcount = tcount + 1
      enddo
+     tcount = tcount + 1
      call close_cdf(histncid)
   enddo yrcount_loop
   !
