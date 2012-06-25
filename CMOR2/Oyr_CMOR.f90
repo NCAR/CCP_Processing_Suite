@@ -82,6 +82,7 @@ program Oyr_CMOR
   !
   year1 = exp(exp_found)%begyr
   year2 = exp(exp_found)%endyr
+  if (year1 == 2005) year1 = 2006
   if (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
      year1 = 301
      year2 = 800
@@ -348,14 +349,13 @@ program Oyr_CMOR
               enddo
            enddo
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
-           write(*,*) 'cmor_write: ',cmor_var_id,tval,tbnd,cmordat3d(1,1,1),cmordat3d(100,100,3)
            error_flag = cmor_write(          &
                 var_id        = cmor_var_id, &
                 data          = cmordat3d,   &
                 ntimes_passed = 1,           &
                 time_vals     = tval,        &
                 time_bnds     = tbnd)
-           write(*,*) 'cmor_write: ',cmor_var_id,error_flag
+           write(*,*) 'cmor_write: ',cmor_var_id,error_flag,tcount
            if (error_flag < 0) then
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
               stop
@@ -4541,4 +4541,12 @@ program Oyr_CMOR
      enddo yrcount_loop
      tcount = tcount + 1
   enddo xwalk_loop
+  !
+  error_flag = cmor_close()
+  if (error_flag < 0) then
+     write(*,'(''ERROR close'')')
+     stop
+  else
+     write(*,'('' GOOD close'')')
+  endif
 end program Oyr_CMOR
