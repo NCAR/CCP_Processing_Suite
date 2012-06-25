@@ -286,6 +286,28 @@ program Oyr_CMOR
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(jxw)%entry),it
               stop
            endif
+        case ('zooc')
+           !           !
+           ! zooC
+           !
+           if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
+           !
+           indat3a   = var_info(var_found(1,1))%missing_value
+           cmordat3d = var_info(var_found(1,1))%missing_value
+           time_counter = 1
+           call read_var(histncid,var_info(var_found(1,1))%name,indat3a)
+           tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
+           error_flag = cmor_write(          &
+                var_id        = cmor_var_id(found_xw(jxw)), &
+                data          = indat3a,     &
+                ntimes_passed = 1,           &
+                time_vals     = tval,        &
+                time_bnds     = tbnd)
+           write(*,'(''cmor_write id '',i5,'' # '',i5,'' flag '',i5,'' T '',i5,'' t '',f12.3)') cmor_var_id(kvar),kvar,error_flag,tcount,tval(1)
+           if (error_flag < 0) then
+              write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(jxw)%entry),it
+              stop
+           endif
         end select
         call close_cdf(histncid)
         tcount = tcount + 1
