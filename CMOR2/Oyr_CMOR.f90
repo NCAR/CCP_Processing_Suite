@@ -231,12 +231,6 @@ program Oyr_CMOR
           original_name=original_name,                       &
           comment=xw(ixw)%comment)
      write(*,'(''cmor_variable name: '',a,'' ixw '',i10,'' var_id '',i10)') trim(xw(ixw)%entry),ixw,cmor_var_id(ixw)
-!!$     if (abs(cmor_var_id(ixw)) .gt. 1000) then
-!!$        write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(ixw)
-!!$        cycle xwalk_loop
-!!$     else
-!!$        write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(ixw)
-!!$     endif
   enddo
   !
   ! Open CESM file and get information(s)
@@ -248,7 +242,7 @@ program Oyr_CMOR
      call get_vars(histncid)
      time_counter = 1
      call read_var(histncid,'time_bound',time_bnds(:,1))
-     time = (time_bnds(1,1)+time_bnds(2,1))/2.     !
+     time = (time_bnds(1,1)+time_bnds(2,1))/2.
      !
      ! Perform derivations and cycle through time, writing data too
      !
@@ -266,8 +260,8 @@ program Oyr_CMOR
            !
            indat3a   = var_info(var_found(1,jxw))%missing_value
            cmordat3d = var_info(var_found(1,jxw))%missing_value
-           call read_var(histncid,var_info(var_found(1,jxw))%name,indat3a)
            write(*,'(''read_var : '',a)') trim(var_info(var_found(1,jxw))%name)
+           call read_var(histncid,var_info(var_found(1,jxw))%name,indat3a)
            do k = 1,nlevs
               do j = 1,nlats
                  do i = 1,nlons
@@ -296,9 +290,9 @@ program Oyr_CMOR
            if (allocated(indat3a)) deallocate(indat3a)
            allocate(indat3a(nlons,nlats,nlevs))
            !
-           indat3a   = var_info(var_found(1,jxw))%missing_value
-           call read_var(histncid,var_info(var_found(1,jxw))%name,indat3a)
+           indat3a = var_info(var_found(1,jxw))%missing_value
            write(*,'(''read_var : '',a)') trim(var_info(var_found(1,jxw))%name)
+           call read_var(histncid,var_info(var_found(1,jxw))%name,indat3a)
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
            error_flag = cmor_write(          &
                 var_id        = cmor_var_id(found_xw(jxw)), &
