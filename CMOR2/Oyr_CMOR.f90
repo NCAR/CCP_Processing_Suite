@@ -259,8 +259,10 @@ program Oyr_CMOR
            !           !
            ! ALK converted from meq/m3 to mol m-3 via * 1.e-3
            !
-           if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
-           if (.not.(allocated(cmordat3d))) allocate(cmordat3d(nlons,nlats,nlevs))
+           if (allocated(indat3a))   deallocate(indat3a)
+           if (allocated(cmordat3d)) deallocate(cmordat3d)
+           allocate(indat3a(nlons,nlats,nlevs))
+           allocate(cmordat3d(nlons,nlats,nlevs))
            !
            indat3a   = var_info(var_found(1,ixw))%missing_value
            cmordat3d = var_info(var_found(1,ixw))%missing_value
@@ -291,7 +293,8 @@ program Oyr_CMOR
            !           !
            ! zooC
            !
-           if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
+           if (allocated(indat3a)) deallocate(indat3a)
+           allocate(indat3a(nlons,nlats,nlevs))
            !
            indat3a   = var_info(var_found(1,ixw))%missing_value
            call read_var(histncid,var_info(var_found(1,ixw))%name,indat3a)
