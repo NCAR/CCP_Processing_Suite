@@ -158,7 +158,7 @@ program Oyr_CMOR
         call open_cdf(histncid,trim(histfile),.true.)
         call get_dims(histncid)
         call get_vars(histncid)
-        write(*,'(''Reading from '',a)') trim(histfile)
+!        write(*,'(''Reading from '',a)') trim(histfile)
         time_counter = 1
         call read_var(histncid,'time_bound',time_bnds(:,1))
         time = (time_bnds(1,1)+time_bnds(2,1))/2.
@@ -318,7 +318,7 @@ program Oyr_CMOR
                 ntimes_passed = 1,           &
                 time_vals     = tval,        &
                 time_bnds     = tbnd)
-           write(*,'(''cmor_write id '',i5,'' # '',i5,'' flag '',i5,'' T '',i5,'' t '',f12.3)') cmor_var_id(ixw),ixw,error_flag,tcount,tval(1)
+           write(*,'(''cmor_write id '',i5,'' # '',i5,'' flag '',i5,'' T '',i5,'' t '',f12.3)') cmor_var_id(kvar),kvar,error_flag,tcount,tval(1)
            if (error_flag < 0) then
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
               stop
