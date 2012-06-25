@@ -4538,8 +4538,8 @@ program Oyr_CMOR
            mycmor%positive = ' '
            original_name= ' '
         end select
+        tcount = tcount + 1
      enddo yrcount_loop
-     tcount = tcount + 1
   enddo xwalk_loop
   !
   error_flag = cmor_close()
