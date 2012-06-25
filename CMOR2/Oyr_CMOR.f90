@@ -122,9 +122,6 @@ program Oyr_CMOR
           trim(mycmor%experiment_id),&
           trim(xw(ixw)%entry),&
           trim(exp(exp_found)%rip_code)
-     error_flag = cmor_setup(inpath='CMOR',&
-          netcdf_file_action=CMOR_APPEND,&
-          logfile=logfile)
      !
      ! The meaty part
      !
@@ -138,6 +135,10 @@ program Oyr_CMOR
            xw(ixw)%ncesm_vars = 0
         endif
      enddo
+     !
+     error_flag = cmor_setup(inpath='CMOR',&
+          netcdf_file_action=CMOR_APPEND,&
+          logfile=logfile)
      !
      ! Define axes via 'cmor_axis'
      !
@@ -156,6 +157,7 @@ program Oyr_CMOR
         call open_cdf(histncid,trim(histfile),.true.)
         call get_dims(histncid)
         call get_vars(histncid)
+        write(*,'(''Reading from '',a)') trim(histfile)
         time_counter = 1
         call read_var(histncid,'time_bound',time_bnds(:,1))
         time = (time_bnds(1,1)+time_bnds(2,1))/2.
@@ -322,6 +324,7 @@ program Oyr_CMOR
               stop
            endif
         end select
+        call close_cdf(histncid)
         tcount = tcount + 1
      enddo yrcount_loop
   enddo xwalk_loop
