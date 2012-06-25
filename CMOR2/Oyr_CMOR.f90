@@ -283,9 +283,9 @@ program Oyr_CMOR
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(jxw)%entry),it
               stop
            endif
-        case ('zooc')
-           !           !
-           ! zooC
+        case ('ph')
+           !     
+           ! pH_3D
            !
            if (allocated(indat3a)) deallocate(indat3a)
            allocate(indat3a(nlons,nlats,nlevs))
