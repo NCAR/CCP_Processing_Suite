@@ -252,6 +252,7 @@ program Oyr_CMOR
      !
      ! Perform derivations and cycle through time, writing data too
      !
+     time_counter = 1
      do jxw = 1,num_xw
         select case (xw(jxw)%entry)
         case ('talk')
@@ -263,8 +264,8 @@ program Oyr_CMOR
            !
            indat3a   = var_info(var_found(1,1))%missing_value
            cmordat3d = var_info(var_found(1,1))%missing_value
-           time_counter = 1
            call read_var(histncid,var_info(var_found(1,1))%name,indat3a)
+           write(*,'(''read_var : '',a)') trim(var_info(var_found(1,1))%name)
            do k = 1,nlevs
               do j = 1,nlats
                  do i = 1,nlons
@@ -293,9 +294,8 @@ program Oyr_CMOR
            if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
            !
            indat3a   = var_info(var_found(1,1))%missing_value
-           cmordat3d = var_info(var_found(1,1))%missing_value
-           time_counter = 1
            call read_var(histncid,var_info(var_found(1,1))%name,indat3a)
+           write(*,'(''read_var : '',a)') trim(var_info(var_found(1,1))%name)
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
            error_flag = cmor_write(          &
                 var_id        = cmor_var_id(found_xw(jxw)), &
