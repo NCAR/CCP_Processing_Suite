@@ -22,7 +22,7 @@ program Oyr_CMOR
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag
-  integer,dimension(100)::cmor_var_id
+  integer,dimension(100)::cmor_var_id,found_xw
   real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d
   double precision,dimension(1)  ::time,tval
   double precision,dimension(2,1)::time_bnds,tbnd
@@ -31,7 +31,7 @@ program Oyr_CMOR
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
   character(len=256)::fcase,fcomp,fsvar,ftime,histfile
-  integer::i,j,k,m,n,it,ivar,jvar,kvar,length,iexp,jexp,ixw,ilev,ic,tcount,histncid,yrcount,year1,year2
+  integer::i,j,k,m,n,it,ivar,jvar,kvar,length,iexp,jexp,ixw,jxw,ilev,ic,tcount,histncid,yrcount,year1,year2
   real::spval
   logical::does_exist
   !
@@ -99,15 +99,17 @@ program Oyr_CMOR
      call get_dims(histncid)
      call get_vars(histncid)
      call read_att_text(histncid,'time','units',time_units)
+     kvar = 0
      do n=1,var_counter
         do ixw = 1,num_xw
            if (trim(var_info(n)%name)==trim(xw(ixw)%cesm_vars(1))) then
               var_found(1,1) = n
-              xw_found = ixw
+              kvar = kvar + 1
+              found_xw(kvar) = ixw
            endif
         enddo
      enddo
-     if (var_found(1,1)==0) then
+     if (kvar==0) then
         write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(1))
         stop
      endif
@@ -125,19 +127,6 @@ program Oyr_CMOR
           trim(xw(ixw)%entry),&
           trim(exp(exp_found)%rip_code)
      !
-     ! The meaty part
-     !
-     if (xw(ixw)%ncesm_vars==0) then
-        write(*,'(a,'' is UNAVAILABLE.'')') trim(xw(ixw)%entry)
-     endif
-     !
-     do ivar = 1,xw(ixw)%ncesm_vars
-        if (trim(xw(ixw)%cesm_vars(ivar))=='UNKNOWN') then
-           write(*,'(a,'' has UNKNOWN equivalence.'')') trim(xw(ixw)%entry)
-           xw(ixw)%ncesm_vars = 0
-        endif
-     enddo
-     !
      error_flag = cmor_setup(inpath='CMOR',&
           netcdf_file_action=CMOR_APPEND,&
           logfile=logfile)
@@ -151,146 +140,127 @@ program Oyr_CMOR
      call define_ocn_axes(xw(ixw)%dims)
      call cmor_set_table(table_ids(1))
      !
-     ! Open CESM file and get information(s)
+     error_flag = cmor_dataset(                              &
+          outpath=mycmor%outpath,                            &
+          experiment_id=mycmor%experiment_id,                &
+          institution=mycmor%institution,                    &
+          source=mycmor%source,                              &
+          calendar=mycmor%calendar,                          &
+          realization=mycmor%realization,                    &
+          contact=mycmor%contact,                            &
+          history=mycmor%history,                            &
+          comment=mycmor%comment,                            &
+          references=mycmor%references,                      &
+          model_id=mycmor%model_id,                          &
+          forcing=mycmor%forcing,                            &
+          initialization_method=mycmor%initialization_method,&
+          physics_version=mycmor%physics_version,            &
+          institute_id=mycmor%institute_id,                  &
+          parent_experiment_id=mycmor%parent_experiment_id,  &
+          parent_experiment_rip=mycmor%parent_experiment_rip,&
+          branch_time=mycmor%branch_time)
+     if (error_flag < 0) then
+        write(*,*) 'ERROR on cmor_dataset!'
+        write(*,*) 'outpath               = ',mycmor%outpath
+        write(*,*) 'experiment_id         = ',mycmor%experiment_id
+        write(*,*) 'institution           = ',mycmor%institution
+        write(*,*) 'source                = ',mycmor%source
+        write(*,*) 'calendar              = ',mycmor%calendar
+        write(*,*) 'realization           = ',mycmor%realization
+        write(*,*) 'contact               = ',mycmor%contact
+        write(*,*) 'history               = ',mycmor%history
+        write(*,*) 'comment               = ',mycmor%comment
+        write(*,*) 'references            = ',mycmor%references
+        write(*,*) 'model_id              = ',mycmor%model_id
+        write(*,*) 'forcing               = ',mycmor%forcing
+        write(*,*) 'initialization_method = ',mycmor%initialization_method
+        write(*,*) 'physics_version       = ',mycmor%physics_version
+        write(*,*) 'institute_id          = ',mycmor%institute_id
+        write(*,*) 'parent_experiment_id  = ',mycmor%parent_experiment_id
+        write(*,*) 'parent_experiment_rip = ',mycmor%parent_experiment_rip
+        write(*,*) 'branch_time           = ',mycmor%branch_time
+     endif
      !
-     yrcount_loop: do yrcount = year1,year2
-        write(histfile,'(''data/'',a,''.'',a,''.subset.'',i4.4,''.nc'')') trim(case_read),trim(comp_read),yrcount
-        call open_cdf(histncid,trim(histfile),.true.)
-        call get_dims(histncid)
-        call get_vars(histncid)
-!        write(*,'(''Reading from '',a)') trim(histfile)
-        time_counter = 1
-        call read_var(histncid,'time_bound',time_bnds(:,1))
-        time = (time_bnds(1,1)+time_bnds(2,1))/2.
-        table_ids(1) = cmor_load_table(mycmor%table_file)
-        call cmor_set_table(table_ids(1))
-        !
-        error_flag = cmor_dataset(                              &
-             outpath=mycmor%outpath,                            &
-             experiment_id=mycmor%experiment_id,                &
-             institution=mycmor%institution,                    &
-             source=mycmor%source,                              &
-             calendar=mycmor%calendar,                          &
-             realization=mycmor%realization,                    &
-             contact=mycmor%contact,                            &
-             history=mycmor%history,                            &
-             comment=mycmor%comment,                            &
-             references=mycmor%references,                      &
-             model_id=mycmor%model_id,                          &
-             forcing=mycmor%forcing,                            &
-             initialization_method=mycmor%initialization_method,&
-             physics_version=mycmor%physics_version,            &
-             institute_id=mycmor%institute_id,                  &
-             parent_experiment_id=mycmor%parent_experiment_id,  &
-             parent_experiment_rip=mycmor%parent_experiment_rip,&
-             branch_time=mycmor%branch_time)
-        if (error_flag < 0) then
-           write(*,*) 'ERROR on cmor_dataset!'
-           write(*,*) 'outpath               = ',mycmor%outpath
-           write(*,*) 'experiment_id         = ',mycmor%experiment_id
-           write(*,*) 'institution           = ',mycmor%institution
-           write(*,*) 'source                = ',mycmor%source
-           write(*,*) 'calendar              = ',mycmor%calendar
-           write(*,*) 'realization           = ',mycmor%realization
-           write(*,*) 'contact               = ',mycmor%contact
-           write(*,*) 'history               = ',mycmor%history
-           write(*,*) 'comment               = ',mycmor%comment
-           write(*,*) 'references            = ',mycmor%references
-           write(*,*) 'model_id              = ',mycmor%model_id
-           write(*,*) 'forcing               = ',mycmor%forcing
-           write(*,*) 'initialization_method = ',mycmor%initialization_method
-           write(*,*) 'physics_version       = ',mycmor%physics_version
-           write(*,*) 'institute_id          = ',mycmor%institute_id
-           write(*,*) 'parent_experiment_id  = ',mycmor%parent_experiment_id
-           write(*,*) 'parent_experiment_rip = ',mycmor%parent_experiment_rip
-           write(*,*) 'branch_time           = ',mycmor%branch_time
-        endif
-        !
-        ! Add global metadata
-        !
-        call add_global_metadata
-        !
-        ! Define axes via 'cmor_axis'
-        !
-!!$        table_ids(2) = cmor_load_table('Tables/CMIP5_grids')
-!!$        table_ids(3) = cmor_load_table('Tables/CMIP5_fx')
-!!$        call cmor_set_table(table_ids(2))
-!!$        call define_ocn_axes(xw(ixw)%dims)
-!!$        call cmor_set_table(table_ids(1))
-        ! 
-        ! Make manual alterations so that CMOR works. Silly code!
-        !
-        if (xw(ixw)%ncesm_vars==1) then
-           write(original_name,'(a)') xw(ixw)%cesm_vars(1)
-        endif
-        if (xw(ixw)%ncesm_vars==2) then
-           write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(jvar)),jvar=1,xw(ixw)%ncesm_vars)
-        endif
-        if (xw(ixw)%ncesm_vars==3) then
-           write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(jvar)),jvar=1,xw(ixw)%ncesm_vars)
-        endif
-        !
-        ! Modify units as necessary to accomodate udunits' inability to convert 
-        !
-        select case (xw(kvar)%entry)
-        case ('msftmyz','msftbarot','wmo','umo','vmo')
-           var_info(var_found(1,1))%units = 'kg s-1'
-        case ('wmosq')
-           var_info(var_found(1,1))%units = 'kg2 s-2'
-        case ('masso')
-           var_info(var_found(1,1))%units = 'kg'
-        case ('cfc11')
-           var_info(var_found(1,1))%units = 'mol kg-1'
-        case ('fbddtalk','fddtalk','intpp','frn','intppico','intpcalc','intpdiat','intpdiaz','intpn2','intpbsi','intpcalcite')
-           var_info(var_found(1,1))%units = 'mol m-2 s-1'
-        case ('talk')
-           var_info(var_found(1,1))%units = 'mol m-3'
-        case ('ph')
-           var_info(var_found(1,1))%units = '1'
-        case ('dpco2','spco2')
-           var_info(var_found(1,1))%units = 'Pa'
-        case ('fgco2')
-           var_info(var_found(1,1))%units = 'kg m-2 s-1'
-           mycmor%positive = 'down'
-        case ('intdic')
-           var_info(var_found(1,1))%units = 'kg m-2'
-        case ('hfss','rlds','rsntds','rsds','tauuo','tauvo')
-           mycmor%positive = 'up'
-        case ('epc100','epcalc100','epfe100','epsi100','fgo2','fsn')
-           mycmor%positive = 'down'
-        end select
-        !
-!!$        write(*,*) 'calling cmor_variable:'
-!!$        write(*,*) 'table         = ',trim(mycmor%table_file)
-!!$        write(*,*) 'table_entry   = ',trim(xw(kvar)%entry)
-!!$        write(*,*) 'dimensions    = ',trim(xw(kvar)%dims)
-!!$        write(*,*) 'units         = ',trim(var_info(var_found(1,1))%units)
-!!$        write(*,*) 'axis_ids      = ',axis_ids(1:naxes)
-!!$        write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
-!!$        write(*,*) 'positive      = ',trim(mycmor%positive)
-!!$        write(*,*) 'original_name = ',trim(original_name)
-        !
-        ! All fields are full column
-        cmor_var_id(kvar) = cmor_variable(                            &
-             table=mycmor%table_file,                           &
-             table_entry=xw(ixw)%entry,                         &
-             units=var_info(var_found(1,1))%units,              &
-             axis_ids=(/grid_id(1),axis_ids(3),axis_ids(4)/),   &
-             missing_value=var_info(var_found(1,1))%missing_value,&
-             positive=mycmor%positive,                          &
-             original_name=original_name,                       &
-             comment=xw(kvar)%comment)
-        write(*,'(''cmor_variable name: '',a,'' ixw '',i10,'' var_id '',i10)') trim(xw(ixw)%entry),kvar,cmor_var_id(kvar)
-        if (abs(cmor_var_id(kvar)) .gt. 1000) then
-           write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(kvar)
-           cycle xwalk_loop
+     ! Add global metadata
+     !
+     call add_global_metadata
+     ! 
+     ! Make manual alterations so that CMOR works. Silly code!
+     !
+     if (xw(ixw)%ncesm_vars==1) then
+        write(original_name,'(a)') xw(ixw)%cesm_vars(1)
+     endif
+     if (xw(ixw)%ncesm_vars==2) then
+        write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(jvar)),jvar=1,xw(ixw)%ncesm_vars)
+     endif
+     if (xw(ixw)%ncesm_vars==3) then
+        write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(jvar)),jvar=1,xw(ixw)%ncesm_vars)
+     endif
+     !
+     ! Modify units as necessary to accomodate udunits' inability to convert 
+     !
+     select case (xw(kvar)%entry)
+     case ('msftmyz','msftbarot','wmo','umo','vmo')
+        var_info(var_found(1,1))%units = 'kg s-1'
+     case ('wmosq')
+        var_info(var_found(1,1))%units = 'kg2 s-2'
+     case ('masso')
+        var_info(var_found(1,1))%units = 'kg'
+     case ('cfc11')
+        var_info(var_found(1,1))%units = 'mol kg-1'
+     case ('fbddtalk','fddtalk','intpp','frn','intppico','intpcalc','intpdiat','intpdiaz','intpn2','intpbsi','intpcalcite')
+        var_info(var_found(1,1))%units = 'mol m-2 s-1'
+     case ('talk')
+        var_info(var_found(1,1))%units = 'mol m-3'
+     case ('ph')
+        var_info(var_found(1,1))%units = '1'
+     case ('dpco2','spco2')
+        var_info(var_found(1,1))%units = 'Pa'
+     case ('fgco2')
+        var_info(var_found(1,1))%units = 'kg m-2 s-1'
+        mycmor%positive = 'down'
+     case ('intdic')
+        var_info(var_found(1,1))%units = 'kg m-2'
+     case ('hfss','rlds','rsntds','rsds','tauuo','tauvo')
+        mycmor%positive = 'up'
+     case ('epc100','epcalc100','epfe100','epsi100','fgo2','fsn')
+        mycmor%positive = 'down'
+     end select
+     !
+     ! All fields are full column
+     cmor_var_id(kvar) = cmor_variable(                            &
+          table=mycmor%table_file,                           &
+          table_entry=xw(ixw)%entry,                         &
+          units=var_info(var_found(1,1))%units,              &
+          axis_ids=(/grid_id(1),axis_ids(3),axis_ids(4)/),   &
+          missing_value=var_info(var_found(1,1))%missing_value,&
+          positive=mycmor%positive,                          &
+          original_name=original_name,                       &
+          comment=xw(kvar)%comment)
+     write(*,'(''cmor_variable name: '',a,'' ixw '',i10,'' var_id '',i10)') trim(xw(ixw)%entry),kvar,cmor_var_id(kvar)
+!!$        if (abs(cmor_var_id(kvar)) .gt. 1000) then
+!!$           write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(kvar)
+!!$           cycle xwalk_loop
 !!$        else
 !!$           write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(kvar)%entry),cmor_var_id(kvar)
-        endif
-        !
-        ! Perform derivations and cycle through time, writing data too
-        !
-        select case (xw(ixw)%entry)
+!!$        endif
+  enddo xwalk_loop
+  !
+  ! Open CESM file and get information(s)
+  !
+  yrcount_loop: do yrcount = year1,year2
+     write(histfile,'(''data/'',a,''.'',a,''.subset.'',i4.4,''.nc'')') trim(case_read),trim(comp_read),yrcount
+     call open_cdf(histncid,trim(histfile),.true.)
+     call get_dims(histncid)
+     call get_vars(histncid)
+     time_counter = 1
+     call read_var(histncid,'time_bound',time_bnds(:,1))
+     time = (time_bnds(1,1)+time_bnds(2,1))/2.     !
+     !
+     ! Perform derivations and cycle through time, writing data too
+     !
+     do jxw = 1,num_xw
+        select case (xw(jxw)%entry)
         case ('talk')
            !           !
            ! ALK converted from meq/m3 to mol m-3 via * 1.e-3
@@ -320,14 +290,14 @@ program Oyr_CMOR
                 time_bnds     = tbnd)
            write(*,'(''cmor_write id '',i5,'' # '',i5,'' flag '',i5,'' T '',i5,'' t '',f12.3)') cmor_var_id(kvar),kvar,error_flag,tcount,tval(1)
            if (error_flag < 0) then
-              write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+              write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(jxw)%entry),it
               stop
            endif
         end select
         call close_cdf(histncid)
         tcount = tcount + 1
-     enddo yrcount_loop
-  enddo xwalk_loop
+     enddo
+  enddo yrcount_loop
   !
   error_flag = cmor_close()
   if (error_flag < 0) then
