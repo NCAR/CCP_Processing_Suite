@@ -32,7 +32,7 @@ program Oyr_CMOR
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
   character(len=256)::fcase,fcomp,fsvar,ftime,histfile
-  integer::i,j,k,m,n,it,ivar,jvar,length,iexp,jexp,ixw,ilev,ic,tcount,histncid
+  integer::i,j,k,m,n,it,ivar,jvar,length,iexp,jexp,ixw,ilev,ic,tcount,histncid,yrcount,year1,year2
   real::spval
   logical::does_exist
   !
@@ -82,7 +82,18 @@ program Oyr_CMOR
   !
   ! Open CESM file and get information(s)
   !
-  do yrcount = exp(exp_found)%begyr,exp(exp_found)%begyr
+  year1 = exp(exp_found)%begyr
+  year2 = exp(exp_found)%endyr
+  if (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
+     year1 = 301
+     year2 = 800
+  endif
+  if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0301-0800                  
+     year1 = 101
+     year2 = 600
+  endif
+  !
+  do yrcount = year1,year2
      write(histfile,'(a,''.'',a,''.subset.'',i4.4,''.nc'')') trim(case_read),trim(comp_read),yrcount
      call open_cdf(histncid,trim(histfile),.true.)
      call get_dims(histncid)
@@ -90,22 +101,26 @@ program Oyr_CMOR
      call read_att_text(histncid,'time','units',time_units)
      write(*,'(''time units in: '',i10,5x,a)') histncid,trim(time_units)
      do n=1,var_counter
-        if (trim(var_info(n)%name)==trim(xw(ixw)%cesm_vars(ivar))) then
-           var_found(1,1) = n
-           xw_found = ixw
-        endif
+        do ixw = 1,num_xw
+           if (trim(var_info(n)%name)==trim(xw(ixw)%cesm_vars(1))) then
+              var_found(1,1) = n
+              xw_found = ixw
+           endif
+        enddo
      enddo
      if (var_found(1,1)==0) then
-        write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
+        write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(1))
         stop
      endif
-     xwalk_loop: do ixw = 1,num_xw
+     call close_cdf(histncid)
+  enddo
+  !
+  xwalk_loop: do ixw = 1,num_xw
      !
      ! The meaty part
      !
      if (xw(ixw)%ncesm_vars==0) then
         write(*,'(a,'' is UNAVAILABLE.'')') trim(xw(ixw)%entry)
-        all_continue = .false.
      endif
      !
      do ivar = 1,xw(ixw)%ncesm_vars
@@ -132,16 +147,6 @@ program Oyr_CMOR
         call get_vars(histncid)
         call read_att_text(histncid,'time','units',time_units)
         write(*,'(''time units in: '',i10,5x,a)') histncid,trim(time_units)
-        do n=1,var_counter
-           if (trim(var_info(n)%name)==trim(xw(ixw)%cesm_vars(ivar))) then
-              var_found(1,1) = n
-              xw_found = ixw
-           endif
-        enddo
-        if (var_found(1,1)==0) then
-           write(*,'(''NEVER FOUND: '',a,'' STOP. '')') trim(xw(ixw)%cesm_vars(ivar))
-           stop
-        endif
         !
         ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
         !
@@ -199,14 +204,6 @@ program Oyr_CMOR
         ! Add global metadata
         !
         call add_global_metadata
-        !
-        ! Define axes via 'cmor_axis'
-        !
-        table_ids(2) = cmor_load_table('Tables/CMIP5_grids')
-        table_ids(3) = cmor_load_table('Tables/CMIP5_fx')
-        call cmor_set_table(table_ids(2))
-        call define_ocn_axes(xw(ixw)%dims)
-        call cmor_set_table(table_ids(1))
         ! 
         ! Make manual alterations so that CMOR works. Silly code!
         !
@@ -260,59 +257,16 @@ program Oyr_CMOR
         write(*,*) 'positive      = ',trim(mycmor%positive)
         write(*,*) 'original_name = ',trim(original_name)
         !
-        select case (xw(ixw)%entry)
-        case ('thetao','so','agessc','uo','vo','rhopoto','cfc11','wmo','wmosq','umo','vmo')
-           ! Full-column fields
-           cmor_var_id = cmor_variable(                            &
-                table=mycmor%table_file,                           &
-                table_entry=xw(ixw)%entry,                         &
-                units=var_info(var_found(1,1))%units,              &
-                axis_ids=(/grid_id(1),axis_ids(3),axis_ids(4)/),   &
-                missing_value=var_info(var_found(1,1))%missing_value,&
-                positive=mycmor%positive,                          &
-                original_name=original_name,                       &
-                comment=xw(ixw)%comment)
-        case ('msftmyz')
-           ! Different MOC grid
-           cmor_var_id = cmor_variable(                            &
-                table=mycmor%table_file,                           &
-                table_entry=xw(ixw)%entry,                         &
-                units=var_info(var_found(1,1))%units,              &
-                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4)/),   &
-                missing_value=var_info(var_found(1,1))%missing_value,&
-                positive=mycmor%positive,                          &
-                original_name=original_name,                       &
-                comment=xw(ixw)%comment)
-        case ('soga','thetaoga','zosga','zossga','zostoga','masso')
-           ! Time-dependent-only fields
-           cmor_var_id = cmor_variable(                            &
-                table=mycmor%table_file,                           &
-                table_entry=xw(ixw)%entry,                         &
-                units=var_info(var_found(1,1))%units,              &
-                axis_ids=(/axis_ids(1)/),                          &
-                missing_value=var_info(var_found(1,1))%missing_value,&
-                positive=mycmor%positive,                          &
-                original_name=original_name,                       &
-                comment=xw(ixw)%comment)
-        case ('dpco2','fgco2','fgo2','frn','fsn','intdic','intpbsi','intpcalcite','intpcalc','intpdiat','intpdiaz',&
-              'intpn2','intpnitrate','intppico','intpp','o2min','spco2','zo2min','zsatarag','zsatcalc','hfss',&
-              'msftbarot','omlmax','pr','prsn','rlds','rsntds','sos','tauuo','tauvo','tos','tossq','zos',&
-              'chlcalc','chldiat','chldiaz','chl','chlpico','co3','co3satarag','co3satcalc','dfe','dissic','dissoc',&
-              'epc100','epcalc100','epfe100','epsi100','nh4','no3','o2','ph','phycalc','phyc','phydiat','phydiaz',&
-              'phyfe','phyn','phypico','phyp','physi','po4','si','talk','zooc',&
-              'fbddtalk','fbddtdic','fbddtdife','fbddtdin','fbddtdip','fbddtdisi','fddtalk',&
-              'fddtdic','fddtdife','fddtdin','fddtdip','fddtdisi')
-           ! Single-level fields
-           cmor_var_id = cmor_variable(                            &
-                table=mycmor%table_file,                           &
-                table_entry=xw(ixw)%entry,                         &
-                units=var_info(var_found(1,1))%units,              &
-                axis_ids=(/grid_id(1),axis_ids(3)/),               &
-                missing_value=var_info(var_found(1,1))%missing_value,&
-                positive=mycmor%positive,                          &
-                original_name=original_name,                       &
-                comment=xw(ixw)%comment)
-        end select
+        ! All fields are full column
+        cmor_var_id = cmor_variable(                            &
+             table=mycmor%table_file,                           &
+             table_entry=xw(ixw)%entry,                         &
+             units=var_info(var_found(1,1))%units,              &
+             axis_ids=(/grid_id(1),axis_ids(3),axis_ids(4)/),   &
+             missing_value=var_info(var_found(1,1))%missing_value,&
+             positive=mycmor%positive,                          &
+             original_name=original_name,                       &
+             comment=xw(ixw)%comment)
         if (abs(cmor_var_id) .gt. 1000) then
            write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id
            cycle xwalk_loop
@@ -323,20 +277,61 @@ program Oyr_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('chldiat','chldiaz','chlpico','co3','co3satarag','co3satcalc','dfe','tos','ph',&
-              'dissic','dissoc','nh4','no3','o2','phycalc','phydiat','phydiaz','phypico',&
-              'physi','po4','si','zooc')
+!!$        case ('chldiat','chldiaz','chlpico','co3','co3satarag','co3satcalc','dfe','tos','ph',&
+!!$             'dissic','dissoc','nh4','no3','o2','phycalc','phydiat','phydiaz','phypico',&
+!!$             'physi','po4','si','zooc')
+!!$           !
+!!$           if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
+!!$           if (.not.(allocated(cmordat2d))) allocate(cmordat2d(nlons,nlats))
+!!$           tcount = 1
+!!$           !
+!!$           indat3a = var_info(var_found(ifile,1))%missing_value
+!!$           call read_var(histncid,var_info(var_found(1,1))%name,indat3a)
+!!$           tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+!!$           error_flag = cmor_write(          &
+!!$                var_id        = cmor_var_id, &
+!!$                data          = indat3a,   &
+!!$                ntimes_passed = 1,           &
+!!$                time_vals     = tval,        &
+!!$                time_bnds     = tbnd)
+!!$           if (error_flag < 0) then
+!!$              write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+!!$              stop
+!!$           endif
+!!$           if (mod(tcount,100) == 0) then
+!!$              error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+!!$              if (error_flag < 0) then
+!!$                 write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+!!$                 stop
+!!$              else
+!!$                 write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+!!$              endif
+!!$              write(*,'(''DONE writing '',a,'' T# '',2i8,'' chunk# '',i6)') trim(xw(ixw)%entry),tcount,it-1,ic
+!!$           enddo
+        case ('talk')
+           !           !
+           ! ALK converted from meq/m3 to mol m-3 via * 1.e-3
            !
            if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
-           if (.not.(allocated(cmordat2d))) allocate(cmordat2d(nlons,nlats))
-           tcount = 1
+           if (.not.(allocated(cmordat3d))) allocate(cmordat3d(nlons,nlats,nlevs))
            !
-           indat3a = var_info(var_found(ifile,1))%missing_value
+           tcount = 1
+           indat3a   = var_info(var_found(1,1))%missing_value
+           cmordat3d = var_info(var_found(1,1))%missing_value
            call read_var(histncid,var_info(var_found(1,1))%name,indat3a)
+           do k = 1,nlevs
+              do j = 1,nlats
+                 do i = 1,nlons
+                    if (kmt(i,j) .ge. k) then
+                       cmordat3d(i,j,k) = indat3a(i,j,1)*1.e-3
+                    endif
+                 enddo
+              enddo
+           enddo
            tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
            error_flag = cmor_write(          &
                 var_id        = cmor_var_id, &
-                data          = indat3a,   &
+                data          = cmordat3d,   &
                 ntimes_passed = 1,           &
                 time_vals     = tval,        &
                 time_bnds     = tbnd)
@@ -353,151 +348,7 @@ program Oyr_CMOR
                  write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
               endif
               write(*,'(''DONE writing '',a,'' T# '',2i8,'' chunk# '',i6)') trim(xw(ixw)%entry),tcount,it-1,ic
-           enddo
-!!$        case ('talk')
-!!$           !           !
-!!$           ! ALK fields at at k=1 (depth0m) and converted from meq/m3 to mol m-3 via * 1.e-3
-!!$           !
-!!$           if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
-!!$           if (.not.(allocated(cmordat2d))) allocate(cmordat2d(nlons,nlats))
-!!$           do 1 = 1,nc_nfiles(1)
-!!$              call open_cdf(histncid,trim(histfile),.true.)
-!!$              call get_dims(histncid)
-!!$              call get_vars(histncid)
-!!$              !
-!!$              if (allocated(time))      deallocate(time)
-!!$              if (allocated(time_bnds)) deallocate(time_bnds)
-!!$              allocate(time(ntimes(1,1)))
-!!$              allocate(time_bnds(2,ntimes(1,1)))
-!!$              !
-!!$              do n = 1,ntimes(1,1)
-!!$                 time_counter = n
-!!$                 call read_var(histncid,'time_bound',time_bnds(:,n))
-!!$              enddo
-!!$              time_bnds(1,1) = int(time_bnds(1,1))-1
-!!$              time = (time_bnds(1,:)+time_bnds(2,:))/2.
-!!$              !
-!!$              select case (ntimes(1,1))
-!!$              case ( 120 ) ! Decade, but may need to subset
-!!$                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
-!!$                    call parse_ncfile(trim(histfile),fcase,fcomp,fsvar,ftime)
-!!$                    if (ftime(1:4) == '0100') then
-!!$                       nchunks(1) = 1
-!!$                       tidx1(1:nchunks(1)) = 13
-!!$                       tidx2(1:nchunks(1)) = ntimes(1,1)
-!!$                    elseif (ftime(1:4) == '0600') then
-!!$                       nchunks(1) = 1
-!!$                       tidx1(1:nchunks(1)) = 1
-!!$                       tidx2(1:nchunks(1)) = 12
-!!$                    else
-!!$                       nchunks(1) = 1
-!!$                       tidx1(1:nchunks(1)) = 1
-!!$                       tidx2(1:nchunks(1)) = ntimes(1,1)
-!!$                    endif
-!!$                 elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
-!!$                    call parse_ncfile(trim(histfile),fcase,fcomp,fsvar,ftime)
-!!$                    if (ftime(1:4) == '0300') then
-!!$                       nchunks(1) = 1
-!!$                       tidx1(1:nchunks(1)) = 13
-!!$                       tidx2(1:nchunks(1)) = ntimes(1,1)
-!!$                    elseif (ftime(1:4) == '0800') then
-!!$                       nchunks(1) = 1
-!!$                       tidx1(1:nchunks(1)) = 1
-!!$                       tidx2(1:nchunks(1)) = 12
-!!$                    else
-!!$                       nchunks(1) = 1
-!!$                       tidx1(1:nchunks(1)) = 1
-!!$                       tidx2(1:nchunks(1)) = ntimes(1,1)
-!!$                    endif
-!!$                 else
-!!$                    nchunks(1) = 1
-!!$                    tidx1(1:nchunks(1)) = 1
-!!$                    tidx2(1:nchunks(1)) = ntimes(1,1)
-!!$                 endif
-!!$              case ( 60, 1152 ) ! RCP, skip 2005
-!!$                 if (exp(exp_found)%begyr==2005) then
-!!$                    nchunks(1) = 1
-!!$                    tidx1(1:nchunks(1)) = 13
-!!$                    tidx2(1:nchunks(1)) = ntimes(1,1)
-!!$                 else
-!!$                    nchunks(1) = 1
-!!$                    tidx1(1:nchunks(1)) = 1
-!!$                    tidx2(1:nchunks(1)) = ntimes(1,1)
-!!$                 endif
-!!$              case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
-!!$                 nchunks(1) = 1
-!!$                 tidx1(1:nchunks(1)) = (/2389/) ! 1000
-!!$                 tidx2(1:nchunks(1)) = (/6000/) ! 1300
-!!$              case ( 4824 ) ! LGM from 149901 to 190012; want only 1800-1900
-!!$                 nchunks(1) = 1
-!!$                 tidx1(1:nchunks(1)) = (/3613/) ! 1800-01
-!!$                 tidx2(1:nchunks(1)) = (/4824/) ! 1900-12
-!!$              case ( 12012 )
-!!$                 nchunks(1)= 2
-!!$                 tidx1(1:nchunks(1)) = (/   1, 6001/)
-!!$                 tidx2(1:nchunks(1)) = (/6000,12012/)
-!!$              case ( 12000 ) ! BGC controls
-!!$                 if (trim(case_read)=='b40.prescribed_carb.001') then ! Use only 0101-0600
-!!$                    nchunks(1)= 2
-!!$                    tidx1(1:nchunks(1)) = (/1201,4201/)
-!!$                    tidx2(1:nchunks(1)) = (/4200,7200/)
-!!$                 endif
-!!$                 if (trim(case_read)=='b40.coup_carb.004') then       ! Use only 0301-0800
-!!$                    nchunks(1)= 2
-!!$                    tidx1(1:nchunks(1)) = (/   1, 6001/)
-!!$                    tidx2(1:nchunks(1)) = (/6000,12012/)
-!!$                 endif
-!!$              case default
-!!$                 nchunks(1)   = 1
-!!$                 tidx1(1:nchunks(1)) =  1
-!!$                 tidx2(1:nchunks(1)) = ntimes(1,1)
-!!$              end select
-!!$              write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
-!!$              do ic = 1,nchunks(1)
-!!$                 do it = tidx1(ic),tidx2(ic)
-!!$                    time_counter = it
-!!$                    !
-!!$                    indat3a   = var_info(var_found(1,1))%missing_value
-!!$                    cmordat2d = var_info(var_found(1,1))%missing_value
-!!$                    call read_var(histncid,var_info(var_found(1,1))%name,indat3a)
-!!$                    do j = 1,nlats
-!!$                       do i = 1,nlons
-!!$                          if (kmt(i,j) .ge. 1) then
-!!$                             cmordat2d(i,j) = indat3a(i,j,1)*1.e-3
-!!$                          endif
-!!$                       enddo
-!!$                    enddo
-!!$                    !
-!!$                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-!!$                    error_flag = cmor_write(          &
-!!$                         var_id        = cmor_var_id, &
-!!$                         data          = cmordat2d,   &
-!!$                         ntimes_passed = 1,           &
-!!$                         time_vals     = tval,        &
-!!$                         time_bnds     = tbnd)
-!!$                    if (error_flag < 0) then
-!!$                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-!!$                       stop
-!!$                    endif
-!!$                 enddo
-!!$                 write(*,'(''DONE writing '',a,'' T# '',i8,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-!!$              enddo
-!!$              if (allocated(time))      deallocate(time)
-!!$              if (allocated(time_bnds)) deallocate(time_bnds)
-!!$              dim_counter  = 0
-!!$              var_counter  = 0
-!!$              time_counter = 0
-!!$              file_counter = 0
-!!$           enddo
-!!$           error_flag = cmor_close()
-!!$           if (error_flag < 0) then
-!!$              write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
-!!$           else
-!!$              write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
-!!$           endif
-!!$           do 1 = 1,nc_nfiles(1)
-!!$              call close_cdf(histncid)
-!!$           enddo
+           endif
 !!$        case ('fbddtalk','fddtalk')
 !!$           !
 !!$           ! Convert meq/m3 cm/s to mol m-2 s-1 via * 1.e-5
@@ -4659,12 +4510,13 @@ program Oyr_CMOR
 !!$        if (allocated(cmordat2d)) deallocate(cmordat2d)
 !!$        if (allocated(indat3a))   deallocate(indat3a)
 !!$        if (allocated(indat3b))   deallocate(indat3b)
-        !
-        ! Reset
-        !
-        error_flag   = 0
-        mycmor%positive = ' '
-        original_name= ' '
-     end select
-  enddo
+           !
+           ! Reset
+           !
+           error_flag   = 0
+           mycmor%positive = ' '
+           original_name= ' '
+        end select
+     enddo
+  enddo xwalk_loop
 end program Oyr_CMOR
