@@ -279,15 +279,7 @@ program Oyr_CMOR
              positive=mycmor%positive,                          &
              original_name=original_name,                       &
              comment=xw(ixw)%comment)
-!!$        write(*,*) 'cmor_variable: ', &
-!!$             trim(mycmor%table_file),'       ',                           &
-!!$             trim(xw(ixw)%entry),'       ',                         &
-!!$             trim(var_info(var_found(1,1))%units),'       ',              &
-!!$             grid_id(1),axis_ids(3),axis_ids(4),   &
-!!$             var_info(var_found(1,1))%missing_value,&
-!!$             trim(mycmor%positive),'       ',                          &
-!!$             trim(original_name),'       ',                       &
-!!$             trim(xw(ixw)%comment)
+        write(*,'(''cmor_variable: '',10a,5x,i6)') trim(xw(ixw)%entry),cmor_var_id(var_found(1,1))
         if (abs(cmor_var_id(var_found(1,1))) .gt. 1000) then
            write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(var_found(1,1))
            cycle xwalk_loop
