@@ -117,6 +117,16 @@ program Oyr_CMOR
   !
   xwalk_loop: do ixw = 1,num_xw
      !
+     ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
+     !
+     write(logfile,'(''log_cmor.'',a,''.'',a,''_'',a)') &
+          trim(mycmor%experiment_id),&
+          trim(exp(exp_found)%rip_code),&
+          trim(xw(ixw)%entry)
+     error_flag = cmor_setup(inpath='CMOR',&
+          netcdf_file_action=CMOR_REPLACE,&
+          logfile=logfile)
+     !
      ! The meaty part
      !
      if (xw(ixw)%ncesm_vars==0) then
@@ -146,17 +156,7 @@ program Oyr_CMOR
         call get_dims(histncid)
         call get_vars(histncid)
         call read_att_text(histncid,'time','units',time_units)
-        write(*,'(''time units in: '',i10,5x,a)') histncid,trim(time_units)
-        !
-        ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
-        !
-        write(logfile,'(''log_cmor.'',a,''.'',a,''_'',a)') &
-             trim(mycmor%experiment_id),&
-             trim(exp(exp_found)%rip_code),&
-             trim(xw(ixw)%entry)
-        error_flag = cmor_setup(inpath='CMOR',&
-             netcdf_file_action=CMOR_REPLACE,&
-             logfile=logfile)
+        write(*,'(''time units in: '',i10,5x,a,5x,a)') histncid,trim(histfile),trim(time_units)
         table_ids(1) = cmor_load_table(mycmor%table_file)
         call cmor_set_table(table_ids(1))
         !
