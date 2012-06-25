@@ -23,10 +23,8 @@ program Oyr_CMOR
   !
   integer::error_flag,cmor_var_id
   real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d
-  double precision,dimension(:)  ,allocatable::time
-  double precision,dimension(:,:),allocatable::time_bnds
-  double precision,dimension(1)  ::tval
-  double precision,dimension(2,1)::tbnd
+  double precision,dimension(1)  ::time,tval
+  double precision,dimension(2,1)::time_bnds,tbnd
   !
   ! Other variables
   !
@@ -157,7 +155,9 @@ program Oyr_CMOR
         call open_cdf(histncid,trim(histfile),.true.)
         call get_dims(histncid)
         call get_vars(histncid)
-        call read_att_text(histncid,'time','units',time_units)
+        time_counter = 1
+        call read_var(histncid,'time_bound',time_bnds(:,1))
+        time = (time_bnds(1,1)+time_bnds(2,1))/2.
         table_ids(1) = cmor_load_table(mycmor%table_file)
         call cmor_set_table(table_ids(1))
         !
@@ -332,18 +332,20 @@ program Oyr_CMOR
               do j = 1,nlats
                  do i = 1,nlons
                     if (kmt(i,j) .ge. k) then
-                       cmordat3d(i,j,k) = indat3a(i,j,1)*1.e-3
+                       cmordat3d(i,j,k) = indat3a(i,j,k)*1.e-3
                     endif
                  enddo
               enddo
            enddo
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
+           write(*,*) 'cmor_write: ',cmor_var_id,tval,tbnd,cmordat3d(1,1,1),cmordat3d(100,100,3)
            error_flag = cmor_write(          &
                 var_id        = cmor_var_id, &
                 data          = cmordat3d,   &
                 ntimes_passed = 1,           &
                 time_vals     = tval,        &
                 time_bnds     = tbnd)
+           write(*,*) 'cmor_write: ',cmor_var_id,error_flag
            if (error_flag < 0) then
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
               stop
