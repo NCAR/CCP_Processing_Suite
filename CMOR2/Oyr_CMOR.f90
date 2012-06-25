@@ -31,7 +31,7 @@ program Oyr_CMOR
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
   character(len=256)::fcase,fcomp,fsvar,ftime,histfile
-  integer::i,j,k,m,n,it,ivar,jvar,length,iexp,jexp,ixw,ilev,ic,tcount,histncid,yrcount,year1,year2
+  integer::i,j,k,m,n,it,ivar,jvar,kvar,length,iexp,jexp,ixw,ilev,ic,tcount,histncid,yrcount,year1,year2
   real::spval
   logical::does_exist
   !
@@ -151,6 +151,7 @@ program Oyr_CMOR
      !
      ! Open CESM file and get information(s)
      !
+     kvar = 1
      yrcount_loop: do yrcount = year1,year2
         tcount = 1
         write(histfile,'(''data/'',a,''.'',a,''.subset.'',i4.4,''.nc'')') trim(case_read),trim(comp_read),yrcount
@@ -183,7 +184,6 @@ program Oyr_CMOR
              parent_experiment_id=mycmor%parent_experiment_id,  &
              parent_experiment_rip=mycmor%parent_experiment_rip,&
              branch_time=mycmor%branch_time)
-!!$        write(*,*) 'calendar = ',trim(mycmor%calendar)
         if (error_flag < 0) then
            write(*,*) 'ERROR on cmor_dataset!'
            write(*,*) 'outpath               = ',mycmor%outpath
@@ -232,7 +232,7 @@ program Oyr_CMOR
         !
         ! Modify units as necessary to accomodate udunits' inability to convert 
         !
-        select case (xw(ixw)%entry)
+        select case (xw(kvar)%entry)
         case ('msftmyz','msftbarot','wmo','umo','vmo')
            var_info(var_found(1,1))%units = 'kg s-1'
         case ('wmosq')
@@ -262,8 +262,8 @@ program Oyr_CMOR
         !
 !!$        write(*,*) 'calling cmor_variable:'
 !!$        write(*,*) 'table         = ',trim(mycmor%table_file)
-!!$        write(*,*) 'table_entry   = ',trim(xw(ixw)%entry)
-!!$        write(*,*) 'dimensions    = ',trim(xw(ixw)%dims)
+!!$        write(*,*) 'table_entry   = ',trim(xw(kvar)%entry)
+!!$        write(*,*) 'dimensions    = ',trim(xw(kvar)%dims)
 !!$        write(*,*) 'units         = ',trim(var_info(var_found(1,1))%units)
 !!$        write(*,*) 'axis_ids      = ',axis_ids(1:naxes)
 !!$        write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
@@ -271,7 +271,7 @@ program Oyr_CMOR
 !!$        write(*,*) 'original_name = ',trim(original_name)
         !
         ! All fields are full column
-        cmor_var_id(ixw) = cmor_variable(                            &
+        cmor_var_id(kvar) = cmor_variable(                            &
              table=mycmor%table_file,                           &
              table_entry=xw(ixw)%entry,                         &
              units=var_info(var_found(1,1))%units,              &
@@ -279,13 +279,13 @@ program Oyr_CMOR
              missing_value=var_info(var_found(1,1))%missing_value,&
              positive=mycmor%positive,                          &
              original_name=original_name,                       &
-             comment=xw(ixw)%comment)
-        write(*,'(''cmor_variable name: '',a,'' ixw '',i10,'' var_id '',i10)') trim(xw(ixw)%entry),ixw,cmor_var_id(ixw)
-        if (abs(cmor_var_id(ixw)) .gt. 1000) then
-           write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(ixw)
+             comment=xw(kvar)%comment)
+        write(*,'(''cmor_variable name: '',a,'' ixw '',i10,'' var_id '',i10)') trim(xw(ixw)%entry),ixw,cmor_var_id(kvar)
+        if (abs(cmor_var_id(kvar)) .gt. 1000) then
+           write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(kvar)
            cycle xwalk_loop
 !!$        else
-!!$           write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(ixw)
+!!$           write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(kvar)%entry),cmor_var_id(kvar)
         endif
         !
         ! Perform derivations and cycle through time, writing data too
@@ -313,12 +313,12 @@ program Oyr_CMOR
            enddo
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
            error_flag = cmor_write(          &
-                var_id        = cmor_var_id(ixw), &
+                var_id        = cmor_var_id(kvar), &
                 data          = cmordat3d,   &
                 ntimes_passed = 1,           &
                 time_vals     = tval,        &
                 time_bnds     = tbnd)
-           write(*,'(''cmor_write id '',i5,'' # '',i5,'' flag '',i5,'' T '',i5)') cmor_var_id(ixw),ixw,error_flag,tcount
+           write(*,'(''cmor_write id '',i5,'' # '',i5,'' flag '',i5,'' T '',i5,'' t '',e12.4)') cmor_var_id(ixw),ixw,error_flag,tcount,tval(1)
            if (error_flag < 0) then
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
               stop
@@ -327,6 +327,7 @@ program Oyr_CMOR
         call close_cdf(histncid)
         tcount = tcount + 1
      enddo yrcount_loop
+     kvar = kvar + 1
   enddo xwalk_loop
   !
   error_flag = cmor_close()
