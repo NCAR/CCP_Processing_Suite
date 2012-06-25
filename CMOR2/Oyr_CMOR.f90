@@ -280,7 +280,7 @@ program Oyr_CMOR
              positive=mycmor%positive,                          &
              original_name=original_name,                       &
              comment=xw(kvar)%comment)
-        write(*,'(''cmor_variable name: '',a,'' ixw '',i10,'' var_id '',i10)') trim(xw(ixw)%entry),ixw,cmor_var_id(kvar)
+        write(*,'(''cmor_variable name: '',a,'' ixw '',i10,'' var_id '',i10)') trim(xw(ixw)%entry),kvar,cmor_var_id(kvar)
         if (abs(cmor_var_id(kvar)) .gt. 1000) then
            write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(kvar)
            cycle xwalk_loop
@@ -327,7 +327,6 @@ program Oyr_CMOR
         call close_cdf(histncid)
         tcount = tcount + 1
      enddo yrcount_loop
-!     kvar = kvar + 1
   enddo xwalk_loop
   !
   error_flag = cmor_close()
