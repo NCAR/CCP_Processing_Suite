@@ -103,8 +103,8 @@ program Oyr_CMOR
      do n=1,var_counter
         do ixw = 1,num_xw
            if (trim(var_info(n)%name)==trim(xw(ixw)%cesm_vars(1))) then
-              var_found(1,1) = n
               kvar = kvar + 1
+              var_found(1,kvar) = n
               found_xw(kvar) = ixw
               xw_found = ixw
            endif
@@ -202,18 +202,18 @@ program Oyr_CMOR
      !
      select case (xw(ixw)%entry)
      case ('fbddtalk','fddtalk','intpp','frn','intppico','intpcalc','intpdiat','intpdiaz','intpn2','intpbsi','intpcalcite')
-        var_info(var_found(1,1))%units = 'mol m-2 s-1'
+        var_info(var_found(1,kvar))%units = 'mol m-2 s-1'
      case ('talk')
-        var_info(var_found(1,1))%units = 'mol m-3'
+        var_info(var_found(1,kvar))%units = 'mol m-3'
      case ('ph')
-        var_info(var_found(1,1))%units = '1'
+        var_info(var_found(1,kvar))%units = '1'
      case ('dpco2','spco2')
-        var_info(var_found(1,1))%units = 'Pa'
+        var_info(var_found(1,kvar))%units = 'Pa'
      case ('fgco2')
-        var_info(var_found(1,1))%units = 'kg m-2 s-1'
+        var_info(var_found(1,kvar))%units = 'kg m-2 s-1'
         mycmor%positive = 'down'
      case ('intdic')
-        var_info(var_found(1,1))%units = 'kg m-2'
+        var_info(var_found(1,kvar))%units = 'kg m-2'
      case ('hfss','rlds','rsntds','rsds','tauuo','tauvo')
         mycmor%positive = 'up'
      case ('epc100','epcalc100','epfe100','epsi100','fgo2','fsn')
@@ -224,9 +224,9 @@ program Oyr_CMOR
      cmor_var_id(found_xw(ixw)) = cmor_variable(             &
           table=mycmor%table_file,                           &
           table_entry=xw(ixw)%entry,                         &
-          units=var_info(var_found(1,1))%units,              &
+          units=var_info(var_found(1,kvar))%units,              &
           axis_ids=(/grid_id(1),axis_ids(3),axis_ids(4)/),   &
-          missing_value=var_info(var_found(1,1))%missing_value,&
+          missing_value=var_info(var_found(1,kvar))%missing_value,&
           positive=mycmor%positive,                          &
           original_name=original_name,                       &
           comment=xw(ixw)%comment)
@@ -262,10 +262,10 @@ program Oyr_CMOR
            if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
            if (.not.(allocated(cmordat3d))) allocate(cmordat3d(nlons,nlats,nlevs))
            !
-           indat3a   = var_info(var_found(1,1))%missing_value
-           cmordat3d = var_info(var_found(1,1))%missing_value
-           call read_var(histncid,var_info(var_found(1,1))%name,indat3a)
-           write(*,'(''read_var : '',a)') trim(var_info(var_found(1,1))%name)
+           indat3a   = var_info(var_found(1,kvar))%missing_value
+           cmordat3d = var_info(var_found(1,kvar))%missing_value
+           call read_var(histncid,var_info(var_found(1,kvar))%name,indat3a)
+           write(*,'(''read_var : '',a)') trim(var_info(var_found(1,kvar))%name)
            do k = 1,nlevs
               do j = 1,nlats
                  do i = 1,nlons
@@ -293,9 +293,9 @@ program Oyr_CMOR
            !
            if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
            !
-           indat3a   = var_info(var_found(1,1))%missing_value
-           call read_var(histncid,var_info(var_found(1,1))%name,indat3a)
-           write(*,'(''read_var : '',a)') trim(var_info(var_found(1,1))%name)
+           indat3a   = var_info(var_found(1,kvar))%missing_value
+           call read_var(histncid,var_info(var_found(1,kvar))%name,indat3a)
+           write(*,'(''read_var : '',a)') trim(var_info(var_found(1,kvar))%name)
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
            error_flag = cmor_write(          &
                 var_id        = cmor_var_id(found_xw(jxw)), &
