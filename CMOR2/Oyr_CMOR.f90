@@ -21,7 +21,8 @@ program Oyr_CMOR
   !
   !  uninitialized variables used in communicating with CMOR:
   !
-  integer::error_flag,cmor_var_id
+  integer::error_flag
+  integer,dimension(100)::cmor_var_id
   real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d
   double precision,dimension(1)  ::time,tval
   double precision,dimension(2,1)::time_bnds,tbnd
@@ -181,7 +182,7 @@ program Oyr_CMOR
              parent_experiment_id=mycmor%parent_experiment_id,  &
              parent_experiment_rip=mycmor%parent_experiment_rip,&
              branch_time=mycmor%branch_time)
-        write(*,*) 'calendar = ',trim(mycmor%calendar)
+!!$        write(*,*) 'calendar = ',trim(mycmor%calendar)
         if (error_flag < 0) then
            write(*,*) 'ERROR on cmor_dataset!'
            write(*,*) 'outpath               = ',mycmor%outpath
@@ -269,7 +270,7 @@ program Oyr_CMOR
 !!$        write(*,*) 'original_name = ',trim(original_name)
         !
         ! All fields are full column
-        cmor_var_id = cmor_variable(                            &
+        cmor_var_id(ixw) = cmor_variable(                            &
              table=mycmor%table_file,                           &
              table_entry=xw(ixw)%entry,                         &
              units=var_info(var_found(1,1))%units,              &
@@ -287,11 +288,11 @@ program Oyr_CMOR
 !!$             trim(mycmor%positive),'       ',                          &
 !!$             trim(original_name),'       ',                       &
 !!$             trim(xw(ixw)%comment)
-        if (abs(cmor_var_id) .gt. 1000) then
-           write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id
+        if (abs(cmor_var_id(ixw)) .gt. 1000) then
+           write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(ixw)
            cycle xwalk_loop
 !!$        else
-!!$           write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id
+!!$           write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(ixw)
         endif
         !
         ! Perform derivations and cycle through time, writing data too
@@ -350,12 +351,12 @@ program Oyr_CMOR
            enddo
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
            error_flag = cmor_write(          &
-                var_id        = cmor_var_id, &
+                var_id        = cmor_var_id(ixw), &
                 data          = cmordat3d,   &
                 ntimes_passed = 1,           &
                 time_vals     = tval,        &
                 time_bnds     = tbnd)
-           write(*,'(''cmor_write id '',i10,'' flag '',i10,'' T '',i10)') cmor_var_id,error_flag,tcount
+           write(*,'(''cmor_write id '',i5,'' flag '',i5,'' T '',i5)') cmor_var_id(ixw),error_flag,tcount
            if (error_flag < 0) then
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
               stop
