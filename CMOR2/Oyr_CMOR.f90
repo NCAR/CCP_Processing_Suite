@@ -151,13 +151,13 @@ program Oyr_CMOR
      !
      ! Open CESM file and get information(s)
      !
-     do yrcount = year1,year2
+     yrcount_loop: do yrcount = year1,year2
+        tcount = 1
         write(histfile,'(''data/'',a,''.'',a,''.subset.'',i4.4,''.nc'')') trim(case_read),trim(comp_read),yrcount
         call open_cdf(histncid,trim(histfile),.true.)
         call get_dims(histncid)
         call get_vars(histncid)
         call read_att_text(histncid,'time','units',time_units)
-        write(*,'(''time units in: '',i10,5x,a,5x,a)') histncid,trim(histfile),trim(time_units)
         table_ids(1) = cmor_load_table(mycmor%table_file)
         call cmor_set_table(table_ids(1))
         !
@@ -180,24 +180,27 @@ program Oyr_CMOR
              parent_experiment_id=mycmor%parent_experiment_id,  &
              parent_experiment_rip=mycmor%parent_experiment_rip,&
              branch_time=mycmor%branch_time)
-        write(*,*) 'outpath               = ',mycmor%outpath
-        write(*,*) 'experiment_id         = ',mycmor%experiment_id
-        write(*,*) 'institution           = ',mycmor%institution
-        write(*,*) 'source                = ',mycmor%source
-        write(*,*) 'calendar              = ',mycmor%calendar
-        write(*,*) 'realization           = ',mycmor%realization
-        write(*,*) 'contact               = ',mycmor%contact
-        write(*,*) 'history               = ',mycmor%history
-        write(*,*) 'comment               = ',mycmor%comment
-        write(*,*) 'references            = ',mycmor%references
-        write(*,*) 'model_id              = ',mycmor%model_id
-        write(*,*) 'forcing               = ',mycmor%forcing
-        write(*,*) 'initialization_method = ',mycmor%initialization_method
-        write(*,*) 'physics_version       = ',mycmor%physics_version
-        write(*,*) 'institute_id          = ',mycmor%institute_id
-        write(*,*) 'parent_experiment_id  = ',mycmor%parent_experiment_id
-        write(*,*) 'parent_experiment_rip = ',mycmor%parent_experiment_rip
-        write(*,*) 'branch_time           = ',mycmor%branch_time
+        if (error_flag < 0) then
+           write(*,*) 'ERROR on cmor_dataset!'
+           write(*,*) 'outpath               = ',mycmor%outpath
+           write(*,*) 'experiment_id         = ',mycmor%experiment_id
+           write(*,*) 'institution           = ',mycmor%institution
+           write(*,*) 'source                = ',mycmor%source
+           write(*,*) 'calendar              = ',mycmor%calendar
+           write(*,*) 'realization           = ',mycmor%realization
+           write(*,*) 'contact               = ',mycmor%contact
+           write(*,*) 'history               = ',mycmor%history
+           write(*,*) 'comment               = ',mycmor%comment
+           write(*,*) 'references            = ',mycmor%references
+           write(*,*) 'model_id              = ',mycmor%model_id
+           write(*,*) 'forcing               = ',mycmor%forcing
+           write(*,*) 'initialization_method = ',mycmor%initialization_method
+           write(*,*) 'physics_version       = ',mycmor%physics_version
+           write(*,*) 'institute_id          = ',mycmor%institute_id
+           write(*,*) 'parent_experiment_id  = ',mycmor%parent_experiment_id
+           write(*,*) 'parent_experiment_rip = ',mycmor%parent_experiment_rip
+           write(*,*) 'branch_time           = ',mycmor%branch_time
+        endif
         !
         ! Add global metadata
         !
@@ -321,9 +324,9 @@ program Oyr_CMOR
            if (.not.(allocated(indat3a)))   allocate(indat3a(nlons,nlats,nlevs))
            if (.not.(allocated(cmordat3d))) allocate(cmordat3d(nlons,nlats,nlevs))
            !
-           tcount = 1
            indat3a   = var_info(var_found(1,1))%missing_value
            cmordat3d = var_info(var_found(1,1))%missing_value
+           time_counter = 1
            call read_var(histncid,var_info(var_found(1,1))%name,indat3a)
            do k = 1,nlevs
               do j = 1,nlats
@@ -334,7 +337,7 @@ program Oyr_CMOR
                  enddo
               enddo
            enddo
-           tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+           tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
            error_flag = cmor_write(          &
                 var_id        = cmor_var_id, &
                 data          = cmordat3d,   &
@@ -345,7 +348,6 @@ program Oyr_CMOR
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
               stop
            endif
-           tcount = tcount + 1
            if (mod(tcount,100) == 0) then
               error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
               if (error_flag < 0) then
@@ -4524,6 +4526,7 @@ program Oyr_CMOR
            mycmor%positive = ' '
            original_name= ' '
         end select
-     enddo
+     enddo yrcount_loop
+     tcount = tcount + 1
   enddo xwalk_loop
 end program Oyr_CMOR
