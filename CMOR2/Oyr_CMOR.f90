@@ -208,11 +208,11 @@ program Oyr_CMOR
         !
         ! Define axes via 'cmor_axis'
         !
-        table_ids(2) = cmor_load_table('Tables/CMIP5_grids')
-        table_ids(3) = cmor_load_table('Tables/CMIP5_fx')
-        call cmor_set_table(table_ids(2))
-        call define_ocn_axes(xw(ixw)%dims)
-        call cmor_set_table(table_ids(1))
+!!$        table_ids(2) = cmor_load_table('Tables/CMIP5_grids')
+!!$        table_ids(3) = cmor_load_table('Tables/CMIP5_fx')
+!!$        call cmor_set_table(table_ids(2))
+!!$        call define_ocn_axes(xw(ixw)%dims)
+!!$        call cmor_set_table(table_ids(1))
         ! 
         ! Make manual alterations so that CMOR works. Silly code!
         !
@@ -348,6 +348,7 @@ program Oyr_CMOR
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
               stop
            endif
+           tcount = tcount + 1
            if (mod(tcount,100) == 0) then
               error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
               if (error_flag < 0) then
