@@ -97,7 +97,7 @@ program Oyr_CMOR
      call get_dims(histncid)
      call get_vars(histncid)
      call read_att_text(histncid,'time','units',time_units)
-     write(*,'(''time units in: '',i10,5x,a,5x,a)') histncid,trim(histfile),trim(time_units)
+!     write(*,'(''time units in: '',i10,5x,a,5x,a)') histncid,trim(histfile),trim(time_units)
      do n=1,var_counter
         do ixw = 1,num_xw
            if (trim(var_info(n)%name)==trim(xw(ixw)%cesm_vars(1))) then
@@ -276,6 +276,15 @@ program Oyr_CMOR
              positive=mycmor%positive,                          &
              original_name=original_name,                       &
              comment=xw(ixw)%comment)
+        write(*,*) 'cmor_variable: ', &
+             trim(mycmor%table_file),                           &
+             trim(xw(ixw)%entry),                         &
+             trim(var_info(var_found(1,1))%units),              &
+             grid_id(1),axis_ids(3),axis_ids(4),   &
+             var_info(var_found(1,1))%missing_value,&
+             trim(mycmor%positive),                          &
+             trim(original_name),                       &
+             trim(xw(ixw)%comment)
         if (abs(cmor_var_id) .gt. 1000) then
            write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id
            cycle xwalk_loop
