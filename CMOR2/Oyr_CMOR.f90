@@ -115,6 +115,7 @@ program Oyr_CMOR
   enddo
   !
   tcount = 1
+  kvar   = 1
   xwalk_loop: do ixw = 1,num_xw
      !
      ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
@@ -152,7 +153,6 @@ program Oyr_CMOR
      !
      ! Open CESM file and get information(s)
      !
-     kvar   = 1
      yrcount_loop: do yrcount = year1,year2
         write(histfile,'(''data/'',a,''.'',a,''.subset.'',i4.4,''.nc'')') trim(case_read),trim(comp_read),yrcount
         call open_cdf(histncid,trim(histfile),.true.)
