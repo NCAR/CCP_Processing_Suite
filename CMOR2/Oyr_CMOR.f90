@@ -260,8 +260,8 @@ program Oyr_CMOR
            !
            indat3a   = var_info(var_found(1,jxw))%missing_value
            cmordat3d = var_info(var_found(1,jxw))%missing_value
-           write(*,'(''read_var : '',a)') trim(var_info(var_found(1,jxw))%name)
            call read_var(histncid,var_info(var_found(1,jxw))%name,indat3a)
+           write(*,'(''read_var : '',a,'' id '',3i10)') trim(var_info(var_found(1,jxw))%name),jxw,found_xw(jxw),cmor_var_id(found_xw(jxw))
            do k = 1,nlevs
               do j = 1,nlats
                  do i = 1,nlons
@@ -291,8 +291,8 @@ program Oyr_CMOR
            allocate(indat3a(nlons,nlats,nlevs))
            !
            indat3a = var_info(var_found(1,jxw))%missing_value
-           write(*,'(''read_var : '',a)') trim(var_info(var_found(1,jxw))%name)
            call read_var(histncid,var_info(var_found(1,jxw))%name,indat3a)
+           write(*,'(''read_var : '',a,'' id '',3i10)') trim(var_info(var_found(1,jxw))%name),jxw,found_xw(jxw),cmor_var_id(found_xw(jxw))
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
            error_flag = cmor_write(          &
                 var_id        = cmor_var_id(found_xw(jxw)), &
