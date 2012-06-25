@@ -94,7 +94,7 @@ program Oyr_CMOR
   endif
   !
   do yrcount = year1,year2
-     write(histfile,'(a,''.'',a,''.subset.'',i4.4,''.nc'')') trim(case_read),trim(comp_read),yrcount
+     write(histfile,'(''data/'',a,''.'',a,''.subset.'',i4.4,''.nc'')') trim(case_read),trim(comp_read),yrcount
      call open_cdf(histncid,trim(histfile),.true.)
      call get_dims(histncid)
      call get_vars(histncid)
@@ -141,7 +141,7 @@ program Oyr_CMOR
      ! Open CESM file and get information(s)
      !
      do yrcount = exp(exp_found)%begyr,exp(exp_found)%begyr
-        write(histfile,'(a,''.'',a,''.subset.'',i4.4,''.nc'')') trim(case_read),trim(comp_read),yrcount
+        write(histfile,'(''data/'',a,''.'',a,''.subset.'',i4.4,''.nc'')') trim(case_read),trim(comp_read),yrcount
         call open_cdf(histncid,trim(histfile),.true.)
         call get_dims(histncid)
         call get_vars(histncid)
