@@ -1040,6 +1040,15 @@ program Amon_CMOR
                     nchunks(ifile) = 3
                     tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
                     tidx2(1:nchunks(ifile)) = (/600,1200,ntimes(ifile,1)/) ! 1899, 1950, 2005
+                 case ( 3828 )  ! CAM5 piControl
+                    nchunks(ifile) = 32
+                    tidx1(1) =   1
+                    tidx2(1) = 108
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 119
+                    enddo
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
                  case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
                     nchunks(ifile) = 3
                     tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
@@ -1203,6 +1212,15 @@ program Amon_CMOR
                     tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
                     tidx2(1:nchunks(ifile)) = (/600,1200,ntimes(ifile,1)/) ! 1899, 1950, 2005
                  end select
+              case ( 3828 )  ! CAM5 piControl
+                 nchunks(ifile) = 32
+                 tidx1(1) =   1
+                 tidx2(1) = 108
+                 do ic = 2,nchunks(ifile)
+                    tidx1(ic) = tidx2(ic-1) + 1
+                    tidx2(ic) = tidx1(ic) + 119
+                 enddo
+                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951

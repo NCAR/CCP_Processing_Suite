@@ -34,7 +34,7 @@ CMIP5_Lmon:mrfso:soil_frozen_water_content:longitude latitude time:land landIce:
 CMIP5_Lmon:mrlsl:moisture_content_of_soil_layer:longitude latitude sdepth time:land:2:SOILLIQ SOILICE:SOILLIQ + SOILICE at each soil depth
 CMIP5_Lmon:mrro:runoff_flux:longitude latitude time:land:1:QRUNOFF:QRUNOFF
 CMIP5_Lmon:mrros:surface_runoff_flux:longitude latitude time:land:1:QOVER:QOVER 
-CMIP5_Lmon:mrso:soil_moisture_content:longitude latitude time:land:2:SOILICE SOILLIQ:Integrate SOILICE + SOILLIQ over all layers
+CMIP5_Lmon:mrso:soil_moisture_content:longitude latitude time:land:2:SOILICE SOILLIQ:SOILICE+SOILLIQ, capped over ice-covered regions at 5000 kg m-2
 CMIP5_Lmon:mrsos:moisture_content_of_soil_layer:longitude latitude time sdepth1:land:1:SOILWATER_10CM:SOILWATER_10CM
 CMIP5_Lmon:nbp:surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes:longitude latitude time:land:1:NBP:NBP
 CMIP5_Lmon:nep:surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes_excluding_anthropogenic_land_use_change:longitude latitude time:land:0:UNKNOWN:UNKNOWN

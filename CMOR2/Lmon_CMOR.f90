@@ -252,7 +252,7 @@ program Lmon_CMOR
            var_info(var_found(1,1))%units = '1'
         end select
         !
-        spval=var_info(var_found(1,1))%missing_value
+        spval=1.e+36
         !
         write(*,*) 'calling cmor_variable:'
         write(*,*) 'table         = ',trim(mycmor%table_file)
@@ -837,10 +837,9 @@ program Lmon_CMOR
 !!$           enddo
         case ('mrso')
            !
-           ! Integrate SOILICE and SOILIQ over all layers
+           ! Sum SOILICE and SOILIQ
            !
            allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs))
-           allocate(work3da(nlons,nlats,nlevs),work3db(nlons,nlats,nlevs))
            allocate(cmordat2d(nlons,nlats))
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
@@ -886,22 +885,32 @@ program Lmon_CMOR
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
            write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           spval=1.e+36
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat3b)
-                 work3da = 0. ; work3db = 0.
+                 !
+                 ! Simple sum, mask out values over 5000 kg m-2
+                 !
+                 cmordat2d = 0.
                  do k = 1,nlevs
                     do j = 1,nlats
                        do i = 1,nlons
-                          if (indat3a(i,j,k) /= spval) work3da(i,j,k) = indat3a(i,j,k)*lnd_dzsoi(i,j,k)
-                          if (indat3b(i,j,k) /= spval) work3db(i,j,k) = indat3b(i,j,k)*lnd_dzsoi(i,j,k)
+                          if ((indat3a(i,j,k).ne.spval).and.(indat3b(i,j,k).ne.spval)) then
+                             cmordat2d(i,j) = cmordat2d(i,j) + (indat3a(i,j,k)+indat3b(i,j,k))
+                          else
+                             cmordat2d(i,j) = spval
+                          endif
                        enddo
                     enddo
                  enddo
-!                 cmordat2d = (sum(work3da,dim=3) + sum(work3db,dim=3))/sum(lnd_dzsoi,dim=3)
-                 cmordat2d = (sum(work3da,dim=3) + sum(work3db,dim=3))
+                 where (cmordat2d.ne.spval)
+                    where (cmordat2d > 5000.)
+                       cmordat2d = 5000.
+                    endwhere
+                 endwhere
                  tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(       &
                       var_id        = cmor_var_id,  &
@@ -929,10 +938,9 @@ program Lmon_CMOR
            enddo
         case ('mrfso')
            !
-           ! Integrate SOILICE over all layers
+           ! Sum SOILICE over all layers
            !
-           allocate(indat3a(nlons,nlats,nlevs),work3da(nlons,nlats,nlevs))
-           allocate(cmordat2d(nlons,nlats))
+           allocate(indat3a(nlons,nlats,nlevs),cmordat2d(nlons,nlats))
            !
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
@@ -985,15 +993,26 @@ program Lmon_CMOR
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                 work3da = 0.
+                 !
+                 ! Simple sum, mask out values over 5000 kg m-2
+                 !
+                 cmordat2d = 0.
                  do k = 1,nlevs
                     do j = 1,nlats
                        do i = 1,nlons
-                          if (indat3a(i,j,k) /= spval) work3da(i,j,k) = indat3a(i,j,k)*lnd_dzsoi(i,j,k)
+                          if (indat3a(i,j,k).ne.spval) then
+                             cmordat2d(i,j) = cmordat2d(i,j) + indat3a(i,j,k)
+                          else
+                             cmordat2d(i,j) = spval
+                          endif
                        enddo
                     enddo
                  enddo
-                 cmordat2d = sum(work3da,dim=3)/sum(lnd_dzsoi,dim=3)
+                 where (cmordat2d.ne.spval)
+                    where (cmordat2d > 5000.)
+                       cmordat2d = 5000.
+                    endwhere
+                 endwhere
                  tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(       &
                       var_id        = cmor_var_id,  &
