@@ -270,7 +270,7 @@ program Oyr_CMOR
 !!$        write(*,*) 'original_name = ',trim(original_name)
         !
         ! All fields are full column
-        cmor_var_id(var_found(1,1)) = cmor_variable(                            &
+        cmor_var_id(xw_found) = cmor_variable(                            &
              table=mycmor%table_file,                           &
              table_entry=xw(ixw)%entry,                         &
              units=var_info(var_found(1,1))%units,              &
@@ -279,12 +279,12 @@ program Oyr_CMOR
              positive=mycmor%positive,                          &
              original_name=original_name,                       &
              comment=xw(ixw)%comment)
-        write(*,'(''cmor_variable: '',10a,5x,2i10)') trim(xw(ixw)%entry),var_found(1,1),cmor_var_id(var_found(1,1))
-        if (abs(cmor_var_id(var_found(1,1))) .gt. 1000) then
-           write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(var_found(1,1))
+        write(*,'(''cmor_variable: '',10a,5x,2i10)') trim(xw(ixw)%entry),var_found(1,1),cmor_var_id(xw_found)
+        if (abs(cmor_var_id(xw_found)) .gt. 1000) then
+           write(*,'(''Invalid call to cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(xw_found)
            cycle xwalk_loop
 !!$        else
-!!$           write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(var_found(1,1))
+!!$           write(*,'(''called cmor_variable, table_entry, varid: '',a,2x,i10)') trim(xw(ixw)%entry),cmor_var_id(xw_found)
         endif
         !
         ! Perform derivations and cycle through time, writing data too
@@ -343,12 +343,12 @@ program Oyr_CMOR
            enddo
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
            error_flag = cmor_write(          &
-                var_id        = cmor_var_id(var_found(1,1)), &
+                var_id        = cmor_var_id(xw_found), &
                 data          = cmordat3d,   &
                 ntimes_passed = 1,           &
                 time_vals     = tval,        &
                 time_bnds     = tbnd)
-           write(*,'(''cmor_write id '',i5,'' flag '',i5,'' T '',i5)') cmor_var_id(var_found(1,1)),error_flag,tcount
+           write(*,'(''cmor_write id '',i5,'' # '',i5,'' flag '',i5,'' T '',i5)') cmor_var_id(xw_found),xw_found,error_flag,tcount
            if (error_flag < 0) then
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
               stop
