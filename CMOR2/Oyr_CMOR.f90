@@ -99,7 +99,6 @@ program Oyr_CMOR
      call get_dims(histncid)
      call get_vars(histncid)
      call read_att_text(histncid,'time','units',time_units)
-!     write(*,'(''time units in: '',i10,5x,a,5x,a)') histncid,trim(histfile),trim(time_units)
      do n=1,var_counter
         do ixw = 1,num_xw
            if (trim(var_info(n)%name)==trim(xw(ixw)%cesm_vars(1))) then
@@ -121,10 +120,10 @@ program Oyr_CMOR
      !
      write(logfile,'(''log_cmor.'',a,''.'',a,''_'',a)') &
           trim(mycmor%experiment_id),&
-          trim(exp(exp_found)%rip_code),&
-          trim(xw(ixw)%entry)
+          trim(xw(ixw)%entry),&
+          trim(exp(exp_found)%rip_code)
      error_flag = cmor_setup(inpath='CMOR',&
-          netcdf_file_action=CMOR_REPLACE,&
+          netcdf_file_action=CMOR_APPEND,&
           logfile=logfile)
      !
      ! The meaty part
