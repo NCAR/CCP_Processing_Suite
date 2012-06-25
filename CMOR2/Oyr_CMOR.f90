@@ -327,7 +327,7 @@ program Oyr_CMOR
         call close_cdf(histncid)
         tcount = tcount + 1
      enddo yrcount_loop
-     kvar = kvar + 1
+!     kvar = kvar + 1
   enddo xwalk_loop
   !
   error_flag = cmor_close()
