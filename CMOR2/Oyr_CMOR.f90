@@ -180,27 +180,24 @@ program Oyr_CMOR
              parent_experiment_id=mycmor%parent_experiment_id,  &
              parent_experiment_rip=mycmor%parent_experiment_rip,&
              branch_time=mycmor%branch_time)
-        if (error_flag < 0) then
-           write(*,*) 'ERROR on cmor_dataset!'
-           write(*,*) 'outpath               = ',mycmor%outpath
-           write(*,*) 'experiment_id         = ',mycmor%experiment_id
-           write(*,*) 'institution           = ',mycmor%institution
-           write(*,*) 'source                = ',mycmor%source
-           write(*,*) 'calendar              = ',mycmor%calendar
-           write(*,*) 'realization           = ',mycmor%realization
-           write(*,*) 'contact               = ',mycmor%contact
-           write(*,*) 'history               = ',mycmor%history
-           write(*,*) 'comment               = ',mycmor%comment
-           write(*,*) 'references            = ',mycmor%references
-           write(*,*) 'model_id              = ',mycmor%model_id
-           write(*,*) 'forcing               = ',mycmor%forcing
-           write(*,*) 'initialization_method = ',mycmor%initialization_method
-           write(*,*) 'physics_version       = ',mycmor%physics_version
-           write(*,*) 'institute_id          = ',mycmor%institute_id
-           write(*,*) 'parent_experiment_id  = ',mycmor%parent_experiment_id
-           write(*,*) 'parent_experiment_rip = ',mycmor%parent_experiment_rip
-           write(*,*) 'branch_time           = ',mycmor%branch_time
-        endif
+        write(*,*) 'outpath               = ',mycmor%outpath
+        write(*,*) 'experiment_id         = ',mycmor%experiment_id
+        write(*,*) 'institution           = ',mycmor%institution
+        write(*,*) 'source                = ',mycmor%source
+        write(*,*) 'calendar              = ',mycmor%calendar
+        write(*,*) 'realization           = ',mycmor%realization
+        write(*,*) 'contact               = ',mycmor%contact
+        write(*,*) 'history               = ',mycmor%history
+        write(*,*) 'comment               = ',mycmor%comment
+        write(*,*) 'references            = ',mycmor%references
+        write(*,*) 'model_id              = ',mycmor%model_id
+        write(*,*) 'forcing               = ',mycmor%forcing
+        write(*,*) 'initialization_method = ',mycmor%initialization_method
+        write(*,*) 'physics_version       = ',mycmor%physics_version
+        write(*,*) 'institute_id          = ',mycmor%institute_id
+        write(*,*) 'parent_experiment_id  = ',mycmor%parent_experiment_id
+        write(*,*) 'parent_experiment_rip = ',mycmor%parent_experiment_rip
+        write(*,*) 'branch_time           = ',mycmor%branch_time
         !
         ! Add global metadata
         !
