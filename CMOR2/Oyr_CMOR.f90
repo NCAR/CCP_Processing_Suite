@@ -118,7 +118,6 @@ program Oyr_CMOR
   enddo
   !
   tcount = 1
-  kvar   = 1
   do ixw = 1,num_xw
      !
      ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
@@ -221,7 +220,7 @@ program Oyr_CMOR
      end select
      !
      ! All fields are full column
-     cmor_var_id(found_xw(ixw)) = cmor_variable(             &
+     cmor_var_id(ixw) = cmor_variable(             &
           table=mycmor%table_file,                           &
           table_entry=xw(ixw)%entry,                         &
           units=var_info(var_found(1,ixw))%units,              &
@@ -261,7 +260,7 @@ program Oyr_CMOR
            indat3a   = var_info(var_found(1,jxw))%missing_value
            cmordat3d = var_info(var_found(1,jxw))%missing_value
            call read_var(histncid,var_info(var_found(1,jxw))%name,indat3a)
-           write(*,'(''read_var : '',a,'' id '',3i10)') trim(var_info(var_found(1,jxw))%name),jxw,found_xw(jxw),cmor_var_id(found_xw(jxw))
+           write(*,'(''read_var : '',a,'' id '',3i10)') trim(var_info(var_found(1,jxw))%name),jxw,cmor_var_id(jxw)
            do k = 1,nlevs
               do j = 1,nlats
                  do i = 1,nlons
@@ -273,12 +272,11 @@ program Oyr_CMOR
            enddo
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
            error_flag = cmor_write(          &
-                var_id        = cmor_var_id(found_xw(jxw)), &
+                var_id        = cmor_var_id(jxw), &
                 data          = cmordat3d,   &
                 ntimes_passed = 1,           &
                 time_vals     = tval,        &
                 time_bnds     = tbnd)
-!           write(*,'(''cmor_write id '',i5,'' # '',i5,'' flag '',i5,'' T '',i5,'' t '',f12.3)') cmor_var_id(kvar),kvar,error_flag,tcount,tval(1)
            if (error_flag < 0) then
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(jxw)%entry),it
               stop
@@ -292,15 +290,14 @@ program Oyr_CMOR
            !
            indat3a = var_info(var_found(1,jxw))%missing_value
            call read_var(histncid,var_info(var_found(1,jxw))%name,indat3a)
-           write(*,'(''read_var : '',a,'' id '',3i10)') trim(var_info(var_found(1,jxw))%name),jxw,found_xw(jxw),cmor_var_id(found_xw(jxw))
+           write(*,'(''read_var : '',a,'' id '',3i10)') trim(var_info(var_found(1,jxw))%name),jxw,cmor_var_id(jxw)
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
            error_flag = cmor_write(          &
-                var_id        = cmor_var_id(found_xw(jxw)), &
+                var_id        = cmor_var_id(jxw), &
                 data          = indat3a,     &
                 ntimes_passed = 1,           &
                 time_vals     = tval,        &
                 time_bnds     = tbnd)
-!           write(*,'(''cmor_write id '',i5,'' # '',i5,'' flag '',i5,'' T '',i5,'' t '',f12.3)') cmor_var_id(kvar),kvar,error_flag,tcount,tval(1)
            if (error_flag < 0) then
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(jxw)%entry),it
               stop
