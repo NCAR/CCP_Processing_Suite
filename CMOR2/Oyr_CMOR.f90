@@ -274,14 +274,14 @@ program Oyr_CMOR
            !
            cmor_var_id = cmor_variable(             &
                 table=mycmor%table_file,                           &
-                table_entry=xw(ixw)%entry,                         &
-                units=var_info(var_found(1,ixw))%units,              &
+                table_entry=xw(jxw)%entry,                         &
+                units=var_info(var_found(1,jxw))%units,              &
                 axis_ids=(/grid_id(1),axis_ids(3),axis_ids(4)/),   &
-                missing_value=var_info(var_found(1,ixw))%missing_value,&
+                missing_value=var_info(var_found(1,jxw))%missing_value,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
-                comment=xw(ixw)%comment)
-           write(*,'(''cmor_variable name: '',a,'' ixw '',i10,'' var_id '',i10)') trim(xw(ixw)%entry),ixw,cmor_var_id
+                comment=xw(jxw)%comment)
+           write(*,'(''cmor_variable name: '',a,'' jxw '',i10,'' var_id '',i10)') trim(xw(jxw)%entry),jxw,cmor_var_id
            error_flag = cmor_write(          &
                 var_id        = cmor_var_id, &
                 data          = cmordat3d,   &
@@ -306,14 +306,14 @@ program Oyr_CMOR
            !
            cmor_var_id = cmor_variable(             &
                 table=mycmor%table_file,                           &
-                table_entry=xw(ixw)%entry,                         &
-                units=var_info(var_found(1,ixw))%units,              &
+                table_entry=xw(jxw)%entry,                         &
+                units=var_info(var_found(1,jxw))%units,              &
                 axis_ids=(/grid_id(1),axis_ids(3),axis_ids(4)/),   &
-                missing_value=var_info(var_found(1,ixw))%missing_value,&
+                missing_value=var_info(var_found(1,jxw))%missing_value,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
-                comment=xw(ixw)%comment)
-           write(*,'(''cmor_variable name: '',a,'' ixw '',i10,'' var_id '',i10)') trim(xw(ixw)%entry),ixw,cmor_var_id
+                comment=xw(jxw)%comment)
+           write(*,'(''cmor_variable name: '',a,'' jxw '',i10,'' var_id '',i10)') trim(xw(jxw)%entry),jxw,cmor_var_id
            error_flag = cmor_write(          &
                 var_id        = cmor_var_id, &
                 data          = indat3a,     &
