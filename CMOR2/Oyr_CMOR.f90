@@ -204,6 +204,14 @@ program Oyr_CMOR
         ! Add global metadata
         !
         call add_global_metadata
+        !
+        ! Define axes via 'cmor_axis'
+        !
+        table_ids(2) = cmor_load_table('Tables/CMIP5_grids')
+        table_ids(3) = cmor_load_table('Tables/CMIP5_fx')
+        call cmor_set_table(table_ids(2))
+        call define_ocn_axes(xw(ixw)%dims)
+        call cmor_set_table(table_ids(1))
         ! 
         ! Make manual alterations so that CMOR works. Silly code!
         !
