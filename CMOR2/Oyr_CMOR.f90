@@ -99,7 +99,7 @@ program Oyr_CMOR
      call get_dims(histncid)
      call get_vars(histncid)
      call read_att_text(histncid,'time','units',time_units)
-     write(*,'(''time units in: '',i10,5x,a)') histncid,trim(time_units)
+     write(*,'(''time units in: '',i10,5x,a,5x,a)') histncid,trim(histfile),trim(time_units)
      do n=1,var_counter
         do ixw = 1,num_xw
            if (trim(var_info(n)%name)==trim(xw(ixw)%cesm_vars(1))) then
@@ -142,6 +142,7 @@ program Oyr_CMOR
      !
      ! Define axes via 'cmor_axis'
      !
+     table_ids(1) = cmor_load_table('Tables/CMIP5_Oyr')
      table_ids(2) = cmor_load_table('Tables/CMIP5_grids')
      table_ids(3) = cmor_load_table('Tables/CMIP5_fx')
      call cmor_set_table(table_ids(2))
@@ -150,7 +151,7 @@ program Oyr_CMOR
      !
      ! Open CESM file and get information(s)
      !
-     do yrcount = exp(exp_found)%begyr,exp(exp_found)%begyr
+     do yrcount = year1,year2
         write(histfile,'(''data/'',a,''.'',a,''.subset.'',i4.4,''.nc'')') trim(case_read),trim(comp_read),yrcount
         call open_cdf(histncid,trim(histfile),.true.)
         call get_dims(histncid)
