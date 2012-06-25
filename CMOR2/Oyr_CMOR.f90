@@ -264,10 +264,10 @@ program Oyr_CMOR
            allocate(indat3a(nlons,nlats,nlevs))
            allocate(cmordat3d(nlons,nlats,nlevs))
            !
-           indat3a   = var_info(var_found(1,ixw))%missing_value
-           cmordat3d = var_info(var_found(1,ixw))%missing_value
-           call read_var(histncid,var_info(var_found(1,ixw))%name,indat3a)
-           write(*,'(''read_var : '',a)') trim(var_info(var_found(1,ixw))%name)
+           indat3a   = var_info(var_found(1,jxw))%missing_value
+           cmordat3d = var_info(var_found(1,jxw))%missing_value
+           call read_var(histncid,var_info(var_found(1,jxw))%name,indat3a)
+           write(*,'(''read_var : '',a)') trim(var_info(var_found(1,jxw))%name)
            do k = 1,nlevs
               do j = 1,nlats
                  do i = 1,nlons
@@ -296,9 +296,9 @@ program Oyr_CMOR
            if (allocated(indat3a)) deallocate(indat3a)
            allocate(indat3a(nlons,nlats,nlevs))
            !
-           indat3a   = var_info(var_found(1,ixw))%missing_value
-           call read_var(histncid,var_info(var_found(1,ixw))%name,indat3a)
-           write(*,'(''read_var : '',a)') trim(var_info(var_found(1,ixw))%name)
+           indat3a   = var_info(var_found(1,jxw))%missing_value
+           call read_var(histncid,var_info(var_found(1,jxw))%name,indat3a)
+           write(*,'(''read_var : '',a)') trim(var_info(var_found(1,jxw))%name)
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
            error_flag = cmor_write(          &
                 var_id        = cmor_var_id(found_xw(jxw)), &
