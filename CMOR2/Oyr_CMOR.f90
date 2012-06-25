@@ -106,6 +106,7 @@ program Oyr_CMOR
               var_found(1,1) = n
               kvar = kvar + 1
               found_xw(kvar) = ixw
+              xw_found = ixw
            endif
         enddo
      enddo
