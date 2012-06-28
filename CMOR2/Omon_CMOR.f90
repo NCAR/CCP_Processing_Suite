@@ -3680,10 +3680,12 @@ program Omon_CMOR
                     !
                     cmordat2d = merge(0.,spval,kmt.gt.0)
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    do k = 1,10
+                    do k = 1,nlevs
                        do j = 1,nlats
                           do i = 1,nlons
-                             if (kmt(i,j).le.k) then
+                             if (kmt(i,j).le.10) then
+                                cmordat2d(i,j) = spval
+                             else
                                 cmordat2d(i,j) = cmordat2d(i,j)+(indat3a(i,j,k))
                              endif
                           enddo
