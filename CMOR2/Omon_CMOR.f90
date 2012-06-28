@@ -3683,10 +3683,12 @@ program Omon_CMOR
                     do k = 1,nlevs
                        do j = 1,nlats
                           do i = 1,nlons
-                             if (kmt(i,j).le.10) then
-                                cmordat2d(i,j) = spval
-                             else
-                                cmordat2d(i,j) = cmordat2d(i,j)+(indat3a(i,j,k))
+                             if (kmt(i,j).ne. 0) then
+                                if (kmt(i,j).le.10) then
+                                   cmordat2d(i,j) = spval
+                                else
+                                   cmordat2d(i,j) = cmordat2d(i,j)+(indat3a(i,j,k))
+                                endif
                              endif
                           enddo
                        enddo
