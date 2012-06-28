@@ -215,7 +215,7 @@ program Oyr_CMOR
         var_info(var_found(1,ixw))%units = 'kg m-2'
      case ('hfss','rlds','rsntds','rsds','tauuo','tauvo')
         mycmor%positive = 'up'
-     case ('epc100','epcalc100','epfe100','epsi100','fgo2','fsn')
+     case ('expcalc','expcfe','expc','expsi','fgo2','fsn')
         mycmor%positive = 'down'
      end select
      !
