@@ -220,7 +220,10 @@ subroutine define_ocn_axes(dimensions)
          'fbddtdin','fbddtdip','fbddtdisi','fddtalk','fddtdic','fddtdife','fddtdin','fddtdip','fddtdisi','fgco2',&
          'fgo2','frn','fsn','intdic','intpbsi','intpcalc','intpcalcite','intpdiat','intpdiaz','intpn2','intpnitrate',&
          'intpp','intppico','nh4','no3','o2','o2min','ph','phyc','phycalc','phydiat','phydiaz','phyfe','phyn','phyp',&
-         'phypico','physi','po4','si','spco2','talk','zo2min','zooc','zsatarag','zsatcalc')
+         'phypico','physi','po4','si','spco2','talk','zo2min','zooc','zsatarag','zsatcalc',&
+         'bddtalk','bddtdic','bddtdife','bddtdin','bddtdip','bddtdisi','darag','dcalc','dpocdtcalc','dpocdtdiaz',&
+         'dpocdtpico','exparag','expc','expcalc','expcfe','expn','expp','expsi','fediss','fescav','graz','parag','pbfe',&
+         'pbsi','pcalc','pdi','phypmisc','pnitrate','pp')
      select case (mycmor%table_file)
      case ('Tables/CMIP5_Omon')
         ! Single-level T-grid monthly BGC fields
