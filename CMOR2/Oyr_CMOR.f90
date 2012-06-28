@@ -21,8 +21,8 @@ program Oyr_CMOR
   !
   !  uninitialized variables used in communicating with CMOR:
   !
-  integer::error_flag,cmor_var_id
-  integer,dimension(100)::found_xw
+  integer::error_flag
+  integer,dimension(100)::found_xw,cmor_var_id
   real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d
   double precision,dimension(1)  ::time,tval
   double precision,dimension(2,1)::time_bnds,tbnd
@@ -218,18 +218,18 @@ program Oyr_CMOR
      case ('epc100','epcalc100','epfe100','epsi100','fgo2','fsn')
         mycmor%positive = 'down'
      end select
-!!$     !
-!!$     ! All fields are full column
-!!$     cmor_var_id(ixw) = cmor_variable(             &
-!!$          table=mycmor%table_file,                           &
-!!$          table_entry=xw(ixw)%entry,                         &
-!!$          units=var_info(var_found(1,ixw))%units,              &
-!!$          axis_ids=(/grid_id(1),axis_ids(3),axis_ids(4)/),   &
-!!$          missing_value=var_info(var_found(1,ixw))%missing_value,&
-!!$          positive=mycmor%positive,                          &
-!!$          original_name=original_name,                       &
-!!$          comment=xw(ixw)%comment)
-!!$     write(*,'(''cmor_variable name: '',a,'' ixw '',i10,'' var_id '',i10)') trim(xw(ixw)%entry),ixw,cmor_var_id(ixw)
+     !
+     ! All fields are full column
+     cmor_var_id(ixw) = cmor_variable(             &
+          table=mycmor%table_file,                           &
+          table_entry=xw(ixw)%entry,                         &
+          units=var_info(var_found(1,ixw))%units,              &
+          axis_ids=(/grid_id(1),axis_ids(3),axis_ids(4)/),   &
+          missing_value=var_info(var_found(1,ixw))%missing_value,&
+          positive=mycmor%positive,                          &
+          original_name=original_name,                       &
+          comment=xw(ixw)%comment)
+     write(*,'(''cmor_variable name: '',a,'' ixw '',i10,'' var_id '',i10)') trim(xw(ixw)%entry),ixw,cmor_var_id(ixw)
   enddo
   !
   ! Open CESM file and get information(s)
@@ -246,8 +246,8 @@ program Oyr_CMOR
      ! Perform derivations and cycle through time, writing data too
      !
      time_counter = 1
-     do jxw = 1,num_xw
-        select case (xw(jxw)%entry)
+     do ixw = 1,num_xw
+        select case (xw(ixw)%entry)
         case ('talk')
            !           !
            ! ALK converted from meq/m3 to mol m-3 via * 1.e-3
@@ -257,10 +257,10 @@ program Oyr_CMOR
            allocate(indat3a(nlons,nlats,nlevs))
            allocate(cmordat3d(nlons,nlats,nlevs))
            !
-           indat3a   = var_info(var_found(1,jxw))%missing_value
-           cmordat3d = var_info(var_found(1,jxw))%missing_value
-           call read_var(histncid,var_info(var_found(1,jxw))%name,indat3a)
-           write(*,'(''read_var : '',a,'' id '',3i10)') trim(var_info(var_found(1,jxw))%name),jxw
+           indat3a   = var_info(var_found(1,ixw))%missing_value
+           cmordat3d = var_info(var_found(1,ixw))%missing_value
+           call read_var(histncid,var_info(var_found(1,ixw))%name,indat3a)
+           write(*,'(''read_var : '',a,'' id '',3i10)') trim(var_info(var_found(1,ixw))%name),ixw
            do k = 1,nlevs
               do j = 1,nlats
                  do i = 1,nlons
@@ -271,25 +271,14 @@ program Oyr_CMOR
               enddo
            enddo
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
-           !
-           cmor_var_id = cmor_variable(             &
-                table=mycmor%table_file,                           &
-                table_entry=xw(jxw)%entry,                         &
-                units=var_info(var_found(1,jxw))%units,              &
-                axis_ids=(/grid_id(1),axis_ids(3),axis_ids(4)/),   &
-                missing_value=var_info(var_found(1,jxw))%missing_value,&
-                positive=mycmor%positive,                          &
-                original_name=original_name,                       &
-                comment=xw(jxw)%comment)
-           write(*,'(''cmor_variable name: '',a,'' jxw '',i10,'' var_id '',i10)') trim(xw(jxw)%entry),jxw,cmor_var_id
            error_flag = cmor_write(          &
-                var_id        = cmor_var_id, &
+                var_id        = cmor_var_id(ixw), &
                 data          = cmordat3d,   &
                 ntimes_passed = 1,           &
                 time_vals     = tval,        &
                 time_bnds     = tbnd)
            if (error_flag < 0) then
-              write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(jxw)%entry),it
+              write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
               stop
            endif
         case ('ph')
@@ -299,29 +288,18 @@ program Oyr_CMOR
            if (allocated(indat3a)) deallocate(indat3a)
            allocate(indat3a(nlons,nlats,nlevs))
            !
-           indat3a = var_info(var_found(1,jxw))%missing_value
-           call read_var(histncid,var_info(var_found(1,jxw))%name,indat3a)
-           write(*,'(''read_var : '',a,'' id '',3i10)') trim(var_info(var_found(1,jxw))%name),jxw
+           indat3a = var_info(var_found(1,ixw))%missing_value
+           call read_var(histncid,var_info(var_found(1,ixw))%name,indat3a)
+           write(*,'(''read_var : '',a,'' id '',3i10)') trim(var_info(var_found(1,ixw))%name),ixw
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
-           !
-           cmor_var_id = cmor_variable(             &
-                table=mycmor%table_file,                           &
-                table_entry=xw(jxw)%entry,                         &
-                units=var_info(var_found(1,jxw))%units,              &
-                axis_ids=(/grid_id(1),axis_ids(3),axis_ids(4)/),   &
-                missing_value=var_info(var_found(1,jxw))%missing_value,&
-                positive=mycmor%positive,                          &
-                original_name=original_name,                       &
-                comment=xw(jxw)%comment)
-           write(*,'(''cmor_variable name: '',a,'' jxw '',i10,'' var_id '',i10)') trim(xw(jxw)%entry),jxw,cmor_var_id
            error_flag = cmor_write(          &
-                var_id        = cmor_var_id, &
+                var_id        = cmor_var_id(ixw), &
                 data          = indat3a,     &
                 ntimes_passed = 1,           &
                 time_vals     = tval,        &
                 time_bnds     = tbnd)
            if (error_flag < 0) then
-              write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(jxw)%entry),it
+              write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
               stop
            endif
         end select
