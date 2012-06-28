@@ -9,7 +9,7 @@ FC   = $(null)
 #
 ifeq ($(MACH),silver)
   NCFDIR  = /usr/local/netcdf-4.1.3-pgi-hpf-cc-11.5-0
-  UDUDIR  = /usr/local/udunits-2.1.23
+  UDUDIR  = /home/strandwg/proj/software/udunits-2.1.24
   UIDDIR  = /datalocal/ccpa/strandwg/software/uuid-1.6.2
   CMRDIR  = /datalocal/ccpa/strandwg/CMIP5/CMOR2/current
   HD5DIR  = /usr/local/hdf5-1.8.7

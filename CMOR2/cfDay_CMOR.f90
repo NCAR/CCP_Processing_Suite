@@ -770,6 +770,14 @@ program cfDay_CMOR
                  ! Determine amount of data to write, to keep close to ~2 4B limit
                  !
                  select case (ntimes(ifile,1))
+                 case ( 10920 ) ! Some missing data, gotta do some rigamarole
+                    nchunks(ifile) = 30
+                    tidx1(1:nchunks(ifile)) = (/    1,  366,  731, 1096, 1461, 1826, 2191, 2556, 2921, 3286,&
+                                                 3651, 4016, 4381, 4746, 5111, 5476, 5811, 6176, 6541, 6906,&
+                                                 7271, 7636, 8001, 8366, 8731, 9096, 9461, 9826,10191,10556/)
+                    tidx2(1:nchunks(ifile)) = (/  365,  730, 1095, 1460, 1825, 2190, 2555, 2920, 3285, 3650,&
+                                                 4015, 4380, 4745, 5110, 5475, 5810, 6175, 6540, 6905, 7270,&
+                                                 7635, 8000, 8365, 8730, 9095, 9460, 9825,10190,10555,10920/)
                  case ( 9825 ) ! Some missing data, gotta do some rigamarole
                     nchunks(ifile) = 27
                     tidx1(1:nchunks(ifile)) = (/    1, 366, 731,1096,1461,1826,2161,2526,2891,3256,3621,3986,4351,4716,&
@@ -885,6 +893,14 @@ program cfDay_CMOR
                     tidx1(1:nchunks(ifile)) = (/   1, 366, 731,1096,1461/)
                     tidx2(1:nchunks(ifile)) = (/ 365, 730,1095,1460,1825/)
                  endif
+              case ( 10920 ) ! Some missing data, gotta do some rigamarole
+                 nchunks(ifile) = 30
+                 tidx1(1:nchunks(ifile)) = (/    1,  366,  731, 1096, 1461, 1826, 2191, 2556, 2921, 3286,&
+                      3651, 4016, 4381, 4746, 5111, 5476, 5811, 6176, 6541, 6906,&
+                      7271, 7636, 8001, 8366, 8731, 9096, 9461, 9826,10191,10556/)
+                 tidx2(1:nchunks(ifile)) = (/  365,  730, 1095, 1460, 1825, 2190, 2555, 2920, 3285, 3650,&
+                      4015, 4380, 4745, 5110, 5475, 5810, 6175, 6540, 6905, 7270,&
+                      7635, 8000, 8365, 8730, 9095, 9460, 9825,10190,10555,10920/)
               case ( 9825 ) ! Some missing data, gotta do some rigamarole
                  nchunks(ifile) = 27
                  tidx1(1:nchunks(ifile)) = (/    1, 366, 731,1096,1461,1826,2161,2526,2891,3256,3621,3986,4351,4716,&
@@ -966,6 +982,14 @@ program cfDay_CMOR
               ! Determine amount of data to write, to keep close to ~2 4B limit
               !
               select case (ntimes(ifile,1))
+              case ( 10920 ) ! Some missing data, gotta do some rigamarole
+                 nchunks(ifile) = 30
+                 tidx1(1:nchunks(ifile)) = (/    1,  366,  731, 1096, 1461, 1826, 2191, 2556, 2921, 3286,&
+                      3651, 4016, 4381, 4746, 5111, 5476, 5811, 6176, 6541, 6906,&
+                      7271, 7636, 8001, 8366, 8731, 9096, 9461, 9826,10191,10556/)
+                 tidx2(1:nchunks(ifile)) = (/  365,  730, 1095, 1460, 1825, 2190, 2555, 2920, 3285, 3650,&
+                      4015, 4380, 4745, 5110, 5475, 5810, 6175, 6540, 6905, 7270,&
+                      7635, 8000, 8365, 8730, 9095, 9460, 9825,10190,10555,10920/)
               case ( 9825 ) ! Some missing data, gotta do some rigamarole
                  nchunks(ifile) = 27
                  tidx1(1:nchunks(ifile)) = (/    1, 366, 731,1096,1461,1826,2161,2526,2891,3256,3621,3986,4351,4716,&
@@ -1057,6 +1081,14 @@ program cfDay_CMOR
               ! Determine amount of data to write, to keep close to ~2 4B limit
               !
               select case (ntimes(ifile,1))
+              case ( 10920 ) ! Some missing data, gotta do some rigamarole
+                 nchunks(ifile) = 30
+                 tidx1(1:nchunks(ifile)) = (/    1,  366,  731, 1096, 1461, 1826, 2191, 2556, 2921, 3286,&
+                                              3651, 4016, 4381, 4746, 5111, 5476, 5811, 6176, 6541, 6906,&
+                                              7271, 7636, 8001, 8366, 8731, 9096, 9461, 9826,10191,10556/)
+                 tidx2(1:nchunks(ifile)) = (/  365,  730, 1095, 1460, 1825, 2190, 2555, 2920, 3285, 3650,&
+                                              4015, 4380, 4745, 5110, 5475, 5810, 6175, 6540, 6905, 7270,&
+                                              7635, 8000, 8365, 8730, 9095, 9460, 9825,10190,10555,10920/)
               case ( 9825 ) ! Some missing data, gotta do some rigamarole
                  nchunks(ifile) = 27
                  tidx1(1:nchunks(ifile)) = (/    1, 366, 731,1096,1461,1826,2161,2526,2891,3256,3621,3986,4351,4716,&

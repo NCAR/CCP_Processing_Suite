@@ -934,11 +934,11 @@ program Omon_CMOR
                     endif
                  elseif (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
                     call parse_ncfile(trim(ncfile(ifile,1)),fcase,fcomp,fsvar,ftime)
-                    if (ftime(1:4) == '0300') then
-                       nchunks(ifile) = 1
-                       tidx1(1:nchunks(ifile)) = 13
-                       tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-                    elseif (ftime(1:4) == '0800') then
+                    nchunks(ifile) = 1
+                    if (ftime( 1:4) == '0001') tidx1(1:nchunks(ifile)) = 3589
+                    if (ftime( 1:4) == '0300') tidx1(1:nchunks(ifile)) =   13
+                    if (ftime(8:11) == '1000') tidx2(1:nchunks(ifile)) = 9600
+                    if (ftime(1: 4) == '0800') then
                        nchunks(ifile) = 1
                        tidx1(1:nchunks(ifile)) = 1
                        tidx2(1:nchunks(ifile)) = 12
@@ -3680,7 +3680,7 @@ program Omon_CMOR
                     !
                     cmordat2d = merge(0.,spval,kmt.gt.0)
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    do k = 1,11
+                    do k = 1,10
                        do j = 1,nlats
                           do i = 1,nlons
                              if (kmt(i,j).le.k) then
