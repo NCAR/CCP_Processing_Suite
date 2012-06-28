@@ -281,7 +281,7 @@ program Oyr_CMOR
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
               stop
            endif
-        case ('ph')
+        case ('ph','expcalc','expcfe','expc','expsi')
            !     
            ! pH_3D
            !
