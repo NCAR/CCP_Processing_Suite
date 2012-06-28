@@ -3678,9 +3678,9 @@ program Omon_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     !
-                    cmordat2d = spval
+                    cmordat2d = merge(0.,spval,kmt.gt.0)
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    do k = 1,nlevs
+                    do k = 11,nlevs
                        do j = 1,nlats
                           do i = 1,nlons
                              if (indat3a(i,j,k).ne.spval) then
