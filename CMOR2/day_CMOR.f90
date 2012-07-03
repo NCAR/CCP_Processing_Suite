@@ -373,6 +373,14 @@ program day_CMOR
                  nchunks(ifile)= 6
                  tidx1(1:nchunks(ifile)) = (/    1, 9126,18251,27376,36501,45626/)      ! 1850, 1875, 1900, 1925, 1950, 1975
                  tidx2(1:nchunks(ifile)) = (/ 9125,18250,27375,36500,45625,55115/)      ! 1874, 1899, 1924, 1949, 1974, 2000
+              case ( 72636 )        ! RCP extension from 210101-229912 - 1 * 24 + 7 * 25
+                 nchunks(ifile)= 8
+                 tidx1(1:nchunks(ifile)) = (/    1, 8761,17886,27011,36136,45261,54386,63511/)
+                 tidx2(1:nchunks(ifile)) = (/ 8760,17885,27010,36135,45260,54385,63510,72635/)
+              case ( 73000 )        ! RCP extension from 210101-230012 - 1 * 24 + 6 * 25 + 1 * 26 year chunks
+                 nchunks(ifile)= 8
+                 tidx1(1:nchunks(ifile)) = (/    1, 8761,17886,27011,36136,45261,54386,63511/)
+                 tidx2(1:nchunks(ifile)) = (/ 8760,17885,27010,36135,45260,54385,63510,73000/)
               case default
                  nchunks(ifile)= 1
                  tidx1(1:nchunks(ifile)) = 1
@@ -605,6 +613,14 @@ program day_CMOR
                     nchunks(ifile)= 6
                     tidx1(1:nchunks(ifile)) = (/    1, 9126,18251,27376,36501,45626/)      ! 1850, 1875, 1900, 1925, 1950, 1975
                     tidx2(1:nchunks(ifile)) = (/ 9125,18250,27375,36500,45625,55115/)      ! 1874, 1899, 1924, 1949, 1974, 2000
+                 case ( 72636 )        ! RCP extension from 210101-229912 - 1 * 24 + 7 * 25
+                    nchunks(ifile)= 8
+                    tidx1(1:nchunks(ifile)) = (/    1, 8761,17886,27011,36136,45261,54386,63511/)
+                    tidx2(1:nchunks(ifile)) = (/ 8760,17885,27010,36135,45260,54385,63510,72635/)
+                 case ( 73000 )        ! RCP extension from 210101-230012 - 1 * 24 + 6 * 25 + 1 * 26 year chunks
+                    nchunks(ifile)= 8
+                    tidx1(1:nchunks(ifile)) = (/    1, 8761,17886,27011,36136,45261,54386,63511/)
+                    tidx2(1:nchunks(ifile)) = (/ 8760,17885,27010,36135,45260,54385,63510,73000/)
                  case ( 109865 )        ! MH from 1000-1300
                     nchunks(ifile)= 6
                     tidx1(1:nchunks(ifile)) = (/     1, 18251, 36501, 54751, 73001, 91251/)
@@ -730,6 +746,14 @@ program day_CMOR
                  nchunks(ifile)= 2          ! 51, break into 25y + 26y
                  tidx1(1:nchunks(ifile)) = (/   1, 9126/)
                  tidx2(1:nchunks(ifile)) = (/9125,ntimes(ifile,1)/)
+              case ( 72636 )        ! RCP extension from 210101-229912 - 1 * 24 + 7 * 25
+                 nchunks(ifile)= 8
+                 tidx1(1:nchunks(ifile)) = (/    1, 8761,17886,27011,36136,45261,54386,63511/)
+                 tidx2(1:nchunks(ifile)) = (/ 8760,17885,27010,36135,45260,54385,63510,72635/)
+              case ( 73000 )        ! RCP extension from 210101-230012 - 1 * 24 + 6 * 25 + 1 * 26 year chunks
+                 nchunks(ifile)= 8
+                 tidx1(1:nchunks(ifile)) = (/    1, 8761,17886,27011,36136,45261,54386,63511/)
+                 tidx2(1:nchunks(ifile)) = (/ 8760,17885,27010,36135,45260,54385,63510,73000/)
               case ( 97820 )        ! abrupt4xCO2 from 1850-2118, use 1850-2000 only
                  nchunks(ifile)= 6
                  tidx1(1:nchunks(ifile)) = (/    1, 9126,18251,27376,36501,45626/)      ! 1850, 1875, 1900, 1925, 1950, 1975
