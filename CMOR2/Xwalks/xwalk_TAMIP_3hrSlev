@@ -4,7 +4,7 @@ TAMIP_3hrSlev:psl:air_pressure_at_sea_level:longitude latitude time:atmos:1:PSL:
 TAMIP_3hrSlev:ps:surface_air_pressure:longitude latitude time:atmos:1:PS:PS no change
 TAMIP_3hrSlev:uas:eastward_wind:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
 TAMIP_3hrSlev:vas:northward_wind:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
-TAMIP_3hrSlev:sfcWind:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+TAMIP_3hrSlev:sfcWind:wind_speed:longitude latitude time height10m:atmos:1:U10:U10 no change
 TAMIP_3hrSlev:hurs:relative_humidity:longitude latitude time height2m:atmos:1:RHREFHT:RHREFHT no change
 TAMIP_3hrSlev:huss:specific_humidity:longitude latitude time height2m:atmos:1:QREFHT:QREFHT no change
 TAMIP_3hrSlev:pr:precipitation_flux:longitude latitude time:atmos:1:PRECT:PRECT unit conversion

@@ -262,7 +262,7 @@ program Do3hrSlev_CMOR
         case ('ccb','cct','clivi','clwvi','evspsbl','hfls','hfss','hurs','huss',&
              'prw','psl','ps','rldscs','rlds','rlutcs','rlut','rsdscs','rsds','rsdt',&
              'sci','tas','tasmax','tasmin','tauu','tauv','ts','ci','clt','pr',&
-             'cltisccp','albisccp','pctisccp')
+             'cltisccp','albisccp','pctisccp','sfcWind')
            !
            ! No change
            !
