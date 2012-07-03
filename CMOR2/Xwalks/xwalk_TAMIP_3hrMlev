@@ -12,13 +12,13 @@ TAMIP_3hrMlev:cli:mass_fraction_of_cloud_ice_in_air:longitude latitude alevel ti
 TAMIP_3hrMlev:mc:atmosphere_convective_mass_flux:longitude latitude alevhalf time:atmos:3:CMFMC CMFMCDZM PS:CMFMC + CMFMCDZM on model levels, no change
 TAMIP_3hrMlev:tnt:tendency_of_air_temperature:longitude latitude alevel time:atmos:2:TTEND_TOT PS:TTEND_TOT on model levels, no change
 TAMIP_3hrMlev:tnta:tendency_of_air_temperature_due_to_advection:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrMlev:tntmp:tendency_of_air_temperature_due_to_model_physics:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrMlev:tntscpbl:tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrMlev:tntr:tendency_of_air_temperature_due_to_radiative_heating:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrMlev:tntc:tendency_of_air_temperature_due_to_convection:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrMlev:tnhus:tendency_of_specific_humidity:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrMlev:tnhusa:tendency_of_specific_humidity_due_to_advection:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrMlev:tnhusc:tendency_of_specific_humidity_due_to_convection:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrMlev:tnhusd:tendency_of_specific_humidity_due_to_diffusion:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrMlev:tnhusscpbl:tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
-TAMIP_3hrMlev:tnhusmp:tendency_of_specific_humidity_due_to_model_physics:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_3hrMlev:tntmp:tendency_of_air_temperature_due_to_model_physics:longitude latitude alevel time:atmos:2:PTTEND PS:PTTEND on model levels, no change
+TAMIP_3hrMlev:tntscpbl:tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:longitude latitude alevel time:atmos:3:HPROGCLD HSED PS:HPROGCLD/CPAIR+HSED/CPAIR (CPAIR = 1004.64)
+TAMIP_3hrMlev:tntr:tendency_of_air_temperature_due_to_radiative_heating:longitude latitude alevel time:atmos:3:QRL QRS PS:QRL+QRS
+TAMIP_3hrMlev:tntc:tendency_of_air_temperature_due_to_convection:longitude latitude alevel time:atmos:5:ZMDT EVAPTZM ZMMTT CMFDT PS:ZMDT+EVAPTZM+ZMMTT+CMFDT
+TAMIP_3hrMlev:tnhus:tendency_of_specific_humidity:longitude latitude alevel time:atmos:3:TAQ PTEQ PS:TAQ+PTEQ
+TAMIP_3hrMlev:tnhusa:tendency_of_specific_humidity_due_to_advection:longitude latitude alevel time:atmos:2:TAQ PS:TAQ on model levels, no change
+TAMIP_3hrMlev:tnhusc:tendency_of_specific_humidity_due_to_convection:longitude latitude alevel time:atmos:4:ZMDQ EVAPQZM CMFDQ PS:ZMDQ+EVAPQZM+CMFDQ
+TAMIP_3hrMlev:tnhusd:tendency_of_specific_humidity_due_to_diffusion:longitude latitude alevel time:atmos:2:VD01 PS:VD01
+TAMIP_3hrMlev:tnhusscpbl:tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:longitude latitude alevel time:atmos:4:EVAPPREC DQSED CME PS:EVAPPREC+DQSED-CME
+TAMIP_3hrMlev:tnhusmp:tendency_of_specific_humidity_due_to_model_physics:longitude latitude alevel time:atmos:2:PTEQ PS:PTEQ

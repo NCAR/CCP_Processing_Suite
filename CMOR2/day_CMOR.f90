@@ -313,6 +313,14 @@ program day_CMOR
               write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
               !
               select case (ntimes(ifile,1))
+              case ( 20439 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/    1, 14600/)
+                 tidx2(1:nchunks(ifile)) = (/14599, 20439/)
+              case ( 20440 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/    1, 14601/)
+                 tidx2(1:nchunks(ifile)) = (/14600, 20440/)
               case ( 25185 )
                  nchunks(ifile)= 2
                  tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
@@ -437,6 +445,14 @@ program day_CMOR
               enddo
               !
               select case (ntimes(ifile,1))
+              case ( 20439 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/    1, 14600/)
+                 tidx2(1:nchunks(ifile)) = (/14599, 20439/)
+              case ( 20440 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/    1, 14601/)
+                 tidx2(1:nchunks(ifile)) = (/14600, 20440/)
               case ( 25185 )
                  nchunks(ifile)= 2
                  tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
@@ -537,6 +553,14 @@ program day_CMOR
                  write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
                  !
                  select case (ntimes(ifile,1))
+                 case ( 20439 )
+                    nchunks(ifile)= 2
+                    tidx1(1:nchunks(ifile)) = (/    1, 14600/)
+                    tidx2(1:nchunks(ifile)) = (/14599, 20439/)
+                 case ( 20440 )
+                    nchunks(ifile)= 2
+                    tidx1(1:nchunks(ifile)) = (/    1, 14601/)
+                    tidx2(1:nchunks(ifile)) = (/14600, 20440/)
                  case ( 25185 )
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
@@ -655,8 +679,17 @@ program day_CMOR
               time_bnds(1,:) = time_bnds(2,:)
               time_bnds(2,:) = time_bnds(1,:) + 1
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
+              write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
               !
               select case (ntimes(ifile,1))
+              case ( 20439 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/    1, 14600/)
+                 tidx2(1:nchunks(ifile)) = (/14599, 20439/)
+              case ( 20440 )
+                 nchunks(ifile)= 2
+                 tidx1(1:nchunks(ifile)) = (/    1, 14601/)
+                 tidx2(1:nchunks(ifile)) = (/14600, 20440/)
               case ( 25185 )
                  nchunks(ifile)= 2
                  tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
@@ -777,6 +810,7 @@ program day_CMOR
                  time_bnds(1,:) = time_bnds(2,:)
                  time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
+                 write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
                  !
                  select case (ntimes(ifile,1))
                  case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
@@ -791,6 +825,10 @@ program day_CMOR
                     nchunks(ifile)= 3
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
                     tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
+                 case ( 20439 )
+                    nchunks(ifile)= 2
+                    tidx1(1:nchunks(ifile)) = (/    1, 14600/)
+                    tidx2(1:nchunks(ifile)) = (/14599, 20439/)
                  case default
                     nchunks(ifile)= 1
                     tidx1(1:nchunks(ifile)) = 1
@@ -870,6 +908,7 @@ program day_CMOR
                  time_bnds(1,:) = time_bnds(2,:)
                  time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
+                 write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
                  !
                  select case (ntimes(ifile,1))
                  case ( 56940 )         ! 20C from 1850-2005, use all times, 4 * 35y + 1 * 16y chunks
@@ -884,6 +923,10 @@ program day_CMOR
                     nchunks(ifile)= 3
                     tidx1(1:nchunks(ifile)) = (/    1, 12776, 25551/)      ! 2006, 2041, 2076
                     tidx2(1:nchunks(ifile)) = (/12775, 25550, 34675/)      ! 2040, 2075, 2100
+                 case ( 20439 )
+                    nchunks(ifile)= 2
+                    tidx1(1:nchunks(ifile)) = (/    1, 14600/)
+                    tidx2(1:nchunks(ifile)) = (/14599, 20439/)
                  case default
                     nchunks(ifile)= 1
                     tidx1(1:nchunks(ifile)) = 1
@@ -960,6 +1003,7 @@ program day_CMOR
                  time_bnds(1,:) = time_bnds(2,:)
                  time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
+                 write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
@@ -1079,6 +1123,7 @@ program day_CMOR
                  time_bnds(1,:) = time_bnds(2,:)
                  time_bnds(2,:) = time_bnds(1,:) + 1
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
+                 write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
                  !
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
