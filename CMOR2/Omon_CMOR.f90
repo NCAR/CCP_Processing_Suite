@@ -2397,7 +2397,7 @@ program Omon_CMOR
                     indat3a = var_info(var_found(ifile,1))%missing_value
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     where (indat3a /= var_info(var_found(ifile,1))%missing_value)
-                       indat3a = indat3a*1e6.
+                       indat3a = indat3a*1.e6
                     endwhere
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
