@@ -580,7 +580,7 @@ program Omon_CMOR
                     do j = 1,nlats
                        do i = 1,nlons
                           if (kmt(i,j) .ge. 1) then
-                             cmordat2d(i,j) = 1000*indat3a(i,j,1)
+                             cmordat2d(i,j) = 1.e6*indat3a(i,j,1)
                           endif
                        enddo
                     enddo
@@ -2397,7 +2397,7 @@ program Omon_CMOR
                     indat3a = var_info(var_found(ifile,1))%missing_value
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     where (indat3a /= var_info(var_found(ifile,1))%missing_value)
-                       indat3a = indat3a*1000.
+                       indat3a = indat3a*1e6.
                     endwhere
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
