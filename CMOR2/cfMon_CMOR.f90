@@ -427,7 +427,7 @@ program cfMon_CMOR
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
            ! break up into nicely-sized chunks along time
            !
-           allocate(indat3a(nlons,nlats,nlevs),indat2a(nlons,nlats))
+           allocate(indat3a(nlons,nlats,nlevs),psdata(nlons,nlats))
            !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
@@ -520,7 +520,7 @@ program cfMon_CMOR
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                 call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2a)
+                 call read_var(myncid(1,2),var_info(var_found(1,2))%name,psdata)
                  tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(        &
                       var_id        = cmor_var_id,   &
@@ -534,7 +534,7 @@ program cfMon_CMOR
                  endif
                  error_flag = cmor_write(        &
                       var_id        = zfactor_id,&
-                      data          = indat2a,   &
+                      data          = psdata,   &
                       ntimes_passed = 1,         &
                       time_vals     = tval,      &
                       time_bnds     = tbnd,      &
@@ -564,7 +564,10 @@ program cfMon_CMOR
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
            ! break up into nicely-sized chunks along time
            !
-           allocate(indat3a(nlons,nlats,nilevs),indat3b(nlons,nlats,nilevs),indat2a(nlons,nlats))
+           if (allocated(indat3a)) deallocate(indat3a)
+           if (allocated(indat3b)) deallocate(indat3b)
+           if (allocated(psdata)) deallocate(psdata)
+           allocate(indat3a(nlons,nlats,nilevs),indat3b(nlons,nlats,nilevs),psdata(nlons,nlats))
            allocate(cmordat3d(nlons,nlats,nilevs))
            !
            do ifile = 1,nc_nfiles(1)
@@ -665,7 +668,7 @@ program cfMon_CMOR
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
-                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat2a)
+                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,psdata)
                     where ((indat3a /= spval).and.(indat3b /= spval))
                        cmordat3d = indat3a + indat3b
                     elsewhere
@@ -684,7 +687,7 @@ program cfMon_CMOR
                     endif
                     error_flag = cmor_write(        &
                          var_id        = zfactor_id,&
-                         data          = indat2a,   &
+                         data          = psdata,   &
                          ntimes_passed = 1,         &
                          time_vals     = tval,      &
                          time_bnds     = tbnd,      &
@@ -711,6 +714,7 @@ program cfMon_CMOR
            !
            ! clcalipso
            !
+           if (allocated(indat3a)) deallocate(indat3a)
            allocate(indat3a(nlons,nlats,ncosp_ht))
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
@@ -778,16 +782,17 @@ program cfMon_CMOR
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
-              write(*,'(''ERROR CMOR close of '',a)') trim(cmor_filename(1:))
+              write(*,'(''ERROR CMOR close of '',a)') trim(xw(ixw)%entry)
               stop
            else
-              write(*,'(''GOOD CMOR close of '',a)') trim(cmor_filename(1:))
+              write(*,'(''GOOD CMOR close of '',a)')  trim(xw(ixw)%entry)
            endif
         case ('parasolRefl')
            !
            ! parasolRefl
            !
 !           allocate(indat3a(nlons,nlats,ncosp_sza),parasol(nlons,nlats,ncosp_sza))
+           if (allocated(indat3a)) deallocate(indat3a)
            allocate(indat3a(nlons,nlats,ncosp_sza))
            do ifile = 1,nc_nfiles(1)
               call open_cdf(myncid(ifile,1),trim(ncfile(ifile,1)),.true.)
@@ -1359,6 +1364,7 @@ program cfMon_CMOR
            enddo
         end select
         if (allocated(indat2a))   deallocate(indat2a)
+        if (allocated(psdata))    deallocate(psdata)
         if (allocated(indat2b))   deallocate(indat2b)
         if (allocated(indat2c))   deallocate(indat2c)
         if (allocated(cmordat2d)) deallocate(cmordat2d)
