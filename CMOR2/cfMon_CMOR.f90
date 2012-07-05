@@ -216,6 +216,8 @@ program cfMon_CMOR
            var_info(var_found(1,1))%units = '1'
         case ('hurs','cl')
            var_info(var_found(1,1))%units = '%'
+        case ('parasolRefl')
+           var_info(var_found(1,1))%units = '1'
         case ('prc','pr','prsn')
            var_info(var_found(1,1))%units = 'kg m-2 s-1'
         end select
@@ -778,7 +780,7 @@ program cfMon_CMOR
                     endif
                  enddo
               enddo
-              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              write(*,'(''DONE writing '',a,'' chunk# '',i6)') trim(xw(ixw)%entry),ic-1
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
