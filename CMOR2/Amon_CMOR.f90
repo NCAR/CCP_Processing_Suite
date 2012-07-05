@@ -302,7 +302,7 @@ program Amon_CMOR
            ! Determine amount of data to write, to keep close to ~4 GB limit
            !
            select case(ntimes(1,1))
-           case ( 1872,1860,51140,3612,6012,12012,1140 )  ! All data
+           case ( 1872,1865,1860,51140,3612,6012,12012,1140 )  ! All data
               select case(exp(exp_found)%model_id)
               case ('CESM1-WACCM')
                  nchunks(1) = 1
@@ -400,7 +400,7 @@ program Amon_CMOR
            ! Determine amount of data to write, to keep close to ~4 GB limit
            !
            select case(ntimes(1,1))
-           case ( 1872,1860,1140,3612,6012,12012 )  ! All data
+           case ( 1872,1865,1860,1140,3612,6012,12012 )  ! All data
               select case(exp(exp_found)%model_id)
               case ('CESM1-WACCM')
                  nchunks(1) = 1
@@ -506,7 +506,7 @@ program Amon_CMOR
            ! Determine amount of data to write, to keep close to ~4 GB limit
            !
            select case(ntimes(1,1))
-           case ( 1872,1860,1140,3612,6012,12012 )  ! All data
+           case ( 1872,1865,1860,1140,3612,6012,12012 )  ! All data
               select case(exp(exp_found)%model_id)
               case ('CESM1-WACCM')
                  nchunks(1) = 1
@@ -616,7 +616,7 @@ program Amon_CMOR
            ! Determine amount of data to write, to keep close to ~4 GB limit
            !
            select case(ntimes(1,1))
-           case ( 1872,1860,1140,3612,6012,12012 )  ! All data
+           case ( 1872,1865,1860,1140,3612,6012,12012 )  ! All data
               select case(exp(exp_found)%model_id)
               case ('CESM1-WACCM')
                  nchunks(1) = 1
@@ -730,7 +730,7 @@ program Amon_CMOR
            ! Determine amount of data to write, to keep close to ~4 GB limit
            !
            select case(ntimes(1,1))
-           case ( 1872,1860,1140,3612,6012,12012 )  ! All data
+           case ( 1872,1865,1860,1140,3612,6012,12012 )  ! All data
               select case(exp(exp_found)%model_id)
               case ('CESM1-WACCM')
                  nchunks(1) = 1
@@ -844,7 +844,7 @@ program Amon_CMOR
            ! Determine amount of data to write, to keep close to ~4 GB limit
            !
            select case(ntimes(1,1))
-           case ( 1872,1860,1140,3612,6012,12012 )  ! All data
+           case ( 1872,1865,1860,1140,3612,6012,12012 )  ! All data
               select case(exp(exp_found)%model_id)
               case ('CESM1-WACCM')
                  nchunks(1) = 1
@@ -1040,6 +1040,10 @@ program Amon_CMOR
                     nchunks(ifile) = 3
                     tidx1(1:nchunks(ifile)) = (/  1, 601,1201/) ! 1850, 1900, 1951
                     tidx2(1:nchunks(ifile)) = (/600,1200,ntimes(ifile,1)/) ! 1899, 1950, 2005
+                 case ( 1865 )  ! 20C, 1850-2005, ~50y chunks
+                    nchunks(ifile) = 3
+                    tidx1(1:nchunks(ifile)) = (/  1, 601,1198/) ! 1850, 1900, 1951
+                    tidx2(1:nchunks(ifile)) = (/600,1197,1865/) ! 1899, 1950, 2005
                  case ( 3828 )  ! CAM5 piControl
                     nchunks(ifile) = 32
                     tidx1(1) =   1
@@ -1201,6 +1205,10 @@ program Amon_CMOR
            !
            do ifile = 1,nc_nfiles(1)
               select case(ntimes(ifile,1))
+              case ( 1865 )  ! 20C, 1850-2005, ~50y chunks
+                 nchunks(ifile) = 3
+                 tidx1(1:nchunks(ifile)) = (/  1, 601,1198/) ! 1850, 1900, 1951
+                 tidx2(1:nchunks(ifile)) = (/600,1197,1865/) ! 1899, 1950, 2005
               case ( 1872,1860 )  ! 20C, 1850-2005
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-CAM5')
@@ -1389,6 +1397,10 @@ program Amon_CMOR
               ! Determine amount of data to write, to keep close to ~4 GB limit
               !
               select case(ntimes(ifile,1))
+              case ( 1865 )  ! 20C, 1850-2005, ~50y chunks
+                 nchunks(ifile) = 3
+                 tidx1(1:nchunks(ifile)) = (/  1, 601,1198/) ! 1850, 1900, 1951
+                 tidx2(1:nchunks(ifile)) = (/600,1197,1865/) ! 1899, 1950, 2005
               case ( 1872,1860 )  ! 20C, 1850-2005
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-CAM5')

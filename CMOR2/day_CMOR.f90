@@ -1032,6 +1032,10 @@ program day_CMOR
                  ! Determine amount of data to write, to keep close to ~2 GB limit
                  !
                  select case (ntimes(ifile,1))
+                 case ( 3650 )
+                    nchunks(ifile)= 2
+                    tidx1(1:nchunks(ifile)) = (/   1, 1826/)
+                    tidx2(1:nchunks(ifile)) = (/1825, 3650/)
                  case ( 7300 )
                     nchunks(ifile)= 4
                     tidx1(1:nchunks(ifile)) = (/   1, 1826, 3651, 5476/)

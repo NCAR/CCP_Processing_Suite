@@ -44,12 +44,12 @@ CMIP5_cfMon:rsutcs4co2:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude 
 CMIP5_cfMon:rsu:upwelling_shortwave_flux_in_air:longitude latitude alevhalf time:atmos:0:UNKNOWN:UNKNOWN
 CMIP5_cfMon:smc:atmosphere_net_upward_shallow_convective_mass_flux:longitude latitude alevhalf time:atmos:0:UNKNOWN:UNKNOWN
 CMIP5_cfMon:ta:air_temperature:longitude latitude alevel time:atmos:2:T PS:T no change
-CMIP5_cfMon:tnhusa:tendency_of_specific_humidity_due_to_advection:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CMIP5_cfMon:tnhusc:tendency_of_specific_humidity_due_to_convection:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CMIP5_cfMon:tnhusd:tendency_of_specific_humidity_due_to_diffusion:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CMIP5_cfMon:tnhusmp:tendency_of_specific_humidity_due_to_model_physics:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CMIP5_cfMon:tnhusscpbl:tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CMIP5_cfMon:tnhus:tendency_of_specific_humidity:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfMon:tnhusa:tendency_of_specific_humidity_due_to_advection:longitude latitude alevel time:atmos:2:TAQ PS:TAQ on model levels, no change
+CMIP5_cfMon:tnhusc:tendency_of_specific_humidity_due_to_convection:longitude latitude alevel time:atmos:4:ZMDQ EVAPQZM CMFDQ PS:ZMDQ+EVAPQZM+CMFDQ
+CMIP5_cfMon:tnhusd:tendency_of_specific_humidity_due_to_diffusion:longitude latitude alevel time:atmos:2:VD01 PS:VD01
+CMIP5_cfMon:tnhusmp:tendency_of_specific_humidity_due_to_model_physics:longitude latitude alevel time:atmos:2:PTEQ PS:PTEQ
+CMIP5_cfMon:tnhusscpbl:tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:longitude latitude alevel time:atmos:4:EVAPPREC DQSED CME PS:EVAPPREC+DQSED-CME
+CMIP5_cfMon:tnhus:tendency_of_specific_humidity:longitude latitude alevel time:atmos:3:TAQ PTEQ PS:TAQ+PTEQ
 CMIP5_cfMon:tnsccwacr:tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_autoconversion_to_rain:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CMIP5_cfMon:tnsccwacs:tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_autoconversion_to_snow:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CMIP5_cfMon:tnsccwa:tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_advection:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
@@ -91,8 +91,8 @@ CMIP5_cfMon:tnsclwmi:tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_
 CMIP5_cfMon:tnsclwri:tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_riming:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CMIP5_cfMon:tnsclw:tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CMIP5_cfMon:tnta:tendency_of_air_temperature_due_to_advection:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CMIP5_cfMon:tntc:tendency_of_air_temperature_due_to_convection:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CMIP5_cfMon:tntmp:tendency_of_air_temperature_due_to_model_physics:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CMIP5_cfMon:tntr:tendency_of_air_temperature_due_to_radiative_heating:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CMIP5_cfMon:tntscpbl:tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfMon:tntc:tendency_of_air_temperature_due_to_convection:longitude latitude alevel time:atmos:5:ZMDT EVAPTZM ZMMTT CMFDT PS:ZMDT+EVAPTZM+ZMMTT+CMFDT
+CMIP5_cfMon:tntmp:tendency_of_air_temperature_due_to_model_physics:longitude latitude alevel time:atmos:2:PTTEND PS:PTTEND on model levels, no change
+CMIP5_cfMon:tntr:tendency_of_air_temperature_due_to_radiative_heating:longitude latitude alevel time:atmos:3:QRL QRS PS:QRL+QRS
+CMIP5_cfMon:tntscpbl:tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:longitude latitude alevel time:atmos:3:HPROGCLD HSED PS:HPROGCLD/CPAIR+HSED/CPAIR (CPAIR = 1004.64)
 CMIP5_cfMon:tnt:tendency_of_air_temperature:longitude latitude alevel time:atmos:2:TTEND_TOT PS:TTEND_TOT on model levels, no change
