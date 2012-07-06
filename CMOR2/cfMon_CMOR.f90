@@ -255,19 +255,29 @@ program cfMon_CMOR
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4),axis_ids(5)/),&
+                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(4),axis_ids(5),axis_ids(1)/),&
                 missing_value=var_info(var_found(1,1))%missing_value,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
-        case ('albisccp','cltcalipso','cltisccp','pctisccp','ps','rlut4co2',&
+        case ('ps')
+           cmor_var_id = cmor_variable(                            &
+                table=mycmor%table_file,                           &
+                table_entry=xw(ixw)%entry,                         &
+                units=var_info(var_found(1,1))%units,                &
+                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(1)/),&
+                missing_value=var_info(var_found(1,1))%missing_value,&
+                positive=mycmor%positive,                          &
+                original_name=original_name,                       &
+                comment=xw(ixw)%comment)
+        case ('albisccp','cltcalipso','cltisccp','pctisccp','rlut4co2',&
               'rlutcs4co2','rsut4co2','rsutcs4co2',&
               'clhcalipso','cllcalipso','clmcalipso')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3)/),  &
+                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(1)/),  &
                 missing_value=var_info(var_found(1,1))%missing_value,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
@@ -419,7 +429,6 @@ program cfMon_CMOR
               enddo
            enddo
            write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-           !
            error_flag = cmor_close()
            if (error_flag < 0) then
               write(*,'(''ERROR close: '',a)') trim(xw(ixw)%entry)
