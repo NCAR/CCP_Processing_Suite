@@ -233,6 +233,8 @@ program Omon_CMOR
            var_info(var_found(1,1))%units = 'kg s-1'
         case ('wmosq')
            var_info(var_found(1,1))%units = 'kg2 s-2'
+        case ('so','sos','soga')
+           var_info(var_found(1,1))%units = 'psu'
         case ('masso')
            var_info(var_found(1,1))%units = 'kg'
         case ('cfc11')
