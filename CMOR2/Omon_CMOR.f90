@@ -582,7 +582,7 @@ program Omon_CMOR
                     do j = 1,nlats
                        do i = 1,nlons
                           if (kmt(i,j) .ge. 1) then
-                             cmordat2d(i,j) = 1.e6*indat3a(i,j,1)
+                             cmordat2d(i,j) = 1.e3*indat3a(i,j,1)
                           endif
                        enddo
                     enddo
@@ -2399,7 +2399,7 @@ program Omon_CMOR
                     indat3a = var_info(var_found(ifile,1))%missing_value
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     where (indat3a /= var_info(var_found(ifile,1))%missing_value)
-                       indat3a = indat3a*1.e6
+                       indat3a = indat3a*1.e3
                     endwhere
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
@@ -2582,7 +2582,7 @@ program Omon_CMOR
               elseif (xw(ixw)%entry=='thetaoga') then
                  indat1a = indat1a/sum(volume)
               elseif (xw(ixw)%entry=='soga') then
-                 indat1a = 1.e6*(indat1a/sum(volume))
+                 indat1a = 1.e3*(indat1a/sum(volume))
               endif
 !              write(*,*) 'MIN: ',minval(indat1a),'MAX: ',maxval(indat1a)
               !
