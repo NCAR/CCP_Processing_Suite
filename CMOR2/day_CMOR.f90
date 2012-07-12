@@ -1029,13 +1029,17 @@ program day_CMOR
                  time = (time_bnds(1,:)+time_bnds(2,:))/2.
                  write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(ifile,1)),myncid(ifile,1),ntimes(ifile,1)
                  !
-                 ! Determine amount of data to write, to keep close to ~2 GB limit
+                 ! Determine amount of data to write, to keep close to ~4 GB limit
                  !
                  select case (ntimes(ifile,1))
                  case ( 3650 )
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/   1, 1826/)
                     tidx2(1:nchunks(ifile)) = (/1825, 3650/)
+                 case ( 4015 )
+                    nchunks(ifile)= 2
+                    tidx1(1:nchunks(ifile)) = (/   1, 2191/)
+                    tidx2(1:nchunks(ifile)) = (/2190, 4015/)
                  case ( 7300 )
                     nchunks(ifile)= 4
                     tidx1(1:nchunks(ifile)) = (/   1, 1826, 3651, 5476/)
