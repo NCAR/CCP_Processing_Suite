@@ -81,8 +81,8 @@ program Oyr_CMOR
   !
   ! Open CESM file and get information(s)
   !
-  year1 = exp(exp_found)%begyr
-  year2 = exp(exp_found)%endyr
+  year1 = exp(exp_found)%runbeg
+  year2 = exp(exp_found)%runend
   if (year1 == 2005) year1 = 2006
   if (trim(case_read)=='b40.coup_carb.004') then ! Use only 0301-0800                  
      year1 = 301

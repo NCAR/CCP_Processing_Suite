@@ -1,16 +1,16 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
+subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
   use files_info
   !
   implicit none
   character(len=256),intent(in)::case,comp,cesm_var,table
-  integer,intent(in)::ivar,begyr,endyr
+  integer,intent(in)::ivar,runbeg,runend
   integer::i,j,year1,year2,ndt,idt
   character(len=256)::checkname
   character(len=256),dimension(2)::dtbeg,dtend
   logical::exists
   !
-  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,begyr,endyr,trim(table)
+  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,runbeg,runend,trim(table)
   !
   select case (table)
   case ('Tables/CMIP5_Amon','Tables/CMIP5_Lmon','Tables/CMIP5_LImon','Tables/CMIP5_Omon','Tables/CMIP5_OImon','Tables/CMIP5_aero','Tables/CMIP5_cfMon',&
@@ -31,8 +31,8 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
   select case (table)
   case ('Tables/CMIP5_OImon','Tables/GeoMIP_OImon')
      exists = .false.
-     do year1 = begyr,endyr
-        do year2 = endyr,year1,-1
+     do year1 = runbeg,runend
+        do year2 = runend,year1,-1
            do idt = 1,ndt
               write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
                    trim(case),&
@@ -73,7 +73,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
           trim(case),&
           trim(comp),&
           trim(cesm_var),&
-          begyr
+          runbeg
      inquire(file=checkname,exist=exists)
 !     write(*,'(''build_filenames: '',a,5x,i4,5x)') trim(checkname),year1
      if (exists) then
@@ -87,8 +87,8 @@ subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
 !     if (all_continue) write(*,'('' files: '',100(a))') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
   case default
      exists = .false.
-     do year1 = begyr,endyr
-        do year2 = endyr,year1,-1
+     do year1 = runbeg,runend
+        do year2 = runend,year1,-1
            do idt = 1,ndt
 !              write(*,'(''dtbeg, dtend: '',i4,5x,a,10x,a)') idt,trim(dtbeg(idt)),trim(dtend(idt))
               write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &

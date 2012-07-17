@@ -12,7 +12,8 @@
 !!$  exp(:)%cmip(1:)          = ' '
 !!$  exp(:)%run_refcase(1:)   = ' '
 !!$  exp(:)%run_refdate(1:)   = ' '
-!!$  exp(:)%begin_end(1:)     = ' '
+!!$  exp(:)%runbegend(1:)     = ' '
+!!$  exp(:)%mipbegend(1:)     = ' '
 !!$  exp(:)%grid(1:)          = ' '
 !!$  exp(:)%compset(1:)       = ' '
 !!$  exp(:)%repotag(1:)       = ' '
@@ -36,7 +37,8 @@
 !!$          trim(adjustl(exp(i)%cmip)),&
 !!$          trim(adjustl(exp(i)%run_refcase)),&
 !!$          trim(adjustl(exp(i)%run_refdate)),&
-!!$          trim(adjustl(exp(i)%begin_end)),&
+!!$          trim(adjustl(exp(i)%runbegend)),&
+!!$          trim(adjustl(exp(i)%mipbegend)),&
 !!$          trim(adjustl(exp(i)%grid)),&
 !!$          trim(adjustl(exp(i)%compset)),&
 !!$          trim(adjustl(exp(i)%repotag)),&
@@ -70,14 +72,14 @@ subroutine load_exp(exp_file)
   ! 105 - 109  MIP (cm3 or cm5) experiment (N/A if not applicable)
   ! 110 - 149  RUN_REFCASE (parent case)
   ! 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
-  ! 165 - 174  years of experiment (YYYY if unknown)
-  ! 175 - 184  GRID (resolution)
-  ! 185 - 204  COMPSET (N/A if not applicable)
-  ! 205 - 224  REPOTAG (N/A if not applicable)
-  ! 225 - 244  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
-  ! 245 - 254  MACH (hardware)
-  ! 255 - end  DOUT_L_MSROOT (history file location on archive)
-  !
+  ! 165 - 174  run years of experiment (YYYY if unknown)
+  ! 175 - 184  CMIP5-requested years
+  ! 185 - 194  GRID (resolution)
+  ! 195 - 214  COMPSET (N/A if not applicable)
+  ! 215 - 234  REPOTAG (N/A if not applicable)
+  ! 234 - 249  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+  ! 250 - 259  MACH (hardware)
+  ! 260 - end  DOUT_L_MSROOT (history file location on archive)
   !
   inquire(file=trim(exp_file),exist=does_exist)
   if (.not.(does_exist)) then
@@ -93,7 +95,8 @@ subroutine load_exp(exp_file)
   exp(:)%cmip(1:)          = ' '
   exp(:)%run_refcase(1:)   = ' '
   exp(:)%run_refdate(1:)   = ' '
-  exp(:)%begin_end(1:)     = ' '
+  exp(:)%runbegend(1:)     = ' '
+  exp(:)%mipbegend(1:)     = ' '
   exp(:)%grid(1:)          = ' '
   exp(:)%compset(1:)       = ' '
   exp(:)%repotag(1:)       = ' '
@@ -119,13 +122,14 @@ subroutine load_exp(exp_file)
            if (instring(105:109) == 'tmp') exp(iexp)%cmip(1:) = 'TAMIP'
            exp(iexp)%run_refcase(1:) = adjustl(instring(110:149))
            exp(iexp)%run_refdate(1:) = adjustl(instring(150:164))
-           exp(iexp)%begin_end(1:)   = adjustl(instring(165:174))
-           exp(iexp)%grid(1:)        = adjustl(instring(175:184))
-           exp(iexp)%compset(1:)     = adjustl(instring(185:204))
-           exp(iexp)%repotag(1:)     = adjustl(instring(205:224))
-           exp(iexp)%start_fin(1:)   = adjustl(instring(225:244))
-           exp(iexp)%mach(1:)        = adjustl(instring(245:254))
-           exp(iexp)%dout(1:)        = adjustl(instring(255:len_trim(instring)))
+           exp(iexp)%runbegend(1:)   = adjustl(instring(165:174))
+           exp(iexp)%mipbegend(1:)   = adjustl(instring(175:184))
+           exp(iexp)%grid(1:)        = adjustl(instring(185:194))
+           exp(iexp)%compset(1:)     = adjustl(instring(195:214))
+           exp(iexp)%repotag(1:)     = adjustl(instring(215:234))
+           exp(iexp)%start_fin(1:)   = adjustl(instring(235:249))
+           exp(iexp)%mach(1:)        = adjustl(instring(250:259))
+           exp(iexp)%dout(1:)        = adjustl(instring(260:len_trim(instring)))
            iexp = iexp + 1
         endif
      endif
@@ -136,15 +140,23 @@ subroutine load_exp(exp_file)
   ! Parse out beginning/ending years
   do iexp = 1,num_exp
      if (exp(iexp)%expt_id(1:5) == 'tamip') then
-        read(exp(iexp)%expt_id(6:9),'(i4.4)') exp(iexp)%begyr
-        exp(iexp)%endyr = exp(iexp)%begyr
-        exp(iexp)%length = (exp(iexp)%endyr-exp(iexp)%begyr)+1
-!        write(*,'(''load_expt: '',a,5x,i4)') trim(exp(iexp)%expt_id),exp(iexp)%begyr
+        read(exp(iexp)%expt_id(6:9),'(i4.4)') exp(iexp)%runbeg
+        exp(iexp)%runend = exp(iexp)%runbeg
+        exp(iexp)%runlen = (exp(iexp)%runend-exp(iexp)%runbeg)+1
+!        write(*,'(''load_expt: '',a,5x,i4)') trim(exp(iexp)%expt_id),exp(iexp)%runbeg
      else
-        if (exp(iexp)%begin_end /= 'YYYY-YYYY') then
-           read(exp(iexp)%begin_end(1:4),'(i4.4)') exp(iexp)%begyr
-           read(exp(iexp)%begin_end(6:9),'(i4.4)') exp(iexp)%endyr
-           exp(iexp)%length = (exp(iexp)%endyr-exp(iexp)%begyr)+1
+        if (exp(iexp)%runbegend /= 'YYYY-YYYY') then
+           read(exp(iexp)%runbegend(1:4),'(i4.4)') exp(iexp)%runbeg
+           read(exp(iexp)%runbegend(6:9),'(i4.4)') exp(iexp)%runend
+           exp(iexp)%runlen = (exp(iexp)%runend-exp(iexp)%runbeg)+1
+        else
+           write(*,'(''load_expt: YEARS UNDEFINED FOR '',a,'' STOPPING.'')') trim(exp(iexp)%expt_id)
+           stop
+        endif
+        if (exp(iexp)%mipbegend /= 'YYYY-YYYY') then
+           read(exp(iexp)%mipbegend(1:4),'(i4.4)') exp(iexp)%mipbeg
+           read(exp(iexp)%mipbegend(6:9),'(i4.4)') exp(iexp)%mipend
+           exp(iexp)%miplen = (exp(iexp)%mipend-exp(iexp)%mipbeg)+1
         else
            write(*,'(''load_expt: YEARS UNDEFINED FOR '',a,'' STOPPING.'')') trim(exp(iexp)%expt_id)
            stop

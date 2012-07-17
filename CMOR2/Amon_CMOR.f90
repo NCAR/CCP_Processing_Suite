@@ -101,7 +101,7 @@ program Amon_CMOR
            xw(ixw)%ncesm_vars = 0
            all_continue = .false.
         else
-           call build_filenames(case_read,comp_read,xw(ixw)%cesm_vars(ivar),ivar,exp(exp_found)%begyr,exp(exp_found)%endyr,mycmor%table_file)
+           call build_filenames(case_read,comp_read,xw(ixw)%cesm_vars(ivar),ivar,exp(exp_found)%runbeg,exp(exp_found)%runend,mycmor%table_file)
         endif
      enddo
      !
@@ -1209,6 +1209,10 @@ program Amon_CMOR
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 601,1198/) ! 1850, 1900, 1951
                  tidx2(1:nchunks(ifile)) = (/600,1197,1865/) ! 1899, 1950, 2005
+              case ( 1871 )  ! 20C, 1850-2005, ~50y chunks
+                 nchunks(ifile) = 3
+                 tidx1(1:nchunks(ifile)) = (/  1, 600,1200/) ! 1850, 1900, 1951
+                 tidx2(1:nchunks(ifile)) = (/599,1199,1871/) ! 1899, 1950, 2005
               case ( 1872,1860 )  ! 20C, 1850-2005
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-CAM5')
@@ -1401,6 +1405,10 @@ program Amon_CMOR
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 601,1198/) ! 1850, 1900, 1951
                  tidx2(1:nchunks(ifile)) = (/600,1197,1865/) ! 1899, 1950, 2005
+              case ( 1871 )  ! 20C, 1850-2005, ~50y chunks
+                 nchunks(ifile) = 3
+                 tidx1(1:nchunks(ifile)) = (/  1, 600,1200/) ! 1850, 1900, 1951
+                 tidx2(1:nchunks(ifile)) = (/599,1199,1871/) ! 1899, 1950, 2005
               case ( 1872,1860 )  ! 20C, 1850-2005
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-CAM5')
