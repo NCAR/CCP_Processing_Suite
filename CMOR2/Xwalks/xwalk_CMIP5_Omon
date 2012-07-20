@@ -181,7 +181,7 @@ CMIP5_Omon:wfo:water_flux_into_sea_water:longitude latitude time:ocean:0:UNKNOWN
 CMIP5_Omon:wmo:upward_ocean_mass_transport:longitude latitude olevel time:ocean:1:WVEL:0.5*(WVEL(i,j,k)+WVEL(i,j,k+1))*TAREA*rho_0
 CMIP5_Omon:wmosq:square_of_upward_ocean_mass_transport:longitude latitude olevel time:ocean:1:WVEL2:0.5*(WVEL2(i,j,k)+WVEL2(i,j,k+1))*TAREA*rho_0
 CMIP5_Omon:zosga:global_average_sea_level_change:time:ocean:1:ave_slc:ave_slc from Aixue's SLC code; derived from SSH PD TEMP SALT
-CMIP5_Omon:zos:sea_surface_height_above_geoid:longitude latitude time:ocean:1:slc:slc from Aixue's SLC code; derived from SSH PD TEMP SALT
+CMIP5_Omon:zos:sea_surface_height_above_geoid:longitude latitude time:ocean:1:SSH:SSH units from cm to m
 CMIP5_Omon:zossga:global_average_steric_sea_level_change:time:ocean:1:ave_delta_steric:ave_delta_steric from Aixue's SLC code; derived from SSH PD TEMP SALT
-CMIP5_Omon:zossq:square_of_sea_surface_height_above_geoid:longitude latitude time:ocean:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_Omon:zossq:square_of_sea_surface_height_above_geoid:longitude latitude time:ocean:1:SSH2:SSH2 units from cm2 to m2
 CMIP5_Omon:zostoga:global_average_thermosteric_sea_level_change:time:ocean:1:ave_slc_t:ave_slc_t from Aixue's SLC code; derived from SSH PD TEMP SALT

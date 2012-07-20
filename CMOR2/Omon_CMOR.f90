@@ -151,7 +151,8 @@ program Omon_CMOR
         !
         ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
         !
-        write(logfile,'(''log_cmor.'',a,''.'',a,''_'',a)') &
+        write(logfile,'(''log_cmor.'',a,''.'',a,''.'',a,''_'',a)') &
+             trim(mycmor%model_id),&
              trim(mycmor%experiment_id),&
              trim(exp(exp_found)%rip_code),&
              trim(xw(ixw)%entry)
@@ -304,7 +305,7 @@ program Omon_CMOR
                 comment=xw(ixw)%comment)
         case ('dpco2','fgco2','fgo2','frn','fsn','intdic','intpbsi','intpcalcite','intpcalc','intpdiat','intpdiaz',&
               'intpn2','intpnitrate','intppico','intpp','o2min','spco2','zo2min','zsatarag','zsatcalc','hfss',&
-              'msftbarot','omlmax','pr','prsn','rlds','rsntds','sos','tauuo','tauvo','tos','tossq','zos',&
+              'msftbarot','omlmax','pr','prsn','rlds','rsntds','sos','tauuo','tauvo','tos','tossq','zos','zossq',&
               'chlcalc','chldiat','chldiaz','chl','chlpico','co3','co3satarag','co3satcalc','dfe','dissic','dissoc',&
               'epc100','epcalc100','epfe100','epsi100','nh4','no3','o2','ph','phycalc','phyc','phydiat','phydiaz',&
               'phyfe','phyn','phypico','phyp','physi','po4','si','talk','zooc',&
@@ -1191,7 +1192,7 @@ program Omon_CMOR
               call close_cdf(myncid(ifile,1))
            enddo
         case ('tauuo','tauvo','hfss','pr','prsn','rsds','rsntds','zos','omlmax',&
-              'fbddtdic','fbddtdife','fbddtdip','fbddtdisi',&
+              'fbddtdic','fbddtdife','fbddtdip','fbddtdisi','zossq',&
               'fddtdic','fddtdife','fddtdip','fddtdisi','fgo2',&
               'o2min','zo2min','zsatarag','zsatcalc')
            !
@@ -1312,6 +1313,16 @@ program Omon_CMOR
                     endif
                  enddo
                  write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 if (trim(case_read) == 'b40.lm850-1850.1deg.001') then
+                    if (ifile == 6) then
+                       error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                       if (error_flag < 0) then
+                          write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
+                       else
+                          write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
+                       endif
+                    endif
+                 endif
               enddo
            enddo
            error_flag = cmor_close()
