@@ -1578,7 +1578,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
-              case ( 300, 372 ) ! 30 or 31 years
+              case ( 300, 372, 312 ) ! 30 or 31 years
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
                  tidx2(1:nchunks(ifile)) = (/120, 240, ntimes(ifile,1)/)
@@ -1705,7 +1705,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
-              case ( 300, 372 ) ! 30 or 31 years
+              case ( 300, 372, 312 ) ! 30 or 31 years
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
                  tidx2(1:nchunks(ifile)) = (/120, 240, ntimes(ifile,1)/)
@@ -1876,7 +1876,7 @@ program Omon_CMOR
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
                  tidx2(nchunks(ifile)) = ntimes(ifile,1)
-              case ( 300, 372 ) ! 30 or 31 years
+              case ( 300, 372, 312 ) ! 30 or 31 years
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
                  tidx2(1:nchunks(ifile)) = (/120, 240, ntimes(ifile,1)/)
@@ -2050,7 +2050,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
-              case ( 300, 372 ) ! 30 or 31 years
+              case ( 300, 372, 312 ) ! 30 or 31 years
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
                  tidx2(1:nchunks(ifile)) = (/120, 240, ntimes(ifile,1)/)
@@ -2225,7 +2225,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
-              case ( 300, 372 ) ! 30 or 31 years
+              case ( 300, 372, 312 ) ! 30 or 31 years
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
                  tidx2(1:nchunks(ifile)) = (/120, 240, ntimes(ifile,1)/)
@@ -2404,7 +2404,7 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
-              case ( 300, 372 ) ! 30 or 31 years
+              case ( 300, 372, 312 ) ! 30 or 31 years
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
                  tidx2(1:nchunks(ifile)) = (/120, 240, ntimes(ifile,1)/)
