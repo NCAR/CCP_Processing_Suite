@@ -115,6 +115,7 @@ module grid_info
   real,dimension(:,:),  allocatable::atm_lats_bnds,atm_lons_bnds,landfrac,phis
   real,dimension(:,:),  allocatable::cosp_tau_bnds,cosp_prs_bnds,cosp_ht_bnds,cosp_dbze_bnds
   real,dimension(:),    allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
+  real,dimension(:),    allocatable::ah_coeff,bh_coeff
   real,dimension(:,:),  allocatable::ice_t_lats,ice_t_lons,ice_u_lats,ice_u_lons
   real,dimension(:,:,:),allocatable::ice_t_lats_bnds,ice_t_lons_bnds,ice_u_lats_bnds,ice_u_lons_bnds
   real,dimension(:),    allocatable::ocn_t_levs,ocn_trans_lats,ocn_trans_levs,ocn_t_dz

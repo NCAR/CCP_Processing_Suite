@@ -344,15 +344,13 @@ subroutine define_atm_axes(dimensions)
              zfactor_name='b',           &
              axis_ids= (/ilev/),   &
              units=' ',                  &
-             zfactor_values=b_coeff,     &
-             zfactor_bounds=b_coeff_bnds)
+             zfactor_values=bh_coeff)
         error_flag = cmor_zfactor(       &
              zaxis_id=ilev,        &
              zfactor_name='a',           &
              axis_ids= (/ilev/),   &
              units=' ',                  &
-             zfactor_values=a_coeff,     &
-             zfactor_bounds=a_coeff_bnds)
+             zfactor_values=ah_coeff)
         zfactor_id = cmor_zfactor(       &
              zaxis_id=ilev,        &
              zfactor_name='ps',          &

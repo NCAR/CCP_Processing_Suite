@@ -426,7 +426,9 @@ program Lmon_CMOR
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
-                 indat2a = indat2a/1000.
+                 where (indat2a /= spval)
+                    indat2a = indat2a/1000.
+                 endwhere
                  tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(          &
                       var_id        = cmor_var_id, &

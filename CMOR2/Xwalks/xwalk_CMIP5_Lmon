@@ -15,7 +15,7 @@ CMIP5_Lmon:cSoilFast:fast_soil_pool_carbon_content:longitude latitude time:land:
 CMIP5_Lmon:cSoil:soil_carbon_content:longitude latitude time:land:1:TOTSOMC:TOTSOMC
 CMIP5_Lmon:cSoilMedium:medium_soil_pool_carbon_content:longitude latitude time:land:1:SOIL3C:SOIL3C
 CMIP5_Lmon:cSoilSlow:slow_soil_pool_carbon_content:longitude latitude time:land:1:SOIL4C:SOIL4C
-CMIP5_Lmon:cVeg:vegetation_carbon_content:longitude latitude time:land:1:TOTPFTC:TOTPFTC
+CMIP5_Lmon:cVeg:vegetation_carbon_content:longitude latitude time:land:1:TOTVEGC:TOTVEGC
 CMIP5_Lmon:cWood:wood_carbon_content:longitude latitude time:land:1:WOODC:WOODC
 CMIP5_Lmon:evspsblsoi:water_evaporation_flux_from_soil:longitude latitude time:land:1:QSOIL:QSOIL
 CMIP5_Lmon:evspsblveg:water_evaporation_flux_from_canopy:longitude latitude time:land:1:QVEGE:QVEGE

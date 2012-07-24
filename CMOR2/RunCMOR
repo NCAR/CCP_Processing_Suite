@@ -49,10 +49,13 @@ MOD=`egrep "^${CASE} " experiments.txt | cut -c55-  | cut -d" " -f1`
 #
 case "$MIP" in
   cm5* )
+    TABLE=CMIP5_${TABL}
     XWALK=xwalk_CMIP5_${TABL} ;;
   gmp* ) 
+    TABLE=GeoMIP_${TABL}
     XWALK=xwalk_GeoMIP_${TABL} ;;
   tmp* ) 
+    TABLE=TAMIP_${TABL}
     XWALK=xwalk_TAMIP_${TABL} ;;
   * )
     echo "Unknown MIP for CASE "${CASE}": "${MIP}
@@ -112,7 +115,10 @@ if [ ! -f ${CMORD}/GridFiles/${GRIDF} ] ; then
   exit 1
 fi
 #
-ln -s -f ${CMORD}/Tables             .
+if [ ! -d ./Tables ] ; then
+  mkdir ./Tables
+fi
+ln -s -f ${CMORD}/Tables/${TABLE}    ./Tables
 ln -s -f ${CMORD}/GridFiles/${GRIDF} .
 #
 # Assume all fields in xwalk to be processed

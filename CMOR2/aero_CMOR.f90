@@ -268,9 +268,59 @@ program aero_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('abs550aer','drybc','drydust','drypoa','dryso2','emidms','emiso4','loadbc','loadpoa','od550aer','ps','reffclwtop','wetso2')
+        case ('abs550aer','drybc','drydust','drypoa','dryso2','emidms','loadbc','loadpoa','od550aer','ps','reffclwtop','wetso2')
            !
            ! No change
+           !
+           allocate(indat2a(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
+           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           nchunks(1) = 1
+           tidx1(1:nchunks(1)) = 1
+           tidx2(1:nchunks(1)) = ntimes(1,1)
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           do ic = 1,nchunks(1)
+              do it = tidx1(ic),tidx2(ic)
+                 time_counter = it
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                 error_flag = cmor_write(          &
+                      var_id        = cmor_var_id, &
+                      data          = indat2a,     &
+                      ntimes_passed = 1,           &
+                      time_vals     = tval,        &
+                      time_bnds     = tbnd)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
+              enddo
+              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              !
+              if (ic < nchunks(1)) then
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              endif
+           enddo
+        case ('emiso4')
+           !
+           ! Convert molec/cm2/s to kg m-2 s-1 via  
            !
            allocate(indat2a(nlons,nlats))
            !
