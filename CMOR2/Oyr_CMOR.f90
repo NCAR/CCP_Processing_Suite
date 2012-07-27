@@ -95,6 +95,7 @@ program Oyr_CMOR
   !
   do yrcount = year1,year2
      write(histfile,'(''data/'',a,''.'',a,''.subset.'',i4.4,''.nc'')') trim(case_read),trim(comp_read),yrcount
+     write(*,*) 'hf: ',trim(histfile)
      call open_cdf(histncid,trim(histfile),.true.)
      call get_dims(histncid)
      call get_vars(histncid)
@@ -103,6 +104,7 @@ program Oyr_CMOR
      do n=1,var_counter
         do ixw = 1,num_xw
            if (trim(var_info(n)%name)==trim(xw(ixw)%cesm_vars(1))) then
+!              write(*,*) trim(var_info(n)%name),' CHECK ',trim(xw(ixw)%cesm_vars(1))
               kvar = kvar + 1
               var_found(1,ixw) = n
               found_xw(kvar) = ixw
@@ -115,6 +117,7 @@ program Oyr_CMOR
         stop
      endif
      call close_cdf(histncid)
+     var_counter = 0
   enddo
   !
   tcount = 1
@@ -213,8 +216,6 @@ program Oyr_CMOR
         mycmor%positive = 'down'
      case ('intdic')
         var_info(var_found(1,ixw))%units = 'kg m-2'
-     case ('hfss','rlds','rsntds','rsds','tauuo','tauvo')
-        mycmor%positive = 'up'
      case ('expcalc','expcfe','expc','expsi','fgo2','fsn')
         mycmor%positive = 'down'
      end select
@@ -260,7 +261,7 @@ program Oyr_CMOR
            indat3a   = var_info(var_found(1,ixw))%missing_value
            cmordat3d = var_info(var_found(1,ixw))%missing_value
            call read_var(histncid,var_info(var_found(1,ixw))%name,indat3a)
-           write(*,'(''read_var : '',a,'' id '',3i10)') trim(var_info(var_found(1,ixw))%name),ixw
+!           write(*,'(''read_var : '',a,'' id '',3i10)') trim(var_info(var_found(1,ixw))%name),ixw
            do k = 1,nlevs
               do j = 1,nlats
                  do i = 1,nlons
@@ -281,16 +282,23 @@ program Oyr_CMOR
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
               stop
            endif
-        case ('ph','expcalc','expcfe','expc','expsi')
+           if (mod(tcount,100) == 0 ) then
+              error_flag = cmor_close(var_id=cmor_var_id(ixw),file_name=cmor_filename,preserve=1)
+              if (error_flag < 0) then
+                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
+              else
+                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
+              endif
+           endif
+        case ('ph','expcalc','expcfe','expc','expsi','co3','co3satarag','co3satcalc','dfe',&
+              'dissic','dissoc','nh4','no3','o2','po4','si')
            !     
-           ! pH_3D
-           !
            if (allocated(indat3a)) deallocate(indat3a)
            allocate(indat3a(nlons,nlats,nlevs))
            !
            indat3a = var_info(var_found(1,ixw))%missing_value
            call read_var(histncid,var_info(var_found(1,ixw))%name,indat3a)
-           write(*,'(''read_var : '',a,'' id '',3i10)') trim(var_info(var_found(1,ixw))%name),ixw
+!           write(*,'(''read_var : '',a,'' id '',3i10)') trim(var_info(var_found(1,ixw))%name),ixw
            tval(1) = time(time_counter) ; tbnd(1,1) = time_bnds(1,time_counter) ; tbnd(2,1) = time_bnds(2,time_counter)
            error_flag = cmor_write(          &
                 var_id        = cmor_var_id(ixw), &
@@ -301,6 +309,14 @@ program Oyr_CMOR
            if (error_flag < 0) then
               write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
               stop
+           endif
+           if (mod(tcount,100) == 0 ) then
+              error_flag = cmor_close(var_id=cmor_var_id(ixw),file_name=cmor_filename,preserve=1)
+              if (error_flag < 0) then
+                 write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
+              else
+                 write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
+              endif
            endif
         end select
      enddo
