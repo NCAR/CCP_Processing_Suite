@@ -451,6 +451,7 @@ done
 #
 echo "Final concatenating of "$CASE"."$HIST" at "`date`
 ./concatenate_data M2Y
+./concatenate_data Y2D
 ./concatenate_data Y2A
 #
 # Store completed data on archival system
