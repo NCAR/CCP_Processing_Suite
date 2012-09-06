@@ -1,16 +1,32 @@
 #!/bin/sh
 #
-if [ $# -ne 3 ] ; then
-   echo "Usage: ./Process_Setup CASE HIST TPER"
-   echo "All three arguments REQUIRED:"
+if [ $# -lt 3 ] ; then
+   echo "Usage: ./Process_Setup CASE HIST TPER [VARS]"
+   echo "First three arguments REQUIRED:"
    echo "1: CASE name"
-   echo "2: HIST name - usually one of [cam2.h0 cam2.h1 cam2.h2 clm.h0 pop.h csim.h cice.h etc]"
+   echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h etc]"
    echo "3: TPER time period of above HIST type - must be one of [ann mon day hr6 hr3 m30]"
+   echo "4: VARS OPTIONAL - list of variable names to process, set off by double quotes and blank delimited, e.g,."
+   echo '   "TEMP SALT UVEL VVEL"'
    exit 1
 elif [ $# -eq 3 ] ; then
    CASE=$1 ; export CASE
    HIST=$2 ; export HIST
    TPER=$3 ; export TPER
+elif [ $# -eq 4 ] ; then
+   CASE=$1 ; export CASE
+   HIST=$2 ; export HIST
+   TPER=$3 ; export TPER
+   VARS=$4 ; export VARS
+else
+   echo "Usage: ./Process_Setup CASE HIST TPER [VARS]"
+   echo "First three arguments REQUIRED:"
+   echo "1: CASE name"
+   echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h etc]"
+   echo "3: TPER time period of above HIST type - must be one of [ann mon day hr6 hr3 m30]"
+   echo "4: VARS OPTIONAL - list of variable names to process, set off by double quotes and blank delimited, e.g,."
+   echo '   "TEMP SALT UVEL VVEL"'
+   exit 1
 fi
 #
 # Set up a bunch of stuff
@@ -37,30 +53,63 @@ PROCHOST=`hostname`;export PROCHOST
 CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
 rm -f $CCPS_SCRIPT
 #
-case "$PROCHOST" in 
-  silver* | tramhill* | hurricane* | mirage0 | mirage1 | mirage2 | mirage5 | modeling1* | euclid* )  # NCAR and NERSC machines
-    echo "#!/bin/sh" > $CCPS_SCRIPT
-    cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                           | sed -e "s/xxxHISTxxx/$HIST/g" \
-                           | sed -e "s/xxxTPERxxx/$TPER/g" \
-                           >> $CCPS_SCRIPT ;;
-  mirage3 | mirage4 )
-    cat ./LSF_batch | sed -e "s/NAME/$CCPS_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CCPS_SCRIPT
-    cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                           | sed -e "s/xxxHISTxxx/$HIST/g" \
-                           | sed -e "s/xxxTPERxxx/$TPER/g" \
-                           >> $CCPS_SCRIPT ;;
-  lens* )                                  # lens @ ORNL
-    cat ./ORNL_batch > $CCPS_SCRIPT
-    cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                           | sed -e "s/xxxHISTxxx/$HIST/g" \
-                           | sed -e "s/xxxTPERxxx/$TPER/g" \
-                           >> $CCPS_SCRIPT ;;
-  * )
-    echo "Unable to build script because "$PROCHOST" unknown."
-    ./procstat.sh error process_template
-    exit 1 ;;
-esac
+if [ "$VARS" ] ; then
+  case "$PROCHOST" in 
+    silver* | tramhill* | hurricane* | mirage0 | mirage1 | mirage2 | mirage5 | modeling1* | euclid* )  # NCAR and NERSC machines
+      echo "#!/bin/sh" > $CCPS_SCRIPT
+      cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
+                             | sed -e "s/xxxHISTxxx/$HIST/g" \
+                             | sed -e "s/xxxTPERxxx/$TPER/g" \
+                             | sed -e "s/xxxVARSxxx/$VARS/g" \
+                             >> $CCPS_SCRIPT ;;
+    mirage3 | mirage4 )
+      cat ./LSF_batch | sed -e "s/NAME/$CCPS_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CCPS_SCRIPT
+      cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
+                             | sed -e "s/xxxHISTxxx/$HIST/g" \
+                             | sed -e "s/xxxTPERxxx/$TPER/g" \
+                             | sed -e "s/xxxVARSxxx/$VARS/g" \
+                             >> $CCPS_SCRIPT ;;
+    lens* )                                  # lens @ ORNL
+      cat ./ORNL_batch > $CCPS_SCRIPT
+      cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
+                             | sed -e "s/xxxHISTxxx/$HIST/g" \
+                             | sed -e "s/xxxTPERxxx/$TPER/g" \
+                             | sed -e "s/xxxVARSxxx/$VARS/g" \
+                             >> $CCPS_SCRIPT ;;
+    * )
+      echo "Unable to build script because "$PROCHOST" unknown."
+      ./procstat.sh error process_template
+      exit 1 ;;
+  esac
+else
+  case "$PROCHOST" in 
+    silver* | tramhill* | hurricane* | mirage0 | mirage1 | mirage2 | mirage5 | modeling1* | euclid* )  # NCAR and NERSC machines
+      echo "#!/bin/sh" > $CCPS_SCRIPT
+      cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
+                             | sed -e "s/xxxHISTxxx/$HIST/g" \
+                             | sed -e "s/xxxTPERxxx/$TPER/g" \
+                             | sed -e "s/xxxVARSxxx//g" \
+                             >> $CCPS_SCRIPT ;;
+    mirage3 | mirage4 )
+      cat ./LSF_batch | sed -e "s/NAME/$CCPS_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CCPS_SCRIPT
+      cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
+                             | sed -e "s/xxxHISTxxx/$HIST/g" \
+                             | sed -e "s/xxxTPERxxx/$TPER/g" \
+                             | sed -e "s/xxxVARSxxx//g" \
+                             >> $CCPS_SCRIPT ;;
+    lens* )                                  # lens @ ORNL
+      cat ./ORNL_batch > $CCPS_SCRIPT
+      cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
+                             | sed -e "s/xxxHISTxxx/$HIST/g" \
+                             | sed -e "s/xxxTPERxxx/$TPER/g" \
+                             | sed -e "s/xxxVARSxxx//g" \
+                             >> $CCPS_SCRIPT ;;
+    * )
+      echo "Unable to build script because "$PROCHOST" unknown."
+      ./procstat.sh error process_template
+      exit 1 ;;
+  esac
+fi
 #
 chmod +x $CCPS_SCRIPT
 echo ""

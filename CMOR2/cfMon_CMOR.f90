@@ -213,6 +213,8 @@ program cfMon_CMOR
            mycmor%positive = 'down'
         case ('clt','ci','sci')
            var_info(var_found(1,1))%units = '1'
+        case ('tntscpbl')
+           var_info(var_found(1,1))%units = 'K s-1'
         case ('hurs','cl')
            var_info(var_found(1,1))%units = '%'
         case ('parasolRefl')
@@ -255,7 +257,8 @@ program cfMon_CMOR
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(4),axis_ids(5),axis_ids(1)/),&
+!                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(4),axis_ids(5),axis_ids(1)/),&
+                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(5),axis_ids(4),axis_ids(1)/),&
                 missing_value=var_info(var_found(1,1))%missing_value,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
@@ -294,13 +297,16 @@ program cfMon_CMOR
            !
            ! No change
            !
+           if (allocated(indat2a)) deallocate(indat2a)
            allocate(indat2a(nlons,nlats))
            !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
            call get_vars(myncid(1,1))
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           if (allocated(time))      deallocate(time)
+           if (allocated(time_bnds)) deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
            !
            do n=1,ntimes(1,1)
               time_counter = n
@@ -323,6 +329,10 @@ program cfMon_CMOR
                  tidx1(1:nchunks(1)) = (/ 1/)
                  tidx2(1:nchunks(1)) = (/60/)
               endif
+           case ( 1440 )
+              nchunks(1)= 3
+              tidx1(1:nchunks(1)) = (/  1,481, 961/)
+              tidx2(1:nchunks(1)) = (/480,960,1440/)
            case default
               nchunks(1)= 1
               tidx1(1:nchunks(1)) = 1
@@ -346,31 +356,32 @@ program cfMon_CMOR
                  endif
               enddo
               write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-              !
-              if (ic < nchunks(1)) then
-                 cmor_filename(1:) = ' '
-                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-                 if (error_flag < 0) then
-                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                    stop
-                 else
-                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
-                 endif
-              endif
+              if (nchunks(1).gt.1) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
            enddo
+           error_flag = cmor_close()
+           if (error_flag < 0) then
+              write(*,'(''ERROR close: '',a)') trim(xw(ixw)%entry)
+              stop
+           else
+              write(*,'('' GOOD close: '',a)') trim(xw(ixw)%entry)
+           endif
         case ('clw','cli','cl','tnhusa','tnhusd','tnhusmp','tntmp','tnt',&
               'ta','ua','va','hus','hur','wap','zg')
            !
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
            ! break up into nicely-sized chunks along time
            !
+           if (allocated(indat3a))   deallocate(indat3a)
+           if (allocated(psdata))    deallocate(psdata)
            allocate(indat3a(nlons,nlats,nlevs),psdata(nlons,nlats))
+           if (allocated(time))      deallocate(time)
+           if (allocated(time_bnds)) deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
            !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
            call get_vars(myncid(1,1))
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
            !
            do n=1,ntimes(1,1)
               time_counter = n
@@ -393,6 +404,10 @@ program cfMon_CMOR
                  tidx1(1:nchunks(1)) = (/ 1/)
                  tidx2(1:nchunks(1)) = (/60/)
               endif
+           case ( 1440 )
+              nchunks(1)= 3
+              tidx1(1:nchunks(1)) = (/  1,481, 961/)
+              tidx2(1:nchunks(1)) = (/480,960,1440/)
            case default
               nchunks(1)= 1
               tidx1(1:nchunks(1)) = 1
@@ -427,6 +442,7 @@ program cfMon_CMOR
                     stop
                  endif
               enddo
+              if (nchunks(1).gt.1) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
            enddo
            write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
            error_flag = cmor_close()
@@ -443,9 +459,10 @@ program cfMon_CMOR
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
            ! break up into nicely-sized chunks along time
            !
-           if (allocated(indat3a)) deallocate(indat3a)
-           if (allocated(indat3b)) deallocate(indat3b)
-           if (allocated(psdata)) deallocate(psdata)
+           if (allocated(indat3a))   deallocate(indat3a)
+           if (allocated(indat3b))   deallocate(indat3b)
+           if (allocated(psdata))    deallocate(psdata)
+           if (allocated(cmordat3d)) deallocate(cmordat3d)
            allocate(indat3a(nlons,nlats,nilevs),indat3b(nlons,nlats,nilevs),psdata(nlons,nlats))
            allocate(cmordat3d(nlons,nlats,nilevs))
            !
@@ -475,6 +492,10 @@ program cfMon_CMOR
                  tidx1(1:nchunks(1)) = (/ 1/)
                  tidx2(1:nchunks(1)) = (/60/)
               endif
+           case ( 1440 )
+              nchunks(1)= 3
+              tidx1(1:nchunks(1)) = (/  1,481, 961/)
+              tidx2(1:nchunks(1)) = (/480,960,1440/)
            case default
               nchunks(1)= 1
               tidx1(1:nchunks(1)) = 1
@@ -515,6 +536,7 @@ program cfMon_CMOR
                     stop
                  endif
               enddo
+              if (nchunks(1).gt.1) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
            enddo
            write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
            error_flag = cmor_close()
@@ -551,8 +573,8 @@ program cfMon_CMOR
            select case (ntimes(1,1))
            case ( 60 ) ! "e" series; use only 2006--2008
               if ((trim(case_read)=='f40.amip_4k_cosp.cam4.1deg.001e').or.&
-                   (trim(case_read)=='f40.amip_4xco2_cosp.cam4.1deg.001e').or.&
-                   (trim(case_read)=='f40.amip_cosp.cam4.1deg.001e')) then
+                  (trim(case_read)=='f40.amip_4xco2_cosp.cam4.1deg.001e').or.&
+                  (trim(case_read)=='f40.amip_cosp.cam4.1deg.001e')) then
                  nchunks(1)= 1
                  tidx1(1:nchunks(1)) = (/25/)
                  tidx2(1:nchunks(1)) = (/60/)
@@ -561,6 +583,10 @@ program cfMon_CMOR
                  tidx1(1:nchunks(1)) = (/ 1/)
                  tidx2(1:nchunks(1)) = (/60/)
               endif
+           case ( 1440 )
+              nchunks(1)= 3
+              tidx1(1:nchunks(1)) = (/  1,481, 961/)
+              tidx2(1:nchunks(1)) = (/480,960,1440/)
            case default
               nchunks(1)= 1
               tidx1(1:nchunks(1)) = 1
@@ -583,14 +609,15 @@ program cfMon_CMOR
                     stop
                  endif
               enddo
+              if (nchunks(1).gt.1) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
            enddo
            write(*,'(''DONE writing '',a,'' chunk# '',i6)') trim(xw(ixw)%entry),ic-1
            error_flag = cmor_close()
            if (error_flag < 0) then
-              write(*,'(''ERROR CMOR close of '',a)') trim(xw(ixw)%entry)
+              write(*,'(''ERROR close: '',a)') trim(xw(ixw)%entry)
               stop
            else
-              write(*,'(''GOOD CMOR close of '',a)')  trim(xw(ixw)%entry)
+              write(*,'('' GOOD close: '',a)')  trim(xw(ixw)%entry)
            endif
         case ('parasolRefl')
            !
@@ -630,6 +657,10 @@ program cfMon_CMOR
                  tidx1(1:nchunks(1)) = (/ 1/)
                  tidx2(1:nchunks(1)) = (/60/)
               endif
+           case ( 1440 )
+              nchunks(1)= 3
+              tidx1(1:nchunks(1)) = (/  1,481, 961/)
+              tidx2(1:nchunks(1)) = (/480,960,1440/)
            case default
               nchunks(1)= 1
               tidx1(1:nchunks(1)) = 1
@@ -652,6 +683,7 @@ program cfMon_CMOR
                     stop
                  endif
               enddo
+              if (nchunks(1).gt.1) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
            enddo
            write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
            error_flag = cmor_close()
@@ -665,6 +697,7 @@ program cfMon_CMOR
            !
            ! clisccp
            !
+           if (allocated(indat4a)) deallocate(indat4a)
            allocate(indat4a(nlons,nlats,nplev7,ncosp_tau))
            !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
@@ -680,8 +713,6 @@ program cfMon_CMOR
               time_counter = n
               call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
            enddo
-           time_bnds(1,:) = time_bnds(2,:)
-           time_bnds(2,:) = time_bnds(1,:) + 1
            time = (time_bnds(1,:)+time_bnds(2,:))/2.
            write(*,'(''time length FROM: '',a,'' myncid: '',i10,'' NT: '',i10)') trim(ncfile(1,1)),myncid(1,1),ntimes(1,1)
            !
@@ -700,6 +731,14 @@ program cfMon_CMOR
                  tidx1(1:nchunks(1)) = (/ 1/)
                  tidx2(1:nchunks(1)) = (/60/)
               endif
+           case ( 1440 )
+              nchunks(1)= 6
+              tidx1(1:nchunks(1)) = (/  1,241,481,721, 961,1201/)
+              tidx2(1:nchunks(1)) = (/240,480,720,960,1200,1440/)
+           case ( 468 )
+              nchunks(1)= 2
+              tidx1(1:nchunks(1)) = (/  1,241/)
+              tidx2(1:nchunks(1)) = (/240,468/)
            case default
               nchunks(1)= 1
               tidx1(1:nchunks(1)) = 1
@@ -722,6 +761,7 @@ program cfMon_CMOR
                     stop
                  endif
               enddo
+              if (nchunks(1).gt.1) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
            enddo
            write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
            error_flag = cmor_close()
@@ -738,14 +778,21 @@ program cfMon_CMOR
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
            ! break up into nicely-sized chunks along time
            !
+           !
+           if (allocated(indat3a))   deallocate(indat3a)
+           if (allocated(indat3b))   deallocate(indat3b)
+           if (allocated(psdata))    deallocate(psdata)
+           if (allocated(cmordat3d)) deallocate(cmordat3d)
            allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),psdata(nlons,nlats))
            allocate(cmordat3d(nlons,nlats,nlevs))
            !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
            call get_vars(myncid(1,1))
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           if (allocated(time))      deallocate(time)
+           if (allocated(time_bnds)) deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
            !
            do n=1,ntimes(1,1)
               time_counter = n
@@ -756,8 +803,24 @@ program cfMon_CMOR
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
+           case ( 60 ) ! "e" series; some use only 2006-2008
+              if ((trim(case_read)=='f40.amip_4k_cosp.cam4.1deg.001e').or.&
+                  (trim(case_read)=='f40.amip_4xco2_cosp.cam4.1deg.001e').or.&
+                  (trim(case_read)=='f40.amip_cosp.cam4.1deg.001e')) then
+                 nchunks(1)= 1
+                 tidx1(1:nchunks(1)) = (/25/)
+                 tidx2(1:nchunks(1)) = (/60/)
+              else
+                 nchunks(1)= 1
+                 tidx1(1:nchunks(1)) = (/ 1/)
+                 tidx2(1:nchunks(1)) = (/60/)
+              endif
+           case ( 1440 )
+              nchunks(1)= 3
+              tidx1(1:nchunks(1)) = (/  1,481, 961/)
+              tidx2(1:nchunks(1)) = (/480,960,1440/)
            case default
-              nchunks(1) = 1
+              nchunks(1)= 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
@@ -796,8 +859,8 @@ program cfMon_CMOR
                     stop
                  endif
               enddo
+              if (nchunks(1).gt.1) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
            enddo
-           !
            error_flag = cmor_close()
            if (error_flag < 0) then
               write(*,'(''ERROR CMOR close of '',a)') trim(xw(ixw)%entry)
@@ -812,16 +875,29 @@ program cfMon_CMOR
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
            ! break up into nicely-sized chunks along time
            !
+           if (allocated(indat3a))   deallocate(indat3a)
+           if (allocated(indat3b))   deallocate(indat3b)
+           if (allocated(indat3c))   deallocate(indat3c)
+           if (allocated(indat3d))   deallocate(indat3d)
+           if (allocated(psdata))    deallocate(psdata)
+           if (allocated(cmordat3d)) deallocate(cmordat3d)
+           !
+           allocate(indat3c(nlons,nlats,nlevs),indat3d(nlons,nlats,nlevs))
+           allocate(psdata(nlons,nlats))
+           allocate(cmordat3d(nlons,nlats,nlevs))
            allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs))
            allocate(indat3c(nlons,nlats,nlevs),indat3d(nlons,nlats,nlevs))
            allocate(psdata(nlons,nlats))
            allocate(cmordat3d(nlons,nlats,nlevs))
            !
+           if (allocated(time))      deallocate(time)
+           if (allocated(time_bnds)) deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
            call get_vars(myncid(1,1))
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
            !
            do n=1,ntimes(1,1)
               time_counter = n
@@ -832,8 +908,24 @@ program cfMon_CMOR
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
+           case ( 60 ) ! "e" series; some use only 2006-2008
+              if ((trim(case_read)=='f40.amip_4k_cosp.cam4.1deg.001e').or.&
+                  (trim(case_read)=='f40.amip_4xco2_cosp.cam4.1deg.001e').or.&
+                  (trim(case_read)=='f40.amip_cosp.cam4.1deg.001e')) then
+                 nchunks(1)= 1
+                 tidx1(1:nchunks(1)) = (/25/)
+                 tidx2(1:nchunks(1)) = (/60/)
+              else
+                 nchunks(1)= 1
+                 tidx1(1:nchunks(1)) = (/ 1/)
+                 tidx2(1:nchunks(1)) = (/60/)
+              endif
+           case ( 1440 )
+              nchunks(1)= 3
+              tidx1(1:nchunks(1)) = (/  1,481, 961/)
+              tidx2(1:nchunks(1)) = (/480,960,1440/)
            case default
-              nchunks(1) = 1
+              nchunks(1)= 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
@@ -874,6 +966,7 @@ program cfMon_CMOR
                     stop
                  endif
               enddo
+              if (nchunks(1).gt.1) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -889,6 +982,12 @@ program cfMon_CMOR
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
            ! break up into nicely-sized chunks along time
            !
+           !
+           if (allocated(indat3a))   deallocate(indat3a)
+           if (allocated(indat3b))   deallocate(indat3b)
+           if (allocated(indat3c))   deallocate(indat3c)
+           if (allocated(psdata))    deallocate(psdata)
+           if (allocated(cmordat3d)) deallocate(cmordat3d)
            allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),indat3c(nlons,nlats,nlevs))
            allocate(psdata(nlons,nlats))
            allocate(cmordat3d(nlons,nlats,nlevs))
@@ -896,8 +995,10 @@ program cfMon_CMOR
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
            call get_vars(myncid(1,1))
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           if (allocated(time))      deallocate(time)
+           if (allocated(time_bnds)) deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
            !
            do n=1,ntimes(1,1)
               time_counter = n
@@ -908,8 +1009,24 @@ program cfMon_CMOR
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
+           case ( 60 ) ! "e" series; some use only 2006-2008
+              if ((trim(case_read)=='f40.amip_4k_cosp.cam4.1deg.001e').or.&
+                  (trim(case_read)=='f40.amip_4xco2_cosp.cam4.1deg.001e').or.&
+                  (trim(case_read)=='f40.amip_cosp.cam4.1deg.001e')) then
+                 nchunks(1)= 1
+                 tidx1(1:nchunks(1)) = (/25/)
+                 tidx2(1:nchunks(1)) = (/60/)
+              else
+                 nchunks(1)= 1
+                 tidx1(1:nchunks(1)) = (/ 1/)
+                 tidx2(1:nchunks(1)) = (/60/)
+              endif
+           case ( 1440 )
+              nchunks(1)= 3
+              tidx1(1:nchunks(1)) = (/  1,481, 961/)
+              tidx2(1:nchunks(1)) = (/480,960,1440/)
            case default
-              nchunks(1) = 1
+              nchunks(1)= 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
@@ -949,7 +1066,7 @@ program cfMon_CMOR
                     stop
                  endif
               enddo
-              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              if (nchunks(1).gt.1) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -965,6 +1082,11 @@ program cfMon_CMOR
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
            ! break up into nicely-sized chunks along time
            !
+           if (allocated(indat3a))   deallocate(indat3a)
+           if (allocated(indat3b))   deallocate(indat3b)
+           if (allocated(indat3c))   deallocate(indat3c)
+           if (allocated(psdata))    deallocate(psdata)
+           if (allocated(cmordat3d)) deallocate(cmordat3d)
            allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),indat3c(nlons,nlats,nlevs))
            allocate(psdata(nlons,nlats))
            allocate(cmordat3d(nlons,nlats,nlevs))
@@ -972,8 +1094,10 @@ program cfMon_CMOR
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
            call get_vars(myncid(1,1))
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           if (allocated(time))      deallocate(time)
+           if (allocated(time_bnds)) deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
            !
            do n=1,ntimes(1,1)
               time_counter = n
@@ -984,8 +1108,24 @@ program cfMon_CMOR
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
+           case ( 60 ) ! "e" series; some use only 2006-2008
+              if ((trim(case_read)=='f40.amip_4k_cosp.cam4.1deg.001e').or.&
+                  (trim(case_read)=='f40.amip_4xco2_cosp.cam4.1deg.001e').or.&
+                  (trim(case_read)=='f40.amip_cosp.cam4.1deg.001e')) then
+                 nchunks(1)= 1
+                 tidx1(1:nchunks(1)) = (/25/)
+                 tidx2(1:nchunks(1)) = (/60/)
+              else
+                 nchunks(1)= 1
+                 tidx1(1:nchunks(1)) = (/ 1/)
+                 tidx2(1:nchunks(1)) = (/60/)
+              endif
+           case ( 1440 )
+              nchunks(1)= 3
+              tidx1(1:nchunks(1)) = (/  1,481, 961/)
+              tidx2(1:nchunks(1)) = (/480,960,1440/)
            case default
-              nchunks(1) = 1
+              nchunks(1)= 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
@@ -1025,7 +1165,7 @@ program cfMon_CMOR
                     stop
                  endif
               enddo
-              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              if (nchunks(1).gt.1) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -1041,14 +1181,21 @@ program cfMon_CMOR
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
            ! break up into nicely-sized chunks along time
            !
-           allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),psdata(nlons,nlats))
+           if (allocated(indat3a))   deallocate(indat3a)
+           if (allocated(indat3b))   deallocate(indat3b)
+           if (allocated(psdata))    deallocate(psdata)
+           if (allocated(cmordat3d)) deallocate(cmordat3d)
+           allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs))
+           allocate(psdata(nlons,nlats))
            allocate(cmordat3d(nlons,nlats,nlevs))
            !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
            call get_vars(myncid(1,1))
-           if (.not.(allocated(time)))      allocate(time(ntimes(1,1)))
-           if (.not.(allocated(time_bnds))) allocate(time_bnds(2,ntimes(1,1)))
+           if (allocated(time))      deallocate(time)
+           if (allocated(time_bnds)) deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
            !
            do n=1,ntimes(1,1)
               time_counter = n
@@ -1059,8 +1206,24 @@ program cfMon_CMOR
            ! Determine amount of data to write, to keep close to ~2 GB limit
            !
            select case(ntimes(1,1))
+           case ( 60 ) ! "e" series; some use only 2006-2008
+              if ((trim(case_read)=='f40.amip_4k_cosp.cam4.1deg.001e').or.&
+                  (trim(case_read)=='f40.amip_4xco2_cosp.cam4.1deg.001e').or.&
+                  (trim(case_read)=='f40.amip_cosp.cam4.1deg.001e')) then
+                 nchunks(1)= 1
+                 tidx1(1:nchunks(1)) = (/25/)
+                 tidx2(1:nchunks(1)) = (/60/)
+              else
+                 nchunks(1)= 1
+                 tidx1(1:nchunks(1)) = (/ 1/)
+                 tidx2(1:nchunks(1)) = (/60/)
+              endif
+           case ( 1440 )
+              nchunks(1)= 3
+              tidx1(1:nchunks(1)) = (/  1,481, 961/)
+              tidx2(1:nchunks(1)) = (/480,960,1440/)
            case default
-              nchunks(1) = 1
+              nchunks(1)= 1
               tidx1(1:nchunks(1)) = 1
               tidx2(1:nchunks(1)) = ntimes(1,1)
            end select
@@ -1099,7 +1262,7 @@ program cfMon_CMOR
                     stop
                  endif
               enddo
-              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              if (nchunks(1).gt.1) error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
            enddo
            error_flag = cmor_close()
            if (error_flag < 0) then
@@ -1116,11 +1279,13 @@ program cfMon_CMOR
         if (allocated(cmordat2d)) deallocate(cmordat2d)
         if (allocated(indat3a))   deallocate(indat3a)
         if (allocated(indat3b))   deallocate(indat3b)
+        if (allocated(indat3c))   deallocate(indat3c)
+        if (allocated(indat3d))   deallocate(indat3d)
         if (allocated(work3da))   deallocate(work3da)
         if (allocated(work3db))   deallocate(work3db)
-        do ivar = 1,xw(ixw)%ncesm_vars
-           call close_cdf(myncid(1,ivar))
-        enddo
+!        do ivar = 1,xw(ixw)%ncesm_vars
+!           call close_cdf(myncid(1,ivar))
+!        enddo
         !
         ! Reset
         !
@@ -1128,15 +1293,12 @@ program cfMon_CMOR
         mycmor%positive = ' '
         original_name= ' '
         !
-        if (allocated(time))      deallocate(time)
-        if (allocated(time_bnds)) deallocate(time_bnds)
-        !
-        error_flag = cmor_close()
-        if (error_flag < 0) then
-           write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
-        else
-           write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
-        endif
+!        error_flag = cmor_close()
+!        if (error_flag < 0) then
+!           write(*,'(''ERROR cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
+!        else
+!           write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
+!        endif
         call reset_netcdf_var
      endif
   enddo xwalk_loop

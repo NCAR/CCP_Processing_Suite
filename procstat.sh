@@ -29,7 +29,7 @@ FILEBASE=${CASE}.${HIST}.${ARG3} ; export FILEBASE
 #
 # generate the filenames to be used
 #
-FILELOG=${FILEBASE}.log ; export FILELOG
+FILELOG=log.${FILEBASE} ; export FILELOG
 #
 # get current user name and pp hostname
 #
