@@ -16,12 +16,14 @@ TPER=xxxTPERxxx ; export TPER
 # 110 - 149  RUN_REFCASE (parent case)
 # 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
 # 165 - 174  years of experiment (YYYY if unknown)
-# 175 - 184  GRID (resolution)
-# 185 - 204  COMPSET (N/A if not applicable)
-# 205 - 224  REPOTAG (N/A if not applicable)
-# 225 - 244  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
-# 245 - 254  MACH (hardware)
-# 255 - end  DOUT_L_MSROOT (history file location on archive)
+# 165 - 174  run years of experiment (YYYY if unknown)
+# 175 - 184  CMIP5-requested years
+# 185 - 194  GRID (resolution)
+# 195 - 214  COMPSET (N/A if not applicable)
+# 215 - 234  REPOTAG (N/A if not applicable)
+# 234 - 249  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 250 - 259  MACH (hardware)
+# 260 - end  DOUT_L_MSROOT (history file location on archive)
 #
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
@@ -33,11 +35,11 @@ if [ -f $EXPFILE ] ; then
     BRANCH=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
    YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c165-168`
    YEAREND=`egrep "^$CASE " $EXPFILE | cut -c170-173`
-       RES=`egrep "^$CASE " $EXPFILE | cut -c175- | cut -d" " -f1`
-   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c185- | cut -d" " -f1`
-   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c205- | cut -d" " -f1`
-  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c245- | cut -d" " -f1`
-  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c255- | cut -d" " -f1`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c180- | cut -d" " -f1`
+   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c190- | cut -d" " -f1`
+   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c210- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c250- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c260- | cut -d" " -f1`
 else
   echo "Cannot find $EXPFILE. EXIT"
   ./procstat.sh error process_template
