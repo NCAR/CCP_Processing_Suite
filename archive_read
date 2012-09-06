@@ -1,21 +1,16 @@
 #!/bin/sh
 # Read file(s) from a archival system
 #
-if [ $# -ne 2 ] ; then
-  echo "Usage: archive_read ARCHIVE_LIST YEARNOW"
-  echo "Requires ARCHIVE_LIST and YEARNOW"
-  echo "CASE HIST ARCHIVE_HIST must be defined"
+if [ $# -ne 3 ] ; then
+  echo "Usage: archive_read $CASE $HIST $LOCAL_HIST"
+  echo "Requires $CASE $HIST and $LOCAL_HIST"
+  echo "CASE HIST LOCAL_HIST must be defined"
   ./procstat.sh error archive_read
   exit 1
 else
-  ARCHIVE_LIST=$1
-  YEARNOW=$2
-fi
-#
-if ! [ -f $ARCHIVE_LIST ] ; then
-  echo "archive_read: No "$ARCHIVE_LIST" file found. Exit."
-  ./procstat.sh error archive_read
-  exit 1
+  CASE=$1
+  HIST=$2
+  LOCL=$3
 fi
 if [ ! $CASE ] ; then
   echo "archive_read: CASE undefined. Exit."
@@ -23,8 +18,8 @@ fi
 if [ ! $HIST ] ; then
   echo "archive_read: HIST undefined. Exit."
 fi
-if [ ! $ARCHIVE_HIST ] ; then
-  echo "archive_read: ARCHIVE_HIST undefined. Exit."
+if [ ! $LOCL ] ; then
+  echo "archive_read: LOCAL_HIST undefined. Exit."
 fi
 #
 # If hsi command exists, use it.
