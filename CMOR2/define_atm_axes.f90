@@ -175,6 +175,9 @@ subroutine define_atm_axes(dimensions)
              coord_vals=atm_sites)
         write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
+        grid_id(1) = cmor_grid(                    &
+             axis_ids=(/axis_ids(1)/))
+        write(*,*) 'CMOR GRID defined, grid_id: ',grid_id(1)
      case ('alt40')
         axis_ids(idim) = cmor_axis(        &
              table=mycmor%table_file,      &
