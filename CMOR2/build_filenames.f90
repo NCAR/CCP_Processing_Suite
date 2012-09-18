@@ -27,6 +27,8 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
      dtbeg(2) = '010106Z' ; dtend(2) = '123118Z'
   case ('Tables/CMIP5_3hr','Tables/CMIP5_cf3hr','Tables/GeoMIP_3hr','Tables/GeoMIP_cf3hr')
      ndt = 1 ; dtbeg(1) = '010100Z' ; dtend(1) = '123121Z'
+  case ('Tables/CMIP5_cfSites')
+     ndt = 1 ; dtbeg(1) = '001010000Z' ; dtend(1) = '12312330Z'
   end select
   !
   select case (table)
