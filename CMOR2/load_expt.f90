@@ -120,6 +120,7 @@ subroutine load_exp(exp_file)
            if (instring(105:109) == 'cm5') exp(iexp)%cmip(1:) = 'CMIP5'
            if (instring(105:109) == 'gmp') exp(iexp)%cmip(1:) = 'GeoMIP'
            if (instring(105:109) == 'tmp') exp(iexp)%cmip(1:) = 'TAMIP'
+           if (instring(105:109) == 'pmp') exp(iexp)%cmip(1:) = 'PMIP3'
            exp(iexp)%run_refcase(1:) = adjustl(instring(110:149))
            exp(iexp)%run_refdate(1:) = adjustl(instring(150:164))
            exp(iexp)%runbegend(1:)   = adjustl(instring(165:174))
@@ -294,6 +295,8 @@ subroutine load_exp(exp_file)
         exp(i)%forcing(1:)      = 'GHG (RCP4.5) Sl (reduced to balance TOA) SS Ds SD BC MD OC Oz AA LU'
      case ('tamip200810','tamip200901','tamip200904','tamip200907')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+     case ('PlioExp2a')
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
      end select
   enddo
   !

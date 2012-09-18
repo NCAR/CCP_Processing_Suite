@@ -76,7 +76,7 @@ subroutine define_atm_axes(dimensions)
      select case(dimnames(i))
      case ('time','time1','time2')
         select case (mycmor%table_file)
-        case ('Tables/CMIP5_Amon','Tables/GeoMIP_Amon','Tables/CMIP5_aero','Tables/CMIP5_cfMon')
+        case ('Tables/CMIP5_Amon','Tables/GeoMIP_Amon','Tables/CMIP5_aero','Tables/CMIP5_cfMon','Tables/PMIP3_Amon')
            axis_ids(idim) = cmor_axis(  &
                 table=mycmor%table_file,&
                 table_entry=dimnames(i),&
@@ -84,7 +84,7 @@ subroutine define_atm_axes(dimensions)
                 interval='30 days')
            write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
            idim = idim + 1
-        case ('Tables/CMIP5_day','Tables/GeoMIP_day','Tables/CMIP5_cfDay')
+        case ('Tables/CMIP5_day','Tables/GeoMIP_day','Tables/CMIP5_cfDay','Tables/PMIP3_day')
            axis_ids(idim) = cmor_axis(  &
                 table=mycmor%table_file,&
                 table_entry=dimnames(i),&
@@ -116,7 +116,7 @@ subroutine define_atm_axes(dimensions)
                 interval='3 hours')
            write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
            idim = idim + 1
-        case ('Tables/TAMIP_sites')
+        case ('Tables/TAMIP_sites','Tables/CMIP5_cfSites')
            axis_ids(idim) = cmor_axis(  &
                 table=mycmor%table_file,&
                 table_entry=dimnames(i),&
@@ -344,13 +344,15 @@ subroutine define_atm_axes(dimensions)
              zfactor_name='b',           &
              axis_ids= (/ilev/),   &
              units=' ',                  &
-             zfactor_values=bh_coeff)
+             zfactor_values=b_coeff,     &
+             zfactor_bounds=b_coeff_bnds)
         error_flag = cmor_zfactor(       &
              zaxis_id=ilev,        &
              zfactor_name='a',           &
              axis_ids= (/ilev/),   &
              units=' ',                  &
-             zfactor_values=ah_coeff)
+             zfactor_values=a_coeff,     &
+             zfactor_bounds=a_coeff_bnds)
         zfactor_id = cmor_zfactor(       &
              zaxis_id=ilev,        &
              zfactor_name='ps',          &

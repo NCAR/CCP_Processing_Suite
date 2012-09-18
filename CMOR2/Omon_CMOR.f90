@@ -23,6 +23,7 @@ program Omon_CMOR
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag,cmor_var_id
+  real,dimension(1)::zostoga
   real,dimension(:)    ,allocatable::indat1a
   real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,icefrac,cmordat2d
   real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,cmordat3d,work3da,work3db,volume
@@ -581,7 +582,7 @@ program Omon_CMOR
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     do j = 1,nlats
                        do i = 1,nlons
-                          if (kmt(i,j) .ge. 1) then
+                          if (indat3a(i,j,1).ne.var_info(var_found(ifile,1))%missing_value) then
                              cmordat2d(i,j) = 1.e3*indat3a(i,j,1)
                           endif
                        enddo
@@ -2616,7 +2617,7 @@ program Omon_CMOR
               elseif (xw(ixw)%entry=='soga') then
                  indat1a = 1.e3*(indat1a/sum(volume))
               endif
-!              write(*,*) 'MIN: ',minval(indat1a),'MAX: ',maxval(indat1a)
+              write(*,*) 'MIN: ',minval(indat1a),'MAX: ',maxval(indat1a)
               !
               error_flag = cmor_write(                &
                    var_id        = cmor_var_id,                  &
@@ -2750,13 +2751,10 @@ program Omon_CMOR
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
-                    indat3a = 1.e30
-                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat1a)
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat1a(it))
                  enddo
               enddo
-              !
-              write(*,*) 'MIN: ',minval(indat1a),'MAX: ',maxval(indat1a)
-              !
+!              indat1a = indat1a/100.
               error_flag = cmor_write(                &
                    var_id        = cmor_var_id,                  &
                    data          = indat1a(tidx1(1):tidx2(1)), &
@@ -2768,7 +2766,6 @@ program Omon_CMOR
                  stop
               endif
               write(*,'(''DONE writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it-1
-              if (allocated(indat1a))   deallocate(indat1a)
               if (allocated(time))      deallocate(time)
               if (allocated(time_bnds)) deallocate(time_bnds)
               dim_counter  = 0

@@ -52,6 +52,8 @@ case "$MIP" in
     XWALK=xwalk_CMIP5_${TABL} ;;
   gmp* ) 
     XWALK=xwalk_GeoMIP_${TABL} ;;
+  pmp* ) 
+    XWALK=xwalk_PMIP3_${TABL} ;;
   tmp* ) 
     XWALK=xwalk_TAMIP_${TABL} ;;
   * )

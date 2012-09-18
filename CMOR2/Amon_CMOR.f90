@@ -1044,6 +1044,10 @@ program Amon_CMOR
                     nchunks(ifile) = 3
                     tidx1(1:nchunks(ifile)) = (/  1, 601,1198/) ! 1850, 1900, 1951
                     tidx2(1:nchunks(ifile)) = (/600,1197,1865/) ! 1899, 1950, 2005
+                 case ( 1212 )  ! Pliocene from 450-550
+                    nchunks(ifile) = 2
+                    tidx1(1:nchunks(ifile)) = (/  1, 601/) ! 0450, 0500
+                    tidx2(1:nchunks(ifile)) = (/600,1212/) ! 0499, 0550
                  case ( 3828 )  ! CAM5 piControl
                     nchunks(ifile) = 32
                     tidx1(1) =   1
@@ -1213,6 +1217,10 @@ program Amon_CMOR
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 600,1200/) ! 1850, 1900, 1951
                  tidx2(1:nchunks(ifile)) = (/599,1199,1871/) ! 1899, 1950, 2005
+              case ( 1212 )  ! Pliocene from 450-550
+                 nchunks(ifile) = 2
+                 tidx1(1:nchunks(ifile)) = (/  1, 601/) ! 0450, 0500
+                 tidx2(1:nchunks(ifile)) = (/600,1212/) ! 0499, 0550
               case ( 1872,1860 )  ! 20C, 1850-2005
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-CAM5')
@@ -1409,6 +1417,10 @@ program Amon_CMOR
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 600,1200/) ! 1850, 1900, 1951
                  tidx2(1:nchunks(ifile)) = (/599,1199,1871/) ! 1899, 1950, 2005
+              case ( 1212 )  ! Pliocene from 450-550
+                 nchunks(ifile) = 2
+                 tidx1(1:nchunks(ifile)) = (/  1, 601/) ! 0450, 0500
+                 tidx2(1:nchunks(ifile)) = (/600,1212/) ! 0499, 0550
               case ( 1872,1860 )  ! 20C, 1850-2005
                  select case(exp(exp_found)%model_id)
                  case ('CESM1-CAM5')

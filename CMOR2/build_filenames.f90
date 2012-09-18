@@ -14,9 +14,10 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
   !
   select case (table)
   case ('Tables/CMIP5_Amon','Tables/CMIP5_Lmon','Tables/CMIP5_LImon','Tables/CMIP5_Omon','Tables/CMIP5_OImon','Tables/CMIP5_aero','Tables/CMIP5_cfMon',&
+        'Tables/PMIP3_Amon','Tables/PMIP3_Lmon','Tables/PMIP3_LImon','Tables/PMIP3_Omon','Tables/PMIP3_OImon',&
         'Tables/GeoMIP_Amon','Tables/GeoMIP_Lmon','Tables/GeoMIP_LImon','Tables/GeoMIP_Omon','Tables/GeoMIP_OImon','Tables/GeoMIP_aero','Tables/GeoMIP_cfMon')
      ndt = 1 ; dtbeg(1) = '01' ; dtend(1) = '12'
-  case ('Tables/CMIP5_day','Tables/CMIP5_cfDay','Tables/GeoMIP_day','Tables/GeoMIP_cfDay')
+  case ('Tables/CMIP5_day','Tables/CMIP5_cfDay','Tables/GeoMIP_day','Tables/GeoMIP_cfDay','Tables/PMIP3_day')
      ndt = 2
      dtbeg(1) = '0101' ; dtend(1) = '1231'
      dtbeg(2) = '0102' ; dtend(2) = '1231'
@@ -29,7 +30,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
   end select
   !
   select case (table)
-  case ('Tables/CMIP5_OImon','Tables/GeoMIP_OImon')
+  case ('Tables/CMIP5_OImon','Tables/GeoMIP_OImon','Tables/PMIP3_OImon')
      exists = .false.
      do year1 = runbeg,runend
         do year2 = runend,year1,-1

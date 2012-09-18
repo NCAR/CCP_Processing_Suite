@@ -266,11 +266,11 @@ fi
 while [ $YEARNOW -ge $YEARBEG ] ; do
   ./procstat.sh
   YRCHECK=.comp.$CASE.$HIST.$YEARNOW
-  if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 1 ] ; then
+  if [ -f ${YRCHECK}.nc ] ; then
     touch $YRCHECK
     rm .????.$CASE.$HIST.${YEARNOW}*.nc
   else
-    if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}-??.nc | wc -l` -eq 12 ] ; then
+    if [ `/bin/ls ${YRCHECK}-??.nc | wc -l` -eq 12 ] ; then
       touch $YRCHECK
       rm .????.$CASE.$HIST.${YEARNOW}-??.nc
     fi
@@ -390,7 +390,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
       done
     fi
 #
-    if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 1 ] ; then
+    if [ -f ${YRCHECK}.nc ] ; then
       touch $YRCHECK
       rm .????.$CASE.$HIST.${YEARNOW}*.nc
     else

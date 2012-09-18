@@ -110,7 +110,7 @@ OBJ	= mymods.o \
 
 all:	  Amon_CMOR 3hrSlev_CMOR 3hrMlev_CMOR 3hrCurt_CMOR 3hrPlev_CMOR sites_CMOR day_CMOR Lmon_CMOR \
 	  LImon_CMOR OImon_CMOR Omon_CMOR fx_CMOR 6hrLev_CMOR 6hrPlev_CMOR 3hr_CMOR.f90 aero_CMOR \
-	  cfMon_CMOR cfDay_CMOR cf3hr_CMOR Oyr_CMOR
+	  cfMon_CMOR cfDay_CMOR cf3hr_CMOR Oyr_CMOR cfSites_CMOR
 
 Amon_CMOR: $(OBJ) Amon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Amon_CMOR.o \
@@ -147,6 +147,10 @@ aero_CMOR: $(OBJ) aero_CMOR.o
 sites_CMOR: $(OBJ) sites_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) sites_CMOR.o \
 	-o $(EXEDIR)/sites_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
+
+cfSites_CMOR: $(OBJ) cfSites_CMOR.o
+	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) cfSites_CMOR.o \
+	-o $(EXEDIR)/cfSites_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
 
 3hrPlev_CMOR: $(OBJ) 3hrPlev_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) 3hrPlev_CMOR.o \
@@ -290,6 +294,9 @@ aero_CMOR.o: aero_CMOR.f90 $(OBJ)
 
 sites_CMOR.o: sites_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c sites_CMOR.f90
+
+cfSites_CMOR.o: cfSites_CMOR.f90 $(OBJ)
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c cfSites_CMOR.f90
 
 3hrPlev_CMOR.o: 3hrPlev_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c 3hrPlev_CMOR.f90
