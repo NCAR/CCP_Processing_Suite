@@ -419,41 +419,12 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
     YEARNOW=0${YEARNOW}
   fi
   export YEARNOW
-#
-# Concatenate years into decadal segments if more than 31 years of data
-#
-  CHECKDEC=`expr $YEARNOW % 10`
-  if [ $CHECKDEC -eq 0 ] ; then
-    if [ $YRCOUNT -gt 31 ] ; then
-      if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
-        ./concatenate_data Y2D
-        ./store_to_archive
-      fi
-      if [ "$HIST" = "cam2.h1" ] && [ "$TPER" = "day" ] ; then
-        ./concatenate_data Y2D
-        ./store_to_archive
-      fi
-      if [ "$HIST" = "cam2.h2" ] && [ "$TPER" = "day" ] ; then
-        ./concatenate_data Y2D
-        ./store_to_archive
-      fi
-      if [ "$HIST" = "cam.h1" ] && [ "$TPER" = "day" ] ; then
-        ./concatenate_data Y2D
-        ./store_to_archive
-      fi
-      if [ "$HIST" = "cam.h2" ] && [ "$TPER" = "day" ] ; then
-        ./concatenate_data Y2D
-        ./store_to_archive
-      fi
-    fi
-  fi
 done
 #
 # Concatenate months -> years, years -> all (if possible)
 #
 echo "Final concatenating of "$CASE"."$HIST" at "`date`
 ./concatenate_data M2Y
-./concatenate_data Y2D
 ./concatenate_data Y2A
 #
 # Store completed data on archival system
