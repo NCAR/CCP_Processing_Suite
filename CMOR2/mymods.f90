@@ -133,7 +133,7 @@ module grid_info
   integer::ncosp_tau,ncosp_prs,ncosp_ht,ncosp_dbze,nsites,ncosp_sza
   integer::naxes,zfactor_id
   integer::nlats_trans,nmoc_z,ntrans_reg,nmoc_comp,ntrans_comp
-  integer,dimension(1)::grid_id
+  integer,dimension(10)::grid_id
   integer,dimension(10)::axis_ids
   character(len=256),dimension(10)::dimnames,dimunits
   character(len=256)::time_units

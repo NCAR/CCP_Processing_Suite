@@ -62,6 +62,7 @@ case "$PROCHOST" in
   silver* )                                # silver @ CGD/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/local/bin/ncks             ; export NCKS
+    NCRA=/usr/local/bin/ncra             ; export NCRA
     NCRCAT=/usr/local/bin/ncrcat         ; export NCRCAT
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
     LOCALDSK=/datalocal/proc/$CASE       ; export LOCALDSK
@@ -71,6 +72,7 @@ case "$PROCHOST" in
   tramhill* | hurricane* )                                # tramhill/hurricane @ CGD/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/local/bin/ncks              ; export NCKS
+    NCRA=/usr/local/bin/ncra              ; export NCRA
     NCRCAT=/usr/local/bin/ncrcat          ; export NCRCAT
     PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
@@ -79,6 +81,7 @@ case "$PROCHOST" in
   modeling1* )                                # modeling1 in ACD
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/local/bin/ncks              ; export NCKS
+    NCRA=/usr/local/bin/ncra              ; export NCRA
     NCRCAT=/usr/local/bin/ncrcat          ; export NCRCAT
     PROCBASE=/data6/$USER/$CASE           ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
@@ -87,7 +90,7 @@ case "$PROCHOST" in
   mirage* )                                # DASG @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/contrib/nco-4.1.0/bin/ncks              ; export NCKS
-#    NCKS=/fs/local/bin/ncks                      ; export NCKS
+    NCRA=/contrib/nco-4.1.0/bin/ncra              ; export NCRA
     NCRCAT=/fs/local/bin/ncrcat                   ; export NCRCAT
     PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE
     LOCALDSK=/glade/data01/CMIP5/CCSM/csm/$CASE   ; export LOCALDSK
@@ -97,6 +100,7 @@ case "$PROCHOST" in
   euclid* )                                # euclid @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/global/u2/s/strandwg/bin/ncks     ; export NCKS
+    NCRA=/global/u2/s/strandwg/bin/ncra     ; export NCRA
     NCRCAT=/global/u2/s/strandwg/bin/ncrcat ; export NCRCAT
     PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
     LOCALDSK=/global/scratch/sd/$USER/$CASE ; export LOCALDSK
@@ -106,6 +110,7 @@ case "$PROCHOST" in
   lens* )                                # lens @ ORNL
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/ccs/home/wgstrand/bin/ncks                   ; export NCKS
+    NCRA=/ccs/home/wgstrand/bin/ncks                   ; export NCRA
     NCRCAT=/ccs/home/wgstrand/bin/ncrcat               ; export NCRCAT
     PROCBASE=/tmp/work/$USER/$CASE                     ; export PROCBASE
     LOCALDSK=/tmp/work/$USER/$CASE                     ; export LOCALDSK
@@ -242,6 +247,7 @@ ln -s -f $BASEDIR/var_year_to_all  .
 ln -s -f $BASEDIR/var_dec_to_cen   .
 ln -s -f $BASEDIR/concatenate_data .
 ln -s -f $BASEDIR/store_to_archive .
+ln -s -f $BASEDIR/annual_average   .
 ln -s -f $BASEDIR/procstat.sh      .
 #
 cd $LOCAL_PROC
@@ -354,9 +360,9 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 #
 # All time splitting should be done now, ready for var_splitting
 #
-    NFNC=`echo $CASE.$HIST.????-??.nc | wc -w`
+    NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
     if [ ${NFNC} -ne 1 ] ; then
-      for FILE in `/bin/ls $CASE.$HIST.????-??.nc` ; do
+      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??.nc` ; do
         ./var_split $FILE erase
         if [ $? -ne 0 ] ; then
           echo "Error from var_split on file "$FILE
@@ -372,9 +378,9 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
       done
     fi
 #
-    NFNC=`echo $CASE.$HIST.????.nc | wc -w`
+    NFNC=`echo $CASE.$HIST.${YEARNOW}.nc | wc -w`
     if [ ${NFNC} -ne 1 ] ; then
-      for FILE in `/bin/ls $CASE.$HIST.????.nc` ; do
+      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}.nc` ; do
         ./var_split $FILE erase
         if [ $? -ne 0 ] ; then
           echo "Error from var_split on file "$FILE
@@ -426,6 +432,12 @@ done
 echo "Final concatenating of "$CASE"."$HIST" at "`date`
 ./concatenate_data M2Y
 ./concatenate_data Y2A
+#
+# Create annual averages of each field (ocean monthly only)
+#
+if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
+  ./annual_averages
+fi
 #
 # Store completed data on archival system
 #

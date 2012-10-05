@@ -1,6 +1,4 @@
 program cfSites_CMOR
-  ! Convert CCSM4 atm monthly (cam2.h0) data from single-field format
-  ! to CMOR-compliant format
   !
   ! NOTE: 'model_id' and first part of 'source' MUST MATCH or CMOR will throw error
   !
@@ -31,7 +29,7 @@ program cfSites_CMOR
   ! Other variables
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
-  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,ixw,ilev,ic
+  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,ixw,ilev,ic,klo,khi
   real::spval,dataval
   logical::does_exist
   !
@@ -223,48 +221,39 @@ program cfSites_CMOR
         write(*,*) 'table_entry   = ',trim(xw(ixw)%entry)
         write(*,*) 'dimensions    = ',trim(xw(ixw)%dims)
         write(*,*) 'units         = ',var_info(var_found(1,1))%units(1:20)
-        write(*,*) 'axis_ids      = ',axis_ids(1:naxes)
+!        write(*,*) 'axis_ids      = ',axis_ids(1:naxes)
         write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
         write(*,*) 'positive      = ',trim(mycmor%positive)
         write(*,*) 'original_name = ',trim(original_name)
         !
         select case (xw(ixw)%entry)
-        case ('ta','ua','va','hus','hur','wap','zg','tro3','tro3Clim','co2','co2Clim','ch4','ch4Clim','n2o','n2oClim')
+!!$        case ('ps')
+!!$           cmor_var_id = cmor_variable(                            &
+!!$                table=mycmor%table_file,                           &
+!!$                table_entry=xw(ixw)%entry,                         &
+!!$                units=var_info(var_found(1,1))%units,                &
+!!$                axis_ids=(/grid_id(1),axis_ids(1)/), &
+!!$                missing_value=var_info(var_found(1,1))%missing_value,&
+!!$                positive=mycmor%positive,                          &
+!!$                original_name=original_name,                       &
+!!$                comment=xw(ixw)%comment)
+        case ('ta','ua','va','hus','hur','wap','zg','clw','cli','cl','mc')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3)/),  &
+                axis_ids=(/grid_id(1),axis_ids(2),axis_ids(1)/), &
+!                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(1)/), &
                 missing_value=var_info(var_found(1,1))%missing_value,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
-        case ('ps')
-           cmor_var_id = cmor_variable(                            &
-                table=mycmor%table_file,                           &
-                table_entry=xw(ixw)%entry,                         &
-                units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(1),axis_ids(2)/), &
-                missing_value=var_info(var_found(1,1))%missing_value,&
-                positive=mycmor%positive,                          &
-                original_name=original_name,                       &
-                comment=xw(ixw)%comment)
-        case ('clw','cli','cl','mc')
-           cmor_var_id = cmor_variable(                            &
-                table=mycmor%table_file,                           &
-                table_entry=xw(ixw)%entry,                         &
-                units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(1)/),  &
-                missing_value=var_info(var_found(1,1))%missing_value,&
-                positive=mycmor%positive,                          &
-                original_name=original_name,                       &
-                comment=xw(ixw)%comment)
+           write(*,*) 'axis_ids: ',grid_id(1),axis_ids(2),axis_ids(1)
         case default
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
-!                axis_ids=(/axis_ids(1),axis_ids(2)/),  &
                 axis_ids=(/grid_id(1),axis_ids(2)/),  &
                 missing_value=var_info(var_found(1,1))%missing_value,&
                 positive=mycmor%positive,                          &
@@ -308,14 +297,16 @@ program cfSites_CMOR
                  indat2a(:,it) = indat1a
               enddo
            enddo
-!           write(*,'(''0 2 '',119f8.3)') indat2a(:,2)
-!           write(*,'(''0 3 '',119f8.3)') indat2a(:,3)
-           indat2a(:,1) = indat2a(:,2)
+!           write(*,'(''0 '',12f8.3)') indat2a(1,1:12)
+           indat2a(:,2) = indat2a(:,1)
            do k = 3,it-1,2
-              indat2a(:,k) = (indat2a(:,k-1)+indat2a(:,k+1))/2.
+              klo = k-1
+              khi = k+1
+              if (khi.gt.tidx2(nchunks(1))) khi=tidx2(nchunks(1))
+!              write(*,*) klo,k,khi
+              indat2a(:,k) = (indat2a(:,klo)+indat2a(:,khi))/2.
            enddo
-!           write(*,'(''1 2 '',119f8.3)') indat2a(:,2)
-!           write(*,'(''1 3 '',119f8.3)') indat2a(:,3)
+!           write(*,'(''1 '',12f8.3)') indat2a(1,1:12)
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
@@ -583,7 +574,7 @@ program cfSites_CMOR
            else
               write(*,'('' GOOD cmor_close of : '',a,'' flag: '',i6)') trim(xw(ixw)%entry),error_flag
            endif
-        case ('ta','ua','va','hus','hur','wap','zg')
+        case ('ta','ua','va','hus','hur','wap','zg','cl')
            !
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
            ! break up into nicely-sized chunks along time

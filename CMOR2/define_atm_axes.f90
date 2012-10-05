@@ -66,14 +66,15 @@ subroutine define_atm_axes(dimensions)
   enddo
   !
   do i = 1,naxes
-     write(*,*) 'DIMS: ',dimnames(i)(1:32),' UNITS: ',dimunits(i)(1:32)
+     write(*,'(''0 define_atm_axes #:'',i4,'' name: '',a32,'' units: '',a32)') i,dimnames(i)(1:32),dimunits(i)(1:32)
   enddo
   axis_ids = 0 ; idim = 1
   !
-  ! Define 'time' first
+  ! Define axes
   !
   do i = 1,naxes
      select case(dimnames(i))
+     write(*,'(''L define_atm_axes #:'',i4,'' name: '',a32)') i,dimnames(i)(1:32)
      case ('time','time1','time2')
         select case (mycmor%table_file)
         case ('Tables/CMIP5_Amon','Tables/GeoMIP_Amon','Tables/CMIP5_aero','Tables/CMIP5_cfMon','Tables/PMIP3_Amon')
@@ -122,14 +123,14 @@ subroutine define_atm_axes(dimensions)
                 table_entry=dimnames(i),&
                 units=time_units,       &
                 interval='30 minutes')
-           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           write(*,'('' dimension: '',a,'' idim: '',i4,'' axis_id: '',i4)') trim(dimnames(i)),idim,axis_ids(idim)
            idim = idim + 1
         end select
-     end select
-  enddo
-  !
-  do i = 1,naxes
-     select case(dimnames(i))
+!!$     end select
+!!$  enddo
+!!$  !
+!!$  do i = 1,naxes
+!!$     select case(dimnames(i))
      case ('location')
         axis_ids(idim) = cmor_axis(        &
              table=mycmor%table_file,      &
@@ -167,17 +168,29 @@ subroutine define_atm_axes(dimensions)
         write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('site')
-        axis_ids(idim) = cmor_axis(        &
-             table=mycmor%table_file,      &
-             table_entry=dimnames(i),      &
-             units=dimunits(i),            &
-             length=SIZE(atm_sites),       &
-             coord_vals=atm_sites)
-        write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
-        idim = idim + 1
-        grid_id(1) = cmor_grid(                    &
-             axis_ids=(/axis_ids(1)/))
-        write(*,*) 'CMOR GRID defined, grid_id: ',grid_id(1)
+        write(*,'('' SITE '')')
+        select case (mycmor%table_file)
+        case ('Tables/CMIP5_cfSites')
+!           grid_id(2) = cmor_grid(axis_ids=(/axis_ids(i)/))
+!           write(*,*) 'CMOR GRID defined, dimnames,axis_ids,grid_id: ',trim(dimnames(i)),i,grid_id(1)
+           zfactor_id = cmor_zfactor(   &
+                zaxis_id=ilev,          &
+                zfactor_name='ps',      &
+!                axis_ids=(/axis_ids(2),axis_ids(1)/), &
+                axis_ids=(/grid_id(1),axis_ids(1)/), &
+                units='Pa')
+        case default
+           axis_ids(idim) = cmor_axis(        &
+                table=mycmor%table_file,      &
+                table_entry=dimnames(i),      &
+                units=dimunits(i),            &
+                length=SIZE(atm_sites),       &
+                coord_vals=atm_sites)
+           write(*,'('' dimension: '',a,'' idim: '',i4,'' axis_id: '',i4)') trim(dimnames(i)),idim,axis_ids(idim)
+           grid_id(1) = cmor_grid(axis_ids=(/axis_ids(1)/))
+           write(*,'('' grid_id defined: '',2i8)') grid_id(1),idim
+           idim = idim + 1
+        end select
      case ('alt40')
         axis_ids(idim) = cmor_axis(        &
              table=mycmor%table_file,      &
@@ -317,8 +330,15 @@ subroutine define_atm_axes(dimensions)
            zfactor_id = cmor_zfactor(       &
                 zaxis_id=ilev,        &
                 zfactor_name='ps',          &
-                axis_ids=(/axis_ids(2),axis_ids(1)/), &
+                axis_ids=(/axis_ids(2),axis_ids(1)/),&
                 units='Pa')
+        case ('Tables/CMIP5_cfSites')
+           zfactor_id = cmor_zfactor(   &
+                zaxis_id=ilev,          &
+                zfactor_name='ps',      &
+                axis_ids=(/grid_id(1)/))
+!                axis_ids=(/axis_ids(2)/),&
+!                units='Pa')
         case default
            zfactor_id = cmor_zfactor(       &
                 zaxis_id=ilev,        &
@@ -327,7 +347,7 @@ subroutine define_atm_axes(dimensions)
                 units='Pa')
         end select
         axis_ids(idim) = ilev
-        write(*,'('' dimension: '',a,'' defined: '',i4)') 'standard_hybrid_sigma',axis_ids(idim)
+        write(*,'('' dimension #:'',i4,'' name: '',a,'' defined, id:'',i4)') i,dimnames(i),axis_ids(idim)
         idim = idim + 1
      case ('alevhalf')
         ilev = cmor_axis(                        &

@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+# Create annual averages from ocean monthly data
+#
+if [ $# -ne 0 ] ; then
+  echo "Usage: annual_averages"
+  ./procstat.sh error annual_averages
+  exit 1
+fi
+#
+cd $CACHEDIR
+if [ `ls CAT.*.nc | wc -l` != 0 ] ; then
+  for CFILE in `ls CAT.*.nc` ; do
+    FILE=`echo $CFILE | sed -e 's/^CAT\.//g'`
+    mv $CFILE $FILE
+  done
+fi
+echo $CASE
+echo $HIST
+echo $TPER
+echo $MNCOUNT
+#
+cd $LOCAL_PROC
