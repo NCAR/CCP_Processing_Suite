@@ -292,7 +292,7 @@ program Lmon_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('evspsblveg','evspsblsoi','tran','mrros','prveg','lai','mrsos','mrro')
+        case ('evspsblveg','evspsblsoi','mrros','prveg','lai','mrsos','mrro')
            !
            ! No change
            !
@@ -592,6 +592,90 @@ program Lmon_CMOR
                  ! 
                  where ((indat2a /= spval).and.(indat2b /= spval))
                     cmordat2d = (indat2a + indat2b)/1000.
+                 elsewhere
+                    cmordat2d = spval
+                 endwhere
+                 tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                 error_flag = cmor_write(      &
+                      var_id        = cmor_var_id, &
+                      data          = cmordat2d, &
+                      ntimes_passed = 1,       &
+                      time_vals     = tval,    &
+                      time_bnds     = tbnd)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
+              enddo
+              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              !
+              if (ic < nchunks(1)) then
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              endif
+           enddo
+        case ('tran')
+           !
+           allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
+           allocate(cmordat2d(nlons,nlats))
+           !
+           ! Determine amount of data to write, to keep close to ~2 GB limit
+           !
+           select case(ntimes(1,1))
+           case ( 1872,1140,3612,6012,12012 )  ! All data
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 12000 ) ! BGC controls
+              select case(exp(exp_found)%model_id)
+              case ('CESM1-BGC')
+                 select case(exp(exp_found)%expt_id)
+                 case ('piControl') ! b40.prescribed_carb.001, 0101 - 0600
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 1201
+                    tidx2(1:nchunks(1)) = 7200
+                 case ('esmControl') ! b40.coup_carb.004, 0301 - 0800
+                    nchunks(1) = 1
+                    tidx1(1:nchunks(1)) = 3601
+                    tidx2(1:nchunks(1)) = 9600
+                 end select
+              end select
+           case ( 1152 )  ! RCP, 2005-2100, skip 2006
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 13
+              tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 3228 )  ! Abrupt 4XCO2, use 1850-2000 (151 years)
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = 1812
+           case ( 4824 )  ! LGM from 1499-1900, 1800-1900 (101y) only
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 3613
+              tidx2(1:nchunks(1)) = ntimes(1,1)
+           case ( 6192 ) ! midHolocene from 080101-131612; want only 1000-1300
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = (/2389/) ! 1000
+              tidx2(1:nchunks(1)) = (/6000/) ! 1300
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
+           end select
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           do ic = 1,nchunks(1)
+              do it = tidx1(ic),tidx2(ic)
+                 time_counter = it
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                 ! 
+                 where ((indat2a /= spval).and.(indat2b /= spval))
+                    cmordat2d = indat2a + indat2b
                  elsewhere
                     cmordat2d = spval
                  endwhere

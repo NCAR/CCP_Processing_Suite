@@ -247,7 +247,7 @@ ln -s -f $BASEDIR/var_year_to_all  .
 ln -s -f $BASEDIR/var_dec_to_cen   .
 ln -s -f $BASEDIR/concatenate_data .
 ln -s -f $BASEDIR/store_to_archive .
-ln -s -f $BASEDIR/annual_average   .
+ln -s -f $BASEDIR/annual_averages  .
 ln -s -f $BASEDIR/procstat.sh      .
 #
 cd $LOCAL_PROC

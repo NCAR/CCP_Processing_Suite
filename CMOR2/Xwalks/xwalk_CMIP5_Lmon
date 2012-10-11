@@ -50,7 +50,7 @@ CMIP5_Lmon:rGrowth:surface_upward_carbon_mass_flux_due_to_plant_respiration_for_
 CMIP5_Lmon:rh:heterotrophic_respiration_carbon_flux:longitude latitude time:land:1:HR:HR
 CMIP5_Lmon:rMaint:surface_upward_carbon_mass_flux_due_to_plant_respiration_for_biomass_maintenance:longitude latitude time:land:1:MR:MR
 CMIP5_Lmon:shrubFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
-CMIP5_Lmon:tran:transpiration_flux:longitude latitude time:land:2:QSOIL QVEGT:QSOIL,QVEGT
+CMIP5_Lmon:tran:transpiration_flux:longitude latitude time:land:2:QSOIL QVEGT:QSOIL + QVEGT
 CMIP5_Lmon:treeFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_Lmon:treeFracPrimDec:area_fraction:longitude latitude time typepdec:land:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_Lmon:treeFracPrimEver:area_fraction:longitude latitude time typepever:land:0:UNAVAILABLE:UNAVAILABLE
