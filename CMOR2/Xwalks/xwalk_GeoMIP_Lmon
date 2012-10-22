@@ -15,7 +15,7 @@ GeoMIP_Lmon:cSoilFast:fast_soil_pool_carbon_content:longitude latitude time:land
 GeoMIP_Lmon:cSoil:soil_carbon_content:longitude latitude time:land:1:TOTSOMC:TOTSOMC
 GeoMIP_Lmon:cSoilMedium:medium_soil_pool_carbon_content:longitude latitude time:land:1:SOIL3C:SOIL3C
 GeoMIP_Lmon:cSoilSlow:slow_soil_pool_carbon_content:longitude latitude time:land:1:SOIL4C:SOIL4C
-GeoMIP_Lmon:cVeg:vegetation_carbon_content:longitude latitude time:land:1:TOTPFTC:TOTPFTC
+GeoMIP_Lmon:cVeg:vegetation_carbon_content:longitude latitude time:land:1:TOTVEGC:TOTVEGC
 GeoMIP_Lmon:cWood:wood_carbon_content:longitude latitude time:land:1:WOODC:WOODC
 GeoMIP_Lmon:evspsblsoi:water_evaporation_flux_from_soil:longitude latitude time:land:1:QSOIL:QSOIL
 GeoMIP_Lmon:evspsblveg:water_evaporation_flux_from_canopy:longitude latitude time:land:1:QVEGE:QVEGE
@@ -34,10 +34,10 @@ GeoMIP_Lmon:mrfso:soil_frozen_water_content:longitude latitude time:land landIce
 GeoMIP_Lmon:mrlsl:moisture_content_of_soil_layer:longitude latitude sdepth time:land:2:SOILLIQ SOILICE:SOILLIQ + SOILICE at each soil depth
 GeoMIP_Lmon:mrro:runoff_flux:longitude latitude time:land:1:QRUNOFF:QRUNOFF
 GeoMIP_Lmon:mrros:surface_runoff_flux:longitude latitude time:land:1:QOVER:QOVER 
-GeoMIP_Lmon:mrso:soil_moisture_content:longitude latitude time:land:2:SOILICE SOILLIQ:Integrate SOILICE + SOILLIQ over all layers
+GeoMIP_Lmon:mrso:soil_moisture_content:longitude latitude time:land:2:SOILICE SOILLIQ:SOILICE+SOILLIQ, capped over ice-covered regions at 5000 kg m-2
 GeoMIP_Lmon:mrsos:moisture_content_of_soil_layer:longitude latitude time sdepth1:land:1:SOILWATER_10CM:SOILWATER_10CM
 GeoMIP_Lmon:nbp:surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes:longitude latitude time:land:1:NBP:NBP
-GeoMIP_Lmon:nep:surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes_excluding_anthropogenic_land_use_change:longitude latitude time:land:0:UNKNOWN::UNKNOWN
+GeoMIP_Lmon:nep:surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes_excluding_anthropogenic_land_use_change:longitude latitude time:land:0:UNKNOWN:UNKNOWN
 GeoMIP_Lmon:npp:net_primary_productivity_of_carbon:longitude latitude time:land:1:NPP:NPP
 GeoMIP_Lmon:nppLeaf:net_primary_productivity_of_carbon_accumulated_in_leaves:longitude latitude time:land:1:LEAFC_ALLOC:LEAFC_ALLOC
 GeoMIP_Lmon:nppRoot:net_primary_productivity_of_carbon_accumulated_in_roots:longitude latitude time:land:1:FROOTC_ALLOC:FROOTC_ALLOC

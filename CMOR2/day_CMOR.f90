@@ -321,10 +321,10 @@ program day_CMOR
                  nchunks(ifile)= 2
                  tidx1(1:nchunks(ifile)) = (/    1, 14601/)
                  tidx2(1:nchunks(ifile)) = (/14600, 20440/)
-              case ( 25185 )
+              case ( 25185,25550 )
                  nchunks(ifile)= 2
-                 tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
-                 tidx2(1:nchunks(ifile)) = (/18250, 25185/)      ! 1899, 1918
+                 tidx1(1:nchunks(ifile)) = (/    1, 10586/)
+                 tidx2(1:nchunks(ifile)) = (/10585, ntimes(ifile,1)/)
               case ( 27375 )
                  nchunks(ifile)= 2
                  tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
@@ -461,10 +461,10 @@ program day_CMOR
                  nchunks(ifile)= 2
                  tidx1(1:nchunks(ifile)) = (/    1, 14601/)
                  tidx2(1:nchunks(ifile)) = (/14600, 20440/)
-              case ( 25185 )
+              case ( 25185,25550 )
                  nchunks(ifile)= 2
-                 tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
-                 tidx2(1:nchunks(ifile)) = (/18250, 25185/)      ! 1899, 1918
+                 tidx1(1:nchunks(ifile)) = (/    1, 10586/)
+                 tidx2(1:nchunks(ifile)) = (/10585, ntimes(ifile,1)/)
               case ( 27375 )
                  nchunks(ifile)= 2
                  tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
@@ -569,10 +569,10 @@ program day_CMOR
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/    1, 14601/)
                     tidx2(1:nchunks(ifile)) = (/14600, 20440/)
-                 case ( 25185 )
+                 case ( 25185,25550 )
                     nchunks(ifile)= 2
-                    tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
-                    tidx2(1:nchunks(ifile)) = (/18250, 25185/)      ! 1899, 1918
+                    tidx1(1:nchunks(ifile)) = (/    1, 10586/)
+                    tidx2(1:nchunks(ifile)) = (/10585, ntimes(ifile,1)/)
                  case ( 27375 )
                     nchunks(ifile)= 2
                     tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
@@ -706,10 +706,10 @@ program day_CMOR
                  nchunks(ifile)= 2
                  tidx1(1:nchunks(ifile)) = (/    1, 14601/)
                  tidx2(1:nchunks(ifile)) = (/14600, 20440/)
-              case ( 25185 )
+              case ( 25185,25550 )
                  nchunks(ifile)= 2
-                 tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900
-                 tidx2(1:nchunks(ifile)) = (/18250, 25185/)      ! 1899, 1918
+                 tidx1(1:nchunks(ifile)) = (/    1, 10586/)
+                 tidx2(1:nchunks(ifile)) = (/10585, ntimes(ifile,1)/)
               case ( 27375 )
                  nchunks(ifile)= 2
                  tidx1(1:nchunks(ifile)) = (/    1, 18251/)      ! 1850, 1900

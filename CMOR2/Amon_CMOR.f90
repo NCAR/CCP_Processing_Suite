@@ -1096,6 +1096,10 @@ program Amon_CMOR
                     nchunks(ifile) = 2
                     tidx1(1:nchunks(ifile)) = (/  1, 601/)      ! 1850, 1900
                     tidx2(1:nchunks(ifile)) = (/600, 900/)      ! 1899, 1924
+                 case ( 816 )
+                    nchunks(ifile) = 2
+                    tidx1(1:nchunks(ifile)) = (/  1, 337/)      ! 1850, 1900
+                    tidx2(1:nchunks(ifile)) = (/336, 816/)      ! 1899, 1924
                  case ( 1680,3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
                     nchunks(ifile) = ntimes(1,1)/600
                     tidx1(1) =   1
@@ -1287,6 +1291,14 @@ program Amon_CMOR
                  nchunks(ifile) = 2
                  tidx1(1:nchunks(ifile)) = (/  1, 601/)      ! 1850, 1900
                  tidx2(1:nchunks(ifile)) = (/600, 900/)      ! 1899, 1924
+              case ( 816 )
+                 nchunks(ifile) = 2
+                 tidx1(1:nchunks(ifile)) = (/  1, 337/)      ! 1850, 1900
+                 tidx2(1:nchunks(ifile)) = (/336, 816/)      ! 1899, 1924
+              case ( 840 )
+                 nchunks(ifile) = 2
+                 tidx1(1:nchunks(ifile)) = (/  1, 349/)
+                 tidx2(1:nchunks(ifile)) = (/348, 840/)
               case ( 1680,3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
                  nchunks(ifile) = int(ntimes(ifile,1)/600)+1
                  tidx1(1) =   1
@@ -1474,6 +1486,10 @@ program Amon_CMOR
                     tidx1(1:nchunks(ifile)) = (/  1, 601/)      ! 1850, 1900
                     tidx2(1:nchunks(ifile)) = (/600, 828/)      ! 1899, 1918
                  end select
+              case ( 840 )
+                 nchunks(ifile) = 2
+                 tidx1(1:nchunks(ifile)) = (/  1, 349/)
+                 tidx2(1:nchunks(ifile)) = (/348, 840/)
               case ( 829 )
                  nchunks(ifile) = 2
                  tidx1(1:nchunks(ifile)) = (/  1, 590/)      ! 1850, 1900
@@ -1482,6 +1498,10 @@ program Amon_CMOR
                  nchunks(ifile) = 2
                  tidx1(1:nchunks(ifile)) = (/  1, 601/)      ! 1850, 1900
                  tidx2(1:nchunks(ifile)) = (/600, 900/)      ! 1899, 1924
+              case ( 816 )
+                 nchunks(ifile) = 2
+                 tidx1(1:nchunks(ifile)) = (/  1, 337/)      ! 1850, 1900
+                 tidx2(1:nchunks(ifile)) = (/336, 816/)      ! 1899, 1924
               case ( 3612,6012,12012 ) ! piControl,past1000,midHolocene: ~50Y chunks
                  nchunks(ifile) = int(ntimes(1,1)/600)
                  tidx1(1) =   1

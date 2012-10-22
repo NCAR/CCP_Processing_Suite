@@ -1583,6 +1583,10 @@ program Omon_CMOR
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
                  tidx2(1:nchunks(ifile)) = (/120, 240, ntimes(ifile,1)/)
+              case ( 900 ) ! 75 years, 1850-1924
+                 nchunks(ifile) = 8
+                 tidx1(1:nchunks(ifile)) = (/  1, 121, 241, 361, 481, 601, 721, 841/)
+                 tidx2(1:nchunks(ifile)) = (/120, 240, 360, 480, 600, 720, 840, 900/)
               case ( 360 ) ! 30 years
                  if ((exp(exp_found)%runbeg==2006).and.(exp(exp_found)%runend==2035)) then
                     nchunks(ifile) = 4
@@ -1710,6 +1714,10 @@ program Omon_CMOR
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
                  tidx2(1:nchunks(ifile)) = (/120, 240, ntimes(ifile,1)/)
+              case ( 900 ) ! 75 years, 1850-1924
+                 nchunks(ifile) = 8
+                 tidx1(1:nchunks(ifile)) = (/  1, 121, 241, 361, 481, 601, 721, 841/)
+                 tidx2(1:nchunks(ifile)) = (/120, 240, 360, 480, 600, 720, 840, 900/)
               case ( 360 ) ! 30 years
                  if ((exp(exp_found)%runbeg==2006).and.(exp(exp_found)%runend==2035)) then
                     nchunks(ifile) = 4
@@ -1881,6 +1889,10 @@ program Omon_CMOR
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
                  tidx2(1:nchunks(ifile)) = (/120, 240, ntimes(ifile,1)/)
+              case ( 900 ) ! 75 years, 1850-1924
+                 nchunks(ifile) = 8
+                 tidx1(1:nchunks(ifile)) = (/  1, 121, 241, 361, 481, 601, 721, 841/)
+                 tidx2(1:nchunks(ifile)) = (/120, 240, 360, 480, 600, 720, 840, 900/)
               case ( 360 ) ! 30 years
                  if ((exp(exp_found)%runbeg==2006).and.(exp(exp_found)%runend==2035)) then
                     nchunks(ifile) = 4
@@ -2051,6 +2063,10 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+              case ( 900 ) ! 75 years, 1850-1924
+                 nchunks(ifile) = 8
+                 tidx1(1:nchunks(ifile)) = (/  1, 121, 241, 361, 481, 601, 721, 841/)
+                 tidx2(1:nchunks(ifile)) = (/120, 240, 360, 480, 600, 720, 840, 900/)
               case ( 300, 372, 312 ) ! 30 or 31 years
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
@@ -2226,6 +2242,10 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+              case ( 900 ) ! 75 years, 1850-1924
+                 nchunks(ifile) = 8
+                 tidx1(1:nchunks(ifile)) = (/  1, 121, 241, 361, 481, 601, 721, 841/)
+                 tidx2(1:nchunks(ifile)) = (/120, 240, 360, 480, 600, 720, 840, 900/)
               case ( 300, 372, 312 ) ! 30 or 31 years
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)
@@ -2405,6 +2425,10 @@ program Omon_CMOR
                     tidx1(ic) = tidx2(ic-1) + 1
                     tidx2(ic) = tidx1(ic) + 119
                  enddo
+              case ( 900 ) ! 75 years, 1850-1924
+                 nchunks(ifile) = 8
+                 tidx1(1:nchunks(ifile)) = (/  1, 121, 241, 361, 481, 601, 721, 841/)
+                 tidx2(1:nchunks(ifile)) = (/120, 240, 360, 480, 600, 720, 840, 900/)
               case ( 300, 372, 312 ) ! 30 or 31 years
                  nchunks(ifile) = 3
                  tidx1(1:nchunks(ifile)) = (/  1, 121, 241/)

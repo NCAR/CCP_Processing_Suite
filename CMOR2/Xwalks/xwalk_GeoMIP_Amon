@@ -56,7 +56,7 @@ GeoMIP_Amon:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:l
 GeoMIP_Amon:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:1:FLDS:FLDS no change
 GeoMIP_Amon:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:2:FLDS FLNS:FLDS + FLNS
 GeoMIP_Amon:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:longitude latitude time:atmos:1:FLUTC:FLUTC no change
-GeoMIP_Amon:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:1:FLUT:FLUT no change
+GeoMIP_Amon:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:3:FSNTOA FSNT FLNT:FSNTOA-FSNT+FLNT
 GeoMIP_Amon:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FSDSC:FSDSC no change
 GeoMIP_Amon:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:FSDS:FSDS no change
 GeoMIP_Amon:rsdt:toa_incoming_shortwave_flux:longitude latitude time:atmos:1:SOLIN:SOLIN no change

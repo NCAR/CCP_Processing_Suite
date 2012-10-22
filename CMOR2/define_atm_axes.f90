@@ -126,11 +126,11 @@ subroutine define_atm_axes(dimensions)
            write(*,'('' dimension: '',a,'' idim: '',i4,'' axis_id: '',i4)') trim(dimnames(i)),idim,axis_ids(idim)
            idim = idim + 1
         end select
-!!$     end select
-!!$  enddo
-!!$  !
-!!$  do i = 1,naxes
-!!$     select case(dimnames(i))
+     end select
+  enddo
+  !
+  do i = 1,naxes
+     select case(dimnames(i))
      case ('location')
         axis_ids(idim) = cmor_axis(        &
              table=mycmor%table_file,      &
