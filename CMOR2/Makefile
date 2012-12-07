@@ -72,6 +72,29 @@ ifeq ($(MACH),mirage)
   FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -fpic
 endif
 #
+# 'euclid' at NERSC
+#
+ifeq ($(MACH),euclid)
+  NCFDIR  = /usr/common/usg/netcdf/4.1.1/pgi
+  UDUDIR  = /usr/common/usg/udunits/default/pgi
+  UIDDIR  = /global/u2/s/strandwg/software/uuid-1.6.2
+  CMRDIR  = /global/u2/s/strandwg/software/cmor
+  HD5DIR  = /usr/common/usg/hdf5/1.8.6/pgi/serial
+  KRBDIR  = /usr/lib64
+#
+  NCFINC  = -I${NCFDIR}/include -I./include
+  NCFLIB  = -L${NCFDIR}/lib -lnetcdf -lnetcdff
+#  KRBLIB  = -L${KRBDIR} -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lssl -lcrypto -lz
+  KRBLIB  = -L${KRBDIR} -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lssl -lcrypto -lz
+  UDUINC  = -I${UDUDIR}/include
+  UDULIB  = -L${UDUDIR}/lib -ludunits2 -lexpat
+  UIDINC  = -I${UIDDIR}/include
+  UIDLIB  = -L${UIDDIR}/lib -luuid
+  FC	  = /usr/common/usg/pgi/12.3/linux86-64/12.3/bin/pgf95
+#  FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -Mbounds -m64 -mcmodel medium
+  FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -Mbounds -fpic
+endif
+#
 #
 CMRINC  = -I${CMRDIR}/include
 CMRLIB  = -L${CMRDIR}/lib -lcmor

@@ -76,7 +76,7 @@ subroutine define_ocn_axes(dimensions)
   ! Define axes depending on CMIP5 field. Complicated
   !
   select case (xw(xw_found)%entry)
-  case ('msftmyz')
+  case ('msftmyz','msftmyzba')
      ! Meridional overturning circulation
      do i = 1,naxes
         select case(dimnames(i))

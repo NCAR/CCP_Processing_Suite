@@ -132,7 +132,7 @@ CMIP5_Omon:mlotstsq:square_of_ocean_mixed_layer_thickness_defined_by_sigma_t:lon
 CMIP5_Omon:msftbarot:ocean_barotropic_mass_streamfunction:longitude latitude time:ocean:1:BSF:BSF
 CMIP5_Omon:msftmrhozba:ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection:latitude rho basin time:ocean:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_Omon:msftmrhoz:ocean_meridional_overturning_mass_streamfunction:latitude rho basin time:ocean:0:UNAVAILABLE:UNAVAILABLE
-CMIP5_Omon:msftmyzba:ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection:latitude olevel basin time:ocean:0:UNKNOWN:UNKNOWN
+CMIP5_Omon:msftmyzba:ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection:latitude olevel basin time:ocean:1:MOC:MOC converted from Sv to kg s-1
 CMIP5_Omon:msftmyz:ocean_meridional_overturning_mass_streamfunction:latitude olevel basin time:ocean:1:MOC:MOC converted from Sv to kg s-1
 CMIP5_Omon:msftyrhozba:ocean_y_overturning_mass_streamfunction_due_to_bolus_advection:latitude rho basin time:ocean:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_Omon:msftyrhoz:ocean_y_overturning_mass_streamfunction:latitude rho basin time:ocean:0:UNAVAILABLE:UNAVAILABLE

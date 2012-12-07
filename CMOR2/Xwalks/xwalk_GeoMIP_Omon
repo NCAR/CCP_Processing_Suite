@@ -34,7 +34,7 @@ GeoMIP_Omon:msftmyz:ocean_meridional_overturning_mass_streamfunction:latitude ol
 GeoMIP_Omon:msftmrhoz:ocean_meridional_overturning_mass_streamfunction:latitude rho basin time:ocean:0:UNKNOWN:UNKNOWN
 GeoMIP_Omon:msftyyz:ocean_y_overturning_mass_streamfunction:latitude olevel basin time:ocean:0:UNKNOWN:UNKNOWN
 GeoMIP_Omon:msftyrhoz:ocean_y_overturning_mass_streamfunction:latitude rho basin time:ocean:0:UNKNOWN:UNKNOWN
-GeoMIP_Omon:msftmyzba:ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection:latitude olevel basin time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:msftmyzba:ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection:latitude olevel basin time:ocean:1:MOC:MOC converted from Sv to kg s-1
 GeoMIP_Omon:msftmrhozba:ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection:latitude rho basin time:ocean:0:UNKNOWN:UNKNOWN
 GeoMIP_Omon:msftyyzba:ocean_y_overturning_mass_streamfunction_due_to_bolus_advection:latitude olevel basin time:ocean:0:UNKNOWN:UNKNOWN
 GeoMIP_Omon:msftyrhozba:ocean_y_overturning_mass_streamfunction_due_to_bolus_advection:latitude rho basin time:ocean:0:UNKNOWN:UNKNOWN
