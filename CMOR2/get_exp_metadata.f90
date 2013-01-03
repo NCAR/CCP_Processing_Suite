@@ -34,7 +34,7 @@ subroutine get_exp_metadata
      write(*,*) 'MATCH parent: ',trim(case_read),' ',trim(exp(parent_found)%case),' ',trim(exp(parent_found)%rip_code)
      mycmor%parent_experiment_id  = exp(parent_found)%expt_id(1:)
      mycmor%parent_experiment_rip = exp(parent_found)%rip_code(1:)
-     read(exp(exp_found)%run_refdate(1: 4),'(i2.2)') refyear
+     read(exp(exp_found)%run_refdate(1: 4),'(i4.4)') refyear
      mycmor%branch_time = refyear
      read(exp(exp_found)%run_refdate(6: 7),'(i2.2)') refmon
      read(exp(exp_found)%run_refdate(9:10),'(i2.2)') refday
