@@ -87,7 +87,7 @@ case "$PROCHOST" in
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
     ;;
 
-  yslogin* )                                # Yellowstone (geyser) @ CISL/NCAR
+  yslogin* | geyser* )                                # Yellowstone (geyser) @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/glade/apps/opt/nco/4.2.3/gnu/4.7.2/bin/ncks     ; export NCKS
     NCRA=/glade/apps/opt/nco/4.2.3/gnu/4.7.2/bin/ncra     ; export NCRA
