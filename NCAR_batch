@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+#BSUB -J NAME
+#BSUB -n 1
+#BSUB -o log.NAME
+#BSUB -e log.NAME
+#BSUB -q geyser
+#BSUB -W 24:00          # wall-clock time (hrs:mins)
+#BSUB -B
+#BSUB -N
+#BSUB -P 93300014
+#BSUB -u USER@ucar.edu
+#
