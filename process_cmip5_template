@@ -102,9 +102,9 @@ case "$PROCHOST" in
     ;;
 
   mirage* )                                # DASG @ CISL/NCAR
-    PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE
-    DISK_BASE=/glade/data01/CMIP5/CCSM/csm         ; export DISK_BASE
-    ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
+    PROCBASE=/glade/scratch/$USER/$CASE             ; export PROCBASE
+    DISK_BASE=/glade/p/cesm/outputdata/cases/$CASE  ; export DISK_BASE
+    ARCHIVE_BASE=/CCSM/csm                          ; export ARCHIVE_BASE
     SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/contrib/lib:/glade/home/strandwg/lib:/fs/local/lib

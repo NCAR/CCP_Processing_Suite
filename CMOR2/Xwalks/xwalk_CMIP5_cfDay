@@ -16,7 +16,7 @@ CMIP5_cfDay:clw:mass_fraction_of_cloud_liquid_water_in_air:longitude latitude al
 CMIP5_cfDay:clwvi:atmosphere_cloud_condensed_water_content:longitude latitude time:atmos:1:TGCLDLWP:TGCLDLWP no change
 CMIP5_cfDay:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:LHFLX:LHFLX no change
 CMIP5_cfDay:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:SHFLX:SHFLX no change
-CMIP5_cfDay:hur:relative_humidity:longitude latitude alevel time:atmos:2:RELHUM PS:RELHUM on model levels
+CMIP5_cfDay:hur:relative_humidity:longitude latitude alevel time:atmos:2:RHCFMIP PS:RHCFMIP on model levels
 CMIP5_cfDay:hus:specific_humidity:longitude latitude alevel time:atmos:2:Q PS:Q on model levels
 CMIP5_cfDay:mc:atmosphere_net_upward_convective_mass_flux:longitude latitude alevhalf time:atmos:3:CMFMC CMFMCDZM PS:CMFMC + CMFMCDZM on model levels, no change
 CMIP5_cfDay:parasolRefl:toa_bidirectional_reflectance:longitude latitude sza5 time:atmos:1:RFL_PARASOL:RFL_PARASOL no change
@@ -34,7 +34,7 @@ CMIP5_cfDay:rsdt:toa_incoming_shortwave_flux:longitude latitude time:atmos:1:SOL
 CMIP5_cfDay:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:2:FSDSC FSNSC:FSDSC - FSNSC
 CMIP5_cfDay:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:2:FSDS FSNS:FSDS - FSNS
 CMIP5_cfDay:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude latitude time:atmos:2:SOLIN FSNTOAC:SOLIN - FSNTOAC
-CMIP5_cfDay:rsut:toa_outgoing_shortwave_flux:longitude latitude time:atmos:2:SOLIN FSNTOA:SOLIN - FSNTOA
+CMIP5_cfDay:rsut:toa_outgoing_shortwave_flux:longitude latitude time:atmos:1:FSUTOA:FSUTOA
 CMIP5_cfDay:ta700:air_temperature:longitude latitude time p700:atmos:1:T700:T700
 CMIP5_cfDay:ta:air_temperature:longitude latitude alevel time:atmos:2:T PS:T on model levels
 CMIP5_cfDay:ua:eastward_wind:longitude latitude alevel time:atmos:2:U PS:U on model levels

@@ -297,7 +297,7 @@ program cfDay_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('rhs','clivi','clwvi','evspsbl','hfls','hfss','hurs','huss',&
+        case ('rhs','clivi','clwvi','evspsbl','hfls','hfss','hurs','huss','rsut',&
               'prw','psl','ps','rldscs','rlds','rlutcs','rlut','rsdscs','rsds','rsdt',&
               'sci','tas','tasmax','tasmin','tauu','tauv','ts','clt',&
               'albisccp','ccb','cct','clhcalipso','cllcalipso','clmcalipso',&
@@ -645,11 +645,10 @@ program cfDay_CMOR
 !           do ifile = 1,nc_nfiles(1)
  !             call close_cdf(myncid(ifile,1))
  !          enddo
-        case ('rsus','rsuscs','rsut','rsutcs','rtmt')
+        case ('rsus','rsuscs','rsutcs','rtmt')
            !
            ! rsus   : FSDS  - FSNS
            ! rsuscs : FSDSC - FSNSC
-           ! rsut   : SOLIN - FSNTOA
            ! rsutcs : SOLIN - FSNTOAC
            ! rtmt   : FSNT  - FLNT
            !
@@ -786,7 +785,7 @@ program cfDay_CMOR
                                                  5081,5446,5811,6176,6541,6906,7271,7636,8001,8366,8731,9096,9461/)
                     tidx2(1:nchunks(ifile)) = (/  365, 730,1095,1460,1825,2160,2525,2890,3255,3620,3985,4350,4715,5080,5445,&
                                                  5810,6175,6540,6905,7270,7635,8000,8365,8730,9095,9460,9825/)
-                 case ( 2190,3650,4015,9855,9125,1095,10950,6205 )
+                 case ( 2190,3650,4015,9855,9125,1095,10950,6205,7300 )
                     nchunks(ifile) = ntimes(ifile,1)/365
                     tidx1(1) =   1
                     tidx2(1) = 365
@@ -801,9 +800,14 @@ program cfDay_CMOR
                        tidx1(1:nchunks(ifile)) = (/ 731,1096,1461/)
                        tidx2(1:nchunks(ifile)) = (/1095,1460,1825/)
                     else
-                       nchunks(ifile)= 1
-                       tidx1(1:nchunks(ifile)) = (/   1/)
-                       tidx2(1:nchunks(ifile)) = (/1825/)
+                       nchunks(ifile) = ntimes(ifile,1)/365
+                       tidx1(1) =   1
+                       tidx2(1) = 365
+                       do ic = 2,nchunks(ifile)
+                          tidx1(ic) = tidx2(ic-1) + 1
+                          tidx2(ic) = tidx1(ic) + 364
+                       enddo
+                       tidx2(nchunks(ifile)) = ntimes(ifile,1)
                     endif
                  case default
                     nchunks(ifile)= 1

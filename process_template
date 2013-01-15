@@ -92,8 +92,8 @@ case "$PROCHOST" in
     NCKS=/contrib/nco-4.1.0/bin/ncks              ; export NCKS
     NCRA=/contrib/nco-4.1.0/bin/ncra              ; export NCRA
     NCRCAT=/fs/local/bin/ncrcat                   ; export NCRCAT
-    PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/glade/data01/CMIP5/CCSM/csm/$CASE   ; export LOCALDSK
+    PROCBASE=/glade/scratch/$USER/$CASE           ; export PROCBASE
+    LOCALDSK=/glade/p/cesm/outputdata/cases/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
     ;;
 
