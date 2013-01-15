@@ -40,7 +40,7 @@ HOSTNAME=`hostname`
 # execute and save to files
 #
 case "$HOSTNAME" in 
-  silver* | tramhill* | hurricane* | mirage* | euclid* )  # NCAR and NERSC machines
+  silver* | tramhill* | hurricane* | yslogin* | euclid* )  # NCAR and NERSC machines
     LOGFILE=$HOME/CCP_Processing_Suite/log.${CASE}_${HIST}_${ARG3}_process.sh
     if [ -f $LOGFILE ] ; then
       date > ${FILELOG}
