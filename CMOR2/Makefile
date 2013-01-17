@@ -51,14 +51,14 @@ ifeq ($(MACH),modeli)
   HD5LIB  = -L${HD5DIR} -lhdf5_hl -lhdf5 -lz -lm
 endif
 #
-# 'mirage' cluser in CISL
+# 'geyser' CISL
 #
-ifeq ($(MACH),mirage)
-  NCFDIR  = /fs/local/apps/netcdf-4.1.3_pgi
-  UDUDIR  = /fs/local/apps/udunits-2.1.19
-  UIDDIR  = /glade/home/strandwg/software/uuid-1.6.2
+ifeq ($(MACH),yslogi)
+  NCFDIR  = /glade/apps/opt/netcdf/4.2/pgi/default
+  UDUDIR  = /glade/apps/opt/udunits/2.1.24/pgi/12.5
+  UIDDIR  = /glade/u/home/strandwg/software/uuid-1.6.2
   CMRDIR  = /glade/home/strandwg/software/cmor
-  HD5DIR  = /fs/local/apps/hdf5-1.8.7
+  HD5DIR  = /glade/apps/opt/hdf5/1.8.9/pgi/default
   KRBDIR  = /usr/lib64
 #
   NCFINC  = -I${NCFDIR}/include -I./include
