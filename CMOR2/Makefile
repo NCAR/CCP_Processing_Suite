@@ -68,7 +68,7 @@ ifeq ($(MACH),yslogi)
   UDULIB  = -L${UDUDIR}/lib -ludunits2 -lexpat
   UIDINC  = -I${UIDDIR}/include
   UIDLIB  = -L${UIDDIR}/lib -luuid
-  FC	  = /fs/local/bin/pgfortran
+  FC	  = pgf95
   FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -fpic
 endif
 #
