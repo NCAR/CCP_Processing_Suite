@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+#PBS -q thruput
+#PBS -l mppwidth=1
+#PBS -l walltime=24:00:00
+#PBS -N NAME
+#PBS -m abe
+#PBS -e NAME.$PBS_JOBID.err
+#PBS -o NAME.$PBS_JOBID.out
+#PBS -V
+#

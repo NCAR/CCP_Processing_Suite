@@ -97,11 +97,11 @@ case "$PROCHOST" in
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
     ;;
 
-  euclid* )                                # euclid @ NERSC
+  hopper* )                                # hopper @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/global/u2/s/strandwg/bin/ncks     ; export NCKS
-    NCRA=/global/u2/s/strandwg/bin/ncra     ; export NCRA
-    NCRCAT=/global/u2/s/strandwg/bin/ncrcat ; export NCRCAT
+    NCKS=/usr/common/usg/nco/4.0.8/bin/ncks     ; export NCKS
+    NCRA=/usr/common/usg/nco/4.0.8/bin/ncra     ; export NCRA
+    NCRCAT=/usr/common/usg/nco/4.0.8/bin/ncrcat ; export NCRCAT
     PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
     LOCALDSK=/global/scratch/sd/$USER/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
