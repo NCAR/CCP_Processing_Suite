@@ -57,7 +57,7 @@ ifeq ($(MACH),yslogi)
   NCFDIR  = /glade/apps/opt/netcdf/4.2/pgi/default
   UDUDIR  = /glade/apps/opt/udunits/2.1.24/pgi/12.5
   UIDDIR  = /glade/u/home/strandwg/software/uuid-1.6.2
-  CMRDIR  = /glade/home/strandwg/software/cmor
+  CMRDIR  = /glade/u/home/strandwg/software/cmor
   HD5DIR  = /glade/apps/opt/hdf5/1.8.9/pgi/default
   KRBDIR  = /usr/lib64
 #
