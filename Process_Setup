@@ -54,7 +54,7 @@ CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
 rm -f $CCPS_SCRIPT
 #
 case "$PROCHOST" in 
-  silver* | tramhill* | hurricane* | modeling1* )  # Interactive machines
+  silver* | tramhill* | hurricane* | modeling1* | euclid* )  # Interactive machines
     echo "#!/bin/sh" > $CCPS_SCRIPT
     cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
                            | sed -e "s/xxxHISTxxx/$HIST/g" \
