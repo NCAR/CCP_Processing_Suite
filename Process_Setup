@@ -104,7 +104,7 @@ if [ "$DORUN" = "Y" ] ; then
     yslogin* )
       ( /ncar/opt/lsf/8.3/linux2.6-glibc2.3-x86_64/bin/bsub < ./${CCPS_SCRIPT} ) ;;
     hopper* )
-      ( /usr/common/usg/altd/1.0/bin/aprun ./${CCPS_SCRIPT} ) ;;
+      ( /usr/common/nsg/bin/qsub ./${CCPS_SCRIPT} ) ;;
     * )
       ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
   esac
