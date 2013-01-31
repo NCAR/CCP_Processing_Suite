@@ -93,7 +93,7 @@ case "$PROCHOST" in
     NCRA=/glade/apps/opt/nco/4.2.3/gnu/4.7.2/bin/ncra     ; export NCRA
     NCRCAT=/glade/apps/opt/nco/4.2.3/gnu/4.7.2/bin/ncrcat ; export NCRCAT
     PROCBASE=/glade/scratch/$USER/$CASE           ; export PROCBASE
-    LOCALDSK=/glade/p/cesm/shared_outputdata/cases/ccsm4 ; export LOCALDSK
+    LOCALDSK=/glade/p/cesm/shared_outputdata/cases/ccsm4/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
     ;;
 
@@ -273,11 +273,11 @@ echo "BEGIN : procstat"
 #
 # Get archive listing
 #
-ARCHIVE_LIST=archive.$CASE.$HIST
-if [ ! -f $ARCHIVE_LIST ] ; then
-  echo "Getting archival list of "$CASE" "$HIST
-  ./archive_list $ARCHIVE_LIST
-fi
+#ARCHIVE_LIST=archive.$CASE.$HIST
+#if [ ! -f $ARCHIVE_LIST ] ; then
+#  echo "Getting archival list of "$CASE" "$HIST
+#  ./archive_list $ARCHIVE_LIST
+#fi
 #
 while [ $YEARNOW -ge $YEARBEG ] ; do
   ./procstat.sh
