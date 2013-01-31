@@ -93,7 +93,7 @@ case "$PROCHOST" in
     NCRA=/glade/apps/opt/nco/4.2.3/gnu/4.7.2/bin/ncra     ; export NCRA
     NCRCAT=/glade/apps/opt/nco/4.2.3/gnu/4.7.2/bin/ncrcat ; export NCRCAT
     PROCBASE=/glade/scratch/$USER/$CASE           ; export PROCBASE
-    LOCALDSK=/glade/p/cesm/outputdata/cases/$CASE ; export LOCALDSK
+    LOCALDSK=/glade/p/cesm/shared_outputdata/cases/ccsm4 ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
     ;;
 
