@@ -97,7 +97,7 @@ case "$PROCHOST" in
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
     ;;
 
-  hopper* )                                # hopper @ NERSC
+  nid* | hopper* )                                # hopper @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/common/usg/nco/4.0.8/bin/ncks     ; export NCKS
     NCRA=/usr/common/usg/nco/4.0.8/bin/ncra     ; export NCRA

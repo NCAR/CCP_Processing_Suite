@@ -75,7 +75,7 @@ case "$PROCHOST" in
                            | sed -e "s/xxxTPERxxx/$TPER/g" \
                            | sed -e "s/xxxVARSxxx//g" \
                            >> $CCPS_SCRIPT ;;
-  hopper* )                                # hopper @ NERSC
+  nid* | hopper* )                                # hopper @ NERSC
     cat ./NERSC_batch | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
     cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
                            | sed -e "s/xxxHISTxxx/$HIST/g" \

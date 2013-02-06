@@ -5,7 +5,7 @@
 #PBS -l walltime=6:00:00
 #PBS -N NAME
 #PBS -m abe
-#PBS -e NAME.$PBS_JOBID.err
-#PBS -o NAME.$PBS_JOBID.out
+#PBS -e log.NAME
+#PBS -o log.NAME
 #PBS -V
 #
