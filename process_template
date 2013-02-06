@@ -107,16 +107,6 @@ case "$PROCHOST" in
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
     ;;
 
-  euclid* )                                # euclid @ NERSC
-    BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/common/usg/nco/4.0.8/bin/ncks     ; export NCKS
-    NCRA=/usr/common/usg/nco/4.0.8/bin/ncra     ; export NCRA
-    NCRCAT=/usr/common/usg/nco/4.0.8/bin/ncrcat ; export NCRCAT
-    PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/global/scratch/sd/$USER/$CASE ; export LOCALDSK
-    ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
-    ;;
-
   lens* )                                # lens @ ORNL
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/ccs/home/wgstrand/bin/ncks                   ; export NCKS

@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-#PBS -q thruput
+#PBS -q regular
 #PBS -l mppwidth=1
-#PBS -l walltime=24:00:00
+#PBS -l walltime=6:00:00
 #PBS -N NAME
 #PBS -m abe
 #PBS -e NAME.$PBS_JOBID.err
