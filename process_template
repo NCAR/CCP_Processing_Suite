@@ -263,11 +263,11 @@ echo "BEGIN : procstat"
 #
 # Get archive listing
 #
-#ARCHIVE_LIST=archive.$CASE.$HIST
-#if [ ! -f $ARCHIVE_LIST ] ; then
-#  echo "Getting archival list of "$CASE" "$HIST
-#  ./archive_list $ARCHIVE_LIST
-#fi
+ARCHIVE_LIST=archive.$CASE.$HIST
+if [ ! -f $ARCHIVE_LIST ] ; then
+  echo "Getting archival list of "$CASE" "$HIST
+  ./archive_list $ARCHIVE_LIST
+fi
 #
 while [ $YEARNOW -ge $YEARBEG ] ; do
   ./procstat.sh
@@ -360,7 +360,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 #
 # All time splitting should be done now, ready for var_splitting
 #
-    NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
+    NFNC=`echo $CASE.$HIST.????-??.nc | wc -w`
     if [ ${NFNC} -ne 1 ] ; then
       for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??.nc` ; do
         ./var_split $FILE erase
@@ -378,7 +378,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
       done
     fi
 #
-    NFNC=`echo $CASE.$HIST.${YEARNOW}.nc | wc -w`
+    NFNC=`echo $CASE.$HIST.????.nc | wc -w`
     if [ ${NFNC} -ne 1 ] ; then
       for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}.nc` ; do
         ./var_split $FILE erase
