@@ -105,6 +105,12 @@ case "$PROCHOST" in
     PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
     LOCALDSK=/global/scratch/sd/$USER/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
+    if ! [ $LD_LIBRARY_PATH ] ; then
+      LD_LIBRARY_PATH=/usr/common/usg/nco/4.0.8/lib:/opt/pgi/11.9.0/linux86-64/11.9/libso:/opt/pgi/11.9.0/linux86-64/11.9/lib:/opt/cray/hdf5/1.8.5.0/hdf5-pgi/lib:/opt/cray/netcdf/4.1.1.0/netcdf-pgi/lib:/opt/moab/6.1.8/lib
+    else
+      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/common/usg/nco/4.0.8/lib:/opt/pgi/11.9.0/linux86-64/11.9/libso:/opt/pgi/11.9.0/linux86-64/11.9/lib:/opt/cray/hdf5/1.8.5.0/hdf5-pgi/lib:/opt/cray/netcdf/4.1.1.0/netcdf-pgi/lib:/opt/moab/6.1.8/lib
+    fi
+    export LD_LIBRARY_PATH
     ;;
 
   lens* )                                # lens @ ORNL
