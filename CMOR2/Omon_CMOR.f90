@@ -394,7 +394,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = 1
                     tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 60, 1152 ) ! RCP, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
@@ -534,7 +534,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = 1
                     tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 60, 1152 ) ! RCP, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
@@ -1255,7 +1255,7 @@ program Omon_CMOR
                  nchunks(ifile)= 1
                  tidx1(1:nchunks(ifile)) = (/   1/)
                  tidx2(1:nchunks(ifile)) = (/6000/)
-              case ( 60, 1152 ) ! RCP, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
@@ -1395,7 +1395,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = 1
                     tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 60, 1152 ) ! RCP, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
@@ -1543,36 +1543,19 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = 1
                     tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 60 ) ! RCP, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = 13
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-                 else
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = 1
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))
+                    tidx1(1) =  13
+                    tidx2(1) =  60
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 119
+                    enddo
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 1152 )               ! RCP all in one file from 2005-2100
-                 nchunks(ifile) = 10
-                 tidx1(1) =  13
-                 tidx2(1) =  60
-                 do ic = 2,nchunks(ifile)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic) + 119
-                 enddo
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 1872 ) ! 20C from 1850-2005
                  nchunks(ifile) = 16
-                 tidx1(1) =   1
-                 tidx2(1) = 120
-                 do ic = 2,nchunks(ifile)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic) + 119
-                 enddo
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
-              case ( 600 )
-                 nchunks(ifile) = 5
                  tidx1(1) =   1
                  tidx2(1) = 120
                  do ic = 2,nchunks(ifile)
@@ -1683,36 +1666,19 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
-              case ( 60 ) ! RCP, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = 13
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-                 else
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = 1
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))
+                    tidx1(1) =  13
+                    tidx2(1) =  60
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 119
+                    enddo
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 1152 )               ! RCP all in one file from 2005-2100
-                 nchunks(ifile) = 10
-                 tidx1(1) =  13
-                 tidx2(1) =  60
-                 do ic = 2,nchunks(ifile)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic) + 119
-                 enddo
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 1872 ) ! 20C from 1850-2005
                  nchunks(ifile) = 16
-                 tidx1(1) =   1
-                 tidx2(1) = 120
-                 do ic = 2,nchunks(ifile)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic) + 119
-                 enddo
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
-              case ( 600 )
-                 nchunks(ifile) = 5
                  tidx1(1) =   1
                  tidx2(1) = 120
                  do ic = 2,nchunks(ifile)
@@ -1867,35 +1833,19 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = 1
                     tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 60 )               ! RCP from 2005-2009, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = 13
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-                 else
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = 1
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))
+                    tidx1(1) =  13
+                    tidx2(1) =  60
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 119
+                    enddo
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 1152 )               ! RCP all in one file from 2005-2100
-                 nchunks(ifile) = 10
-                 tidx1(1) =  13
-                 tidx2(1) =  60
-                 do ic = 2,nchunks(ifile)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic) + 119
-                 enddo
               case ( 2664 ) ! FASTCHEM piControl from 70-291
                  nchunks(ifile) = 23
-                 tidx1(1) =   1
-                 tidx2(1) = 120
-                 do ic = 2,nchunks(ifile)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic) + 119
-                 enddo
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
-              case ( 600 )
-                 nchunks(ifile) = 5
                  tidx1(1) =   1
                  tidx2(1) = 120
                  do ic = 2,nchunks(ifile)
@@ -2055,35 +2005,19 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = 1
                     tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 60 )               ! RCP from 2005-2009, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = 13
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-                 else
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = 1
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))
+                    tidx1(1) =  13
+                    tidx2(1) =  60
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 119
+                    enddo
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 1152 )               ! RCP all in one file from 2005-2100
-                 nchunks(ifile) = 10
-                 tidx1(1) =  13
-                 tidx2(1) =  60
-                 do ic = 2,nchunks(ifile)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic) + 119
-                 enddo
               case ( 1872 ) ! 20C from 1850-2005
                  nchunks(ifile) = 16
-                 tidx1(1) =   1
-                 tidx2(1) = 120
-                 do ic = 2,nchunks(ifile)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic) + 119
-                 enddo
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
-              case ( 600 )
-                 nchunks(ifile) = 5
                  tidx1(1) =   1
                  tidx2(1) = 120
                  do ic = 2,nchunks(ifile)
@@ -2242,36 +2176,19 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = 1
                     tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 60 )               ! RCP from 2005-2009, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = 13
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-                 else
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = 1
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))
+                    tidx1(1) =  13
+                    tidx2(1) =  60
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 119
+                    enddo
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 1152 )               ! RCP all in one file from 2005-2100
-                 nchunks(ifile) = 10
-                 tidx1(1) =  13
-                 tidx2(1) =  60
-                 do ic = 2,nchunks(ifile)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic) + 119
-                 enddo
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
               case ( 1872 ) ! 20C from 1850-2005
                  nchunks(ifile) = 16
-                 tidx1(1) =   1
-                 tidx2(1) = 120
-                 do ic = 2,nchunks(ifile)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic) + 119
-                 enddo
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
-              case ( 600 )
-                 nchunks(ifile) = 5
                  tidx1(1) =   1
                  tidx2(1) = 120
                  do ic = 2,nchunks(ifile)
@@ -2435,35 +2352,19 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = 1
                     tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 60 )               ! RCP from 2005-2009, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = 13
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-                 else
-                    nchunks(ifile) = 1
-                    tidx1(1:nchunks(ifile)) = 1
-                    tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))
+                    tidx1(1) =  13
+                    tidx2(1) =  60
+                    do ic = 2,nchunks(ifile)
+                       tidx1(ic) = tidx2(ic-1) + 1
+                       tidx2(ic) = tidx1(ic) + 119
+                    enddo
+                    tidx2(nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 1152 )               ! RCP all in one file from 2005-2100
-                 nchunks(ifile) = 10
-                 tidx1(1) =  13
-                 tidx2(1) =  60
-                 do ic = 2,nchunks(ifile)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic) + 119
-                 enddo
               case ( 1872 ) ! 20C from 1850-2005
                  nchunks(ifile) = 16
-                 tidx1(1) =   1
-                 tidx2(1) = 120
-                 do ic = 2,nchunks(ifile)
-                    tidx1(ic) = tidx2(ic-1) + 1
-                    tidx2(ic) = tidx1(ic) + 119
-                 enddo
-                 tidx2(nchunks(ifile)) = ntimes(ifile,1)
-              case ( 600 )
-                 nchunks(ifile) = 5
                  tidx1(1) =   1
                  tidx2(1) = 120
                  do ic = 2,nchunks(ifile)
@@ -2631,7 +2532,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = 1
                     tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
@@ -2785,7 +2686,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = 1
                     tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
@@ -2945,7 +2846,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = (/   1, 6001/)
                     tidx2(1:nchunks(ifile)) = (/6000,12012/)
                  endif
-              case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
@@ -4896,7 +4797,7 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
-              case ( 1140, 1872, 2664, 2388, 2400 )
+              case ( 1872, 2664, 2388, 2400 )
                  nchunks(ifile)= 1
                  tidx1(1:nchunks(ifile)) =  1
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
@@ -4959,7 +4860,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = 1
                     tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
@@ -5077,7 +4978,7 @@ program Omon_CMOR
               time = (time_bnds(1,:)+time_bnds(2,:))/2.
               !
               select case (ntimes(ifile,1))
-              case ( 1140, 1872, 2664, 2388, 2400 )
+              case ( 1872, 2664, 2388, 2400 )
                  nchunks(ifile)= 1
                  tidx1(1:nchunks(ifile)) =  1
                  tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
@@ -5140,7 +5041,7 @@ program Omon_CMOR
                     tidx1(1:nchunks(ifile)) = 1
                     tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
                  endif
-              case ( 60,1152 ) ! 2005 -> 2009 or 2100 of RCP, skip 2005
+              case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
                     nchunks(ifile) = 1
                     tidx1(1:nchunks(ifile)) = 13
