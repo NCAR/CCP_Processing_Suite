@@ -1545,7 +1545,7 @@ program Omon_CMOR
                  endif
               case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
-                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))
+                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))+1
                     tidx1(1) =  13
                     tidx2(1) =  60
                     do ic = 2,nchunks(ifile)
@@ -1668,7 +1668,7 @@ program Omon_CMOR
               select case (ntimes(ifile,1))
               case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
-                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))
+                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))+1
                     tidx1(1) =  13
                     tidx2(1) =  60
                     do ic = 2,nchunks(ifile)
@@ -1835,7 +1835,7 @@ program Omon_CMOR
                  endif
               case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
-                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))
+                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))+1
                     tidx1(1) =  13
                     tidx2(1) =  60
                     do ic = 2,nchunks(ifile)
@@ -2007,7 +2007,7 @@ program Omon_CMOR
                  endif
               case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
-                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))
+                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))+1
                     tidx1(1) =  13
                     tidx2(1) =  60
                     do ic = 2,nchunks(ifile)
@@ -2178,7 +2178,7 @@ program Omon_CMOR
                  endif
               case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
-                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))
+                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))+1
                     tidx1(1) =  13
                     tidx2(1) =  60
                     do ic = 2,nchunks(ifile)
@@ -2354,7 +2354,7 @@ program Omon_CMOR
                  endif
               case ( 60, 1152, 1140, 552, 600, 612 ) ! RCPs, skip 2005
                  if (exp(exp_found)%runbeg==2005) then
-                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))
+                    nchunks(ifile) = nint((float(ntimes(ifile,1))/120.))+1
                     tidx1(1) =  13
                     tidx2(1) =  60
                     do ic = 2,nchunks(ifile)
