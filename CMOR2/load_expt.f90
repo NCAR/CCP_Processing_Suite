@@ -298,6 +298,8 @@ subroutine load_exp(exp_file)
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
      case ('PlioExp2a')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
+     case ('AEROCOM-A2-CTRL')
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
      end select
   enddo
   !

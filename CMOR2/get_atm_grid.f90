@@ -24,6 +24,11 @@ subroutine get_atm_grid
      gridfile = 'atm_grid_cam5_f09.nc'
   case ('CESM1-CAM5.1-FV2')
      gridfile = 'atm_grid_cam5_f19.nc'
+  case ('CCSM4')
+     gridfile = 'atm_grid_cam4_f09.nc'
+     if (exp(exp_found)%expt_id == 'AEROCOM-A2-CTRL') then
+        gridfile = 'atm_grid_cam4_f19_56L.nc'
+     endif
   case default
      gridfile = 'atm_grid_cam4_f09.nc'
   end select

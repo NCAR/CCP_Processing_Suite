@@ -15,7 +15,8 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
   select case (table)
   case ('Tables/CMIP5_Amon','Tables/CMIP5_Lmon','Tables/CMIP5_LImon','Tables/CMIP5_Omon','Tables/CMIP5_OImon','Tables/CMIP5_aero','Tables/CMIP5_cfMon',&
         'Tables/PMIP3_Amon','Tables/PMIP3_Lmon','Tables/PMIP3_LImon','Tables/PMIP3_Omon','Tables/PMIP3_OImon',&
-        'Tables/GeoMIP_Amon','Tables/GeoMIP_Lmon','Tables/GeoMIP_LImon','Tables/GeoMIP_Omon','Tables/GeoMIP_OImon','Tables/GeoMIP_aero','Tables/GeoMIP_cfMon')
+        'Tables/GeoMIP_Amon','Tables/GeoMIP_Lmon','Tables/GeoMIP_LImon','Tables/GeoMIP_Omon','Tables/GeoMIP_OImon','Tables/GeoMIP_aero','Tables/GeoMIP_cfMon',&
+        'Tables/AEROCOM-ACC_2D-M','Tables/AEROCOM-ACC_3D-M')
      ndt = 1 ; dtbeg(1) = '01' ; dtend(1) = '12'
   case ('Tables/CMIP5_day','Tables/CMIP5_cfDay','Tables/GeoMIP_day','Tables/GeoMIP_cfDay','Tables/PMIP3_day')
      ndt = 2
@@ -90,24 +91,40 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
 !     if (all_continue) write(*,'('' files: '',100(a))') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
   case default
      exists = .false.
-     do year1 = runbeg,runend
-        do year2 = runend,year1,-1
-           do idt = 1,ndt
-!              write(*,'(''dtbeg, dtend: '',i4,5x,a,10x,a)') idt,trim(dtbeg(idt)),trim(dtend(idt))
-              write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
-                   trim(case),&
-                   trim(comp),&
-                   trim(cesm_var),&
-                   year1,trim(dtbeg(idt)),&
-                   year2,trim(dtend(idt))
-              inquire(file=checkname,exist=exists)
-              if (exists) then
-                 nc_nfiles(ivar) = nc_nfiles(ivar) + 1
-                 ncfile(nc_nfiles(ivar),ivar) = checkname
-              endif
+     if (runbeg .ne. runend) then
+        do year1 = runbeg,runend
+           do year2 = runend,year1,-1
+              do idt = 1,ndt
+                 !              write(*,'(''dtbeg, dtend: '',i4,5x,a,10x,a)') idt,trim(dtbeg(idt)),trim(dtend(idt))
+                 write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
+                      trim(case),&
+                      trim(comp),&
+                      trim(cesm_var),&
+                      year1,trim(dtbeg(idt)),&
+                      year2,trim(dtend(idt))
+                 inquire(file=checkname,exist=exists)
+                 write(*,'(''build_filenames: '',a,5x,i4,5x)') trim(checkname),year1
+                 if (exists) then
+                    nc_nfiles(ivar) = nc_nfiles(ivar) + 1
+                    ncfile(nc_nfiles(ivar),ivar) = checkname
+                 endif
+              enddo
            enddo
         enddo
-     enddo
+     else
+        write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
+             trim(case),&
+             trim(comp),&
+             trim(cesm_var),&
+             runbeg,trim(dtbeg(1)),&
+             runend,trim(dtend(1))
+        inquire(file=checkname,exist=exists)
+        write(*,'(''build_filenames: '',a,5x,i4,5x)') trim(checkname),year1
+        if (exists) then
+           nc_nfiles(ivar) = nc_nfiles(ivar) + 1
+           ncfile(nc_nfiles(ivar),ivar) = checkname
+        endif
+     endif
      !
      all_continue = all_continue.and.(nc_nfiles(ivar) /= 0)
      write(*,*) 'build_filenames all_continue: ',all_continue

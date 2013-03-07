@@ -52,7 +52,12 @@ subroutine get_cmor_info
   mycmor%outpath       = 'CMOR'
   mycmor%experiment_id = exp(exp_found)%expt_id(1:)
   mycmor%source        = trim(exp(exp_found)%model_id)
-  mycmor%calendar      = 'noleap'
+  select case (exp(exp_found)%expt_id)
+  case ('AEROCOM-A2-CTRL')
+     mycmor%calendar      = 'gregorian'
+  case default
+     mycmor%calendar      = 'noleap'
+  end select
   mycmor%contact       = 'cesm_data@ucar.edu'
   mycmor%history       = ' '
   mycmor%comment       = ' '

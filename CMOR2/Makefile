@@ -125,6 +125,7 @@ OBJ	= mymods.o \
 	  parse_rip.o \
 	  dphybrid.o \
 	  vertintp.o \
+	  pres_hybrid_ccm.o \
 	  parse_ncfile.o \
 	  get_ice_grid.o \
 	  get_ocn_grid.o \
@@ -133,11 +134,20 @@ OBJ	= mymods.o \
 
 all:	  Amon_CMOR 3hrSlev_CMOR 3hrMlev_CMOR 3hrCurt_CMOR 3hrPlev_CMOR sites_CMOR day_CMOR Lmon_CMOR \
 	  LImon_CMOR OImon_CMOR Omon_CMOR fx_CMOR 6hrLev_CMOR 6hrPlev_CMOR 3hr_CMOR.f90 aero_CMOR \
-	  cfMon_CMOR cfDay_CMOR cf3hr_CMOR Oyr_CMOR cfSites_CMOR
+	  cfMon_CMOR cfDay_CMOR cf3hr_CMOR Oyr_CMOR cfSites_CMOR \
+          A2DM_CMOR A3DM_CMOR
 
 Amon_CMOR: $(OBJ) Amon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Amon_CMOR.o \
 	-o $(EXEDIR)/Amon_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
+
+A2DM_CMOR: $(OBJ) A2DM_CMOR.o
+	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) A2DM_CMOR.o \
+	-o $(EXEDIR)/2D-M_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
+
+A3DM_CMOR: $(OBJ) A3DM_CMOR.o
+	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) A3DM_CMOR.o \
+	-o $(EXEDIR)/3D-M_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
 
 cfMon_CMOR: $(OBJ) cfMon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) cfMon_CMOR.o \
@@ -240,6 +250,9 @@ file_output_times.o: file_output_times.f90 mymods.o
 vertintp.o: vertintp.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c vertintp.f90
 
+pres_hybrid_ccm.o: pres_hybrid_ccm.f90 mymods.o
+	$(FC) $(FFLAGS) $(NCFINC) -c pres_hybrid_ccm.f90
+
 dphybrid.o: dphybrid.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c dphybrid.f90
 
@@ -293,6 +306,12 @@ handle_err.o: handle_err.f90
 
 Amon_CMOR.o: Amon_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c Amon_CMOR.f90
+
+A2DM_CMOR.o: A2DM_CMOR.f90 $(OBJ)
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c A2DM_CMOR.f90
+
+A3DM_CMOR.o: A3DM_CMOR.f90 $(OBJ)
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c A3DM_CMOR.f90
 
 cfMon_CMOR.o: cfMon_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c cfMon_CMOR.f90
