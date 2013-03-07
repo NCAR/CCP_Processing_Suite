@@ -110,7 +110,7 @@ end module files_info
 !
 module grid_info
   real,dimension(:),    allocatable::atm_lats,atm_lons,atm_levs,atm_levs_bnds,atm_ilevs,atm_ilevs_bnds
-  real,dimension(:),    allocatable::cosp_tau,cosp_prs,cosp_ht,cosp_dbze,cosp_sza
+  real,dimension(:),    allocatable::cosp_tau,cosp_prs,cosp_ht,cosp_dbze,cosp_sza,gaussian_wts
   real,dimension(:),    allocatable::atm_plev23,atm_plev17,atm_plev8,atm_plev7,atm_plev7_bnds,atm_plev3
   real,dimension(:,:),  allocatable::atm_lats_bnds,atm_lons_bnds,landfrac,phis
   real,dimension(:,:),  allocatable::cosp_tau_bnds,cosp_prs_bnds,cosp_ht_bnds,cosp_dbze_bnds
