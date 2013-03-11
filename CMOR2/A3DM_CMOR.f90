@@ -19,13 +19,24 @@ program A3DM_CMOR
   implicit none
   !
   real,parameter::spval = 1.e20
-  real,parameter::co2_scale = 28.966/44.
+  real,parameter::grav  = 9.81
+  real,parameter::pi    = 4.*(atan(1.))
+  !
+  real,parameter::mw_dryair = 28.97e-3  ! kg/mole
+  ! SOA components molecular weights
+  real,parameter::mw_soam = 120.1100 ! kg/mole
+  real,parameter::mw_soai =  60.0550 ! kg/mole
+  real,parameter::mw_soat =  84.077  ! kg/mole
+  real,parameter::mw_soab =  72.0660 ! kg/mole
+  real,parameter::mw_soax =  96.0880 ! kg/mole
   !
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag,cmor_var_id
-  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,cmordat2d,psdata,tsdata,delta_ps,ps_hybrid
+  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,cmordat2d
   real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,indat3d,indat3e,cmordat3d,work3da,work3db
+  real,dimension(:,:)  ,allocatable::psdata,tsdata,rho
+  real,dimension(:,:,:),allocatable::pshybrid,psdelta
   double precision,dimension(:)  ,allocatable::time
   double precision,dimension(:,:),allocatable::time_bnds
   double precision,dimension(1)  ::tval
@@ -201,13 +212,17 @@ program A3DM_CMOR
         ! Make manual alterations so that CMOR works. Silly code!
         !
         if (xw(ixw)%ncesm_vars == 1) write(original_name,'(a)') xw(ixw)%cesm_vars(1)
-        if (xw(ixw)%ncesm_vars == 2) write(original_name,'(a,'','',a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
-        if (xw(ixw)%ncesm_vars == 3) write(original_name,'(a,'','',a,'','',a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars == 2) write(original_name,'(a,'','',a)')    (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars == 3) write(original_name,'(2(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars == 4) write(original_name,'(3(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars == 5) write(original_name,'(4(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars == 6) write(original_name,'(5(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars == 7) write(original_name,'(6(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
         !
         ! Modify units as necessary to accomodate udunits' inability to convert 
         !
         select case (xw(ixw)%entry)
-        case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs','mc')
+        case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs','mc','wet3Dss')
            mycmor%positive = 'up'
         case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt')
            mycmor%positive = 'down'
@@ -477,9 +492,12 @@ program A3DM_CMOR
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
            ! break up into nicely-sized chunks along time
            !
-           allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),indat3c(nlons,nlats,nlevs),indat3d(nlons,nlats,nlevs),indat3e(nlons,nlats,nlevs))
-           allocate(psdata(nlons,nlats))
-           allocate(cmordat3d(nlons,nlats,nlevs))
+           ! nc1:SOAM nc2:SOAI nc3:SOAT nc4:SOAB nc5:SOAX 
+           !
+           allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),indat3c(nlons,nlats,nlevs))
+           allocate(indat3d(nlons,nlats,nlevs),indat3e(nlons,nlats,nlevs))
+           allocate(psdata(nlons,nlats),tsdata(nlons,nlats))
+           allocate(cmordat3d(nlons,nlats,nlevs),pshybrid(nlons,nlats,nlevs),psdelta(nlons,nlats,nlevs))
            !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
@@ -514,7 +532,22 @@ program A3DM_CMOR
                     call read_var(myncid(ifile,4),var_info(var_found(ifile,4))%name,indat3d)
                     call read_var(myncid(ifile,5),var_info(var_found(ifile,5))%name,indat3e)
                     call read_var(myncid(ifile,6),var_info(var_found(ifile,6))%name,psdata)
-                    cmordat3d = indat3a + indat3b + indat3c + indat3d + indat3e
+!!$                    call read_var(myncid(ifile,7),var_info(var_found(ifile,7))%name,tsdata)
+!!$                    ! Convert to kg m-2 s-1
+!!$                    indat3a = indat3a * (mw_soam / mw_dryair)
+!!$                    indat3b = indat3b * (mw_soai / mw_dryair)
+!!$                    indat3c = indat3c * (mw_soat / mw_dryair)
+!!$                    indat3d = indat3d * (mw_soab / mw_dryair)
+!!$                    indat3e = indat3e * (mw_soax / mw_dryair)
+!!$                    !
+!!$                    call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
+!!$                    do k = 1,nlevs-1
+!!$                       psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
+!!$                    enddo
+                    !
+!!$                    cmordat3d = (indat3a + indat3b + indat3c + indat3d + indat3e)*(psdelta/grav)
+                    cmordat3d = (indat3a + indat3b + indat3c + indat3d + indat3e)
+                    !
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
                          var_id        = cmor_var_id,   &

@@ -3,9 +3,9 @@
 !
 module max_parms
   !
-  integer,parameter::max_entries   = 150000
+  integer,parameter::max_entries   =   1500
   integer,parameter::max_exprmnt   =   1000
-  integer,parameter::max_cesm_vars =      6
+  integer,parameter::max_cesm_vars =     10
   integer,parameter::max_ncfiles   =    110
   integer,parameter::max_nchunks   =   1000
 !  integer,parameter::max_ntimes    = 400000

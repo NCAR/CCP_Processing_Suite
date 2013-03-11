@@ -279,7 +279,7 @@ program Amon_CMOR
         select case (xw(ixw)%entry)
         case ('ccb','cct','clivi','clwvi','evspsbl','hfls','hfss','hurs','huss',&
              'prw','psl','ps','rldscs','rlds','rlutcs','rsdscs','rsds','rsdt',&
-             'sci','tas','tasmax','tasmin','tauu','tauv','ts','ci','clt')
+             'sci','tas','tasmax','tasmin','tauu','tauv','ts','ci','clt','sfcWind')
            !
            ! No change
            !

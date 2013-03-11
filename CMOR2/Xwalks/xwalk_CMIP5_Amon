@@ -57,7 +57,7 @@ CMIP5_Amon:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude latit
 CMIP5_Amon:rtmt:net_downward_radiative_flux_at_top_of_atmosphere_model:longitude latitude time:atmos:2:FSNT FLNT:FSNT - FLNT
 CMIP5_Amon:sbl:surface_snow_and_ice_sublimation_flux:longitude latitude time:atmos:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_Amon:sci:shallow_convection_time_fraction:longitude latitude time:atmos:1:FREQSH:FREQSH no change
-CMIP5_Amon:sfcWind:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_Amon:sfcWind:wind_speed:longitude latitude time height10m:atmos:1:U10:U10 no change
 CMIP5_Amon:ta:air_temperature:longitude latitude plevs time:atmos:2:T PS:T interpolated to standard plevs
 CMIP5_Amon:tasAdjust:air_temperature:longitude latitude time height2m:atmos:0:UNKNOWN:UNKNOWN
 CMIP5_Amon:tas:air_temperature:longitude latitude time height2m:atmos:1:TREFHT:TREFHT no change
