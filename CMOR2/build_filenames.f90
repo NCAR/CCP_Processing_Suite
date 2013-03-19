@@ -16,7 +16,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
   case ('Tables/CMIP5_Amon','Tables/CMIP5_Lmon','Tables/CMIP5_LImon','Tables/CMIP5_Omon','Tables/CMIP5_OImon','Tables/CMIP5_aero','Tables/CMIP5_cfMon',&
         'Tables/PMIP3_Amon','Tables/PMIP3_Lmon','Tables/PMIP3_LImon','Tables/PMIP3_Omon','Tables/PMIP3_OImon',&
         'Tables/GeoMIP_Amon','Tables/GeoMIP_Lmon','Tables/GeoMIP_LImon','Tables/GeoMIP_Omon','Tables/GeoMIP_OImon','Tables/GeoMIP_aero','Tables/GeoMIP_cfMon',&
-        'Tables/AEROCOM-ACC_2D-M','Tables/AEROCOM-ACC_3D-M')
+        'Tables/AEROCOM-ACC_2D-M','Tables/AEROCOM-ACC_3D-M','Tables/AEROCOM-ACC_2D-I')
      ndt = 1 ; dtbeg(1) = '01' ; dtend(1) = '12'
   case ('Tables/CMIP5_day','Tables/CMIP5_cfDay','Tables/GeoMIP_day','Tables/GeoMIP_cfDay','Tables/PMIP3_day')
      ndt = 2
@@ -119,7 +119,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
              runbeg,trim(dtbeg(1)),&
              runend,trim(dtend(1))
         inquire(file=checkname,exist=exists)
-!        write(*,'(''build_filenames: '',a,5x,i4,5x)') trim(checkname),year1
+        write(*,'(''build_filenames: '',a,5x,i4,5x)') trim(checkname),year1
         if (exists) then
            nc_nfiles(ivar) = nc_nfiles(ivar) + 1
            ncfile(nc_nfiles(ivar),ivar) = checkname

@@ -6,7 +6,7 @@ AEROCOM-ACC_3D-M:cheaqpH2O2so4:tendency_of_atmosphere_mass_content_of_sulfate_dr
 AEROCOM-ACC_3D-M:cheaqpO3so4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 AEROCOM-ACC_3D-M:cheaqpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 AEROCOM-ACC_3D-M:chegpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time:atmos:3:SO4_CHMP PS TS:SO4_CHMP on model levels
-AEROCOM-ACC_3D-M:chegpsoa:tendency_of_atmosphere_mass_content_of_secondary_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_3D-M:chegpsoa:tendency_of_atmosphere_mass_content_of_secondary_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time:atmos:7:SOAM_PROD SOAI_PROD SOAT_PROD SOAB_PROD SOAX_PROD PS TS:SOAM_PROD+SOAI_PROD+SOAT_PROD+SOAB_PROD+SOAX_PROD on model levels
 AEROCOM-ACC_3D-M:clt3D:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:2:CLOUD PS:CLOUD on model levels, no change
 AEROCOM-ACC_3D-M:cod3D:atmosphere_optical_thickness_due_to_cloud:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 AEROCOM-ACC_3D-M:conccnmode01:number_concentration_of_ambient_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
@@ -35,25 +35,24 @@ AEROCOM-ACC_3D-M:mmrpoa:mass_fraction_of_primary_particulate_organic_matter_dry_
 AEROCOM-ACC_3D-M:mmrso4:mass_fraction_of_sulfate_dry_aerosol_in_air:longitude latitude alevel time:atmos:3:SO4 PS TS:SO4 on model levels
 AEROCOM-ACC_3D-M:mmrsoa:mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time:atmos:7:SOAM SOAI SOAT SOAB SOAX PS TS:SOAM+SOAI+SOAT+SOAB+SOAX on model levels
 AEROCOM-ACC_3D-M:mmrss:mass_fraction_of_seasalt_dry_aerosol_in_air:longitude latitude alevel time:atmos:6:SSLT01 SSLT02 SSLT03 SSLT04 PS TS:SSLT01+SSLT02+SSLT03+SSLT04 on model levels
-AEROCOM-ACC_3D-M:mmrtr01:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr02:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr03:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr04:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr05:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr06:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr07:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr08:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr09:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr100:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr10:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr11:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr12:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr13:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr14:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr15:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr16:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr17:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:mmrtr18:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_3D-M:mmrtr01:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:CB1 PS:CB1
+AEROCOM-ACC_3D-M:mmrtr02:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:CB2 PS:CB2
+AEROCOM-ACC_3D-M:mmrtr03:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:DST01 PS:DST01
+AEROCOM-ACC_3D-M:mmrtr04:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:DST02 PS:DST02
+AEROCOM-ACC_3D-M:mmrtr05:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:DST03 PS:DST03
+AEROCOM-ACC_3D-M:mmrtr06:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:DST04 PS:DST04
+AEROCOM-ACC_3D-M:mmrtr07:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:OC1 PS:OC1
+AEROCOM-ACC_3D-M:mmrtr08:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:OC2 PS:OC2
+AEROCOM-ACC_3D-M:mmrtr09:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:SO4 PS:SO4
+AEROCOM-ACC_3D-M:mmrtr10:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:SOAB PS:SOAB
+AEROCOM-ACC_3D-M:mmrtr11:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:SOAI PS:SOAI
+AEROCOM-ACC_3D-M:mmrtr12:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:SOAM PS:SOAM
+AEROCOM-ACC_3D-M:mmrtr13:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:SOAT PS:SOAT
+AEROCOM-ACC_3D-M:mmrtr14:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:SOAX PS:SOAX
+AEROCOM-ACC_3D-M:mmrtr15:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:SSLT01 PS:SSLT01
+AEROCOM-ACC_3D-M:mmrtr16:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:SSLT02 PS:SSLT02
+AEROCOM-ACC_3D-M:mmrtr17:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:SSLT03 PS:SSLT03
+AEROCOM-ACC_3D-M:mmrtr18:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:SSLT04 PS:SSLT04
 AEROCOM-ACC_3D-M:mmrtr19:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 AEROCOM-ACC_3D-M:mmrtr20:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 AEROCOM-ACC_3D-M:mmrtr21:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
@@ -135,6 +134,7 @@ AEROCOM-ACC_3D-M:mmrtr96:mass_fraction_of_tracer_dry_aerosol_in_air:longitude la
 AEROCOM-ACC_3D-M:mmrtr97:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 AEROCOM-ACC_3D-M:mmrtr98:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 AEROCOM-ACC_3D-M:mmrtr99:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_3D-M:mmrtr100:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 AEROCOM-ACC_3D-M:nucpn:tendency_of_atmosphere_number_content_of_aerosol_due_to_nucleation:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 AEROCOM-ACC_3D-M:pressure:atmospheric_pressure:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 AEROCOM-ACC_3D-M:ps:surface_air_pressure:longitude latitude time:atmos:1:PS:PS no change

@@ -23,12 +23,14 @@ program A3DM_CMOR
   real,parameter::pi    = 4.*(atan(1.))
   !
   real,parameter::mw_dryair = 28.97e-3  ! kg/mole
+  ! SO4 molecular weight
+  real,parameter::mw_so4    = 96.06
   ! SOA components molecular weights
-  real,parameter::mw_soam = 120.1100 ! kg/mole
-  real,parameter::mw_soai =  60.0550 ! kg/mole
-  real,parameter::mw_soat =  84.077  ! kg/mole
-  real,parameter::mw_soab =  72.0660 ! kg/mole
-  real,parameter::mw_soax =  96.0880 ! kg/mole
+  real,parameter::mw_soam = 120.110
+  real,parameter::mw_soai =  60.055
+  real,parameter::mw_soat =  84.077 
+  real,parameter::mw_soab =  72.066
+  real,parameter::mw_soax =  96.088
   !
   !  uninitialized variables used in communicating with CMOR:
   !
@@ -222,15 +224,18 @@ program A3DM_CMOR
         ! Modify units as necessary to accomodate udunits' inability to convert 
         !
         select case (xw(ixw)%entry)
-        case ('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs','mc','wet3Dss')
-           mycmor%positive = 'up'
+        case ('wet3Ddu','wet3Dso4')
+           mycmor%positive = 'down'
+        case ('wet3Dhno3','wet3Doa','wet3Dss')
+           mycmor%positive = 'down'
+           var_info(var_found(1,1))%units = 'kg m-2 s-1'
         case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt')
            mycmor%positive = 'down'
         case ('clt','ci','sci')
            var_info(var_found(1,1))%units = '1'
-        case ('hurs','cl')
+        case ('hurs','clt3D')
            var_info(var_found(1,1))%units = '%'
-        case ('prc','pr','prsn')
+        case ('chegpso4','chegpsoa')
            var_info(var_found(1,1))%units = 'kg m-2 s-1'
         end select
         !
@@ -333,7 +338,7 @@ program A3DM_CMOR
                  endif
               endif
            enddo
-        case ('mmrbc','mmrpoa')
+        case ('mmrbc')
            !
            ! Sum two fields
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
@@ -373,6 +378,81 @@ program A3DM_CMOR
                     call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
                     call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,psdata)
                     cmordat3d = indat3a + indat3b
+                    tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(        &
+                         var_id        = cmor_var_id,   &
+                         data          = cmordat3d,     &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                    error_flag = cmor_write(        &
+                         var_id        = zfactor_id,&
+                         data          = psdata,   &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd,      &
+                         store_with    = cmor_var_id)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 !
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              enddo
+           enddo
+        case ('mmrpoa')
+           !
+           ! Sum two fields, 1.4X scale factor too
+           ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
+           ! break up into nicely-sized chunks along time
+           !
+           allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),psdata(nlons,nlats))
+           allocate(cmordat3d(nlons,nlats,nlevs))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
+           ! Determine amount of data to write, to keep close to ~4 GB limit
+           !
+           do ifile = 1,nc_nfiles(1)
+              select case(ntimes(ifile,1))
+              case default
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
+                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,psdata)
+                    cmordat3d = (indat3a + indat3b)*1.4
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
                          var_id        = cmor_var_id,   &
@@ -486,7 +566,7 @@ program A3DM_CMOR
                  endif
               enddo
            enddo
-        case ('mmrsoa')
+        case ('mmrsoa','chegpsoa')
            !
            ! Sum five fields
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
@@ -532,26 +612,189 @@ program A3DM_CMOR
                     call read_var(myncid(ifile,4),var_info(var_found(ifile,4))%name,indat3d)
                     call read_var(myncid(ifile,5),var_info(var_found(ifile,5))%name,indat3e)
                     call read_var(myncid(ifile,6),var_info(var_found(ifile,6))%name,psdata)
-!!$                    call read_var(myncid(ifile,7),var_info(var_found(ifile,7))%name,tsdata)
-!!$                    ! Convert to kg m-2 s-1
-!!$                    indat3a = indat3a * (mw_soam / mw_dryair)
-!!$                    indat3b = indat3b * (mw_soai / mw_dryair)
-!!$                    indat3c = indat3c * (mw_soat / mw_dryair)
-!!$                    indat3d = indat3d * (mw_soab / mw_dryair)
-!!$                    indat3e = indat3e * (mw_soax / mw_dryair)
-!!$                    !
-!!$                    call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
-!!$                    do k = 1,nlevs-1
-!!$                       psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
-!!$                    enddo
+                    call read_var(myncid(ifile,7),var_info(var_found(ifile,7))%name,tsdata)
+                    ! Convert to kg m-2 s-1
+                    indat3a = indat3a * (mw_soam / mw_dryair)
+                    indat3b = indat3b * (mw_soai / mw_dryair)
+                    indat3c = indat3c * (mw_soat / mw_dryair)
+                    indat3d = indat3d * (mw_soab / mw_dryair)
+                    indat3e = indat3e * (mw_soax / mw_dryair)
                     !
-!!$                    cmordat3d = (indat3a + indat3b + indat3c + indat3d + indat3e)*(psdelta/grav)
-                    cmordat3d = (indat3a + indat3b + indat3c + indat3d + indat3e)
+                    call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
+                    do k = 1,nlevs-1
+                       psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
+                    enddo
+                    !
+                    cmordat3d = (indat3a + indat3b + indat3c + indat3d + indat3e)*(psdelta/grav)
+!!$                    cmordat3d = (indat3a + indat3b + indat3c + indat3d + indat3e)
                     !
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
                          var_id        = cmor_var_id,   &
                          data          = cmordat3d,     &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                    error_flag = cmor_write(        &
+                         var_id        = zfactor_id,&
+                         data          = psdata,   &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd,      &
+                         store_with    = cmor_var_id)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 !
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              enddo
+           enddo
+        case ('chegps04')
+           !
+           ! Just one field
+           !
+           allocate(indat3a(nlons,nlats,nlevs))
+           allocate(psdata(nlons,nlats),tsdata(nlons,nlats))
+           allocate(cmordat3d(nlons,nlats,nlevs),pshybrid(nlons,nlats,nlevs),psdelta(nlons,nlats,nlevs))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
+           ! Determine amount of data to write, to keep close to ~4 GB limit
+           !
+           do ifile = 1,nc_nfiles(1)
+              select case(ntimes(ifile,1))
+              case default
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,psdata)
+                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,tsdata)
+                    ! Convert to kg m-2 s-1
+                    indat3a = indat3a * mw_so4 * 1.e-3 * 6.022e23
+                    !
+                    call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
+                    do k = 1,nlevs-1
+                       psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
+                    enddo
+                    !
+                    cmordat3d = indat3a*(psdelta/grav)
+                    !
+                    tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(        &
+                         var_id        = cmor_var_id,   &
+                         data          = cmordat3d,     &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                    error_flag = cmor_write(        &
+                         var_id        = zfactor_id,&
+                         data          = psdata,   &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd,      &
+                         store_with    = cmor_var_id)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 !
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              enddo
+           enddo
+        case ('wet3Doa')
+           !
+           ! 1.4X scale factor
+           ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
+           ! break up into nicely-sized chunks along time
+           !
+           allocate(indat3a(nlons,nlats,nlevs),psdata(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
+           ! Determine amount of data to write, to keep close to ~4 GB limit
+           !
+           do ifile = 1,nc_nfiles(1)
+              select case(ntimes(ifile,1))
+              case default
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,psdata)
+                    where (abs(indat3a) > spval)
+                       indat3a = spval
+                    elsewhere
+                       indat3a = indat3a * 1.4
+                    endwhere
+                    where (abs(psdata) > spval)
+                       psdata = spval
+                    endwhere
+                    tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(        &
+                         var_id        = cmor_var_id,   &
+                         data          = indat3a,   &
                          ntimes_passed = 1,         &
                          time_vals     = tval,      &
                          time_bnds     = tbnd)

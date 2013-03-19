@@ -94,7 +94,7 @@ case "$TABL" in
       * )
         GRIDF=ice_grid_gx1.nc ;;
     esac ;;
-  2D-M | 3D-M )
+  2D-M | 3D-M | 2D-I )
     case "$MOD" in
       * )
         GRIDF=atm_grid_cam4_f19_56L.nc ;;
