@@ -243,18 +243,15 @@ case "$TPER" in
     ;;
 esac
 #
-ln -s -f $BASEDIR/archive_list         .
-ln -s -f $BASEDIR/archive_read         .
-ln -s -f $BASEDIR/archive_write        .
-ln -s -f $BASEDIR/var_split        .
-ln -s -f $BASEDIR/var_mon_to_year  .
-ln -s -f $BASEDIR/var_year_to_dec  .
-ln -s -f $BASEDIR/var_year_to_all  .
-ln -s -f $BASEDIR/var_dec_to_cen   .
-ln -s -f $BASEDIR/concatenate_data .
-ln -s -f $BASEDIR/store_to_archive .
-ln -s -f $BASEDIR/annual_averages  .
-ln -s -f $BASEDIR/procstat.sh      .
+ln -s -f $BASEDIR/archive_list      .
+ln -s -f $BASEDIR/archive_read      .
+ln -s -f $BASEDIR/archive_write     .
+ln -s -f $BASEDIR/var_split         .
+ln -s -f $BASEDIR/hist_mon_to_year  .
+ln -s -f $BASEDIR/var_year_to_all   .
+ln -s -f $BASEDIR/concatenate_data  .
+ln -s -f $BASEDIR/store_to_archive  .
+ln -s -f $BASEDIR/procstat.sh       .
 #
 cd $LOCAL_PROC
 #
@@ -275,12 +272,14 @@ if [ ! -f $ARCHIVE_LIST ] ; then
   ./archive_list $ARCHIVE_LIST
 fi
 #
+# Big processing loop
+#
 while [ $YEARNOW -ge $YEARBEG ] ; do
   ./procstat.sh
   YRCHECK=.comp.$CASE.$HIST.$YEARNOW
   if [ -f ${YRCHECK}.nc ] ; then
     touch $YRCHECK
-    rm .????.$CASE.$HIST.${YEARNOW}*.nc
+    rm .????.$CASE.$HIST.????.nc
   else
     if [ `/bin/ls ${YRCHECK}-??.nc | wc -l` -eq 12 ] ; then
       touch $YRCHECK
@@ -364,33 +363,24 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
         done ;;
     esac
 #
-# All time splitting should be done now, ready for var_splitting
+# All time splitting should be done now, ready for concatenation to years and then var_split
 #
     NFNC=`echo $CASE.$HIST.????-??.nc | wc -w`
     if [ ${NFNC} -ne 1 ] ; then
-      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??.nc` ; do
-        ./var_split $FILE erase
-        if [ $? -ne 0 ] ; then
-          echo "Error from var_split on file "$FILE
-          ./procstat.sh error process_template
-          exit 1
-        else
-          touch .proc.$FILE
-        fi
-        if [ -f .proc.$FILE ] ; then
-          touch .comp.$FILE
-          rm -f .proc.$FILE
-        fi
-      done
+      ./hist_mon_to_year
+      if [ $? -ne 0 ] ; then
+        echo "Error from hist_mon_to_year on file "$FILE
+        ./procstat.sh error hist_mon_to_year
+        exit 1
     fi
 #
     NFNC=`echo $CASE.$HIST.????.nc | wc -w`
     if [ ${NFNC} -ne 1 ] ; then
-      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}.nc` ; do
+      for FILE in `/bin/ls $CASE.$HIST.????.nc` ; do
         ./var_split $FILE erase
         if [ $? -ne 0 ] ; then
           echo "Error from var_split on file "$FILE
-          ./procstat.sh error process_template
+          ./procstat.sh error var_split
           exit 1
         else
           touch .proc.$FILE
@@ -404,19 +394,12 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 #
     if [ -f ${YRCHECK}.nc ] ; then
       touch $YRCHECK
-      rm .????.$CASE.$HIST.${YEARNOW}*.nc
+      rm .????.$CASE.$HIST.${YEARNOW}.nc
     else
       if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}-??.nc | wc -l` -eq 12 ] ; then
         touch $YRCHECK
         rm .????.$CASE.$HIST.${YEARNOW}-??.nc
       fi
-    fi
-#
-# Concatenate all months into respective years, at every year done 
-#
-    echo "Concatenating years at "${YEARNOW}" at "`date`
-    if [ "$TPER" != "ann" ] ; then
-      ./concatenate_data M2Y
     fi
   fi
 #
@@ -433,17 +416,10 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
   export YEARNOW
 done
 #
-# Concatenate months -> years, years -> all (if possible)
+# Concatenate years -> all
 #
 echo "Final concatenating of "$CASE"."$HIST" at "`date`
-./concatenate_data M2Y
-./concatenate_data Y2A
-#
-# Create annual averages of each field (ocean monthly only)
-#
-if [ "$HIST" = "pop.h" ] && [ "$TPER" = "mon" ] ; then
-  ./annual_averages
-fi
+./concatenate_data
 #
 # Store completed data on archival system
 #
