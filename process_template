@@ -269,12 +269,7 @@ echo "BEGIN : procstat"
 #
 while [ $YEARNOW -ge $YEARBEG ] ; do
   ./procstat.sh
-  YRCHECK=.comp.$CASE.$HIST.$YEARNOW
-  if [ -f ${YRCHECK}.nc ] ; then
-    touch $YRCHECK
-    rm .????.$CASE.$HIST.????.nc
-  fi
-  if [ ! -f $YRCHECK ] ; then
+  if [ ! -f .comp.$CASE.$HIST.$YEARNOW.nc ] ; then
     echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
     if [ -d $LOCAL_HIST ] ; then
       NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* | wc -l`
@@ -382,23 +377,9 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
           ./procstat.sh error var_split
           exit 1
         else
-          touch .proc.$FILE
-        fi
-        if [ -f .proc.$FILE ] ; then
           touch .comp.$FILE
-          rm -f .proc.$FILE
         fi
       done
-    fi
-#
-    if [ -f ${YRCHECK}.nc ] ; then
-      touch $YRCHECK
-      rm .????.$CASE.$HIST.${YEARNOW}.nc
-    else
-      if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}-??.nc | wc -l` -eq 12 ] ; then
-        touch $YRCHECK
-        rm .????.$CASE.$HIST.${YEARNOW}-??.nc
-      fi
     fi
   fi
 #
