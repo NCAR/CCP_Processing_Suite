@@ -36,6 +36,7 @@ while [ $CSTR -le $FLEN ] ; do
 done
 IDOT=1
 DCAS=1
+DTIM=1
 DHT1=1
 DHT2=1
 while [ $IDOT -le $NDOT ] ; do
@@ -45,10 +46,10 @@ while [ $IDOT -le $NDOT ] ; do
       DCAS=`expr '(' $IDOT ')' '-' '1'`
       DHT1=$IDOT ;;
   esac
+  DTIM=$IDOT
   IDOT=`expr '(' $IDOT ')' '+' '1'`
 done
 DHT2=`expr '(' $DHT1 ')' '+' '1'`
-DTIM=`expr '(' $DVAR ')' '+' '1'`
 #
 CASES=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
  HIST=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
@@ -60,8 +61,7 @@ if [ "$HIST" = "pop.h" ] ; then
   ODAY=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f${DYCK} | sort | uniq`
   if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
     DHT2=$DYCK
-    DTIM=`expr '(' $DVAR ')' '+' '1'`
-    VARS=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+    DTIM=`expr '(' $DTIM ')' '+' '1'`
     HIST=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
   fi
 fi
