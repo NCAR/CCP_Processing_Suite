@@ -93,7 +93,8 @@ case "$PROCHOST" in
     NCRA=/glade/apps/opt/nco/4.2.3/gnu/4.7.2/bin/ncra     ; export NCRA
     NCRCAT=/glade/apps/opt/nco/4.2.3/gnu/4.7.2/bin/ncrcat ; export NCRCAT
     PROCBASE=/glade/scratch/$USER/$CASE           ; export PROCBASE
-    LOCALDSK=/glade/p/cesm/shared_outputdata/cases/ccsm4/$CASE ; export LOCALDSK
+#    LOCALDSK=/glade/p/cesm/shared_outputdata/cases/ccsm4/$CASE ; export LOCALDSK
+    LOCALDSK=/glade/scratch/$USER/$CASE           ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
     ;;
 
@@ -264,14 +265,6 @@ YEARNOW=$YEAREND;export YEARNOW
 echo "BEGIN : procstat"
 ./procstat.sh start
 #
-# Get archive listing
-#
-ARCHIVE_LIST=archive.$CASE.$HIST
-if [ ! -f $ARCHIVE_LIST ] ; then
-  echo "Getting archival list of "$CASE" "$HIST
-  ./archive_list $ARCHIVE_LIST
-fi
-#
 # Big processing loop
 #
 while [ $YEARNOW -ge $YEARBEG ] ; do
@@ -280,11 +273,6 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
   if [ -f ${YRCHECK}.nc ] ; then
     touch $YRCHECK
     rm .????.$CASE.$HIST.????.nc
-  else
-    if [ `/bin/ls ${YRCHECK}-??.nc | wc -l` -eq 12 ] ; then
-      touch $YRCHECK
-      rm .????.$CASE.$HIST.${YEARNOW}-??.nc
-    fi
   fi
   if [ ! -f $YRCHECK ] ; then
     echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
@@ -295,6 +283,14 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
         ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* .
       fi
     else
+#
+# Get archive listing
+#
+      ARCHIVE_LIST=archive.$CASE.$HIST
+      if [ ! -f $ARCHIVE_LIST ] ; then
+        echo "Getting archival list of "$CASE" "$HIST
+        ./archive_list $ARCHIVE_LIST
+      fi
       ./archive_read $ARCHIVE_LIST $YEARNOW
       if [ $? -ne 0 ] ; then
         echo "Error from archive_read"
@@ -363,7 +359,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
         done ;;
     esac
 #
-# All time splitting should be done now, ready for concatenation to years and then var_split
+# All time splitting should be done now, ready for concatenation of history files to years
 #
     NFNC=`echo $CASE.$HIST.????-??.nc | wc -w`
     if [ ${NFNC} -ne 1 ] ; then
@@ -372,7 +368,10 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
         echo "Error from hist_mon_to_year on file "$FILE
         ./procstat.sh error hist_mon_to_year
         exit 1
+      fi
     fi
+#
+# var_split each history file that is now one years' worth of data
 #
     NFNC=`echo $CASE.$HIST.????.nc | wc -w`
     if [ ${NFNC} -ne 1 ] ; then
