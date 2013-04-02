@@ -10,7 +10,7 @@
 if [ $# -eq 0 ] ; then
    echo "Usage: var_split file [erase]"
    echo "2 args means erase file after fields extracted."
-   ./procstat.sh error var_split
+   ./status_check error var_split
    exit 1
 elif [ $# -eq 1 ] ; then
    FILE=$1
@@ -19,7 +19,7 @@ elif [ $# -eq 2 ] ; then
 else
    echo "Usage: var_split file [erase]"
    echo "2 args means erase file after fields extracted."
-   ./procstat.sh error var_split
+   ./status_check error var_split
    exit 1
 fi
 # 
@@ -170,7 +170,7 @@ if [ `echo $TIMEV2D | wc -w` -ne 0 ] ; then
     $NCKS -O -v ${HEADER},${f} $FILE $OUT
     if [ $? -ne 0 ] ; then
       echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
-      ./procstat.sh error var_split
+      ./status_check error var_split
       exit 1
     fi
  done
@@ -193,7 +193,7 @@ if [ `echo $TIMEV3D | wc -w` -ne 0 ] ; then
       $NCKS -O -v ${HEADER},${f} $FILE $OUT
       if [ $? -ne 0 ] ; then
         echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
-        ./procstat.sh error var_split
+        ./status_check error var_split
         exit 1
       fi
     fi
@@ -211,7 +211,7 @@ if [ `echo $TIMEV4D | wc -w` -ne 0 ] ; then
     $NCKS -O -v ${HEADER},${f} $FILE $OUT
     if [ $? -ne 0 ] ; then
       echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
-      ./procstat.sh error var_split
+      ./status_check error var_split
       exit 1
     fi
  done
@@ -228,7 +228,7 @@ if [ `echo $TIMEV5D | wc -w` -ne 0 ] ; then
     $NCKS -O -v ${HEADER},${f} $FILE $OUT
     if [ $? -ne 0 ] ; then
       echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
-      ./procstat.sh error var_split
+      ./status_check error var_split
       exit 1
     fi
  done

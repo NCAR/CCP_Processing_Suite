@@ -42,13 +42,13 @@ if [ -f $EXPFILE ] ; then
   HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c260- | cut -d" " -f1`
 else
   echo "Cannot find $EXPFILE. EXIT"
-  ./procstat.sh error process_template
+  ./status_check error process_template
   exit 1
 fi
 #
 if ! [ $LOCATION ] ; then
   echo "Unable to set variables because "$CASE" not found in $EXPFILE"
-  ./procstat.sh error process_template
+  ./status_check error process_template
   exit 1
 fi
 #
@@ -146,7 +146,7 @@ case "$PROCHOST" in
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
-    ./procstat.sh error process_template
+    ./status_check error process_template
     exit 1 ;;
 esac
 #
@@ -169,7 +169,7 @@ case "$HTYP" in
     COMP_NAME=ice ;;
   * ) 
     echo "Unable to continue because "$HIST" not known."
-    ./procstat.sh error process_template
+    ./status_check error process_template
     exit 1 ;;
 esac
 #
@@ -195,7 +195,7 @@ case "$TPER" in
     ARCHIVE_PROC=${ARCHIVE_PROC}/minute30 ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
-    ./procstat.sh error process_template
+    ./status_check error process_template
     exit 1 ;;
 esac
 #
@@ -268,7 +268,7 @@ ln -s -f $BASEDIR/hist_mon_to_year  .
 ln -s -f $BASEDIR/var_year_to_all   .
 ln -s -f $BASEDIR/concatenate_data  .
 ln -s -f $BASEDIR/store_to_archive  .
-ln -s -f $BASEDIR/procstat.sh       .
+ln -s -f $BASEDIR/status_check       .
 #
 cd $LOCAL_PROC
 #
@@ -279,12 +279,12 @@ cd $LOCAL_PROC
 YEARNOW=$YEAREND;export YEARNOW
 #
 echo "BEGIN : procstat"
-./procstat.sh start
+./status_check start
 #
 # Big processing loop
 #
 while [ $YEARNOW -ge $YEARBEG ] ; do
-  ./procstat.sh
+  ./status_check
   if [ ! -f .comp.$CASE.$HIST.$YEARNOW.nc ] ; then
     echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
     if [ -d $LOCAL_HIST ] ; then
@@ -305,7 +305,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
       ./archive_read $ARCHIVE_LIST $YEARNOW
       if [ $? -ne 0 ] ; then
         echo "Error from archive_read"
-       ./procstat.sh error process_template
+       ./status_check error process_template
        exit 1
       fi
     fi
@@ -377,7 +377,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
       ./hist_mon_to_year
       if [ $? -ne 0 ] ; then
         echo "Error from hist_mon_to_year on file "$FILE
-        ./procstat.sh error hist_mon_to_year
+        ./status_check error hist_mon_to_year
         exit 1
       fi
     fi
@@ -390,7 +390,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
         ./var_split $FILE erase
         if [ $? -ne 0 ] ; then
           echo "Error from var_split on file "$FILE
-          ./procstat.sh error var_split
+          ./status_check error var_split
           exit 1
         else
           touch .comp.$FILE
@@ -422,8 +422,8 @@ echo "Final concatenating of "$CASE"."$HIST" at "`date`
 ./store_to_archive
 if [ $? -ne 0 ] ; then
   echo "store_to_archive failed"
-  ./procstat.sh error process_template
+  ./status_check error process_template
   exit 1
 fi
 echo "COMPLETE : procstat"
-./procstat.sh complete
+./status_check complete

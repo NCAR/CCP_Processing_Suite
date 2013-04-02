@@ -4,7 +4,7 @@
 #
 if [ $# -ne 0 ] ; then
   echo "Usage: concatenate_data"
-  ./procstat.sh error concatenate_data
+  ./status_check error concatenate_data
   exit 1
 fi
 #
@@ -16,7 +16,7 @@ for e in `ls -d *d.d` ; do
   if [ $? -ne 0 ] ; then
     echo "Error from var_year_to_all"
     echo $CASE" "${HIST}" "${e}
-    ./procstat.sh error concatenate_data
+    ./status_check error concatenate_data
     exit 1
   else
     if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then

@@ -34,7 +34,7 @@ process_cmip5_template: Used by Process_CMIP5, with changes given by the argu-
 experiments.txt : An ASCII-formatted listing of the relevant metadata for each
                   experiment; details on the format are given in the file
 
-procstat.sh     : Script that notifies user of start/finish, problems, etc. It
+status_check     : Script that notifies user of start/finish, problems, etc. It
                   is tied closely to our postprocessing database, so you may
                   not want to use it.
 

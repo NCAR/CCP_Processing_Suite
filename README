@@ -64,7 +64,7 @@ time_split      : Splits daily and subdaily history files into individual files
 days_to_month   : Concatenates files created by time_split into a single file
                   per month, so regular processing can resume
 
-procstat.sh     : Script that notifies user of start/finish, problems, etc. It
+status_check     : Script that notifies user of start/finish, problems, etc. It
                   is tied closely to our postprocessing database, so you may
                   not want to use it.
 

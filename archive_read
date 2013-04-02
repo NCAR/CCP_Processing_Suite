@@ -5,7 +5,7 @@ if [ $# -ne 2 ] ; then
   echo "Usage: archive_read ARCHIVE_LIST YEARNOW"
   echo "Requires ARCHIVE_LIST and YEARNOW"
   echo "CASE HIST ARCHIVE_HIST must be defined"
-  ./procstat.sh error archive_read
+  ./status_check error archive_read
   exit 1
 else
   ARCHIVE_LIST=$1
@@ -14,7 +14,7 @@ fi
 #
 if ! [ -f $ARCHIVE_LIST ] ; then
   echo "archive_read: No "$ARCHIVE_LIST" file found. Exit."
-  ./procstat.sh error archive_read
+  ./status_check error archive_read
   exit 1
 fi
 if [ ! $CASE ] ; then
@@ -43,11 +43,11 @@ if [ $? -eq 0 ] ; then
   $HSI "cget -u ${ARCHIVE_HIST}/${CASE}.${HIST}.${YEARNOW}*"
   if [ $? -ne 0 ] ; then
     echo "Error on hsi get of "$ARCHIVE_HIST"/"$ARCHIVE_FILES
-    ./procstat.sh error archive_read
+    ./status_check error archive_read
     exit 1
   fi
 else
   echo "Cannot find hsi command."
-  ./procstat.sh error archive_read
+  ./status_check error archive_read
   exit 1
 fi

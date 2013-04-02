@@ -5,7 +5,7 @@
 if [ $# -ne 0 ] ; then
   echo "Usage: var_year_to_all"
   echo "Can use YRCOUNT as defined by process_setup"
-  ./procstat.sh error var_year_to_all
+  ./status_check error var_year_to_all
   exit 1
 fi
 # 
@@ -17,7 +17,7 @@ if [ ! $NCRCAT ] ; then
     NCRCAT=`which ncrcat`
   else
     echo "NCRCAT not in PATH - UNDEFINED"
-    ./procstat.sh error var_year_to_all
+    ./status_check error var_year_to_all
     exit 1
   fi
 fi
@@ -124,7 +124,7 @@ for c in $CASES ; do
             echo "Concatenated "$DF" and checked year count: "$YRCOUNT
           else
             echo "Failure on concat of "${c}"."${h}"."${v}" files"
-	    ./procstat.sh error var_year_to_all
+	    ./status_check error var_year_to_all
             exit 1
           fi
         else
@@ -158,7 +158,7 @@ for c in $CASES ; do
           echo "Concatenated "$DF" and WITHOUT checking year count"
         else
           echo "Failure on concat of "${c}"."${h}"."${v}" files"
-	  ./procstat.sh error var_year_to_all
+	  ./status_check error var_year_to_all
           exit 1
         fi
       fi
