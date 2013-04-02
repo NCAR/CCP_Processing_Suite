@@ -114,6 +114,22 @@ case "$PROCHOST" in
     export LD_LIBRARY_PATH
     ;;
 
+  cvrsvc* )                                # carver @ NERSC
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/usr/common/usg/nco/4.0.5/bin/ncks     ; export NCKS
+    NCRA=/usr/common/usg/nco/4.0.5/bin/ncra     ; export NCRA
+    NCRCAT=/usr/common/usg/nco/4.0.5/bin/ncrcat ; export NCRCAT
+    PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/global/scratch/sd/$USER/$CASE ; export LOCALDSK
+    ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
+    if ! [ $LD_LIBRARY_PATH ] ; then
+      LD_LIBRARY_PATH=/usr/common/usg/nco/4.0.5/lib:/usr/common/usg/netcdf/4.1.1/pgi/lib:/usr/syscom/opt/torque/default/lib:/usr/common/usg/openmpi/1.4.5/pgi/lib:/usr/common/usg/pgi/12.9/linux86-64/12.9/libso:/usr/syscom/nsg/lib
+    else
+      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/common/usg/nco/4.0.5/lib:/usr/common/usg/netcdf/4.1.1/pgi/lib:/usr/syscom/opt/torque/default/lib:/usr/common/usg/openmpi/1.4.5/pgi/lib:/usr/common/usg/pgi/12.9/linux86-64/12.9/libso:/usr/syscom/nsg/lib
+    fi
+    export LD_LIBRARY_PATH
+    ;;
+
   lens* )                                # lens @ ORNL
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/ccs/home/wgstrand/bin/ncks                   ; export NCKS
