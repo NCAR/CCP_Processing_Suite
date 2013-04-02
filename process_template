@@ -42,13 +42,11 @@ if [ -f $EXPFILE ] ; then
   HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c260- | cut -d" " -f1`
 else
   echo "Cannot find $EXPFILE. EXIT"
-  ./status_check error process_template
   exit 1
 fi
 #
 if ! [ $LOCATION ] ; then
   echo "Unable to set variables because "$CASE" not found in $EXPFILE"
-  ./status_check error process_template
   exit 1
 fi
 #
@@ -146,7 +144,6 @@ case "$PROCHOST" in
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
-    ./status_check error process_template
     exit 1 ;;
 esac
 #
@@ -169,7 +166,6 @@ case "$HTYP" in
     COMP_NAME=ice ;;
   * ) 
     echo "Unable to continue because "$HIST" not known."
-    ./status_check error process_template
     exit 1 ;;
 esac
 #
@@ -195,7 +191,6 @@ case "$TPER" in
     ARCHIVE_PROC=${ARCHIVE_PROC}/minute30 ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
-    ./status_check error process_template
     exit 1 ;;
 esac
 #

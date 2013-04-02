@@ -36,7 +36,6 @@ case "$TPER" in
     echo ${TPER}" is known time period. Proceeding." ;;
   * ) 
     echo "Unable to continue because "$TPER" is unknown. Stopping."
-    ./status_check error Process_Setup
     exit 1 ;;
 esac
 #
@@ -84,7 +83,6 @@ case "$PROCHOST" in
                            >> $CCPS_SCRIPT ;;
   * )
     echo "Unable to build script because "$PROCHOST" unknown."
-    ./status_check error process_template
     exit 1 ;;
 esac
 #
