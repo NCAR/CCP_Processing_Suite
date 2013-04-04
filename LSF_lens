@@ -2,6 +2,7 @@
 #
 #PBS -A cli017ccp
 #PBS -l nodes=1:ppn=1
+#PBS -l gres=widow1%widow2%widow3
 #PBS -l walltime=6:00:00
 #PBS -j eo
 #PBS -q comp_mem
