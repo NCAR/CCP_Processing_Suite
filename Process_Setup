@@ -61,21 +61,21 @@ case "$PROCHOST" in
                            | sed -e "s/xxxVARSxxx//g" \
                            >> $CCPS_SCRIPT ;;
   yslogin* )                               # yellowstone @ NCAR
-    cat ./NCAR_batch | sed -e "s/NAME/$CCPS_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CCPS_SCRIPT
+    cat ./LSF_geyser       | sed -e "s/NAME/$CCPS_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CCPS_SCRIPT
     cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
                            | sed -e "s/xxxHISTxxx/$HIST/g" \
                            | sed -e "s/xxxTPERxxx/$TPER/g" \
                            | sed -e "s/xxxVARSxxx//g" \
                            >> $CCPS_SCRIPT ;;
   lens* )                                  # lens @ ORNL
-    cat ./ORNL_batch > $CCPS_SCRIPT
+    cat ./LSF_lens         > $CCPS_SCRIPT
     cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
                            | sed -e "s/xxxHISTxxx/$HIST/g" \
                            | sed -e "s/xxxTPERxxx/$TPER/g" \
                            | sed -e "s/xxxVARSxxx//g" \
                            >> $CCPS_SCRIPT ;;
   nid* | hopper* | cvrsvc* )               # hopper/carver @ NERSC
-    cat ./NERSC_batch | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
+    cat ./LSF_carver       | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
     cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
                            | sed -e "s/xxxHISTxxx/$HIST/g" \
                            | sed -e "s/xxxTPERxxx/$TPER/g" \
