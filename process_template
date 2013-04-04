@@ -300,7 +300,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
       ./archive_read $ARCHIVE_LIST $YEARNOW
       if [ $? -ne 0 ] ; then
         echo "Error from archive_read"
-       ./status_check error process_template
+       ./status_check error "$CASE $HIST $TPER"
        exit 1
       fi
     fi
@@ -417,7 +417,7 @@ echo "Final concatenating of "$CASE"."$HIST" at "`date`
 ./store_to_archive
 if [ $? -ne 0 ] ; then
   echo "store_to_archive failed"
-  ./status_check error process_template
+  ./status_check error "$CASE $HIST $TPER"
   exit 1
 fi
 echo "COMPLETE : procstat"
