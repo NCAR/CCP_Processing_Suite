@@ -17,9 +17,9 @@ fi
 #
 TEST4HSI=`which hsi 2<&1`
 if [ $? -eq 0 ] ; then
-  $HSI "mkdir -p $ARCHIVE_D"
-  $HSI "chmod 775 $ARCHIVE_D"
-  $HSI << EOF
+  hsi -q "mkdir -p $ARCHIVE_D"
+  hsi -q "chmod 775 $ARCHIVE_D"
+  hsi -q << EOF
 cd $ARCHIVE_D
 put -U *.nc
 chmod 644 *nc
@@ -27,7 +27,7 @@ EOF
   if [ $? -eq 0 ] ; then
     echo "Files written to "${ARCHIVE_D}" and erased."
   else
-    $HSI "put *.nc"
+    hsi -q "put *.nc"
     if [ $? -eq 0 ] ; then
       echo "Files written to your HPSS HOME and erased."
     else
