@@ -392,7 +392,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 # var_split each history file that is now one years' worth of data
 #
     NFNC=`echo $CASE.$HIST.${YEARNOW}.nc | wc -w`
-    if [ ${NFNC} -ne 1 ] ; then
+    if [ ${NFNC} -eq 1 ] ; then
       for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}.nc` ; do
         ./var_split $FILE erase
         if [ $? -ne 0 ] ; then
