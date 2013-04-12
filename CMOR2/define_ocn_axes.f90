@@ -68,8 +68,9 @@ subroutine define_ocn_axes(dimensions)
      end select
   enddo
   !
+  write(*,'(''DO xw_found: '',a)') trim(xw(xw_found)%entry)
   do i = 1,naxes
-     write(*,*) 'DIMS: ',dimnames(i)(1:32),' UNITS: ',dimunits(i)(1:32)
+     write(*,'(''DIMS: '',a32,'' UNITS: '',a32)') dimnames(i)(1:32),dimunits(i)(1:32)
   enddo
   axis_ids = 0 ; idim = 1
   !
@@ -167,7 +168,7 @@ subroutine define_ocn_axes(dimensions)
         end select ! dimnames(i)
      enddo
   case ( 'so','thetao','tos','sos','hfss','pr','prsn','rlds','rsds','rsntds','agessc','rhopoto','tossq','zos','zossq','cfc11','wmo','wmosq','omlmax')
-     ! Full column T-grid fields
+     ! T-grid fields
      do i = 1,naxes
         select case(dimnames(i))
         case ('longitude')
@@ -202,15 +203,32 @@ subroutine define_ocn_axes(dimensions)
                 units=dimunits(i),            &
                 coord_vals=ocn_t_levs,        &
                 cell_bounds=ocn_t_levs_bnds)
-           write(*,*) 'olevel   defined, axis_id: ',idim,axis_ids(idim)
+              write(*,'('' dimension: '',a,'' defined: '',i4,'' units: '',a)') 'olevel',axis_ids(idim),trim(dimunits(i))
            idim = idim + 1
         case ('time')
+           write(*,'(''DO defining time: '',a)') trim(mycmor%table_file)
            call cmor_set_table(table_ids(1))
-           axis_ids(idim) = cmor_axis(        &
-                table_entry=dimnames(i),      &
-                units=dimunits(i),            &
-                interval='30 days')
-           write(*,'('' dimension: '',a,'' defined: '',i4,'' units: '',a)') 'time',axis_ids(idim),trim(dimunits(i))
+           select case (mycmor%table_file)
+           case ('Tables/CMIP5_Omon')
+              axis_ids(idim) = cmor_axis(        &
+                   table_entry=dimnames(i),      &
+                   units=dimunits(i),            &
+                   interval='30 days')
+              write(*,'('' dimension: '',a,'' defined: '',i4,'' units: '',a)') 'time',axis_ids(idim),trim(dimunits(i))
+           case ('Tables/CMIP5_day')
+              axis_ids(idim) = cmor_axis(        &
+                   table_entry=dimnames(i),      &
+                   units=dimunits(i),            &
+                   interval='1 day')
+              write(*,'('' dimension: '',a,'' defined: '',i4,'' units: '',a)') 'time',axis_ids(idim),trim(dimunits(i))
+           case default
+              call cmor_set_table(table_ids(1))
+              axis_ids(idim) = cmor_axis(        &
+                   table_entry=dimnames(i),      &
+                   units=dimunits(i),            &
+                   interval='1 day')
+              write(*,'('' dimension: '',a,'' defined: '',i4,'' units: '',a)') 'time',axis_ids(idim),trim(dimunits(i))
+           end select
            idim = idim + 1
         end select ! dimnames(i)
      enddo

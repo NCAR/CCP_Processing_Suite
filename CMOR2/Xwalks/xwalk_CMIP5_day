@@ -29,8 +29,8 @@ CMIP5_day:ta:air_temperature:longitude latitude plev8 time:atmos:2:T PS:T interp
 CMIP5_day:tas:air_temperature:longitude latitude time height2m:atmos:1:TREFHT:TREFHT no change
 CMIP5_day:tasmax:air_temperature:longitude latitude time height2m:atmos:1:TREFHTMX:TREFHTMX no change
 CMIP5_day:tasmin:air_temperature:longitude latitude time height2m:atmos:1:TREFHTMN:TREFHTMN no change
-CMIP5_day:tos:surface_temperature:longitude latitude time:ocean:0:SST:SST, units from C to K
-CMIP5_day:tossq:square_of_sea_surface_temperature:longitude latitude time:ocean:0:SST2:SST2, units from C to K
+CMIP5_day:tos:surface_temperature:longitude latitude time:ocean:1:SST:SST, units from C to K
+CMIP5_day:tossq:square_of_sea_surface_temperature:longitude latitude time:ocean:1:SST2:SST2, units from C to K
 CMIP5_day:tslsi:surface_temperature:longitude latitude time:land:0:UNKNOWN:UNKNOWN
 CMIP5_day:ua:eastward_wind:longitude latitude plev8 time:atmos:2:U PS:U interpolated to standard plevs
 CMIP5_day:uas:eastward_wind:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
