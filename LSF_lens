@@ -5,7 +5,7 @@
 #PBS -l gres=widow1%widow2%widow3
 #PBS -l walltime=6:00:00
 #PBS -j eo
-#PBS -q comp_mem
+#PBS -q comp
 #PBS -m abe
 #PBS -S /bin/sh
 #PBS -V
