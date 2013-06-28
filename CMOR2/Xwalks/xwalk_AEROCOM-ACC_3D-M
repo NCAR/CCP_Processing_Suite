@@ -5,7 +5,7 @@ AEROCOM-ACC_3D-M:bs5503Daer:atmosphere_attenuated_backscatter_due_to_ambient_aer
 AEROCOM-ACC_3D-M:cheaqpH2O2so4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 AEROCOM-ACC_3D-M:cheaqpO3so4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 AEROCOM-ACC_3D-M:cheaqpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:chegpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time:atmos:3:SO4_CHMP PS TS:SO4_CHMP on model levels
+AEROCOM-ACC_3D-M:chegpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time:atmos:3:SO4_CHMP PS TS:SO4_CHMP*(28.97e-3 kg mol-1*1.e-3/6.022e23), on model levels
 AEROCOM-ACC_3D-M:chegpsoa:tendency_of_atmosphere_mass_content_of_secondary_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time:atmos:7:SOAM_PROD SOAI_PROD SOAT_PROD SOAB_PROD SOAX_PROD PS TS:SOAM_PROD+SOAI_PROD+SOAT_PROD+SOAB_PROD+SOAX_PROD on model levels
 AEROCOM-ACC_3D-M:clt3D:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:2:CLOUD PS:CLOUD on model levels, no change
 AEROCOM-ACC_3D-M:cod3D:atmosphere_optical_thickness_due_to_cloud:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
@@ -147,11 +147,11 @@ AEROCOM-ACC_3D-M:vmrpan:mole_fraction_of_peroxyacetyl_nitrate_in_air:longitude l
 AEROCOM-ACC_3D-M:vmrso2:mole_fraction_of_sulfur_dioxide_in_air:longitude latitude alevel time:atmos:3:SO2 PS TS:SO2 on model levels
 AEROCOM-ACC_3D-M:wet3Dbc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_wet_deposition:longitude latitude alevel time:atmos:3:CB2WET PS TS:CB2WET on model levels
 AEROCOM-ACC_3D-M:wet3Ddms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_wet_deposition:longitude latitude alevel time:atmos:3:DMSSFWET PS TS:DMSSFWET on model levels
-AEROCOM-ACC_3D-M:wet3Ddu:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_wet_deposition:longitude latitude alevel time:atmos:6:a2x_DSTWET1 a2x_DSTWET2 a2x_DSTWET3 a2x_DSTWET4 PS TS:a2x_DSTWET1+a2x_DSTWET2+a2x_DSTWET3+a2x_DSTWET4 on model levels
-AEROCOM-ACC_3D-M:wet3Dhno3:tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_wet_deposition:longitude latitude alevel time:atmos:3:HNO3 PS TS:HNO3 on model levels
+AEROCOM-ACC_3D-M:wet3Ddu:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_wet_deposition:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_3D-M:wet3Dhno3:tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_wet_deposition:longitude latitude alevel time:atmos:3:DTWR_HNO3 PS TS:DTWR_HNO3 on model levels
 AEROCOM-ACC_3D-M:wet3Dnh4:tendency_of_atmosphere_mass_content_of_ammonium_due_to_wet_deposition:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 AEROCOM-ACC_3D-M:wet3Dnoy:tendency_of_atmosphere_mass_content_of_all_nitrogen_oxides_due_to_wet_deposition:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-AEROCOM-ACC_3D-M:wet3Doa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosols_due_to_wet_deposition:longitude latitude alevel time:atmos:3:OC2WET PS TS:OC2WET on model levels
-AEROCOM-ACC_3D-M:wet3Dso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition:longitude latitude alevel time:atmos:3:SO2SFWET PS TS:SO2SFWET on model levels
-AEROCOM-ACC_3D-M:wet3Dso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_wet_deposition:longitude latitude alevel time:atmos:3:SO4SFWET PS TS:SO4SFWET on model levels
+AEROCOM-ACC_3D-M:wet3Doa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosols_due_to_wet_deposition:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_3D-M:wet3Dso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition:longitude latitude alevel time:atmos:3:DTWR_SO2 PS TS:DTWR_SO2 on model levels
+AEROCOM-ACC_3D-M:wet3Dso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_wet_deposition:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 AEROCOM-ACC_3D-M:wet3Dss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition:longitude latitude alevel time:atmos:6:SSLT01PP SSLT02PP SSLT03PP SSLT04PP PS TS:SSLT01PP+SSLT02PP+SSLT03PP+SSLT04PP on model levels

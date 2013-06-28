@@ -20,7 +20,7 @@ subroutine load_xwalk(xw_file)
   integer::iostat,i,j,ixw
   integer,dimension(20)::icol,iblk
   logical::does_exist
-  character(len=256)::instring
+  character(len=512)::instring
   !
   ! Get crosswalk information
   !
@@ -71,6 +71,8 @@ subroutine load_xwalk(xw_file)
         xw(ixw)%realm(1:)         = instring(icol(4)+1:icol(5)-1)
         read(instring(icol(5)+1:icol(6)-1),*) xw(ixw)%ncesm_vars
         xw(ixw)%comment(1:)       = instring(icol(7)+1:len_trim(instring))
+        write(*,*) 'load_xw comment: ',icol(7)+1,len_trim(instring)
+        write(*,*) 'load_xw comment: ',trim(xw(ixw)%comment)
         !
         if (xw(ixw)%ncesm_vars .gt. 1) then
            iblk(1) = icol(6)

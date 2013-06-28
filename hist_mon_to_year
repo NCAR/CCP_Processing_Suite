@@ -42,7 +42,7 @@ DHT2=1
 while [ $IDOT -le $NDOT ] ; do
   CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
   case "$CURC" in
-    cam2 | cam | clm2 | pop | csim | cice )
+    cam2 | cam | clm2 | pop | csim | cice | rtm )
       DCAS=`expr '(' $IDOT ')' '-' '1'`
       DHT1=$IDOT ;;
   esac
@@ -56,6 +56,7 @@ CASES=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' 
 #
 # Check for pop.h.nday1
 #
+echo $HIST
 if [ "$HIST" = "pop.h" ] ; then
   DYCK=`expr '(' $DHT2 ')' '+' '1'`
   ODAY=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f${DYCK} | sort | uniq`

@@ -57,7 +57,7 @@ DSFX=1
 while [ $IDOT -le $NDOT ] ; do
   CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
   case "$CURC" in
-    cam2 | cam | clm2 | pop | csim | cice )
+    cam2 | cam | clm2 | pop | csim | cice | rtm )
       DPFX=`expr '(' $IDOT ')' '+' '1'`
       DSFX=`expr '(' $DPFX ')' '+' '1'`
       DHT1=$IDOT ;;
@@ -184,10 +184,26 @@ if [ `echo $TIMEV3D | wc -w` -ne 0 ] ; then
       mkdir ${f}_3d.d
     fi
     if [ "$COMP" = "cice" ] ; then
-      OUT=${f}_3d.d/${OUTPFX}.${f}_nh.${OUTSFX}
-      $NCKS -O -d nj,280,383 -v ${HEADER},${f} $FILE $OUT
-      OUT=${f}_3d.d/${OUTPFX}.${f}_sh.${OUTSFX}
-      $NCKS -O -d nj,0,75 -v ${HEADER},${f} $FILE $OUT
+      NJ=`$NCKS -m $FILE | egrep "nj" | head -1 | cut -d"," -f2 | cut -d"=" -f2 | sed -e 's/ //g'`
+      echo "NJ: "${NJ} 
+      case "$NJ" in
+         384 ) # gx1 (~1 degree)
+          OUT=${f}_3d.d/${OUTPFX}.${f}_nh.${OUTSFX}
+          $NCKS -O -d nj,280,383 -v ${HEADER},${f} $FILE $OUT
+          OUT=${f}_3d.d/${OUTPFX}.${f}_sh.${OUTSFX}
+          $NCKS -O -d nj,0,75 -v ${HEADER},${f} $FILE $OUT 
+          ;;
+        2400 ) # 1/10th degree
+          OUT=${f}_3d.d/${OUTPFX}.${f}_nh.${OUTSFX}
+          $NCKS -O -d nj,1500,2399 -v ${HEADER},${f} $FILE $OUT
+          OUT=${f}_3d.d/${OUTPFX}.${f}_sh.${OUTSFX}
+          $NCKS -O -d nj,0,756 -v ${HEADER},${f} $FILE $OUT
+          ;;
+        * )    # Other resolutions
+          echo "Unable to split "${FILE}" into SH and NH. Unknown NJ: "${NJ} 
+          exit 1 
+          ;;
+      esac
     else
       OUT=${f}_3d.d/${OUTPFX}.${f}.${OUTSFX}
       $NCKS -O -v ${HEADER},${f} $FILE $OUT

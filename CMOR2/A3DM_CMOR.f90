@@ -18,23 +18,37 @@ program A3DM_CMOR
   !
   implicit none
   !
-  real,parameter::spval = 1.e20
-  real,parameter::grav  = 9.81
-  real,parameter::pi    = 4.*(atan(1.))
+  !
+  real,parameter::spval  = 1.e20
+  real,parameter::pi     = 4.*(atan(1.))
+  real,parameter::grav   = 9.81         ! gravity, m s-1
+  real,parameter::rearth = 6.37122e6    ! earth radius, m
+  real,parameter::rdair  = 287.04       ! Dry air gas constant, J k-1 kg-1
+  real,parameter::cscale = 1.4          ! Carbon scaling factor
+  real,parameter::avogn  = 6.022e23
   !
   real,parameter::mw_dryair = 28.97e-3  ! kg/mole
   ! SO4 molecular weight
   real,parameter::mw_so4    = 96.06
   ! SOA components molecular weights
-  real,parameter::mw_soam = 120.110
-  real,parameter::mw_soai =  60.055
-  real,parameter::mw_soat =  84.077 
-  real,parameter::mw_soab =  72.066
-  real,parameter::mw_soax =  96.088
+  ! varsoa  = (/"SOAI","SOAT","SOAB","SOAX","SOAM"/)
+  ! mwsoa_c = (/  60.0550  ,    84.077   ,    72.0660  ,    96.0880  , 120.1100   /) WRONG
+  ! mwsoa   = (/ 136.141400,   141.141800,   127.116000,   155.167600, 200.226000 /) CORRECT
+  !  real,parameter::mw_soai =  60.055
+  !  real,parameter::mw_soat =  84.077 
+  !  real,parameter::mw_soab =  72.066
+  !  real,parameter::mw_soax =  96.088
+  !  real,parameter::mw_soam = 120.110
+  real,parameter::mw_soai = 136.141400
+  real,parameter::mw_soat = 141.141800
+  real,parameter::mw_soab = 127.116000
+  real,parameter::mw_soax = 155.167670
+  real,parameter::mw_soam = 200.226000
   !
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag,cmor_var_id
+  real,dimension(:)    ,allocatable::area_wt
   real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,cmordat2d
   real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,indat3d,indat3e,cmordat3d,work3da,work3db
   real,dimension(:,:)  ,allocatable::psdata,tsdata,rho
@@ -85,6 +99,12 @@ program A3DM_CMOR
   ! Get grid information
   !
   call get_atm_grid
+  !
+  ! Compute area weights
+  !
+  if (allocated(area_wt)) deallocate(area_wt)
+  allocate(area_wt(nlats))
+  area_wt = gaussian_wts*(2.*pi/nlons)*(rearth**2)
   !
   ! Set up CMOR subroutine arguments
   !
@@ -225,6 +245,9 @@ program A3DM_CMOR
         !
         select case (xw(ixw)%entry)
         case ('wet3Ddu','wet3Dso4')
+           mycmor%positive = 'down'
+        case ('wet3Dso2')
+           var_info(var_found(1,1))%units = 'kg m-2 s-1'
            mycmor%positive = 'down'
         case ('wet3Dhno3','wet3Doa','wet3Dss')
            mycmor%positive = 'down'
@@ -376,7 +399,7 @@ program A3DM_CMOR
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
-                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,psdata)
+                    call read_var(myncid(ifile,3),'PS',psdata)
                     cmordat3d = indat3a + indat3b
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
@@ -451,8 +474,8 @@ program A3DM_CMOR
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
-                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,psdata)
-                    cmordat3d = (indat3a + indat3b)*1.4
+                    call read_var(myncid(ifile,3),'PS',psdata)
+                    cmordat3d = (indat3a + indat3b)*cscale
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
                          var_id        = cmor_var_id,   &
@@ -529,7 +552,7 @@ program A3DM_CMOR
                     call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
                     call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat3c)
                     call read_var(myncid(ifile,4),var_info(var_found(ifile,4))%name,indat3d)
-                    call read_var(myncid(ifile,5),var_info(var_found(ifile,5))%name,psdata)
+                    call read_var(myncid(ifile,5),'PS',psdata)
                     cmordat3d = indat3a + indat3b + indat3c + indat3d
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
@@ -566,7 +589,7 @@ program A3DM_CMOR
                  endif
               enddo
            enddo
-        case ('mmrsoa','chegpsoa')
+        case ('mmrsoa')
            !
            ! Sum five fields
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
@@ -611,8 +634,8 @@ program A3DM_CMOR
                     call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat3c)
                     call read_var(myncid(ifile,4),var_info(var_found(ifile,4))%name,indat3d)
                     call read_var(myncid(ifile,5),var_info(var_found(ifile,5))%name,indat3e)
-                    call read_var(myncid(ifile,6),var_info(var_found(ifile,6))%name,psdata)
-                    call read_var(myncid(ifile,7),var_info(var_found(ifile,7))%name,tsdata)
+                    call read_var(myncid(ifile,6),'PS',psdata)
+                    call read_var(myncid(ifile,7),'TS',tsdata)
                     ! Convert to kg m-2 s-1
                     indat3a = indat3a * (mw_soam / mw_dryair)
                     indat3b = indat3b * (mw_soai / mw_dryair)
@@ -663,7 +686,103 @@ program A3DM_CMOR
                  endif
               enddo
            enddo
-        case ('chegps04')
+        case ('chegpsoa')
+           !
+           ! Sum five fields, scale by 1/1000
+           ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
+           ! break up into nicely-sized chunks along time
+           !
+           ! nc1:SOAM nc2:SOAI nc3:SOAT nc4:SOAB nc5:SOAX 
+           !
+           allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),indat3c(nlons,nlats,nlevs))
+           allocate(indat3d(nlons,nlats,nlevs),indat3e(nlons,nlats,nlevs))
+           allocate(psdata(nlons,nlats),tsdata(nlons,nlats))
+           allocate(cmordat3d(nlons,nlats,nlevs),pshybrid(nlons,nlats,nlevs),psdelta(nlons,nlats,nlevs))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
+           ! Determine amount of data to write, to keep close to ~4 GB limit
+           !
+           do ifile = 1,nc_nfiles(1)
+              select case(ntimes(ifile,1))
+              case default
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
+                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat3c)
+                    call read_var(myncid(ifile,4),var_info(var_found(ifile,4))%name,indat3d)
+                    call read_var(myncid(ifile,5),var_info(var_found(ifile,5))%name,indat3e)
+                    call read_var(myncid(ifile,6),'PS',psdata)
+                    call read_var(myncid(ifile,7),'TS',tsdata)
+                    ! Convert to kg m-2 s-1
+                    indat3a = indat3a * (mw_soam / mw_dryair)
+                    indat3b = indat3b * (mw_soai / mw_dryair)
+                    indat3c = indat3c * (mw_soat / mw_dryair)
+                    indat3d = indat3d * (mw_soab / mw_dryair)
+                    indat3e = indat3e * (mw_soax / mw_dryair)
+                    !
+                    call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
+                    do k = 1,nlevs-1
+                       psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
+                    enddo
+                    !
+                    cmordat3d = ((indat3a + indat3b + indat3c + indat3d + indat3e)*(psdelta/grav))/1000.
+                    !
+                    tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(        &
+                         var_id        = cmor_var_id,   &
+                         data          = cmordat3d,     &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                    error_flag = cmor_write(        &
+                         var_id        = zfactor_id,&
+                         data          = psdata,   &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd,      &
+                         store_with    = cmor_var_id)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 !
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              enddo
+           enddo
+        case ('chegpso4','wet3Dhno3','wet3Dso2')
            !
            ! Just one field
            !
@@ -699,10 +818,11 @@ program A3DM_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,psdata)
-                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,tsdata)
+                    call read_var(myncid(ifile,2),'PS',psdata)
+                    call read_var(myncid(ifile,3),'TS',tsdata)
                     ! Convert to kg m-2 s-1
-                    indat3a = indat3a * mw_so4 * 1.e-3 * 6.022e23
+                    ! indat3a = indat3a * mw_so4 * 1.e-3 * 6.022e23
+                    indat3a = indat3a * (mw_dryair * 1.e-3 / avogn )
                     !
                     call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
                     do k = 1,nlevs-1
@@ -710,6 +830,12 @@ program A3DM_CMOR
                     enddo
                     !
                     cmordat3d = indat3a*(psdelta/grav)
+!!$                    !
+!!$                    ! Area weight, over all altitudes
+!!$                    !
+!!$                    do j = 1,nlats
+!!$                       cmordat3d(:,j,:)=cmordat3d(:,j,:)*area_wt(j)
+!!$                    enddo
                     !
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
@@ -748,7 +874,7 @@ program A3DM_CMOR
            enddo
         case ('wet3Doa')
            !
-           ! 1.4X scale factor
+           ! include 1.4X scale factor
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
            ! break up into nicely-sized chunks along time
            !
@@ -782,11 +908,11 @@ program A3DM_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,psdata)
+                    call read_var(myncid(ifile,2),'PS',psdata)
                     where (abs(indat3a) > spval)
                        indat3a = spval
                     elsewhere
-                       indat3a = indat3a * 1.4
+                       indat3a = indat3a * cscale
                     endwhere
                     where (abs(psdata) > spval)
                        psdata = spval
@@ -826,7 +952,6 @@ program A3DM_CMOR
                  endif
               enddo
            enddo
-
         case default
            !
            ! Non-vertically interpolated data; pass straight through, but include 'PS' as required, and
@@ -862,7 +987,7 @@ program A3DM_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,psdata)
+                    call read_var(myncid(ifile,2),'PS',psdata)
                     where (abs(indat3a) > spval)
                        indat3a = spval
                     endwhere

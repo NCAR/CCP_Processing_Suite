@@ -18,16 +18,20 @@ program A2DM_CMOR
   !
   implicit none
   !
-  real,parameter::spval = 1.e20
-  real,parameter::grav  = 9.81
-  real,parameter::pi    = 4.*(atan(1.))
+  real,parameter::spval  = 1.e20
+  real,parameter::pi     = 4.*(atan(1.))
+  real,parameter::grav   = 9.81         ! gravity, m s-1
+  real,parameter::rearth = 6.3712e6     ! earth radius, m
+  real,parameter::rdair  = 287.04       ! Dry air gas constant, J k-1 kg-1
+  real,parameter::cscale = 1.4          ! Carbon scaling factor
   !
   !  uninitialized variables used in communicating with CMOR:
   !
   integer::error_flag,cmor_var_id
-  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,indat2d,indat2e,cmordat2d
+  real,dimension(:)    ,allocatable::area_wt
+  real,dimension(:,:)  ,allocatable::indat2a,indat2b,indat2c,indat2d,indat2e,indat2f,indat2g,cmordat2d
   real,dimension(:,:)  ,allocatable::psdata,tsdata,rho
-  real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,indat3d,indat3e,cmordat3d,work3da,work3db
+  real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,indat3d,indat3e,indat3f,indat3g,cmordat3d,work3da,work3db
   real,dimension(:,:,:),allocatable::pshybrid,psdelta
   !
   double precision,dimension(:)  ,allocatable::time
@@ -76,6 +80,15 @@ program A2DM_CMOR
   ! Get grid information
   !
   call get_atm_grid
+  !
+  ! Compute area weights
+  !
+  if (allocated(area_wt)) deallocate(area_wt)
+  allocate(area_wt(nlats))
+  area_wt = gaussian_wts*(2.*pi/nlons)*(rearth**2)
+  write(*,*) 'EARTH AREA   : ',2*pi*rearth**2
+  write(*,*) 'AREA         : ',area_wt
+  write(*,*) 'TOTAL AREA WT: ',sum(area_wt)
   !
   ! Set up CMOR subroutine arguments
   !
@@ -219,7 +232,7 @@ program A2DM_CMOR
               'emidms','emiso2','emiss','emibc','emioa')
            mycmor%positive = 'up'
         case ('drydms','drydust','drypoa','dryso2','dryso4','drysoa','dryss',&
-              'emiso4')
+              'emiso4','wetdust','wetoa','wetso2','wetso4')
            mycmor%positive = 'down'
         case ('loadoa','loadbc','loaddust','loadss','loadso4')
            var_info(var_found(1,1))%units = 'kg m-2'
@@ -262,14 +275,76 @@ program A2DM_CMOR
                 comment=xw(ixw)%comment)
         end select
         write(*,*) 'called cmor_variable:'
-        write(*,*) 'varid         = ',cmor_var_id
+        write(*,*) 'varid   = ',cmor_var_id
+        write(*,*) 'comment = ',trim(xw(ixw)%comment)
         !
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('clt','drydms','drydust','dryso2','dryso4','dryss','emidms','emiso2','emiso4',&
-              'od550aer','od550bc','od550oa','od550so4','ps',&
-              'rlds','rlutcs','rsdscs','rsds','rsdt','tamax','tamin')
+        case ('clt','od550aer','od550bc','od550oa','od550so4','ps',&
+              'rlds','rlutcs','rsdscs','rsds','rsdt','tamax','tamin',&
+              'wetso2','wetso4')
+           !
+           ! No change
+           !
+           allocate(indat2a(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
+           ! Determine amount of data to write, to keep close to ~4 GB limit
+           !
+           select case(ntimes(1,1))
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
+           end select
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           do ic = 1,nchunks(1)
+              do it = tidx1(ic),tidx2(ic)
+                 time_counter = it
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 where (abs(indat2a) > spval)
+                    indat2a = spval
+                 endwhere
+                 tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                 error_flag = cmor_write(          &
+                      var_id        = cmor_var_id, &
+                      data          = indat2a,     &
+                      ntimes_passed = 1,           &
+                      time_vals     = tval,        &
+                      time_bnds     = tbnd)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
+              enddo
+              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              !
+              if (ic < nchunks(1)) then
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              endif
+           enddo
+        case ('drydms','drydust','dryso2','dryso4','dryss','emidms','emiso2','emiso4')
            !
            ! No change
            !
@@ -474,7 +549,7 @@ program A2DM_CMOR
                  endif
               endif
            enddo
-        case ('emibc','emioa','rlus')
+        case ('emibc','rlus')
            !
            ! Add two fields
            !
@@ -547,7 +622,7 @@ program A2DM_CMOR
                  endif
               endif
            enddo
-        case ('drypoa','emioa')
+        case ('drypoa')
            !
            ! Add two fields, 1.4 scale factor too
            !
@@ -591,7 +666,7 @@ program A2DM_CMOR
                  endwhere
                  ! 
                  where ((indat2a /= spval).and.(indat2b /= spval))
-                    cmordat2d = (indat2a + indat2b)*1.4
+                    cmordat2d = (indat2a + indat2b)*cscale
                  elsewhere
                     cmordat2d = spval
                  endwhere
@@ -620,7 +695,79 @@ program A2DM_CMOR
                  endif
               endif
            enddo
-        case ('emiss','od550dust','od550ss')
+        case ('emioa')
+           !
+           ! Add two fields, 1.4 scale factor applied to two
+           !
+           allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
+!           allocate(indat2c(nlons,nlats))
+!           allocate(indat2d(nlons,nlats),indat2e(nlons,nlats),indat2f(nlons,nlats))
+!           allocate(indat2g(nlons,nlats))
+           allocate(cmordat2d(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
+           ! Determine amount of data to write, to keep close to ~4 GB limit
+           !
+           select case(ntimes(1,1))
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
+           end select
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           do ic = 1,nchunks(1)
+              do it = tidx1(ic),tidx2(ic)
+                 time_counter = it
+                 cmordat2d = spval
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
+!                 call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat2c)
+!                 call read_var(myncid(1,4),var_info(var_found(1,4))%name,indat2d)
+!                 call read_var(myncid(1,5),var_info(var_found(1,5))%name,indat2e)
+!                 call read_var(myncid(1,6),var_info(var_found(1,6))%name,indat2f)
+!                 call read_var(myncid(1,7),var_info(var_found(1,7))%name,indat2g)
+                 ! 
+!                 cmordat2d = ((indat2a + indat2b)*cscale)+indat2c+indat2d+indat2e+indat2f+indat2g
+                 cmordat2d = (indat2a + indat2b)*cscale
+                 tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                 error_flag = cmor_write(      &
+                      var_id        = cmor_var_id, &
+                      data          = cmordat2d, &
+                      ntimes_passed = 1,       &
+                      time_vals     = tval,    &
+                      time_bnds     = tbnd)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
+              enddo
+              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              !
+              if (ic < nchunks(1)) then
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              endif
+           enddo
+        case ('od550dust','od550ss','wetdust')
            !
            ! Sum four fields
            !
@@ -664,6 +811,86 @@ program A2DM_CMOR
                  elsewhere
                     cmordat2d = 1.e20
                  endwhere
+                 !
+                 tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                 error_flag = cmor_write(      &
+                      var_id        = cmor_var_id, &
+                      data          = cmordat2d, &
+                      ntimes_passed = 1,       &
+                      time_vals     = tval,    &
+                      time_bnds     = tbnd)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
+              enddo
+              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              !
+              if (ic < nchunks(1)) then
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              endif
+           enddo
+        case ('emiss')
+           !
+           ! Sum four fields
+           !
+           allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),indat2c(nlons,nlats),indat2d(nlons,nlats))
+           allocate(cmordat2d(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
+           ! Determine amount of data to write, to keep close to ~4 GB limit
+           !
+           select case(ntimes(1,1))
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
+           end select
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           do ic = 1,nchunks(1)
+              do it = tidx1(ic),tidx2(ic)
+                 time_counter = it
+                 cmordat2d = spval
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                 call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat2c)
+                 call read_var(myncid(1,4),var_info(var_found(1,4))%name,indat2d)
+                 !
+                 where ((indat2a /= 1.e36).and.(indat2b /= 1.e36).and.(indat2c /= 1.e36).and.(indat2d /= 1.e36))
+                    cmordat2d = indat2a + indat2b + indat2c + indat2d
+                 elsewhere
+                    cmordat2d = 1.e20
+                 endwhere
+!!$                 !
+!!$                 ! Area weighting
+!!$                 !
+!!$                 write(*,*) 'CM2 0: ',minval(cmordat2d),maxval(cmordat2d)
+!!$                 do j = 1,nlats
+!!$                    where (cmordat2d(:,j) /= 1.e20)
+!!$                       cmordat2d(:,j)=cmordat2d(:,j)*area_wt(j)
+!!$                    endwhere
+!!$                 enddo
+!!$                 write(*,*) 'CM2 1: ',minval(cmordat2d),maxval(cmordat2d)
                  !
                  tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(      &
@@ -804,21 +1031,25 @@ program A2DM_CMOR
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat3b)
                  call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat3c)
                  call read_var(myncid(1,4),var_info(var_found(1,4))%name,indat3d)
-                 call read_var(myncid(1,5),var_info(var_found(1,5))%name,psdata)
-                 call read_var(myncid(1,6),var_info(var_found(1,6))%name,tsdata)
+                 call read_var(myncid(1,5),'PS',psdata)
+                 call read_var(myncid(1,6),'TS',tsdata)
                  !
-                 rho = psdata / (287.04 * tsdata)
+                 rho = psdata / (rdair * tsdata)
                  call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
                  do k = 1,nlevs-1
                     psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
                  enddo
-!                 do k = 1,nlevs
-!                    write(*,'(''PSD'',i2.2,'' : '',2f16.4)') k,minval(psdelta(:,:,k)),maxval(psdelta(:,:,k))
-!                 enddo
                  !
                  work3da   = (indat3a + indat3b + indat3c + indat3d)*(psdelta/grav)
                  cmordat2d = sum(work3da,dim=3)
-!                 write(*,'(''CM2: '',2f16.4)') minval(cmordat2d),maxval(cmordat2d)
+!!$                 !
+!!$                 ! Area weighting
+!!$                 !
+!!$                 write(*,*) 'CM2 0: ',minval(cmordat2d),maxval(cmordat2d)
+!!$                 do j = 1,nlats
+!!$                    cmordat2d(:,j)=cmordat2d(:,j)*area_wt(j)
+!!$                 enddo
+!!$                 write(*,*) 'CM2 1: ',minval(cmordat2d),maxval(cmordat2d)
                  !
                  tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(      &
@@ -885,18 +1116,26 @@ program A2DM_CMOR
                  cmordat2d = 1.e20
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat3b)
-                 call read_var(myncid(1,3),var_info(var_found(1,3))%name,psdata)
-                 call read_var(myncid(1,4),var_info(var_found(1,4))%name,tsdata)
+                 call read_var(myncid(1,3),'PS',psdata)
+                 call read_var(myncid(1,4),'TS',tsdata)
                  !
-                 rho = psdata / (287.04 * tsdata)
+                 rho = psdata / (rdair * tsdata)
                  call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
                  do k = 1,nlevs-1
                     psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
                  enddo
                  !
                  work3da   = (indat3a + indat3b)*(psdelta/grav)
+                 write(*,*) 'CM3 0',minval(work3da),maxval(work3da)
                  cmordat2d = sum(work3da,dim=3)
-!                 write(*,'(''CM2: '',2f16.4)') minval(cmordat2d),maxval(cmordat2d)
+!!$                 !
+!!$                 ! Area weighting
+!!$                 !
+!!$                 write(*,*) 'CM2 0: ',minval(cmordat2d),maxval(cmordat2d)
+!!$                 do j = 1,nlats
+!!$                    cmordat2d(:,j)=cmordat2d(:,j)*area_wt(j)
+!!$                 enddo
+!!$                 write(*,*) 'CM2 1: ',minval(cmordat2d),maxval(cmordat2d)
                  !
                  tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(      &
@@ -925,9 +1164,11 @@ program A2DM_CMOR
            enddo
         case ('loadoa')
            !
-           ! Sum two fields integrated over Z, 1.4X scale factor too
+           ! Sum seven fields integrated over Z, 1.4X scale factor for OC1 and OC2
            !
-           allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs))
+           allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),indat3c(nlons,nlats,nlevs))
+           allocate(indat3d(nlons,nlats,nlevs),indat3e(nlons,nlats,nlevs),indat3f(nlons,nlats,nlevs))
+           allocate(indat3g(nlons,nlats,nlevs))
            allocate(work3da(nlons,nlats,nlevs))
            allocate(psdata(nlons,nlats),pshybrid(nlons,nlats,nlevs),psdelta(nlons,nlats,nlevs))
            allocate(tsdata(nlons,nlats),rho(nlons,nlats))
@@ -963,18 +1204,112 @@ program A2DM_CMOR
                  cmordat2d = 1.e20
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat3b)
-                 call read_var(myncid(1,3),var_info(var_found(1,3))%name,psdata)
-                 call read_var(myncid(1,4),var_info(var_found(1,4))%name,tsdata)
+                 call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat3c)
+                 call read_var(myncid(1,4),var_info(var_found(1,4))%name,indat3d)
+                 call read_var(myncid(1,5),var_info(var_found(1,5))%name,indat3e)
+!                 call read_var(myncid(1,6),var_info(var_found(1,6))%name,indat3f)
+!                 call read_var(myncid(1,7),var_info(var_found(1,7))%name,indat3g)
+!                 call read_var(myncid(1,8),'PS',psdata)
+!                 call read_var(myncid(1,9),'TS',tsdata)
+                 call read_var(myncid(1,6),'PS',psdata)
+                 call read_var(myncid(1,7),'TS',tsdata)
                  !
-                 rho = psdata / (287.04 * tsdata)
+                 rho = psdata / (rdair * tsdata)
                  call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
                  do k = 1,nlevs-1
                     psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
                  enddo
                  !
-                 work3da   = (indat3a + indat3b)*(psdelta/grav)
-                 cmordat2d = sum(work3da,dim=3)*1.4
-!                 write(*,'(''CM2: '',2f16.4)') minval(cmordat2d),maxval(cmordat2d)
+!                 work3da   = (((indat3a+indat3b)*cscale)+indat3c+indat3d+indat3e+indat3f+indat3g)*(psdelta/grav)
+                 work3da   = (indat3a+indat3b+indat3c+indat3d+indat3e)*(psdelta/grav)
+                 cmordat2d = sum(work3da,dim=3)
+!!$                 !
+!!$                 ! Area weighting
+!!$                 !
+!!$                 write(*,*) 'CM2 0: ',minval(cmordat2d),maxval(cmordat2d)
+!!$                 do j = 1,nlats
+!!$                    cmordat2d(:,j)=cmordat2d(:,j)*area_wt(j)
+!!$                 enddo
+!!$                 write(*,*) 'CM2 1: ',minval(cmordat2d),maxval(cmordat2d)
+                 !
+                 tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                 error_flag = cmor_write(      &
+                      var_id        = cmor_var_id, &
+                      data          = cmordat2d, &
+                      ntimes_passed = 1,       &
+                      time_vals     = tval,    &
+                      time_bnds     = tbnd)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
+              enddo
+              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              !
+              if (ic < nchunks(1)) then
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              endif
+           enddo
+        case ('wetoa')
+           !
+           ! Old: sum six  fields integrated over Z, 1.4X scale factor for the first
+           ! New: sum five fields integrated over Z
+           !
+           allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),indat2c(nlons,nlats))
+           allocate(indat2d(nlons,nlats),indat2e(nlons,nlats),indat2f(nlons,nlats))
+           allocate(cmordat2d(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
+           ! Determine amount of data to write, to keep close to ~4 GB limit
+           !
+           select case(ntimes(1,1))
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
+           end select
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           do ic = 1,nchunks(1)
+              do it = tidx1(ic),tidx2(ic)
+                 time_counter = it
+                 cmordat2d    = 1.e20
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                 call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat2c)
+                 call read_var(myncid(1,4),var_info(var_found(1,4))%name,indat2d)
+                 call read_var(myncid(1,5),var_info(var_found(1,5))%name,indat2e)
+!                 call read_var(myncid(1,6),var_info(var_found(1,6))%name,indat2f)
+!                 !
+!                 cmordat2d = (indat2a*cscale)+indat2b+indat2c+indat2d+indat2e+indat2f
+                 cmordat2d = indat2b+indat2c+indat2d+indat2e
+!!$                 !
+!!$                 ! Area weighting
+!!$                 !
+!!$                 write(*,*) 'CM2 0: ',minval(cmordat2d),maxval(cmordat2d)
+!!$                 do j = 1,nlats
+!!$                    cmordat2d(:,j)=cmordat2d(:,j)*area_wt(j)
+!!$                 enddo
+!!$                 write(*,*) 'CM2 1: ',minval(cmordat2d),maxval(cmordat2d)
                  !
                  tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(      &
@@ -1040,21 +1375,25 @@ program A2DM_CMOR
                  work3da   = 1.e20
                  cmordat2d = 1.e20
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
-                 call read_var(myncid(1,2),var_info(var_found(1,2))%name,psdata)
-                 call read_var(myncid(1,3),var_info(var_found(1,3))%name,tsdata)
+                 call read_var(myncid(1,2),'PS',psdata)
+                 call read_var(myncid(1,3),'TS',tsdata)
                  !
-                 rho = psdata / (287.04 * tsdata)
+                 rho = psdata / (rdair * tsdata)
                  call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
                  do k = 1,nlevs-1
                     psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
                  enddo
-!                 do k = 1,nlevs
-!                    write(*,'(''PSD'',i2.2,'' : '',2f16.4)') k,minval(psdelta(:,:,k)),maxval(psdelta(:,:,k))
-!                 enddo
                  !
                  work3da   = indat3a*(psdelta/grav)
                  cmordat2d = sum(indat3a,dim=3)
-!                 write(*,'(''CM2: '',2f16.4)') minval(cmordat2d),maxval(cmordat2d)
+!!$                 !
+!!$                 ! Area weighting
+!!$                 !
+!!$                 write(*,*) 'CM2 0: ',minval(cmordat2d),maxval(cmordat2d)
+!!$                 do j = 1,nlats
+!!$                    cmordat2d(:,j)=cmordat2d(:,j)*area_wt(j)
+!!$                 enddo
+!!$                 write(*,*) 'CM2 1: ',minval(cmordat2d),maxval(cmordat2d)
                  !
                  tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(      &
@@ -1163,9 +1502,18 @@ program A2DM_CMOR
         if (allocated(indat2a))   deallocate(indat2a)
         if (allocated(indat2b))   deallocate(indat2b)
         if (allocated(indat2c))   deallocate(indat2c)
+        if (allocated(indat2d))   deallocate(indat2d)
+        if (allocated(indat2e))   deallocate(indat2e)
+        if (allocated(indat2f))   deallocate(indat2f)
+        if (allocated(indat2g))   deallocate(indat2g)
         if (allocated(cmordat2d)) deallocate(cmordat2d)
         if (allocated(indat3a))   deallocate(indat3a)
         if (allocated(indat3b))   deallocate(indat3b)
+        if (allocated(indat3c))   deallocate(indat3c)
+        if (allocated(indat3d))   deallocate(indat3d)
+        if (allocated(indat3e))   deallocate(indat3e)
+        if (allocated(indat3f))   deallocate(indat3f)
+        if (allocated(indat3g))   deallocate(indat3g)
         if (allocated(work3da))   deallocate(work3da)
         if (allocated(work3db))   deallocate(work3db)
         do ivar = 1,xw(ixw)%ncesm_vars

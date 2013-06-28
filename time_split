@@ -55,6 +55,8 @@ while [ $IDOT -le $NDOT ] ; do
       DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
     pop )
       DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
+    rtm )
+      DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
     csim )
       DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
   esac
@@ -83,7 +85,7 @@ if [ "$COMP" = "cam2" ] || [ "$COMP" = "cam" ] ; then
   done
 fi
 #
-if [ "$COMP" = "clm2" ] ; then
+if [ "$COMP" = "clm2" ] || [ "$COMP" = "rtm" ] ; then
   IT=1
   while [ $IT -le $NT ] ; do
     TM=`$NCKS -s "%8.8i\n" -F -H -C -v mcdate -d time,${IT},${IT} $FILE`

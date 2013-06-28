@@ -162,6 +162,8 @@ case "$HTYP" in
     COMP_NAME=lnd ;;
   pop  ) 
     COMP_NAME=ocn ;;
+  rtm  ) 
+    COMP_NAME=rof ;;
   csim | cice ) 
     COMP_NAME=ice ;;
   * ) 

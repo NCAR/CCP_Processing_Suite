@@ -121,7 +121,6 @@ OBJ	= mymods.o \
 	  reset_netcdf_var.o \
 	  load_xwalk.o \
 	  add_global_metadata.o \
-	  file_output_times.o \
 	  parse_rip.o \
 	  dphybrid.o \
 	  vertintp.o \
@@ -251,9 +250,6 @@ add_global_metadata.o: add_global_metadata.f90 mymods.o
 
 load_expt.o: load_expt.f90 mymods.o
 	$(FC) $(FFLAGS) $(LOCINC) -c load_expt.f90
-
-file_output_times.o: file_output_times.f90 mymods.o
-	$(FC) $(FFLAGS) $(LOCINC) -c file_output_times.f90
 
 vertintp.o: vertintp.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c vertintp.f90
