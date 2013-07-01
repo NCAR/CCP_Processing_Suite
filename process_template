@@ -95,8 +95,8 @@ case "$PROCHOST" in
     LOCALDSK=/glade/scratch/$USER/$CASE           ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
     if [ "$MIPNAME" = "le5" ] ; then              # Special CESM1-CAM5-BGC large ensemble runs
-      PROCBASE=/glade/scratch/$USER/$CASE           ; export PROCBASE
-      LOCALDSK=/glade/p/cesm0005/csm/$CASE           ; export LOCALDSK
+      PROCBASE=/glade/p/cesm0005/$CASE           ; export PROCBASE
+      LOCALDSK=/glade/p/cesm0005/csm/$CASE       ; export LOCALDSK
     fi
     ;;
 
