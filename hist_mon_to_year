@@ -77,7 +77,7 @@ for c in $CASES ; do
       if [ $NUM -eq 12 ] ; then
         DF=${c}.${h}.${y}.nc
         if [ $DF ] ; then
-          $NCRCAT -O ${c}.${h}.${y}-??.nc $DF
+          $NCRCAT -4 -L 1 -O ${c}.${h}.${y}-??.nc $DF
           if [ $? -eq 0 ] ; then
             echo "Created: "$DF
             rm -f ${c}.${h}.${y}-??.nc

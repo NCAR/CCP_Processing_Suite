@@ -94,6 +94,10 @@ case "$PROCHOST" in
 #    LOCALDSK=/glade/p/cesm/shared_outputdata/cases/ccsm4/$CASE ; export LOCALDSK
     LOCALDSK=/glade/scratch/$USER/$CASE           ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
+    if [ "$MIPNAME" = "le5" ] ; then              # Special CESM1-CAM5-BGC large ensemble runs
+      PROCBASE=/glade/scratch/$USER/$CASE           ; export PROCBASE
+      LOCALDSK=/glade/p/cesm0005/csm/$CASE           ; export LOCALDSK
+    fi
     ;;
 
   nid* | hopper* )                                # hopper @ NERSC
