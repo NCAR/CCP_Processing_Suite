@@ -864,7 +864,7 @@ program day_CMOR
                        call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
                        call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2b)
                        where ((indat2a /= spval).and.(indat2b /= spval))
-                          cmordat2d = (indat2a + indat2b)*1000.
+                          cmordat2d = indat2a + indat2b
                        elsewhere
                           cmordat2d = spval
                        endwhere
