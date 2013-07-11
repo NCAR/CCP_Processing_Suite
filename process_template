@@ -35,9 +35,9 @@ if [ -f $EXPFILE ] ; then
     BRANCH=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
    YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c165-168`
    YEAREND=`egrep "^$CASE " $EXPFILE | cut -c170-173`
-       RES=`egrep "^$CASE " $EXPFILE | cut -c180- | cut -d" " -f1`
-   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c190- | cut -d" " -f1`
-   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c210- | cut -d" " -f1`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c185- | cut -d" " -f1`
+   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c195- | cut -d" " -f1`
+   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c215- | cut -d" " -f1`
   HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c250- | cut -d" " -f1`
   HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c260- | cut -d" " -f1`
 else
