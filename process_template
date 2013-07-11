@@ -264,7 +264,7 @@ cd $LOCAL_PROC
 case "$TPER" in
   day | hr6 | hr3 | m30 )
     ln -s -f $BASEDIR/time_split     .
-    ln -s -f $BASEDIR/days_to_month  .
+    ln -s -f $BASEDIR/days_to_year  .
     ;;
 esac
 #
@@ -350,7 +350,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
             else
               echo "time_split-ting on "$FILE
               ./time_split $FILE erase
-              ./days_to_month erase
+              ./days_to_year erase
             fi
           done
         fi ;;
@@ -366,7 +366,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
             else
               echo "time_split-ting on "$FILE
               ./time_split $FILE erase
-              ./days_to_month erase
+              ./days_to_year erase
             fi
           done
         fi ;;
@@ -376,7 +376,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
           for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??.nc` ; do
             echo "time_split-ting on "$FILE
             ./time_split $FILE erase
-            ./days_to_month erase
+            ./days_to_year erase
           done
         fi ;;
       pop.h2 | pop.h.nday1 )
