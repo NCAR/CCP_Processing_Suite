@@ -95,7 +95,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
         do year1 = runbeg,runend
            do year2 = runend,year1,-1
               do idt = 1,ndt
-                 !              write(*,'(''dtbeg, dtend: '',i4,5x,a,10x,a)') idt,trim(dtbeg(idt)),trim(dtend(idt))
+!                 write(*,'(''dtbeg, dtend: '',i4,5x,a,10x,a)') idt,trim(dtbeg(idt)),trim(dtend(idt))
                  write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
                       trim(case),&
                       trim(comp),&

@@ -87,7 +87,8 @@ case "$PROCHOST" in
 
   yslogin* | geyser* )                                # Yellowstone (geyser) @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/glade/apps/opt/nco/4.2.3/gnu/4.7.2/bin/ncks     ; export NCKS
+#    NCKS=/glade/apps/opt/nco/4.2.3/gnu/4.7.2/bin/ncks     ; export NCKS
+    NCKS=/glade/apps/opt/nco/4.1.0/gnu/default/bin/ncks    ; export NCKS
     NCRA=/glade/apps/opt/nco/4.2.3/gnu/4.7.2/bin/ncra     ; export NCRA
     NCRCAT=/glade/apps/opt/nco/4.2.3/gnu/4.7.2/bin/ncrcat ; export NCRCAT
     PROCBASE=/glade/scratch/$USER/$CASE           ; export PROCBASE

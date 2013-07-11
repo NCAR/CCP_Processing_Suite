@@ -22,7 +22,7 @@ else
    echo "Usage: ./Process_Setup CASE HIST TPER [VARS]"
    echo "First three arguments REQUIRED:"
    echo "1: CASE name"
-   echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h rtm.h0 etc]"
+   echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h cice.h1 rtm.h0 etc]"
    echo "3: TPER time period of above HIST type - must be one of [ann mon day hr6 hr3 m30]"
    echo "4: VARS OPTIONAL - list of variable names to process, set off by double quotes and blank delimited, e.g,."
    echo '   "TEMP SALT UVEL VVEL"'

@@ -71,9 +71,10 @@ NT=`$NCKS -M $FILE | egrep "Record" | cut -d"=" -f3`
 if [ "$COMP" = "cam2" ] || [ "$COMP" = "cam" ] ; then
   IT=1
   while [ $IT -le $NT ] ; do
-    TM=`$NCKS -s "%8.8i\n" -F -H -C -v date    -d time,${IT},${IT} $FILE`
+    YY=`$NCKS -s "%8.8i\n" -F -H -C -v date    -d time,${IT},${IT} $FILE | cut -c1-4`
+    MD=`$NCKS -s "%8.8i\n" -F -H -C -v date    -d time,${IT},${IT} $FILE | cut -c5-8`
     DS=`$NCKS -s "%5.5i\n" -F -H -C -v datesec -d time,${IT},${IT} $FILE`
-    DT=${TM}"-"${DS}
+    DT=${YY}"-"${MD}${DS}
     OF=$OUTPFX.$DT.nc
     $NCKS -h -O -F -d time,${IT},${IT} $FILE $OF
     if [ $? -eq  0 ] ; then

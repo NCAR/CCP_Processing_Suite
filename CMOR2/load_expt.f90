@@ -202,11 +202,11 @@ subroutine load_exp(exp_file)
      case ('amipFuture')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA (and SST perturbation)'
      case ('aqua4K')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'GHG (fixed) Oz (prescribed)'
      case ('aqua4xCO2')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'GHG (fixed, CO2 instantaneously to 4X) Oz (prescribed)'
      case ('aquaControl')
-        exp(i)%forcing(1:)      = 'unknown forcings'
+        exp(i)%forcing(1:)      = 'GHG (fixed) Oz (prescribed)'
      case ('decadal1961','decadal1966','decadal1971','decadal1975','decadal1976','decadal1980',&
            'decadal1981','decadal1985','decadal1986','decadal1990','decadal1991','decadal1995','decadal1996')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU'

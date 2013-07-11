@@ -568,6 +568,11 @@ program Amon_CMOR
                  elsewhere
                     cmordat2d = spval
                  endwhere
+                 write(*,*) 'min: ',minval(cmordat2d,mask=cmordat2d/=0.),' max: ',maxval(cmordat2d,mask=cmordat2d/=0.)
+                 where (cmordat2d < 1.449e-06)
+                    cmordat2d = 1.449e-06
+                 endwhere
+                 write(*,*) 'min: ',minval(cmordat2d,mask=cmordat2d/=0.),' max: ',maxval(cmordat2d,mask=cmordat2d/=0.)
                  tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(      &
                       var_id        = cmor_var_id, &
