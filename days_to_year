@@ -75,7 +75,7 @@ for y in $YEARS ; do
     $NCRCAT -O ${OUTPFX}.${y}-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].nc $YRFILE
     if [ $? -eq 0 ] ; then
       if [ $# -eq 1 ] ; then
-         rm -f ${OUTPFX}.${y}-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].nc $YRFILE
+         rm -f ${OUTPFX}.${y}-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].nc
       fi
       echo "Created "$YRFILE
     fi
