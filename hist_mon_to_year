@@ -50,12 +50,11 @@ while [ $IDOT -le $NDOT ] ; do
   IDOT=`expr '(' $IDOT ')' '+' '1'`
 done
 DHT2=`expr '(' $DHT1 ')' '+' '1'`
-echo "HT2: "${DHT2}
 #
 CASES=`ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f1-${DCAS} | sort | uniq`
  HIST=`ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
 #
-# Check for pop.h.nday1
+# Check for pop.h2/pop.h.nday1/pop.h.ecosys.nday1
 #
 if [ "$HIST" = "pop.h" ] ; then
   DYCK=`expr '(' $DHT2 ')' '+' '1'`
@@ -64,6 +63,12 @@ if [ "$HIST" = "pop.h" ] ; then
     DHT2=$DYCK
     DTIM=`expr '(' $DHT2 ')' '+' '1'`
     HIST=`ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+  fi
+  if [ "$ODAY" = "ecosys" ] ; then
+    DHT2=`expr '(' $DYCK ')' '+' '1'`
+    DTIM=`expr '(' $DHT2 ')' '+' '1'`
+    HIST=`ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+    echo $HIST
   fi
 fi
 #
