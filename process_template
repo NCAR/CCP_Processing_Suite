@@ -379,7 +379,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
             ./days_to_year erase
           done
         fi ;;
-      pop.h2 | pop.h.nday1 )
+      pop.h2 | pop.h.nday1 | pop.h.ecosys.nday1 )
         NFNC=`echo $CASE.$HIST.${YEARNOW}-??-01.nc | wc -w`
         if [ ${NFNC} -ne 1 ] ; then
           for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-01.nc` ; do
