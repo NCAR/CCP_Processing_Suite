@@ -9,7 +9,7 @@ if [ $# = 1 ] ; then
 else
   echo "I need an arguments:"
   echo "Directory on archival system to write file to"
-  ./status_check error archive_write
+  ./update_status error archive_write
   exit 1
 fi
 #
@@ -32,12 +32,12 @@ EOF
       echo "Files written to your HPSS HOME"
     else
       echo "Problem with HPSS on write. Stopping"
-	./status_check error archive_write
+	./update_status error archive_write
       exit 1
     fi
   fi      
 else
   echo "Cannot find hsi command."
-  ./status_check error archive_write
+  ./update_status error archive_write
   exit 1
 fi

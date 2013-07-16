@@ -276,7 +276,7 @@ ln -s -f $BASEDIR/hist_mon_to_year  .
 ln -s -f $BASEDIR/var_year_to_all   .
 ln -s -f $BASEDIR/concatenate_data  .
 ln -s -f $BASEDIR/store_to_archive  .
-ln -s -f $BASEDIR/status_check       .
+ln -s -f $BASEDIR/update_status       .
 #
 cd $LOCAL_PROC
 #
@@ -287,12 +287,12 @@ cd $LOCAL_PROC
 YEARNOW=$YEAREND;export YEARNOW
 #
 echo "BEGIN : procstat"
-./status_check start
+./update_status start
 #
 # Big processing loop
 #
 while [ $YEARNOW -ge $YEARBEG ] ; do
-  ./status_check $YEARNOW
+  ./update_status $YEARNOW
   if [ ! -f .comp.$CASE.$HIST.$YEARNOW.nc ] ; then
     echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
     if [ -d $LOCAL_HIST ] ; then
@@ -313,7 +313,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
       ./archive_read $ARCHIVE_LIST $YEARNOW
       if [ $? -ne 0 ] ; then
         echo "Error from archive_read"
-       ./status_check error "$CASE $HIST $TPER"
+       ./update_status error "$CASE $HIST $TPER"
        exit 1
       fi
     fi
@@ -397,7 +397,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
       ./hist_mon_to_year
       if [ $? -ne 0 ] ; then
         echo "Error from hist_mon_to_year on file "$FILE
-        ./status_check error hist_mon_to_year
+        ./update_status error hist_mon_to_year
         exit 1
       fi
     fi
@@ -410,7 +410,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
         ./var_split $FILE erase
         if [ $? -ne 0 ] ; then
           echo "Error from var_split on file "$FILE
-          ./status_check error var_split
+          ./update_status error var_split
           exit 1
         else
           touch .comp.$FILE
@@ -442,8 +442,8 @@ echo "Final concatenating of "$CASE"."$HIST" at "`date`
 ./store_to_archive
 if [ $? -ne 0 ] ; then
   echo "store_to_archive failed"
-  ./status_check error "$CASE $HIST $TPER"
+  ./update_status error "$CASE $HIST $TPER"
   exit 1
 fi
 echo "COMPLETE : procstat"
-./status_check complete
+./update_status complete

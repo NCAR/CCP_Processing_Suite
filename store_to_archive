@@ -4,7 +4,7 @@
 #
 if [ $# -ne 0 ] ; then
   echo "Usage: store_to_archive"
-  ./status_check error store_to_archive
+  ./update_status error store_to_archive
   exit 1
 fi
 #

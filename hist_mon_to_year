@@ -4,7 +4,7 @@
 #
 if [ $# -ne 0 ] ; then
   echo "Usage: hist_mon_to_year"
-  ./status_check error hist_mon_to_year
+  ./update_status error hist_mon_to_year
   exit 1
 fi
 # 
@@ -16,7 +16,7 @@ if [ ! $NCRCAT ] ; then
     NCRCAT=`which ncrcat`
   else
     echo "NCRCAT not in PATH - UNDEFINED"
-    ./status_check error hist_mon_to_year
+    ./update_status error hist_mon_to_year
     exit 1
   fi
 fi
@@ -88,7 +88,7 @@ for c in $CASES ; do
           fi
         else
           echo "Undefined DF: "$DF
-          ./status_check error hist_mon_to_year
+          ./update_status error hist_mon_to_year
           exit 1
         fi
       fi

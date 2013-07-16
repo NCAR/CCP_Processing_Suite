@@ -5,7 +5,7 @@
 #
 if [ $# -ne 1 ] ; then
   echo "Usage: archive_list local_list - REQUIRED"
-  ./status_check error archive_list
+  ./update_status error archive_list
   exit 1
 else
   ARCHIVE_L=$1
@@ -27,11 +27,11 @@ if [ $? -eq 0 ] ; then
   $HSI "ls -Fl $ARCHIVE_HIST" 2>&1 | egrep "\.${HIST}\." | cut -c60- > $ARCHIVE_L 2>&1 
   if [ $? -ne 0 ] ; then
     echo "Error on archive_list from "$ARCHIVE_HIST
-    ./status_check error archive_list
+    ./update_status error archive_list
     exit 1
   fi
 else
   echo "Cannot find hsi command."
-  ./status_check error archive_list
+  ./update_status error archive_list
   exit 1
 fi
