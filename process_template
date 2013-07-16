@@ -2,6 +2,8 @@ CASE=xxxCASExxx ; export CASE
 HIST=xxxHISTxxx ; export HIST
 TPER=xxxTPERxxx ; export TPER
 #
+echo -n "BEGIN: " ; date
+#
 # Template for processing CCSM history netCDF files into single-field format 
 #
 # Extract information from "experiments.txt"
@@ -286,7 +288,6 @@ cd $LOCAL_PROC
 #
 YEARNOW=$YEAREND;export YEARNOW
 #
-echo "BEGIN : procstat"
 ./update_status start
 #
 # Big processing loop
@@ -445,5 +446,5 @@ if [ $? -ne 0 ] ; then
   ./update_status error "$CASE $HIST $TPER"
   exit 1
 fi
-echo "COMPLETE : procstat"
 ./update_status complete
+echo -n "END  : " ; date
