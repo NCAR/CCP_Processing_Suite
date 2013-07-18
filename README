@@ -28,11 +28,11 @@ Functionality:
 The general functionality is as follows:
 
 1. Read in each netCDF file (or tarfile of netCDF files) from archival storage;
-2. Concatenate months of history data into a years' worth of history data;
+2. Concatenate months of history data into a years' worth of history data, and
+   convert to netCDF-4 format with "level 1" compression;
 3. Split each netCDF file into single files for each time-dependent variable,
    placing them into individual subdirectories, which are named for each field
-   and suffixed by the dimensionality of the field (i.e., T_4d.d, TS_3d.d, &c.)
-   with one file per year of model time;
+   and suffixed by the dimensionality of the field (i.e., T_4d.d, TS_3d.d, &c.);
 4. Step through each per-field subdirectory and concatenate along time, one
    file per entire length of the run;
 5. Write each per-field file back to the archival storage system using the CESM
