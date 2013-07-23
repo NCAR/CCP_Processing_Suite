@@ -185,7 +185,6 @@ if [ `echo $TIMEV3D | wc -w` -ne 0 ] ; then
     fi
     if [ "$COMP" = "cice" ] ; then
       NJ=`$NCKS -m $FILE | egrep "nj" | head -1 | cut -d"," -f2 | cut -d"=" -f2 | sed -e 's/ //g'`
-      echo "NJ: "${NJ} 
       case "$NJ" in
          384 ) # gx1 (~1 degree)
           OUT=${f}_3d.d/${OUTPFX}.${f}_nh.${OUTSFX}
