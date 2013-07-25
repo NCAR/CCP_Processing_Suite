@@ -351,7 +351,6 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
     case "$TPER" in
       day )
       case "$HTYP" in
-      case "$HIST" in
         cam2 | cam )
           NFNC=`echo $CASE.$HIST.${YEARNOW}-??-??-?????.nc | wc -w`
           if [ ${NFNC} -ne 1 ] ; then
