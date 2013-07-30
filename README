@@ -101,7 +101,7 @@ The arguments are as follows:
 
 $1: The CESM case name to be processed
 $2: The component name (i.e., cam2.h0, pop.h, clm2.h1, etc.)
-$3: The time type of the data (i.e., mon, day, hr6, hr3, etc.)
+$3: The time type of the data (i.e., mon, day, hr6, hr3, hr1, m30, etc.)
 
 All are required.
 

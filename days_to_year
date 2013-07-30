@@ -65,6 +65,8 @@ for y in $YEARS ; do
        NDAY=1460  ;;
      hr3 )
        NDAY=2920  ;;
+     hr1 )
+       NDAY=8760  ;;
      m30 )
        NDAY=17520 ;;
   esac

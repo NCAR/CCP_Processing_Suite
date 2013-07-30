@@ -200,6 +200,8 @@ case "$TPER" in
     ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6  ;;
   hr3 )
     ARCHIVE_PROC=${ARCHIVE_PROC}/hourly3  ;;
+  hr1 )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly1  ;;
   m30 )
     ARCHIVE_PROC=${ARCHIVE_PROC}/minute30 ;;
   * ) 
@@ -262,7 +264,7 @@ fi
 cd $LOCAL_PROC
 #
 case "$TPER" in
-  day | hr6 | hr3 | m30 )
+  day | hr6 | hr3 | hr1 | m30 )
     ln -s -f $BASEDIR/time_split     .
     ln -s -f $BASEDIR/days_to_year  .
     ;;
@@ -334,7 +336,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 #
     for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}*.nc` ; do
       TYPE=`$NCKS -M $FILE | egrep "type" | cut -d"=" -f6` ; export TYPE
-      if [ "$TYPE" -ne "NC_FORMAT_NETCDF4" ] ; then
+      if [ "$TYPE" != "NC_FORMAT_NETCDF4" ] ; then
         $NCKS -4 $FILE ${FILE}4
         if [ $? -ne 0 ] ; then
           echo "Cannot convert "${FILE}" to netCDF-4. Exiting."

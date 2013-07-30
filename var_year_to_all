@@ -100,24 +100,23 @@ for c in $CASES ; do
         if [ $NUM = $YRCOUNT ] ; then
           Y0=`ls ${c}.${h}.${v}.*.nc | head -n 1 | cut -d"." -f${DTIM}`
           Y1=`ls ${c}.${h}.${v}.*.nc | tail -n 1 | cut -d"." -f${DTIM}`
-          if [ "$TPER" = "ann" ] ; then 
-            DF=CAT.${c}.${h}.${v}.${Y0}-${Y1}.nc
-          fi
-          if [ "$TPER" = "mon" ] ; then 
-            DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
-          fi
-          if [ "$TPER" = "day" ] ; then 
-            DF=CAT.${c}.${h}.${v}.${Y0}0101-${Y1}1231.nc
-          fi
-          if [ "$TPER" = "hr6" ] ; then 
-            DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123118Z.nc
-          fi
-          if [ "$TPER" = "hr3" ] ; then 
-            DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123121Z.nc
-          fi
-          if [ "$TPER" = "m30" ] ; then 
-            DF=CAT.${c}.${h}.${v}.${Y0}001010000Z-${Y1}12312330Z.nc
-          fi
+          case "$TPER" in
+            ann )
+              DF=CAT.${c}.${h}.${v}.${Y0}-${Y1}.nc ;;
+            mon )
+              DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc ;;
+            day ) 
+              DF=CAT.${c}.${h}.${v}.${Y0}0101-${Y1}1231.nc ;;
+            hr6 ) 
+              DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123118Z.nc ;;
+            hr3 )
+              DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123121Z.nc ;;
+            hr1 )
+              DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123123Z.nc ;;
+            m30 )
+              DF=CAT.${c}.${h}.${v}.${Y0}001010000Z-${Y1}12312330Z.nc ;;
+          esac
+#
           $NCRCAT -O ${c}.${h}.${v}.*.nc $DF
           if [ $? = 0 ] ; then
             rm -f ${c}.${h}.${v}.*.nc
@@ -134,24 +133,23 @@ for c in $CASES ; do
       else
         Y0=`ls ${c}.${h}.${v}.*.nc | head -n 1 | cut -d"." -f${DTIM}`
         Y1=`ls ${c}.${h}.${v}.*.nc | tail -n 1 | cut -d"." -f${DTIM}`
-        if [ "$TPER" = "ann" ] ; then 
-          DF=CAT.${c}.${h}.${v}.${Y0}-${Y1}.nc
-        fi
-        if [ "$TPER" = "mon" ] ; then 
-          DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc
-        fi
-        if [ "$TPER" = "day" ] ; then 
-          DF=CAT.${c}.${h}.${v}.${Y0}0101-${Y1}1231.nc
-        fi
-        if [ "$TPER" = "hr6" ] ; then 
-          DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123118Z.nc
-        fi
-        if [ "$TPER" = "hr3" ] ; then 
-          DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123121Z.nc
-        fi
-        if [ "$TPER" = "m30" ] ; then 
-          DF=CAT.${c}.${h}.${v}.${Y0}001010000Z-${Y1}12312330Z.nc
-        fi
+        case "$TPER" in
+          ann )
+            DF=CAT.${c}.${h}.${v}.${Y0}-${Y1}.nc ;;
+          mon )
+            DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc ;;
+          day ) 
+            DF=CAT.${c}.${h}.${v}.${Y0}0101-${Y1}1231.nc ;;
+          hr6 ) 
+            DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123118Z.nc ;;
+          hr3 )
+            DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123121Z.nc ;;
+          hr1 )
+            DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123123Z.nc ;;
+          m30 )
+            DF=CAT.${c}.${h}.${v}.${Y0}001010000Z-${Y1}12312330Z.nc ;;
+        esac
+#
         $NCRCAT -O ${c}.${h}.${v}.*.nc $DF
         if [ $? = 0 ] ; then
           rm -f ${c}.${h}.${v}.*.nc

@@ -9,14 +9,15 @@ if [ $# -ne 0 ] ; then
 fi
 #
 cd $CACHEDIR
+#
 if [ `ls CAT.*.nc | wc -l` -ne 0 ] ; then
-  for cfile in `ls CAT.*.nc` ; do
-    SFILE=`echo $CFILE | sed -e 's/^CAT\.//g'`
-    $NCKS -4 -L 1 $CFILE $SFILE
+  for NC3FILE in `ls CAT.*.nc` ; do
+    NC4FILE=`echo $NC3FILE | sed -e 's/^CAT\.//g'`
+    $NCKS -4 -L 1 $NC3FILE $NC4FILE
     if [ $? -eq 0 ] ; then
-      rm -f $CFILE
+      rm -f $NC3FILE
     else
-      echo "netCDF-4 L 1 compression failed on "${CFILE}
+      echo "netCDF-4 L 1 compression failed on "${NC3FILE}
     fi
   done
 fi
