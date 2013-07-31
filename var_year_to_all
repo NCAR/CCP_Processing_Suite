@@ -117,7 +117,9 @@ for c in $CASES ; do
               DF=CAT.${c}.${h}.${v}.${Y0}001010000Z-${Y1}12312330Z.nc ;;
           esac
 #
+          echo -n "TS var_year_to_all of "${DF}" start: " ; date
           $NCRCAT -O ${c}.${h}.${v}.*.nc $DF
+          echo -n "TS var_year_to_all of "${DF}"   end: " ; date
           if [ $? = 0 ] ; then
             rm -f ${c}.${h}.${v}.*.nc
             echo "Concatenated "$DF" and checked year count: "$YRCOUNT

@@ -487,17 +487,27 @@ done
 #
 # Concatenate years -> all
 #
-echo "Final concatenating of "$CASE"."$HIST" at "`date`
+echo -n "TS final concat start: " ; date
 ./concatenate_data
+echo -n "TS final concat   end: " ; date
 #
 # Store completed data on archival system
 #
 echo -n "TS archive start: " ; date
-./store_to_archive
-if [ $? -ne 0 ] ; then
-  echo "store_to_archive failed"
-  ./update_status error "$CASE $HIST $TPER"
-  exit 1
+if [ "$MIPNAME" = "le5" ] ; then # Special CESM1-CAM5-BGC large ensemble runs
+  ./store_to_archive_le5
+  if [ $? -ne 0 ] ; then
+    echo "store_to_archive_le5 failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  fi
+else
+  ./store_to_archive
+  if [ $? -ne 0 ] ; then
+    echo "store_to_archive failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  fi
 fi
 echo -n "TS archive end: " ; date
 ./update_status complete
