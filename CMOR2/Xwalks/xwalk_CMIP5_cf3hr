@@ -43,7 +43,7 @@ CMIP5_cf3hr:prsnc:convective_snowfall_flux:longitude latitude alevel time1:atmos
 CMIP5_cf3hr:prsn:snowfall_flux:longitude latitude time1:atmos:0:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
 CMIP5_cf3hr:prw:atmosphere_water_vapor_content:longitude latitude time1:atmos:0:TMQ:TMQ no change
 CMIP5_cf3hr:psl:air_pressure_at_sea_level:longitude latitude time1:atmos:0:PSL:PSL no change
-CMIP5_cf3hr:ps:surface_air_pressure:longitude latitude time1:atmos:0:PS:PS no change
+CMIP5_cf3hr:ps:surface_air_pressure:longitude latitude time1:atmos:1:PS:PS no change
 CMIP5_cf3hr:reffclic:effective_radius_of_convective_cloud_ice_particle:longitude latitude alevel time1:atmos:0:UNKNOWN:UNKNOWN
 CMIP5_cf3hr:reffclis:effective_radius_of_stratiform_cloud_ice_particle:longitude latitude alevel time1:atmos:2:REI PS:REI on model levels
 CMIP5_cf3hr:reffclwc:effective_radius_of_convective_cloud_liquid_water_particle:longitude latitude alevel time1:atmos:0:UNKNOWN:UNKNOWN

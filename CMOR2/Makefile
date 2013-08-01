@@ -51,7 +51,7 @@ ifeq ($(MACH),modeli)
   HD5LIB  = -L${HD5DIR} -lhdf5_hl -lhdf5 -lz -lm
 endif
 #
-# 'geyser' CISL
+# 'yellowstone'/'geyser' CISL
 #
 ifeq ($(MACH),yslogi)
   NCFDIR  = /glade/apps/opt/netcdf/4.2/pgi/default
