@@ -8,12 +8,18 @@ if [ $# -ne 0 ] ; then
   exit 1
 fi
 #
+PROCHOST=`hostname`;export PROCHOST
+#
 cd $CACHEDIR
 #
 if [ `ls CAT.*.nc | wc -l` -ne 0 ] ; then
   for NC3FILE in `ls CAT.*.nc` ; do
     NC4FILE=`echo $NC3FILE | sed -e 's/^CAT\.//g'`
-    $NCKS -4 -L 1 $NC3FILE $NC4FILE
+    if [ `echo $PROCHOST | cut -c1-2` != "c1" ] ; then
+      $NCKS -4 -L 1 $NC3FILE $NC4FILE
+    else
+      mv $NC3FILE $NC4FILE
+    fi
     if [ $? -eq 0 ] ; then
       rm -f $NC3FILE
     else

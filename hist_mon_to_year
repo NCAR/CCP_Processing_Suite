@@ -81,7 +81,7 @@ for c in $CASES ; do
         DF=${c}.${h}.${y}.nc
         echo "Creating: "$DF
         if [ $DF ] ; then
-          $NCRCAT -4 -O ${c}.${h}.${y}-??.nc $DF
+          $NCRCAT -O ${c}.${h}.${y}-??.nc $DF
           if [ $? -eq 0 ] ; then
             echo "Created: "$DF
             rm -f ${c}.${h}.${y}-??.nc

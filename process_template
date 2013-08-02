@@ -334,18 +334,20 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 #
 # Convert all YEARNOW file(s) to netCDF-4
 #
-    for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}*.nc` ; do
-      TYPE=`$NCKS -M $FILE | egrep "type" | cut -d"=" -f6` ; export TYPE
-      if [ "$TYPE" != "NC_FORMAT_NETCDF4" ] ; then
-        $NCKS -4 $FILE ${FILE}4
-        if [ $? -ne 0 ] ; then
-          echo "Cannot convert "${FILE}" to netCDF-4. Exiting."
-          exit 1
-        else
-          mv ${FILE}4 $FILE
+    if [ `echo $PROCHOST | cut -c1-2` != "c1" ] ; then
+      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}*.nc` ; do
+        TYPE=`$NCKS -M $FILE | egrep "type" | cut -d"=" -f6` ; export TYPE
+        if [ "$TYPE" != "NC_FORMAT_NETCDF4" ] ; then
+          $NCKS -4 $FILE ${FILE}4
+          if [ $? -ne 0 ] ; then
+            echo "Cannot convert "${FILE}" to netCDF-4. Exiting."
+            exit 1
+          else
+            mv ${FILE}4 $FILE
+          fi
         fi
-      fi
-    done
+      done
+    fi
 #
 # Check on data type to see if it needs time splitting and reconcatenating first
 #
