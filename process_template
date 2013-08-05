@@ -91,7 +91,7 @@ case "$PROCHOST" in
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/glade/apps/opt/nco/4.3.2/gnu/4.7.2/bin/ncks      ; export NCKS
     NCRA=/glade/apps/opt/nco/4.3.2/gnu/4.7.2/bin/ncra      ; export NCRA
-    NCRCAT=/glade/apps/opt/nco/4.3.2/gnu/4.7.2/bin/ncrcat  ; export NCRA
+    NCRCAT=/glade/apps/opt/nco/4.3.2/gnu/4.7.2/bin/ncrcat  ; export NCRCAT
     PROCBASE=/glade/scratch/$USER/$CASE           ; export PROCBASE
     LOCALDSK=/glade/scratch/$USER/$CASE           ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
