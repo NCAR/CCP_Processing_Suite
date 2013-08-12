@@ -14,7 +14,7 @@ CMIP5_Amon:clivi:atmosphere_cloud_ice_content:longitude latitude time:atmos:1:TG
 CMIP5_Amon:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT unit conversion
 CMIP5_Amon:clw:mass_fraction_of_cloud_liquid_water_in_air:longitude latitude alevel time:atmos:2:CLDLIQ PS:CLDLIQ on model levels, no change
 CMIP5_Amon:clwvi:atmosphere_cloud_condensed_water_content:longitude latitude time:atmos:1:TGCLDLWP:TGCLDLWP no change
-CMIP5_Amon:co2:mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time:atmos:2:CO2 PS:CO2 interpolated to standard plevs
+CMIP5_Amon:co2:mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time:atmos:2:CO2 PS:CO2 interpolated to standard plevs, scaled by 28.966/44 
 CMIP5_Amon:co2Clim:mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time2:atmos:0:UNKNOWN:UNKNOWN
 CMIP5_Amon:co2mass:atmosphere_mass_of_carbon_dioxide:time2:atmos:1:co2vmr:co2vmr convert to mass
 CMIP5_Amon:co2massClim:atmosphere_mass_of_carbon_dioxide:time2:atmos:0:UNKNOWN:UNKNOWN
