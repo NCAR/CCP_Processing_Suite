@@ -17,15 +17,15 @@ fi
 #
 TEST4HSI=`which hsi 2<&1`
 if [ $? -eq 0 ] ; then
-  hsi -q "mkdir -p $ARCHIVE_D"
-  hsi -q "chmod 775 $ARCHIVE_D"
-  echo "cd $ARCHIVE_D ; put -U *nc ; chmod 644 *nc" > .put
-  echo 'EOF'        > .put
-  hsi in .put
+  hsi -q "
+  hsi -q "
+  echo "mkdir -p $ARCHIVE_D ; chmod 775 $ARCHIVE_D ; cd $ARCHIVE_D ; put -U *nc ; chmod 644 *nc" > PUT
+  hsi in PUT
   if [ $? -eq 0 ] ; then
     echo "Files written to "${ARCHIVE_D}
   else
-    hsi -q "put *.nc"
+    echo "put -U *nc ; chmod 644 *nc" > PUT
+    hsi in PUT
     if [ $? -eq 0 ] ; then
       echo "Files written to your HPSS HOME"
     else
