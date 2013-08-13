@@ -19,11 +19,9 @@ TEST4HSI=`which hsi 2<&1`
 if [ $? -eq 0 ] ; then
   hsi -q "mkdir -p $ARCHIVE_D"
   hsi -q "chmod 775 $ARCHIVE_D"
-  hsi -q << EOF
-cd $ARCHIVE_D
-put -U *.nc
-chmod 644 *nc
-EOF
+  echo "cd $ARCHIVE_D ; put -U *nc ; chmod 644 *nc" > .put
+  echo 'EOF'        > .put
+  hsi in .put
   if [ $? -eq 0 ] ; then
     echo "Files written to "${ARCHIVE_D}
   else
