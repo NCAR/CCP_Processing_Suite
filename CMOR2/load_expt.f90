@@ -240,8 +240,8 @@ subroutine load_exp(exp_file)
         case ('b40.20th.anthro.1deg.006','b40.20th.anthro.1deg.008','b40.20th.anthro.1deg.009','b40.20th.anthro.1deg.012',&
               'b.e10.B20ANTHROC5CN.f09_g16.001','b.e10.B20ANTHROC5CN.f09_g16.002','b.e10.B20ANTHROC5CN.f09_g16.004')
            exp(i)%forcing(1:) = 'GHG Oz SS Ds SD BC MD OC AA LU (time-varying over course of simulation), Sl Vl (all fixed at or cycled over 1850 values)'
-        case ('b40.20th.bcarb.1deg.008')
-           exp(i)%forcing(1:) = 'BC OC (time-varying over course of simulation), GHG MD AA LU Oz SS Ds SD Sl Vl (all fixed at or cycled over 1850 values)'
+        case ('b40.20th.bcarb.1deg.006','b40.20th.bcarb.1deg.008','b40.20th.bcarb.1deg.012')
+           exp(i)%forcing(1:) = 'BC (time-varying over course of simulation), OC GHG MD AA LU Oz SS Ds SD Sl Vl (all fixed at or cycled over 1850 values)'
         case ('b40.20th_SFland.1deg.001','b40.20th.land.1deg.008','b40.20th.land.1deg.012',&
               'b.e10.B20LNDC5CN.f09_g16.001','b.e10.B20LNDC5CN.f09_g16.002','b.e10.B20LNDC5CN.f09_g16.004')
            exp(i)%forcing(1:) = 'LU (time-varying over course of simulation), GHG Oz SS Ds SD BC MD OC AA LU Sl Vl (all fixed at or cycled over 1850 values)'
