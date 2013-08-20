@@ -51,9 +51,30 @@ ifeq ($(MACH),modeli)
   HD5LIB  = -L${HD5DIR} -lhdf5_hl -lhdf5 -lz -lm
 endif
 #
-# 'yellowstone'/'geyser' CISL
+# 'yellowstone' CISL
 #
 ifeq ($(MACH),yslogi)
+  NCFDIR  = /glade/apps/opt/netcdf/4.2/pgi/default
+  UDUDIR  = /glade/apps/opt/udunits/2.1.24/pgi/12.5
+  UIDDIR  = /glade/u/home/strandwg/software/uuid-1.6.2
+  CMRDIR  = /glade/u/home/strandwg/software/cmor
+  HD5DIR  = /glade/apps/opt/hdf5/1.8.9/pgi/default
+  KRBDIR  = /usr/lib64
+#
+  NCFINC  = -I${NCFDIR}/include -I./include
+  NCFLIB  = -L${NCFDIR}/lib -lnetcdf -lnetcdff
+  KRBLIB  = -L${KRBDIR}/lib -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lssl -lcrypto -lz
+  UDUINC  = -I${UDUDIR}/include
+  UDULIB  = -L${UDUDIR}/lib -ludunits2 -lexpat
+  UIDINC  = -I${UIDDIR}/include
+  UIDLIB  = -L${UIDDIR}/lib -luuid
+  FC	  = pgf95
+  FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -fpic
+endif
+#
+# 'gesyer' CISL
+#
+ifeq ($(MACH),geyser)
   NCFDIR  = /glade/apps/opt/netcdf/4.2/pgi/default
   UDUDIR  = /glade/apps/opt/udunits/2.1.24/pgi/12.5
   UIDDIR  = /glade/u/home/strandwg/software/uuid-1.6.2
