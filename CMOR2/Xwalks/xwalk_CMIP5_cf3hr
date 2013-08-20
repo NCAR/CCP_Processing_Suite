@@ -8,7 +8,7 @@ CMIP5_cf3hr:clcalipso:cloud_area_fraction_in_atmosphere_layer:location alt40 tim
 CMIP5_cf3hr:clc:convective_cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time1:atmos:0:UNKNOWN:UNKNOWN
 CMIP5_cf3hr:clhcalipso:cloud_area_fraction_in_atmosphere_layer:location time1 p220:atmos:0:CLDHGH_CAL:CLDHGH_CAL no change
 CMIP5_cf3hr:clic:mass_fraction_of_convective_cloud_ice_in_air:longitude latitude alevel time1:atmos:2:CLDICECON PS:CLDICECON on model levels
-CMIP5_cf3hr:clis:mass_fraction_of_stratiform_cloud_ice_in_air:longitude latitude alevel time1:atmos:2:CLDICESTR PS:CLDICECON on model levels
+CMIP5_cf3hr:clis:mass_fraction_of_stratiform_cloud_ice_in_air:longitude latitude alevel time1:atmos:2:CLDICESTR PS:CLDICESTR on model levels
 CMIP5_cf3hr:clivi:atmosphere_cloud_ice_content:longitude latitude time1:atmos:0:TGCLDIWP:TGCLDIWP no change
 CMIP5_cf3hr:cllcalipso:cloud_area_fraction_in_atmosphere_layer:location time1 p840:atmos:0:CLDLOW_CAL:CLDLOW_CAL no change
 CMIP5_cf3hr:clmcalipso:cloud_area_fraction_in_atmosphere_layer:location time1 p560:atmos:0:CLDMED_CAL:CLDMED_CAL no change

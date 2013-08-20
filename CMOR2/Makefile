@@ -72,9 +72,9 @@ ifeq ($(MACH),yslogi)
   FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -fpic
 endif
 #
-# 'gesyer' CISL
+# 'calder' CISL
 #
-ifeq ($(MACH),geyser)
+ifeq ($(MACH),calder)
   NCFDIR  = /glade/apps/opt/netcdf/4.2/pgi/default
   UDUDIR  = /glade/apps/opt/udunits/2.1.24/pgi/12.5
   UIDDIR  = /glade/u/home/strandwg/software/uuid-1.6.2
