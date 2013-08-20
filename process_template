@@ -101,6 +101,9 @@ case "$PROCHOST" in
       ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-LE    ; export ARCHIVE_BASE
       LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
     fi
+    if [ "$HISTBASE" = "/home/ahu/csm" ] ; then              # Special CESM1-CAM5-BGC large ensemble runs
+      ARCHIVE_BASE=/home/ahu/csm                 ; export ARCHIVE_BASE
+    fi
     ;;
 
   nid* | hopper* )                                # hopper @ NERSC
