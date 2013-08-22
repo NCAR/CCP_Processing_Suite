@@ -102,11 +102,11 @@ TIMEVAR=`cat meta.${FILE} | egrep "dimension 0: time" | cut -d" " -f1`
 #
 TIMEINV=`cat meta.${FILE} | egrep "dimension 0:" | egrep -v " dimension 0: time" | cut -d" " -f1`
 #
-#echo "SCALARS :"$SCALARS
-#echo
-#echo "TIMEVAR :"$TIMEVAR
-#echo
-#echo "TIMEINV :"$TIMEINV
+echo "SCALARS :"$SCALARS
+echo
+echo "TIMEVAR :"$TIMEVAR
+echo
+echo "TIMEINV :"$TIMEINV
 #
 # Find time-variant fields that are more than 1 dimension, i.e., not dimensioned just along time
 # Those that are 1-dimensional and along time only are not put into separate output files
@@ -121,14 +121,10 @@ for V in $TIMEVAR ; do
       if [ "$V" = "time_bnds" ] || [ "$V" = "time_bound" ] || [ "$V" = "time_bounds" ] || [ "$V" = "date_written" ] || [ "$V" = "time_written" ] ; then
         HEADER=`echo ${HEADER}${V}" "`
       else
-        TIMEV2D=`echo ${TIMEV2D}${V}" "`
+        VARTIME=`echo ${VARTIME}${V}" "`
       fi ;; 
-    " 3 dimensions" )
-      TIMEV3D=`echo ${TIMEV3D}${V}" "` ;; 
-    " 4 dimensions" )
-      TIMEV4D=`echo ${TIMEV4D}${V}" "` ;; 
-    " 5 dimensions" )
-      TIMEV5D=`echo ${TIMEV5D}${V}" "` ;; 
+    " 3 dimensions" | " 4 dimensions" | " 5 dimensions" )
+      VARTIME=`echo ${VARTIME}${V}" "` ;; 
   esac
 done
 if [ `echo $HEADER | wc -w` -ne 0 ] ; then
@@ -139,16 +135,8 @@ if [ `echo $HEADER | wc -w` -ne 0 ] ; then
     HEADER=`echo ${HEADER}${TIMEINV} | sed -e 's/ /,/g'`
   fi
 fi
-#echo "TIMEV1D: "$TIMEV1D
-#echo 
-#echo "TIMEV2D: "$TIMEV2D
-#echo 
-#echo "TIMEV3D: "$TIMEV3D
-#echo 
-#echo "TIMEV4D: "$TIMEV4D
-#echo 
-#echo "TIMEV5D: "$TIMEV5D
-#echo 
+echo 
+echo "VARTIME: "$VARTIME
 #
 # Add SCALARS (if present) to HEADER
 #
@@ -156,55 +144,23 @@ if [ `echo $SCALARS | wc -w` -ne 0 ] ; then
   SCALARS=`echo $SCALARS | sed -e 's/ /,/g'`
   HEADER=`echo $HEADER","$SCALARS`
 fi
-#echo "HEADER: "$HEADER
-#echo 
+echo "HEADER: "$HEADER
+echo 
 #
-# 2D time-dependent vars
+# All time-dependent vars
 #
-if [ `echo $TIMEV2D | wc -w` -ne 0 ] ; then
-  for f in $TIMEV2D ; do
-    if [ ! -d ${f}_2d.d ] ; then
-      mkdir ${f}_2d.d
-    fi
-    OUT=${f}_2d.d/${OUTPFX}.${f}.${OUTSFX}
-    $NCKS -O -v ${HEADER},${f} $FILE $OUT
-    if [ $? -ne 0 ] ; then
-      echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
-      ./update_status error var_split
-      exit 1
-    fi
- done
-fi
-#
-# 3D time-dependent vars
-#
-if [ `echo $TIMEV3D | wc -w` -ne 0 ] ; then
-  for f in $TIMEV3D ; do
-    if [ ! -d ${f}_3d.d ] ; then
-      mkdir ${f}_3d.d
+if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
+  for f in $VARTIME ; do
+    if [ ! -d ${f}.d ] ; then
+      mkdir ${f}.d
     fi
     if [ "$COMP" = "cice" ] ; then
-      NJ=`$NCKS -m $FILE | egrep "nj" | head -1 | cut -d"," -f2 | cut -d"=" -f2 | sed -e 's/ //g'`
-      case "$NJ" in
-         384 ) # gx1 (~1 degree)
-          OUT=${f}_3d.d/${OUTPFX}.${f}_nh.${OUTSFX}
-          $NCKS -O -d nj,280,383 -v ${HEADER},${f} $FILE $OUT
-          OUT=${f}_3d.d/${OUTPFX}.${f}_sh.${OUTSFX}
-          $NCKS -O -d nj,0,75 -v ${HEADER},${f} $FILE $OUT 
-          ;;
-        2400 ) # 1/10th degree
-          OUT=${f}_3d.d/${OUTPFX}.${f}_nh.${OUTSFX}
-          $NCKS -O -d nj,1500,2399 -v ${HEADER},${f} $FILE $OUT
-          OUT=${f}_3d.d/${OUTPFX}.${f}_sh.${OUTSFX}
-          $NCKS -O -d nj,0,756 -v ${HEADER},${f} $FILE $OUT
-          ;;
-        * )    # Other resolutions
-          echo "Unable to split "${FILE}" into SH and NH. Unknown NJ: "${NJ} 
-          exit 1 
-          ;;
-      esac
+      OUT=${f}.d/${OUTPFX}.${f}_nh.${OUTSFX}
+      $NCKS -O -d nj,280,383 -v ${HEADER},${f} $FILE $OUT
+      OUT=${f}.d/${OUTPFX}.${f}_sh.${OUTSFX}
+      $NCKS -O -d nj,0,75 -v ${HEADER},${f} $FILE $OUT 
     else
-      OUT=${f}_3d.d/${OUTPFX}.${f}.${OUTSFX}
+      OUT=${f}.d/${OUTPFX}.${f}.${OUTSFX}
       $NCKS -O -v ${HEADER},${f} $FILE $OUT
       if [ $? -ne 0 ] ; then
         echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
@@ -215,43 +171,8 @@ if [ `echo $TIMEV3D | wc -w` -ne 0 ] ; then
  done
 fi
 #
-# 4D time-dependent vars
-#
-if [ `echo $TIMEV4D | wc -w` -ne 0 ] ; then
-  for f in $TIMEV4D ; do
-    if [ ! -d ${f}_4d.d ] ; then
-      mkdir ${f}_4d.d
-    fi
-    OUT=${f}_4d.d/${OUTPFX}.${f}.${OUTSFX}
-    $NCKS -O -v ${HEADER},${f} $FILE $OUT
-    if [ $? -ne 0 ] ; then
-      echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
-      ./update_status error var_split
-      exit 1
-    fi
- done
-fi
-#
-# 5D time-dependent vars
-#
-if [ `echo $TIMEV5D | wc -w` -ne 0 ] ; then
-  for f in $TIMEV5D ; do
-    if [ ! -d ${f}_5d.d ] ; then
-      mkdir ${f}_5d.d
-    fi
-    OUT=${f}_5d.d/${OUTPFX}.${f}.${OUTSFX}
-    $NCKS -O -v ${HEADER},${f} $FILE $OUT
-    if [ $? -ne 0 ] ; then
-      echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
-      ./update_status error var_split
-      exit 1
-    fi
- done
-fi
-#
 rm -f meta.${FILE}
 #
 if [ $# -gt 1 ] ; then
   rm -f $FILE
 fi
-
