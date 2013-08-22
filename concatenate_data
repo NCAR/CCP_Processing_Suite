@@ -10,7 +10,7 @@ fi
 #
 cd $LOCAL_PROC
 #
-for e in `ls -d *d.d` ; do
+for e in `ls -d *.d` ; do
   cd ${LOCAL_PROC}/${e}
   ../var_year_to_all
   if [ $? -ne 0 ] ; then

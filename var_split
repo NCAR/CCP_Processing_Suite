@@ -102,11 +102,11 @@ TIMEVAR=`cat meta.${FILE} | egrep "dimension 0: time" | cut -d" " -f1`
 #
 TIMEINV=`cat meta.${FILE} | egrep "dimension 0:" | egrep -v " dimension 0: time" | cut -d" " -f1`
 #
-echo "SCALARS :"$SCALARS
-echo
-echo "TIMEVAR :"$TIMEVAR
-echo
-echo "TIMEINV :"$TIMEINV
+#echo "SCALARS :"$SCALARS
+#echo
+#echo "TIMEVAR :"$TIMEVAR
+#echo
+#echo "TIMEINV :"$TIMEINV
 #
 # Find time-variant fields that are more than 1 dimension, i.e., not dimensioned just along time
 # Those that are 1-dimensional and along time only are not put into separate output files
@@ -135,8 +135,8 @@ if [ `echo $HEADER | wc -w` -ne 0 ] ; then
     HEADER=`echo ${HEADER}${TIMEINV} | sed -e 's/ /,/g'`
   fi
 fi
-echo 
-echo "VARTIME: "$VARTIME
+#echo 
+#echo "VARTIME: "$VARTIME
 #
 # Add SCALARS (if present) to HEADER
 #
@@ -144,8 +144,8 @@ if [ `echo $SCALARS | wc -w` -ne 0 ] ; then
   SCALARS=`echo $SCALARS | sed -e 's/ /,/g'`
   HEADER=`echo $HEADER","$SCALARS`
 fi
-echo "HEADER: "$HEADER
-echo 
+#echo "HEADER: "$HEADER
+#echo 
 #
 # All time-dependent vars
 #
