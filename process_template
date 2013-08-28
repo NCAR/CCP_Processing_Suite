@@ -419,7 +419,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
           NFNC=`echo $CASE.$HIST.${YEARNOW}-??-??.nc | wc -w`
           if [ ${NFNC} -ne 0 ] ; then
             for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??.nc` ; do
-              TRIMD=`echo $FILE | sed -e 's/-01.nc/.nc/g' sed -e 's/-02.nc/.nc/g'`
+              TRIMD=`echo $FILE | sed -e 's/-01.nc/.nc/g' | sed -e 's/-02.nc/.nc/g'`
               mv $FILE $TRIMD
               echo "time_split not required on "$FILE" 1 month already."
             done
@@ -451,7 +451,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 # Monthly data, hopefully no time splitting needed
 #
         NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
-        if [ ${NFNC} -ne 1 ] ; then
+        if [ ${NFNC} -ne 0 ] ; then
           ./hist_mon_to_year
           if [ $? -ne 0 ] ; then
             echo "Error from hist_mon_to_year on file "$FILE
