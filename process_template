@@ -361,7 +361,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
       case "$HTYP" in
         cam2 | cam )
           NFNC=`echo $CASE.$HIST.${YEARNOW}-??-??-?????.nc | wc -w`
-          if [ ${NFNC} -ne 1 ] ; then
+          if [ ${NFNC} -ne 0 ] ; then
             for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??-?????.nc` ; do
 #
 # Check for exactly 365 samples from the same year
@@ -381,7 +381,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
           fi ;;
         clm2 )
           NFNC=`echo $CASE.$HIST.${YEARNOW}-??-??-?????.nc | wc -w`
-          if [ ${NFNC} -ne 1 ] ; then
+          if [ ${NFNC} -ne 0 ] ; then
             for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??-00000.nc` ; do
 #
 # Check for exactly 365 samples from the same year
@@ -401,7 +401,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
           fi ;;
         cice )
           NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
-          if [ ${NFNC} -ne 12 ] ; then
+          if [ ${NFNC} -ne 0 ] ; then
             for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??.nc` ; do
               echo "time_split-ting on "$FILE
               ./time_split $FILE erase
@@ -417,7 +417,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
           fi ;;
         pop )
           NFNC=`echo $CASE.$HIST.${YEARNOW}-??-??.nc | wc -w`
-          if [ ${NFNC} -ne 1 ] ; then
+          if [ ${NFNC} -ne 0 ] ; then
             for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??.nc` ; do
               TRIMD=`echo $FILE | sed -e 's/-01.nc/.nc/g' sed -e 's/-02.nc/.nc/g'`
               mv $FILE $TRIMD
@@ -432,7 +432,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
           fi ;;
         rtm )
           NFNC=`echo $CASE.$HIST.${YEARNOW}-01-02-00000.nc | wc -w`
-          if [ ${NFNC} -ne 1 ] ; then
+          if [ ${NFNC} -ne 0 ] ; then
             for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-01.nc` ; do
               TRIMD=`echo $FILE | sed -e 's/\-01\.nc$/\.nc/g'`
               mv $FILE $TRIMD
