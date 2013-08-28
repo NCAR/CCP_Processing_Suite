@@ -419,7 +419,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
           NFNC=`echo $CASE.$HIST.${YEARNOW}-??-??.nc | wc -w`
           if [ ${NFNC} -ne 0 ] ; then
             for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??.nc` ; do
-              TRIMD=`echo $FILE | sed -e 's/-01.nc/.nc/g' | sed -e 's/-02.nc/.nc/g'`
+              TRIMD=`echo $FILE | sed -e 's/-01.nc$/.nc/g'`
               mv $FILE $TRIMD
               echo "time_split not required on "$FILE" 1 month already."
             done
