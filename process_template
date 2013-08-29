@@ -104,6 +104,9 @@ case "$PROCHOST" in
     if [ "$HISTBASE" = "/home/ahu/csm" ] ; then              # Special CESM1-CAM5-BGC large ensemble runs
       ARCHIVE_BASE=/home/ahu/csm                 ; export ARCHIVE_BASE
     fi
+    if [ `echo $CASE | cut -d"." -f1-3` = "b.e10.B20ANTHROC5CN" ] ; then
+      LOCALDSK=/glade/p/cesm0005/csm/$CASE       ; export LOCALDSK
+    fi
     ;;
 
   nid* | hopper* )                                # hopper @ NERSC
