@@ -119,10 +119,10 @@ for c in $CASES ; do
 #
           echo -n "TS var_year_to_all of "${DF}" start: " ; date
           $NCRCAT -O ${c}.${h}.${v}.*.nc $DF
-          echo -n "TS var_year_to_all of "${DF}"   end: " ; date
           if [ $? = 0 ] ; then
             rm -f ${c}.${h}.${v}.*.nc
             echo "Concatenated "$DF" and checked year count: "$YRCOUNT
+            echo -n "TS var_year_to_all of "${DF}"   end: " ; date
           else
             echo "Failure on concat of "${c}"."${h}"."${v}" files"
 	    ./update_status error var_year_to_all
