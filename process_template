@@ -360,8 +360,10 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 #
 # Check on data type to see if it needs time splitting and reconcatenating first
 #
-
     case "$TPER" in
+# 
+# Daily data - requires lots of checks, usually
+#
       day )
       case "$HTYP" in
         cam2 | cam )
@@ -445,26 +447,42 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
             done
             ./hist_mon_to_year
             if [ $? -ne 0 ] ; then
-              echo "Error from hist_mon_to_year on file "$FILE
+              echo "Error from hist_mon_to_year on files "$CASE.$HIST.$YEARNOW
               ./update_status error hist_mon_to_year
               exit 1
             fi
           fi
         esac ;;
-      mon )
 #
 # Monthly data, hopefully no time splitting needed
 #
+      mon )
         NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
-        if [ ${NFNC} -ne 0 ] ; then
+        if [ ${NFNC} -eq 12 ] ; then
           ./hist_mon_to_year
           if [ $? -ne 0 ] ; then
-            echo "Error from hist_mon_to_year on file "$FILE
+            echo "Error from hist_mon_to_year on files "$CASE.$HIST.$YEARNOW
             ./update_status error hist_mon_to_year
             exit 1
           fi
         fi ;;
-    esac
+# 
+# 6-hourly data - may require lots of checks, usually
+#
+      hr6 )
+      case "$HTYP" in
+        cice )
+          NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
+          if [ ${NFNC} -eq 12 ] ; then
+            ./hist_mon_to_year
+            if [ $? -ne 0 ] ; then
+              echo "Error from hist_mon_to_year on files "$CASE.$HIST.$YEARNOW
+              ./update_status error hist_mon_to_year
+              exit 1
+            fi
+          fi ;;
+        esac ;;
+      esac
 #
 # var_split each history file that is now one years' worth of data
 #
