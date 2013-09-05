@@ -16,16 +16,16 @@ if [ `ls CAT.*.nc | wc -l` -ne 0 ] ; then
   for NC3FILE in `ls CAT.*.nc` ; do
     NC4FILE=`echo $NC3FILE | sed -e 's/^CAT\.//g'`
     if [ `echo $PROCHOST | cut -c1-2` != "c1" ] ; then
-      echo "TS NC4Z 0 on "${NCFILE}": " ; date
+      echo "TS NC4Z 0 on "${NC3FILE}": " ; date
       $NCKS -4 -L 1 $NC3FILE $NC4FILE
-      echo "TS NC4Z 1 on "${NCFILE}": " ; date
+      if [ $? -eq 0 ] ; then
+        rm -f $NC3FILE
+        echo "TS NC4Z 1 on "${NC4FILE}": " ; date
+      else
+        echo "netCDF-4 L 1 compression failed on "${NC3FILE}
+      fi
     else
       mv $NC3FILE $NC4FILE
-    fi
-    if [ $? -eq 0 ] ; then
-      rm -f $NC3FILE
-    else
-      echo "netCDF-4 L 1 compression failed on "${NC3FILE}
     fi
   done
 fi
