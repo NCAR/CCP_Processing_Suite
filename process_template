@@ -102,7 +102,7 @@ case "$PROCHOST" in
       LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
       LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
     fi
-    if [ "$HISTBASE" = "/home/ahu/csm" ] ; then              # Special CESM1-CAM5-BGC large ensemble runs
+    if [ "$MIPNAME" = "lea" ] ; then              # Special Aixue 20C runs
       ARCHIVE_BASE=/home/ahu/csm                 ; export ARCHIVE_BASE
     fi
     if [ `echo $CASE | cut -d"." -f1-3` = "b.e10.B20ANTHROC5CN" ] ; then
