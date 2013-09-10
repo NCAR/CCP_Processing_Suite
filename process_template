@@ -408,13 +408,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
           fi ;;
         cice )
           NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
-          if [ ${NFNC} -ne 0 ] ; then
-            for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??.nc` ; do
-              echo "time_split-ting on "$FILE
-              ./time_split $FILE erase
-              ./days_to_year erase
-            done
-          else
+          if [ ${NFNC} -eq 12 ] ; then
             ./hist_mon_to_year
             if [ $? -ne 0 ] ; then
               echo "Error from hist_mon_to_year on file "$FILE
