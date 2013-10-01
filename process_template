@@ -116,8 +116,8 @@ case "$PROCHOST" in
     NCKS=/usr/common/usg/nco/4.0.8/bin/ncks     ; export NCKS
     NCRA=/usr/common/usg/nco/4.0.8/bin/ncra     ; export NCRA
     NCRCAT=/usr/common/usg/nco/4.0.8/bin/ncrcat ; export NCRCAT
-    PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/global/scratch/sd/$USER/$CASE ; export LOCALDSK
+    PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/global/scratch2/sd/$USER/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/usr/common/usg/nco/4.0.8/lib:/opt/pgi/11.9.0/linux86-64/11.9/libso:/opt/pgi/11.9.0/linux86-64/11.9/lib:/opt/cray/hdf5/1.8.5.0/hdf5-pgi/lib:/opt/cray/netcdf/4.1.1.0/netcdf-pgi/lib:/opt/moab/6.1.8/lib
@@ -132,8 +132,8 @@ case "$PROCHOST" in
     NCKS=/usr/common/usg/nco/4.0.5/bin/ncks     ; export NCKS
     NCRA=/usr/common/usg/nco/4.0.5/bin/ncra     ; export NCRA
     NCRCAT=/usr/common/usg/nco/4.0.5/bin/ncrcat ; export NCRCAT
-    PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/global/scratch/sd/$USER/$CASE ; export LOCALDSK
+    PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/global/scratch2/sd/$USER/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/usr/common/usg/nco/4.0.5/lib:/usr/common/usg/netcdf/4.1.1/pgi/lib:/usr/syscom/opt/torque/default/lib:/usr/common/usg/openmpi/1.4.5/pgi/lib:/usr/common/usg/pgi/12.9/linux86-64/12.9/libso:/usr/syscom/nsg/lib
