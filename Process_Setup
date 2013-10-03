@@ -60,7 +60,7 @@ case "$PROCHOST" in
                            | sed -e "s/xxxTPERxxx/$TPER/g" \
                            | sed -e "s/xxxVARSxxx//g" \
                            >> $CCPS_SCRIPT ;;
-  yslogin* )                               # yellowstone @ NCAR
+  yslogin* | geyser* )                     # yellowstone/geyser @ NCAR
     cat ./LSF_geyser       | sed -e "s/NAME/$CCPS_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CCPS_SCRIPT
     cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
                            | sed -e "s/xxxHISTxxx/$HIST/g" \
@@ -99,7 +99,7 @@ if [ "$DORUN" = "Y" ] ; then
   case "$PROCHOST" in
     lens* )
       ( /usr/bin/qsub ./${CCPS_SCRIPT} ) ;;
-    yslogin* )
+    yslogin* | geyser* )
       ( /ncar/opt/lsf/8.3/linux2.6-glibc2.3-x86_64/bin/bsub < ./${CCPS_SCRIPT} ) ;;
     hopper* )
       ( /usr/common/nsg/bin/qsub ./${CCPS_SCRIPT} ) ;;
