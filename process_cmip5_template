@@ -41,13 +41,13 @@ if [ -f $EXPFILE ] ; then
   VARSBASE=/CCSM/csm
 else
   echo "Cannot find $EXPFILE. EXIT"
-  ./procstat.sh error process_cmip5_template
+  ./update_status error process_cmip5_template
   exit 1
 fi
 #
 if ! [ $LOCATION ] ; then
   echo "Unable to set variables because "$CASE" not found in $EXPFILE"
-  ./procstat.sh error process_cmip5_template
+  ./update_status error process_cmip5_template
   exit 1
 fi
 #
@@ -114,7 +114,7 @@ case "$PROCHOST" in
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
-    ./procstat.sh error process_cmip5_template
+    ./update_status error process_cmip5_template
     exit 1 ;;
 esac
 #
@@ -163,7 +163,7 @@ case "$HTYP" in
     COMP_NAME=ice ;;
   * ) 
     echo "Unable to continue because "$HIST" not known."
-    ./procstat.sh error process_cmip5_template
+    ./update_status error process_cmip5_template
     exit 1 ;;
 esac
 #
@@ -191,7 +191,7 @@ case "$TABL" in
     DISK_BASE=${DISK_BASE}/hourly3  ;;
   * ) 
     echo "Unable to continue because directory for "$TABL" not known."
-    ./procstat.sh error process_cmip5_template
+    ./update_status error process_cmip5_template
     exit 1 ;;
 esac
 #
@@ -270,7 +270,7 @@ ln -s -f $BASEDIR/archive_var_read     .
 ln -s -f $BASEDIR/archive_cmip5_write  .
 ln -s -f $BASEDIR/CMOR2/RunCMOR    .
 ln -s -f $BASEDIR/store_to_archive .
-ln -s -f $BASEDIR/procstat.sh      .
+ln -s -f $BASEDIR/update_status      .
 #
 ln -s -f $BINDIR/${TABL}_CMOR      .
 #
@@ -279,7 +279,7 @@ cd $LOCAL_PROC
 # Let 'er rip
 #
 echo "BEGIN : procstat"
-./procstat.sh start
+./update_status start
 #
 # Get archive listing
 #
@@ -290,7 +290,7 @@ echo "BEGIN : procstat"
 #  ../archive_list $ARCHIVE_LIST
 #  if [ $? -ne 0 ] ; then
 #    echo "Error from archive_list"
-#    ./procstat.sh error archive_list
+#    ./update_status error archive_list
 #    exit 1
 #  fi
 #fi
@@ -306,7 +306,7 @@ ln -s -f $BASEDIR/archive_var_read .
 ./archive_var_read $ARCHIVE_PROC $CCSM_VARS
 if [ $? -ne 0 ] ; then
   echo "Error from archive_var_read"
-  ./procstat.sh error archive_var_read
+  ./update_status error archive_var_read
   exit 1
 fi
 #
@@ -330,8 +330,8 @@ fi
 #./store_cmip5
 #if [ $? -ne 0 ] ; then
 #  echo "store_to_archive failed"
-#  ./procstat.sh error store_to_archive
+#  ./update_status error store_to_archive
 #  exit 1
 #fi
 echo "COMPLETE : procstat"
-./procstat.sh complete
+./update_status complete

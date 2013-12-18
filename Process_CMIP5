@@ -40,7 +40,7 @@ case "$TABL" in
     echo ${TABL}" known CMIP5 table. Proceeding." ;;
   * ) 
     echo "Unable to continue because "$TABL" not known CMIP5 table. Stopping."
-    ./procstat.sh error process_cmip5_template
+    ./update_status error process_cmip5_template
     exit 1 ;;
 esac
 #
@@ -91,7 +91,7 @@ if [ "$VARS" ] ; then
                                    >> $CMIP5_SCRIPT ;;
     * )
       echo "Unable to build script because "$PROCHOST" unknown."
-      ./procstat.sh error process_cmip5_template
+      ./update_status error process_cmip5_template
       exit 1 ;;
   esac
 else
@@ -119,7 +119,7 @@ else
                                    >> $CMIP5_SCRIPT ;;
     * )
       echo "Unable to build script because "$PROCHOST" unknown."
-      ./procstat.sh error process_cmip5_template
+      ./update_status error process_cmip5_template
       exit 1 ;;
   esac
 fi
@@ -143,7 +143,7 @@ if [ "$DORUN" = "Y" ] ; then
       ( /fs/local/apps/lsf/8.0/linux2.6-glibc2.3-x86_64/bin/bsub < ./${CMIP5_SCRIPT} ) ;;
     * )
       echo "Unable to run script because "$PROCHOST" unknown."
-      ./procstat.sh error process_cmip5_template
+      ./update_status error process_cmip5_template
       exit 1 ;;
   esac
 else

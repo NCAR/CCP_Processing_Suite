@@ -240,7 +240,8 @@ subroutine load_exp(exp_file)
         case ('b40.20th.anthro.1deg.006','b40.20th.anthro.1deg.008','b40.20th.anthro.1deg.009','b40.20th.anthro.1deg.012',&
               'b.e10.B20ANTHROC5CN.f09_g16.001','b.e10.B20ANTHROC5CN.f09_g16.002','b.e10.B20ANTHROC5CN.f09_g16.004')
            exp(i)%forcing(1:) = 'GHG Oz SS Ds SD BC MD OC AA LU (time-varying over course of simulation), Sl Vl (all fixed at or cycled over 1850 values)'
-        case ('b40.20th.bcarb.1deg.006','b40.20th.bcarb.1deg.008','b40.20th.bcarb.1deg.012')
+        case ('b40.20th.bcarb.1deg.006','b40.20th.bcarb.1deg.008','b40.20th.bcarb.1deg.012',&
+              'b.e10.B20BCARBC5CN.f09_g16.001','b.e10.B20BCARBC5CN.f09_g16.002','b.e10.B20BCARBC5CN.f09_g16.004')
            exp(i)%forcing(1:) = 'BC (time-varying over course of simulation), OC GHG MD AA LU Oz SS Ds SD Sl Vl (all fixed at or cycled over 1850 values)'
         case ('b40.20th_SFland.1deg.001','b40.20th.land.1deg.008','b40.20th.land.1deg.012',&
               'b.e10.B20LNDC5CN.f09_g16.001','b.e10.B20LNDC5CN.f09_g16.002','b.e10.B20LNDC5CN.f09_g16.004')
@@ -248,7 +249,8 @@ subroutine load_exp(exp_file)
         case ('b40.20th.oz.1deg.006','b40.20th.oz.1deg.008','b40.20th.oz.1deg.012',&
               'b.e10.B20OZC5CN.f09_g16.001','b.e10.B20OZC5CN.f09_g16.002','b.e10.B20OZC5CN.f09_g16.004')
            exp(i)%forcing(1:) = 'Oz (time-varying over course of simulation), GHG LU SS Ds SD BC MD OC AA LU Sl Vl (all fixed at or cycled over 1850 values)'
-        case ('b40.20th.so4.1deg.006','b40.20th.so4.1deg.008','b40.20th.so4.1deg.012')
+        case ('b40.20th.so4.1deg.006','b40.20th.so4.1deg.008','b40.20th.so4.1deg.012',&
+              'b.e10.B20SO4C5CN.f09_g16.001','b.e10.B20SO4C5CN.f09_g16.002','b.e10.B20SO4C5CN.f09_g16.004')
            exp(i)%forcing(1:) = 'SD (time-varying over course of simulation), GHG LU SS Ds Oz BC MD OC AA LU Sl Vl (all fixed at or cycled over 1850 values)'
         case ('b40.20th.solar.1deg.006','b40.20th.solar.1deg.008','b40.20th.solar.1deg.012',&
               'b.e10.B20SOLARC5CN.f09_g16.001','b.e10.B20SOLARC5CN.f09_g16.002','b.e10.B20SOLARC5CN.f09_g16.004')
