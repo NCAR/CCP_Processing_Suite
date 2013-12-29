@@ -105,7 +105,7 @@ case "$PROCHOST" in
     if [ "$MIPNAME" = "lme" ] ; then              # Special CESM1-CAM5-BGC large ensemble runs
       PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE ; export PROCBASE
       LOCALDSK=/glade/p/cesm0005/csm/$CASE       ; export LOCALDSK
-      ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-LE    ; export ARCHIVE_BASE
+      ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME       ; export ARCHIVE_BASE
       LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
       LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
     fi
