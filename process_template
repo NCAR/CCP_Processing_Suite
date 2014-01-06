@@ -155,8 +155,8 @@ case "$PROCHOST" in
     NCKS=/ccs/home/wgstrand/bin/ncks                   ; export NCKS
     NCRA=/ccs/home/wgstrand/bin/ncks                   ; export NCRA
     NCRCAT=/ccs/home/wgstrand/bin/ncrcat               ; export NCRCAT
-    PROCBASE=/tmp/work/$USER/$CASE                     ; export PROCBASE
-    LOCALDSK=/tmp/work/$USER/$CASE                     ; export LOCALDSK
+    PROCBASE=/lustre/atlas1/cli017/scratch/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/lustre/atlas1/cli017/scratch/$USER/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/f2/ccsm/csm                          ; export ARCHIVE_BASE
     if ! [ $LD_LIBRARY_PATH ] ; then
       LD_LIBRARY_PATH=/sw/analysis-x64/ompi/1.4.2/centos5.5_gnu4.4.4/lib:/ccs/compilers/gcc/centos5.5-x86_64/4.4.4/lib64:/sw/analysis-x64/udunits/2.1.21/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/netcdf/4.1.1/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/szip/2.1/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/python/2.7/centos5.5_gnu4.4.3/2.7_install_dir/lib/
