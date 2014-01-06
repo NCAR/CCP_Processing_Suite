@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Concatenate years of by-field CCSM netCDF into whole span
+# Concatenate years of by-field CCSM netCDF into whole span, compression as well
 #
 if [ $# -ne 0 ] ; then
   echo "Usage: var_year_to_all"
@@ -118,7 +118,7 @@ for c in $CASES ; do
           esac
 #
           echo -n "TS var_year_to_all of "${DF}" start: " ; date
-          $NCRCAT -O ${c}.${h}.${v}.*.nc $DF
+          $NCRCAT -4 -L 1 -O ${c}.${h}.${v}.*.nc $DF
           if [ $? = 0 ] ; then
             rm -f ${c}.${h}.${v}.*.nc
             echo "Concatenated "$DF" and checked year count: "$YRCOUNT
@@ -152,7 +152,7 @@ for c in $CASES ; do
             DF=CAT.${c}.${h}.${v}.${Y0}001010000Z-${Y1}12312330Z.nc ;;
         esac
 #
-        $NCRCAT -O ${c}.${h}.${v}.*.nc $DF
+        $NCRCAT -4 -L 1 -O ${c}.${h}.${v}.*.nc $DF
         if [ $? = 0 ] ; then
           rm -f ${c}.${h}.${v}.*.nc
           echo "Concatenated "$DF" and WITHOUT checking year count"

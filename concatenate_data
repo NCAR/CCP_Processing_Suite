@@ -10,55 +10,19 @@ fi
 #
 cd $LOCAL_PROC
 #
-# Check for last millenium ensemble
-#
-if [ $MIPNAME = "lme" ] ; then
-  if [ $HIST = "pop.h" ] && [ $TPER = "mon" ] ; then
-    for e in `ls -d *.d` ; do
-      cd ${LOCAL_PROC}/${e}
-      ../lme_year_to_cen
-      if [ $? -ne 0 ] ; then
-        echo "Error from var_year_to_all"
-        echo $CASE" "${HIST}" "${e}
-        ./update_status error concatenate_data
-        exit 1
-      else
-        if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
-          mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
-        fi
-      fi
-    done
+for e in `ls -d *.d` ; do
+  cd ${LOCAL_PROC}/${e}
+  ../var_year_to_all
+  if [ $? -ne 0 ] ; then
+    echo "Error from var_year_to_all"
+    echo $CASE" "${HIST}" "${e}
+    ./update_status error concatenate_data
+    exit 1
   else
-    for e in `ls -d *.d` ; do
-      cd ${LOCAL_PROC}/${e}
-      ../var_year_to_all
-      if [ $? -ne 0 ] ; then
-        echo "Error from var_year_to_all"
-        echo $CASE" "${HIST}" "${e}
-        ./update_status error concatenate_data
-        exit 1
-      else
-        if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
-          mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
-        fi
-      fi
-    done
-  fi
-else
-  for e in `ls -d *.d` ; do
-    cd ${LOCAL_PROC}/${e}
-    ../var_year_to_all
-    if [ $? -ne 0 ] ; then
-      echo "Error from var_year_to_all"
-      echo $CASE" "${HIST}" "${e}
-      ./update_status error concatenate_data
-      exit 1
-    else
-      if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
-        mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
-      fi
+    if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
+      mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
     fi
-  done
+  fi
 fi
 #
 cd ${LOCAL_PROC}

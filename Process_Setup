@@ -23,10 +23,19 @@ case "$TPER" in
     exit 1 ;;
 esac
 #
+# Check for LME runs
+#
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if ! [ -f $EXPFILE ] ; then
   echo "Cannot find "$EXPFILE". EXIT"
   exit 1
+else
+  MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c105- | cut -d" " -f1`
+  if [ "$MIPNAME" = "lme" ] ; then
+    TEMPLATE=process_lme_template
+  else
+    TEMPLATE=process_template
+  fi
 fi
 #
 PROCHOST=`hostname`;export PROCHOST
@@ -39,28 +48,28 @@ rm -f $CCPS_SCRIPT
 case "$PROCHOST" in 
   silver* | tramhill* | hurricane* | modeling1* )  # Interactive machines
     echo "#!/bin/sh" > $CCPS_SCRIPT
-    cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                           | sed -e "s/xxxHISTxxx/$HIST/g" \
-                           | sed -e "s/xxxTPERxxx/$TPER/g" \
-                           >> $CCPS_SCRIPT ;;
+    cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
+                      | sed -e "s/xxxHISTxxx/$HIST/g" \
+                      | sed -e "s/xxxTPERxxx/$TPER/g" \
+                      >> $CCPS_SCRIPT ;;
   yslogin* | geyser* )                     # yellowstone/geyser @ NCAR
     cat ./LSF_geyser       | sed -e "s/NAME/$CCPS_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CCPS_SCRIPT
-    cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                           | sed -e "s/xxxHISTxxx/$HIST/g" \
-                           | sed -e "s/xxxTPERxxx/$TPER/g" \
-                           >> $CCPS_SCRIPT ;;
+    cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
+                      | sed -e "s/xxxHISTxxx/$HIST/g" \
+                      | sed -e "s/xxxTPERxxx/$TPER/g" \
+                      >> $CCPS_SCRIPT ;;
   lens* )                                  # lens @ ORNL
     cat ./LSF_lens         > $CCPS_SCRIPT
-    cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                           | sed -e "s/xxxHISTxxx/$HIST/g" \
-                           | sed -e "s/xxxTPERxxx/$TPER/g" \
-                           >> $CCPS_SCRIPT ;;
+    cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
+                      | sed -e "s/xxxHISTxxx/$HIST/g" \
+                      | sed -e "s/xxxTPERxxx/$TPER/g" \
+                      >> $CCPS_SCRIPT ;;
   nid* | hopper* | cvrsvc* )               # hopper/carver @ NERSC
     cat ./LSF_carver       | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
-    cat ./process_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                           | sed -e "s/xxxHISTxxx/$HIST/g" \
-                           | sed -e "s/xxxTPERxxx/$TPER/g" \
-                           >> $CCPS_SCRIPT ;;
+    cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
+                      | sed -e "s/xxxHISTxxx/$HIST/g" \
+                      | sed -e "s/xxxTPERxxx/$TPER/g" \
+                      >> $CCPS_SCRIPT ;;
   * )
     echo "Unable to build script because "$PROCHOST" unknown."
     exit 1 ;;
