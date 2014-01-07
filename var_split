@@ -145,7 +145,17 @@ if [ `echo $SCALARS | wc -w` -ne 0 ] ; then
   HEADER=`echo $HEADER","$SCALARS`
 fi
 #echo "HEADER: "$HEADER
-#echo 
+#
+# Store HEADER in separate file
+#
+if [ ! -d header_info ] ; then
+  mkdir header_info
+fi
+#
+if [ "$COMP" != "cice" ] ; then
+  OUT=header_info/${OUTPFX}.header_info.${OUTSFX}
+  $NCKS -v $HEADER $FILE $OUT
+fi
 #
 # All time-dependent vars
 #
@@ -155,13 +165,17 @@ if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
       mkdir ${f}.d
     fi
     if [ "$COMP" = "cice" ] ; then
+      OUTH=header_info/${OUTPFX}.header_info_nh.${OUTSFX}
+      $NCKS -O -d nj,280,383 -v ${HEADER} $FILE $OUTH
       OUT=${f}.d/${OUTPFX}.${f}_nh.${OUTSFX}
-      $NCKS -O -d nj,280,383 -v ${HEADER},${f} $FILE $OUT
+      $NCKS -O -d nj,280,383 -v ${f} $FILE $OUT
+      OUTH=header_info/${OUTPFX}.header_info_sh.${OUTSFX}
+      $NCKS -O -d nj,0,75 -v ${HEADER} $FILE $OUTH
       OUT=${f}.d/${OUTPFX}.${f}_sh.${OUTSFX}
       $NCKS -O -d nj,0,75 -v ${HEADER},${f} $FILE $OUT 
     else
       OUT=${f}.d/${OUTPFX}.${f}.${OUTSFX}
-      $NCKS -O -v ${HEADER},${f} $FILE $OUT
+      $NCKS -O -v ${f} $FILE $OUT
       if [ $? -ne 0 ] ; then
         echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
         ./update_status error var_split

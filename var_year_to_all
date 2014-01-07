@@ -22,7 +22,7 @@ if [ ! $NCRCAT ] ; then
   fi
 fi
 # 
-# Check for ncrcat
+# Check for TPER
 #
 if [ ! $TPER ] ; then
   echo "TPER undefined. Assume monthly"
@@ -31,7 +31,7 @@ fi
 #
 # Parse first filename
 #
-FILE=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | head -n 1`
+FILE=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | head -n 1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1
@@ -65,30 +65,30 @@ DHT2=`expr '(' $DHT1 ')' '+' '1'`
 DVAR=`expr '(' $DVAR ')' '+' '1'`
 DTIM=`expr '(' $DVAR ')' '+' '1'`
 #
-CASES=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
- VARS=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
- HIST=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
- COMP=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
+CASES=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
+ VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+ HIST=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+ COMP=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
 #
 # Check for pop.h.nday1/h2/ecosys
 #
 if [ "$HIST" = "pop.h" ] ; then
   DYCK=`expr '(' $DHT2 ')' '+' '1'`
-  ODAY=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DYCK} | sort | uniq`
+  ODAY=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DYCK} | sort | uniq`
   if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
     DHT2=$DYCK
     DVAR=`expr '(' $DVAR ')' '+' '1'`
     DTIM=`expr '(' $DVAR ')' '+' '1'`
-    VARS=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
-    HIST=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+    VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+    HIST=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
   fi
   if [ "$ODAY" = "ecosys" ] ; then
     DHT2=$DYCK
     DHT2=`expr '(' $DHT2 ')' '+' '1'`
     DVAR=`expr '(' $DVAR ')' '+' '2'`
     DTIM=`expr '(' $DVAR ')' '+' '1'`
-    VARS=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
-    HIST=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+    VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+    HIST=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
   fi
 fi
 #
@@ -120,7 +120,7 @@ for c in $CASES ; do
           echo -n "TS var_year_to_all of "${DF}" start: " ; date
           $NCRCAT -4 -L 1 -O ${c}.${h}.${v}.*.nc $DF
           if [ $? = 0 ] ; then
-            rm -f ${c}.${h}.${v}.*.nc
+#            rm -f ${c}.${h}.${v}.*.nc
             echo "Concatenated "$DF" and checked year count: "$YRCOUNT
             echo -n "TS var_year_to_all of "${DF}"   end: " ; date
           else
@@ -154,7 +154,7 @@ for c in $CASES ; do
 #
         $NCRCAT -4 -L 1 -O ${c}.${h}.${v}.*.nc $DF
         if [ $? = 0 ] ; then
-          rm -f ${c}.${h}.${v}.*.nc
+#          rm -f ${c}.${h}.${v}.*.nc
           echo "Concatenated "$DF" and WITHOUT checking year count"
         else
           echo "Failure on concat of "${c}"."${h}"."${v}" files"

@@ -483,8 +483,8 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
               exit 1
             fi
           fi ;;
-        esac ;;
-      esac
+      esac ;;
+    esac
 #
 # var_split each history file that is now one years' worth of data
 #
