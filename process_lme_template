@@ -156,10 +156,7 @@ echo "   History file type : "$HIST ; export HIST
 echo "         Time period : "$TPER ; export TPER
 echo "   by var processing : YES"
 echo "     Processed files : "$ARCHIVE_PROC  ; export ARCHIVE_PROC
-if [ "$LOCATION" = "NC" ] ; then
-  HARDWARE=${HARDWARE}".ucar.edu"
-fi
-if [ "$LOCATION" = "NE" ] ; then
+HARDWARE=${HARDWARE}".ucar.edu"
 echo "            Location : "$LOCATION ; export LOCATION
 echo "         Description : "$DESCRIP  ; export DESCRIP
 echo "     Realization/RIP : "$REALIZN  ; export REALIZN
