@@ -321,7 +321,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
               exit 1
             fi
           fi ;;
-        esac ;;
+      esac ;;
 #
 # Monthly data, hopefully no time splitting needed
 #
@@ -335,7 +335,6 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
             exit 1
           fi
         fi ;;
-      esac ;;
     esac
 #
 # var_split each history file that is now one years' worth of data
