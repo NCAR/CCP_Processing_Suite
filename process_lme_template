@@ -379,23 +379,8 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
             exit 1
           fi
         fi ;;
-# 
-# 6-hourly data - may require lots of checks, usually
-#
-      hr6 )
-      case "$HTYP" in
-        cice )
-          NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
-          if [ ${NFNC} -eq 12 ] ; then
-            ./hist_mon_to_year
-            if [ $? -ne 0 ] ; then
-              echo "Error from hist_mon_to_year on files "$CASE.$HIST.$YEARNOW
-              ./update_status error hist_mon_to_year
-              exit 1
-            fi
-          fi ;;
-        esac ;;
-      esac
+      esac ;;
+    esac
 #
 # var_split each history file that is now one years' worth of data
 #
@@ -415,9 +400,9 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
   fi
 #
 #
-# If $YEARNOW last two digits is 00, and pop.h, run concatenator
+# If $YEARNOW last two digits is 00, and pop.h (mon or day), run concatenator
 #
-  if [ "$HIST" == "pop.h" ] ; then
+  if [ "$HIST" == "pop.h" ] || [ "$HIST" == "pop.h.nday1" ] ; then
     if [ `echo $YEARNOW | cut -c3-4` == "00" ] ; then
       ./var_lme_year_to_cen
       echo -n "TS pop.h archive start: " ; date
