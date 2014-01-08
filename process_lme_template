@@ -83,9 +83,6 @@ case "$PROCHOST" in
     NCKS=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncks      ; export NCKS
     NCRA=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncra      ; export NCRA
     NCRCAT=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncrcat  ; export NCRCAT
-    PROCBASE=/glade/scratch/$USER/$CASE           ; export PROCBASE
-    LOCALDSK=/glade/scratch/$USER/$CASE           ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
     PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE ; export PROCBASE
     LOCALDSK=/glade/p/cesm0005/csm/$CASE       ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME       ; export ARCHIVE_BASE
