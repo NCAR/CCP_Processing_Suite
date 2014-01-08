@@ -73,18 +73,18 @@ for c in $CASES ; do
   for v in $VARS ; do
     CENS=`ls | egrep "${c}\.${HIST}\.${v}\.[0-9][0-9][0-9][0-9]\.nc" | cut -d"." -f${DTIM} | cut -c1-2 | sort | uniq`
     for d in $CENS ; do
-      if [ "$d" == "08" ] || [ "$d" == "18" ] ; then
+      if [ "$d" = "08" ] || [ "$d" = "18" ] ; then
         GOOD=50
       else
         GOOD=100
       fi
       NUM=`ls ${c}.${HIST}.${v}.${d}??.nc | wc -l`
       if [ $NUM -eq $GOOD ] ; then
-        if [ "$d" == "08" ] ; then
+        if [ "$d" = "08" ] ; then
           Y0=0850
           Y1=0899
         else
-          if [ "$d" == "18" ] ; then
+          if [ "$d" = "18" ] ; then
             Y0=1800
             Y1=1849
           else

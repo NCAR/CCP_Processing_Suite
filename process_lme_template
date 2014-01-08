@@ -357,8 +357,8 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 #
 # If $YEARNOW last two digits is 00, and pop.h (mon or day), run concatenator
 #
-  if [ "$HIST" == "pop.h" ] || [ "$HIST" == "pop.h.nday1" ] ; then
-    if [ `echo $YEARNOW | cut -c3-4` == "00" ] ; then
+  if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
+    if [ `echo $YEARNOW | cut -c3-4` = "00" ] ; then
       ./var_lme_year_to_cen
       echo -n "TS pop.h archive start: " ; date
       ./store_to_archive
