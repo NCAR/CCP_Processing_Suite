@@ -17,7 +17,7 @@ if [ `ls CAT.*.nc | wc -l` -ne 0 ] ; then
     ARCH_FILE=`echo $CATFILE | sed -e 's/^CAT\.//g'`
     mv $CATFILE $ARCH_FILE
   done
+  ../archive_write $ARCHIVE_PROC
 fi
-../archive_write $ARCHIVE_PROC
 #
 cd $LOCAL_PROC
