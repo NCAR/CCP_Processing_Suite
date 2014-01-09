@@ -28,90 +28,84 @@ if [ ! $TPER ] ; then
   TPER="mon" ; export TPER
 fi
 #
-# Concatenate data in each dir, including header info
-#
-for IDIR in `/bin/ls -d *.d header_info` ; do
-  cd ${LOCAL_PROC}/${IDIR}
-#
 # Parse first filename
 #
-  FILE=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | head -n 1`
-  FLEN=`echo $FILE | wc -c`
-  NDOT=0
-  CSTR=1
-  while [ $CSTR -le $FLEN ] ; do
-    CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
-    if [ "$CURC" = "." ] ; then
-       NDOT=`expr '(' $NDOT ')' '+' '1'`
-    fi
-    CSTR=`expr '(' $CSTR ')' '+' '1'`
-  done
-  IDOT=1
-  DCAS=1
-  DVAR=1
-  DHT1=1
-  DHT2=1
-  while [ $IDOT -le $NDOT ] ; do
-    CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
-    case "$CURC" in
-      cam2 | cam | clm2 | pop | csim | cice | rtm )
-        DCAS=`expr '(' $IDOT ')' '-' '1'`
-        DVAR=`expr '(' $IDOT ')' '+' '1'`
-        DHT1=$IDOT ;;
-    esac
-    IDOT=`expr '(' $IDOT ')' '+' '1'`
-  done
+FILE=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | head -n 1`
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DCAS=1
+DVAR=1
+DHT1=1
+DHT2=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 | cam | clm2 | pop | csim | cice | rtm )
+      DCAS=`expr '(' $IDOT ')' '-' '1'`
+      DVAR=`expr '(' $IDOT ')' '+' '1'`
+      DHT1=$IDOT ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
 #
-  DCMP=$DHT1
-  COMP=`echo $FILE | cut -d"." -f${DCMP}`
+DCMP=$DHT1
+COMP=`echo $FILE | cut -d"." -f${DCMP}`
 #
-  DHT2=`expr '(' $DHT1 ')' '+' '1'`
-  DVAR=`expr '(' $DVAR ')' '+' '1'`
-  DTIM=`expr '(' $DVAR ')' '+' '1'`
+DHT2=`expr '(' $DHT1 ')' '+' '1'`
+DVAR=`expr '(' $DVAR ')' '+' '1'`
+DTIM=`expr '(' $DVAR ')' '+' '1'`
 #
-  CASES=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
-   VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
-   HIST=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
-   COMP=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
+CASES=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
+ VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+ HIST=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+ COMP=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
 #
-  for ICASE in $CASES ; do
-    for IVAR in $VARS ; do
-      CENS=`ls | egrep "${ICASE}\.${HIST}\.${IVAR}\.[0-9][0-9][0-9][0-9]\.nc" | cut -d"." -f${DTIM} | cut -c1-2 | sort | uniq`
-      for ICEN in $CENS ; do
-        echo ${ICEN}
-        case "$ICEN" in
-          08 ) 
-          GOOD=50 ; IYR1=50 ; IYR2=99 ;;
-          18 ) 
-          GOOD=50 ; IYR1=00 ; IYR2=49 ;;
-          * ) 
-          GOOD=100 ; IYR1=00 ; IYR2=99 ;;
+for ICASE in $CASES ; do
+  for IVAR in $VARS ; do
+    CENS=`ls | egrep "${ICASE}\.${HIST}\.${IVAR}\.[0-9][0-9][0-9][0-9]\.nc" | cut -d"." -f${DTIM} | cut -c1-2 | sort | uniq`
+    for ICEN in $CENS ; do
+      echo ${ICEN}
+      case "$ICEN" in
+        08 ) 
+        GOOD=50 ; IYR1=50 ; IYR2=99 ;;
+        18 ) 
+        GOOD=50 ; IYR1=00 ; IYR2=49 ;;
+        * ) 
+        GOOD=100 ; IYR1=00 ; IYR2=99 ;;
+      esac
+      NUM=`ls ${ICASE}.${HIST}.${IVAR}.${ICEN}??.nc | wc -l`
+      if [ $NUM -eq $GOOD ] ; then
+        Y0=${ICEN}${IYR1}
+        Y1=${ICEN}${IYR2}
+        case "$TPER" in
+          ann )
+           DF=CAT.${ICASE}.${HIST}.${IVAR}.${Y0}-${Y1}.nc ;;
+          mon )
+            DF=CAT.${ICASE}.${HIST}.${IVAR}.${Y0}01-${Y1}12.nc ;;
+          day ) 
+            DF=CAT.${ICASE}.${HIST}.${IVAR}.${Y0}0101-${Y1}1231.nc ;;
         esac
-        NUM=`ls ${ICASE}.${HIST}.${IVAR}.${ICEN}??.nc | wc -l`
-        if [ $NUM -eq $GOOD ] ; then
-          Y0=${ICEN}${IYR1}
-          Y1=${ICEN}${IYR2}
-          case "$TPER" in
-            ann )
-             DF=CAT.${ICASE}.${HIST}.${IVAR}.${Y0}-${Y1}.nc ;;
-            mon )
-              DF=CAT.${ICASE}.${HIST}.${IVAR}.${Y0}01-${Y1}12.nc ;;
-            day ) 
-              DF=CAT.${ICASE}.${HIST}.${IVAR}.${Y0}0101-${Y1}1231.nc ;;
-          esac
-          echo -n "TS var_lme_year_to_cen of "${DF}" start: " ; date
-          $NCRCAT -4 -L 1 -O ${ICASE}.${HIST}.${IVAR}.${ICEN}??.nc $DF
-          if [ $? = 0 ] ; then
-            rm -f ${ICASE}.${HIST}.${IVAR}.${ICEN}??.nc
-            echo "Concatenated "$DF" and checked year count: "${GOOD}
-            echo -n "TS var_lme_year_to_cen of "${DF}"   end: " ; date
-          else
-            echo "Failure on concat of "${ICASE}"."${HIST}"."${IVAR}" files"
-            ./update_status error var_lme_year_to_cen
-            exit 1
-          fi
+        echo -n "TS var_lme_year_to_cen of "${DF}" start: " ; date
+        $NCRCAT -4 -L 1 -O ${ICASE}.${HIST}.${IVAR}.${ICEN}??.nc $DF
+        if [ $? = 0 ] ; then
+          rm -f ${ICASE}.${HIST}.${IVAR}.${ICEN}??.nc
+          echo "Concatenated "$DF" and checked year count: "${GOOD}
+          echo -n "TS var_lme_year_to_cen of "${DF}"   end: " ; date
+        else
+          echo "Failure on concat of "${ICASE}"."${HIST}"."${IVAR}" files"
+          ./update_status error var_lme_year_to_cen
+          exit 1
         fi
-      done
+      fi
     done
   done
 done
