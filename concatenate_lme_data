@@ -1,0 +1,81 @@
+#!/bin/sh
+#
+# Concatenate LME pop.h/pop.h.nday1 data as needed
+#
+if [ $# -ne 0 ] ; then
+  echo "Usage: concatenate_lme_data"
+  ./update_status error concatenate_lme_data
+  exit 1
+fi
+#
+DOTT=10
+# 
+#
+# Check for CACHEDIR
+#
+if [ ! $CACHEDIR ] ; then
+  echo "No CACHEDIR defined. CAT files stay in subdirs"
+else
+  echo "CACHEDIR: "${CACHEDIR}
+fi
+#
+# Check for ncks
+#
+if [ ! $NCKS ] ; then
+  TEST4NCKS=`which ncrcat 2>&1`
+  if [ $? -eq 0 ] ; then
+    NCKS=`which ncks`
+  else
+    echo "NCKS not in PATH - UNDEFINED"
+    ./update_status error concatenate_lme_data
+    exit 1
+  fi
+fi
+#
+cd $LOCAL_PROC
+#
+# Concatenate header info
+#
+cd ${LOCAL_PROC}/header_info
+../var_lme_year_to_cen
+if [ $? -eq 0 ] ; then
+  cd ${LOCAL_PROC}/header_info
+  TVAL=`/bin/ls CAT*.header_info.*.nc | cut -d"." -f${DOTT}`
+  HEADER=`/bin/ls CAT*.header_info.${TVAL}.nc`
+else
+  echo "Error from var_lme_year_to_cen on header info"
+  echo $CASE" "${HIST}
+  ./update_status error concatenate_lme_data
+  exit 1
+fi
+#
+cd $LOCAL_PROC
+#
+# Process time-variant fields 
+#
+for e in `ls -d *.d` ; do
+  cd ${LOCAL_PROC}/${e}
+  ../var_lme_year_to_cen
+  if [ $? = 0 ] ; then
+    if [ `/bin/ls | egrep "^CAT\." | egrep '\.nc$' | wc -l` -ne 0 ] ; then
+      for CATFILE in `/bin/ls | egrep "^CAT\." | egrep '\.nc$'` ; do
+        echo $CATFILE
+        $NCKS -A ../header_info/${HEADER} $CATFILE
+        if [ $? -ne 0 ] ; then
+          echo "Error on ncks -A onto "${CATFILE}
+          ./update_status error concatenate_lme_data
+          exit 1         
+        else
+          mv $CATFILE $CACHEDIR
+        fi
+      done
+    fi
+  else
+    echo "Error from var_year_to_all"
+    echo $CASE" "${HIST}" "${e}
+    ./update_status error concatenate_lme_data
+    exit 1
+  fi
+done
+#
+cd ${LOCAL_PROC}

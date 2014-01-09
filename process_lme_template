@@ -186,23 +186,17 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
-case "$TPER" in
-  day | hr6 )
-    ln -s -f $BASEDIR/time_split    .
-    ln -s -f $BASEDIR/days_to_year  .
-    ;;
-esac
-#
-ln -s -f $BASEDIR/archive_list      .
-ln -s -f $BASEDIR/archive_read      .
-ln -s -f $BASEDIR/archive_write     .
-ln -s -f $BASEDIR/var_split         .
-ln -s -f $BASEDIR/hist_mon_to_year  .
-ln -s -f $BASEDIR/var_year_to_all   .
-ln -s -f $BASEDIR/var_lme_year_to_cen .
-ln -s -f $BASEDIR/concatenate_data  .
-ln -s -f $BASEDIR/store_to_archive  .
-ln -s -f $BASEDIR/update_status     .
+ln -s -f $BASEDIR/archive_list         .
+ln -s -f $BASEDIR/archive_read         .
+ln -s -f $BASEDIR/archive_write        .
+ln -s -f $BASEDIR/var_split            .
+ln -s -f $BASEDIR/hist_mon_to_year     .
+ln -s -f $BASEDIR/var_year_to_all      .
+ln -s -f $BASEDIR/var_lme_year_to_cen  .
+ln -s -f $BASEDIR/concatenate_data     .
+ln -s -f $BASEDIR/concatenate_lme_data .
+ln -s -f $BASEDIR/store_to_archive     .
+ln -s -f $BASEDIR/update_status        .
 #
 cd $LOCAL_PROC
 #
@@ -352,7 +346,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 # If $YEARNOW last two digits is 00, and pop.h (mon or day), run concatenator
 #
   if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
-    ./var_lme_year_to_cen
+    ./concatenate_lme_data
     echo -n "TS pop.h archive start: " ; date
     ./store_to_archive
     echo -n "TS pop.h archive   end: " ; date

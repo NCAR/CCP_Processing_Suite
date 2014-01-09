@@ -76,7 +76,7 @@ for IDIR in `/bin/ls -d *.d header_info` ; do
 #
   for ICASE in $CASES ; do
     for IVAR in $VARS ; do
-      CENS=`ls | egrep "${ICASE}\.${HIST}\.${IVAR}\.[0-9][0-9][0-9][0-9]\.nc" | cut -d"." -f${DTIM} | cut -c1-2 | sort -r | uniq`
+      CENS=`ls | egrep "${ICASE}\.${HIST}\.${IVAR}\.[0-9][0-9][0-9][0-9]\.nc" | cut -d"." -f${DTIM} | cut -c1-2 | sort | uniq`
       for ICEN in $CENS ; do
         echo ${ICEN}
         case "$ICEN" in
@@ -110,10 +110,6 @@ for IDIR in `/bin/ls -d *.d header_info` ; do
             ./update_status error var_lme_year_to_cen
             exit 1
           fi
-        else
-          echo "Missing year(s) from "${ICASE}"."${HIST}"."${IVAR}"."${ICEN}"??.nc files"
-          echo "Count is "$NUM" should be "${GOOD}
-          exit 1
         fi
       done
     done
