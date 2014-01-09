@@ -102,13 +102,6 @@ case "$PROCHOST" in
       LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
       LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
     fi
-    if [ "$MIPNAME" = "lme" ] ; then              # Special CESM1-CAM5-BGC large ensemble runs
-      PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE ; export PROCBASE
-      LOCALDSK=/glade/p/cesm0005/csm/$CASE       ; export LOCALDSK
-      ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME       ; export ARCHIVE_BASE
-      LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
-      LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
-    fi
     if [ "$MIPNAME" = "lea" ] ; then              # Special Aixue 20C runs
       ARCHIVE_BASE=/home/ahu/csm                 ; export ARCHIVE_BASE
     fi
@@ -199,7 +192,7 @@ LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
 LOCAL_PROC=$PROCBASE/$COMP_NAME
 ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
 #
-if [ "$MIPNAME" = "le5" ] || [ "$MIPNAME" = "lme" ] ; then # CESM1-CAM5-BGC large ensemble and CESM1-CAM5 last millenium ensemble
+if [ "$MIPNAME" = "le5" ] ; then # CESM1-CAM5-BGC large ensemble and CESM1-CAM5 last millenium ensemble
    ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
 else
    ARCHIVE_PROC=$ARCHIVE_BASE/$CASE/$COMP_NAME/proc/tseries
@@ -292,7 +285,6 @@ ln -s -f $BASEDIR/archive_write     .
 ln -s -f $BASEDIR/var_split         .
 ln -s -f $BASEDIR/hist_mon_to_year  .
 ln -s -f $BASEDIR/var_year_to_all   .
-ln -s -f $BASEDIR/lme_year_to_cen   .
 ln -s -f $BASEDIR/concatenate_data  .
 ln -s -f $BASEDIR/store_to_archive  .
 ln -s -f $BASEDIR/update_status     .
