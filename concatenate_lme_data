@@ -40,8 +40,9 @@ cd ${LOCAL_PROC}/header_info
 ../var_lme_year_to_cen
 if [ $? -eq 0 ] ; then
   cd ${LOCAL_PROC}/header_info
-  TVAL=`/bin/ls CAT*.header_info.*.nc | cut -d"." -f${DOTT}`
-  HEADER=`/bin/ls CAT*.header_info.${TVAL}.nc`
+  TVAL=`/bin/ls CAT*.pop.h.header_info.*.nc | cut -d"." -f${DOTT}`
+  HEADER=`/bin/ls CAT*.pop.h.header_info.${TVAL}.nc`
+  echo "TVAL: "${TVAL}" HEADER: "${HEADER}
 else
   echo "Error from var_lme_year_to_cen on header info"
   echo $CASE" "${HIST}

@@ -59,8 +59,6 @@ for e in `ls -d *.d` ; do
   ../var_year_to_all
   if [ $? = 0 ] ; then
     if [ "$COMP" = "cice" ] ; then
-      echo ${HEADER_NH}
-      echo ${HEADER_SH}
 #
 # NH sea ice
 #
