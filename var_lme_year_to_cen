@@ -95,7 +95,7 @@ for ICASE in $CASES ; do
             DF=CAT.${ICASE}.${HIST}.${IVAR}.${Y0}0101-${Y1}1231.nc ;;
         esac
         echo -n "TS var_lme_year_to_cen of "${DF}" start: " ; date
-        $NCRCAT -4 -L 1 -O ${ICASE}.${HIST}.${IVAR}.${ICEN}??.nc $DF
+        $NCRCAT -O ${ICASE}.${HIST}.${IVAR}.${ICEN}??.nc $DF
         if [ $? = 0 ] ; then
           rm -f ${ICASE}.${HIST}.${IVAR}.${ICEN}??.nc
           echo "Concatenated "$DF" and checked year count: "${GOOD}

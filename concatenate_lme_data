@@ -8,9 +8,6 @@ if [ $# -ne 0 ] ; then
   exit 1
 fi
 #
-DOTT=11
-# 
-#
 # Check for CACHEDIR
 #
 if [ ! $CACHEDIR ] ; then
@@ -27,27 +24,9 @@ if [ ! $NCKS ] ; then
     NCKS=`which ncks`
   else
     echo "NCKS not in PATH - UNDEFINED"
-    ./update_status error concatenate_lme_data
+    ./update_status error concatenate_data
     exit 1
   fi
-fi
-#
-cd $LOCAL_PROC
-#
-# Concatenate header info
-#
-cd ${LOCAL_PROC}/header_info
-../var_lme_year_to_cen
-if [ $? -eq 0 ] ; then
-  cd ${LOCAL_PROC}/header_info
-  TVAL=`/bin/ls CAT*.pop.h.header_info.*.nc | cut -d"." -f${DOTT}`
-  HEADER=`/bin/ls CAT*.pop.h.header_info.${TVAL}.nc`
-  echo "TVAL: "${TVAL}" HEADER: "${HEADER}
-else
-  echo "Error from var_lme_year_to_cen on header info"
-  echo $CASE" "${HIST}
-  ./update_status error concatenate_lme_data
-  exit 1
 fi
 #
 cd $LOCAL_PROC
@@ -60,21 +39,13 @@ for e in `ls -d *.d` ; do
   if [ $? = 0 ] ; then
     if [ `/bin/ls | egrep "^CAT\." | egrep '\.nc$' | wc -l` -ne 0 ] ; then
       for CATFILE in `/bin/ls | egrep "^CAT\." | egrep '\.nc$'` ; do
-        echo $CATFILE
-        $NCKS -A ../header_info/${HEADER} $CATFILE
-        if [ $? -ne 0 ] ; then
-          echo "Error on ncks -A onto "${CATFILE}
-          ./update_status error concatenate_lme_data
-          exit 1         
-        else
-          mv $CATFILE $CACHEDIR
-        fi
+        mv $CATFILE $CACHEDIR
       done
     fi
   else
-    echo "Error from var_year_to_all"
+    echo "Error from var_lme_year_to_cen"
     echo $CASE" "${HIST}" "${e}
-    ./update_status error concatenate_lme_data
+    ./update_status error concatenate_data
     exit 1
   fi
 done

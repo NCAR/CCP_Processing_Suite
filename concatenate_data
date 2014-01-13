@@ -31,80 +31,16 @@ fi
 #
 cd $LOCAL_PROC
 #
-# Concatenate header info
-#
-cd ${LOCAL_PROC}/header_info
-../var_year_to_all
-if [ $? -eq 0 ] ; then
-  cd ${LOCAL_PROC}/header_info
-  if [ "$COMP" = "cice" ] ; then
-    HEADER_NH=`/bin/ls CAT*.header_info_nh.*.nc`
-    HEADER_SH=`/bin/ls CAT*.header_info_sh.*.nc`
-  else
-    HEADER=`/bin/ls CAT*.header_info.*.nc`
-  fi
-else
-  echo "Error from var_year_to_all on header info"
-  echo $CASE" "${HIST}
-  ./update_status error concatenate_data
-  exit 1
-fi
-#
-cd $LOCAL_PROC
-#
 # Process time-variant fields 
 #
 for e in `ls -d *.d` ; do
   cd ${LOCAL_PROC}/${e}
   ../var_year_to_all
   if [ $? = 0 ] ; then
-    if [ "$COMP" = "cice" ] ; then
-#
-# NH sea ice
-#
-      if [ `/bin/ls | egrep "^CAT" | egrep "_nh\.[0-9]" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
-        for CATFILE in `/bin/ls | egrep "^CAT\." | egrep "_nh\.[0-9]" | egrep '\.nc$'` ; do
-          echo $CATFILE
-          $NCKS -A ../header_info/${HEADER_NH} $CATFILE
-          if [ $? -ne 0 ] ; then
-            echo "Error on ncks -A onto "${CATFILE}
-            ./update_status error concatenate_data
-            exit 1         
-          else
-            mv $CATFILE $CACHEDIR
-          fi
-        done
-      fi
-#
-# SH sea ice
-#
-      if [ `/bin/ls | egrep "^CAT" | egrep "_sh\.[0-9]" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
-        for CATFILE in `/bin/ls | egrep "^CAT\." | egrep "_sh\.[0-9]" | egrep '\.nc$'` ; do
-          echo $CATFILE
-          $NCKS -A ../header_info/${HEADER_SH} $CATFILE
-          if [ $? -ne 0 ] ; then
-            echo "Error on ncks -A onto "${CATFILE}
-            ./update_status error concatenate_data
-            exit 1         
-          else
-            mv $CATFILE $CACHEDIR
-          fi
-        done
-      fi
-    else
-      if [ `/bin/ls | egrep "^CAT\." | egrep '\.nc$' | wc -l` -ne 0 ] ; then
-        for CATFILE in `/bin/ls | egrep "^CAT\." | egrep '\.nc$'` ; do
-          echo $CATFILE
-          $NCKS -A ../header_info/${HEADER} $CATFILE
-          if [ $? -ne 0 ] ; then
-            echo "Error on ncks -A onto "${CATFILE}
-            ./update_status error concatenate_data
-            exit 1         
-          else
-            mv $CATFILE $CACHEDIR
-          fi
-        done
-      fi
+    if [ `/bin/ls | egrep "^CAT\." | egrep '\.nc$' | wc -l` -ne 0 ] ; then
+      for CATFILE in `/bin/ls | egrep "^CAT\." | egrep '\.nc$'` ; do
+        mv $CATFILE $CACHEDIR
+      done
     fi
   else
     echo "Error from var_year_to_all"

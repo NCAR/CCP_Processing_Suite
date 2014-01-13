@@ -286,6 +286,7 @@ ln -s -f $BASEDIR/var_split         .
 ln -s -f $BASEDIR/hist_mon_to_year  .
 ln -s -f $BASEDIR/var_year_to_all   .
 ln -s -f $BASEDIR/concatenate_data  .
+ln -s -f $BASEDIR/compress_data     .
 ln -s -f $BASEDIR/store_to_archive  .
 ln -s -f $BASEDIR/update_status     .
 #
@@ -513,6 +514,12 @@ done
 echo -n "TS final concat start: " ; date
 ./concatenate_data
 echo -n "TS final concat   end: " ; date
+#
+# Compress data
+#
+echo -n "TS compression start: " ; date
+./compress_data
+echo -n "TS compression   end: " ; date
 #
 # Store completed data on archival system
 #

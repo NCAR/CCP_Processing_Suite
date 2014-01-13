@@ -92,72 +92,71 @@ if [ "$HIST" = "pop.h" ] ; then
   fi
 fi
 #
-for c in $CASES ; do
-  for h in $HIST ; do
-    for v in $VARS ; do
+for ICASE in $CASES ; do
+  for IHIST in $HIST ; do
+    for IVAR in $VARS ; do
       if [ $YRCOUNT ] ; then
-        NUM=`ls ${c}.${h}.${v}.*.nc | wc -l`
+        NUM=`ls ${ICASE}.${IHIST}.${IVAR}.*.nc | wc -l`
         if [ $NUM = $YRCOUNT ] ; then
-          Y0=`ls ${c}.${h}.${v}.*.nc | head -n 1 | cut -d"." -f${DTIM}`
-          Y1=`ls ${c}.${h}.${v}.*.nc | tail -n 1 | cut -d"." -f${DTIM}`
+          Y0=`ls ${ICASE}.${IHIST}.${IVAR}.*.nc | head -n 1 | cut -d"." -f${DTIM}`
+          Y1=`ls ${ICASE}.${IHIST}.${IVAR}.*.nc | tail -n 1 | cut -d"." -f${DTIM}`
           case "$TPER" in
             ann )
-              DF=CAT.${c}.${h}.${v}.${Y0}-${Y1}.nc ;;
+              DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}-${Y1}.nc ;;
             mon )
-              DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc ;;
+              DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}01-${Y1}12.nc ;;
             day ) 
-              DF=CAT.${c}.${h}.${v}.${Y0}0101-${Y1}1231.nc ;;
+              DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}0101-${Y1}1231.nc ;;
             hr6 ) 
-              DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123118Z.nc ;;
+              DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}010100Z-${Y1}123118Z.nc ;;
             hr3 )
-              DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123121Z.nc ;;
+              DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}010100Z-${Y1}123121Z.nc ;;
             hr1 )
-              DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123123Z.nc ;;
+              DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}010100Z-${Y1}123123Z.nc ;;
             m30 )
-              DF=CAT.${c}.${h}.${v}.${Y0}001010000Z-${Y1}12312330Z.nc ;;
+              DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}001010000Z-${Y1}12312330Z.nc ;;
           esac
-#
           echo -n "TS var_year_to_all of "${DF}" start: " ; date
-          $NCRCAT -4 -L 1 -O ${c}.${h}.${v}.*.nc $DF
+          $NCRCAT -4 -O ${ICASE}.${IHIST}.${IVAR}.*.nc $DF
           if [ $? = 0 ] ; then
-#            rm -f ${c}.${h}.${v}.*.nc
+            rm -f ${ICASE}.${IHIST}.${IVAR}.*.nc
             echo "Concatenated "$DF" and checked year count: "$YRCOUNT
             echo -n "TS var_year_to_all of "${DF}"   end: " ; date
           else
-            echo "Failure on concat of "${c}"."${h}"."${v}" files"
+            echo "Failure on concat of "${ICASE}"."${IHIST}"."${IVAR}" files"
 	    ./update_status error var_year_to_all
             exit 1
           fi
         else
-          echo "Missing year(s) from "${c}"."${h}"."${v}" files"
+          echo "Missing year(s) from "${ICASE}"."${IHIST}"."${IVAR}" files"
           echo "Count is "$NUM" should be "$YRCOUNT
         fi
       else
-        Y0=`ls ${c}.${h}.${v}.*.nc | head -n 1 | cut -d"." -f${DTIM}`
-        Y1=`ls ${c}.${h}.${v}.*.nc | tail -n 1 | cut -d"." -f${DTIM}`
+        Y0=`ls ${ICASE}.${IHIST}.${IVAR}.*.nc | head -n 1 | cut -d"." -f${DTIM}`
+        Y1=`ls ${ICASE}.${IHIST}.${IVAR}.*.nc | tail -n 1 | cut -d"." -f${DTIM}`
         case "$TPER" in
           ann )
-            DF=CAT.${c}.${h}.${v}.${Y0}-${Y1}.nc ;;
+            DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}-${Y1}.nc ;;
           mon )
-            DF=CAT.${c}.${h}.${v}.${Y0}01-${Y1}12.nc ;;
+            DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}01-${Y1}12.nc ;;
           day ) 
-            DF=CAT.${c}.${h}.${v}.${Y0}0101-${Y1}1231.nc ;;
+            DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}0101-${Y1}1231.nc ;;
           hr6 ) 
-            DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123118Z.nc ;;
+            DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}010100Z-${Y1}123118Z.nc ;;
           hr3 )
-            DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123121Z.nc ;;
+            DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}010100Z-${Y1}123121Z.nc ;;
           hr1 )
-            DF=CAT.${c}.${h}.${v}.${Y0}010100Z-${Y1}123123Z.nc ;;
+            DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}010100Z-${Y1}123123Z.nc ;;
           m30 )
-            DF=CAT.${c}.${h}.${v}.${Y0}001010000Z-${Y1}12312330Z.nc ;;
+            DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}001010000Z-${Y1}12312330Z.nc ;;
         esac
 #
-        $NCRCAT -4 -L 1 -O ${c}.${h}.${v}.*.nc $DF
+        $NCRCAT -4 -O ${ICASE}.${IHIST}.${IVAR}.*.nc $DF
         if [ $? = 0 ] ; then
-#          rm -f ${c}.${h}.${v}.*.nc
+          rm -f ${ICASE}.${IHIST}.${IVAR}.*.nc
           echo "Concatenated "$DF" and WITHOUT checking year count"
         else
-          echo "Failure on concat of "${c}"."${h}"."${v}" files"
+          echo "Failure on concat of "${ICASE}"."${IHIST}"."${IVAR}" files"
 	  ./update_status error var_year_to_all
           exit 1
         fi

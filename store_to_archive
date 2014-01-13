@@ -12,12 +12,11 @@ PROCHOST=`hostname`;export PROCHOST
 #
 cd $CACHEDIR
 #
-if [ `ls CAT.*.nc | wc -l` -ne 0 ] ; then
-  for CATFILE in `ls CAT.*.nc` ; do
-    ARCH_FILE=`echo $CATFILE | sed -e 's/^CAT\.//g'`
-    mv $CATFILE $ARCH_FILE
-  done
+if [ `ls *.nc | wc -l` -ne 0 ] ; then
   ../archive_write $ARCHIVE_PROC
+else
+  echo "No files in "$CACHEDIR". Exit."
+  ./update_status error store_to_archive
 fi
 #
 cd $LOCAL_PROC
