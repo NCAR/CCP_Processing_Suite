@@ -306,10 +306,10 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
         rtm )
           NFNC=`echo $CASE.$HIST.${YEARNOW}-01-02-00000.nc | wc -w`
           if [ ${NFNC} -ne 0 ] ; then
-            for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-01.nc` ; do
-              TRIMD=`echo $FILE | sed -e 's/\-01\.nc$/\.nc/g'`
+            for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}.01-02-00000.nc` ; do
+              TRIMD=`echo $FILE | sed -e "s/$YEARNOW\-01\-02\-00000/$YEARNOW/g"`
               mv $FILE $TRIMD
-              echo "time_split not required on "$FILE" 1 month already."
+              echo "time_split not required on "$FILE" - 1 year already."
             done
             ./hist_mon_to_year
             if [ $? -ne 0 ] ; then
