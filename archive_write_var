@@ -1,0 +1,103 @@
+#!/bin/sh
+#
+# Write file(s) to archival tape, directories for each field
+#
+# Arguments:
+# 1 directory on archival system to write file to
+#
+if [ $# = 1 ] ; then
+  ARCHIVE_D=$1
+else
+  echo "archive_write ERROR - missing argument ARCHIVE_D"
+  ./update_status error archive_write_var
+  exit 1
+fi
+#
+# If hsi command exists, use it.
+#
+TEST4HSI=`which hsi 2<&1`
+if [ $? -ne 0 ] ; then
+  echo "hsi command not found"
+  ./update_status error archive_write_var
+  exit 1
+fi
+#
+# Use HSI to write files to ARCHIVE_D but directory for each field
+#
+# Parse first filename
+#
+FILE=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | head -n 1`
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DCAS=1
+DVAR=1
+DHT1=1
+DHT2=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 | cam | clm2 | pop | csim | cice | rtm )
+      DCAS=`expr '(' $IDOT ')' '-' '1'`
+      DVAR=`expr '(' $IDOT ')' '+' '1'`
+      DHT1=$IDOT ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+#
+DCMP=$DHT1
+COMP=`echo $FILE | cut -d"." -f${DCMP}`
+#
+DHT2=`expr '(' $DHT1 ')' '+' '1'`
+DVAR=`expr '(' $DVAR ')' '+' '1'`
+#
+VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+#
+# Check for pop.h.nday1/h2/ecosys
+#
+if [ "$HIST" = "pop.h" ] ; then
+  DYCK=`expr '(' $DHT2 ')' '+' '1'`
+  ODAY=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DYCK} | sort | uniq`
+  if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
+    DHT2=$DYCK
+    DVAR=`expr '(' $DVAR ')' '+' '1'`
+    VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+  fi
+  if [ "$ODAY" = "ecosys" ] ; then
+    DHT2=$DYCK
+    DHT2=`expr '(' $DHT2 ')' '+' '1'`
+    DVAR=`expr '(' $DVAR ')' '+' '2'`
+    VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+  fi
+fi
+#
+rm -f MKDIR
+for IVAR in $VARS ; do
+  echo "mkdir -p ${ARCHIVE_D}/${IVAR} ; chmod 775 ${ARCHIVE_D}/${IVAR}" >> MKDIR
+done
+hsi in MKDIR
+echo ${ARCHIVE_D}" and subdirs created. Ready." ; rm MKDIR
+#
+rm -f PUT
+for IVAR in $VARS ; do
+  echo "cd ${ARCHIVE_D}/${IVAR} ; put -U *.${IVAR}.*.nc ; chmod 644 $.{IVAR}.*.nc" >> PUT
+done
+#
+hsi in PUT
+#
+if [ $? -eq 0 ] ; then
+  echo "Files written to "${ARCHIVE_D}" and subdirs."
+  rm -f PUT 
+else
+  echo "Problem with HPSS on write. Stopping"
+  ./update_status error archive_write_var
+  exit 1
+fi

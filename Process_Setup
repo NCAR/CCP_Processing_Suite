@@ -31,11 +31,14 @@ if ! [ -f $EXPFILE ] ; then
   exit 1
 else
   MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c105- | cut -d" " -f1`
-  if [ "$MIPNAME" = "lme" ] ; then
-    TEMPLATE=process_lme_template
-  else
-    TEMPLATE=process_template
-  fi
+  case "$MIPNAME" in 
+    lme )
+      TEMPLATE=process_lme_template ;;
+    le5 )
+      TEMPLATE=process_le5_template ;;
+    * )
+      TEMPLATE=process_template ;;
+  esac
 fi
 #
 PROCHOST=`hostname`;export PROCHOST

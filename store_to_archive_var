@@ -1,10 +1,10 @@
 #!/bin/sh
 #
-# Store data on archival system
+# Store data on archival system, one directory per field
 #
 if [ $# -ne 0 ] ; then
-  echo "Usage: store_to_archive"
-  ./update_status error store_to_archive
+  echo "Usage: store_to_archive_var"
+  ./update_status error store_to_archive_var
   exit 1
 fi
 # 
@@ -12,17 +12,17 @@ fi
 #
 if [ ! $CACHEDIR ] ; then
   echo "CACHEDIR not defined. Exiting"
-  ./update_status error store_to_archive
+  ./update_status error store_to_archive_var
   exit 1
 fi
 #
 cd $CACHEDIR
 #
 if [ `ls *.nc | wc -l` -ne 0 ] ; then
-  ../archive_write $ARCHIVE_PROC
+  ../archive_write_var $ARCHIVE_PROC
 else
   echo "No files in "$CACHEDIR". Exit."
-  ./update_status error store_to_archive
+  ./update_status error store_to_archive_var
 fi
 #
 cd $LOCAL_PROC
