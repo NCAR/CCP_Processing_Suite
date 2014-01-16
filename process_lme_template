@@ -69,15 +69,6 @@ case "$PROCHOST" in
     ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
     ;;
 
-  tramhill* | hurricane* )                                # tramhill/hurricane @ CGD/NCAR
-    BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/local/bin/ncks              ; export NCKS
-    NCRA=/usr/local/bin/ncra              ; export NCRA
-    NCRCAT=/usr/local/bin/ncrcat          ; export NCRCAT
-    PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
-    ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
-    ;;
-
   yslogin* | geyser* )                                # Yellowstone (geyser) @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncks      ; export NCKS
@@ -188,7 +179,7 @@ cd $LOCAL_PROC
 #
 ln -s -f $BASEDIR/archive_list         .
 ln -s -f $BASEDIR/archive_read         .
-ln -s -f $BASEDIR/archive_write        .
+ln -s -f $BASEDIR/archive_write_var    .
 ln -s -f $BASEDIR/var_split            .
 ln -s -f $BASEDIR/hist_mon_to_year     .
 ln -s -f $BASEDIR/var_year_to_all      .
@@ -196,7 +187,7 @@ ln -s -f $BASEDIR/var_lme_year_to_cen  .
 ln -s -f $BASEDIR/concatenate_data     .
 ln -s -f $BASEDIR/concatenate_lme_data .
 ln -s -f $BASEDIR/compress_data        .
-ln -s -f $BASEDIR/store_to_archive     .
+ln -s -f $BASEDIR/store_to_archive_var .
 ln -s -f $BASEDIR/update_status        .
 #
 cd $LOCAL_PROC
@@ -354,7 +345,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
     ./compress_data
     echo -n "TS pop.h compress end   : " ; date
     echo -n "TS pop.h archive start  : " ; date
-    ./store_to_archive
+    ./store_to_archive_var
     echo -n "TS pop.h archive   end  : " ; date
   fi
   YEARNOW=`expr $YEARNOW - 1`
@@ -386,7 +377,7 @@ fi
 # Store completed data on archival system
 #
 echo -n "TS archive start: " ; date
-./store_to_archive
+./store_to_archive_var
 if [ $? -ne 0 ] ; then
   echo "store_to_archive failed"
   ./update_status error "$CASE $HIST $TPER"
