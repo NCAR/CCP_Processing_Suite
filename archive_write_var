@@ -79,6 +79,17 @@ if [ "$HIST" = "pop.h" ] ; then
   fi
 fi
 #
+# Check for cice data, remove _nh and _sh from VARS
+#
+if [ "$COMP" == "cice" ] ; then
+  rm -f .IVAR
+  for IVAR in $VARS ; do
+    echo $IVAR | sed -e 's/_nh//g' | sed -e 's/_sh//g' >> .IVAR
+  done
+  VARS=`cat .IVAR | sort | uniq`
+  rm -f .IVAR
+fi
+#
 rm -f MKDIR
 for IVAR in $VARS ; do
   echo "mkdir -p ${ARCHIVE_D}/${IVAR} ; chmod 775 ${ARCHIVE_D}/${IVAR}" >> MKDIR
@@ -87,9 +98,15 @@ hsi in MKDIR
 echo ${ARCHIVE_D}" and subdirs created. Ready." ; rm MKDIR
 #
 rm -f PUT
-for IVAR in $VARS ; do
-  echo "cd ${ARCHIVE_D}/${IVAR} ; put -U *.${IVAR}.*.nc ; chmod 644 *.${IVAR}.*.nc" >> PUT
-done
+if [ "$COMP" == "cice" ] ; then
+  for IVAR in $VARS ; do
+    echo "cd ${ARCHIVE_D}/${IVAR} ; put -U *.${IVAR}_?h.*.nc ; chmod 644 *.${IVAR}_?h.*.nc" >> PUT
+  done
+else
+  for IVAR in $VARS ; do
+    echo "cd ${ARCHIVE_D}/${IVAR} ; put -U *.${IVAR}.*.nc ; chmod 644 *.${IVAR}.*.nc" >> PUT
+  done
+fi
 #
 hsi in PUT
 #
