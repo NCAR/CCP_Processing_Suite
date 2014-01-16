@@ -335,7 +335,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
   fi
 #
 #
-# If $YEARNOW last two digits is 00, and pop.h (mon or day), run concatenator
+# If pop.h (mon or day), run concatenator, compressor, and archiver
 #
   if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
     echo -n "TS pop.h concat  start  : " ; date

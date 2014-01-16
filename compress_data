@@ -20,6 +20,13 @@ if [ ! $NCKS ] ; then
     exit 1
   fi
 fi
+# 
+# Check for CACHEDIR
+#
+if [ ! $CACHEDIR ] ; then
+  echo "CACHEDIR not defined. Hope this is right."
+  ./update_status error compress_data
+fi
 #
 cd $CACHEDIR
 #
