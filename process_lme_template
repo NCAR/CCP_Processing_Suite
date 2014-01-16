@@ -359,7 +359,7 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
     YEARNOW=0${YEARNOW}
   fi
   if [ $YEARNOW -lt 10 ] ; then
-    YEARNOW=0${YEARNOW}
+   t YEARNOW=0${YEARNOW}
   fi
   export YEARNOW
 done

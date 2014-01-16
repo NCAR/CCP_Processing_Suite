@@ -177,6 +177,13 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
+case "$TPER" in
+  day | hr6 | hr3 | hr1 | m30 )
+    ln -s -f $BASEDIR/time_split     .
+    ln -s -f $BASEDIR/days_to_year  .
+    ;;
+esac
+#
 ln -s -f $BASEDIR/var_split            .
 ln -s -f $BASEDIR/hist_mon_to_year     .
 ln -s -f $BASEDIR/var_year_to_all      .
