@@ -22,8 +22,6 @@ if [ $? -ne 0 ] ; then
   exit 1
 fi
 #
-# Use HSI to write files to ARCHIVE_D but directory for each field
-#
 # Parse first filename
 #
 FILE=`/bin/ls *.nc | head -n 1`
@@ -54,12 +52,11 @@ while [ $IDOT -le $NDOT ] ; do
 done
 #
 DCMP=$DHT1
-COMP=`echo $FILE | cut -d"." -f${DCMP}`
-#
 DHT2=`expr '(' $DHT1 ')' '+' '1'`
 DVAR=`expr '(' $DVAR ')' '+' '1'`
 #
-VARS=`/bin/ls *.nc | cut -d"." -f${DVAR} | sort | uniq`
+HIST=`/bin/ls *.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+COMP=`/bin/ls *.nc | cut -d"." -f${DCMP} | sort | uniq`
 #
 # Check for pop.h.nday1/h2/ecosys
 #
@@ -69,15 +66,15 @@ if [ "$HIST" = "pop.h" ] ; then
   if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
     DHT2=$DYCK
     DVAR=`expr '(' $DVAR ')' '+' '1'`
-    VARS=`/bin/ls *.nc | cut -d"." -f${DVAR} | sort | uniq`
   fi
   if [ "$ODAY" = "ecosys" ] ; then
     DHT2=$DYCK
     DHT2=`expr '(' $DHT2 ')' '+' '1'`
     DVAR=`expr '(' $DVAR ')' '+' '2'`
-    VARS=`/bin/ls *.nc | cut -d"." -f${DVAR} | sort | uniq`
   fi
 fi
+#
+VARS=`/bin/ls *.nc | cut -d"." -f${DVAR} | sort | uniq`
 #
 # Check for cice data, remove _nh and _sh from VARS
 #
