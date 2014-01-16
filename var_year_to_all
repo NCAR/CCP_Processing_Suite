@@ -31,7 +31,7 @@ fi
 #
 # Parse first filename
 #
-FILE=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | head -n 1`
+FILE=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | head -n 1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1
@@ -65,30 +65,30 @@ DHT2=`expr '(' $DHT1 ')' '+' '1'`
 DVAR=`expr '(' $DVAR ')' '+' '1'`
 DTIM=`expr '(' $DVAR ')' '+' '1'`
 #
-CASES=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
- VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
- HIST=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
- COMP=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
+CASES=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
+ VARS=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+ HIST=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+ COMP=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
 #
 # Check for pop.h.nday1/h2/ecosys
 #
 if [ "$HIST" = "pop.h" ] ; then
   DYCK=`expr '(' $DHT2 ')' '+' '1'`
-  ODAY=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DYCK} | sort | uniq`
+  ODAY=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DYCK} | sort | uniq`
   if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
     DHT2=$DYCK
     DVAR=`expr '(' $DVAR ')' '+' '1'`
     DTIM=`expr '(' $DVAR ')' '+' '1'`
-    VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
-    HIST=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+    VARS=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+    HIST=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
   fi
   if [ "$ODAY" = "ecosys" ] ; then
     DHT2=$DYCK
     DHT2=`expr '(' $DHT2 ')' '+' '1'`
     DVAR=`expr '(' $DVAR ')' '+' '2'`
     DTIM=`expr '(' $DVAR ')' '+' '1'`
-    VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
-    HIST=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+    VARS=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+    HIST=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
   fi
 fi
 #
@@ -96,10 +96,10 @@ for ICASE in $CASES ; do
   for IHIST in $HIST ; do
     for IVAR in $VARS ; do
       if [ $YRCOUNT ] ; then
-        NUM=`ls ${ICASE}.${IHIST}.${IVAR}.*.nc | wc -l`
+        NUM=`/bin/ls ${ICASE}.${IHIST}.${IVAR}.*.nc | wc -l`
         if [ $NUM = $YRCOUNT ] ; then
-          Y0=`ls ${ICASE}.${IHIST}.${IVAR}.*.nc | head -n 1 | cut -d"." -f${DTIM}`
-          Y1=`ls ${ICASE}.${IHIST}.${IVAR}.*.nc | tail -n 1 | cut -d"." -f${DTIM}`
+          Y0=`/bin/ls ${ICASE}.${IHIST}.${IVAR}.*.nc | head -n 1 | cut -d"." -f${DTIM}`
+          Y1=`/bin/ls ${ICASE}.${IHIST}.${IVAR}.*.nc | tail -n 1 | cut -d"." -f${DTIM}`
           case "$TPER" in
             ann )
               DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}-${Y1}.nc ;;
@@ -132,8 +132,8 @@ for ICASE in $CASES ; do
           echo "Count is "$NUM" should be "$YRCOUNT
         fi
       else
-        Y0=`ls ${ICASE}.${IHIST}.${IVAR}.*.nc | head -n 1 | cut -d"." -f${DTIM}`
-        Y1=`ls ${ICASE}.${IHIST}.${IVAR}.*.nc | tail -n 1 | cut -d"." -f${DTIM}`
+        Y0=`/bin/ls ${ICASE}.${IHIST}.${IVAR}.*.nc | head -n 1 | cut -d"." -f${DTIM}`
+        Y1=`/bin/ls ${ICASE}.${IHIST}.${IVAR}.*.nc | tail -n 1 | cut -d"." -f${DTIM}`
         case "$TPER" in
           ann )
             DF=CAT.${ICASE}.${IHIST}.${IVAR}.${Y0}-${Y1}.nc ;;

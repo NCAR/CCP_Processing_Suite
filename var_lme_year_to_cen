@@ -30,7 +30,7 @@ fi
 #
 # Parse first filename
 #
-FILE=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | head -n 1`
+FILE=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | head -n 1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1
@@ -64,14 +64,14 @@ DHT2=`expr '(' $DHT1 ')' '+' '1'`
 DVAR=`expr '(' $DVAR ')' '+' '1'`
 DTIM=`expr '(' $DVAR ')' '+' '1'`
 #
-CASES=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
- VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
- HIST=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
- COMP=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
+CASES=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
+ VARS=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+ HIST=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+ COMP=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
 #
 for ICASE in $CASES ; do
   for IVAR in $VARS ; do
-    CENS=`ls | egrep "${ICASE}\.${HIST}\.${IVAR}\.[0-9][0-9][0-9][0-9]\.nc" | cut -d"." -f${DTIM} | cut -c1-2 | sort | uniq`
+    CENS=`/bin/ls | egrep "${ICASE}\.${HIST}\.${IVAR}\.[0-9][0-9][0-9][0-9]\.nc" | cut -d"." -f${DTIM} | cut -c1-2 | sort | uniq`
     for ICEN in $CENS ; do
       echo ${ICEN}
       case "$ICEN" in
@@ -82,7 +82,7 @@ for ICASE in $CASES ; do
         * ) 
         GOOD=100 ; IYR1=00 ; IYR2=99 ;;
       esac
-      NUM=`ls ${ICASE}.${HIST}.${IVAR}.${ICEN}??.nc | wc -l`
+      NUM=`/bin/ls ${ICASE}.${HIST}.${IVAR}.${ICEN}??.nc | wc -l`
       if [ $NUM -eq $GOOD ] ; then
         Y0=${ICEN}${IYR1}
         Y1=${ICEN}${IYR2}

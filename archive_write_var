@@ -26,7 +26,7 @@ fi
 #
 # Parse first filename
 #
-FILE=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | head -n 1`
+FILE=`/bin/ls *.nc | head -n 1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1
@@ -59,23 +59,23 @@ COMP=`echo $FILE | cut -d"." -f${DCMP}`
 DHT2=`expr '(' $DHT1 ')' '+' '1'`
 DVAR=`expr '(' $DVAR ')' '+' '1'`
 #
-VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+VARS=`/bin/ls *.nc | cut -d"." -f${DVAR} | sort | uniq`
 #
 # Check for pop.h.nday1/h2/ecosys
 #
 if [ "$HIST" = "pop.h" ] ; then
   DYCK=`expr '(' $DHT2 ')' '+' '1'`
-  ODAY=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DYCK} | sort | uniq`
+  ODAY=`/bin/ls *.nc | cut -d"." -f${DYCK} | sort | uniq`
   if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
     DHT2=$DYCK
     DVAR=`expr '(' $DVAR ')' '+' '1'`
-    VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+    VARS=`/bin/ls *.nc | cut -d"." -f${DVAR} | sort | uniq`
   fi
   if [ "$ODAY" = "ecosys" ] ; then
     DHT2=$DYCK
     DHT2=`expr '(' $DHT2 ')' '+' '1'`
     DVAR=`expr '(' $DVAR ')' '+' '2'`
-    VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+    VARS=`/bin/ls *.nc | cut -d"." -f${DVAR} | sort | uniq`
   fi
 fi
 #
@@ -88,7 +88,7 @@ echo ${ARCHIVE_D}" and subdirs created. Ready." ; rm MKDIR
 #
 rm -f PUT
 for IVAR in $VARS ; do
-  echo "cd ${ARCHIVE_D}/${IVAR} ; put -U *.${IVAR}.*.nc ; chmod 644 $.{IVAR}.*.nc" >> PUT
+  echo "cd ${ARCHIVE_D}/${IVAR} ; put -U *.${IVAR}.*.nc ; chmod 644 *.${IVAR}.*.nc" >> PUT
 done
 #
 hsi in PUT

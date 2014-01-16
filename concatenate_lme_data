@@ -33,7 +33,7 @@ cd $LOCAL_PROC
 #
 # Process time-variant fields 
 #
-for e in `ls -d *.d` ; do
+for e in `/bin/ls -d *.d` ; do
   cd ${LOCAL_PROC}/${e}
   ../var_lme_year_to_cen
   if [ $? = 0 ] ; then

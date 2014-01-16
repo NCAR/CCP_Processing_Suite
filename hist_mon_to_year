@@ -22,7 +22,7 @@ fi
 #
 # Parse first filename
 #
-FILE=`ls | egrep '\.nc$' | head -n 1`
+FILE=`/bin/ls | egrep '\.nc$' | head -n 1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1
@@ -50,32 +50,32 @@ while [ $IDOT -le $NDOT ] ; do
 done
 DHT2=`expr '(' $DHT1 ')' '+' '1'`
 #
-CASES=`ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f1-${DCAS} | sort | uniq`
- HIST=`ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
+CASES=`/bin/ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f1-${DCAS} | sort | uniq`
+ HIST=`/bin/ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
 #
 # Check for pop.h2/pop.h.nday1/pop.h.ecosys.nday1
 #
 if [ "$HIST" = "pop.h" ] ; then
   DYCK=`expr '(' $DHT2 ')' '+' '1'`
-  ODAY=`ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DYCK} | sort | uniq`
+  ODAY=`/bin/ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DYCK} | sort | uniq`
   if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
     DHT2=$DYCK
     DTIM=`expr '(' $DHT2 ')' '+' '1'`
-    HIST=`ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+    HIST=`/bin/ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
   fi
   if [ "$ODAY" = "ecosys" ] ; then
     DHT2=`expr '(' $DYCK ')' '+' '1'`
     DTIM=`expr '(' $DHT2 ')' '+' '1'`
-    HIST=`ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+    HIST=`/bin/ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
     echo $HIST
   fi
 fi
 #
 for c in $CASES ; do      
   for h in $HIST ; do
-    YEARS=`ls | egrep "${c}\.${h}\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DTIM} | cut -c1-4 | sort | uniq`
+    YEARS=`/bin/ls | egrep "${c}\.${h}\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DTIM} | cut -c1-4 | sort | uniq`
     for y in $YEARS ; do
-      NUM=`ls ${c}\.${h}\.${y}-??\.nc | wc -l`
+      NUM=`/bin/ls ${c}\.${h}\.${y}-??\.nc | wc -l`
       if [ $NUM -eq 12 ] ; then
         DF=${c}.${h}.${y}.nc
         echo "Creating: "$DF

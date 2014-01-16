@@ -18,11 +18,11 @@ fi
 #
 cd $CACHEDIR
 #
-if [ `ls *.nc | wc -l` -ne 0 ] ; then
+if [ `/bin/ls *.nc | wc -l` -ne 0 ] ; then
   ../archive_write_var $ARCHIVE_PROC
 else
   echo "No files in "$CACHEDIR". Exit."
-  ./update_status error store_to_archive_var
+  ../update_status error store_to_archive_var
 fi
 #
 cd $LOCAL_PROC
