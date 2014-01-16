@@ -73,7 +73,6 @@ for ICASE in $CASES ; do
   for IVAR in $VARS ; do
     CENS=`/bin/ls | egrep "${ICASE}\.${HIST}\.${IVAR}\.[0-9][0-9][0-9][0-9]\.nc" | cut -d"." -f${DTIM} | cut -c1-2 | sort | uniq`
     for ICEN in $CENS ; do
-      echo ${ICEN}
       case "$ICEN" in
         08 ) 
         GOOD=50 ; IYR1=50 ; IYR2=99 ;;

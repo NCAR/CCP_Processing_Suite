@@ -43,7 +43,6 @@ if [ `/bin/ls -d *.d | wc -l` -ne 0 ] ; then
       fi
     else
       echo "Error from var_lme_year_to_cen"
-      echo $CASE" "${HIST}" "${IDIR}
       ./update_status error concatenate_data
       exit 1
     fi

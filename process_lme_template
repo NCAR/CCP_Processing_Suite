@@ -338,15 +338,18 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 # If pop.h (mon or day), run concatenator, compressor, and archiver
 #
   if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
-    echo -n "TS pop.h concat  start  : " ; date
-    ./concatenate_lme_data
-    echo -n "TS pop.h concat  end    : " ; date
-    echo -n "TS pop.h compress start : " ; date
-    ./compress_data
-    echo -n "TS pop.h compress end   : " ; date
-    echo -n "TS pop.h archive start  : " ; date
-    ./store_to_archive_var
-    echo -n "TS pop.h archive   end  : " ; date
+    ICEN=$((YEARNOW%100))
+    if [ $ICEN -eq 0 ] ; then
+      echo -n "TS pop.h concat  start  : " ; date
+      ./concatenate_lme_data
+      echo -n "TS pop.h concat  end    : " ; date
+      echo -n "TS pop.h compress start : " ; date
+      ./compress_data
+      echo -n "TS pop.h compress end   : " ; date
+      echo -n "TS pop.h archive start  : " ; date
+      ./store_to_archive_var
+      echo -n "TS pop.h archive   end  : " ; date
+    fi
   fi
   YEARNOW=`expr $YEARNOW - 1`
   if [ $YEARNOW -lt 1000 ] ; then
@@ -369,10 +372,13 @@ if [ "$HIST" != "pop.h" ] ; then
   echo -n "TS final concat start: " ; date
   ./concatenate_data
   echo -n "TS final concat   end: " ; date
-  echo -n "TS compress     start: " ; date
-  ./compress_data
-  echo -n "TS compress       end: " ; date
+else
+  echo -n "TS pop.h concat  start  : " ; date
+  ./concatenate_lme_data
+  echo -n "TS pop.h concat  end    : " ; date
 fi
+echo -n "TS compress     start: " ; date
+./compress_data
 #
 # Store completed data on archival system
 #
