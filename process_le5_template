@@ -222,20 +222,18 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 #
 # Convert all YEARNOW file(s) to netCDF-4
 #
-    if [ `echo $PROCHOST | cut -c1-2` != "c1" ] ; then
-      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}*.nc` ; do
-        TYPE=`$NCKS -M $FILE | egrep "type" | cut -d"=" -f6` ; export TYPE
-        if [ "$TYPE" != "NC_FORMAT_NETCDF4" ] ; then
-          $NCKS -4 $FILE ${FILE}4
-          if [ $? -ne 0 ] ; then
-            echo "Cannot convert "${FILE}" to netCDF-4. Exiting."
-            exit 1
-          else
-            mv ${FILE}4 $FILE
-          fi
+    for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}*.nc` ; do
+      TYPE=`$NCKS -M $FILE | egrep "type" | cut -d"=" -f6` ; export TYPE
+      if [ "$TYPE" != "NC_FORMAT_NETCDF4" ] ; then
+        $NCKS -4 $FILE ${FILE}4
+        if [ $? -ne 0 ] ; then
+          echo "Cannot convert "${FILE}" to netCDF-4. Exiting."
+          exit 1
+        else
+          mv ${FILE}4 $FILE
         fi
-      done
-    fi
+      fi
+    done
 #
 # Check on data type to see if it needs time splitting and reconcatenating first
 #
@@ -370,9 +368,9 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
 #
 # var_split each history file that is now one years' worth of data
 #
-    NFNC=`echo $CASE.$HIST.${YEARNOW}.nc | wc -w`
-    if [ ${NFNC} -eq 1 ] ; then
-      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}.nc` ; do
+    NFNC=`echo $CASE.$HIST.????.nc | wc -w`
+    if [ ${NFNC} -ne 0 ] ; then
+      for FILE in `/bin/ls $CASE.$HIST.????.nc` ; do
         ./var_split $FILE erase
         if [ $? -ne 0 ] ; then
           echo "Error from var_split on file "$FILE
