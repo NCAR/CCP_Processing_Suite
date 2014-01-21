@@ -6,14 +6,10 @@ echo -n "TS START: " ; date
 #
 # Template for processing large ensemble CESM history netCDF files into single-field format 
 #
-# Extract information from "experiments.txt"
+# Extract relevant information from "experiments.txt"
 #
 #  Columns   Field
 #   1 -  54  CCSM case name
-#  55 -  74  model_id (CCSM4, CESM-CAM5, CESM-BGC, CESM-CHEM, CESM-WACCM, CESM1-CAM5.1-FV2, etc)
-#  75 -  76  Location (NC = NCAR; NE = NERSC; OR = ORNL)
-#  80 -  94  Official MIP name, or very brief description (N/A if not applicable)
-#  95 - 104  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
 # 105 - 109  MIP (cm3 or cm5) experiment (N/A if not applicable)
 # 110 - 149  RUN_REFCASE (parent case)
 # 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
@@ -29,16 +25,12 @@ echo -n "TS START: " ; date
 #
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
-  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c75-  | cut -d" " -f1`
-   DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c80-  | cut -d" " -f1`
-   REALIZN=`egrep "^$CASE " $EXPFILE | cut -c95-  | cut -d" " -f1`
    MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c105-  | cut -d" " -f1`
     PARENT=`egrep "^$CASE " $EXPFILE | cut -c110- | cut -d" " -f1`
     BRANCH=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
    YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c165-168`
    YEAREND=`egrep "^$CASE " $EXPFILE | cut -c170-173`
        RES=`egrep "^$CASE " $EXPFILE | cut -c185- | cut -d" " -f1`
-   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c195- | cut -d" " -f1`
    REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c215- | cut -d" " -f1`
   HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c250- | cut -d" " -f1`
   HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c260- | cut -d" " -f1`
@@ -47,7 +39,7 @@ else
   exit 1
 fi
 #
-if ! [ $LOCATION ] ; then
+if ! [ $YEARBEG ] ; then
   echo "Unable to set variables because "$CASE" not found in $EXPFILE"
   exit 1
 fi
@@ -102,7 +94,7 @@ case "$HTYP" in
     COMP_NAME=ocn ;;
   rtm  ) 
     COMP_NAME=rof ;;
-  csim | cice ) 
+  cice ) 
     COMP_NAME=ice ;;
   * ) 
     echo "Unable to continue because "$HIST" not known."
@@ -145,10 +137,6 @@ echo "         Time period : "$TPER ; export TPER
 echo "   by var processing : YES"
 echo "     Processed files : "$ARCHIVE_PROC  ; export ARCHIVE_PROC
 HARDWARE=${HARDWARE}".ucar.edu"
-echo "            Location : "$LOCATION ; export LOCATION
-echo "         Description : "$DESCRIP  ; export DESCRIP
-echo "     Realization/RIP : "$REALIZN  ; export REALIZN
-echo "         Parent case : "$PARENT   ; export PARENT
 echo "         Branch date : "$BRANCH   ; export BRANCH
 echo "          Resolution : "$RES      ; export RES
 echo "            Hardware : "$HARDWARE ; export HARDWARE
@@ -177,238 +165,108 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
-case "$TPER" in
-  day | hr6 | hr3 | hr1 | m30 )
-    ln -s -f $BASEDIR/time_split     .
-    ln -s -f $BASEDIR/days_to_year  .
-    ;;
-esac
-#
-ln -s -f $BASEDIR/var_split            .
-ln -s -f $BASEDIR/hist_mon_to_year     .
-ln -s -f $BASEDIR/var_year_to_all      .
-ln -s -f $BASEDIR/concatenate_data     .
-ln -s -f $BASEDIR/compress_data        .
+ln -s -f $BASEDIR/var_extract          .
 ln -s -f $BASEDIR/store_to_archive_var .
 ln -s -f $BASEDIR/archive_write_var    .
 ln -s -f $BASEDIR/update_status        .
 #
 cd $LOCAL_PROC
 #
-# Start actual processing, one year at a time
-#
-# Start from end and go to beginning
-#
-YEARNOW=$YEAREND;export YEARNOW
+# Start actual processing, extract each field one at a time for all times
 #
 ./update_status start
 #
-# Big processing loop
+if [ -d $LOCAL_HIST ] ; then
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.*.nc | wc -l`
+  if [ $NHISTF -ne 0 ] ; then
+    echo ${CASE}"."${HIST}" files on disk, softlinking."
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.*.nc .
+  else
+    echo "History files not on "${LOCAL_HIST}". Exiting."
+    exit 1
+  fi    
+fi
 #
-while [ $YEARNOW -ge $YEARBEG ] ; do
-  ./update_status $YEARNOW
-  if [ ! -f .comp.$CASE.$HIST.$YEARNOW.nc ] ; then
-    echo -n "TS PRO "${CASE}"."${HIST}"."${YEARNOW}": " ; date
-    if [ ! -f $CASE.$HIST.$YEARNOW.nc ] ; then
-      if [ -d $LOCAL_HIST ] ; then
-        NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* | wc -l`
-        if [ $NHISTF -ne 0 ] ; then
-          echo ${CASE}"."${HIST}"."${YEARNOW}" files on disk, softlinking."
-          ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* .
-        fi
-      else
-        echo "History files not on "${LOCAL_HIST}". Exiting."
+# Make sure there's the correct number of files, based on stream and time period and 20C/RCP
+#
+NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
+#
+EXPTYP=`echo $CASE | cut -d"." -f3 | cut -c2-4`
+#
+case "$EXPTYP" in 
+  20T )
+  case "$HIST" in 
+    cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+      if [ $NHISTF -ne 1032 ] ; then
+        echo ${NHISTF}" should be 1032. File count mismatch. Exit."
         exit 1
-      fi    
+      fi ;;
+    cam.h1 | clm2.h1 )
+      if [ $NHISTF -ne 87 ] ; then
+        echo ${NHISTF}" should be 87. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    rtm.h1 | pop.h.ecosys.nyear1 )
+      if [ $NHISTF -ne 86 ] ; then
+        echo ${NHISTF}" should be 86. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cice.h2_06h )
+      if [ $NHISTF -ne 192 ] ; then
+        echo ${NHISTF}" should be 192. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cam.h2 )
+      if [ $NHISTF -ne 16 ] ; then
+        echo ${NHISTF}" should be 16. File count mismatch. Exit."
+        exit 1
+      fi ;;
+  esac ;;
+  
+  RCP )
+  case "$HIST" in 
+    cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+      if [ $NHISTF -ne 900 ] ; then
+        echo ${NHISTF}" should be 900. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cam.h1 | clm2.h1 )
+      if [ $NHISTF -ne 76 ] ; then
+        echo ${NHISTF}" should be 76. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    rtm.h1 | pop.h.ecosys.nyear1 )
+      if [ $NHISTF -ne 75 ] ; then
+        echo ${NHISTF}" should be 75. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cice.h2_06h )
+      if [ $NHISTF -ne 240 ] ; then
+        echo ${NHISTF}" should be 240. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cam.h2 )
+      if [ $NHISTF -ne 20 ] ; then
+        echo ${NHISTF}" should be 20. File count mismatch. Exit."
+        exit 1
+      fi ;;
+  esac ;;
+  * )
+    echo ${EXPTYP}" unknown. Must be 20T or RCP. Exit."
+    ./update_status error process_le5_template
+    exit 1 ;;
+esac
 #
-# Convert all YEARNOW file(s) to netCDF-4
+# Extract each field from all files
 #
-      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}*.nc` ; do
-        TYPE=`$NCKS -M $FILE | egrep "type" | cut -d"=" -f6` ; export TYPE
-        if [ "$TYPE" != "NC_FORMAT_NETCDF4" ] ; then
-          $NCKS -4 $FILE ${FILE}4
-          if [ $? -ne 0 ] ; then
-            echo "Cannot convert "${FILE}" to netCDF-4. Exiting."
-            exit 1
-          else
-            mv ${FILE}4 $FILE
-          fi
-        fi
-      done
-#
-# Check on data type to see if it needs time splitting and reconcatenating first
-#
-      case "$TPER" in
-# 
-# Daily data - requires lots of checks, usually
-#
-        day )
-        case "$HTYP" in
-          cam2 | cam )
-            NFNC=`echo $CASE.$HIST.${YEARNOW}-??-??-?????.nc | wc -w`
-            if [ ${NFNC} -ne 0 ] ; then
-              for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??-?????.nc` ; do
-#
-# Check for exactly 365 samples from the same year
-#
-                NTIMES=`$NCKS -s "%8.8i\n" -F -H -C -v date $FILE | egrep "^[0-9]" | wc -l`
-                NYEARS=`$NCKS -s "%8.8i\n" -F -H -C -v date $FILE | egrep "^[0-9]" | cut -c1-4 | uniq | wc -l`
-                if [ $NTIMES -eq 365 ] && [ $NYEARS -eq 1 ] ; then
-                  echo "time_split not required on "$FILE" 1 year length already from same year. Renaming."
-                  TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
-                  mv $FILE $TRIMD
-                else
-                  echo "time_split-ting on "$FILE
-                  ./time_split $FILE erase
-                  ./days_to_year erase
-                fi
-              done
-            fi ;;
-          clm2 )
-            NFNC=`echo $CASE.$HIST.${YEARNOW}-??-??-?????.nc | wc -w`
-            if [ ${NFNC} -ne 0 ] ; then
-              for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??-00000.nc` ; do
-#
-# Check for exactly 365 samples from the same year
-#
-                NTIMES=`$NCKS -s "%8.8i\n" -F -H -C -v mcdate $FILE | egrep "^[0-9]" | wc -l`
-                NYEARS=`$NCKS -s "%8.8i\n" -F -H -C -v mcdate $FILE | egrep "^[0-9]" | cut -c1-4 | uniq | wc -l`
-                if [ $NTIMES -eq 365 ] && [ $NYEARS -eq 1 ] ; then
-                  echo "time_split not required on "$FILE" 1 year length already from same year. Renaming."
-                  TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
-                  mv $FILE $TRIMD
-                else
-                  echo "time_split-ting on "$FILE
-                  ./time_split $FILE erase
-                  ./days_to_year erase
-                fi
-              done
-            fi ;;
-          cice )
-            NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
-            if [ ${NFNC} -eq 12 ] ; then
-              ./hist_mon_to_year
-              if [ $? -ne 0 ] ; then
-                echo "Error from hist_mon_to_year on file "$FILE
-                ./update_status error hist_mon_to_year
-                exit 1
-              fi
-            fi ;;
-          pop )
-            NFNC=`echo $CASE.$HIST.${YEARNOW}-??-??.nc | wc -w`
-            if [ ${NFNC} -ne 0 ] ; then
-              for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??.nc` ; do
-                TRIMD=`echo $FILE | sed -e 's/-01.nc$/.nc/g'`
-                mv $FILE $TRIMD
-                TRIMD=`echo $FILE | sed -e 's/-01-02.nc$/-01.nc/g'`
-                mv $FILE $TRIMD
-                echo "time_split not required on "$FILE" 1 month already."
-              done
-              ./hist_mon_to_year
-              if [ $? -ne 0 ] ; then
-                echo "Error from hist_mon_to_year on file "$FILE
-                ./update_status error hist_mon_to_year
-                exit 1
-              fi
-            fi ;;
-          rtm )
-            NFNC=`echo $CASE.$HIST.${YEARNOW}-01-02-00000.nc | wc -w`
-            if [ ${NFNC} -ne 0 ] ; then
-              for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-01-02-00000.nc` ; do
-                TRIMD=`echo $FILE | sed -e "s/$YEARNOW\-01\-02\-00000/$YEARNOW/g"`
-                mv $FILE $TRIMD
-                echo "time_split not required on "$FILE" - 1 year already."
-              done
-              ./hist_mon_to_year
-              if [ $? -ne 0 ] ; then
-                echo "Error from hist_mon_to_year on files "$CASE.$HIST.$YEARNOW
-                ./update_status error hist_mon_to_year
-                exit 1
-              fi
-            fi
-          esac ;;
-#
-# Monthly data, hopefully no time splitting needed
-#
-        mon )
-          NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
-          if [ ${NFNC} -eq 12 ] ; then
-            ./hist_mon_to_year
-            if [ $? -ne 0 ] ; then
-              echo "Error from hist_mon_to_year on files "$CASE.$HIST.$YEARNOW
-              ./update_status error hist_mon_to_year
-              exit 1
-            fi
-          fi ;;
-# 
-# 6-hourly data - may require lots of checks, usually
-#
-        hr6 )
-        case "$HTYP" in
-          cice )
-            NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
-            if [ ${NFNC} -eq 12 ] ; then
-              ./hist_mon_to_year
-              if [ $? -ne 0 ] ; then
-                echo "Error from hist_mon_to_year on files "$CASE.$HIST.$YEARNOW
-                ./update_status error hist_mon_to_year
-                exit 1
-              fi
-            fi ;;
-          cam )
-            NFNC=`echo $CASE.$HIST.${YEARNOW}-??-??-21600.nc | wc -w`
-            if [ ${NFNC} -ne 0 ] ; then
-              for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-01.nc` ; do
-                TRIMD=`echo $FILE | sed -e 's/\-01\-01\-21600\.nc$/\.nc/g'`
-                mv $FILE $TRIMD
-                echo "time_split not required on "$FILE" 1 year already."
-              done
-            fi ;;
-        esac ;;
-      esac
-    fi
-#
-# var_split each history file that is now one years' worth of data
-#
-    NFNC=`echo $CASE.$HIST.????.nc | wc -w`
-    if [ ${NFNC} -ne 0 ] ; then
-      for FILE in `/bin/ls $CASE.$HIST.????.nc` ; do
-        ./var_split $FILE erase
-        if [ $? -ne 0 ] ; then
-          echo "Error from var_split on file "$FILE
-          ./update_status error var_split
-          exit 1
-        else
-          touch .comp.$FILE
-        fi
-      done
-    fi
-  fi
-#
-  YEARNOW=`expr $YEARNOW - 1`
-  if [ $YEARNOW -lt 1000 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
-  if [ $YEARNOW -lt 100 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
-  if [ $YEARNOW -lt 10 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
-  export YEARNOW
-done
-#
-# Concatenate years -> all
-#
-echo -n "TS final concat start: " ; date
-./concatenate_data
-echo -n "TS final concat   end: " ; date
-#
-# Compress data
-#
-echo -n "TS compression start: " ; date
-./compress_data
-echo -n "TS compression   end: " ; date
+echo -n "TS var_extract start: " ; date
+./var_extract
+if [ $? -ne 0 ] ; then
+  echo "var_extract failed"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
+fi
+echo -n "TS var_extract end  : " ; date
 #
 # Store completed data on archival system
 #

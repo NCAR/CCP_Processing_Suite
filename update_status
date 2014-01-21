@@ -56,7 +56,7 @@ case "$HOSTNAME" in
     tail -n 40 ${LOGFILE} >> ${FILELOG} ;;
   * )
     date > ${FILELOG}
-    echo "update_status : LOGFILE does not exist for "${LOCATION}" - "${FILEBASE} >> ${FILELOG}
+    echo "update_status : LOGFILE does not exist for "${PROCHOST}" - "${FILEBASE} >> ${FILELOG}
     ;;
 esac
 #
@@ -91,7 +91,7 @@ if [ $# -ge 1 ] ; then
     echo "CASE      = ${CASE}"     >> tossme
     echo "HIST      = ${HIST}"     >> tossme
     echo "TPER      = ${ARG3}"     >> tossme
-    echo "LOCATION  = ${LOCATION}" >> tossme
+    echo "PROCHOST  = ${PROCHOST}" >> tossme
     echo "HTYP      = ${HTYP}"     >> tossme
     echo "PP_HOST   = ${HOSTNAME}" >> tossme
     echo "USER      = ${USER}"     >> tossme
@@ -105,7 +105,7 @@ if [ $# -ge 1 ] ; then
     echo "CASE      = ${CASE}"     >> tossme
     echo "HIST      = ${HIST}"     >> tossme
     echo "TPER      = ${ARG3}"     >> tossme
-    echo "LOCATION  = ${LOCATION}" >> tossme
+    echo "PROCHOST  = ${PROCHOST}" >> tossme
     echo "HTYP      = ${HTYP}"     >> tossme
     echo "PP_HOST   = ${HOSTNAME}" >> tossme
     echo "USER      = ${USER}"     >> tossme
@@ -120,7 +120,7 @@ if [ $# -ge 1 ] ; then
     echo "CASE      = ${CASE}"     >> tossme
     echo "HIST      = ${HIST}"     >> tossme
     echo "TPER      = ${ARG3}"     >> tossme
-    echo "LOCATION  = ${LOCATION}" >> tossme
+    echo "PROCHOST  = ${PROCHOST}" >> tossme
     echo "HTYP      = ${HTYP}"     >> tossme
     echo "PP_HOST   = ${HOSTNAME}" >> tossme
     echo "USER      = ${USER}"     >> tossme
