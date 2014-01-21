@@ -257,10 +257,30 @@ case "$EXPTYP" in
     exit 1 ;;
 esac
 #
+# Create output filename time period suffix
+#
+case "$TPER" in
+  ann )
+    OUTTIME=${YEARBEG}-${YEAREND}.nc ;;
+  mon )
+    OUTTIME=${YEARBEG}01-${YEAREND}12.nc ;;
+  day ) 
+    OUTTIME=${YEARBEG}0101-${YEAREND}1231.nc ;;
+  hr6 ) 
+    OUTTIME=${YEARBEG}010100Z-${YEAREND}123118Z.nc ;;
+  hr3 )
+    OUTTIME=${YEARBEG}010100Z-${YEAREND}123121Z.nc ;;
+  hr1 )
+    OUTTIME=${YEARBEG}010100Z-${YEAREND}123123Z.nc ;;
+  m30 )
+    OUTTIME=${YEARBEG}001010000Z-${YEAREND}12312330Z.nc ;;
+esac
+
+#
 # Extract each field from all files
 #
 echo -n "TS var_extract start: " ; date
-./var_extract
+./var_extract $OUTTIME
 if [ $? -ne 0 ] ; then
   echo "var_extract failed"
   ./update_status error "$CASE $HIST $TPER"
@@ -269,6 +289,8 @@ fi
 echo -n "TS var_extract end  : " ; date
 #
 # Store completed data on archival system
+#
+mv *.d/*.ALL.nc $CACHEDIR
 #
 echo -n "TS archive start: " ; date
 ./store_to_archive_var
