@@ -90,7 +90,12 @@ fi
 #
 rm -f MKDIR
 for IVAR in $VARS ; do
-  mkdir -p ${DISK_PROC}/${IVAR} ; chmod 775 ${DISK_PROC}/${IVAR}
+  mkdir -p ${DISK_PROC}/${IVAR}
+  if [ $? -ne 0 ] ; then
+    echo "Warning: cannot mkdir " ${DISK_PROC}/${IVAR}
+  else
+    chmod 775 ${DISK_PROC}/${IVAR}
+  fi
 done
 echo ${DISK_PROC}" and subdirs created. Ready."
 #
