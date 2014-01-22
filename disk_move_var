@@ -55,6 +55,11 @@ DCMP=$DHT1
 DHT2=`expr '(' $DHT1 ')' '+' '1'`
 DVAR=`expr '(' $DVAR ')' '+' '1'`
 #
+CASE=`/bin/ls *.nc | cut -d"." -f1-${DCAS} | sort | uniq`
+HIST=`/bin/ls *.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+COMP=`/bin/ls *.nc | cut -d"." -f${DCMP} | sort | uniq`
+VARS=`/bin/ls *.nc | cut -d"." -f${DVAR} | sort | uniq`
+#
 # Check for pop.h.nday1/h2/ecosys
 #
 if [ "$HIST" = "pop.h" ] ; then
@@ -91,7 +96,7 @@ rm -f MKDIR
 for IVAR in $VARS ; do
   mkdir -p ${DISK_PROC}/${IVAR}
   if [ $? -ne 0 ] ; then
-    echo "Warning: cannot mkdir " ${DISK_PROC}/${IVAR}
+    echo "Warning: cannot mkdir " ${DISK_PROC}"/"${IVAR}
   else
     chmod 775 ${DISK_PROC}/${IVAR}
   fi
@@ -102,18 +107,18 @@ if [ "$COMP" == "cice" ] ; then
   for IVAR in $VARS ; do
     mv ${CASE}.${HIST}.${IVAR}_?h.*.nc ${DISK_PROC}/${IVAR}
     if [ $? -ne 0 ] ; then
-      echo "Problem moving "${CASE}"."${HIST}"."${IVAR}"._?h.*.nc to "${DISK_PROC}/${IVAR}
+      echo "Problem moving "${CASE}"."${HIST}"."${IVAR}"._?h.*.nc to "${DISK_PROC}"/"${IVAR}
     else
-      echo "Moved "${CASE}"."${HIST}"."${IVAR}"._?h.*.nc to "${DISK_PROC}/${IVAR}
+      echo "Moved "${CASE}"."${HIST}"."${IVAR}"._?h.*.nc to "${DISK_PROC}"/"${IVAR}
     fi
   done
 else
   for IVAR in $VARS ; do
     mv ${CASE}.${HIST}.${IVAR}.*.nc ${DISK_PROC}/${IVAR}
     if [ $? -ne 0 ] ; then
-      echo "Problem moving "${CASE}"."${HIST}"."${IVAR}".*.nc to "${DISK_PROC}/${IVAR}
+      echo "Problem moving "${CASE}"."${HIST}"."${IVAR}".*.nc to "${DISK_PROC}"/"${IVAR}
     else
-      echo "Moved "${CASE}"."${HIST}"."${IVAR}".*.nc to "${DISK_PROC}/${IVAR}
+      echo "Moved "${CASE}"."${HIST}"."${IVAR}".*.nc to "${DISK_PROC}"/"${IVAR}
     fi
   done
 fi
