@@ -51,24 +51,15 @@ PROCHOST=`hostname`;export PROCHOST
 # resolve machine/site dependencies
 #
 case "$PROCHOST" in 
-  silver* )                                # silver @ CGD/NCAR
-    BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/local/bin/ncks             ; export NCKS
-    NCRA=/usr/local/bin/ncra             ; export NCRA
-    NCRCAT=/usr/local/bin/ncrcat         ; export NCRCAT
-    PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/datalocal/proc/$CASE       ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
-    ;;
-
   yslogin* | geyser* )                                # Yellowstone (geyser) @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncks      ; export NCKS
     NCRA=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncra      ; export NCRA
     NCRCAT=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncrcat  ; export NCRCAT
-    PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/glade/p/cesm0005/csm/$CASE       ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-LE    ; export ARCHIVE_BASE
+    PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE  ; export PROCBASE
+    LOCALDSK=/glade/p/cesm0005/csm/$CASE         ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-LE      ; export ARCHIVE_BASE
+    DISK_BASE=/glade/p/cesm0005/CESM-CAM5-BGC-LE ; export DISK_BASE
     LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
     LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
     ;;
@@ -108,16 +99,21 @@ LOCAL_PROC=$PROCBASE/$COMP_NAME
 ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
 #
 ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
+DISK_PROC=$DISK_BASE/$COMP_NAME/proc/tseries
 #
 case "$TPER" in
   ann )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/annual   ;;
+    ARCHIVE_PROC=${ARCHIVE_PROC}/annual
+       DISK_PROC=${ARCHIVE_PROC}/annual ;;
   mon )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly  ;;
+    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly
+       DISK_PROC=${ARCHIVE_PROC}/monthly ;;
   day )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/daily    ;;
+    ARCHIVE_PROC=${ARCHIVE_PROC}/daily
+       DISK_PROC=${ARCHIVE_PROC}/daily ;;
   hr6 )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6  ;;
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6
+       DISK_PROC=${ARCHIVE_PROC}/hourly6 ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
     exit 1 ;;
@@ -131,31 +127,32 @@ MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
 # Print out values
 #
-echo "           Case name : "$CASE ; export CASE
-echo "   History file type : "$HIST ; export HIST
-echo "         Time period : "$TPER ; export TPER
-echo "   by var processing : YES"
-echo "     Processed files : "$ARCHIVE_PROC  ; export ARCHIVE_PROC
+echo "           Case name  : "$CASE ; export CASE
+echo "   History file type  : "$HIST ; export HIST
+echo "         Time period  : "$TPER ; export TPER
+echo "   by var processing  : YES"
+echo " HPSS processed files : "$ARCHIVE_PROC ; export ARCHIVE_PROC
+echo " disk processed files : "$DISK_PROC    ; export DISK_PROC
 HARDWARE=${HARDWARE}".ucar.edu"
-echo "         Branch date : "$BRANCH   ; export BRANCH
-echo "          Resolution : "$RES      ; export RES
-echo "            Hardware : "$HARDWARE ; export HARDWARE
-echo "             Compset : "$COMPSET  ; export COMPSET
-echo "      Repository tag : "$REPOTAG  ; export REPOTAG
-echo "          Begin year : "$YEARBEG  ; export YEARBEG
-echo "            End year : "$YEAREND  ; export YEAREND
-echo "          Year count : "$YRCOUNT  ; export YRCOUNT
-echo "        Months count : "$MNCOUNT  ; export MNCOUNT
+echo "         Branch date  : "$BRANCH   ; export BRANCH
+echo "          Resolution  : "$RES      ; export RES
+echo "            Hardware  : "$HARDWARE ; export HARDWARE
+echo "             Compset  : "$COMPSET  ; export COMPSET
+echo "      Repository tag  : "$REPOTAG  ; export REPOTAG
+echo "          Begin year  : "$YEARBEG  ; export YEARBEG
+echo "            End year  : "$YEAREND  ; export YEAREND
+echo "          Year count  : "$YRCOUNT  ; export YRCOUNT
+echo "        Months count  : "$MNCOUNT  ; export MNCOUNT
 echo ""
-echo "   Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
-echo "       History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
-echo "       History names : "$HIST          ; export HIST
+echo "   Archival base dir  : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo "       History files  : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
+echo "       History names  : "$HIST          ; export HIST
 echo ""
-echo "     Processing host : "$PROCHOST      ; export PROCHOST
-echo " Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
-echo "      Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
-echo "   Archive cache dir : "$CACHEDIR      ; export CACHEDIR
-echo " Processing code dir : "$BASEDIR       ; export BASEDIR
+echo "     Processing host  : "$PROCHOST      ; export PROCHOST
+echo " Local history files  : "$LOCAL_HIST    ; export LOCAL_HIST
+echo "      Processing dir  : "$LOCAL_PROC    ; export LOCAL_PROC
+echo "   Archive cache dir  : "$CACHEDIR      ; export CACHEDIR
+echo " Processing code dir  : "$BASEDIR       ; export BASEDIR
 #  
 if [ ! -d $LOCAL_PROC ] ; then 
   mkdir -p $LOCAL_PROC 
@@ -168,6 +165,7 @@ cd $LOCAL_PROC
 ln -s -f $BASEDIR/var_extract          .
 ln -s -f $BASEDIR/store_to_archive_var .
 ln -s -f $BASEDIR/archive_write_var    .
+ln -s -f $BASEDIR/disk_move_var        .
 ln -s -f $BASEDIR/update_status        .
 #
 cd $LOCAL_PROC
@@ -290,15 +288,26 @@ echo -n "TS var_extract end  : " ; date
 #
 # Store completed data on archival system
 #
-mv *.d/*.ALL.nc $CACHEDIR
-#
 echo -n "TS archive start: " ; date
 ./store_to_archive_var
 if [ $? -ne 0 ] ; then
   echo "store_to_archive failed"
   ./update_status error "$CASE $HIST $TPER"
   exit 1
+else
+  echo -n "TS archive end: " ; date
 fi
-echo -n "TS archive end: " ; date
+#
+# Move completed data on to DISK_PROC
+#
+echo -n "TS disk move start: " ; date
+./disk_move_var
+if [ $? -ne 0 ] ; then
+  echo "disk_move_var failed"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
+else
+  echo -n "TS disk_move_var end: " ; date
+fi
 ./update_status complete
 echo -n "TS COMPLETE: " ; date

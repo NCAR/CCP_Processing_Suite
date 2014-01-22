@@ -14,6 +14,14 @@ else
    ./update_status error var_extract
    exit 1
 fi
+# 
+# Check for CACHEDIR
+#
+if [ ! $CACHEDIR ] ; then
+  echo "CACHEDIR not defined. Exiting"
+  ./update_status error var_extract
+  exit 1
+fi
 #
 # Parse filename 1
 #
@@ -133,12 +141,8 @@ fi
 #
 if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
   for IVAR in $VARTIME ; do
-    date
-    if [ ! -d ${IVAR}.d ] ; then
-      mkdir ${IVAR}.d
-    fi
     if [ "$COMP" = "cice" ] ; then
-      OUT=${IVAR}.d/${OUTPFX}.${IVAR}_nh.${OUTTIME}.nc
+      OUT=${CACHEDIR}/${OUTPFX}.${IVAR}_nh.${OUTTIME}.nc
       if [ ! -f $OUT ] ; then
         $NCRCAT -4 -L 1 -h -d nj,280,383 -v ${HEADER},${IVAR} ${CASE}.${HIST}.*.nc $OUT
         if [ $? -ne 0 ] ; then
@@ -146,7 +150,7 @@ if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
           exit 1
         fi
       fi
-      OUT=${IVAR}.d/${OUTPFX}.${IVAR}_sh.${OUTTIME}.nc
+      OUT=${CACHEDIR}/${OUTPFX}.${IVAR}_sh.${OUTTIME}.nc
       if [ ! -f $OUT ] ; then
         $NCRCAT -4 -L 1 -h -O -d nj,0,75 -v ${HEADER},${IVAR} ${CASE}.${HIST}.*.nc $OUT
         if [ $? -ne 0 ] ; then
@@ -155,7 +159,7 @@ if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
         fi
       fi
     else
-      OUT=${IVAR}.d/${OUTPFX}.${IVAR}.${OUTTIME}.nc
+      OUT=${CACHEDIR}/${OUTPFX}.${IVAR}.${OUTTIME}.nc
       if [ ! -f $OUT ] ; then
         $NCRCAT -4 -L 1 -h -O -v ${HEADER},${IVAR} ${CASE}.${HIST}.*.nc $OUT
         if [ $? -ne 0 ] ; then
