@@ -8,7 +8,7 @@
 #
 if [ ! $CACHEDIR ] ; then
   echo "CACHEDIR not defined. Exiting."
-  ./update_status error disk_move_var
+  ../update_status error disk_move_var
   exit 1
 fi
 # 
@@ -16,7 +16,7 @@ fi
 #
 if [ ! $DISK_PROC ] ; then
   echo "DISK_PROC not defined. Exiting."
-  ./update_status error disk_move_var
+  ../update_status error disk_move_var
   exit 1
 fi
 #
@@ -98,7 +98,9 @@ if [ "$COMP" == "cice" ] ; then
   for IVAR in $VARS ; do
     mv ${CASE}.${HIST}.${IVAR}_?h.*.nc ${DISK_PROC}/${IVAR}
     if [ $? -ne 0 ] ; then
-      echo "Problem moving "${CASE}"."${HIST}"."${IVAR}"_?h.*.nc to "${DISK_PROC}/${IVAR}
+      echo "Problem moving "${CASE}"."${HIST}"."${IVAR}"._?h.*.nc to "${DISK_PROC}/${IVAR}
+    else
+      echo "Moved "${CASE}"."${HIST}"."${IVAR}"._?h.*.nc to "${DISK_PROC}/${IVAR}
     fi
   done
 else
@@ -106,6 +108,8 @@ else
     mv ${CASE}.${HIST}.${IVAR}.*.nc ${DISK_PROC}/${IVAR}
     if [ $? -ne 0 ] ; then
       echo "Problem moving "${CASE}"."${HIST}"."${IVAR}".*.nc to "${DISK_PROC}/${IVAR}
+    else
+      echo "Moved "${CASE}"."${HIST}"."${IVAR}".*.nc to "${DISK_PROC}/${IVAR}
     fi
   done
 fi

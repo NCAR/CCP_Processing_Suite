@@ -9,7 +9,7 @@ if [ $# = 1 ] ; then
   ARCHIVE_D=$1
 else
   echo "archive_write ERROR - missing argument ARCHIVE_D"
-  ./update_status error archive_write_var
+  ../update_status error archive_write_var
   exit 1
 fi
 #
@@ -18,7 +18,7 @@ fi
 TEST4HSI=`which hsi 2<&1`
 if [ $? -ne 0 ] ; then
   echo "hsi command not found"
-  ./update_status error archive_write_var
+  ../update_status error archive_write_var
   exit 1
 fi
 #
@@ -97,7 +97,7 @@ if [ $? -eq 0 ] ; then
   rm -f MKDIR
 else
   echo "Problem with HPSS on mkdir. Stopping"
-  ./update_status error archive_write_var
+  ../update_status error archive_write_var
   exit 1
 fi
 #
@@ -119,6 +119,6 @@ if [ $? -eq 0 ] ; then
   rm -f PUT 
 else
   echo "Problem with HPSS on write. Stopping"
-  ./update_status error archive_write_var
+  ../update_status error archive_write_var
   exit 1
 fi
