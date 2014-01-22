@@ -95,7 +95,6 @@ if [ $# -ge 1 ] ; then
     echo "HTYP      = ${HTYP}"     >> tossme
     echo "PP_HOST   = ${HOSTNAME}" >> tossme
     echo "USER      = ${USER}"     >> tossme
-    echo "NOTE      = See http://webint.cgd.ucar.edu/project/ccr/procstat/cgi-bin/index.cgi." >> tossme
     mail -s "${FILESTART}" ${MAILTO},${MAILTOUSER} < tossme
     rm -f tossme
   fi
@@ -110,8 +109,21 @@ if [ $# -ge 1 ] ; then
     echo "PP_HOST   = ${HOSTNAME}" >> tossme
     echo "USER      = ${USER}"     >> tossme
     echo "CALLED_BY = $2"          >> tossme
-    echo "NOTE      = See http://webint.cgd.ucar.edu/project/ccr/procstat/cgi-bin/index.cgi." >> tossme
     mail -s "update_status ${FILEERROR}" ${MAILTO},${MAILTOUSER} < tossme
+    rm -f tossme
+  fi
+  if test $1 = "warning" ; then 
+    FILEWARN=warn.${FILEBASE} ; export FILEWARN
+    echo "STATUS    = WARN" >> tossme
+    echo "CASE      = ${CASE}"     >> tossme
+    echo "HIST      = ${HIST}"     >> tossme
+    echo "TPER      = ${ARG3}"     >> tossme
+    echo "PROCHOST  = ${PROCHOST}" >> tossme
+    echo "HTYP      = ${HTYP}"     >> tossme
+    echo "PP_HOST   = ${HOSTNAME}" >> tossme
+    echo "USER      = ${USER}"     >> tossme
+    echo "CALLED_BY = $2"          >> tossme
+    mail -s "update_status ${FILEWARN}" ${MAILTO},${MAILTOUSER} < tossme
     rm -f tossme
   fi
   if test $1 = "complete" ; then
@@ -124,7 +136,6 @@ if [ $# -ge 1 ] ; then
     echo "HTYP      = ${HTYP}"     >> tossme
     echo "PP_HOST   = ${HOSTNAME}" >> tossme
     echo "USER      = ${USER}"     >> tossme
-    echo "NOTE      = See http://webint.cgd.ucar.edu/project/ccr/procstat/cgi-bin/index.cgi." >> tossme
     mail -s "update_status ${FILECOMPLETE}" ${MAILTO},${MAILTOUSER} < tossme
     rm -f tossme
   fi

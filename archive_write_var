@@ -96,9 +96,8 @@ if [ $? -eq 0 ] ; then
   echo ${ARCHIVE_D}" and subdirs created. Ready."
   rm -f MKDIR
 else
-  echo "Problem with HPSS on mkdir. Stopping"
-  ../update_status error archive_write_var
-  exit 1
+  echo "Problem with HPSS on mkdir. Warning."
+  ../update_status warning archive_write_var
 fi
 #
 rm -f PUT
