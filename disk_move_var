@@ -55,10 +55,6 @@ DCMP=$DHT1
 DHT2=`expr '(' $DHT1 ')' '+' '1'`
 DVAR=`expr '(' $DVAR ')' '+' '1'`
 #
-CASE=`/bin/ls *.nc | cut -d"." -f1-${DCAS} | sort | uniq`
-HIST=`/bin/ls *.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
-COMP=`/bin/ls *.nc | cut -d"." -f${DCMP} | sort | uniq`
-#
 # Check for pop.h.nday1/h2/ecosys
 #
 if [ "$HIST" = "pop.h" ] ; then
@@ -75,6 +71,9 @@ if [ "$HIST" = "pop.h" ] ; then
   fi
 fi
 #
+CASE=`/bin/ls *.nc | cut -d"." -f1-${DCAS} | sort | uniq`
+HIST=`/bin/ls *.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+COMP=`/bin/ls *.nc | cut -d"." -f${DCMP} | sort | uniq`
 VARS=`/bin/ls *.nc | cut -d"." -f${DVAR} | sort | uniq`
 #
 # Check for cice data, remove _nh and _sh from VARS
