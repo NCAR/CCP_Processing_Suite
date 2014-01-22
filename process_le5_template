@@ -104,16 +104,16 @@ DISK_PROC=$DISK_BASE/$COMP_NAME/proc/tseries
 case "$TPER" in
   ann )
     ARCHIVE_PROC=${ARCHIVE_PROC}/annual
-       DISK_PROC=${ARCHIVE_PROC}/annual ;;
+       DISK_PROC=${DISK_PROC}/annual ;;
   mon )
     ARCHIVE_PROC=${ARCHIVE_PROC}/monthly
-       DISK_PROC=${ARCHIVE_PROC}/monthly ;;
+       DISK_PROC=${DISK_PROC}/monthly ;;
   day )
     ARCHIVE_PROC=${ARCHIVE_PROC}/daily
-       DISK_PROC=${ARCHIVE_PROC}/daily ;;
+       DISK_PROC=${DISK_PROC}/daily ;;
   hr6 )
     ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6
-       DISK_PROC=${ARCHIVE_PROC}/hourly6 ;;
+       DISK_PROC=${DISK_PROC}/hourly6 ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
     exit 1 ;;
@@ -127,32 +127,32 @@ MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
 # Print out values
 #
-echo "           Case name  : "$CASE ; export CASE
-echo "   History file type  : "$HIST ; export HIST
-echo "         Time period  : "$TPER ; export TPER
-echo "   by var processing  : YES"
+echo "            Case name : "$CASE ; export CASE
+echo "    History file type : "$HIST ; export HIST
+echo "          Time period : "$TPER ; export TPER
+echo "    by var processing : YES"
 echo " HPSS processed files : "$ARCHIVE_PROC ; export ARCHIVE_PROC
 echo " disk processed files : "$DISK_PROC    ; export DISK_PROC
 HARDWARE=${HARDWARE}".ucar.edu"
-echo "         Branch date  : "$BRANCH   ; export BRANCH
-echo "          Resolution  : "$RES      ; export RES
-echo "            Hardware  : "$HARDWARE ; export HARDWARE
-echo "             Compset  : "$COMPSET  ; export COMPSET
-echo "      Repository tag  : "$REPOTAG  ; export REPOTAG
-echo "          Begin year  : "$YEARBEG  ; export YEARBEG
-echo "            End year  : "$YEAREND  ; export YEAREND
-echo "          Year count  : "$YRCOUNT  ; export YRCOUNT
-echo "        Months count  : "$MNCOUNT  ; export MNCOUNT
+echo "          Branch date : "$BRANCH   ; export BRANCH
+echo "           Resolution : "$RES      ; export RES
+echo "             Hardware : "$HARDWARE ; export HARDWARE
+echo "              Compset : "$COMPSET  ; export COMPSET
+echo "       Repository tag : "$REPOTAG  ; export REPOTAG
+echo "           Begin year : "$YEARBEG  ; export YEARBEG
+echo "             End year : "$YEAREND  ; export YEAREND
+echo "           Year count : "$YRCOUNT  ; export YRCOUNT
+echo "         Months count : "$MNCOUNT  ; export MNCOUNT
 echo ""
-echo "   Archival base dir  : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
-echo "       History files  : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
-echo "       History names  : "$HIST          ; export HIST
+echo "    Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo "        History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
+echo "        History names : "$HIST          ; export HIST
 echo ""
-echo "     Processing host  : "$PROCHOST      ; export PROCHOST
-echo " Local history files  : "$LOCAL_HIST    ; export LOCAL_HIST
-echo "      Processing dir  : "$LOCAL_PROC    ; export LOCAL_PROC
-echo "   Archive cache dir  : "$CACHEDIR      ; export CACHEDIR
-echo " Processing code dir  : "$BASEDIR       ; export BASEDIR
+echo "      Processing host : "$PROCHOST      ; export PROCHOST
+echo "  Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
+echo "       Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
+echo "    Archive cache dir : "$CACHEDIR      ; export CACHEDIR
+echo "  Processing code dir : "$BASEDIR       ; export BASEDIR
 #  
 if [ ! -d $LOCAL_PROC ] ; then 
   mkdir -p $LOCAL_PROC 
