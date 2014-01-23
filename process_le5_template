@@ -178,7 +178,7 @@ if [ -d $LOCAL_HIST ] ; then
   NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
   if [ $NHISTF -ne 0 ] ; then
     echo ${CASE}"."${HIST}" files on disk, softlinking."
-    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.*.nc .
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
   else
     echo "History files not on "${LOCAL_HIST}". Exiting."
     exit 1
