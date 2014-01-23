@@ -217,14 +217,15 @@ if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
 #
 # Extract each field from all files
 #
-  echo -n "TS var_extract start: " ; date
-  ./var_extract $OUTTIME
-  if [ $? -ne 0 ] ; then
-    echo "var_extract failed"
-    ./update_status error "$CASE $HIST $TPER"
-    exit 1
-  fi
-  echo -n "TS var_extract end  : " ; date
+    echo -n "TS var_extract start: " ; date
+    ./var_extract $OUTTIME
+    if [ $? -ne 0 ] ; then
+      echo "var_extract failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    fi
+    echo -n "TS var_extract end  : " ; date
+  done
 #
 # All other output streams
 #
@@ -254,6 +255,7 @@ else
     day ) 
       OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
   esac
+fi
 #
 # Extract each field from all files
 #
