@@ -4,16 +4,12 @@ TPER=xxxTPERxxx ; export TPER
 #
 echo -n "TS START: " ; date
 #
-# Template for processing CCSM history netCDF files into single-field format 
+# Template for processing last millenium ensemble CESM history netCDF files into single-field format 
 #
-# Extract information from "experiments.txt"
+# Extract relevant information from "experiments.txt"
 #
 #  Columns   Field
 #   1 -  54  CCSM case name
-#  55 -  74  model_id (CCSM4, CESM-CAM5, CESM-BGC, CESM-CHEM, CESM-WACCM, CESM1-CAM5.1-FV2, etc)
-#  75 -  76  Location (NC = NCAR; NE = NERSC; OR = ORNL)
-#  80 -  94  Official MIP name, or very brief description (N/A if not applicable)
-#  95 - 104  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
 # 105 - 109  MIP (cm3 or cm5) experiment (N/A if not applicable)
 # 110 - 149  RUN_REFCASE (parent case)
 # 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
@@ -29,16 +25,12 @@ echo -n "TS START: " ; date
 #
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if [ -f $EXPFILE ] ; then
-  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c75-  | cut -d" " -f1`
-   DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c80-  | cut -d" " -f1`
-   REALIZN=`egrep "^$CASE " $EXPFILE | cut -c95-  | cut -d" " -f1`
    MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c105-  | cut -d" " -f1`
     PARENT=`egrep "^$CASE " $EXPFILE | cut -c110- | cut -d" " -f1`
     BRANCH=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
    YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c165-168`
    YEAREND=`egrep "^$CASE " $EXPFILE | cut -c170-173`
        RES=`egrep "^$CASE " $EXPFILE | cut -c185- | cut -d" " -f1`
-   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c195- | cut -d" " -f1`
    REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c215- | cut -d" " -f1`
   HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c250- | cut -d" " -f1`
   HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c260- | cut -d" " -f1`
@@ -47,7 +39,7 @@ else
   exit 1
 fi
 #
-if ! [ $LOCATION ] ; then
+if ! [ $YEARBEG ] ; then
   echo "Unable to set variables because "$CASE" not found in $EXPFILE"
   exit 1
 fi
@@ -59,24 +51,15 @@ PROCHOST=`hostname`;export PROCHOST
 # resolve machine/site dependencies
 #
 case "$PROCHOST" in 
-  silver* )                                # silver @ CGD/NCAR
-    BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/local/bin/ncks             ; export NCKS
-    NCRA=/usr/local/bin/ncra             ; export NCRA
-    NCRCAT=/usr/local/bin/ncrcat         ; export NCRCAT
-    PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/datalocal/proc/$CASE       ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
-    ;;
-
   yslogin* | geyser* )                                # Yellowstone (geyser) @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncks      ; export NCKS
     NCRA=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncra      ; export NCRA
     NCRCAT=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncrcat  ; export NCRCAT
     PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/glade/p/cesm0005/csm/$CASE       ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME       ; export ARCHIVE_BASE
+    LOCALDSK=/glade/p/cesm0005/csm/$CASE        ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME        ; export ARCHIVE_BASE
+    DISK_BASE=/glade/p/cesm0005/CESM-CAM5-LME   ; export DISK_BASE
     LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
     LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
     ;;
@@ -116,16 +99,15 @@ LOCAL_PROC=$PROCBASE/$COMP_NAME
 ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
 #
 ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
+DISK_PROC=$DISK_BASE/$COMP_NAME/proc/tseries
 #
 case "$TPER" in
-  ann )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/annual   ;;
   mon )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly  ;;
+    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly
+       DISK_PROC=${DISK_PROC}/monthly ;;
   day )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/daily    ;;
-  hr6 )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6  ;;
+    ARCHIVE_PROC=${ARCHIVE_PROC}/daily
+       DISK_PROC=${DISK_PROC}/daily ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
     exit 1 ;;
@@ -139,35 +121,32 @@ MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
 # Print out values
 #
-echo "           Case name : "$CASE ; export CASE
-echo "   History file type : "$HIST ; export HIST
-echo "         Time period : "$TPER ; export TPER
-echo "   by var processing : YES"
-echo "     Processed files : "$ARCHIVE_PROC  ; export ARCHIVE_PROC
+echo "            Case name : "$CASE ; export CASE
+echo "    History file type : "$HIST ; export HIST
+echo "          Time period : "$TPER ; export TPER
+echo "    by var processing : YES"
+echo " HPSS processed files : "$ARCHIVE_PROC ; export ARCHIVE_PROC
+echo " disk processed files : "$DISK_PROC    ; export DISK_PROC
 HARDWARE=${HARDWARE}".ucar.edu"
-echo "            Location : "$LOCATION ; export LOCATION
-echo "         Description : "$DESCRIP  ; export DESCRIP
-echo "     Realization/RIP : "$REALIZN  ; export REALIZN
-echo "         Parent case : "$PARENT   ; export PARENT
-echo "         Branch date : "$BRANCH   ; export BRANCH
-echo "          Resolution : "$RES      ; export RES
-echo "            Hardware : "$HARDWARE ; export HARDWARE
-echo "             Compset : "$COMPSET  ; export COMPSET
-echo "      Repository tag : "$REPOTAG  ; export REPOTAG
-echo "          Begin year : "$YEARBEG  ; export YEARBEG
-echo "            End year : "$YEAREND  ; export YEAREND
-echo "          Year count : "$YRCOUNT  ; export YRCOUNT
-echo "        Months count : "$MNCOUNT  ; export MNCOUNT
+echo "          Branch date : "$BRANCH   ; export BRANCH
+echo "           Resolution : "$RES      ; export RES
+echo "             Hardware : "$HARDWARE ; export HARDWARE
+echo "              Compset : "$COMPSET  ; export COMPSET
+echo "       Repository tag : "$REPOTAG  ; export REPOTAG
+echo "           Begin year : "$YEARBEG  ; export YEARBEG
+echo "             End year : "$YEAREND  ; export YEAREND
+echo "           Year count : "$YRCOUNT  ; export YRCOUNT
+echo "         Months count : "$MNCOUNT  ; export MNCOUNT
 echo ""
-echo "   Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
-echo "       History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
-echo "       History names : "$HIST          ; export HIST
+echo "    Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo "        History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
+echo "        History names : "$HIST          ; export HIST
 echo ""
-echo "     Processing host : "$PROCHOST      ; export PROCHOST
-echo " Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
-echo "      Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
-echo "   Archive cache dir : "$CACHEDIR      ; export CACHEDIR
-echo " Processing code dir : "$BASEDIR       ; export BASEDIR
+echo "      Processing host : "$PROCHOST      ; export PROCHOST
+echo "  Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
+echo "       Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
+echo "    Archive cache dir : "$CACHEDIR      ; export CACHEDIR
+echo "  Processing code dir : "$BASEDIR       ; export BASEDIR
 #  
 if [ ! -d $LOCAL_PROC ] ; then 
   mkdir -p $LOCAL_PROC 
@@ -177,208 +156,114 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
-ln -s -f $BASEDIR/archive_list         .
-ln -s -f $BASEDIR/archive_read         .
-ln -s -f $BASEDIR/archive_write_var    .
-ln -s -f $BASEDIR/var_split            .
-ln -s -f $BASEDIR/hist_mon_to_year     .
-ln -s -f $BASEDIR/var_year_to_all      .
-ln -s -f $BASEDIR/var_lme_year_to_cen  .
-ln -s -f $BASEDIR/concatenate_data     .
-ln -s -f $BASEDIR/concatenate_lme_data .
-ln -s -f $BASEDIR/compress_data        .
+ln -s -f $BASEDIR/var_extract          .
 ln -s -f $BASEDIR/store_to_archive_var .
+ln -s -f $BASEDIR/archive_write_var    .
+ln -s -f $BASEDIR/disk_move_var        .
 ln -s -f $BASEDIR/update_status        .
 #
 cd $LOCAL_PROC
 #
-# Start actual processing, one year at a time
-#
-# Start from end and go to beginning
-#
-YEARNOW=$YEAREND;export YEARNOW
+# Start actual processing, extract each field one at a time for all times
 #
 ./update_status start
 #
-# Big processing loop
+if [ -d $LOCAL_HIST ] ; then
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+  echo "History files not on "${LOCAL_HIST}". Exiting."
+  exit 1
+fi
 #
-while [ $YEARNOW -ge $YEARBEG ] ; do
-  ./update_status $YEARNOW
-  if [ ! -f .comp.$CASE.$HIST.$YEARNOW.nc ] ; then
-    echo -n "TS PRO "${CASE}"."${HIST}"."${YEARNOW}": " ; date
-    if [ -d $LOCAL_HIST ] ; then
-      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* | wc -l`
-      if [ $NHISTF -ne 0 ] ; then
-        echo ${CASE}"."${HIST}"."${YEARNOW}" files on disk, softlinking."
-        ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* .
-      fi
+# Link history files - all for everything besides pop.h and pop.h.nday1,
+# one century at a time for pop.h and pop.h.nday1
+#
+if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
+  echo ${CASE}"."${HIST}" files on disk, softlinking."
+  for ICEN in 18 17 16 50 14 13 12 11 10 09 08 ; do
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}*.nc .
+    NHISTF=`/bin/ls ${CASE}.${HIST}.${ICEN}*.nc | wc -l`
+    if [ "$ICEN" = "18" ] || [ "$ICEN" = "08" ] ; then
+      GOODHC=600
     else
-#
-# Get archive listing
-#
-      ARCHIVE_LIST=archive.$CASE.$HIST
-      if [ ! -f $ARCHIVE_LIST ] ; then
-        echo "Getting archival list of "$CASE" "$HIST
-        ./archive_list $ARCHIVE_LIST
-      fi
-      ./archive_read $ARCHIVE_LIST $YEARNOW
-      if [ $? -ne 0 ] ; then
-        echo "Error from archive_read"
-       ./update_status error "$CASE $HIST $TPER"
-       exit 1
-      fi
+      GOODHC=1200
     fi
-    if [ -f $CASE.$HIST.$YEARNOW*.tar ] ; then
-      NTARFL=`/bin/ls $CASE.$HIST.$YEARNOW*.tar | wc -l`
-      if [ $NTARFL -ne 0 ] ; then
-        for TARFILE in `/bin/ls $CASE.$HIST.$YEARNOW*.tar` ; do
-          tar xf $TARFILE
-          if [ $? -ne 0 ] ; then
-            echo "Error untarring "$TARFILE
-          else
-            rm -f $TARFILE
-          fi
-        done
-      fi
-    fi
+    if [ $NHISTF -ne $GOODHC ] ; then
+      echo ${NHISTF}" should be "${GOODHC}". File count mismatch. Exit."
+      exit 1
+    fi ;;
 #
-# Convert all YEARNOW file(s) to netCDF-4
-#
-    for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}*.nc` ; do
-      TYPE=`$NCKS -M $FILE | egrep "type" | cut -d"=" -f6` ; export TYPE
-      if [ "$TYPE" != "NC_FORMAT_NETCDF4" ] ; then
-        $NCKS -4 $FILE ${FILE}4
-        if [ $? -ne 0 ] ; then
-          echo "Cannot convert "${FILE}" to netCDF-4. Exiting."
-          exit 1
-        else
-          mv ${FILE}4 $FILE
-        fi
-      fi
-    done
-#
-# Check on data type to see if it needs time splitting and reconcatenating first
+# Create output filename time period suffix
 #
     case "$TPER" in
-# 
-# Daily data - requires lots of checks, usually
-#
-      day )
-      case "$HTYP" in
-        cam | clm2 )
-          NFNC=`echo $CASE.$HIST.${YEARNOW}-01-01-00000.nc | wc -w`
-          if [ ${NFNC} -ne 0 ] ; then
-            for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-01-01-00000.nc` ; do
-              echo "time_split not required on "$FILE" 1 year length already from same year. Renaming."
-              TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
-              mv $FILE $TRIMD
-            done
-          fi ;;
-        cice )
-          NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
-          if [ ${NFNC} -eq 12 ] ; then
-            ./hist_mon_to_year
-            if [ $? -ne 0 ] ; then
-              echo "Error from hist_mon_to_year on file "$FILE
-              ./update_status error hist_mon_to_year
-              exit 1
-            fi
-          fi ;;
-        pop )
-          NFNC=`echo $CASE.$HIST.${YEARNOW}-??-??.nc | wc -w`
-          if [ ${NFNC} -ne 0 ] ; then
-            for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??.nc` ; do
-              TRIMD=`echo $FILE | sed -e 's/-01.nc$/.nc/g'`
-              mv $FILE $TRIMD
-              TRIMD=`echo $FILE | sed -e 's/-01-02.nc$/-01.nc/g'`
-              mv $FILE $TRIMD
-              echo "time_split not required on "$FILE" 1 month already."
-            done
-            ./hist_mon_to_year
-            if [ $? -ne 0 ] ; then
-              echo "Error from hist_mon_to_year on file "$FILE
-              ./update_status error hist_mon_to_year
-              exit 1
-            fi
-          fi ;;
-      esac ;;
-#
-# Monthly data, hopefully no time splitting needed
-#
       mon )
-        NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
-        if [ ${NFNC} -eq 12 ] ; then
-          ./hist_mon_to_year
-          if [ $? -ne 0 ] ; then
-            echo "Error from hist_mon_to_year on files "$CASE.$HIST.$YEARNOW
-            ./update_status error hist_mon_to_year
-            exit 1
-          fi
+        OUTTIME=${ICEN}0001-${ICEN}9912
+        if [ "$ICEN" = "18" ] ; then
+          OUTTIME=${ICEN}0001-${ICEN}4912
+        fi
+        if [ "$ICEN" = "08" ] ; then
+          OUTTIME=${ICEN}5001-${ICEN}9912
+        fi ;;
+      day ) 
+        OUTTIME=${ICEN}000101-${ICEN}991231 ;;
+        if [ "$ICEN" = "18" ] ; then
+          OUTTIME=${ICEN}000101-${ICEN}491231
+        fi
+        if [ "$ICEN" = "08" ] ; then
+          OUTTIME=${ICEN}500101-${ICEN}991231
         fi ;;
     esac
 #
-# var_split each history file that is now one years' worth of data
+# Extract each field from all files
 #
-    NFNC=`echo $CASE.$HIST.${YEARNOW}.nc | wc -w`
-    if [ ${NFNC} -eq 1 ] ; then
-      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}.nc` ; do
-        ./var_split $FILE erase
-        if [ $? -ne 0 ] ; then
-          echo "Error from var_split on file "$FILE
-          ./update_status error var_split
-          exit 1
-        else
-          touch .comp.$FILE
-        fi
-      done
-    fi
+  echo -n "TS var_extract start: " ; date
+  ./var_extract $OUTTIME
+  if [ $? -ne 0 ] ; then
+    echo "var_extract failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
   fi
+  echo -n "TS var_extract end  : " ; date
 #
+# All other output streams
 #
-# If pop.h (mon or day), run concatenator, compressor, and archiver
-#
-  if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
-    ICEN=$((YEARNOW%100))
-    if [ $ICEN -eq 0 ] ; then
-      echo -n "TS pop.h concat  start  : " ; date
-      ./concatenate_lme_data
-      echo -n "TS pop.h concat  end    : " ; date
-      echo -n "TS pop.h compress start : " ; date
-      ./compress_data
-      echo -n "TS pop.h compress end   : " ; date
-      echo -n "TS pop.h archive start  : " ; date
-      ./store_to_archive_var
-      echo -n "TS pop.h archive   end  : " ; date
-    fi
-  fi
-  YEARNOW=`expr $YEARNOW - 1`
-  if [ $YEARNOW -lt 1000 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
-  if [ $YEARNOW -lt 100 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
-  if [ $YEARNOW -lt 10 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
-  export YEARNOW
-done
-#
-# Concatenate years -> all for non-pop.h data
-#
-# Compress concatenated data
-#
-if [ "$HIST" != "pop.h" ] ; then
-  echo -n "TS final concat start: " ; date
-  ./concatenate_data
-  echo -n "TS final concat   end: " ; date
 else
-  echo -n "TS pop.h concat  start  : " ; date
-  ./concatenate_lme_data
-  echo -n "TS pop.h concat  end    : " ; date
+#
+# Make sure there's the correct number of files, based on stream and time period and 20C/RCP
+#
+#
+  case "$HIST" in 
+    cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 )
+      if [ $NHISTF -ne 12000 ] ; then
+        echo ${NHISTF}" should be 12000. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cam.h1 | clm2.h1 )
+      if [ $NHISTF -ne 1001 ] ; then
+        echo ${NHISTF}" should be 1001. File count mismatch. Exit."
+        exit 1
+      fi ;;
+  esac ;;
+#
+# Create output filename time period suffix
+#
+  case "$TPER" in
+    mon )
+      OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+    day ) 
+      OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+  esac
+#
+# Extract each field from all files
+#
+  echo -n "TS var_extract start: " ; date
+  ./var_extract $OUTTIME
+  if [ $? -ne 0 ] ; then
+    echo "var_extract failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  fi
+  echo -n "TS var_extract end  : " ; date
 fi
-echo -n "TS compress     start: " ; date
-./compress_data
 #
 # Store completed data on archival system
 #
@@ -392,5 +277,16 @@ else
   echo -n "TS archive end: " ; date
 fi
 #
+# Move completed data on to DISK_PROC
+#
+echo -n "TS disk move start: " ; date
+./disk_move_var
+if [ $? -ne 0 ] ; then
+  echo "disk_move_var failed"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
+else
+  echo -n "TS disk_move_var end: " ; date
+fi
 ./update_status complete
 echo -n "TS COMPLETE: " ; date
