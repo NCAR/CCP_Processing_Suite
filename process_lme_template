@@ -192,7 +192,7 @@ if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
     if [ $NHISTF -ne $GOODHC ] ; then
       echo ${NHISTF}" should be "${GOODHC}". File count mismatch. Exit."
       exit 1
-    fi ;;
+    fi
 #
 # Create output filename time period suffix
 #
@@ -206,7 +206,7 @@ if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
           OUTTIME=${ICEN}5001-${ICEN}9912
         fi ;;
       day ) 
-        OUTTIME=${ICEN}000101-${ICEN}991231 ;;
+        OUTTIME=${ICEN}000101-${ICEN}991231
         if [ "$ICEN" = "18" ] ; then
           OUTTIME=${ICEN}000101-${ICEN}491231
         fi
