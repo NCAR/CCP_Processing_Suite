@@ -170,8 +170,10 @@ cd $LOCAL_PROC
 #
 if [ -d $LOCAL_HIST ] ; then
   NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
-  echo "History files not on "${LOCAL_HIST}". Exiting."
-  exit 1
+  if [ $NHISTF -eq 0 ] ; then
+    echo "History files not on "${LOCAL_HIST}". Exiting."
+    exit 1
+  fi
 fi
 #
 # Link history files - all for everything besides pop.h and pop.h.nday1,
