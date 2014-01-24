@@ -245,7 +245,7 @@ else
         echo ${NHISTF}" should be 1001. File count mismatch. Exit."
         exit 1
       fi ;;
-  esac ;;
+  esac
 #
 # Create output filename time period suffix
 #
@@ -257,10 +257,12 @@ else
   esac
 fi
 #
+export OUTTIME
+#
 # Extract each field from all files
 #
   echo -n "TS var_extract start: " ; date
-  ./var_extract $OUTTIME
+  ./var_extract
   if [ $? -ne 0 ] ; then
     echo "var_extract failed"
     ./update_status error "$CASE $HIST $TPER"

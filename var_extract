@@ -3,16 +3,18 @@
 # var_extract - use 'ncrcat' with compression over all history files to 
 # pull out each field individually into complete time series
 #
-if [ $# -eq 0 ] ; then
-   echo "Usage: var_extract OUTTIME"
+if [ $# -ne 0 ] ; then
+   echo "Usage: var_extract"
    ./update_status error var_extract
    exit 1
-elif [ $# -eq 1 ] ; then
-   OUTTIME=$1
-else
-   echo "Usage: var_extract OUTTIME"
-   ./update_status error var_extract
-   exit 1
+fi
+# 
+# Check for OUTTIME
+#
+if [ ! $OUTTIME ] ; then
+  echo "OUTTIME not defined. Exiting"
+  ./update_status error var_extract
+  exit 1
 fi
 # 
 # Check for CACHEDIR

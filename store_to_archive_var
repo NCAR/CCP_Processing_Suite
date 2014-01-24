@@ -18,8 +18,8 @@ fi
 #
 cd $CACHEDIR
 #
-if [ `/bin/ls *.nc | wc -l` -ne 0 ] ; then
-  ../archive_write_var $ARCHIVE_PROC
+if [ `/bin/ls ${CASE}.${HIST}.*.${OUTTIME}.nc | wc -l` -ne 0 ] ; then
+  ../archive_write_var
 else
   echo "No files in "$CACHEDIR". Exit."
 fi

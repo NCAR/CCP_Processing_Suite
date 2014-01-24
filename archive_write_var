@@ -2,13 +2,10 @@
 #
 # Write file(s) to archival tape, directories for each field
 #
-# Arguments:
-# 1 directory on archival system to write file to
+# Check for ARCHIVE_PROC
 #
-if [ $# = 1 ] ; then
-  ARCHIVE_D=$1
-else
-  echo "archive_write ERROR - missing argument ARCHIVE_D"
+if [ ! $ARCHIVE_PROC ] ; then
+  echo "ARCHIVE_PROC not defined. Exiting."
   ../update_status error archive_write_var
   exit 1
 fi
@@ -24,7 +21,7 @@ fi
 #
 # Parse first filename
 #
-FILE=`/bin/ls *.nc | head -n 1`
+FILE=`/bin/ls *.${OUTTIME}.nc | head -n 1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1
@@ -55,14 +52,14 @@ DCMP=$DHT1
 DHT2=`expr '(' $DHT1 ')' '+' '1'`
 DVAR=`expr '(' $DVAR ')' '+' '1'`
 #
-HIST=`/bin/ls *.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
-COMP=`/bin/ls *.nc | cut -d"." -f${DCMP} | sort | uniq`
+HIST=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+COMP=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DCMP} | sort | uniq`
 #
 # Check for pop.h.nday1/h2/ecosys
 #
 if [ "$HIST" = "pop.h" ] ; then
   DYCK=`expr '(' $DHT2 ')' '+' '1'`
-  ODAY=`/bin/ls *.nc | cut -d"." -f${DYCK} | sort | uniq`
+  ODAY=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DYCK} | sort | uniq`
   if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
     DHT2=$DYCK
     DVAR=`expr '(' $DVAR ')' '+' '1'`
@@ -74,7 +71,10 @@ if [ "$HIST" = "pop.h" ] ; then
   fi
 fi
 #
-VARS=`/bin/ls *.nc | cut -d"." -f${DVAR} | sort | uniq`
+CASE=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f1-${DCAS} | sort | uniq`
+HIST=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+VARS=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DVAR} | sort | uniq`
+COMP=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DCMP} | sort | uniq`
 #
 # Check for cice data, remove _nh and _sh from VARS
 #
@@ -89,11 +89,11 @@ fi
 #
 rm -f MKDIR
 for IVAR in $VARS ; do
-  echo "mkdir -p ${ARCHIVE_D}/${IVAR} ; chmod 775 ${ARCHIVE_D}/${IVAR}" >> MKDIR
+  echo "mkdir -p ${ARCHIVE_PROC}/${IVAR} ; chmod 775 ${ARCHIVE_PROC}/${IVAR}" >> MKDIR
 done
 hsi in MKDIR
 if [ $? -eq 0 ] ; then
-  echo ${ARCHIVE_D}" and subdirs created. Ready."
+  echo ${ARCHIVE_PROC}" and subdirs created. Ready."
   rm -f MKDIR
 else
   echo "Problem with HPSS on mkdir. Warning."
@@ -103,18 +103,18 @@ fi
 rm -f PUT
 if [ "$COMP" == "cice" ] ; then
   for IVAR in $VARS ; do
-    echo "cd ${ARCHIVE_D}/${IVAR} ; put -U *.${IVAR}_?h.*.nc ; chmod 644 *.${IVAR}_?h.*.nc" >> PUT
+    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -U ${CASE}.${HIST}.${IVAR}_?h.${OUTTIME}.nc ; chmod 644 ${CASE}.${HIST}.${IVAR}_?h.${OUTTIME}.nc" >> PUT
   done
 else
   for IVAR in $VARS ; do
-    echo "cd ${ARCHIVE_D}/${IVAR} ; put -U *.${IVAR}.*.nc ; chmod 644 *.${IVAR}.*.nc" >> PUT
+    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -U ${CASE}.${HIST}.${IVAR}.${OUTTIME}.nc ; chmod 644 ${CASE}.${HIST}.${IVAR}.${OUTTIME}.nc" >> PUT
   done
 fi
 #
 hsi in PUT
 #
 if [ $? -eq 0 ] ; then
-  echo "Files written to "${ARCHIVE_D}" and subdirs."
+  echo "Files written to "${ARCHIVE_PROC}" and subdirs."
   rm -f PUT 
 else
   echo "Problem with HPSS on write. Stopping"

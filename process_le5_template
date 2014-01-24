@@ -273,12 +273,12 @@ case "$TPER" in
   m30 )
     OUTTIME=${YEARBEG}001010000Z-${YEAREND}12312330Z ;;
 esac
-
+export OUTTIME
 #
 # Extract each field from all files
 #
 echo -n "TS var_extract start: " ; date
-./var_extract $OUTTIME
+./var_extract
 if [ $? -ne 0 ] ; then
   echo "var_extract failed"
   ./update_status error "$CASE $HIST $TPER"
