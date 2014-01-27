@@ -261,14 +261,10 @@ esac
 #
 if [ "$TPER" = "hr6" ] ; then
   if [ "$EXPTYP" = "RCP" ] ; then
-    mkdir ./202s ; cd ./202s
-    mv ${CASE}.${HIST}.20[2-3]*.nc ./202s
-    OUTTIME=2026010100Z-2035123118Z
-    cd ..
-    mkdir ./207s ; cd ./207s
-    mv ${CASE}.${HIST}.20[7-8]*.nc ./207s
-    cd ..
-    OUTTIME=2071010100Z-2080123118Z
+    mkdir ${LOCAL_PROC}/202s
+    mv ${LOCAL_PROC}/${CASE}.${HIST}.20[2-3]*.nc ${LOCAL_PROC}/202s
+    mkdir ${LOCAL_PROC}/207s
+    mv ${LOCAL_PROC}/${CASE}.${HIST}.20[7-8]*.nc ${LOCAL_PROC}/207s
   fi
 fi
 #
@@ -302,7 +298,8 @@ echo -n "TS var_extract start: " ; date
 #
 if [ "$TPER" = "hr6" ] ; then
   if [ "$EXPTYP" = "RCP" ] ; then
-    cd ./202s
+    cd ${LOCAL_PROC}/202s
+    OUTTIME=2026010100Z-2035123118Z ; export OUTTIME
     ../var_extract
     if [ $? -ne 0 ] ; then
       echo "var_extract failed"
@@ -311,7 +308,8 @@ if [ "$TPER" = "hr6" ] ; then
     else
       cd ..
     fi
-    cd ./207s
+    OUTTIME=2071010100Z-2080123118Z ; export OUTTIME
+    cd ${LOCAL_PROC}/207s
     ../var_extract
     if [ $? -ne 0 ] ; then
       echo "var_extract failed"
