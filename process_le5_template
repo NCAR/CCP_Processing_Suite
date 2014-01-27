@@ -162,6 +162,8 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
+EXPTYP=`echo $CASE | cut -d"." -f3 | cut -c2-4`
+#
 ln -s -f $BASEDIR/var_extract          .
 ln -s -f $BASEDIR/store_to_archive_var .
 ln -s -f $BASEDIR/archive_write_var    .
@@ -187,7 +189,7 @@ fi
 #
 # Make sure there's the correct number of files, based on stream and time period and 20C/RCP
 #
-NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
+NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
 #
 EXPTYP=`echo $CASE | cut -d"." -f3 | cut -c2-4`
 #
@@ -255,6 +257,21 @@ case "$EXPTYP" in
     exit 1 ;;
 esac
 #
+# Create subdirectories for each of the two 10-year periods for 6-hourly data for the RCP runs
+#
+if [ "$TPER" = "hr6" ] ; then
+  if [ "$EXPTYP" = "RCP" ] ; then
+    mkdir ./202s ; cd ./202s
+    mv ${CASE}.${HIST}.20[2-3]*.nc ./202s
+    OUTTIME=2026010100Z-2035123118Z
+    cd ..
+    mkdir ./207s ; cd ./207s
+    mv ${CASE}.${HIST}.20[7-8]*.nc ./207s
+    cd ..
+    OUTTIME=2071010100Z-2080123118Z
+  fi
+fi
+#
 # Create output filename time period suffix
 #
 case "$TPER" in
@@ -265,7 +282,9 @@ case "$TPER" in
   day ) 
     OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
   hr6 ) 
-    OUTTIME=${YEARBEG}010100Z-${YEAREND}123118Z ;;
+    if [ "$EXPTYP" = "20T" ] ; then
+      OUTTIME=1990010100Z-${YEAREND}123118Z
+    fi ;;
   hr3 )
     OUTTIME=${YEARBEG}010100Z-${YEAREND}123121Z ;;
   hr1 )
@@ -278,12 +297,39 @@ export OUTTIME
 # Extract each field from all files
 #
 echo -n "TS var_extract start: " ; date
-./var_extract
-if [ $? -ne 0 ] ; then
-  echo "var_extract failed"
-  ./update_status error "$CASE $HIST $TPER"
-  exit 1
+#
+# Special subdirs for 6-hourly data ONLY
+#
+if [ "$TPER" = "hr6" ] ; then
+  if [ "$EXPTYP" = "RCP" ] ; then
+    cd ./202s
+    ../var_extract
+    if [ $? -ne 0 ] ; then
+      echo "var_extract failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      cd ..
+    fi
+    cd ./207s
+    ../var_extract
+    if [ $? -ne 0 ] ; then
+      echo "var_extract failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      cd ..
+    fi
+  fi
+else
+  ./var_extract
+  if [ $? -ne 0 ] ; then
+    echo "var_extract failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  fi
 fi
+#
 echo -n "TS var_extract end  : " ; date
 #
 # Store completed data on archival system

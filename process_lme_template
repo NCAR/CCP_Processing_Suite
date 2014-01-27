@@ -182,50 +182,78 @@ fi
 if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
   echo ${CASE}"."${HIST}" files on disk, softlinking."
   for ICEN in 18 17 16 50 14 13 12 11 10 09 08 ; do
-    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}*.nc .
-    NHISTF=`/bin/ls ${CASE}.${HIST}.${ICEN}*.nc | wc -l`
-    if [ "$ICEN" = "18" ] || [ "$ICEN" = "08" ] ; then
-      GOODHC=600
-    else
-      GOODHC=1200
-    fi
-    if [ $NHISTF -ne $GOODHC ] ; then
-      echo ${NHISTF}" should be "${GOODHC}". File count mismatch. Exit."
-      exit 1
-    fi
+    if [ ! -f .comp.${CASE}.${HIST}.${ICEN} ] ; then
+      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}*.nc .
+      NHISTF=`/bin/ls ${CASE}.${HIST}.${ICEN}*.nc | wc -l`
+      if [ "$ICEN" = "18" ] || [ "$ICEN" = "08" ] ; then
+        GOODHC=600
+      else
+        GOODHC=1200
+      fi
+      if [ $NHISTF -ne $GOODHC ] ; then
+        echo ${NHISTF}" should be "${GOODHC}". File count mismatch. Exit."
+        exit 1
+      fi
 #
 # Create output filename time period suffix
 #
-    case "$TPER" in
-      mon )
-        OUTTIME=${ICEN}0001-${ICEN}9912
-        if [ "$ICEN" = "18" ] ; then
-          OUTTIME=${ICEN}0001-${ICEN}4912
-        fi
-        if [ "$ICEN" = "08" ] ; then
-          OUTTIME=${ICEN}5001-${ICEN}9912
-        fi ;;
-      day ) 
-        OUTTIME=${ICEN}000101-${ICEN}991231
-        if [ "$ICEN" = "18" ] ; then
-          OUTTIME=${ICEN}000101-${ICEN}491231
-        fi
-        if [ "$ICEN" = "08" ] ; then
-          OUTTIME=${ICEN}500101-${ICEN}991231
-        fi ;;
-    esac
+      case "$TPER" in
+        mon )
+          OUTTIME=${ICEN}0001-${ICEN}9912
+          if [ "$ICEN" = "18" ] ; then
+            OUTTIME=${ICEN}0001-${ICEN}4912
+          fi
+          if [ "$ICEN" = "08" ] ; then
+            OUTTIME=${ICEN}5001-${ICEN}9912
+          fi ;;
+        day ) 
+          OUTTIME=${ICEN}000101-${ICEN}991231
+          if [ "$ICEN" = "18" ] ; then
+            OUTTIME=${ICEN}000101-${ICEN}491231
+          fi
+          if [ "$ICEN" = "08" ] ; then
+            OUTTIME=${ICEN}500101-${ICEN}991231
+          fi ;;
+      esac
+      export OUTTIME
 #
 # Extract each field from all files
 #
-    echo -n "TS var_extract start: " ; date
-    ./var_extract $OUTTIME
+      echo -n "TS var_extract start: " ; date
+      ./var_extract
+      if [ $? -ne 0 ] ; then
+        echo "var_extract failed"
+        ./update_status error "$CASE $HIST $TPER"
+        exit 1
+      fi
+      echo -n "TS var_extract end  : " ; date
+    done
+#
+# Store completed data on archival system
+#
+    echo -n "TS archive start: " ; date
+    ./store_to_archive_var
     if [ $? -ne 0 ] ; then
-      echo "var_extract failed"
+      echo "store_to_archive failed"
       ./update_status error "$CASE $HIST $TPER"
       exit 1
+    else
+      echo -n "TS archive end: " ; date
     fi
-    echo -n "TS var_extract end  : " ; date
-  done
+#
+# Move completed data on to DISK_PROC
+#
+    echo -n "TS disk move start: " ; date
+    ./disk_move_var
+    if [ $? -ne 0 ] ; then
+      echo "disk_move_var failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      echo -n "TS disk_move_var end: " ; date
+    fi
+    touch .comp.${CASE}.${HIST}.${ICEN}
+  fi
 #
 # All other output streams
 #
@@ -255,9 +283,7 @@ else
     day ) 
       OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
   esac
-fi
-#
-export OUTTIME
+  export OUTTIME
 #
 # Extract each field from all files
 #
@@ -269,30 +295,30 @@ export OUTTIME
     exit 1
   fi
   echo -n "TS var_extract end  : " ; date
-fi
 #
 # Store completed data on archival system
 #
-echo -n "TS archive start: " ; date
-./store_to_archive_var
-if [ $? -ne 0 ] ; then
-  echo "store_to_archive failed"
-  ./update_status error "$CASE $HIST $TPER"
-  exit 1
-else
-  echo -n "TS archive end: " ; date
-fi
+  echo -n "TS archive start: " ; date
+  ./store_to_archive_var
+  if [ $? -ne 0 ] ; then
+    echo "store_to_archive failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  else
+    echo -n "TS archive end: " ; date
+  fi
 #
 # Move completed data on to DISK_PROC
 #
-echo -n "TS disk move start: " ; date
-./disk_move_var
-if [ $? -ne 0 ] ; then
-  echo "disk_move_var failed"
-  ./update_status error "$CASE $HIST $TPER"
-  exit 1
-else
-  echo -n "TS disk_move_var end: " ; date
+  echo -n "TS disk move start: " ; date
+  ./disk_move_var
+  if [ $? -ne 0 ] ; then
+    echo "disk_move_var failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  else
+    echo -n "TS disk_move_var end: " ; date
+  fi
 fi
 ./update_status complete
 echo -n "TS COMPLETE: " ; date
