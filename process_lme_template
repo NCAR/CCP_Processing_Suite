@@ -185,7 +185,7 @@ if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
     if [ ! -f .comp.${CASE}.${HIST}.${ICEN} ] ; then
       NHISTF=`/bin/ls ${CASE}.${HIST}.${ICEN}*.nc | wc -l`
       if [ $NHISTF -eq 0 ] ; then 
-        echo "No files in "${LOCAL_HIST}" for "${CASE}"."${HIST}"."${ICEN}". Exiting."
+        echo ${NHISTF}" files in "${LOCAL_HIST}" for "${CASE}"."${HIST}"."${ICEN}". Incorrect - exiting."
         exit 1
       fi
       ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}*.nc .
