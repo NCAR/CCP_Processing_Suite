@@ -62,7 +62,7 @@ esac
 #
 # create the mail messages
 #
-MAILTO=procstat@cgd.ucar.edu
+MAILTO=strandwg@ucar.edu
 mail -s "procstat ${FILELOG}" ${MAILTO} < ${FILELOG}
 #
 # check if update_status was called with an argument either start, error or complete
