@@ -19,7 +19,8 @@ ifeq ($(MACH),silver)
   NCFLIB  = -L${NCFDIR}/lib -lnetcdf -lnetcdff
   KRBLIB  = -L${KRBDIR}/lib -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lz
   UDUINC  = -I${UDUDIR}/include
-  UDULIB  = -L${UDUDIR}/lib -ludunits2 -lexpat
+#  UDULIB  = -L${UDUDIR}/lib -ludunits2 -lexpat
+  UDULIB  = -L${UDUDIR}/lib -ludunits2
   UIDINC  = -I${UIDDIR}/include
   UIDLIB  = -L${UIDDIR}/lib -luuid
   FC	  = /usr/local/pgi/linux86/bin/pgf95

@@ -24,6 +24,22 @@ if [ ! $CACHEDIR ] ; then
   ./update_status error var_extract
   exit 1
 fi
+# 
+# Check for CASE
+#
+if [ ! $CASE ] ; then
+  echo "CASE not defined. Exiting"
+  ./update_status error var_extract
+  exit 1
+fi
+# 
+# Check for HIST
+#
+if [ ! $HIST ] ; then
+  echo "HIST not defined. Exiting"
+  ./update_status error var_extract
+  exit 1
+fi
 #
 # Parse filename 1
 #
