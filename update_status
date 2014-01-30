@@ -62,8 +62,8 @@ esac
 #
 # create the mail messages
 #
-MAILTO=strandwg@ucar.edu
-mail -s "procstat ${FILELOG}" ${MAILTO} < ${FILELOG}
+#MAILTO=strandwg@ucar.edu
+#mail -s "procstat ${FILELOG}" ${MAILTO} < ${FILELOG}
 #
 # check if update_status was called with an argument either start, error or complete
 # if so, then send an email to trigger an automatic update of the
@@ -95,7 +95,7 @@ if [ $# -ge 1 ] ; then
     echo "HTYP      = ${HTYP}"     >> tossme
     echo "PP_HOST   = ${HOSTNAME}" >> tossme
     echo "USER      = ${USER}"     >> tossme
-    mail -s "${FILESTART}" ${MAILTO},${MAILTOUSER} < tossme
+    /usr/bin/Mail -s "CCPS start ${FILESTART}" ${MAILTOUSER} < tossme
     rm -f tossme
   fi
   if test $1 = "error" ; then 
@@ -109,7 +109,7 @@ if [ $# -ge 1 ] ; then
     echo "PP_HOST   = ${HOSTNAME}" >> tossme
     echo "USER      = ${USER}"     >> tossme
     echo "CALLED_BY = $2"          >> tossme
-    mail -s "update_status ${FILEERROR}" ${MAILTO},${MAILTOUSER} < tossme
+    /usr/bin/Mail -s "CCPS error ${FILEERROR}" ${MAILTOUSER} < tossme
     rm -f tossme
   fi
   if test $1 = "warning" ; then 
@@ -123,7 +123,7 @@ if [ $# -ge 1 ] ; then
     echo "PP_HOST   = ${HOSTNAME}" >> tossme
     echo "USER      = ${USER}"     >> tossme
     echo "CALLED_BY = $2"          >> tossme
-    mail -s "update_status ${FILEWARN}" ${MAILTO},${MAILTOUSER} < tossme
+    /usr/bin/Mail -s "CCPS warning ${FILEWARN}" ${MAILTOUSER} < tossme
     rm -f tossme
   fi
   if test $1 = "complete" ; then
@@ -136,7 +136,7 @@ if [ $# -ge 1 ] ; then
     echo "HTYP      = ${HTYP}"     >> tossme
     echo "PP_HOST   = ${HOSTNAME}" >> tossme
     echo "USER      = ${USER}"     >> tossme
-    mail -s "update_status ${FILECOMPLETE}" ${MAILTO},${MAILTOUSER} < tossme
+    /usr/bin/Mail -s "CCPS complete ${FILECOMPLETE}" ${MAILTOUSER} < tossme
     rm -f tossme
   fi
 fi
