@@ -318,6 +318,13 @@ if [ "$TPER" = "hr6" ] ; then
     else
       cd ..
     fi
+  else
+    ./var_extract
+    if [ $? -ne 0 ] ; then
+      echo "var_extract failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    fi
   fi
 else
   ./var_extract

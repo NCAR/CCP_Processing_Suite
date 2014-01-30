@@ -95,7 +95,7 @@ if [ $# -ge 1 ] ; then
     echo "HTYP      = ${HTYP}"     >> tossme
     echo "PP_HOST   = ${HOSTNAME}" >> tossme
     echo "USER      = ${USER}"     >> tossme
-    /usr/bin/Mail -s "CCPS start ${FILESTART}" ${MAILTOUSER} < tossme
+    /usr/bin/Mail -s "CCPS Status: ${FILESTART}" ${MAILTOUSER} < tossme
     rm -f tossme
   fi
   if test $1 = "error" ; then 
@@ -109,7 +109,7 @@ if [ $# -ge 1 ] ; then
     echo "PP_HOST   = ${HOSTNAME}" >> tossme
     echo "USER      = ${USER}"     >> tossme
     echo "CALLED_BY = $2"          >> tossme
-    /usr/bin/Mail -s "CCPS error ${FILEERROR}" ${MAILTOUSER} < tossme
+    /usr/bin/Mail -s "CCPS Status: ${FILEERROR}" ${MAILTOUSER} < tossme
     rm -f tossme
   fi
   if test $1 = "warning" ; then 
@@ -123,7 +123,7 @@ if [ $# -ge 1 ] ; then
     echo "PP_HOST   = ${HOSTNAME}" >> tossme
     echo "USER      = ${USER}"     >> tossme
     echo "CALLED_BY = $2"          >> tossme
-    /usr/bin/Mail -s "CCPS warning ${FILEWARN}" ${MAILTOUSER} < tossme
+    /usr/bin/Mail -s "CCPS Status: ${FILEWARN}" ${MAILTOUSER} < tossme
     rm -f tossme
   fi
   if test $1 = "complete" ; then
@@ -136,7 +136,7 @@ if [ $# -ge 1 ] ; then
     echo "HTYP      = ${HTYP}"     >> tossme
     echo "PP_HOST   = ${HOSTNAME}" >> tossme
     echo "USER      = ${USER}"     >> tossme
-    /usr/bin/Mail -s "CCPS complete ${FILECOMPLETE}" ${MAILTOUSER} < tossme
+    /usr/bin/Mail -s "CCPS Status: ${FILECOMPLETE}" ${MAILTOUSER} < tossme
     rm -f tossme
   fi
 fi
