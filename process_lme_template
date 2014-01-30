@@ -257,6 +257,7 @@ if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
         echo -n "TS disk_move_var end: " ; date
       fi
       touch .comp.${CASE}.${HIST}.${ICEN}
+      rm ${CASE}.${HIST}.${ICEN}*nc
     fi
   done
 #
