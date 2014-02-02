@@ -91,6 +91,11 @@ subroutine get_cmor_info
           ' See also http://www.cesm.ucar.edu/publications'
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
+  case ('CESM1-CAM4Chem')
+     mycmor%references    = 'UNKNOWN'//&
+          ' See also http://www.cesm.ucar.edu/publications'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
+     mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case ('CESM1-CAM5.1-FV2')
      mycmor%references    = 'Neale, R. B. et al. (2011a) Description of the NCAR Community Atmosphere Model (CAM5), Technical Report NCAR/TN-486+STR.\n'//&
           'Gent P. R., et.al. 2011: The Community Climate System Model version 4. J. Climate, doi: 10.1175/2011JCLI4083.1'

@@ -18,7 +18,7 @@ subroutine get_atm_grid
   logical::exists
   !
   select case (exp(exp_found)%model_id)
-  case ('CESM1-WACCM')
+  case ('CESM1-WACCM','CESM1-CAM4Chem' )
      gridfile = 'atm_grid_f19.nc'
   case ('CESM1-CAM5')
      gridfile = 'atm_grid_cam5_f09.nc'

@@ -340,13 +340,35 @@ echo -n "TS var_extract end  : " ; date
 # Store completed data on archival system
 #
 echo -n "TS archive start: " ; date
-./store_to_archive_var
-if [ $? -ne 0 ] ; then
-  echo "store_to_archive failed"
-  ./update_status error "$CASE $HIST $TPER"
-  exit 1
+if [ "$TPER" = "hr6" ] ; then
+  if [ "$EXPTYP" = "RCP" ] ; then
+    OUTTIME=2026010100Z-2035123118Z ; export OUTTIME
+    ./store_to_archive_var
+    if [ $? -ne 0 ] ; then
+      echo "store_to_archive failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      OUTTIME=2071010100Z-2080123118Z ; export OUTTIME
+      ./store_to_archive_var
+      if [ $? -ne 0 ] ; then
+         echo "store_to_archive failed"
+        ./update_status error "$CASE $HIST $TPER"
+        exit 1
+      else
+        echo -n "TS archive end: " ; date
+      fi
+    fi
+  fi
 else
-  echo -n "TS archive end: " ; date
+  ./store_to_archive_var
+  if [ $? -ne 0 ] ; then
+    echo "store_to_archive failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  else
+    echo -n "TS archive end: " ; date
+  fi
 fi
 #
 # Move completed data on to DISK_PROC
