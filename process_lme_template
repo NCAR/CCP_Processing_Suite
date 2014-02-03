@@ -181,7 +181,7 @@ fi
 #
 if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
   echo ${CASE}"."${HIST}" files on disk, softlinking."
-  for ICEN in 18 17 16 15 14 13 12 11 10 09 08 ; do
+  for ICEN in 08 09 10 11 12 13 14 15 16 17 18 ; do
     if [ ! -f .comp.${CASE}.${HIST}.${ICEN} ] ; then
       NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}*.nc | wc -l`
       if [ $NHISTF -eq 0 ] ; then 
