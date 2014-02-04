@@ -359,6 +359,14 @@ if [ "$TPER" = "hr6" ] ; then
         echo -n "TS archive end: " ; date
       fi
     fi
+  else
+    OUTTIME=1990010100Z-2005123118Z ; export OUTTIME
+    ./store_to_archive_var
+    if [ $? -ne 0 ] ; then
+      echo "store_to_archive failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    fi
   fi
 else
   ./store_to_archive_var
