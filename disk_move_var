@@ -63,16 +63,16 @@ DCMP=$DHT1
 DHT2=`expr '(' $DHT1 ')' '+' '1'`
 DVAR=`expr '(' $DVAR ')' '+' '1'`
 #
-CASE=`/bin/ls*.${OUTTIME}.nc | cut -d"." -f1-${DCAS} | sort | uniq`
-HIST=`/bin/ls*.${OUTTIME}.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
-COMP=`/bin/ls*.${OUTTIME}.nc | cut -d"." -f${DCMP} | sort | uniq`
-VARS=`/bin/ls*.${OUTTIME}.nc | cut -d"." -f${DVAR} | sort | uniq`
+CASE=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f1-${DCAS} | sort | uniq`
+HIST=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+COMP=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DCMP} | sort | uniq`
+VARS=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DVAR} | sort | uniq`
 #
 # Check for pop.h.nday1/h2/ecosys
 #
 if [ "$HIST" = "pop.h" ] ; then
   DYCK=`expr '(' $DHT2 ')' '+' '1'`
-  ODAY=`/bin/ls*.${OUTTIME}.nc | cut -d"." -f${DYCK} | sort | uniq`
+  ODAY=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DYCK} | sort | uniq`
   if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
     DHT2=$DYCK
     DVAR=`expr '(' $DVAR ')' '+' '1'`
@@ -84,10 +84,10 @@ if [ "$HIST" = "pop.h" ] ; then
   fi
 fi
 #
-CASE=`/bin/ls*.${OUTTIME}.nc | cut -d"." -f1-${DCAS} | sort | uniq`
-HIST=`/bin/ls*.${OUTTIME}.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
-COMP=`/bin/ls*.${OUTTIME}.nc | cut -d"." -f${DCMP} | sort | uniq`
-VARS=`/bin/ls*.${OUTTIME}.nc | cut -d"." -f${DVAR} | sort | uniq`
+CASE=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f1-${DCAS} | sort | uniq`
+HIST=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+COMP=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DCMP} | sort | uniq`
+VARS=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DVAR} | sort | uniq`
 #
 # Check for cice data, remove _nh and _sh from VARS
 #
