@@ -382,13 +382,44 @@ fi
 # Move completed data on to DISK_PROC
 #
 echo -n "TS disk move start: " ; date
-./disk_move_var
-if [ $? -ne 0 ] ; then
-  echo "disk_move_var failed"
-  ./update_status error "$CASE $HIST $TPER"
-  exit 1
+if [ "$TPER" = "hr6" ] ; then
+  if [ "$EXPTYP" = "RCP" ] ; then
+    OUTTIME=2026010100Z-2035123118Z ; export OUTTIME
+    ./disk_move_var
+    if [ $? -ne 0 ] ; then
+      echo "disk_move failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      OUTTIME=2071010100Z-2080123118Z ; export OUTTIME
+      ./disk_move_var
+      if [ $? -ne 0 ] ; then
+         echo "disk_move failed"
+        ./update_status error "$CASE $HIST $TPER"
+        exit 1
+      else
+        echo -n "TS disk_move end: " ; date
+      fi
+    fi
+  else
+    OUTTIME=1990010100Z-2005123118Z ; export OUTTIME
+    ./disk_move_var
+    if [ $? -ne 0 ] ; then
+      echo "disk_move failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    fi
+  fi
 else
-  echo -n "TS disk_move_var end: " ; date
+  ./disk_move_var
+  if [ $? -ne 0 ] ; then
+    echo "disk_move failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  else
+    echo -n "TS disk_move end: " ; date
+  fi
 fi
+#
 ./update_status complete
 echo -n "TS COMPLETE: " ; date
