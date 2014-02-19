@@ -25,15 +25,13 @@ case "$TPER" in
     exit 1 ;;
 esac
 #
-# Check for LME runs
-#
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if ! [ -f $EXPFILE ] ; then
   echo "Cannot find "$EXPFILE". EXIT"
   exit 1
-else
-  TEMPLATE=process_lme_template ;;
 fi
+#
+TEMPLATE=process_lme_template
 #
 PROCHOST=`hostname`;export PROCHOST
 #
