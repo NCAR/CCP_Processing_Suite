@@ -43,7 +43,19 @@ fi
 #
 # Parse filename 1
 #
-FILE=`/bin/ls ${CASE}.${HIST}.*.nc | head -1`
+NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
+if [ $NHISTF -eq 0 ] ; then 
+  echo "No "${CASE}"."${HIST}" files in "${LOCAL_PROC}". Exiting."
+  ./update_status error var_extract
+  exit 1
+else
+  FILE=`/bin/ls ${CASE}.${HIST}.*.nc | head -1`
+  if ! [ -f $FILE ] ; then
+    echo "No "${FILE}" in "${LOCAL_PROC}". Exiting."
+    ./update_status error var_extract
+    exit 1
+  fi
+fi
 #
 FLEN=`echo $FILE | wc -c`
 NDOT=0
