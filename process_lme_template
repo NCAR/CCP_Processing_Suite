@@ -1,6 +1,7 @@
 CASE=xxxCASExxx ; export CASE
 HIST=xxxHISTxxx ; export HIST
 TPER=xxxTPERxxx ; export TPER
+LMEX=xxxLMEXxxx ; export LMEX
 #
 echo -n "TS START: " ; date
 #
@@ -36,11 +37,13 @@ if [ -f $EXPFILE ] ; then
   HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c260- | cut -d" " -f1`
 else
   echo "Cannot find $EXPFILE. EXIT"
+  ./update_status error "$CASE $HIST $TPER"
   exit 1
 fi
 #
 if ! [ $YEARBEG ] ; then
   echo "Unable to set variables because "$CASE" not found in $EXPFILE"
+  ./update_status error "$CASE $HIST $TPER"
   exit 1
 fi
 #
@@ -53,9 +56,9 @@ PROCHOST=`hostname`;export PROCHOST
 case "$PROCHOST" in 
   yslogin* | geyser* )                                # Yellowstone (geyser) @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncks      ; export NCKS
-    NCRA=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncra      ; export NCRA
-    NCRCAT=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncrcat  ; export NCRCAT
+    NCODIR=/glade/apps/opt/nco/4.3.7/gnu/4.7.2/bin
+    NCKS=${NCODIR}/ncks      ; export NCKS
+    NCRCAT=${NCODIR}/ncrcat  ; export NCRCAT
     PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE ; export PROCBASE
     LOCALDSK=/glade/p/cesm0005/csm/$CASE        ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME        ; export ARCHIVE_BASE
@@ -65,6 +68,7 @@ case "$PROCHOST" in
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
+    ./update_status error "$CASE $HIST $TPER"
     exit 1 ;;
 esac
 #
@@ -77,7 +81,7 @@ HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
 # Convert history type to component name
 #
 case "$HTYP" in
-  cam2 | cam )
+  cam )
     COMP_NAME=atm ;;
   clm2 ) 
     COMP_NAME=lnd ;;
@@ -89,6 +93,7 @@ case "$HTYP" in
     COMP_NAME=ice ;;
   * ) 
     echo "Unable to continue because "$HIST" not known."
+    ./update_status error "$CASE $HIST $TPER"
     exit 1 ;;
 esac
 #
@@ -110,6 +115,7 @@ case "$TPER" in
        DISK_PROC=${DISK_PROC}/daily ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
+    ./update_status error "$CASE $HIST $TPER"
     exit 1 ;;
 esac
 #
@@ -169,168 +175,354 @@ cd $LOCAL_PROC
 ./update_status start
 #
 if [ -d $LOCAL_HIST ] ; then
-  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
-  if [ $NHISTF -eq 0 ] ; then
-    echo "History files not on "${LOCAL_HIST}". Exiting."
-    exit 1
+  if [ "$LMEX" = "lm" ] ; then
+    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc | wc -l`
+    if [ $NHISTF -eq 0 ] ; then
+      echo "History files from 850-1849 not on "${LOCAL_HIST}". Exiting."
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    fi
+  else
+    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9],19[0-9],20[0-5}?-*.nc | wc -l`
+    if [ $NHISTF -eq 0 ] ; then
+      echo "History files from 1850-2005 not on "${LOCAL_HIST}". Exiting."
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    fi
   fi
 fi
+#
+# Last millenium portion (850-1849)
 #
 # Link history files - all for everything besides pop.h and pop.h.nday1,
 # one century at a time for pop.h and pop.h.nday1
 #
-if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
-  echo ${CASE}"."${HIST}" files on disk, softlinking."
-  for ICEN in 08 09 10 11 12 13 14 15 16 17 18 ; do
-    if [ ! -f .comp.${CASE}.${HIST}.${ICEN} ] ; then
-      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}*.nc | wc -l`
-      if [ $NHISTF -eq 0 ] ; then 
-        echo ${NHISTF}" files in "${LOCAL_HIST}"/"${CASE}"."${HIST}"."${ICEN}". Incorrect - exiting."
-        exit 1
-      fi
-      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}*.nc .
-      NHISTF=`/bin/ls ${CASE}.${HIST}.${ICEN}*.nc | wc -l`
-      if [ "$ICEN" = "18" ] || [ "$ICEN" = "08" ] ; then
-        GOODHC=600
-      else
-        GOODHC=1200
-      fi
-      if [ $NHISTF -ne $GOODHC ] ; then
-        echo ${NHISTF}" should be "${GOODHC}". File count mismatch. Exit."
-        exit 1
-      fi
+if [ "$LMEX" = "lm" ] ; then
+  if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
+    echo ${CASE}"."${HIST}" files on disk, softlinking."
+    for ICEN in 08 09 10 11 12 13 14 15 16 17 18 ; do
+      if [ ! -f .comp.${CASE}.${HIST}.${ICEN} ] ; then
+        if [ "$ICEN" = "18" ] ; then
+          NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-9]*.nc | wc -l`
+        else
+          NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-4]*.nc | wc -l`
+        fi
+        if [ $NHISTF -eq 0 ] ; then 
+          echo ${NHISTF}" files in "${LOCAL_HIST}"/"${CASE}"."${HIST}"."${ICEN}". Incorrect - exiting."
+          ./update_status error "$CASE $HIST $TPER"
+          exit 1
+        else
+          if [ "$ICEN" = "18" ] ; then
+            NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-4]*.nc | wc -l`
+          else
+            NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-9]*.nc | wc -l`
+          fi
+        fi
+        NHISTF=`/bin/ls ${CASE}.${HIST}.${ICEN}*.nc | wc -l`
+        if [ "$ICEN" = "18" ] || [ "$ICEN" = "08" ] ; then
+          GOODHC=600
+        else
+          GOODHC=1200
+        fi
+        if [ $NHISTF -ne $GOODHC ] ; then
+          echo ${NHISTF}" should be "${GOODHC}". File count mismatch. Exit."
+          exit 1
+        fi
 #
 # Create output filename time period suffix
 #
-      case "$TPER" in
-        mon )
-          OUTTIME=${ICEN}0001-${ICEN}9912
-          if [ "$ICEN" = "18" ] ; then
-            OUTTIME=${ICEN}0001-${ICEN}4912
-          fi
-          if [ "$ICEN" = "08" ] ; then
-            OUTTIME=${ICEN}5001-${ICEN}9912
-          fi ;;
-        day ) 
-          OUTTIME=${ICEN}000101-${ICEN}991231
-          if [ "$ICEN" = "18" ] ; then
-            OUTTIME=${ICEN}000101-${ICEN}491231
-          fi
-          if [ "$ICEN" = "08" ] ; then
-            OUTTIME=${ICEN}500101-${ICEN}991231
-          fi ;;
-      esac
-      export OUTTIME
+        case "$TPER" in
+          mon )
+            OUTTIME=${ICEN}0001-${ICEN}9912
+            if [ "$ICEN" = "18" ] ; then
+              OUTTIME=${ICEN}0001-${ICEN}4912
+            fi
+            if [ "$ICEN" = "08" ] ; then
+              OUTTIME=${ICEN}5001-${ICEN}9912
+            fi ;;
+          day ) 
+            OUTTIME=${ICEN}000101-${ICEN}991231
+            if [ "$ICEN" = "18" ] ; then
+              OUTTIME=${ICEN}000101-${ICEN}491231
+            fi
+            if [ "$ICEN" = "08" ] ; then
+              OUTTIME=${ICEN}500101-${ICEN}991231
+            fi ;;
+        esac
+        export OUTTIME
 #
 # Extract each field from all files
 #
-      echo -n "TS var_extract start: " ; date
-      ./var_extract
-      if [ $? -ne 0 ] ; then
-        echo "var_extract failed"
-        ./update_status error "$CASE $HIST $TPER"
-        exit 1
-      fi
-      echo -n "TS var_extract end  : " ; date
+        echo -n "TS var_extract start: " ; date
+        ./var_extract
+        if [ $? -ne 0 ] ; then
+          echo "var_extract failed"
+          ./update_status error "$CASE $HIST $TPER"
+          exit 1
+        fi
+        echo -n "TS var_extract end  : " ; date
 #
 # Store completed data on archival system
 #
-      echo -n "TS archive start: " ; date
-      ./store_to_archive_var
-      if [ $? -ne 0 ] ; then
-        echo "store_to_archive failed"
-        ./update_status error "$CASE $HIST $TPER"
-        exit 1
-      else
-        echo -n "TS archive end: " ; date
-      fi
+        echo -n "TS archive start: " ; date
+        ./store_to_archive_var
+        if [ $? -ne 0 ] ; then
+          echo "store_to_archive failed"
+          ./update_status error "$CASE $HIST $TPER"
+          exit 1
+        else
+          echo -n "TS archive end: " ; date
+        fi
 #
 # Move completed data on to DISK_PROC
 #
-      echo -n "TS disk move start: " ; date
-      ./disk_move_var
-      if [ $? -ne 0 ] ; then
-        echo "disk_move_var failed"
-        ./update_status error "$CASE $HIST $TPER"
-        exit 1
-      else
-        echo -n "TS disk_move_var end: " ; date
+        echo -n "TS disk move start: " ; date
+        ./disk_move_var
+        if [ $? -ne 0 ] ; then
+          echo "disk_move_var failed"
+          ./update_status error "$CASE $HIST $TPER"
+          exit 1
+        else
+          echo -n "TS disk_move_var end: " ; date
+        fi
+        touch .comp.${CASE}.${HIST}.${ICEN}
+        rm ${CASE}.${HIST}.${ICEN}*nc
       fi
-      touch .comp.${CASE}.${HIST}.${ICEN}
-      rm ${CASE}.${HIST}.${ICEN}*nc
-    fi
-  done
+    done
 #
 # All other output streams
 #
-else
+  else
 #
 # Make sure there's the correct number of files
 #
-  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.*.nc | wc -l`
-  if [ $NHISTF -eq 0 ] ; then 
-    echo ${NHISTF}" files in "${LOCAL_HIST}"/"${CASE}"."${HIST}"."${ICEN}". Incorrect - exiting."
-    exit 1
-  fi
-  ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.*.nc .
-  NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
-  case "$HIST" in 
-    cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 )
-      if [ $NHISTF -ne 12000 ] ; then
-        echo ${NHISTF}" should be 12000. File count mismatch. Exit."
-        exit 1
-      fi ;;
-    cam.h1 | clm2.h1 )
-      if [ $NHISTF -ne 1001 ] ; then
-        echo ${NHISTF}" should be 1001. File count mismatch. Exit."
-        exit 1
-      fi ;;
-  esac
+    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc | wc -l`
+    if [ $NHISTF -eq 0 ] ; then 
+      echo "No files in "${LOCAL_HIST}"/"${CASE}"."${HIST}". Incorrect - exiting."
+      exit 1
+    fi
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc .
+    NHISTF=`/bin/ls ${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc | wc -l`
+    case "$HIST" in 
+      cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 )
+        if [ $NHISTF -ne 12000 ] ; then
+          echo ${NHISTF}" should be 12000. File count mismatch. Exit."
+          exit 1
+        fi ;;
+      cam.h1 | clm2.h1 )
+        if [ $NHISTF -ne 1001 ] ; then
+          echo ${NHISTF}" should be 1001. File count mismatch. Exit."
+          exit 1
+        fi ;;
+    esac
 #
 # Create output filename time period suffix
 #
-  case "$TPER" in
-    mon )
-      OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
-    day ) 
-      OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
-  esac
-  export OUTTIME
+    case "$TPER" in
+      mon )
+        OUTTIME=085001-184912 ;;
+      day ) 
+        OUTTIME=08500101-18491231 ;;
+    esac
+    export OUTTIME
 #
 # Extract each field from all files
 #
-  echo -n "TS var_extract start: " ; date
-  ./var_extract
-  if [ $? -ne 0 ] ; then
-    echo "var_extract failed"
-    ./update_status error "$CASE $HIST $TPER"
-    exit 1
-  fi
-  echo -n "TS var_extract end  : " ; date
+    echo -n "TS var_extract start: " ; date
+    ./var_extract
+    if [ $? -ne 0 ] ; then
+      echo "var_extract failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    fi
+    echo -n "TS var_extract end  : " ; date
 #
 # Store completed data on archival system
 #
-  echo -n "TS archive start: " ; date
-  ./store_to_archive_var
-  if [ $? -ne 0 ] ; then
-    echo "store_to_archive failed"
-    ./update_status error "$CASE $HIST $TPER"
-    exit 1
-  else
-    echo -n "TS archive end: " ; date
-  fi
+    echo -n "TS archive start: " ; date
+    ./store_to_archive_var
+    if [ $? -ne 0 ] ; then
+      echo "store_to_archive failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      echo -n "TS archive end: " ; date
+    fi
 #
 # Move completed data on to DISK_PROC
 #
-  echo -n "TS disk move start: " ; date
-  ./disk_move_var
-  if [ $? -ne 0 ] ; then
-    echo "disk_move_var failed"
-    ./update_status error "$CASE $HIST $TPER"
-    exit 1
+    echo -n "TS disk move start: " ; date
+    ./disk_move_var
+    if [ $? -ne 0 ] ; then
+      echo "disk_move_var failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      echo -n "TS disk_move_var end: " ; date
+    fi
+  fi
+else
+#
+# Historical extension - 1850 to 2005
+#
+# Link history files - all for everything besides pop.h and pop.h.nday1,
+# one century at a time for pop.h and pop.h.nday1
+#
+  if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
+    for ICEN in 18 19 ; do
+      if [ ! -f .comp.${CASE}.${HIST}.${ICEN} ] ; then
+        case $ICEN in 
+          18 )
+            NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.18[5-9]*.nc | wc -l`
+            GOODHC=600
+            YEAR1=1850
+            YEAR2=1899 ;;
+          19 )
+            NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{19[0-9],20[0-5]}?-*.nc | wc -l`
+            GOODHC=1272
+            YEAR1=1900
+            YEAR2=2005 ;;
+        esac
+        if [ $NHISTF -eq 0 ] ; then 
+          echo ${NHISTF}" files in "${LOCAL_HIST}"/"${CASE}"."${HIST}"."${ICEN}". Incorrect - exiting."
+          exit 1
+         ./update_status error "$CASE $HIST $TPER"
+        else
+          if [ "$ICEN" = "18" ] ; then
+            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.18[5-9]*.nc .
+          else
+            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{19[0-9],20[0-5]}*.nc .
+          fi
+        fi
+        NHISTF=`/bin/ls ${CASE}.${HIST}.${ICEN}*.nc | wc -l`
+        if [ $NHISTF -ne $GOODHC ] ; then
+          echo ${NHISTF}" should be "${GOODHC}". File count mismatch. Exit."
+          exit 1
+        fi
+#
+# Create output filename time period suffix
+#
+        case "$TPER" in
+          mon )
+            OUTTIME=${YEAR1}01-${YEAR2}12 ;;
+          day ) 
+            OUTTIME=${YEAR1}0101-${YEAR2}1231 ;;
+        esac
+        export OUTTIME
+#
+# Extract each field from all files
+#
+        echo -n "TS var_extract start: " ; date
+        ./var_extract
+        if [ $? -ne 0 ] ; then
+          echo "var_extract failed"
+          ./update_status error "$CASE $HIST $TPER"
+          exit 1
+        fi
+        echo -n "TS var_extract end  : " ; date
+#
+# Store completed data on archival system
+#
+        echo -n "TS archive start: " ; date
+        ./store_to_archive_var
+        if [ $? -ne 0 ] ; then
+          echo "store_to_archive failed"
+          ./update_status error "$CASE $HIST $TPER"
+          exit 1
+        else
+          echo -n "TS archive end: " ; date
+        fi
+#
+# Move completed data on to DISK_PROC
+#
+        echo -n "TS disk move start: " ; date
+        ./disk_move_var
+        if [ $? -ne 0 ] ; then
+          echo "disk_move_var failed"
+          ./update_status error "$CASE $HIST $TPER"
+          exit 1
+        else
+          echo -n "TS disk_move_var end: " ; date
+        fi
+        touch .comp.${CASE}.${HIST}.${ICEN}
+        rm ${CASE}.${HIST}.${ICEN}*nc
+      fi
+    done
+#
+# All other output streams
+#
   else
-    echo -n "TS disk_move_var end: " ; date
+#
+# Make sure there's the correct number of files
+#
+    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9],19[0-9],20[0-5]}?-*.nc | wc -l`
+    if [ $NHISTF -eq 0 ] ; then 
+      echo "No files in "${LOCAL_HIST}"/"${CASE}"."${HIST}". Incorrect - exiting."
+      exit 1
+    fi
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9],19[0-9],20[0-5]}?-*.nc .
+    NHISTF=`/bin/ls ${CASE}.${HIST}.{18[5-9],19[0-9],20[0-5]}?-*.nc | wc -l`
+    case "$HIST" in 
+      cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 )
+        if [ $NHISTF -ne 1872 ] ; then
+          echo ${NHISTF}" should be 1872. File count mismatch. Exit."
+          exit 1
+        fi ;;
+      cam.h1 | clm2.h1 )
+        if [ $NHISTF -ne 156 ] ; then
+          echo ${NHISTF}" should be 156. File count mismatch. Exit."
+          exit 1
+        fi ;;
+    esac
+#
+# Create output filename time period suffix
+#
+    case "$TPER" in
+      mon )
+        OUTTIME=185001-200512 ;;
+      day ) 
+        OUTTIME=18500101-20051231 ;;
+    esac
+    export OUTTIME
+#
+# Extract each field from all files
+#
+    echo -n "TS var_extract start: " ; date
+    ./var_extract
+    if [ $? -ne 0 ] ; then
+      echo "var_extract failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    fi
+    echo -n "TS var_extract end  : " ; date
+#
+# Store completed data on archival system
+#
+    echo -n "TS archive start: " ; date
+    ./store_to_archive_var
+    if [ $? -ne 0 ] ; then
+      echo "store_to_archive failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      echo -n "TS archive end: " ; date
+    fi
+#
+# Move completed data on to DISK_PROC
+#
+    echo -n "TS disk move start: " ; date
+    ./disk_move_var
+    if [ $? -ne 0 ] ; then
+      echo "disk_move_var failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      echo -n "TS disk_move_var end: " ; date
+    fi
   fi
 fi
+#
+# Completed
+#
 ./update_status complete
 echo -n "TS COMPLETE: " ; date
