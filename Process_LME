@@ -12,7 +12,7 @@ else
    CASE=$1 ; export CASE
    HIST=$2 ; export HIST
    TPER=$3 ; export TPER
-   LMEX=$3 ; export LMEX
+   LMEX=$4 ; export LMEX
 fi
 #
 # Set up a bunch of stuff
