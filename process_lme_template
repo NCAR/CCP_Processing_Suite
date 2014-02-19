@@ -265,9 +265,15 @@ if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
 #
 else
 #
-# Make sure there's the correct number of files, based on stream and time period and 20C/RCP
+# Make sure there's the correct number of files
 #
-#
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.*.nc | wc -l`
+  if [ $NHISTF -eq 0 ] ; then 
+    echo ${NHISTF}" files in "${LOCAL_HIST}"/"${CASE}"."${HIST}"."${ICEN}". Incorrect - exiting."
+    exit 1
+  fi
+  ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.*.nc .
+  NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
   case "$HIST" in 
     cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 )
       if [ $NHISTF -ne 12000 ] ; then
