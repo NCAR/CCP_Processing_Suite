@@ -203,9 +203,9 @@ if [ "$LMEX" = "lm" ] ; then
     for ICEN in 08 09 10 11 12 13 14 15 16 17 18 ; do
       if [ ! -f .comp.${CASE}.${HIST}.${ICEN} ] ; then
         if [ "$ICEN" = "18" ] ; then
-          NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-9]*.nc | wc -l`
-        else
           NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-4]*.nc | wc -l`
+        else
+          NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-9]*.nc | wc -l`
         fi
         if [ $NHISTF -eq 0 ] ; then 
           echo ${NHISTF}" files in "${LOCAL_HIST}"/"${CASE}"."${HIST}"."${ICEN}". Incorrect - exiting."
