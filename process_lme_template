@@ -213,9 +213,9 @@ if [ "$LMEX" = "lm" ] ; then
           exit 1
         else
           if [ "$ICEN" = "18" ] ; then
-            NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-4]*.nc | wc -l`
+            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-4]*.nc .
           else
-            NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-9]*.nc | wc -l`
+            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-9]*.nc .
           fi
         fi
         NHISTF=`/bin/ls ${CASE}.${HIST}.${ICEN}*.nc | wc -l`
