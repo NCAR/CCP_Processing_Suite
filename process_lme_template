@@ -369,13 +369,13 @@ else
 #
 # Make sure there's the correct number of files
 #
-  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9],19[0-9],200}*.nc | wc -l`
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],200[0-5]}-*.nc | wc -l`
   if [ $NHISTF -eq 0 ] ; then 
     echo "No files in "${LOCAL_HIST}"/"${CASE}"."${HIST}". Incorrect - exiting."
     exit 1
   fi
-  ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9],19[0-9],200}*.nc .
-  NHISTF=`/bin/ls ${CASE}.${HIST}.{18[5-9],19[0-9],200}*.nc | wc -l`
+  ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],200[0-5]}-*.nc .
+  NHISTF=`/bin/ls ${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],200[0-5]}-*.nc | wc -l`
   case "$HIST" in 
     cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h )
       if [ $NHISTF -ne 1872 ] ; then
