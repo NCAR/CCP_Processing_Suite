@@ -50,7 +50,7 @@ case "$HOSTNAME" in
       date > ${FILELOG}
       tail -n 40 ${LOGFILE} >> ${FILELOG}
     fi ;;
-  lens* )                                  # lens @ ORNL
+  rhea* )                                  # rhea @ ORNL
     LOGFILE=`/bin/ls ~/CCP_Processing_Suite/*.ER`
     date > ${FILELOG}
     tail -n 40 ${LOGFILE} >> ${FILELOG} ;;

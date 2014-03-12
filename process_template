@@ -143,7 +143,7 @@ case "$PROCHOST" in
     export LD_LIBRARY_PATH
     ;;
 
-  lens* )                                # lens @ ORNL
+  rhea* )                                # rhea @ ORNL
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/ccs/home/wgstrand/bin/ncks                   ; export NCKS
     NCRA=/ccs/home/wgstrand/bin/ncks                   ; export NCRA

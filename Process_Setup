@@ -61,8 +61,8 @@ case "$PROCHOST" in
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
                       >> $CCPS_SCRIPT ;;
-  lens* )                                  # lens @ ORNL
-    cat ./LSF_lens         > $CCPS_SCRIPT
+  rhea* )                                  # rhea @ ORNL
+    cat ./LSF_rhea    > $CCPS_SCRIPT
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
@@ -89,7 +89,7 @@ read DORUN
 if [ "$DORUN" = "Y" ] ; then
   echo "Running "${CCPS_SCRIPT}
   case "$PROCHOST" in
-    lens* )
+    rhea* )
       ( /usr/bin/qsub ./${CCPS_SCRIPT} ) ;;
     yslogin* | geyser* )
       ( /ncar/opt/lsf/8.3/linux2.6-glibc2.3-x86_64/bin/bsub < ./${CCPS_SCRIPT} ) ;;

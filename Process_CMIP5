@@ -68,22 +68,8 @@ PROCHOST=`hostname`;export PROCHOST
 #
 if [ "$VARS" ] ; then
   case "$PROCHOST" in 
-    silver* | tramhill* | hurricane* | mirage0 | mirage1 | mirage2 | mirage5 | modeling1* )  # Interactive machines
+    silver* | tramhill* | hurricane* )  # Interactive machines
       echo "#!/bin/sh" > $CMIP5_SCRIPT
-      cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                                   | sed -e "s/xxxHISTxxx/$HIST/g" \
-                                   | sed -e "s/xxxTABLxxx/$TABL/g" \
-                                   | sed -e "s/xxxVARSxxx/$VARS/g" \
-                                   >> $CMIP5_SCRIPT ;;
-    mirage3 | mirage4 )  # NCAR and NERSC machines
-      cat ./LSF_batch | sed -e "s/NAME/$CMIP5_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CMIP5_SCRIPT
-      cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                                   | sed -e "s/xxxHISTxxx/$HIST/g" \
-                                   | sed -e "s/xxxTABLxxx/$TABL/g" \
-                                   | sed -e "s/xxxVARSxxx/$VARS/g" \
-                                   >> $CMIP5_SCRIPT ;;
-    lens* )                                  # lens @ ORNL
-      cat ./ORNL_batch > $CMIP5_SCRIPT
       cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
                                    | sed -e "s/xxxHISTxxx/$HIST/g" \
                                    | sed -e "s/xxxTABLxxx/$TABL/g" \
@@ -96,22 +82,8 @@ if [ "$VARS" ] ; then
   esac
 else
   case "$PROCHOST" in 
-    silver* | tramhill* | hurricane* | mirage0 | mirage1 | mirage2 | mirage5 | modeling1* | euclid* )  # NCAR and NERSC machines
+    silver* | tramhill* | hurricane* )  # NCAR and NERSC machines
       echo "#!/bin/sh" > $CMIP5_SCRIPT
-      cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                                   | sed -e "s/xxxHISTxxx/$HIST/g" \
-                                   | sed -e "s/xxxTABLxxx/$TABL/g" \
-                                   | sed -e "s/xxxVARSxxx//g" \
-                                   >> $CMIP5_SCRIPT ;;
-    mirage3 | mirage4 )  # NCAR and NERSC machines
-      cat ./LSF_batch | sed -e "s/NAME/$CMIP5_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CMIP5_SCRIPT
-      cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
-                                   | sed -e "s/xxxHISTxxx/$HIST/g" \
-                                   | sed -e "s/xxxTABLxxx/$TABL/g" \
-                                   | sed -e "s/xxxVARSxxx//g" \
-                                   >> $CMIP5_SCRIPT ;;
-    lens* )                                  # lens @ ORNL
-      cat ./ORNL_batch             >> $CMIP5_SCRIPT
       cat ./process_cmip5_template | sed -e "s/xxxCASExxx/$CASE/g" \
                                    | sed -e "s/xxxHISTxxx/$HIST/g" \
                                    | sed -e "s/xxxTABLxxx/$TABL/g" \
@@ -135,12 +107,8 @@ read DORUN
 if [ "$DORUN" = "Y" ] ; then
   echo "Running "${CMIP5_SCRIPT}
   case "$PROCHOST" in 
-    silver* | tramhill* | hurricane* | mirage0 | mirage1 | mirage2 | mirage5 | euclid* | modeling1* )  # NCAR and NERSC machines interactive machines
+    silver* | tramhill* | hurricane* )  # NCAR and NERSC machines interactive machines
       ( ./${CMIP5_SCRIPT} > log.${CMIP5_SCRIPT} 2>&1 & ) ;;
-    lens* )                                  # lens @ ORNL
-      ( /usr/bin/qsub ./${CMIP5_SCRIPT} ) ;;
-    mirage3 | mirage4 )  # NCAR mirage LSF machines
-      ( /fs/local/apps/lsf/8.0/linux2.6-glibc2.3-x86_64/bin/bsub < ./${CMIP5_SCRIPT} ) ;;
     * )
       echo "Unable to run script because "$PROCHOST" unknown."
       ./update_status error process_cmip5_template
