@@ -374,8 +374,13 @@ else
     echo "No files in "${LOCAL_HIST}"/"${CASE}"."${HIST}". Incorrect - exiting."
     exit 1
   fi
+  NHISTF=`/bin/ls ${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc`
+  if [ $NHISTF -ne 0 ] ; then 
+    mkdir ./.LM
+    mv ${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc ./.LM
+  fi
   ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],200[0-5]}-*.nc .
-  NHISTF=`/bin/ls ${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],200[0-5]}-*.nc | wc -l`
+  NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
   case "$HIST" in 
     cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h )
       if [ $NHISTF -ne 1872 ] ; then
