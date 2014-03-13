@@ -140,6 +140,24 @@ subroutine load_exp(exp_file)
   close(20)
   num_exp = iexp - 1
   !
+  ! Fix compsets for CCMI1 runs because string too long
+  !
+  do iexp = 1,num_exp
+     if (trim(exp(iexp)%cmip) == 'CCMI1') then
+        select case (exp(iexp)%case)
+        case ('b_1950_2100_refc2_CCSM4_chem_no_sp.001','b_1950_2100_refc2_CCSM4_chem_no_sp.002','b_1950_2100_refc2_CCSM4_chem_no_sp.003')
+           exp(iexp)%compset(1:) = 'B_1950-2100_CCMI_REFC2_TROP_STRAT'
+           exp(iexp)%run_refcase(1:) = 'N/A'
+        case ('f_1950_2010_refc1_CESM1_CAM4chem_no_sp.001','f_1950_2010_refc1_CESM1_CAM4chem_no_sp.002')
+           exp(iexp)%compset(1:) = 'FCCMITSREFC1'
+           exp(iexp)%run_refcase(1:) = 'N/A'
+        case ('f_1975_2010_refc1sd_CESM1_CAM4chem_no_sp.001')
+           exp(iexp)%compset(1:) = 'FSDCCMITSREFC1'
+           exp(iexp)%run_refcase(1:) = 'N/A'
+        end select
+     endif
+  enddo
+  !
   ! Parse out beginning/ending years
   do iexp = 1,num_exp
      if (exp(iexp)%expt_id(1:5) == 'tamip') then
@@ -307,7 +325,7 @@ subroutine load_exp(exp_file)
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
      case ('AEROCOM-A2-CTRL')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
-     case ('refC1sd')
+     case ('refC1','refC2','refC1sd')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
      end select
   enddo

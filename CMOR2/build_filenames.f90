@@ -18,7 +18,9 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
         'Tables/GeoMIP_Amon','Tables/GeoMIP_Lmon','Tables/GeoMIP_LImon','Tables/GeoMIP_Omon','Tables/GeoMIP_OImon','Tables/GeoMIP_aero','Tables/GeoMIP_cfMon',&
         'Tables/AEROCOM-ACC_2D-M','Tables/AEROCOM-ACC_3D-M','Tables/AEROCOM-ACC_2D-I',&
         'Tables/CCMI1_monthly')
-     ndt = 1 ; dtbeg(1) = '01' ; dtend(1) = '12'
+     ndt = 2
+     dtbeg(1) = '01' ; dtend(1) = '12'
+     dtbeg(2) = '01' ; dtend(2) = '11'
   case ('Tables/CMIP5_day','Tables/CMIP5_cfDay','Tables/GeoMIP_day','Tables/GeoMIP_cfDay','Tables/PMIP3_day')
      ndt = 2
      dtbeg(1) = '0101' ; dtend(1) = '1231'
