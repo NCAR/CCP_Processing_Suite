@@ -706,7 +706,7 @@ program Lmon_CMOR
            enddo
         case ('cRoot','fLitterSoil')
            !
-           ! cRoot      : Add FROOTC + LIVE_ROOTC + DEAD_ROOTC, unit change from g to kg
+           ! cRoot      : Add FROOTC+LIVECROOTC+DEADCROOTC, unit change from g to kg
            ! fLitterSoil: Add LITR1C_TO_SOIL1C + LITR2C_TO_SOIL2C + LITR3C_TO_SOIL3C, unit change from g to kg
            !
            allocate(indat2a(nlons,nlats),indat2b(nlons,nlats),indat2c(nlons,nlats))

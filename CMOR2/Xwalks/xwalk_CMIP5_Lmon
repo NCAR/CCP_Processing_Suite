@@ -9,7 +9,7 @@ CMIP5_Lmon:cLitterBelow:subsurface_litter_carbon_content:longitude latitude time
 CMIP5_Lmon:cLitter:litter_carbon_content:longitude latitude time:land:1:TOTLITC:TOTLITC
 CMIP5_Lmon:cMisc:miscellaneous_living_matter_carbon_content:longitude latitude time:land:1:STORVEGC:STORVEGC
 CMIP5_Lmon:cProduct:carbon_content_of_products_of_anthropogenic_land_use_change:longitude latitude time:land:1:TOTPRODC:TOTPRODC
-CMIP5_Lmon:cRoot:root_carbon_content:longitude latitude time:land:3:FROOTC LIVE_ROOTC DEAD_ROOTC:FROOTC,LIVE_ROOTC,DEAD_ROOTC
+CMIP5_Lmon:cRoot:root_carbon_content:longitude latitude time:land:3:FROOTC LIVECROOTC DEADCROOTC:FROOTC+LIVECROOTC+DEADCROOTC
 CMIP5_Lmon:cropFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_Lmon:cSoilFast:fast_soil_pool_carbon_content:longitude latitude time:land:2:SOIL1C SOIL2C:SOIL1C,SOIL2C
 CMIP5_Lmon:cSoil:soil_carbon_content:longitude latitude time:land:1:TOTSOMC:TOTSOMC

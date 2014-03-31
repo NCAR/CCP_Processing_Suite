@@ -8,11 +8,12 @@ FC   = $(null)
 # 'silver' at NCAR/CGD
 #
 ifeq ($(MACH),silver)
-  NCFDIR  = /usr/local/netcdf-4.1.3-pgi-hpf-cc-11.5-0
+#  NCFDIR  = /usr/local/netcdf-4.1.3-pgi-hpf-cc-11.5-0
+  NCFDIR  = /usr/local/netcdf-pgi
   UDUDIR  = /home/strandwg/proj/software/udunits-2.1.24
   UIDDIR  = /home/strandwg/proj/software/uuid-1.6.2
   CMRDIR  = /datalocal/ccpa/strandwg/CMIP5/CMOR2/current
-  HD5DIR  = /usr/local/hdf5-1.8.7
+  HD5DIR  = /usr/local/hdf5
   KRBDIR  = /usr/kerberos/lib64
 #
   NCFINC  = -I${NCFDIR}/include -I./include
@@ -23,7 +24,7 @@ ifeq ($(MACH),silver)
   UDULIB  = -L${UDUDIR}/lib -ludunits2
   UIDINC  = -I${UIDDIR}/include
   UIDLIB  = -L${UIDDIR}/lib -luuid
-  FC	  = /usr/local/pgi/linux86/bin/pgf95
+  FC	  = /usr/local/pgi/linux/bin/pgf95
 #  FFLAGS  = -V -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -Mbounds -fpic
   FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -Mbounds -fpic
 endif
