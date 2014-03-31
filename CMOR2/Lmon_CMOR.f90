@@ -224,7 +224,7 @@ program Lmon_CMOR
         ! Modify units as necessary to accomodate udunits' inability to convert 
         !
         select case (xw(ixw)%entry)
-        case ('cVeg','cLitter','cSoil','cProduct','cLeaf','cWood','cMisc','cCwd','cSoilFast','cSoilMedium','cSoilSlow')
+        case ('cVeg','cLitter','cSoil','cProduct','cLeaf','cWood','cMisc','cCwd','cSoilFast','cSoilMedium','cSoilSlow','cRoot')
            var_info(var_found(1,1))%units = 'kg m-2'
         case ('fFire','fLuc')
            mycmor%positive = 'up'
