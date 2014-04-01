@@ -152,7 +152,8 @@ program Lmon_CMOR
         !
         ! Specify path where tables can be found and indicate that existing netCDF files should be overwritten.
         !
-        write(logfile,'(''log_cmor.'',a,''.'',a,''_'',a)') &
+        write(logfile,'(''log_cmor.'',a,''.'',a,''.'',a,''_'',a)') &
+             trim(case_read),&
              trim(mycmor%experiment_id),&
              trim(exp(exp_found)%rip_code),&
              trim(xw(ixw)%entry)
