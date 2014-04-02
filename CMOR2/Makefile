@@ -95,18 +95,19 @@ ifeq ($(MACH),calder)
   FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -fpic
 endif
 #
-# 'euclid' at NERSC
+# 'cvrsvc' at NERSC
 #
-ifeq ($(MACH),euclid)
+ifeq ($(MACH),cvrsvc)
   NCFDIR  = /usr/common/usg/netcdf/4.1.1/pgi
-  UDUDIR  = /usr/common/usg/udunits/default/pgi
+  UDUDIR  = /global/u2/s/strandwg/software/udunits-2.1.24
   UIDDIR  = /global/u2/s/strandwg/software/uuid-1.6.2
   CMRDIR  = /global/u2/s/strandwg/software/cmor
   HD5DIR  = /usr/common/usg/hdf5/1.8.6/pgi/serial
   KRBDIR  = /usr/lib64
 #
   NCFINC  = -I${NCFDIR}/include -I./include
-  NCFLIB  = -L${NCFDIR}/lib -lnetcdf -lnetcdff
+#  NCFLIB  = -L${NCFDIR}/lib -lnetcdf -lnetcdff
+  NCFLIB  = -L${NCFDIR}/lib -lnetcdf
 #  KRBLIB  = -L${KRBDIR} -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lssl -lcrypto -lz
   KRBLIB  = -L${KRBDIR} -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lssl -lcrypto -lz
   UDUINC  = -I${UDUDIR}/include
