@@ -388,8 +388,10 @@ else
         exit 1
       fi ;;
     cam.h1 | clm2.h1 )
-      if [ $NHISTF -ne 157 ] ; then
-        echo ${NHISTF}" should be 156. File count mismatch. Exit."
+      if [ $NHISTF = 156 ] || [ $NHISTF = 157 ] ; then
+        echo ""
+      else
+        echo ${NHISTF}" should be 156 or 157. File count mismatch. Exit."
         exit 1
       fi ;;
   esac
