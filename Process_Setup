@@ -37,7 +37,12 @@ else
     le5 )
       TEMPLATE=process_le5_template ;;
     * )
-      TEMPLATE=process_template ;;
+      case "$TPER" in 
+        mon )
+          TEMPLATE=process_mon_template ;;
+        * )
+          TEMPLATE=process_mon_template ;;
+    esac ;;
   esac
 fi
 #
@@ -49,7 +54,7 @@ CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
 rm -f $CCPS_SCRIPT
 #
 case "$PROCHOST" in 
-  silver* | tramhill* | hurricane* | modeling1* )  # Interactive machines
+  silver* )  # Interactive machines
     echo "#!/bin/sh" > $CCPS_SCRIPT
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
