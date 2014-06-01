@@ -279,7 +279,6 @@ case "$EXPTYP" in
           echo ${NHISTF}" should be 76. File count mismatch. Exit."
           exit 1
         fi ;;
-      esac ;;
     esac ;;
   esac ;;
   * )
