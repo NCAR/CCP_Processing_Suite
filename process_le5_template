@@ -184,7 +184,13 @@ if [ -d $LOCAL_HIST ] ; then
   fi
   if [ $NHISTF -ne 0 ] ; then
     echo ${CASE}"."${HIST}" files on disk, softlinking."
-    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
+    if [ "$YEARBEG" = 2081 ] ; then
+      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.208[1-9]*.nc .
+      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.209[0-9]*.nc .
+      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.2100*.nc .
+    else
+      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
+    fi 
   else
     echo "History files not on "${LOCAL_HIST}". Exiting."
     exit 1
@@ -260,6 +266,7 @@ case "$EXPTYP" in
           echo ${NHISTF}" should be 20. File count mismatch. Exit."
           exit 1
         fi ;;
+      esac ;;
     2081 )
     case "$HIST" in 
       cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
@@ -272,6 +279,7 @@ case "$EXPTYP" in
           echo ${NHISTF}" should be 76. File count mismatch. Exit."
           exit 1
         fi ;;
+      esac ;;
     esac ;;
   esac ;;
   * )
