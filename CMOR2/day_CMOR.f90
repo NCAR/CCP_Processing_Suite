@@ -640,7 +640,12 @@ program day_CMOR
                        time_counter = it
                        call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat2a)
                        call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat2b)
-                       cmordat2d = (indat2a + indat2b)*1000.
+                       cmordat2d = 1.e20
+                       where (indat2a /= -1.e34)
+                          where (indat2b /= -1.e34)
+                             cmordat2d = (indat2a + indat2b)*1000.
+                          endwhere
+                       endwhere
                        tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                        error_flag = cmor_write(      &
                             var_id        = cmor_var_id, &
