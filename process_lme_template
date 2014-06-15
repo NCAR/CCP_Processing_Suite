@@ -119,7 +119,7 @@ case "$TPER" in
     exit 1 ;;
 esac
 #
-LOCAL_PROC=${LOCAL_PROC}/${TPER}
+LOCAL_PROC=${LOCAL_PROC}/${TPER}/${LMEX}
 CACHEDIR=${LOCAL_PROC}/to_archive
 #
 YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
@@ -373,11 +373,6 @@ else
   if [ $NHISTF -eq 0 ] ; then 
     echo "No files in "${LOCAL_HIST}"/"${CASE}"."${HIST}". Incorrect - exiting."
     exit 1
-  fi
-  NHISTF=`/bin/ls ${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc | wc -l`
-  if [ $NHISTF -ne 0 ] ; then 
-    mkdir ./.LM
-    mv ${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc ./.LM
   fi
   ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],200[0-5]}-*.nc .
   NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
