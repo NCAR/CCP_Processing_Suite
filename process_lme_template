@@ -310,8 +310,10 @@ if [ "$LMEX" = "lm" ] ; then
           exit 1
         fi ;;
       cam.h1 | clm2.h1 )
-        if [ $NHISTF -ne 1001 ] ; then
-          echo ${NHISTF}" should be 1001. File count mismatch. Exit."
+        if [ $NHISTF = 1001 ] || [ $NHISTF = 1000 ] ; then
+          echo ${NHISTF}" correct for "${HIST}
+        else
+          echo ${NHISTF}" should be 1000 or 1001. File count mismatch. Exit."
           exit 1
         fi ;;
     esac
