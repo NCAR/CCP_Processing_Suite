@@ -113,6 +113,9 @@ case "$TPER" in
   day )
     ARCHIVE_PROC=${ARCHIVE_PROC}/daily
        DISK_PROC=${DISK_PROC}/daily ;;
+  hr6 )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6
+       DISK_PROC=${DISK_PROC}/hourly6 ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
     ./update_status error "$CASE $HIST $TPER"
@@ -195,10 +198,10 @@ fi
 # Last millenium portion (850-1849)
 #
 # Link history files - all for everything besides pop.h and pop.h.nday1,
-# one century at a time for pop.h and pop.h.nday1
+# one century at a time for pop.h and pop.h.nday1 and cam.h2 (6 hourly)
 #
 if [ "$LMEX" = "lm" ] ; then
-  if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
+  if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] || [ "$HIST" = "cam.h2" ] ; then
     echo ${CASE}"."${HIST}" files on disk, softlinking."
     for ICEN in 08 09 10 11 12 13 14 15 16 17 18 ; do
       if [ ! -f .comp.${CASE}.${HIST}.${ICEN} ] ; then
@@ -247,6 +250,14 @@ if [ "$LMEX" = "lm" ] ; then
             fi
             if [ "$ICEN" = "08" ] ; then
               OUTTIME=${ICEN}500101-${ICEN}991231
+            fi ;;
+          hr6 ) 
+            OUTTIME=${ICEN}00010100Z-${ICEN}99123118Z
+            if [ "$ICEN" = "18" ] ; then
+              OUTTIME=${ICEN}00010100Z-${ICEN}49123118Z
+            fi
+            if [ "$ICEN" = "08" ] ; then
+              OUTTIME=${ICEN}50010100Z-${ICEN}99123118Z
             fi ;;
         esac
         export OUTTIME
@@ -384,7 +395,7 @@ else
         echo ${NHISTF}" should be 1872. File count mismatch. Exit."
         exit 1
       fi ;;
-    cam.h1 | clm2.h1 )
+    cam.h1 | cam.h2 | clm2.h1 )
       if [ $NHISTF = 156 ] || [ $NHISTF = 157 ] ; then
         echo ""
       else
@@ -400,6 +411,8 @@ else
       OUTTIME=185001-200512 ;;
     day ) 
       OUTTIME=18500101-20051231 ;;
+    hr6 ) 
+      OUTTIME=1850010100Z-2005123118Z ;;
   esac
   export OUTTIME
 #
