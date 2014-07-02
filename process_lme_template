@@ -224,12 +224,12 @@ if [ "$LMEX" = "lm" ] ; then
         NHISTF=`/bin/ls ${CASE}.${HIST}.${ICEN}*.nc | wc -l`
         if [ "$ICEN" = "18" ] || [ "$ICEN" = "08" ] ; then
           GOODHC=600
-          if [ "$TPER" = "hr6 ] ; then
+          if [ "$TPER" = "hr6" ] ; then
             GOODHC=50
           fi
         else
           GOODHC=1200
-          if [ "$TPER" = "hr6 ] ; then
+          if [ "$TPER" = "hr6" ] ; then
             GOODHC=100
           fi
         fi
