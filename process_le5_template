@@ -216,7 +216,11 @@ fi
 if [ "$YEARBEG" = 2081 ] ; then
   NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.*.nc | egrep "\.${HIST}\.(208[1-9]|209[0-9]|2100)" | wc -l`
 else
-  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+  if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}-*.nc | wc -l`
+  else
+    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+  fi
 fi
 #
 EXPTYP=`echo $CASE | cut -d"." -f3 | cut -c2-4`
