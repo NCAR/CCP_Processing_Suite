@@ -195,14 +195,12 @@ if [ -d $LOCAL_HIST ] ; then
   if [ $NHISTF -ne 0 ] ; then
     echo ${CASE}"."${HIST}" files on disk, softlinking."
     if [ "$YEARBEG" = 2081 ] ; then
-      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.208[1-9]*.nc .
-      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.209[0-9]*.nc .
-      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.2100*.nc .
+      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{208[1-9],209[0-9],2100}-*.nc .
     else
       if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
-        NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}-*.nc | wc -l`
+        ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}-*.nc .
       else
-        NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+        ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
       fi
     fi 
   else
