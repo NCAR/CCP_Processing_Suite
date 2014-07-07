@@ -186,7 +186,11 @@ if [ -d $LOCAL_HIST ] ; then
   if [ "$YEARBEG" = 2081 ] ; then
     NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.*.nc | egrep "\.${HIST}\.(208[1-9]|209[0-9]|2100)" | wc -l`
   else
-    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+    if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}-*.nc | wc -l`
+    else
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+    fi
   fi
   if [ $NHISTF -ne 0 ] ; then
     echo ${CASE}"."${HIST}" files on disk, softlinking."
@@ -195,7 +199,11 @@ if [ -d $LOCAL_HIST ] ; then
       ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.209[0-9]*.nc .
       ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.2100*.nc .
     else
-      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
+      if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+        NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}-*.nc | wc -l`
+      else
+        NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+      fi
     fi 
   else
     echo "History files not on "${LOCAL_HIST}". Exiting."
@@ -253,8 +261,10 @@ case "$EXPTYP" in
           exit 1
         fi ;;
       cam.h1 | clm2.h1 )
-        if [ $NHISTF -ne 76 ] ; then
-          echo ${NHISTF}" should be 76. File count mismatch. Exit."
+        if [ $NHISTF -eq 75 ] || [ $NHISTF -eq 76 ] ; then
+          echo ${NHISTF}" good."
+        else
+          echo ${NHISTF}" should be 75 or 76. File count mismatch. Exit."
           exit 1
         fi ;;
       rtm.h1 | pop.h.ecosys.nyear1 )
