@@ -41,7 +41,7 @@ else
         mon )
           TEMPLATE=process_mon_template ;;
         * )
-          TEMPLATE=process_mon_template ;;
+          TEMPLATE=process_template ;;
     esac ;;
   esac
 fi
@@ -78,6 +78,12 @@ case "$PROCHOST" in
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
                       >> $CCPS_SCRIPT ;;
+  login1* )                                # tukey @ ANL
+    cat ./LSF_tukey   | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
+    cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
+                      | sed -e "s/xxxHISTxxx/$HIST/g" \
+                      | sed -e "s/xxxTPERxxx/$TPER/g" \
+                      >> $CCPS_SCRIPT ;;
   * )
     echo "Unable to build script because "$PROCHOST" unknown."
     exit 1 ;;
@@ -102,6 +108,8 @@ if [ "$DORUN" = "Y" ] ; then
       ( /usr/common/nsg/bin/qsub ./${CCPS_SCRIPT} ) ;;
     cvrsvc* )
       ( /usr/syscom/opt/torque/default/bin/qsub ./${CCPS_SCRIPT} ) ;;
+    login1* )
+      echo "Ready to go" ;;
     * )
       ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
   esac
