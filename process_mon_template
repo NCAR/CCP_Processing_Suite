@@ -69,6 +69,17 @@ case "$PROCHOST" in
     ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
     ;;
 
+  login1* )                                # tukey @ ANL
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/usr/bin/ncks                   ; export NCKS
+    NCRA=/usr/bin/ncra                   ; export NCRA
+    NCRCAT=/usr/bin/ncrcat               ; export NCRCAT
+    PROCBASE=/gpfs/mira-fs0/projects/CESM_Atmos/proc/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/gpfs/mira-fs0/projects/CESM_Atmos/archive/$CASE    ; export LOCALDSK
+#    ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
+    ARCHIVE_BASE=/home/$USER              ; export ARCHIVE_BASE
+    ;;
+
   tramhill* | hurricane* )                                # tramhill/hurricane @ CGD/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/local/bin/ncks              ; export NCKS
