@@ -257,11 +257,23 @@ case "$EXPTYP" in
   case "$YEARBEG" in 
     2006 )
     case "$HIST" in 
-      cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+      cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
         if [ $NHISTF -ne 900 ] ; then
           echo ${NHISTF}" should be 900. File count mismatch. Exit."
           exit 1
         fi ;;
+      cice.h | cice.h1 )
+        if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+          if [ $NHISTF -ne 27375 ] ; then
+            echo ${NHISTF}" should be 27375. File count mismatch. Exit."
+            exit 1
+          fi
+        else
+          if [ $NHISTF -ne 900 ] ; then
+            echo ${NHISTF}" should be 900. File count mismatch. Exit."
+            exit 1
+          fi
+        fi
       cam.h1 | clm2.h1 )
         if [ $NHISTF -eq 75 ] || [ $NHISTF -eq 76 ] ; then
           echo ${NHISTF}" good."
