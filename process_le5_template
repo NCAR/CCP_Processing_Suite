@@ -273,7 +273,7 @@ case "$EXPTYP" in
             echo ${NHISTF}" should be 900. File count mismatch. Exit."
             exit 1
           fi
-        fi
+        fi ;;
       cam.h1 | clm2.h1 )
         if [ $NHISTF -eq 75 ] || [ $NHISTF -eq 76 ] ; then
           echo ${NHISTF}" good."
