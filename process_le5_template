@@ -299,10 +299,17 @@ case "$EXPTYP" in
       esac ;;
     2081 )
     case "$HIST" in 
-      cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+      cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
         if [ $NHISTF -ne 240 ] ; then
           echo ${NHISTF}" should be 240. File count mismatch. Exit."
           exit 1
+        fi ;;
+      cice.h1 )
+        if [ $NHISTF -ne 240 ] ; then
+          if [ $NHISTF -ne 7300 ] ; then
+            echo ${NHISTF}" should be 240 or 7300. File count mismatch. Exit."
+            exit 1
+          fi
         fi ;;
       cam.h1 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 )
         if [ $NHISTF -ne 20 ] ; then
