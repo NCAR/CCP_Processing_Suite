@@ -106,6 +106,10 @@ case "$PROCHOST" in
     PROCBASE=/glade/scratch/$USER/$CASE           ; export PROCBASE
     LOCALDSK=/glade/scratch/$USER/$CASE           ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
+    if [ `echo $CASE` = "b.e10.B20GHGC5CN.f09_g16.003" ] ; then
+      PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
+      LOCALDSK=/glade/scratch/adrianne/archive/$CASE ; export LOCALDSK
+    fi
     ;;
 
   c1* )                                # carver @ NERSC
