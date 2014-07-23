@@ -106,19 +106,16 @@ case "$PROCHOST" in
     PROCBASE=/glade/scratch/$USER/$CASE           ; export PROCBASE
     LOCALDSK=/glade/scratch/$USER/$CASE           ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
-    if [ "$MIPNAME" = "le5" ] ; then              # Special CESM1-CAM5-BGC large ensemble runs
-      PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE ; export PROCBASE
-      LOCALDSK=/glade/p/cesm0005/csm/$CASE       ; export LOCALDSK
-      ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-LE    ; export ARCHIVE_BASE
-      LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
-      LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
-    fi
     if [ "$MIPNAME" = "lea" ] ; then              # Special Aixue 20C runs
       ARCHIVE_BASE=/home/ahu/csm                 ; export ARCHIVE_BASE
     fi
     if [ `echo $CASE | cut -d"." -f1-3` = "b.e10.B20ANTHROC5CN" ] ; then
       PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE ; export PROCBASE
       LOCALDSK=/glade/p/cesm0005/csm/$CASE       ; export LOCALDSK
+    fi
+    if [ `echo $CASE` = "b.e10.B20GHGC5CN.f09_g16.003" ] ; then
+      PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
+      LOCALDSK=/glade/scratch/adrianne/archive/$CASE ; export LOCALDSK
     fi
     ;;
 
