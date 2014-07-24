@@ -22,6 +22,9 @@ fi
 if [ $TABL ] ; then
    ARG3=$TABL
 fi
+if [ $LMEX ] ; then
+   ARG3=${ARG3}${LMEX}
+fi
 #
 # generate a base filename
 #
