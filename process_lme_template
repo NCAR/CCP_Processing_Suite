@@ -178,20 +178,29 @@ cd $LOCAL_PROC
 ./update_status start
 #
 if [ -d $LOCAL_HIST ] ; then
-  if [ "$LMEX" = "lm" ] ; then
-    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc | wc -l`
-    if [ $NHISTF -eq 0 ] ; then
-      echo "History files from 850-1849 not on "${LOCAL_HIST}". Exiting."
-      ./update_status error "$CASE $HIST $TPER"
-      exit 1
-    fi
-  else
-    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9],19[0-9],200}?-*.nc | wc -l`
-    if [ $NHISTF -eq 0 ] ; then
-      echo "History files from 1850-2005 not on "${LOCAL_HIST}". Exiting."
-      ./update_status error "$CASE $HIST $TPER"
-      exit 1
-    fi
+  case "$LMEX" in
+    lm )
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc | wc -l`
+      if [ $NHISTF -eq 0 ] ; then
+        echo "History files from 850-1849 not on "${LOCAL_HIST}". Exiting."
+        ./update_status error "$CASE $HIST $TPER"
+        exit 1
+      fi ;;
+    ext ) 
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9],19[0-9],200}?-*.nc | wc -l`
+      if [ $NHISTF -eq 0 ] ; then
+        echo "History files from 1850-2005 not on "${LOCAL_HIST}". Exiting."
+        ./update_status error "$CASE $HIST $TPER"
+        exit 1
+      fi ;;
+    rcp ) 
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-9][0-9],2100}-*.nc | wc -l`
+      if [ $NHISTF -eq 0 ] ; then
+        echo "History files from 2006-2100 not on "${LOCAL_HIST}". Exiting."
+        ./update_status error "$CASE $HIST $TPER"
+        exit 1
+      fi ;;
+    esac
   fi
 fi
 #
@@ -380,7 +389,7 @@ if [ "$LMEX" = "lm" ] ; then
       echo -n "TS disk_move_var end: " ; date
     fi
   fi
-else
+fi
 #
 # Historical extension - 1850 to 2005
 #
@@ -388,6 +397,7 @@ else
 #
 # Make sure there's the correct number of files
 #
+if [ "$LMEX" = "ext" ] ; then
   NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],200[0-5]}-*.nc | wc -l`
   if [ $NHISTF -eq 0 ] ; then 
     echo "No files in "${LOCAL_HIST}"/"${CASE}"."${HIST}". Incorrect - exiting."
@@ -396,7 +406,7 @@ else
   ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],200[0-5]}-*.nc .
   NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
   case "$HIST" in 
-    cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h )
+    cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 )
       if [ $NHISTF -ne 1872 ] ; then
         echo ${NHISTF}" should be 1872. File count mismatch. Exit."
         exit 1
@@ -419,6 +429,81 @@ else
       OUTTIME=18500101-20051231 ;;
     hr6 ) 
       OUTTIME=1850010100Z-2005123118Z ;;
+  esac
+  export OUTTIME
+#
+# Extract each field from all files
+#
+  echo -n "TS var_extract start: " ; date
+  ./var_extract
+  if [ $? -ne 0 ] ; then
+    echo "var_extract failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  fi
+  echo -n "TS var_extract end  : " ; date
+#
+# Store completed data on archival system
+#
+  echo -n "TS archive start: " ; date
+  ./store_to_archive_var
+  if [ $? -ne 0 ] ; then
+    echo "store_to_archive failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  else
+    echo -n "TS archive end: " ; date
+  fi
+#
+# Move completed data on to DISK_PROC
+#
+  echo -n "TS disk move start: " ; date
+ ./disk_move_var
+  if [ $? -ne 0 ] ; then
+    echo "disk_move_var failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  else
+    echo -n "TS disk_move_var end: " ; date
+  fi
+fi
+#
+# RCP extension - 2006 to 2100
+#
+# Link history files - all for everything
+#
+# Make sure there's the correct number of files
+#
+if [ "$LMEX" = "rcp" ] ; then
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-9][0-9],2100}-*.nc | wc -l`
+  if [ $NHISTF -eq 0 ] ; then 
+    echo "No files in "${LOCAL_HIST}"/"${CASE}"."${HIST}". Incorrect - exiting."
+    exit 1
+  fi
+  ln -s -f  ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-9][0-9],2100}-*.nc .
+  NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
+  case "$HIST" in 
+    cam.h0 | cice.h1 | cice.h | clm2.h0 | pop.h | pop.h.nday1 | rtm.h0 )
+      if [ $NHISTF -ne 1140 ] ; then
+        echo ${NHISTF}" should be 1140. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cam.h1 | clm2.h1 )
+      if [ $NHISTF -ne 96 ] ; then
+        echo ${NHISTF}" should be 96. File count mismatch. Exit."
+        exit 1
+      fi ;;
+  esac
+#
+# Create output filename time period suffix
+#
+  case "$TPER" in
+    mon )
+      OUTTIME=200601-210012 ;;
+    day ) 
+      OUTTIME=20060101-21001231 ;;
+    hr6 ) 
+      OUTTIME=2006010100Z-2100123118Z ;;
   esac
   export OUTTIME
 #
