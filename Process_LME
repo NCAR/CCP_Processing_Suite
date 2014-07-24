@@ -5,8 +5,8 @@ if [ $# -ne 4 ] ; then
    echo "Four arguments REQUIRED:"
    echo "1: CASE name"
    echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h rtm.h0 etc]"
-   echo "3: TPER time period of above HIST type - must be one of [ann mon day hr6 hr3 hr1 m30]"
-   echo "4: lm or ext - either 850-1849 period [lm] or 1850-2005 period [ext] to be processed"
+   echo "3: TPER time period of above HIST type - must be one of [ann mon day hr6]"
+   echo "4: lm|ext|rcp - 850-1849 [lm] 1850-2005 [ext] 2006-2100 [rcp] to be processed"
    exit 1
 else
    CASE=$1 ; export CASE
