@@ -200,8 +200,11 @@ if [ -d $LOCAL_HIST ] ; then
         ./update_status error "$CASE $HIST $TPER"
         exit 1
       fi ;;
-    esac
-  fi
+    * ) 
+      echo "Unable to continue because "$LMEX" not known."
+      ./update_status error "$CASE $HIST $TPER $LMEX"
+      exit 1 ;;
+  esac
 fi
 #
 # Last millenium portion (850-1849)
