@@ -447,54 +447,49 @@ else
   fi
 fi
 #
-# Move completed data on to DISK_PROC, not for RCP4.5 runs
+# Move completed data on to DISK_PROC
 #
-if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
-  ./update_status complete
-  echo -n "TS COMPLETE: " ; date
-else
-  echo -n "TS disk move start: " ; date
-  if [ "$TPER" = "hr6" ] ; then
-    if [ "$EXPTYP" = "RCP" ] ; then
-      OUTTIME=2026010100Z-2035123118Z ; export OUTTIME
-      ./disk_move_var
-      if [ $? -ne 0 ] ; then
-        echo "disk_move failed"
-        ./update_status error "$CASE $HIST $TPER"
-        exit 1
-      else
-        OUTTIME=2071010100Z-2080123118Z ; export OUTTIME
-        ./disk_move_var
-        if [ $? -ne 0 ] ; then
-           echo "disk_move failed"
-          ./update_status error "$CASE $HIST $TPER"
-          exit 1
-        else
-          echo -n "TS disk_move end: " ; date
-        fi
-      fi
-    else
-      OUTTIME=1990010100Z-2005123118Z ; export OUTTIME
-      ./disk_move_var
-      if [ $? -ne 0 ] ; then
-        echo "disk_move failed"
-        ./update_status error "$CASE $HIST $TPER"
-        exit 1
-      fi
-    fi
-  else
+echo -n "TS disk move start: " ; date
+if [ "$TPER" = "hr6" ] ; then
+  if [ "$EXPTYP" = "RCP" ] ; then
+    OUTTIME=2026010100Z-2035123118Z ; export OUTTIME
     ./disk_move_var
     if [ $? -ne 0 ] ; then
       echo "disk_move failed"
       ./update_status error "$CASE $HIST $TPER"
       exit 1
     else
-      echo -n "TS disk_move end: " ; date
+      OUTTIME=2071010100Z-2080123118Z ; export OUTTIME
+      ./disk_move_var
+      if [ $? -ne 0 ] ; then
+         echo "disk_move failed"
+        ./update_status error "$CASE $HIST $TPER"
+        exit 1
+      else
+        echo -n "TS disk_move end: " ; date
+      fi
+    fi
+  else
+    OUTTIME=1990010100Z-2005123118Z ; export OUTTIME
+    ./disk_move_var
+    if [ $? -ne 0 ] ; then
+      echo "disk_move failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
     fi
   fi
-  #
-  ./update_status complete
-  echo -n "TS COMPLETE: " ; date
+else
+  ./disk_move_var
+  if [ $? -ne 0 ] ; then
+    echo "disk_move failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  else
+    echo -n "TS disk_move end: " ; date
+  fi
 fi
+#
+./update_status complete
+echo -n "TS COMPLETE: " ; date
 #
 exit
