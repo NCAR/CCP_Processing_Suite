@@ -109,7 +109,8 @@ case "$PROCHOST" in
     case "$CASE" in
       b.e10.B20GHGC5CN.f09_g16.003 | b.e10.B20GHGC5CN.f09_g16.005 | b.e10.B20VOLCC5CN.f09_g16.003 | b.e10.B20VOLCC5CN.f09_g16.003 )
         PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
-        LOCALDSK=/glade/scratch/adrianne/archive/$CASE ; export LOCALDSK ;;
+        LOCALDSK=/glade/scratch/adrianne/archive/$CASE ; export LOCALDSK
+      ;;
     esac ;;
 
   c1* )                                # carver @ NERSC
