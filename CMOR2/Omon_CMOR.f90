@@ -254,8 +254,10 @@ program Omon_CMOR
            mycmor%positive = 'down'
         case ('intdic')
            var_info(var_found(1,1))%units = 'kg m-2'
-        case ('hfss','rlds','rsntds','rsds','tauuo','tauvo','hfds')
+        case ('hfss','rlds','rsntds','rsds','tauuo','tauvo')
            mycmor%positive = 'up'
+        case ('hfds')
+           mycmor%positive = 'down'
         case ('epc100','epcalc100','epfe100','epsi100','fgo2','fsn')
            mycmor%positive = 'down'
         end select
