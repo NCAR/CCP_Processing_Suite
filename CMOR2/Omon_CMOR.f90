@@ -254,7 +254,7 @@ program Omon_CMOR
            mycmor%positive = 'down'
         case ('intdic')
            var_info(var_found(1,1))%units = 'kg m-2'
-        case ('hfss','rlds','rsntds','rsds','tauuo','tauvo')
+        case ('hfss','rlds','rsntds','rsds','tauuo','tauvo','hfds')
            mycmor%positive = 'up'
         case ('epc100','epcalc100','epfe100','epsi100','fgo2','fsn')
            mycmor%positive = 'down'
@@ -309,7 +309,7 @@ program Omon_CMOR
               'msftbarot','omlmax','pr','prsn','rlds','rsntds','sos','tauuo','tauvo','tos','tossq','zos','zossq',&
               'chlcalc','chldiat','chldiaz','chl','chlpico','co3','co3satarag','co3satcalc','dfe','dissic','dissoc',&
               'epc100','epcalc100','epfe100','epsi100','nh4','no3','o2','ph','phycalc','phyc','phydiat','phydiaz',&
-              'phyfe','phyn','phypico','phyp','physi','po4','si','talk','zooc',&
+              'phyfe','phyn','phypico','phyp','physi','po4','si','talk','zooc','hfds',&
               'fbddtalk','fbddtdic','fbddtdife','fbddtdin','fbddtdip','fbddtdisi','fddtalk',&
               'fddtdic','fddtdife','fddtdin','fddtdip','fddtdisi')
            ! Single-level fields
@@ -2909,7 +2909,7 @@ program Omon_CMOR
               call close_cdf(myncid(ifile,2))
               call close_cdf(myncid(ifile,3))
            enddo
-        case ('fddtdin','fddtdinrlds','fbddtdin')
+        case ('fddtdin','fddtdinrlds','fbddtdin','hfds')
            !
            ! Add two fields
            !
