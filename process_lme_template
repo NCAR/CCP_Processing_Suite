@@ -213,7 +213,7 @@ fi
 # one century at a time for pop.h and pop.h.nday1 and cam.h2 (6 hourly)
 #
 if [ "$LMEX" = "lm" ] ; then
-  if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] || [ "$HIST" = "cam.h2" ] ; then
+  if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
     echo ${CASE}"."${HIST}" files on disk, softlinking."
     for ICEN in 08 09 10 11 12 13 14 15 16 17 18 ; do
       if [ ! -f .comp.${CASE}.${HIST}.${ICEN} ] ; then
@@ -236,14 +236,8 @@ if [ "$LMEX" = "lm" ] ; then
         NHISTF=`/bin/ls ${CASE}.${HIST}.${ICEN}*.nc | wc -l`
         if [ "$ICEN" = "18" ] || [ "$ICEN" = "08" ] ; then
           GOODHC=600
-          if [ "$TPER" = "hr6" ] ; then
-            GOODHC=50
-          fi
         else
           GOODHC=1200
-          if [ "$TPER" = "hr6" ] ; then
-            GOODHC=100
-          fi
         fi
         if [ $NHISTF -ne $GOODHC ] ; then
           echo ${NHISTF}" should be "${GOODHC}". File count mismatch. Exit."
@@ -268,14 +262,6 @@ if [ "$LMEX" = "lm" ] ; then
             fi
             if [ "$ICEN" = "08" ] ; then
               OUTTIME=${ICEN}500101-${ICEN}991231
-            fi ;;
-          hr6 ) 
-            OUTTIME=${ICEN}00010100Z-${ICEN}99123118Z
-            if [ "$ICEN" = "18" ] ; then
-              OUTTIME=${ICEN}00010100Z-${ICEN}49123118Z
-            fi
-            if [ "$ICEN" = "08" ] ; then
-              OUTTIME=${ICEN}50010100Z-${ICEN}99123118Z
             fi ;;
         esac
         export OUTTIME
@@ -318,6 +304,107 @@ if [ "$LMEX" = "lm" ] ; then
         rm ${CASE}.${HIST}.${ICEN}*nc
       fi
     done
+#
+# cam.h2 - hr6
+#
+  else
+    if [ "$HIST" = "cam.h2" ] ; then
+      echo ${CASE}"."${HIST}" files on disk, softlinking."
+      for ICEN in 08 09 10 11 12 13 14 15 16 17 18 ; do
+        for IDEC in 0 5 ; do
+          if [ ! -f .comp.${CASE}.${HIST}.${ICEN}${IDEC} ] ; then
+            if [ "$ICEN" = "18" ] ; then
+              NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-4]*.nc | wc -l`
+            else
+              if [ "$IDEC" = "0" ] ; then
+                NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-4]*.nc | wc -l`
+              else
+                NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[5-9]*.nc | wc -l`
+              fi
+            fi
+            if [ $NHISTF -eq 0 ] ; then 
+              echo ${NHISTF}" files in "${LOCAL_HIST}"/"${CASE}"."${HIST}"."${ICEN}". Incorrect - exiting."
+              ./update_status error "$CASE $HIST $TPER"
+              exit 1
+            else
+              if [ "$ICEN" = "18" ] ; then
+                ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-4]*.nc .
+                if [ "$IDEC" = "0" ] ; then
+                  ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-4]*.nc .
+                else
+                  ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[5-9]*.nc .
+                fi
+              fi
+            fi
+            NHISTF=`/bin/ls ${CASE}.${HIST}.${ICEN}*.nc | wc -l`
+            GOODHC=50
+            if [ $NHISTF -ne $GOODHC ] ; then
+              echo ${NHISTF}" should be "${GOODHC}". File count mismatch. Exit."
+              exit 1
+            fi
+#
+# Create output filename time period suffix
+#
+            OUTTIME=${ICEN}00010100Z-${ICEN}99123118Z
+            if [ "$ICEN" = "18" ] ; then
+              OUTTIME=${ICEN}00010100Z-${ICEN}49123118Z
+            fi
+            if [ "$ICEN" = "08" ] ; then
+              OUTTIME=${ICEN}50010100Z-${ICEN}99123118Z
+            fi
+            if [ "$IDEC" = "0" ] ; then            
+              OUTTIME=${ICEN}00010100Z-${ICEN}49123118Z
+            fi
+            if [ "$IDEC" = "5" ] ; then
+              OUTTIME=${ICEN}50010100Z-${ICEN}99123118Z
+            fi
+            export OUTTIME
+#
+# Extract each field from all files
+#
+            echo -n "TS var_extract start: " ; date
+            ./var_extract
+            if [ $? -ne 0 ] ; then
+              echo "var_extract failed"
+              ./update_status error "$CASE $HIST $TPER"
+              exit 1
+            fi
+            echo -n "TS var_extract end  : " ; date
+#
+# Store completed data on archival system
+#
+            echo -n "TS archive start: " ; date
+            ./store_to_archive_var
+            if [ $? -ne 0 ] ; then
+              echo "store_to_archive failed"
+              ./update_status error "$CASE $HIST $TPER"
+              exit 1
+            else
+              echo -n "TS archive end: " ; date
+            fi
+#
+# Move completed data on to DISK_PROC
+#
+            echo -n "TS disk move start: " ; date
+            ./disk_move_var
+            if [ $? -ne 0 ] ; then
+              echo "disk_move_var failed"
+              ./update_status error "$CASE $HIST $TPER"
+              exit 1
+            else
+              echo -n "TS disk_move_var end: " ; date
+            fi
+            touch .comp.${CASE}.${HIST}.${ICEN}${IDEC}
+            if [ "$IDEC" = "0" ] ; then            
+              rm ${CASE}.${HIST}.${ICEN}[0-4]*nc
+            fi
+            if [ "$IDEC" = "5" ] ; then            
+              rm ${CASE}.${HIST}.${ICEN}[5-9]*nc
+            fi
+          fi
+        done
+      done
+    fi
 #
 # All other output streams
 #
