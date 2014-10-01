@@ -158,7 +158,7 @@ OBJ	= mymods.o \
 
 all:	  Amon_CMOR 3hrSlev_CMOR 3hrMlev_CMOR 3hrCurt_CMOR 3hrPlev_CMOR sites_CMOR day_CMOR Lmon_CMOR \
 	  LImon_CMOR OImon_CMOR Omon_CMOR fx_CMOR 6hrLev_CMOR 6hrPlev_CMOR 3hr_CMOR.f90 aero_CMOR \
-	  cfMon_CMOR cfDay_CMOR cf3hr_CMOR Oyr_CMOR cfSites_CMOR day_ocn_CMOR \
+	  cfMon_CMOR cfDay_CMOR cf3hr_CMOR Oyr_CMOR cfSites_CMOR day_ocn_CMOR day_ice_CMOR \
           A2DM_CMOR A3DM_CMOR A2DI_CMOR CCMI1_monthly_CMOR
 
 Amon_CMOR: $(OBJ) Amon_CMOR.o
@@ -264,6 +264,10 @@ day_CMOR: $(OBJ) day_CMOR.o
 day_ocn_CMOR: $(OBJ) day_ocn_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) day_ocn_CMOR.o \
 	-o $(EXEDIR)/day_ocn_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
+
+day_ice_CMOR: $(OBJ) day_ice_CMOR.o
+	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) day_ice_CMOR.o \
+	-o $(EXEDIR)/day_ice_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
 
 mymods.o: mymods.f90
 	$(FC) $(FFLAGS) $(NCFINC) -c mymods.f90
@@ -414,6 +418,9 @@ day_CMOR.o: day_CMOR.f90 $(OBJ)
 
 day_ocn_CMOR.o: day_ocn_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c day_ocn_CMOR.f90
+
+day_ice_CMOR.o: day_ice_CMOR.f90 $(OBJ)
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c day_ice_CMOR.f90
 
 clean: 
 	/bin/rm -f *.o *.mod

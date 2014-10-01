@@ -21,8 +21,8 @@ CMIP5_day:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time
 CMIP5_day:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:2:FSDS FSNS:FSDS - FSNS
 CMIP5_day:sfcWind:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
 CMIP5_day:sfcWindmax:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
-CMIP5_day:sic:sea_ice_area_fraction:longitude latitude time:seaIce ocean:0:aice_d:aice_d no change
-CMIP5_day:sit:sea_ice_thickness:longitude latitude time:seaIce ocean:0:hi_d:hi_d no change
+CMIP5_day:sic:sea_ice_area_fraction:longitude latitude time:seaIce ocean:1:aice_d:aice_d no change
+CMIP5_day:sit:sea_ice_thickness:longitude latitude time:seaIce ocean:1:hi_d:hi_d no change
 CMIP5_day:snc:surface_snow_area_fraction:longitude latitude time:landIce land:1:FSNO:FSNO
 CMIP5_day:snw:surface_snow_amount:longitude latitude time:landIce land:1:SNOWDP:SNOWDP
 CMIP5_day:ta:air_temperature:longitude latitude plev8 time:atmos:2:T PS:T interpolated to standard plevs
@@ -34,9 +34,9 @@ CMIP5_day:tossq:square_of_sea_surface_temperature:longitude latitude time:ocean:
 CMIP5_day:tslsi:surface_temperature:longitude latitude time:land:0:UNKNOWN:UNKNOWN
 CMIP5_day:ua:eastward_wind:longitude latitude plev8 time:atmos:2:U PS:U interpolated to standard plevs
 CMIP5_day:uas:eastward_wind:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
-CMIP5_day:usi:sea_ice_x_velocity:longitude latitude time:seaIce ocean:0:uvel_d:uvel_d
+CMIP5_day:usi:sea_ice_x_velocity:longitude latitude time:seaIce ocean:1:uvel_d:uvel_d no change
 CMIP5_day:va:northward_wind:longitude latitude plev8 time:atmos:2:V PS:V interpolated to standard plevs
 CMIP5_day:vas:northward_wind:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
-CMIP5_day:vsi:sea_ice_y_velocity:longitude latitude time:seaIce ocean:0:vvel_d:vvel_d
+CMIP5_day:vsi:sea_ice_y_velocity:longitude latitude time:seaIce ocean:1:vvel_d:vvel_d no change
 CMIP5_day:wap:lagrangian_tendency_of_air_pressure:longitude latitude plev8 time:atmos:2:OMEGA PS:OMEGA interpolated to standard plevs
 CMIP5_day:zg:geopotential_height:longitude latitude plev8 time:atmos:2:Z3 PS:Z3 interpolated to standard plevs

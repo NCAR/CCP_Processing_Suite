@@ -36,7 +36,8 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
   end select
   !
   select case (table)
-  case ('Tables/CMIP5_OImon','Tables/GeoMIP_OImon','Tables/PMIP3_OImon')
+!  case ('Tables/CMIP5_OImon','Tables/GeoMIP_OImon','Tables/PMIP3_OImon')
+  case ('Tables/CMIP5_OImon','Tables/GeoMIP_OImon','Tables/PMIP3_OImon','Tables/CMIP5_day')
      exists = .false.
      do year1 = runbeg,runend
         do year2 = runend,year1,-1
