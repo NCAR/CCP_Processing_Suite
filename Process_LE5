@@ -32,7 +32,7 @@ if ! [ -f $EXPFILE ] ; then
   echo "Cannot find "$EXPFILE". EXIT"
   exit 1
 else
-  TEMPLATE=process_le5_template ;;
+  TEMPLATE=process_le5_template
 fi
 #
 PROCHOST=`hostname`;export PROCHOST
