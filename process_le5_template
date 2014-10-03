@@ -190,7 +190,7 @@ if [ -d $LOCAL_HIST ] ; then
   else
     if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
       NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc | wc -l`
-    else if [ `echo $CASE = "b.e11.B1850C5CN.f09_g16.005" ] ; then
+    else if [ `echo $CASE` = "b.e11.B1850C5CN.f09_g16.005" ] ; then
       NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc | wc -l`
     else
       NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
@@ -203,7 +203,7 @@ if [ -d $LOCAL_HIST ] ; then
     else
       if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
         ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc .
-      else if [ `echo $CASE = "b.e11.B1850C5CN.f09_g16.005" ] ; then
+      else if [ `echo $CASE` = "b.e11.B1850C5CN.f09_g16.005" ] ; then
         ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc .
       else
         ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
@@ -222,7 +222,7 @@ if [ "$YEARBEG" = 2081 ] ; then
 else
   if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
     NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc | wc -l`
-   else if [ `echo $CASE = "b.e11.B1850C5CN.f09_g16.005" ] ; then
+   else if [ `echo $CASE` = "b.e11.B1850C5CN.f09_g16.005" ] ; then
     NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc | wc -l`
   else
     NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
