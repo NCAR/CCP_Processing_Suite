@@ -60,8 +60,8 @@ case "$PROCHOST" in
     LOCALDSK=/glade/scratch/yangyang/archive/$CASE            ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-YY                   ; export ARCHIVE_BASE
     PROCBASE=/glade/scratch/$USER/$CASE                       ; export PROCBASE
-    LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
-    LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
+#    LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
+#    LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
@@ -102,11 +102,11 @@ ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
 #
 case "$TPER" in
   ann )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/annual
+    ARCHIVE_PROC=${ARCHIVE_PROC}/annual  ;;
   mon )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly
+    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly ;;
   day )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/daily
+    ARCHIVE_PROC=${ARCHIVE_PROC}/daily   ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
     exit 1 ;;
@@ -182,42 +182,25 @@ NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
 #
 se "$HIST" in 
 cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
-  if [ $NHISTF -ne 900 ] ; then
-    echo ${NHISTF}" should be 900. File count mismatch. Exit."
+  if [ $NHISTF -ne 1140 ] ; then
+    echo ${NHISTF}" should be 1140. File count mismatch. Exit."
     exit 1
   fi ;;
 cice.h | cice.h1 )
-  if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
-    if [ $NHISTF -ne 27375 ] ; then
-      echo ${NHISTF}" should be 27375. File count mismatch. Exit."
-      exit 1
-    fi
-  else
-    if [ $NHISTF -ne 900 ] ; then
-      echo ${NHISTF}" should be 900. File count mismatch. Exit."
-      exit 1
-    fi
+  if [ $NHISTF -ne 34675 ] ; then
+    echo ${NHISTF}" should be 34675. File count mismatch. Exit."
+    exit 1
   fi ;;
 cam.h1 | clm2.h1 )
-  if [ $NHISTF -eq 75 ] || [ $NHISTF -eq 76 ] ; then
+  if [ $NHISTF -eq 95 ] || [ $NHISTF -eq 96 ] ; then
     echo ${NHISTF}" good."
   else
-    echo ${NHISTF}" should be 75 or 76. File count mismatch. Exit."
+    echo ${NHISTF}" should be 95 or 96. File count mismatch. Exit."
     exit 1
   fi ;;
 rtm.h1 | pop.h.ecosys.nyear1 )
-  if [ $NHISTF -ne 75 ] ; then
-    echo ${NHISTF}" should be 75. File count mismatch. Exit."
-    exit 1
-  fi ;;
-cice.h2_06h )
-  if [ $NHISTF -ne 240 ] ; then
-    echo ${NHISTF}" should be 240. File count mismatch. Exit."
-    exit 1
-  fi ;;
-cam.h2 )
-  if [ $NHISTF -ne 20 ] ; then
-    echo ${NHISTF}" should be 20. File count mismatch. Exit."
+  if [ $NHISTF -ne 95 ] ; then
+    echo ${NHISTF}" should be 95. File count mismatch. Exit."
     exit 1
   fi ;;
 esac
