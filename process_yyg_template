@@ -223,12 +223,13 @@ export OUTTIME
 #
 echo -n "TS var_extract start: " ; date
 #
-slice2series --serial \
+./slice2series \
+       --serial \
        --netcdf_format="netcdf4c" \
-       --output_prefix="/glade/scratch/strandwg/${CASE}/rof/day/to_archive/${CASE}.rtm.h1." \
+       --output_prefix="${CACHEDIR}/${CASE}.${HIST}." \
        --output_suffix=".${OUTTIME}.nc" \
        -m "time" \
-       /glade/scratch/strandwg/${CASE}/rof/day/${CASE}.rtm.h1.*.nc
+       ${LOCAL_PROC}/${CASE}.${HIST}.*.nc
 #
 #./var_extract
 if [ $? -ne 0 ] ; then
