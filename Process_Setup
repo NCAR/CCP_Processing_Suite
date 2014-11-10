@@ -36,6 +36,8 @@ else
       TEMPLATE=process_lme_template ;;
     le5 )
       TEMPLATE=process_le5_template ;;
+    yyg )
+      TEMPLATE=process_yyg_template ;;
     * )
       case "$TPER" in 
         mon )
