@@ -1,0 +1,264 @@
+CASE=xxxCASExxx ; export CASE
+HIST=xxxHISTxxx ; export HIST
+TPER=xxxTPERxxx ; export TPER
+#
+echo -n "TS START: " ; date
+#
+# Template for processing large ensemble CESM history netCDF files into single-field format 
+#
+# Extract relevant information from "experiments.txt"
+#
+#  Columns   Field
+#   1 -  54  CCSM case name
+# 105 - 109  MIP (cm3 or cm5) experiment (N/A if not applicable)
+# 110 - 149  RUN_REFCASE (parent case)
+# 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 165 - 174  years of experiment (YYYY if unknown)
+# 165 - 174  run years of experiment (YYYY if unknown)
+# 175 - 184  CMIP5-requested years
+# 185 - 194  GRID (resolution)
+# 195 - 214  COMPSET (N/A if not applicable)
+# 215 - 234  REPOTAG (N/A if not applicable)
+# 234 - 249  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 250 - 259  MACH (hardware)
+# 260 - end  DOUT_L_MSROOT (history file location on archive)
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if [ -f $EXPFILE ] ; then
+   MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c105-  | cut -d" " -f1`
+    PARENT=`egrep "^$CASE " $EXPFILE | cut -c110- | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c165-168`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c170-173`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c185- | cut -d" " -f1`
+   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c215- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c250- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c260- | cut -d" " -f1`
+else
+  echo "Cannot find $EXPFILE. EXIT"
+  exit 1
+fi
+#
+if ! [ $YEARBEG ] ; then
+  echo "Unable to set variables because "$CASE" not found in $EXPFILE"
+  exit 1
+fi
+#
+# Acquire PROCHOST
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+# resolve machine/site dependencies
+#
+case "$PROCHOST" in 
+  yslogin* | geyser* )                                # Yellowstone (geyser) @ CISL/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCODIR=/glade/apps/opt/nco/4.4.2/gnu/4.8.2/bin            ; export NCODIR
+    NCKS=${NCODIR}/ncks     ; export NCKS
+    NCRA=${NCODIR}/ncra     ; export NCRA
+    NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
+    LOCALDSK=/glade/scratch/yangyang/archive/$CASE            ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-YY                   ; export ARCHIVE_BASE
+    PROCBASE=/glade/scratch/$USER/$CASE                       ; export PROCBASE
+    LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
+    LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
+    ;;
+  * ) 
+    echo "Unable to continue because "$PROCHOST" not known."
+    exit 1 ;;
+esac
+#
+export LD_LIBRARY_PATH
+#
+# Strip off first part of $HIST
+#
+HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
+#
+# Convert history type to component name
+#
+case "$HTYP" in
+  cam2 | cam )
+    COMP_NAME=atm ;;
+  clm2 ) 
+    COMP_NAME=lnd ;;
+  pop  ) 
+    COMP_NAME=ocn ;;
+  rtm  ) 
+    COMP_NAME=rof ;;
+  cice ) 
+    COMP_NAME=ice ;;
+  * ) 
+    echo "Unable to continue because "$HIST" not known."
+    exit 1 ;;
+esac
+#
+# Set up local names and archival names
+#
+LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
+LOCAL_PROC=$PROCBASE/$COMP_NAME
+ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
+#
+ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
+#
+case "$TPER" in
+  ann )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/annual
+  mon )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly
+  day )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/daily
+  * ) 
+    echo "Unable to continue because "$TPER" not known."
+    exit 1 ;;
+esac
+#
+LOCAL_PROC=${LOCAL_PROC}/${TPER}
+CACHEDIR=${LOCAL_PROC}/to_archive
+#
+YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
+MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
+#
+# Print out values
+#
+echo "            Case name : "$CASE ; export CASE
+echo "    History file type : "$HIST ; export HIST
+echo "          Time period : "$TPER ; export TPER
+echo "    by var processing : YES"
+echo " HPSS processed files : "$ARCHIVE_PROC ; export ARCHIVE_PROC
+HARDWARE=${HARDWARE}".ucar.edu"
+echo "          Branch date : "$BRANCH   ; export BRANCH
+echo "           Resolution : "$RES      ; export RES
+echo "             Hardware : "$HARDWARE ; export HARDWARE
+echo "              Compset : "$COMPSET  ; export COMPSET
+echo "       Repository tag : "$REPOTAG  ; export REPOTAG
+echo "           Begin year : "$YEARBEG  ; export YEARBEG
+echo "             End year : "$YEAREND  ; export YEAREND
+echo "           Year count : "$YRCOUNT  ; export YRCOUNT
+echo "         Months count : "$MNCOUNT  ; export MNCOUNT
+echo ""
+echo "    Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo "        History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
+echo "        History names : "$HIST          ; export HIST
+echo ""
+echo "      Processing host : "$PROCHOST      ; export PROCHOST
+echo "  Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
+echo "       Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
+echo "    Archive cache dir : "$CACHEDIR      ; export CACHEDIR
+echo "  Processing code dir : "$BASEDIR       ; export BASEDIR
+#  
+if [ ! -d $LOCAL_PROC ] ; then 
+  mkdir -p $LOCAL_PROC 
+fi
+if [ ! -d $CACHEDIR ] ; then 
+  mkdir -p $CACHEDIR 
+fi
+cd $LOCAL_PROC
+#
+ln -s -f $BASEDIR/var_extract              .
+ln -s -f $BASEDIR/store_to_archive_var     .
+ln -s -f $BASEDIR/archive_write_var_delete .
+ln -s -f $BASEDIR/update_status            .
+#
+cd $LOCAL_PROC
+#
+# Start actual processing, extract each field one at a time for all times
+#
+./update_status start
+#
+if [ -d $LOCAL_HIST ] ; then
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+  if [ $NHISTF -ne 0 ] ; then
+    echo ${CASE}"."${HIST}" files on disk, softlinking."
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
+  else
+    echo "History files not on "${LOCAL_HIST}". Exiting."
+    exit 1
+  fi    
+fi
+#
+# Make sure there's the correct number of files, based on stream and time period and 20C/RCP
+#
+NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+#
+se "$HIST" in 
+cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+  if [ $NHISTF -ne 900 ] ; then
+    echo ${NHISTF}" should be 900. File count mismatch. Exit."
+    exit 1
+  fi ;;
+cice.h | cice.h1 )
+  if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+    if [ $NHISTF -ne 27375 ] ; then
+      echo ${NHISTF}" should be 27375. File count mismatch. Exit."
+      exit 1
+    fi
+  else
+    if [ $NHISTF -ne 900 ] ; then
+      echo ${NHISTF}" should be 900. File count mismatch. Exit."
+      exit 1
+    fi
+  fi ;;
+cam.h1 | clm2.h1 )
+  if [ $NHISTF -eq 75 ] || [ $NHISTF -eq 76 ] ; then
+    echo ${NHISTF}" good."
+  else
+    echo ${NHISTF}" should be 75 or 76. File count mismatch. Exit."
+    exit 1
+  fi ;;
+rtm.h1 | pop.h.ecosys.nyear1 )
+  if [ $NHISTF -ne 75 ] ; then
+    echo ${NHISTF}" should be 75. File count mismatch. Exit."
+    exit 1
+  fi ;;
+cice.h2_06h )
+  if [ $NHISTF -ne 240 ] ; then
+    echo ${NHISTF}" should be 240. File count mismatch. Exit."
+    exit 1
+  fi ;;
+cam.h2 )
+  if [ $NHISTF -ne 20 ] ; then
+    echo ${NHISTF}" should be 20. File count mismatch. Exit."
+    exit 1
+  fi ;;
+esac
+#
+# Create output filename time period suffix
+#
+case "$TPER" in
+  ann )
+    OUTTIME=${YEARBEG}-${YEAREND} ;;
+  mon )
+    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+  day ) 
+    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+esac
+export OUTTIME
+#
+# Extract each field from all files
+#
+echo -n "TS var_extract start: " ; date
+./var_extract
+if [ $? -ne 0 ] ; then
+  echo "var_extract failed"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
+fi
+#
+echo -n "TS var_extract end  : " ; date
+#
+# Store completed data on archival system
+#
+echo -n "TS archive start: " ; date
+./store_to_archive_var_delete
+if [ $? -ne 0 ] ; then
+  echo "store_to_archive failed"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
+else
+  echo -n "TS archive end: " ; date
+fi
+#
+./update_status complete
+echo -n "TS COMPLETE: " ; date
+#
+exit

@@ -1,0 +1,32 @@
+#!/bin/sh
+#
+# Store data on archival system, one directory per field
+#
+if [ $# -ne 0 ] ; then
+  echo "Usage: store_to_archive_var_delete"
+  ./update_status error store_to_archive_var_delete
+  exit 1
+fi
+# 
+# Check for CACHEDIR
+#
+if [ ! $CACHEDIR ] ; then
+  echo "CACHEDIR not defined. Exiting"
+  ./update_status error store_to_archive_var_delete
+  exit 1
+fi
+#
+cd $CACHEDIR
+#
+if [ `/bin/ls ${CASE}.${HIST}.*.${OUTTIME}.nc | wc -l` -ne 0 ] ; then
+  ../archive_write_var_delete
+  if [ $? -ne 0 ] ; then
+    echo "archive_write_var_delete failed"
+    ./update_status error archive_write_var_delete
+    exit 1
+  fi
+else
+  echo "No files in "$CACHEDIR". Exit."
+fi
+#
+cd $LOCAL_PROC
