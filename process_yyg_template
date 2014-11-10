@@ -180,29 +180,29 @@ fi
 #
 NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
 #
-se "$HIST" in 
-cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
-  if [ $NHISTF -ne 1140 ] ; then
-    echo ${NHISTF}" should be 1140. File count mismatch. Exit."
-    exit 1
-  fi ;;
-cice.h | cice.h1 )
-  if [ $NHISTF -ne 34675 ] ; then
-    echo ${NHISTF}" should be 34675. File count mismatch. Exit."
-    exit 1
-  fi ;;
-cam.h1 | clm2.h1 )
-  if [ $NHISTF -eq 95 ] || [ $NHISTF -eq 96 ] ; then
-    echo ${NHISTF}" good."
-  else
-    echo ${NHISTF}" should be 95 or 96. File count mismatch. Exit."
-    exit 1
-  fi ;;
-rtm.h1 | pop.h.ecosys.nyear1 )
-  if [ $NHISTF -ne 95 ] ; then
-    echo ${NHISTF}" should be 95. File count mismatch. Exit."
-    exit 1
-  fi ;;
+case "$HIST" in 
+  cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+    if [ $NHISTF -ne 1140 ] ; then
+      echo ${NHISTF}" should be 1140. File count mismatch. Exit."
+      exit 1
+    fi ;;
+  cice.h | cice.h1 )
+    if [ $NHISTF -ne 34675 ] ; then
+      echo ${NHISTF}" should be 34675. File count mismatch. Exit."
+      exit 1
+    fi ;;
+  cam.h1 | clm2.h1 )
+    if [ $NHISTF -eq 95 ] || [ $NHISTF -eq 96 ] ; then
+      echo ${NHISTF}" good."
+    else
+      echo ${NHISTF}" should be 95 or 96. File count mismatch. Exit."
+      exit 1
+    fi ;;
+  rtm.h1 | pop.h.ecosys.nyear1 )
+    if [ $NHISTF -ne 95 ] ; then
+      echo ${NHISTF}" should be 95. File count mismatch. Exit."
+      exit 1
+    fi ;;
 esac
 #
 # Create output filename time period suffix
