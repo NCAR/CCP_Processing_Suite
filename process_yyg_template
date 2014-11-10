@@ -61,7 +61,7 @@ case "$PROCHOST" in
     ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-YY        ; export ARCHIVE_BASE
     PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
     S2SDIR=/glade/p/cesm/cseg/tools/pyReshaper     ; export S2SDIR
-    PYTHONPATH=${S2SDIR}/lib/python2.7/site-packages:/glade/apps/opt/PyNIO/1.4.1/gnu/4.7.2/PyNIO:/glade/apps/opt/numpy/1.8.1/intel-autodispatch/14.0.2/lib:${PYTHONPATH} ; export PYTHONPATH
+    PYTHONPATH=${S2SDIR}/lib/python2.7/site-packages:/glade/apps/opt/PyNIO/1.4.1/gnu/4.7.2/PyNIO:/glade/apps/opt/numpy/1.6.2/gcc-westmere/4.7.2:${PYTHONPATH} ; export PYTHONPATH
 #    LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
 #    LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
     ;;
