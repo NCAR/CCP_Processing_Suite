@@ -57,9 +57,10 @@ case "$PROCHOST" in
     NCKS=${NCODIR}/ncks     ; export NCKS
     NCRA=${NCODIR}/ncra     ; export NCRA
     NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
-    LOCALDSK=/glade/scratch/yangyang/archive/$CASE            ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-YY                   ; export ARCHIVE_BASE
-    PROCBASE=/glade/scratch/$USER/$CASE                       ; export PROCBASE
+    LOCALDSK=/glade/scratch/yangyang/archive/$CASE ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-YY        ; export ARCHIVE_BASE
+    PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
+    S2SDIR=/glade/p/cesm/cseg/tools/pyReshaper     ; export S2SDIR
 #    LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
 #    LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
     ;;
@@ -154,10 +155,11 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
-ln -s -f $BASEDIR/var_extract              .
-ln -s -f $BASEDIR/store_to_archive_var     .
-ln -s -f $BASEDIR/archive_write_var_delete .
-ln -s -f $BASEDIR/update_status            .
+ln -s -f $BASEDIR/var_extract                 .
+ln -s -f $BASEDIR/store_to_archive_var_delete .
+ln -s -f $BASEDIR/archive_write_var_delete    .
+ln -s -f $BASEDIR/update_status               .
+ln -s -f $S2SDIR/bin/slice2series             .
 #
 cd $LOCAL_PROC
 #
@@ -220,7 +222,15 @@ export OUTTIME
 # Extract each field from all files
 #
 echo -n "TS var_extract start: " ; date
-./var_extract
+#
+slice2series --serial \
+       --netcdf_format="netcdf4c" \
+       --output_prefix="/glade/scratch/strandwg/${CASE}/rof/day/to_archive/${CASE}.rtm.h1." \
+       --output_suffix=".${OUTTIME}.nc" \
+       -m "time" \
+       /glade/scratch/strandwg/${CASE}/rof/day/${CASE}.rtm.h1.*.nc
+#
+#./var_extract
 if [ $? -ne 0 ] ; then
   echo "var_extract failed"
   ./update_status error "$CASE $HIST $TPER"
