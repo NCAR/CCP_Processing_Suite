@@ -60,10 +60,10 @@ case "$PROCHOST" in
     LOCALDSK=/glade/scratch/yangyang/archive/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-YY        ; export ARCHIVE_BASE
     PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
-    S2SDIR=/glade/p/cesm/cseg/tools/pyReshaper     ; export S2SDIR
-    PYTHONPATH=${S2SDIR}/lib/python2.7/site-packages:/glade/apps/opt/PyNIO/1.4.1/gnu/4.7.2/PyNIO:/glade/apps/opt/numpy/1.8.1/intel-autodispatch/14.0.2/lib/python2.7/site-packages ; export PYTHONPATH
-#    LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
-#    LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
+#    S2SDIR=/glade/p/cesm/cseg/tools/pyReshaper     ; export S2SDIR
+#    PYTHONPATH=${S2SDIR}/lib/python2.7/site-packages:/glade/apps/opt/PyNIO/1.4.1/gnu/4.7.2/PyNIO:/glade/apps/opt/numpy/1.8.1/intel-autodispatch/14.0.2/lib/python2.7/site-packages ; export PYTHONPATH
+    LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
+    LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
@@ -160,7 +160,7 @@ ln -s -f $BASEDIR/var_extract                 .
 ln -s -f $BASEDIR/store_to_archive_var_delete .
 ln -s -f $BASEDIR/archive_write_var_delete    .
 ln -s -f $BASEDIR/update_status               .
-ln -s -f $S2SDIR/bin/slice2series             .
+#ln -s -f $S2SDIR/bin/slice2series             .
 #
 cd $LOCAL_PROC
 #
@@ -223,16 +223,7 @@ export OUTTIME
 # Extract each field from all files
 #
 echo -n "TS var_extract start: " ; date
-#
-./slice2series \
-       --serial \
-       --netcdf_format="netcdf4c" \
-       --output_prefix="${CACHEDIR}/${CASE}.${HIST}." \
-       --output_suffix=".${OUTTIME}.nc" \
-       -m "time" \
-       ${LOCAL_PROC}/${CASE}.${HIST}.*.nc
-#
-#./var_extract
+./var_extract
 if [ $? -ne 0 ] ; then
   echo "var_extract failed"
   ./update_status error "$CASE $HIST $TPER"
