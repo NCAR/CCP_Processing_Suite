@@ -28,7 +28,7 @@ program CCMI_monthly_CMOR
   ! Molecular weights, kg/mole
   !
   real,parameter::mw_dryair = 28.97e-3
-  real,parameter::mw_so4    = 96.06
+!  real,parameter::mw_so4    = 96.06
   real,parameter::mw_ch4  =  16.
   real,parameter::mw_co   =  28.
   real,parameter::mw_h2o  =  18.
@@ -59,6 +59,8 @@ program CCMI_monthly_CMOR
   integer::error_flag,cmor_var_id
   real,dimension(:) ,allocatable::area_wt
   real,dimension(:,:),allocatable::indat2a,indat2b,indat2c,indat2d,indat2e,indat2f,indat2g,cmordat2d
+  real,dimension(:,:),allocatable::indat2_01,indat2_02,indat2_03,indat2_04,indat2_05,indat2_06,indat2_07,indat2_08,indat2_09,indat2_10
+  real,dimension(:,:),allocatable::indat2_11,indat2_12,indat2_13,indat2_14,indat2_15,indat2_16,indat2_17,indat2_18,indat2_19,indat2_20
   real,dimension(:,:) ,allocatable::psdata
   real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,indat3d,indat3e,indat3f,indat3g,cmordat3d,work3da,work3db
   real,dimension(:,:,:),allocatable::pshybrid,psdelta 
@@ -236,14 +238,15 @@ program CCMI_monthly_CMOR
         ! 
         ! Make manual alterations so that CMOR works. Silly code!
         !
-        if (xw(ixw)%ncesm_vars == 1) write(original_name,'(a)') xw(ixw)%cesm_vars(1)
-        if (xw(ixw)%ncesm_vars == 2) write(original_name,'(a,'','',a)')    (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
-        if (xw(ixw)%ncesm_vars == 3) write(original_name,'(2(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
-        if (xw(ixw)%ncesm_vars == 4) write(original_name,'(3(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
-        if (xw(ixw)%ncesm_vars == 5) write(original_name,'(4(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
-        if (xw(ixw)%ncesm_vars == 6) write(original_name,'(5(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
-        if (xw(ixw)%ncesm_vars == 7) write(original_name,'(6(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
-        if (xw(ixw)%ncesm_vars == 8) write(original_name,'(7(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars ==  1) write(original_name,'(a)') xw(ixw)%cesm_vars(1)
+        if (xw(ixw)%ncesm_vars ==  2) write(original_name,'(a,'','',a)')    (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars ==  3) write(original_name,'(2(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars ==  4) write(original_name,'(3(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars ==  5) write(original_name,'(4(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars ==  6) write(original_name,'(5(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars ==  7) write(original_name,'(6(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars ==  8) write(original_name,'(7(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars == 17) write(original_name,'(17(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
         !
         ! Modify units as necessary to accomodate udunits' inability to convert 
         !
@@ -924,6 +927,95 @@ program CCMI_monthly_CMOR
                  endif
               endif
            enddo
+        case ('emivoc')
+           !
+           ! Sum 17 fields
+           !
+           allocate(indat2_01(nlons,nlats),indat2_02(nlons,nlats),indat2_03(nlons,nlats),indat2_04(nlons,nlats),indat2_05(nlons,nlats))
+           allocate(indat2_06(nlons,nlats),indat2_07(nlons,nlats),indat2_08(nlons,nlats),indat2_09(nlons,nlats),indat2_10(nlons,nlats))
+           allocate(indat2_11(nlons,nlats),indat2_12(nlons,nlats),indat2_13(nlons,nlats),indat2_14(nlons,nlats),indat2_15(nlons,nlats),indat2_16(nlons,nlats),indat2_17(nlons,nlats))
+           allocate(cmordat2d(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
+           select case(ntimes(1,1))
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
+           end select
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           do ic = 1,nchunks(1)
+              do it = tidx1(ic),tidx2(ic)
+                 time_counter = it
+                 cmordat2d = spval
+                 call read_var(myncid(1, 1),var_info(var_found(1, 1))%name,indat2_01)
+                 call read_var(myncid(1, 2),var_info(var_found(1, 2))%name,indat2_02)
+                 call read_var(myncid(1, 3),var_info(var_found(1, 3))%name,indat2_03)
+                 call read_var(myncid(1, 4),var_info(var_found(1, 4))%name,indat2_04)
+                 call read_var(myncid(1, 5),var_info(var_found(1, 5))%name,indat2_05)
+                 call read_var(myncid(1, 6),var_info(var_found(1, 6))%name,indat2_06)
+                 call read_var(myncid(1, 7),var_info(var_found(1, 7))%name,indat2_07)
+                 call read_var(myncid(1, 8),var_info(var_found(1, 8))%name,indat2_08)
+                 call read_var(myncid(1, 9),var_info(var_found(1, 9))%name,indat2_09)
+                 call read_var(myncid(1,10),var_info(var_found(1,10))%name,indat2_10)
+                 call read_var(myncid(1,11),var_info(var_found(1,11))%name,indat2_11)
+                 call read_var(myncid(1,12),var_info(var_found(1,12))%name,indat2_12)
+                 call read_var(myncid(1,13),var_info(var_found(1,13))%name,indat2_13)
+                 call read_var(myncid(1,14),var_info(var_found(1,14))%name,indat2_14)
+                 call read_var(myncid(1,15),var_info(var_found(1,15))%name,indat2_15)
+                 call read_var(myncid(1,16),var_info(var_found(1,16))%name,indat2_16)
+                 call read_var(myncid(1,17),var_info(var_found(1,17))%name,indat2_17)
+                 !
+                 where ((indat2_01 /= 1.e36).and.(indat2_02 /= 1.e36).and.(indat2_03 /= 1.e36).and.(indat2_04 /= 1.e36).and.&
+                        (indat2_05 /= 1.e36).and.(indat2_06 /= 1.e36).and.(indat2_07 /= 1.e36).and.(indat2_08 /= 1.e36).and.&
+                        (indat2_09 /= 1.e36).and.(indat2_10 /= 1.e36).and.(indat2_11 /= 1.e36).and.(indat2_12 /= 1.e36).and.&
+                        (indat2_13 /= 1.e36).and.(indat2_14 /= 1.e36).and.(indat2_15 /= 1.e36).and.(indat2_16 /= 1.e36).and.(indat2_17 /= 1.e36))
+                   cmordat2d = indat2_01+indat2_02+indat2_03+indat2_04+indat2_05+indat2_06+indat2_07+indat2_08+indat2_09+indat2_10+indat2_11+indat2_12+indat2_13+indat2_14+indat2_15+indat2_16+indat2_17
+                 elsewhere
+                    cmordat2d = 1.e20
+                 endwhere
+                 !
+                 tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                 error_flag = cmor_write(      &
+                      var_id        = cmor_var_id, &
+                      data          = cmordat2d, &
+                      ntimes_passed = 1,       &
+                      time_vals     = tval,    &
+                      time_bnds     = tbnd)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
+              enddo
+              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              !
+              if (ic < nchunks(1)) then
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              endif
+           enddo
+           deallocate(indat2_01,indat2_02,indat2_03,indat2_04,indat2_05)
+           deallocate(indat2_06,indat2_07,indat2_08,indat2_09,indat2_10)
+           deallocate(indat2_11,indat2_12,indat2_13,indat2_14,indat2_15,indat2_16,indat2_17)
         case ('emiss')
            !
            ! Sum four fields

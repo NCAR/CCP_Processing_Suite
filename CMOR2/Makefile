@@ -30,33 +30,16 @@ ifeq ($(MACH),silver)
   FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -Mbounds -fpic
 endif
 #
-# 'modeling1' at NCAR/ACD
-#
-ifeq ($(MACH),modeli)
-  NCFDIR  = /usr/local/netcdf-4.1.2
-  UDUDIR  = /data1/strandwg/software/udunits-2.1.21
-  UIDDIR  = /data1/strandwg/software/uuid-1.6.2
-  CMRDIR  = /data1/strandwg/software/cmor
-  HD5DIR  = /usr/lib64
-  KRBDIR  = /usr/lib64
-#
-  NCFINC  = -I${NCFDIR}/include -I./include
-  NCFLIB  = -L${NCFDIR}/lib -lnetcdf -lnetcdff
-  KRBLIB  = -L${KRBDIR} -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lssl -lcrypto -lz
-  UDUINC  = -I${UDUDIR}/include
-  UDULIB  = -L${UDUDIR}/lib -ludunits2 -lexpat
-  UIDINC  = -I${UIDDIR}/include
-  UIDLIB  = -L${UIDDIR}/lib -luuid
-  FC      = /usr/pgi/linux86-64/11.3/bin/pgf95
-  FFLAGS  = -Wl,-rpath=${UDUDIR}/lib -Wl,-rpath=${UIDDIR}/lib -Mbounds -fpic
-#
-  HD5INC  = -I${HD5DIR}/include
-  HD5LIB  = -L${HD5DIR} -lhdf5_hl -lhdf5 -lz -lm
-endif
-#
 # 'yellowstone' CISL
 #
 ifeq ($(MACH),yslogi)
+  NCFDIR  = /glade/apps/opt/netcdf/4.3.0/pgi/13.3
+  UDUDIR  = /glade/apps/opt/udunits/2.1.24/pgi/12.5
+  UIDDIR  = /glade/u/home/strandwg/software/uuid-1.6.2
+  CMRDIR  = /glade/u/home/strandwg/software/cmor
+  HD5DIR  = /glade/apps/opt/hdf5/1.8.12/pgi/13.3
+  KRBDIR  = /usr/lib64
+#
   NCFDIR  = /glade/apps/opt/netcdf/4.2/pgi/default
   UDUDIR  = /glade/apps/opt/udunits/2.1.24/pgi/12.5
   UIDDIR  = /glade/u/home/strandwg/software/uuid-1.6.2
