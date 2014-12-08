@@ -111,7 +111,7 @@ if [ "$DORUN" = "Y" ] ; then
     cvrsvc* )
       ( /usr/syscom/opt/torque/default/bin/qsub ./${CCPS_SCRIPT} ) ;;
     login1* )
-      echo "Ready to go" ;;
+      ( /usr/bin/qsub -n 1 -t 720 -A CESM_Atmos ./${CCPS_SCRIPT} ) ;;
     * )
       ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
   esac
