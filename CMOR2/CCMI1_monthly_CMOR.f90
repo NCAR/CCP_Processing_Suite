@@ -1681,7 +1681,7 @@ program CCMI_monthly_CMOR
                  endif
               endif
            enddo
-        case ('ta','ua','va','hus','hur')
+        case ('ta','ua','va')
            !
            ! Just one field, interpolated to plevs
            !
@@ -1754,7 +1754,7 @@ program CCMI_monthly_CMOR
                  endif
               enddo
            enddo
-        case ('zg','cl','cli','clw','photo1d','mcu','jno2',&
+        case ('zg','cl','cli','clw','photo1d','mcu','jno2','hus',&
               'prodh2o2viaho2','vmrdms','vmrhno3','vmrno2','vmrno','vmrpan','vmrso2')
            !
            ! Just one field
