@@ -111,7 +111,7 @@ end module files_info
 module grid_info
   real,dimension(:),    allocatable::atm_lats,atm_lons,atm_levs,atm_levs_bnds,atm_ilevs,atm_ilevs_bnds
   real,dimension(:),    allocatable::cosp_tau,cosp_prs,cosp_ht,cosp_dbze,cosp_sza,gaussian_wts
-  real,dimension(:),    allocatable::atm_plev23,atm_plev17,atm_plev8,atm_plev7,atm_plev7_bnds,atm_plev3
+  real,dimension(:),    allocatable::atm_plev31,atm_plev23,atm_plev17,atm_plev8,atm_plev7,atm_plev7_bnds,atm_plev3
   real,dimension(:,:),  allocatable::atm_lats_bnds,atm_lons_bnds,landfrac,phis
   real,dimension(:,:),  allocatable::cosp_tau_bnds,cosp_prs_bnds,cosp_ht_bnds,cosp_dbze_bnds
   real,dimension(:),    allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
@@ -129,7 +129,7 @@ module grid_info
   real,dimension(:,:,:),allocatable::lnd_zsoi,lnd_dzsoi  ! CLM soil depth (m), CLM soil layer thickness (m)
   real,dimension(:,:),  allocatable::lnd_lats_bnds,lnd_lons_bnds
   real::p0
-  integer::nlons,nlats,nlevs,nilevs,nplev23,nplev17,nplev8,nplev7,nplev3
+  integer::nlons,nlats,nlevs,nilevs,nplev23,nplev17,nplev8,nplev7,nplev3,nplev31
   integer::ncosp_tau,ncosp_prs,ncosp_ht,ncosp_dbze,nsites,ncosp_sza
   integer::naxes,zfactor_id
   integer::nlats_trans,nmoc_z,ntrans_reg,nmoc_comp,ntrans_comp

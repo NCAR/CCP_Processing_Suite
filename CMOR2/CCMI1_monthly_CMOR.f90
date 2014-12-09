@@ -251,54 +251,54 @@ program CCMI_monthly_CMOR
         ! Modify units as necessary to accomodate udunits' inability to convert 
         !
         select case (xw(ixw)%entry) 
-           case('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs','mc',&
-                'emidms','emiso2','emiss','emibc','emioa') 
-              mycmor%positive = 'up' 
-           case('drydms','drydust','drypoa','dryso2','dryso4','drysoa','dryss',&
-                'emiso4','wetdust','wetoa','wetso2','wetso4',&
-                'dryhno3','drynh4','dryno2','drynoy','dryo3',&
-                'emico','emiisop','emibisop','eminh3','emipom','wethno3') 
-              mycmor%positive = 'down' 
-           case ('loadoa','loadbc','loaddust','loadss','loadso4')
-              var_info(var_found(1,1))%units = 'kg m-2' 
-           case ('wetss')
-              mycmor%positive = 'up' 
-              var_info(var_found(1,1))%units = 'kg m-2 s-1'
-           case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt') 
-              mycmor%positive = 'down' 
-           case ('clt','ci','sci') 
-              var_info(var_found(1,1))%units = '1'
-           case ('hurs','cl','sic') 
-              var_info(var_found(1,1))%units = '%' 
-           case('od550ss') 
-              var_info(var_found(1,1))%units = '1' 
-           case('prc','pr','prsn')
-              var_info(var_found(1,1))%units = 'kg m-2 s-1'
-              mycmor%positive = 'down' 
-           case ('chegpso4','do3chm','chepsoa')
-              var_info(var_found(1,1))%units = 'kg m-2 s-1' 
-           case ('photo1d','jno2')
-              var_info(var_found(1,1))%units = 's-1'
-           case('lossch4','lossco','o3loss','o3prod','ohloss')
-              var_info(var_found(1,1))%units = 'mole m-3 s-1' 
-           end select
+        case('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs','mc',&
+             'emidms','emiso2','emiss','emibc','emioa') 
+           mycmor%positive = 'up' 
+        case('drydms','drydust','drypoa','dryso2','dryso4','drysoa','dryss',&
+             'emiso4','wetdust','wetoa','wetso2','wetso4',&
+             'dryhno3','drynh4','dryno2','drynoy','dryo3',&
+             'emico','emiisop','emibisop','eminh3','emipom','wethno3') 
+           mycmor%positive = 'down' 
+        case ('loadoa','loadbc','loaddust','loadss','loadso4')
+           var_info(var_found(1,1))%units = 'kg m-2' 
+        case ('wetss')
+           mycmor%positive = 'up' 
+           var_info(var_found(1,1))%units = 'kg m-2 s-1'
+        case ('rlds','rldscs','rsds','rsdscs','rsdt','rtmt') 
+           mycmor%positive = 'down' 
+        case ('clt','ci','sci') 
+           var_info(var_found(1,1))%units = '1'
+        case ('hurs','cl','sic') 
+           var_info(var_found(1,1))%units = '%' 
+        case('od550ss') 
+           var_info(var_found(1,1))%units = '1' 
+        case('prc','pr','prsn')
+           var_info(var_found(1,1))%units = 'kg m-2 s-1'
+           mycmor%positive = 'down' 
+        case ('chegpso4','do3chm','chepsoa')
+           var_info(var_found(1,1))%units = 'kg m-2 s-1' 
+        case ('photo1d','jno2')
+           var_info(var_found(1,1))%units = 's-1'
+        case('lossch4','lossco','o3loss','o3prod','ohloss')
+           var_info(var_found(1,1))%units = 'mole m-3 s-1' 
+        end select
 !
-           write(*,*) 'calling cmor_variable:' 
-           write(*,*) 'table =',trim(mycmor%table_file) 
-           write(*,*) 'table_entry =',trim(xw(ixw)%entry) 
-           write(*,*) 'dimensions = ',trim(xw(ixw)%dims)
-           write(*,*) 'units = ',var_info(var_found(1,1))%units(1:20)
-           write(*,*) 'axis_ids      = ',axis_ids(1:naxes)
-           write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
-           write(*,*) 'positive      = ',trim(mycmor%positive)
-           write(*,*) 'original_name = ',trim(original_name) 
-           !
-           select case (xw(ixw)%entry) 
-           case ('aoa','chegpso4','cl','cli','clw','do3chm','emilnox','jno2','lossch4','lossco',&
-                 'mcu','mmrbc','mmrdust','mmroa','mmrsoa','mmrss',&
-                 'o3loss','o3prod','ohloss','photo1d','pilev','pmlev',&
-                 'prodh2o2viaho2','ta','ua','va','zg',&
-                 'vmrdms','vmrhno3','vmrno','vmrno2','vmrpan','vmrso2')
+        write(*,*) 'calling cmor_variable:' 
+        write(*,*) 'table =',trim(mycmor%table_file) 
+        write(*,*) 'table_entry =',trim(xw(ixw)%entry) 
+        write(*,*) 'dimensions = ',trim(xw(ixw)%dims)
+        write(*,*) 'units = ',var_info(var_found(1,1))%units(1:20)
+        write(*,*) 'axis_ids      = ',axis_ids(1:naxes)
+        write(*,*) 'missing_value = ',var_info(var_found(1,1))%missing_value
+        write(*,*) 'positive      = ',trim(mycmor%positive)
+        write(*,*) 'original_name = ',trim(original_name) 
+        !
+        select case (xw(ixw)%entry) 
+        case ('aoa','chegpso4','cl','cli','clw','do3chm','emilnox','jno2','lossch4','lossco',&
+             'mcu','mmrbc','mmrdust','mmroa','mmrsoa','mmrss',&
+             'o3loss','o3prod','ohloss','photo1d','pilev','pmlev',&
+             'prodh2o2viaho2','ta','ua','va','zg',&
+             'vmrdms','vmrhno3','vmrno','vmrno2','vmrpan','vmrso2')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
@@ -1681,7 +1681,80 @@ program CCMI_monthly_CMOR
                  endif
               endif
            enddo
-        case ('zg','ta','ua','va','hus','cl','cli','clw','photo1d','mcu','jno2',&
+        case ('ta','ua','va','hus','hur')
+           !
+           ! Just one field, interpolated to plevs
+           !
+           allocate(indat3a(nlons,nlats,nlevs))
+           allocate(cmordat3d(nlons,nlats,nplev31))
+           allocate(psdata(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
+           do ifile = 1,nc_nfiles(1)
+              select case(ntimes(ifile,1))
+              case default
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,psdata)
+                    where (abs(indat3a) > spval)
+                       indat3a = spval
+                    endwhere
+                    where (abs(psdata) > spval)
+                       psdata = spval
+                    elsewhere
+                       psdata = psdata * 0.01
+                    endwhere
+                    !
+                    cmordat3d = spval
+                    !
+                    ! Do vertical interpolation to pressure levels
+                    !
+                    call vertint(indat3a,cmordat3d,atm_levs,atm_plev31*0.01,psdata,spval,nlons,nlats,nlevs,nlevs+1,nplev31)
+                    !
+                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(        &
+                         var_id        = cmor_var_id,   &
+                         data          = cmordat3d, &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic-1,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic-1,cmor_filename(1:128)
+                 endif
+              enddo
+           enddo
+        case ('zg','cl','cli','clw','photo1d','mcu','jno2',&
               'prodh2o2viaho2','vmrdms','vmrhno3','vmrno2','vmrno','vmrpan','vmrso2')
            !
            ! Just one field

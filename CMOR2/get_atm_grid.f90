@@ -58,6 +58,8 @@ subroutine get_atm_grid
         nlevs = dim_info(n)%length
      case('ilev') 
         nilevs = dim_info(n)%length
+     case('plev31') 
+        nplev31 = dim_info(n)%length
      case('plev23') 
         nplev23 = dim_info(n)%length
      case('plev17') 
@@ -87,7 +89,7 @@ subroutine get_atm_grid
   allocate(landfrac(nlons,nlats),phis(nlons,nlats),gaussian_wts(nlats))
   allocate(atm_levs(nlevs),atm_levs_bnds(nlevs+1),atm_sites(nsites))
   allocate(atm_ilevs(nilevs),atm_ilevs_bnds(nilevs+1))
-  allocate(atm_plev23(nplev23),atm_plev17(nplev17),atm_plev8(nplev8),atm_plev7(nplev7),atm_plev3(nplev3))
+  allocate(atm_plev23(nplev23),atm_plev17(nplev17),atm_plev8(nplev8),atm_plev7(nplev7),atm_plev3(nplev3),atm_plev31(nplev31))
   allocate(a_coeff(nlevs),b_coeff(nlevs),a_coeff_bnds(nlevs+1),b_coeff_bnds(nlevs+1))
   allocate(ah_coeff(nilevs),bh_coeff(nilevs))
   allocate(cosp_tau(ncosp_tau),cosp_tau_bnds(2,ncosp_tau))
@@ -103,6 +105,7 @@ subroutine get_atm_grid
   call get_vars(gridid)
   call read_var(gridid,'lon'   ,atm_lons)
   call read_var(gridid,'lat'   ,atm_lats)
+  call read_var(gridid,'plev31',atm_plev31)
   call read_var(gridid,'plev23',atm_plev23)
   call read_var(gridid,'plev17',atm_plev17)
   call read_var(gridid,'plev8' ,atm_plev8)
