@@ -20,7 +20,7 @@ subroutine load_xwalk(xw_file)
   integer::iostat,i,j,ixw
   integer,dimension(20)::icol,iblk
   logical::does_exist
-  character(len=512)::instring
+  character(len=1024)::instring
   !
   ! Get crosswalk information
   !

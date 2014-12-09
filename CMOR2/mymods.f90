@@ -80,7 +80,7 @@ module xwalk_info
   !
   type XWInfo
      character(len=256)::table,entry,realm,sname,dims,comment
-     character(len=256),dimension(10)::cesm_vars
+     character(len=256),dimension(100)::cesm_vars
      integer::ncesm_vars
   end type XWInfo
   integer::num_xw,xw_found
