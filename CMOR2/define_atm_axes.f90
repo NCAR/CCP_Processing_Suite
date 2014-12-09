@@ -45,6 +45,8 @@ subroutine define_atm_axes(dimensions)
         dimunits(i) = 'kg m-3'
      case ( 'alt40','depth0m','depth100m','height10m','height2m','olayer100m','sdepth','sdepth1','olevel')
         dimunits(i) = 'm'
+     case ( 'wv550nm','wv440nm','wv870nm')
+        dimunits(i) = 'nm'
      case ( 'p220','p500','p560','p700','p840','plev3','plev7','plev8','plevs')
         dimunits(i) = 'Pa'
      case ( 'longitude')
