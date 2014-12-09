@@ -257,7 +257,7 @@ program CCMI_monthly_CMOR
         case('drydms','drydust','drypoa','dryso2','dryso4','drysoa','dryss',&
              'emiso4','wetdust','wetoa','wetso2','wetso4',&
              'dryhno3','drynh4','dryno2','drynoy','dryo3',&
-             'emico','emiisop','emibisop','eminh3','emipom','wethno3') 
+             'emico','emiisop','emibisop','eminh3','emipom','wethno3','emivoc')
            mycmor%positive = 'down' 
         case ('loadoa','loadbc','loaddust','loadss','loadso4')
            var_info(var_found(1,1))%units = 'kg m-2' 
