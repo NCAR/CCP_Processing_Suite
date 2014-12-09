@@ -339,7 +339,7 @@ program CCMI_monthly_CMOR
         case ('clt','od550aer','od550bc','od550oa','ps',&
               'rlds','rlutcs','rsdscs','rsds','rsdt','clivi',&
               'abs550aer','dryhno3','drynh3','drynh4','dryno2','drynoy','dryo3',&
-              'emico','emiisop','eminh3','eminox',&
+              'emico','emiisop','eminh3','eminox','emibisop',&
               'hfls','hfss','od550so4','reffclwtop','wetso2','wetso4','ztp',&
               'drydms','drydust','dryso2','dryso4','dryss','emidms','emiso2','emiso4')
            !
