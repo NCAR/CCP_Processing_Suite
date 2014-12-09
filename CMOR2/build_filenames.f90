@@ -6,7 +6,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
   character(len=256),intent(in)::case,comp,cesm_var,table
   integer,intent(in)::ivar,runbeg,runend
   integer::i,j,year1,year2,ndt,idt
-  character(len=256)::checkname
+  character(len=512)::checkname
   character(len=256),dimension(2)::dtbeg,dtend
   logical::exists
   !
