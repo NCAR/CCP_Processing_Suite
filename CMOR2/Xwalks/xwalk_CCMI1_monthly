@@ -80,8 +80,7 @@ CCMI1_monthly:gsto:stomatal_conductance_of_water_vapour_per_unit_leaf_area:longi
 CCMI1_monthly:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:LHFLX:LHFLX no change
 CCMI1_monthly:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:SHFLX:SHFLX no change
 CCMI1_monthly:hno3hetprod:chemical_loss_rate_of_n2o5_by_heterogeneous_reactions:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:hur:relative_humidity:longitude latitude plevs time:atmos:2:RELHUM PS:RELHUM interpolated to standard plevs
-CCMI1_monthly:hus:specific_humidity:longitude latitude plevs time:atmos:2:Q PS:Q on model levels
+CCMI1_monthly:hus:specific_humidity:longitude latitude alevel time:atmos:2:Q PS:Q on model levels
 CCMI1_monthly:icc:ice_cloud_area_fraction:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:jno2:photolysis_rate_of_NO2:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:lai:leaf_area_index:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
