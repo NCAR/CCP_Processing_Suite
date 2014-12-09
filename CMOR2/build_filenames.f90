@@ -10,7 +10,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
   character(len=256),dimension(2)::dtbeg,dtend
   logical::exists
   !
-  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,runbeg,runend,trim(table)
+!  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,runbeg,runend,trim(table)
   !
   select case (table)
   case ('Tables/CMIP5_Amon','Tables/CMIP5_Lmon','Tables/CMIP5_LImon','Tables/CMIP5_Omon','Tables/CMIP5_OImon','Tables/CMIP5_aero','Tables/CMIP5_cfMon',&
@@ -71,10 +71,10 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
      all_continue = all_continue.and.(nc_nfiles_nh(ivar) /= 0)
      all_continue = all_continue.and.(nc_nfiles_sh(ivar) /= 0)
      write(*,*) 'build_filenames all_continue: ',all_continue
-     if (all_continue) write(*,'(''nfiles NH: '',20i5)') nc_nfiles_nh(1:ivar)
-     if (all_continue) write(*,'(''nfiles SH: '',20i5)') nc_nfiles_sh(1:ivar)
-     if (all_continue) write(*,'(''NH  files: '',10(a))') (trim(ncfile_nh(i,ivar)),i=1,nc_nfiles_nh(ivar))
-     if (all_continue) write(*,'(''SH  files: '',10(a))') (trim(ncfile_sh(i,ivar)),i=1,nc_nfiles_sh(ivar))
+!     if (all_continue) write(*,'(''nfiles NH: '',20i5)') nc_nfiles_nh(1:ivar)
+!     if (all_continue) write(*,'(''nfiles SH: '',20i5)') nc_nfiles_sh(1:ivar)
+!     if (all_continue) write(*,'(''NH  files: '',10(a))') (trim(ncfile_nh(i,ivar)),i=1,nc_nfiles_nh(ivar))
+!     if (all_continue) write(*,'(''SH  files: '',10(a))') (trim(ncfile_sh(i,ivar)),i=1,nc_nfiles_sh(ivar))
   case ('Tables/TAMIP_3hrCurt','Tables/TAMIP_3hrMlev','Tables/TAMIP_3hrPlev','Tables/TAMIP_3hrSlev','Tables/TAMIP_sites')
      exists = .false.
      write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''.nc'')') &
@@ -131,7 +131,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
      endif
      !
      all_continue = all_continue.and.(nc_nfiles(ivar) /= 0)
-!     write(*,*) 'build_filenames all_continue: ',all_continue
+     write(*,*) 'build_filenames all_continue: ',all_continue
      if (all_continue) write(*,'(''nfiles: '',100i5)') nc_nfiles(1:ivar)
      if (all_continue) write(*,'('' files: '',100(a))') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
   end select
