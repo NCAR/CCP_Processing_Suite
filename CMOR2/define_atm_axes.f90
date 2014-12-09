@@ -263,6 +263,14 @@ subroutine define_atm_axes(dimensions)
                 units=dimunits(i),            &
                 coord_vals=atm_plev23)
            write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+        case ('CESM1-CAM4Chem')
+           axis_ids(idim) = cmor_axis(        &
+                table=mycmor%table_file,      &
+                table_entry=dimnames(i),      &
+                length=SIZE(atm_plev31),       &
+                units=dimunits(i),            &
+                coord_vals=atm_plev31)
+           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         case default
            axis_ids(idim) = cmor_axis(        &
                 table=mycmor%table_file,      &
