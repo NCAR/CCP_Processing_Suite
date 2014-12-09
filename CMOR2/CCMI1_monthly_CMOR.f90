@@ -297,7 +297,7 @@ program CCMI_monthly_CMOR
         case ('aoa','chegpso4','cl','cli','clw','do3chm','emilnox','jno2','lossch4','lossco',&
              'mcu','mmrbc','mmrdust','mmroa','mmrsoa','mmrss',&
              'o3loss','o3prod','ohloss','photo1d','pilev','pmlev',&
-             'prodh2o2viaho2','ta','ua','va','zg',&
+             'prodh2o2viaho2','ta','ua','va','hus','zg',&
              'vmrdms','vmrhno3','vmrno','vmrno2','vmrpan','vmrso2')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
