@@ -102,14 +102,10 @@ read DORUN
 if [ "$DORUN" = "Y" ] ; then
   echo "Running "${CCPS_SCRIPT}
   case "$PROCHOST" in
-    rhea* )
-      ( /usr/bin/qsub ./${CCPS_SCRIPT} ) ;;
+    rhea* | hopper* | cvrsvc* )
+      ( qsub ./${CCPS_SCRIPT} ) ;;
     yslogin* | geyser* )
-      ( /ncar/opt/lsf/8.3/linux2.6-glibc2.3-x86_64/bin/bsub < ./${CCPS_SCRIPT} ) ;;
-    hopper* )
-      ( /usr/common/nsg/bin/qsub ./${CCPS_SCRIPT} ) ;;
-    cvrsvc* )
-      ( /usr/syscom/opt/torque/default/bin/qsub ./${CCPS_SCRIPT} ) ;;
+      ( bsub < ./${CCPS_SCRIPT} ) ;;
     login1* )
       ( /usr/bin/qsub -n 1 -t 720 -A CESM_Atmos ./${CCPS_SCRIPT} ) ;;
     * )
