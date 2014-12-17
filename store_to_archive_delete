@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# Store data on archival system
+#
+if [ $# -ne 0 ] ; then
+  echo "Usage: store_to_archive_delete"
+  ./update_status error store_to_archive_delete
+  exit 1
+fi
+# 
+# Check for CACHEDIR
+#
+if [ ! $CACHEDIR ] ; then
+  echo "CACHEDIR not defined. Exiting"
+  ./update_status error store_to_archive_delete
+  exit 1
+fi
+#
+cd $CACHEDIR
+#
+if [ `/bin/ls *.nc | wc -l` -ne 0 ] ; then
+  ../archive_write_delete $ARCHIVE_PROC
+else
+  echo "No files in "$CACHEDIR". Exit."
+  ./update_status error store_to_archive_delete
+fi
+#
+cd $LOCAL_PROC
