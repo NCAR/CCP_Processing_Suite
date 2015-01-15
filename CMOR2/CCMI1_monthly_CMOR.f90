@@ -274,7 +274,7 @@ program CCMI_monthly_CMOR
            var_info(var_found(1,1))%units = '1' 
         case('prc','pr','prsn')
            var_info(var_found(1,1))%units = 'kg m-2 s-1'
-           mycmor%positive = 'down' 
+!           mycmor%positive = 'down' 
         case ('chegpso4','do3chm','chepsoa')
            var_info(var_found(1,1))%units = 'kg m-2 s-1' 
         case ('photo1d','jno2')

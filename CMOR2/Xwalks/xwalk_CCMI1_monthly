@@ -192,7 +192,7 @@ CCMI1_monthly:swtoacsbcff:toa_instantaneous_shortwave_forcing_due_to_black_carbo
 CCMI1_monthly:swtoacsdust:toa_instantaneous_shortwave_forcing_due_to_dust_ambient_aerosol_assuming_clear_sky:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:swtoacsoaff:toa_instantaneous_shortwave_forcing_due_to_particulate_organic_matter_ambient_aerosol_from_fossil_fuels_assuming_clear_sky:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:swtropaso3:tropopause_instantaneous_shortwave_forcing_due_to_ozone:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:ta:air_temperature:longitude latitude plevs time:atmos:2:T PS:T on model levels
+CCMI1_monthly:ta:air_temperature:longitude latitude alevel time:atmos:2:T PS:T on model levels
 CCMI1_monthly:tatp:tropopause_air_temperature:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:tntlw:tendency_of_air_temperature_due_to_longwave_heating:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:tntmp:tendency_of_air_temperature_due_to_model_physics:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
@@ -202,8 +202,8 @@ CCMI1_monthly:toz:equivalent_thickness_at_stp_of_atmosphere_ozone_content:longit
 CCMI1_monthly:tpo3chm:tendency_of_troposphere_mass_content_of_ozone_due_to_chemistry:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:tropoz:equivalent_thickness_at_stp_of_troposphere_ozone_content:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:ttop:air_temperature_at_cloud_top:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:ua:eastward_wind:longitude latitude plevs time:atmos:2:U PS:U interpolated to standard plevs
-CCMI1_monthly:va:northward_wind:longitude latitude plevs time:atmos:2:V PS:V interpolated to standard plevs
+CCMI1_monthly:ua:eastward_wind:longitude latitude alevel time:atmos:2:U PS:U on model levels
+CCMI1_monthly:va:northward_wind:longitude latitude alevel time:atmos:2:V PS:V on model levels
 CCMI1_monthly:vgd:vegetation_area_fraction_by_specified_category:longitude latitude time vgidx:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:vmraoanh:mole_fraction_of_specified_aoa-nh_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:vmrc2h2:mole_fraction_of_ethyne_in_air:longitude latitude alevel time:atmos:2:C2H2 PS:C2H2 on model levels
