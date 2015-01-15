@@ -10,13 +10,12 @@ CCMI1_monthly:altaoa:age_of_stratospheric_air:longitude latitude alevel time:atm
 CCMI1_monthly:ang4467aer:angstrom_exponent_of_ambient_aerosol_in_air:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:ang4487aer:angstrom_exponent_of_ambient_aerosol_in_air:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:ang5087aer:angstrom_exponent_of_ambient_aerosol_in_air:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmraoanh:mole_fraction_of_specified_aoa-nh_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:asyaer:atmosphere_aerosol_asymmetry_parameter:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:ccn:number_concentration_of_ambient_aerosol_in_air_at_liquid_water_cloud_top:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:cheaqph2o2so4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_aqueous_phase_net_chemical_production_by_Siv_plus_H2O2:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:cheaqpo3so4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_aqueous_phase_net_chemical_production_by_Siv_plus_O3:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:cheaqpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:chegpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time:atmos:3:SO4_CHMP PS TS:SO4_CHMP*(28.97e-3 kg mol-1*1.e-3/6.022e23), on model levels
+CCMI1_monthly:chegpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time:atmos:2:SO4_CHMP PS:SO4_CHMP*(28.97e-3 kg mol-1*1.e-3/6.022e23), on model levels
 CCMI1_monthly:chepasoa:tendency_of_atmosphere_mass_content_of_anthropogenic_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:chepsoa:tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:clc:convective_cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
@@ -56,8 +55,8 @@ CCMI1_monthly:emiaso4:tendency_of_atmosphere_mass_content_of_anthropogenic_sulfa
 CCMI1_monthly:emiasoa:tendency_of_atmosphere_mass_content_of_anthropogenic_secondary_particulate_organic_matter_as_dry_aerosol_due_to_emission:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:emiavoc:tendency_of_atmosphere_mass_content_of_anthropogenic_non_methane_volatile_organic_compounds_as_carbon_due_to_emission:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:emibc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_emission:longitude latitude time:atmos:2:SFbc_a1 bc_a1_CLXF:SFbc_a1+bc_a1_CLXF
-CCMI1_monthly:emibvoc:tendency_of_atmosphere_mass_content_of_non_methane_volatile_organic_compounds_expressed_as_carbon_due_to_emission_from_vegetation:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:emibisop:tendency_of_atmosphere_mass_content_of_isoprene_due_to_emission_from_vegetation:longitude latitude time:atmos:1:MEG_ISOP:MEG_ISOP
+CCMI1_monthly:emibvoc:tendency_of_atmosphere_mass_content_of_non_methane_volatile_organic_compounds_expressed_as_carbon_due_to_emission_from_vegetation:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:emico:tendency_of_atmosphere_mass_content_of_carbon_monoxide_due_to_emission:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:emidms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission:longitude latitude time:atmos:1:SFDMS:SFDMS
 CCMI1_monthly:emidust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_emission:longitude latitude time:atmos:2:SFdst_a1 SFdst_a3:SFdst_a1+SFdst_a3
@@ -114,14 +113,14 @@ CCMI1_monthly:mmraerh2o:mass_fraction_of_water_in_ambient_aerosol_in_air:longitu
 CCMI1_monthly:mmraernh4:mass_fraction_of_ammonium_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:mmraerno3:mass_fraction_of_nitrate_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:mmraerso4:mass_fraction_of_sulfate_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:mmrbc:mass_fraction_of_black_carbon_dry_aerosol_in_air:longitude latitude alevel time:atmos:4:CB1 CB2 PS TS:CB1+CB2 on model levels
+CCMI1_monthly:mmrbc:mass_fraction_of_black_carbon_dry_aerosol_in_air:longitude latitude alevel time:atmos:4:CB1 CB2 PS:CB1+CB2 on model levels
 CCMI1_monthly:mmrdust:mass_fraction_of_dust_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:mmroa:mass_fraction_of_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:mmrpm10:mass_fraction_of_pm10_ambient_aerosol_in_air:longitude latitude alevel time relh50p:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:mmrpm1:mass_fraction_of_pm1_ambient_aerosol_in_air:longitude latitude alevel time relh50p:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:mmrpm2p5:mass_fraction_of_pm2p5_ambient_aerosol_in_air:longitude latitude alevel time relh50p:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:mmrsoa:mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time:atmos:7:SOAM SOAI SOAT SOAB SOAX PS TS:SOAM+SOAI+SOAT+SOAB+SOAX on model levels
-CCMI1_monthly:mmrss:mass_fraction_of_seasalt_dry_aerosol_in_air:longitude latitude alevel time:atmos:6:SSLT01 SSLT02 SSLT03 SSLT04 PS TS:SSLT01+SSLT02+SSLT03+SSLT04 on model levels
+CCMI1_monthly:mmrsoa:mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time:atmos:6:SOAM SOAI SOAT SOAB SOAX PS:SOAM+SOAI+SOAT+SOAB+SOAX on model levels
+CCMI1_monthly:mmrss:mass_fraction_of_seasalt_dry_aerosol_in_air:longitude latitude alevel time:atmos:5:SSLT01 SSLT02 SSLT03 SSLT04 PS:SSLT01+SSLT02+SSLT03+SSLT04 on model levels
 CCMI1_monthly:mnstrage:age_of_stratospheric_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:nogwfluxe:upward_eastward_momentum_flux_in_air_due_to_nonorographic_eastward_gravity_waves:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:nogwfluxw:upward_eastward_momentum_flux_in_air_due_to_nonorographic_westward_gravity_waves:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
@@ -206,45 +205,46 @@ CCMI1_monthly:ttop:air_temperature_at_cloud_top:longitude latitude time:atmos:0:
 CCMI1_monthly:ua:eastward_wind:longitude latitude plevs time:atmos:2:U PS:U interpolated to standard plevs
 CCMI1_monthly:va:northward_wind:longitude latitude plevs time:atmos:2:V PS:V interpolated to standard plevs
 CCMI1_monthly:vgd:vegetation_area_fraction_by_specified_category:longitude latitude time vgidx:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrc2h2:mole_fraction_of_ethyne_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrc2h6:mole_fraction_of_ethane_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrch2o:mole_fraction_of_formaldehyde_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrch3ccl3:mole_fraction_of_hcc140a_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrch3cn:mole_fraction_of_aceto_nitrile_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrch4:mole_fraction_of_methane_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrco25:mole_fraction_of_specified_co-25_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+CCMI1_monthly:vmraoanh:mole_fraction_of_specified_aoa-nh_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+CCMI1_monthly:vmrc2h2:mole_fraction_of_ethyne_in_air:longitude latitude alevel time:atmos:2:C2H2 PS:C2H2 on model levels
+CCMI1_monthly:vmrc2h6:mole_fraction_of_ethane_in_air:longitude latitude alevel time:atmos:2:C2H6 PS:C2H6 on model levels
+CCMI1_monthly:vmrch2o:mole_fraction_of_formaldehyde_in_air:longitude latitude alevel time:atmos:2:CH2O PS:CH2O on model levels
+CCMI1_monthly:vmrch3ccl3:mole_fraction_of_hcc140a_in_air:longitude latitude alevel time:atmos:2:CH3CCL3 PS:CH3CCL3 on model levels
+CCMI1_monthly:vmrch3cn:mole_fraction_of_aceto_nitrile_in_air:longitude latitude alevel time:atmos:2:CH3CN PS:CH3CN on model levels
+CCMI1_monthly:vmrch4:mole_fraction_of_methane_in_air:longitude latitude alevel time:atmos:2:CH4 PS:CH4 on model levels
+CCMI1_monthly:vmrco25:mole_fraction_of_specified_co-25_tracer_in_air:longitude latitude alevel time:atmos:2:CO_25 PS:CO_25 on model levels
 CCMI1_monthly:vmrco2:mole_fraction_of_carbon_dioxide_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:vmrco50ea:mole_fraction_of_specified_co-50ea_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:vmrco50eu:mole_fraction_of_specified_co-50eu_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrco50:mole_fraction_of_specified_co-50_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+CCMI1_monthly:vmrco50:mole_fraction_of_specified_co-50_tracer_in_air:longitude latitude alevel time:atmos:2:CO_50 PS:CO_50 on model levels
 CCMI1_monthly:vmrco50na:mole_fraction_of_specified_co-50na_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:vmrco50sa:mole_fraction_of_specified_co-50sa_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrco:mole_fraction_of_carbon_monoxide_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrdms:mole_fraction_of_dimethyl_sulfide_in_air:longitude latitude alevel time:atmos:3:DMS PS TS:DMS on model levels
-CCMI1_monthly:vmre90:mole_fraction_of_specified_e90_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmre90n:mole_fraction_of_specified_e90n_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmre90s:mole_fraction_of_specified_e90s_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrh2o:mole_fraction_of_water_vapor_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrhcl:mole_fraction_of_hydrogen_chloride_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrhcn:mole_fraction_of_hydrogen_cyanide_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrhno3:mole_fraction_of_nitrogen_acid_in_air:longitude latitude alevel time:atmos:3:HNO3 PS TS:HNO3 on model levels
-CCMI1_monthly:vmrisop:mole_fraction_of_isoprene_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrn2o:mole_fraction_of_nitrous_oxide_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrnh50:mole_fraction_of_specified_nh-50_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrnh50w:mole_fraction_of_specified_nh-50w_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrnh5:mole_fraction_of_specified_nh-5_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrno2:mole_fraction_of_nitrogen_dioxide_in_air:longitude latitude alevel time:atmos:3:NO2 PS TS:NO2 on model levels
-CCMI1_monthly:vmrno:mole_fraction_of_nitrogen_monoxide_in_air:longitude latitude alevel time:atmos:3:NO PS TS:NO on model levels
+CCMI1_monthly:vmrco:mole_fraction_of_carbon_monoxide_in_air:longitude latitude alevel time:atmos:2:CO PS:CO on model levels
+CCMI1_monthly:vmrdms:mole_fraction_of_dimethyl_sulfide_in_air:longitude latitude alevel time:atmos:2:DMS PS:DMS on model levels
+CCMI1_monthly:vmre90:mole_fraction_of_specified_e90_tracer_in_air:longitude latitude alevel time:atmos:2:E90 PS:E90 on model levels
+CCMI1_monthly:vmre90n:mole_fraction_of_specified_e90n_tracer_in_air:longitude latitude alevel time:atmos:2:E90_NH PS:E90_NH on model levels
+CCMI1_monthly:vmre90s:mole_fraction_of_specified_e90s_tracer_in_air:longitude latitude alevel time:atmos:2:E90_SH PS:E90_SH on model levels
+CCMI1_monthly:vmrh2o:mole_fraction_of_water_vapor_in_air:longitude latitude alevel time:atmos:2:H2O PS:H2O on model levels
+CCMI1_monthly:vmrhcl:mole_fraction_of_hydrogen_chloride_in_air:longitude latitude alevel time:atmos:2:HCL PS:HCL on model levels
+CCMI1_monthly:vmrhcn:mole_fraction_of_hydrogen_cyanide_in_air:longitude latitude alevel time:atmos:2:HCN PS:HCN on model levels
+CCMI1_monthly:vmrhno3:mole_fraction_of_nitrogen_acid_in_air:longitude latitude alevel time:atmos:2:HNO3 PS:HNO3 on model levels
+CCMI1_monthly:vmrisop:mole_fraction_of_isoprene_in_air:longitude latitude alevel time:atmos:2:ISOP PS:ISOP on model levels
+CCMI1_monthly:vmrn2o:mole_fraction_of_nitrous_oxide_in_air:longitude latitude alevel time:atmos:2:N2O PS:N2O on model levels
+CCMI1_monthly:vmrnh50:mole_fraction_of_specified_nh-50_tracer_in_air:longitude latitude alevel time:atmos:2:NH_50 PS:NH_50 on model levels
+CCMI1_monthly:vmrnh50w:mole_fraction_of_specified_nh-50w_tracer_in_air:longitude latitude alevel time:atmos:2:NH_50W PS:NH_50W on model levels
+CCMI1_monthly:vmrnh5:mole_fraction_of_specified_nh-5_tracer_in_air:longitude latitude alevel time:atmos:2:NH_5 PS:NH_5 on model levels
+CCMI1_monthly:vmrno2:mole_fraction_of_nitrogen_dioxide_in_air:longitude latitude alevel time:atmos:2:NO2 PS:NO2 on model levels
+CCMI1_monthly:vmrno:mole_fraction_of_nitrogen_monoxide_in_air:longitude latitude alevel time:atmos:2:NO PS:NO on model levels
 CCMI1_monthly:vmro3cnp:mole_fraction_of_ozone_in_air:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmro3:mole_fraction_of_ozone_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmro3s:mole_fraction_of_stratospheric_ozone_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+CCMI1_monthly:vmro3:mole_fraction_of_ozone_in_air:longitude latitude alevel time:atmos:2:O3 PS:O3 on model levels
+CCMI1_monthly:vmro3s:mole_fraction_of_stratospheric_ozone_tracer_in_air:longitude latitude alevel time:atmos:2:O3S PS:O3S on model levels
 CCMI1_monthly:vmro3ste:mole_fraction_of_specified_o3ste_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmroh:mole_fraction_of_hydroxyl_radical_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrpan:mole_fraction_of_peroxyacetyl_nitrate_in_air:longitude latitude alevel time:atmos:3:PAN PS TS:PAN on model levels
-CCMI1_monthly:vmrsf6:mole_fraction_of_specified_SF6_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrso2:mole_fraction_of_sulfur_dioxide_in_air:longitude latitude alevel time:atmos:3:SO2 PS TS:SO2 on model levels
-CCMI1_monthly:vmrso2t:mole_fraction_of_specified_so2t_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:vmrst8025:mole_fraction_of_specified_st80-25_tracer_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+CCMI1_monthly:vmroh:mole_fraction_of_hydroxyl_radical_in_air:longitude latitude alevel time:atmos:2:OH PS:OH on model levels
+CCMI1_monthly:vmrpan:mole_fraction_of_peroxyacetyl_nitrate_in_air:longitude latitude alevel time:atmos:2:PAN PS:PAN on model levels
+CCMI1_monthly:vmrsf6:mole_fraction_of_specified_SF6_in_air:longitude latitude alevel time:atmos:2:SF6 PS:SF6 on model levels
+CCMI1_monthly:vmrso2:mole_fraction_of_sulfur_dioxide_in_air:longitude latitude alevel time:atmos:2:SO2 PS:SO2 on model levels
+CCMI1_monthly:vmrso2t:mole_fraction_of_specified_so2t_tracer_in_air:longitude latitude alevel time:atmos:2:SO2t PS:SO2t on model levels
+CCMI1_monthly:vmrst8025:mole_fraction_of_specified_st80-25_tracer_in_air:longitude latitude alevel time:atmos:2:TMST80_25 PS:TMST80_25 on model levels
 CCMI1_monthly:vstar:northward_transformed_eulerian_mean_air_velocity:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:vt100:northward_heat_flux_in_air_due_to_eddy_advection:longitude latitude time pr100:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:wa:upward_air_velocity:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
