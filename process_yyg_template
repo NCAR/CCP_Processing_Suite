@@ -53,7 +53,6 @@ PROCHOST=`hostname`;export PROCHOST
 case "$PROCHOST" in 
   yslogin* | geyser* )                                # Yellowstone (geyser) @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
-#    NCODIR=/glade/apps/opt/nco/4.4.2/gnu/4.8.2/bin            ; export NCODIR
     NCODIR=/glade/apps/opt/nco/4.4.4/gnu/4.9.1/bin            ; export NCODIR
     NCKS=${NCODIR}/ncks     ; export NCKS
     NCRA=${NCODIR}/ncra     ; export NCRA
@@ -61,8 +60,6 @@ case "$PROCHOST" in
     LOCALDSK=/glade/scratch/yangyang/archive/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-YY        ; export ARCHIVE_BASE
     PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
-#    S2SDIR=/glade/p/cesm/cseg/tools/pyReshaper     ; export S2SDIR
-#    PYTHONPATH=${S2SDIR}/lib/python2.7/site-packages:/glade/apps/opt/PyNIO/1.4.1/gnu/4.7.2/PyNIO:/glade/apps/opt/numpy/1.8.1/intel-autodispatch/14.0.2/lib/python2.7/site-packages ; export PYTHONPATH
     LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
     LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
     ;;
