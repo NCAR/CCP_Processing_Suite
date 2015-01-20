@@ -224,7 +224,7 @@ fi
 if [ "$YEARBEG" = 2081 ] ; then
   NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.*.nc | egrep "\.${HIST}\.(208[1-9]|209[0-9]|2100)" | wc -l`
 else
-  if [ $CASE = "b.e11.B1850C5CN.f09_g16.005" ] || [ $CASE = "f.e11.F1850C5CN.f09_f09.001" ] ; then
+  if [ $CASE = "b.e11.B1850C5CN.f09_g16.005" ] || [ $CASE = "f.e11.F1850C5CN.f09_f09.001" ] || [ $CASE = "b.e11.B1850LENS_RAMP.2xcap.f09_g16.001" ] ; then
     NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc | wc -l`
   else
     if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
