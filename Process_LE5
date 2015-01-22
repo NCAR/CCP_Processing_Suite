@@ -67,9 +67,10 @@ if [ "$DORUN" = "Y" ] ; then
   echo "Running "${CCPS_SCRIPT}
   case "$PROCHOST" in
     yslogin* | geyser* )
-      ( /ncar/opt/lsf/8.3/linux2.6-glibc2.3-x86_64/bin/bsub < ./${CCPS_SCRIPT} ) ;;
+      ( bsub < ./${CCPS_SCRIPT} ) ;;
     * )
-      ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
+      echo "Not on right machine"
+      exit 1 ;;
   esac
 else
   echo "Will not run "${CCPS_SCRIPT}
