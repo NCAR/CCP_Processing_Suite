@@ -194,31 +194,31 @@ if [ -d $LOCAL_HIST ] ; then
       if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
         NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc | wc -l`
       else
-        NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+        NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.*.nc | wc -l`
       fi
     fi
   fi
   if [ $NHISTF -ne 0 ] ; then
     echo ${CASE}"."${HIST}" files on disk, softlinking."
+    rm -f ${CASE}.${HIST}.*.nc
     if [ "$YEARBEG" = 2081 ] ; then
       ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{208[1-9],209[0-9],2100}*.nc .
     else
-      if [ $CASE = "b.e11.B1850C5CN.f09_g16.005" ] || [ $CASE = "f.e11.F1850C5CN.f09_f09.001" ] ; then
-        ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc .
-      fi
-      if [ $CASE = "b.e11.B1850LENS_RAMP.2xcap.f09_g16.001" ] ; then
-        if [ $CENT = "02" ] ; then
-          ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[2-3]*.nc .
-        else
-          ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc .
-        fi
-      fi
-      if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
-        ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc .
-      else
-        ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
-      fi
-    fi 
+      case "$CASE" in
+        "b.e11.B1850C5CN.f09_g16.005" | "f.e11.F1850C5CN.f09_f09.001" )
+          ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc . ;;
+        "b.e11.B1850LENS_RAMP.2xcap.f09_g16.001" )
+          if [ $CENT = "02" ] ; then
+            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[2-3]*.nc .
+          else
+            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc .
+          fi ;;
+        "b.e11.BRCP45C5CNBDRD.f09_g16.???" )
+          ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc . ;;
+        * )
+          ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.*.nc . ;;
+       esac
+    fi
   else
     echo "History files not on "${LOCAL_HIST}". Exiting."
     exit 1
@@ -228,15 +228,15 @@ fi
 # Make sure there's the correct number of files, based on stream and time period and 20C/RCP
 #
 if [ "$YEARBEG" = 2081 ] ; then
-  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.*.nc | egrep "\.${HIST}\.(208[1-9]|209[0-9]|2100)" | wc -l`
+  NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | egrep "\.${HIST}\.(208[1-9]|209[0-9]|2100)" | wc -l`
 else
   if [ $CASE = "b.e11.B1850C5CN.f09_g16.005" ] || [ $CASE = "f.e11.F1850C5CN.f09_f09.001" ] || [ $CASE = "b.e11.B1850LENS_RAMP.2xcap.f09_g16.001" ] ; then
-    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc | wc -l`
+    NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
   else
     if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
-      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc | wc -l`
+      NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
     else
-      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+      NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
     fi
   fi
 fi
@@ -244,51 +244,51 @@ fi
 case "$EXPTYP" in 
   185 )
   case "$CENT" in
-  00 )
-    YEARBEG=0001
-    YEAREND=0099
-    case "$HIST" in 
-      cam.h0 | cice.h1 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
-        if [ $NHISTF -ne 1188 ] ; then
-          echo ${NHISTF}" should be 1188. File count mismatch. Exit."
-          exit 1
-        fi ;;
-      cam.h1 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 )
-        if [ $NHISTF -ne 99 ] ; then
-          echo ${NHISTF}" should be 99. File count mismatch. Exit."
-          exit 1
-        fi ;;
-    esac ;;
-  01 )
-    YEARBEG=${CENT}00
-    YEAREND=${CENT}99
-    case "$HIST" in 
-      cam.h0 | cice.h1 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
-        if [ $NHISTF -ne 1200 ] ; then
-          echo ${NHISTF}" should be 1200. File count mismatch. Exit."
-          exit 1
-        fi ;;
-      cam.h1 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 )
-        if [ $NHISTF -ne 100 ] ; then
-          echo ${NHISTF}" should be 100. File count mismatch. Exit."
-          exit 1
-        fi ;;
-    esac ;;
-  02 )
-    YEARBEG=0200
-    YEAREND=0305
-    case "$HIST" in 
-      cam.h0 | cice.h1 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
-        if [ $NHISTF -ne 1272 ] ; then
-          echo ${NHISTF}" should be 1272. File count mismatch. Exit."
-          exit 1
-        fi ;;
-      cam.h1 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 )
-        if [ $NHISTF -ne 106 ] ; then
-          echo ${NHISTF}" should be 106. File count mismatch. Exit."
-          exit 1
-        fi ;;
-    esac ;;
+    "00" )
+      YEARBEG=0001
+      YEAREND=0099
+      case "$HIST" in 
+        cam.h0 | cice.h1 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+          if [ $NHISTF -ne 1188 ] ; then
+            echo ${NHISTF}" should be 1188. File count mismatch. Exit."
+            exit 1
+          fi ;;
+        cam.h1 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 )
+          if [ $NHISTF -ne 99 ] ; then
+            echo ${NHISTF}" should be 99. File count mismatch. Exit."
+            exit 1
+          fi ;;
+      esac ;;
+    "01" )
+      YEARBEG=0100
+      YEAREND=0199
+      case "$HIST" in 
+        cam.h0 | cice.h1 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+          if [ $NHISTF -ne 1200 ] ; then
+            echo ${NHISTF}" should be 1200. File count mismatch. Exit."
+            exit 1
+          fi ;;
+        cam.h1 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 )
+          if [ $NHISTF -ne 100 ] ; then
+            echo ${NHISTF}" should be 100. File count mismatch. Exit."
+            exit 1
+          fi ;;
+      esac ;;
+    "02" )
+      YEARBEG=0200
+      YEAREND=0305
+      case "$HIST" in 
+        cam.h0 | cice.h1 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+          if [ $NHISTF -ne 1272 ] ; then
+            echo ${NHISTF}" should be 1272. File count mismatch. Exit."
+            exit 1
+          fi ;;
+        cam.h1 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 )
+          if [ $NHISTF -ne 106 ] ; then
+            echo ${NHISTF}" should be 106. File count mismatch. Exit."
+            exit 1
+          fi ;;
+      esac ;;
   esac ;;
 
   20T )
