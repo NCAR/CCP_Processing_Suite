@@ -209,8 +209,7 @@ if [ -d $LOCAL_HIST ] ; then
           ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc . ;;
         "b.e11.B1850LENS_RAMP.2xcap.f09_g16.001" )
           if [ $CENT = "02" ] ; then
-            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.2*.nc .
-            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.3*.nc .
+            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.0[2-3]*.nc .
           else
             ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc .
           fi ;;
