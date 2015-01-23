@@ -301,7 +301,9 @@ program CCMI_monthly_CMOR
              'vmrc2h2','vmrc2h6','vmrch2o','vmrch3ccl3','vmrch3cn','vmrch4','vmrco25','vmrco50',&
              'vmrco','vmrdms','vmre90','vmre90n','vmre90s','vmrh2o','vmrhcl','vmrhcn','vmrhno3',&
              'vmrisop','vmrn2o','vmrnh50','vmrnh50w','vmrnh5','vmrno2','vmrno','vmro3','vmro3s',&
-             'vmroh','vmrpan','vmrsf6','vmrso2','vmrso2t','vmrst8025')
+             'vmroh','vmrpan','vmrsf6','vmrso2','vmrso2t','vmrst8025',&
+             'losso1dviah2o','losso3viaho2','losso3viaoh','lossrcoo2viano2','lossro2viaho2',&
+             'lossro2viano','lossro2viano3','lossro2viaro2','mmraernh4','mmraerno3','mmraerso4')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
@@ -1780,7 +1782,9 @@ program CCMI_monthly_CMOR
               'prodh2o2viaho2','ta','ua','va','vmrc2h2','vmrc2h6','vmrch2o','vmrch3ccl3','vmrch3cn',&
               'vmrch4','vmrco','vmrco25','vmrco50','vmrdms','vmre90','vmre90n','vmre90s','vmrh2o',&
               'vmrhcl','vmrhcn','vmrhno3','vmrisop','vmrn2o','vmrnh5','vmrnh50','vmrnh50w','vmrno',&
-              'vmrno2','vmro3','vmro3s','vmroh','vmrpan','vmrsf6','vmrso2','vmrso2t','vmrst8025','zg')
+              'vmrno2','vmro3','vmro3s','vmroh','vmrpan','vmrsf6','vmrso2','vmrso2t','vmrst8025','zg',&
+              'losso1dviah2o','losso3viaho2','losso3viaoh','lossrcoo2viano2','lossro2viaho2',&
+              'lossro2viano','lossro2viano3','lossro2viaro2','mmraernh4','mmraerno3','mmraerso4')
            !
            ! Just one field, leave on model levels
            !
