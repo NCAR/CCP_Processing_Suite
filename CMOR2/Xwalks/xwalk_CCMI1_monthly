@@ -309,7 +309,7 @@ CCMI1_monthly:zmnoy:mole_fraction_of_total_reactive_nitrogen_in_air:longitude la
 CCMI1_monthly:zmo3:mole_fraction_of_ozone_in_air:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:zmoclo:mole_fraction_of_chlorine_dioxide_in_air:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:zmoh:mole_fraction_of_hydroxyl_radical_in_air:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:zmta:air_temperature:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
+CCMI1_monthly:zmta:air_temperature:longitude latitude plevs time:atmos:2:T PS:T interpolated to pressure levels and zonal average
 CCMI1_monthly:zmtnt:tendency_of_air_temperature_due_to_diabatic_processes:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:zmua:eastward_wind:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:zmva:northward_wind:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN

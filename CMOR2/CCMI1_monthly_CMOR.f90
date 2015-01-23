@@ -61,7 +61,7 @@ program CCMI_monthly_CMOR
   real,dimension(:,:),allocatable::indat2a,indat2b,indat2c,indat2d,indat2e,indat2f,indat2g,cmordat2d
   real,dimension(:,:),allocatable::indat2_01,indat2_02,indat2_03,indat2_04,indat2_05,indat2_06,indat2_07,indat2_08,indat2_09,indat2_10
   real,dimension(:,:),allocatable::indat2_11,indat2_12,indat2_13,indat2_14,indat2_15,indat2_16,indat2_17,indat2_18,indat2_19,indat2_20
-  real,dimension(:,:) ,allocatable::psdata
+  real,dimension(:,:) ,allocatable::psdata,zonave
   real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,indat3d,indat3e,indat3f,indat3g,cmordat3d,work3da,work3db
   real,dimension(:,:,:),allocatable::pshybrid,psdelta 
   !
@@ -73,7 +73,7 @@ program CCMI_monthly_CMOR
   ! Other variables 
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
-  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,ixw,ilev,ic,jfile
+  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,ixw,ilev,ic,jfile,ij,ik
   logical::does_exist 
   !
   ! GO
@@ -307,6 +307,17 @@ program CCMI_monthly_CMOR
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
                 axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(4),axis_ids(1)/),  &
+                missing_value=spval,&
+                positive=mycmor%positive,                          &
+                original_name=original_name,                       &
+                comment=xw(ixw)%comment)
+!                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4)/),  &
+        case ('zmta')
+           cmor_var_id = cmor_variable(                            &
+                table=mycmor%table_file,                           &
+                table_entry=xw(ixw)%entry,                         &
+                units=var_info(var_found(1,1))%units,                &
+                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(4)/),  &
                 missing_value=spval,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
@@ -1684,79 +1695,87 @@ program CCMI_monthly_CMOR
                  endif
               endif
            enddo
-!!$        case ('ta','ua','va')
-!!$           !
-!!$           ! Just one field, interpolated to plevs
-!!$           !
-!!$           allocate(indat3a(nlons,nlats,nlevs))
-!!$           allocate(cmordat3d(nlons,nlats,nplev31))
-!!$           allocate(psdata(nlons,nlats))
-!!$           !
-!!$           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
-!!$           call get_dims(myncid(1,1))
-!!$           call get_vars(myncid(1,1))
-!!$           if (allocated(time))       deallocate(time)
-!!$           if (allocated(time_bnds))  deallocate(time_bnds)
-!!$           allocate(time(ntimes(1,1)))
-!!$           allocate(time_bnds(2,ntimes(1,1)))
-!!$           !
-!!$           do n=1,ntimes(1,1)
-!!$              time_counter = n
-!!$              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
-!!$              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
-!!$           enddo
-!!$           !
-!!$           do ifile = 1,nc_nfiles(1)
-!!$              select case(ntimes(ifile,1))
-!!$              case default
-!!$                 nchunks(ifile) = 1
-!!$                 tidx1(1:nchunks(ifile)) = 1
-!!$                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
-!!$              end select
-!!$              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
-!!$              do ic = 1,nchunks(ifile)
-!!$                 do it = tidx1(ic),tidx2(ic)
-!!$                    time_counter = it
-!!$                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-!!$                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,psdata)
-!!$                    where (abs(indat3a) > spval)
-!!$                       indat3a = spval
-!!$                    endwhere
-!!$                    where (abs(psdata) > spval)
-!!$                       psdata = spval
-!!$                    elsewhere
-!!$                       psdata = psdata * 0.01
-!!$                    endwhere
-!!$                    !
-!!$                    cmordat3d = spval
-!!$                    !
-!!$                    ! Do vertical interpolation to pressure levels
-!!$                    !
-!!$                    call vertint(indat3a,cmordat3d,atm_levs,atm_plev31*0.01,psdata,spval,nlons,nlats,nlevs,nlevs+1,nplev31)
-!!$                    !
-!!$                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
-!!$                    error_flag = cmor_write(        &
-!!$                         var_id        = cmor_var_id,   &
-!!$                         data          = cmordat3d, &
-!!$                         ntimes_passed = 1,         &
-!!$                         time_vals     = tval,      &
-!!$                         time_bnds     = tbnd)
-!!$                    if (error_flag < 0) then
-!!$                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
-!!$                       stop
-!!$                    endif
-!!$                 enddo
-!!$                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
-!!$                 cmor_filename(1:) = ' '
-!!$                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
-!!$                 if (error_flag < 0) then
-!!$                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic-1,cmor_filename(1:128)
-!!$                    stop
-!!$                 else
-!!$                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic-1,cmor_filename(1:128)
-!!$                 endif
-!!$              enddo
-!!$           enddo
+        case ('zmta')
+           !
+           ! Just one field, interpolated to plevs then zonally averaged
+           !
+           allocate(indat3a(nlons,nlats,nlevs))
+           allocate(cmordat3d(nlons,nlats,nplev31))
+           allocate(psdata(nlons,nlats),zonave(nlats,nplev31))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
+           do ifile = 1,nc_nfiles(1)
+              select case(ntimes(ifile,1))
+              case default
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,psdata)
+                    where (abs(indat3a) > spval)
+                       indat3a = spval
+                    endwhere
+                    where (abs(psdata) > spval)
+                       psdata = spval
+                    elsewhere
+                       psdata = psdata * 0.01
+                    endwhere
+                    !
+                    cmordat3d = spval
+                    !
+                    ! Do vertical interpolation to pressure levels
+                    !
+                    call vertint(indat3a,cmordat3d,atm_levs,atm_plev31*0.01,psdata,spval,nlons,nlats,nlevs,nlevs+1,nplev31)
+                    !
+                    ! Zonal average
+                    !
+                    do ik = 1,nplev31
+                       do ij = 1,nlats
+                          zonave(ij,ik) = sum(cmordat3d(:,ij,ik))/nlons
+                       enddo
+                    enddo
+                    !
+                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(        &
+                         var_id        = cmor_var_id, &
+                         data          = zonave,      &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic-1,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic-1,cmor_filename(1:128)
+                 endif
+              enddo
+           enddo
         case ('aoa','cl','cli','clw','emilnox','hus','jno2','mcu','photo1d','pilev','pmlev',&
               'prodh2o2viaho2','ta','ua','va','vmrc2h2','vmrc2h6','vmrch2o','vmrch3ccl3','vmrch3cn',&
               'vmrch4','vmrco','vmrco25','vmrco50','vmrdms','vmre90','vmre90n','vmre90s','vmrh2o',&
