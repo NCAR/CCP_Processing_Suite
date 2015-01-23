@@ -279,7 +279,10 @@ program CCMI_monthly_CMOR
            var_info(var_found(1,1))%units = 'kg m-2 s-1' 
         case ('photo1d','jno2')
            var_info(var_found(1,1))%units = 's-1'
-        case('lossch4','lossco','o3loss','o3prod','ohloss')
+        case('lossch4','lossco','o3loss','o3prod','ohloss',&
+             'losso1dviah2o','losso3viaho2','losso3viaoh',&
+             'lossrcoo2viano2','lossro2viaho2',&
+             'lossro2viano','lossro2viano3','lossro2viaro2')
            var_info(var_found(1,1))%units = 'mole m-3 s-1' 
         end select
 !
