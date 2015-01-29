@@ -279,8 +279,8 @@ subroutine define_atm_axes(dimensions)
                 table_entry='longitude',      &
                 length=1,                     &
                 units='degrees_east',         &
-                coord_vals=(/360.0/),         &
-                cell_bounds=(/-180.0,180.0/))
+                coord_vals=(/180.0/),         &
+                cell_bounds=(/0.0,360.0/))
         case default
            axis_ids(idim) = cmor_axis(        &
                 table=mycmor%table_file,      &
