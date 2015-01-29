@@ -1762,8 +1762,11 @@ program CCMI_monthly_CMOR
                                 lon_count = lon_count + 1
                              endif
                           enddo
-                          write(*,*) 'LC: ',lon_count
-                          zonave(1,ij,ik) = zonave(1,ij,ik)/lon_count
+                          if (lon_count == 0) then
+                             zonave(1,ij,ik) = zonave(1,ij,ik)/lon_count
+                          else
+                             zonave(1,ij,ik) = spval
+                          endif
                        enddo
                     enddo
                     write(*,*) minval(cmordat3d),maxval(cmordat3d,mask=cmordat3d/=spval),minval(zonave),maxval(zonave)
