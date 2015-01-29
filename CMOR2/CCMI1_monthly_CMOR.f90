@@ -1755,7 +1755,7 @@ program CCMI_monthly_CMOR
                     write(*,*) minval(cmordat3d),maxval(cmordat3d)
                     do ik = 1,nplev31
                        do ij = 1,nlats
-                          zonave(1,ij,ik) = sum(cmordat3d(:,ij,ik))/nlons
+                          zonave(1,ij,ik) = sum(cmordat3d(:,ij,ik),mask=(cmordat3d(:,ij,ik)/=1.e20))/nlons
                        enddo
                     enddo
                     write(*,*) minval(zonave),maxval(zonave)
