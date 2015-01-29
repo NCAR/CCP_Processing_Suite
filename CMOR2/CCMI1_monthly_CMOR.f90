@@ -1745,7 +1745,7 @@ program CCMI_monthly_CMOR
                     endwhere
                     !
                     cmordat3d = spval
-                    zonave    = spval
+                    zonave    = 0.
                     !
                     ! Do vertical interpolation to pressure levels
                     !
@@ -1770,9 +1770,6 @@ program CCMI_monthly_CMOR
                        enddo
                     enddo
                     write(*,*) minval(cmordat3d),maxval(cmordat3d,mask=cmordat3d/=spval),minval(zonave),maxval(zonave,mask=zonave/=spval)
-                    where (zonave == 0.)
-                       zonave = spval
-                    endwhere
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
