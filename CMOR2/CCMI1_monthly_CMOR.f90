@@ -1762,6 +1762,7 @@ program CCMI_monthly_CMOR
                                 lon_count = lon_count + 1
                              endif
                           enddo
+                          write(*,*) 'LC: ',lon_count
                           zonave(1,ij,ik) = zonave(1,ij,ik)/lon_count
                        enddo
                     enddo
