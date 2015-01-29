@@ -73,7 +73,7 @@ program CCMI_monthly_CMOR
   ! Other variables 
   !
   character(len=256)::exp_file,xwalk_file,table_file,svar,tstr,original_name,logfile,cmor_filename
-  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,ixw,ilev,ic,jfile,ij,ik
+  integer::i,j,k,m,n,tcount,it,ivar,length,iexp,jexp,ixw,ilev,ic,jfile,ii,ij,ik,lon_count
   logical::does_exist 
   !
   ! GO
@@ -1755,7 +1755,14 @@ program CCMI_monthly_CMOR
                     !
                     do ik = 1,nplev31
                        do ij = 1,nlats
-                          zonave(1,ij,ik) = sum(cmordat3d(:,ij,ik),mask=(cmordat3d(:,ij,ik)/=spval))/nlons
+                          lon_count = 0
+                          do ii = 1,nlons
+                             if (cmordat3d(ii,ij,ik) /= spval) then
+                                zonave(1,ij,ik) = zonave(1,ij,ik) + cmordat3d(ii,ij,ik)
+                                lon_count = lon_count + 1
+                             endif
+                          enddo
+                          zonave(1,ij,ik) = zonave(1,ij,ik)/lon_count
                        enddo
                     enddo
                     write(*,*) minval(cmordat3d),maxval(cmordat3d,mask=cmordat3d/=spval),minval(zonave),maxval(zonave)
