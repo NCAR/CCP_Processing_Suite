@@ -311,7 +311,7 @@ CCMI1_monthly:zmoclo:mole_fraction_of_chlorine_dioxide_in_air:longitude latitude
 CCMI1_monthly:zmoh:mole_fraction_of_hydroxyl_radical_in_air:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:zmta:air_temperature:longitude latitude plevs time:atmos:2:T PS:T interpolated to pressure levels and zonal average
 CCMI1_monthly:zmtnt:tendency_of_air_temperature_due_to_diabatic_processes:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:zmua:eastward_wind:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:zmva:northward_wind:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:zmzg:geopotential_height:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
+CCMI1_monthly:zmua:eastward_wind:longitude latitude plevs time:atmos:2:U PS:U interpolated to pressure levels and zonal average
+CCMI1_monthly:zmva:northward_wind:longitude latitude plevs time:atmos:2:V PS:V interpolated to pressure levels and zonal average
+CCMI1_monthly:zmzg:geopotential_height:longitude latitude plevs time:atmos:2:Z3 PS:Z3 on model levels
 CCMI1_monthly:ztp:tropopause_altitude:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN

@@ -316,8 +316,12 @@ program CCMI_monthly_CMOR
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
                 comment=xw(ixw)%comment)
-!                axis_ids=(/axis_ids(1),axis_ids(2),axis_ids(3),axis_ids(4)/),  &
-        case ('zmta')
+        case ('zmbrcl','zmbr','zmbro','zmbrono2','zmbry','zmc2br2f4','zmcbrclf2','zmcbrf3','zmccl4',&
+              'zmcf2cl2','zmcfcl3','zmch2br2','zmch2o','zmch3br','zmch3ccl2f','zmch3ccl3','zmch3cclf2',&
+              'zmch3cl','zmch3ooh','zmch4','zmchbr3','zmchclf2','zmcl2o2','zmcl','zmclo','zmclono2',&
+              'zmcly','zmco','zmh2','zmh2o2','zmh2o','zmhbr','zmhcl','zmhno3','zmhno4','zmho2','zmhobr',&
+              'zmhocl','zmmnstrage','zmn2o5','zmn2o','zmn','zmno2','zmno','zmnoy','zmo3','zmoclo','zmoh',&
+              'zmta','zmtnt','zmua','zmva','zmzg')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
@@ -1700,7 +1704,12 @@ program CCMI_monthly_CMOR
                  endif
               endif
            enddo
-        case ('zmta')
+        case ('zmbrcl','zmbr','zmbro','zmbrono2','zmbry','zmc2br2f4','zmcbrclf2','zmcbrf3','zmccl4',&
+              'zmcf2cl2','zmcfcl3','zmch2br2','zmch2o','zmch3br','zmch3ccl2f','zmch3ccl3','zmch3cclf2',&
+              'zmch3cl','zmch3ooh','zmch4','zmchbr3','zmchclf2','zmcl2o2','zmcl','zmclo','zmclono2',&
+              'zmcly','zmco','zmh2','zmh2o2','zmh2o','zmhbr','zmhcl','zmhno3','zmhno4','zmho2','zmhobr',&
+              'zmhocl','zmmnstrage','zmn2o5','zmn2o','zmn','zmno2','zmno','zmnoy','zmo3','zmoclo','zmoh',&
+              'zmta','zmtnt','zmua','zmva','zmzg')
            !
            ! Just one field, interpolated to plevs then zonally averaged
            !
