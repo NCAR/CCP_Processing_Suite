@@ -1752,11 +1752,13 @@ program CCMI_monthly_CMOR
                     !
                     ! Zonal average
                     !
+                    write(*,*) minval(cmordat3d),maxval(cmordat3d)
                     do ik = 1,nplev31
                        do ij = 1,nlats
                           zonave(1,ij,ik) = sum(cmordat3d(:,ij,ik))/nlons
                        enddo
                     enddo
+                    write(*,*) minval(zonave),maxval(zonave)
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
