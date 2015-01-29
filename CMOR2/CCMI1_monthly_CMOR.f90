@@ -918,7 +918,7 @@ program CCMI_monthly_CMOR
                  where ((indat2a /= 1.e36).and.(indat2b /= 1.e36).and.(indat2c /= 1.e36).and.(indat2d /= 1.e36))
                     cmordat2d = indat2a + indat2b + indat2c + indat2d
                  elsewhere
-                    cmordat2d = 1.e20
+                    cmordat2d = spval
                  endwhere
                  !
                  tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
@@ -1004,7 +1004,7 @@ program CCMI_monthly_CMOR
                         (indat2_13 /= 1.e36).and.(indat2_14 /= 1.e36).and.(indat2_15 /= 1.e36).and.(indat2_16 /= 1.e36).and.(indat2_17 /= 1.e36))
                    cmordat2d = indat2_01+indat2_02+indat2_03+indat2_04+indat2_05+indat2_06+indat2_07+indat2_08+indat2_09+indat2_10+indat2_11+indat2_12+indat2_13+indat2_14+indat2_15+indat2_16+indat2_17
                  elsewhere
-                    cmordat2d = 1.e20
+                    cmordat2d = spval
                  endwhere
                  !
                  tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
@@ -1077,7 +1077,7 @@ program CCMI_monthly_CMOR
                  where ((indat2a /= 1.e36).and.(indat2b /= 1.e36).and.(indat2c /= 1.e36).and.(indat2d /= 1.e36))
                     cmordat2d = indat2a + indat2b + indat2c + indat2d
                  elsewhere
-                    cmordat2d = 1.e20
+                    cmordat2d = spval
                  endwhere
                  !
                  tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
@@ -1148,7 +1148,7 @@ program CCMI_monthly_CMOR
                  where ((indat2a /= 1.e36).and.(indat2b /= 1.e36).and.(indat2c /= 1.e36).and.(indat2d /= 1.e36).and.(indat2e /= 1.e36))
                     cmordat2d = indat2a + indat2b + indat2c + indat2d + indat2e
                  elsewhere
-                    cmordat2d = 1.e20
+                    cmordat2d = spval
                  endwhere
                  !
                  tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
@@ -1210,8 +1210,8 @@ program CCMI_monthly_CMOR
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
-                 work3da   = 1.e20
-                 cmordat2d = 1.e20
+                 work3da   = spval
+                 cmordat2d = spval
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat3b)
                  call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat3c)
@@ -1286,8 +1286,8 @@ program CCMI_monthly_CMOR
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
-                 work3da   = 1.e20
-                 cmordat2d = 1.e20
+                 work3da   = spval
+                 cmordat2d = spval
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat3b)
                  call read_var(myncid(1,3),'PS',psdata)
@@ -1360,7 +1360,7 @@ program CCMI_monthly_CMOR
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
-                    cmordat3d = 1.e20
+                    cmordat3d = spval
                     call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
                     call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat3b)
                     call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat3c)
@@ -1440,7 +1440,7 @@ program CCMI_monthly_CMOR
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
-                    cmordat3d = 1.e20
+                    cmordat3d = spval
                     call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
                     call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat3b)
                     call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat3c)
@@ -1519,7 +1519,7 @@ program CCMI_monthly_CMOR
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
-                 cmordat2d    = 1.e20
+                 cmordat2d    = spval
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
                  call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
                  call read_var(myncid(1,3),var_info(var_found(1,3))%name,indat2c)
@@ -1585,8 +1585,8 @@ program CCMI_monthly_CMOR
            do ic = 1,nchunks(1)
               do it = tidx1(ic),tidx2(ic)
                  time_counter = it
-                 work3da   = 1.e20
-                 cmordat2d = 1.e20
+                 work3da   = spval
+                 cmordat2d = spval
                  call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
                  call read_var(myncid(1,2),'PS',psdata)
                  !
@@ -1745,6 +1745,7 @@ program CCMI_monthly_CMOR
                     endwhere
                     !
                     cmordat3d = spval
+                    zonave    = spval
                     !
                     ! Do vertical interpolation to pressure levels
                     !
@@ -1752,13 +1753,12 @@ program CCMI_monthly_CMOR
                     !
                     ! Zonal average
                     !
-                    write(*,*) minval(cmordat3d),maxval(cmordat3d)
                     do ik = 1,nplev31
                        do ij = 1,nlats
-                          zonave(1,ij,ik) = sum(cmordat3d(:,ij,ik),mask=(cmordat3d(:,ij,ik)/=1.e20))/nlons
+                          zonave(1,ij,ik) = sum(cmordat3d(:,ij,ik),mask=(cmordat3d(:,ij,ik)/=spval))/nlons
                        enddo
                     enddo
-                    write(*,*) minval(zonave),maxval(zonave)
+                    write(*,*) minval(cmordat3d),maxval(cmordat3d,mask=cmordat3d/=spval),minval(zonave),maxval(zonave)
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
@@ -2067,7 +2067,7 @@ program CCMI_monthly_CMOR
               do ic = 1,nchunks(ifile)
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
-                    cmordat2d = 1.e20
+                    cmordat2d = spval
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
                     call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat3c)
