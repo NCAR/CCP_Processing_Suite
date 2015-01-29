@@ -61,8 +61,8 @@ program CCMI_monthly_CMOR
   real,dimension(:,:),allocatable::indat2a,indat2b,indat2c,indat2d,indat2e,indat2f,indat2g,cmordat2d
   real,dimension(:,:),allocatable::indat2_01,indat2_02,indat2_03,indat2_04,indat2_05,indat2_06,indat2_07,indat2_08,indat2_09,indat2_10
   real,dimension(:,:),allocatable::indat2_11,indat2_12,indat2_13,indat2_14,indat2_15,indat2_16,indat2_17,indat2_18,indat2_19,indat2_20
-  real,dimension(:,:) ,allocatable::psdata,zonave
-  real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,indat3d,indat3e,indat3f,indat3g,cmordat3d,work3da,work3db
+  real,dimension(:,:) ,allocatable::psdata
+  real,dimension(:,:,:),allocatable::indat3a,indat3b,indat3c,indat3d,indat3e,indat3f,indat3g,cmordat3d,work3da,work3db,zonave
   real,dimension(:,:,:),allocatable::pshybrid,psdelta 
   !
   double precision,dimension(:) ,allocatable::time 
@@ -322,7 +322,7 @@ program CCMI_monthly_CMOR
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(2),axis_ids(3),axis_ids(4)/),  &
+                axis_ids=(/axis_ids(5),axis_ids(2),axis_ids(3),axis_ids(4)/),  &
                 missing_value=spval,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
@@ -1706,7 +1706,7 @@ program CCMI_monthly_CMOR
            !
            allocate(indat3a(nlons,nlats,nlevs))
            allocate(cmordat3d(nlons,nlats,nplev31))
-           allocate(psdata(nlons,nlats),zonave(nlats,nplev31))
+           allocate(psdata(nlons,nlats),zonave(1,nlats,nplev31))
            !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
@@ -1754,7 +1754,7 @@ program CCMI_monthly_CMOR
                     !
                     do ik = 1,nplev31
                        do ij = 1,nlats
-                          zonave(ij,ik) = sum(cmordat3d(:,ij,ik))/nlons
+                          zonave(1,ij,ik) = sum(cmordat3d(:,ij,ik))/nlons
                        enddo
                     enddo
                     !

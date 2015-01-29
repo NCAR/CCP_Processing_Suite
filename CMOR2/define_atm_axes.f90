@@ -225,6 +225,7 @@ subroutine define_atm_axes(dimensions)
         write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('longitude')
+        write(*,*) table(:)%cell_methods
         axis_ids(idim) = cmor_axis(        &
              table=mycmor%table_file,      &
              table_entry=dimnames(i),      &
