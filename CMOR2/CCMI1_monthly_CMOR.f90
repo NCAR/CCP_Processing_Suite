@@ -322,7 +322,7 @@ program CCMI_monthly_CMOR
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
                 units=var_info(var_found(1,1))%units,                &
-                axis_ids=(/axis_ids(5),axis_ids(2),axis_ids(3),axis_ids(4)/),  &
+                axis_ids=(/axis_ids(5),axis_ids(3),axis_ids(4),axis_ids(1)/),  &
                 missing_value=spval,&
                 positive=mycmor%positive,                          &
                 original_name=original_name,                       &
