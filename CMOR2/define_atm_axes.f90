@@ -225,7 +225,6 @@ subroutine define_atm_axes(dimensions)
         write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
         idim = idim + 1
      case ('longitude')
-        write(*,*) table(:)%cell_methods
         axis_ids(idim) = cmor_axis(        &
              table=mycmor%table_file,      &
              table_entry=dimnames(i),      &
@@ -272,6 +271,16 @@ subroutine define_atm_axes(dimensions)
                 units=dimunits(i),            &
                 coord_vals=atm_plev31)
            write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           !
+           ! KLUDGE in degenerate longitude as axis_ids(5); for zonal means - Geez
+           !
+           axis_ids(5) = cmor_axis(           &
+                table=mycmor%table_file,      &
+                table_entry='longitude',      &
+                length=1,                     &
+                units='degrees_east',         &
+                coord_vals=(/360.0/),         &
+                cell_bounds=(/-180.0,180.0/))
         case default
            axis_ids(idim) = cmor_axis(        &
                 table=mycmor%table_file,      &
