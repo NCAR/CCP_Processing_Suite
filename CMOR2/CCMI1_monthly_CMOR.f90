@@ -1763,13 +1763,13 @@ program CCMI_monthly_CMOR
                              endif
                           enddo
                           if (lon_count == 0) then
-                             zonave(1,ij,ik) = zonave(1,ij,ik)/lon_count
-                          else
                              zonave(1,ij,ik) = spval
+                          else
+                             zonave(1,ij,ik) = zonave(1,ij,ik)/lon_count
                           endif
                        enddo
                     enddo
-                    write(*,*) minval(cmordat3d),maxval(cmordat3d,mask=cmordat3d/=spval),minval(zonave),maxval(zonave)
+                    write(*,*) minval(cmordat3d),maxval(cmordat3d,mask=cmordat3d/=spval),minval(zonave),maxval(zonave,mask=zonave/=spval)
                     where (zonave == 0.)
                        zonave = spval
                     endwhere
