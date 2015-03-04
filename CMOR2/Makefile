@@ -35,15 +35,15 @@ endif
 ifeq ($(MACH),yslogi)
   NCFDIR  = /glade/apps/opt/netcdf/4.3.0/pgi/13.3
   UDUDIR  = /glade/apps/opt/udunits/2.1.24/pgi/12.5
-  UIDDIR  = /glade/u/home/strandwg/software/uuid-1.6.2
-  CMRDIR  = /glade/u/home/strandwg/software/cmor
+  UIDDIR  = /glade/u/home/strandwg/proj/software/uuid-1.6.2
+  CMRDIR  = /glade/u/home/strandwg/proj/software/cmor
   HD5DIR  = /glade/apps/opt/hdf5/1.8.12/pgi/13.3
   KRBDIR  = /usr/lib64
 #
   NCFDIR  = /glade/apps/opt/netcdf/4.2/pgi/default
   UDUDIR  = /glade/apps/opt/udunits/2.1.24/pgi/12.5
-  UIDDIR  = /glade/u/home/strandwg/software/uuid-1.6.2
-  CMRDIR  = /glade/u/home/strandwg/software/cmor
+  UIDDIR  = /glade/u/home/strandwg/proj/software/uuid-1.6.2
+  CMRDIR  = /glade/u/home/strandwg/proj/software/cmor
   HD5DIR  = /glade/apps/opt/hdf5/1.8.9/pgi/default
   KRBDIR  = /usr/lib64
 #
@@ -63,8 +63,8 @@ endif
 ifeq ($(MACH),calder)
   NCFDIR  = /glade/apps/opt/netcdf/4.2/pgi/default
   UDUDIR  = /glade/apps/opt/udunits/2.1.24/pgi/12.5
-  UIDDIR  = /glade/u/home/strandwg/software/uuid-1.6.2
-  CMRDIR  = /glade/u/home/strandwg/software/cmor
+  UIDDIR  = /glade/u/home/strandwg/proj/software/uuid-1.6.2
+  CMRDIR  = /glade/u/home/strandwg/proj/software/cmor
   HD5DIR  = /glade/apps/opt/hdf5/1.8.9/pgi/default
   KRBDIR  = /usr/lib64
 #
@@ -83,9 +83,9 @@ endif
 #
 ifeq ($(MACH),cvrsvc)
   NCFDIR  = /usr/common/usg/netcdf/4.1.1/pgi
-  UDUDIR  = /global/u2/s/strandwg/software/udunits-2.1.24
-  UIDDIR  = /global/u2/s/strandwg/software/uuid-1.6.2
-  CMRDIR  = /global/u2/s/strandwg/software/cmor
+  UDUDIR  = /global/u2/s/strandwg/proj/software/udunits-2.1.24
+  UIDDIR  = /global/u2/s/strandwg/proj/software/uuid-1.6.2
+  CMRDIR  = /global/u2/s/strandwg/proj/software/cmor
   HD5DIR  = /usr/common/usg/hdf5/1.8.6/pgi/serial
   KRBDIR  = /usr/lib64
 #
