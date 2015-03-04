@@ -275,7 +275,8 @@ subroutine load_exp(exp_file)
               'b.e10.B20SOLARC5CN.f09_g16.001','b.e10.B20SOLARC5CN.f09_g16.002','b.e10.B20SOLARC5CN.f09_g16.004')
            exp(i)%forcing(1:) = 'Sl (time-varying over course of simulation), Vl GHG LU SS Ds SD BC MD OC Oz AA (all fixed at or cycled over 1850 values)'
         case ('b40.20th.volc.1deg.008','b40.20th.volc.1deg.006','b40.20th.volc.1deg.012',&
-              'b.e10.B20VOLCC5CN.f09_g16.001','b.e10.B20VOLCC5CN.f09_g16.002','b.e10.B20VOLCC5CN.f09_g16.004','b.e10.B20VOLCC5CN.f09_g16.003','b.e10.B20VOLCC5CN.f09_g16.005')
+              'b.e10.B20VOLCC5CN.f09_g16.001','b.e10.B20VOLCC5CN.f09_g16.002','b.e10.B20VOLCC5CN.f09_g16.004','b.e10.B20VOLCC5CN.f09_g16.003','b.e10.B20VOLCC5CN.f09_g16.005',&
+              'b.e10.B20VOLCC5CN.f09_g16.001.ext','b.e10.B20VOLCC5CN.f09_g16.002.ext','b.e10.B20VOLCC5CN.f09_g16.004.ext','b.e10.B20VOLCC5CN.f09_g16.003.ext','b.e10.B20VOLCC5CN.f09_g16.005.ext')
            exp(i)%forcing(1:) = 'Vl (time-varying over course of simulation), Sl GHG LU SS Ds SD BC MD OC Oz AA (all fixed at or cycled over 1850 values)'
         case default
            write(*,*) 'Unknown historicalMisc case: ',trim(adjustl(exp(i)%case))
