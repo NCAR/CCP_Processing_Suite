@@ -19,7 +19,8 @@ ifeq ($(MACH),silver)
 #
   NCFINC  = -I${NCFDIR}/include -I./include
   NCFLIB  = -L${NCFDIR}/lib -lnetcdf -lnetcdff
-  KRBLIB  = -L${KRBDIR}/lib -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lz
+#  KRBLIB  = -L${KRBDIR}/lib -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lz
+  KRBLIB  = -L${KRBDIR}/lib -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lz
   UDUINC  = -I${UDUDIR}/include
 #  UDULIB  = -L${UDUDIR}/lib -ludunits2 -lexpat
   UDULIB  = -L${UDUDIR}/lib -ludunits2
