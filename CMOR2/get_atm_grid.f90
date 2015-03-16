@@ -86,7 +86,7 @@ subroutine get_atm_grid
   enddo
   allocate(atm_lons(nlons),atm_lats(nlats),slon(nlons),slat(nlats))
   allocate(atm_lons_bnds(2,nlons),atm_lats_bnds(2,nlats))
-  allocate(landfrac(nlons,nlats),phis(nlons,nlats),gaussian_wts(nlats))
+  allocate(landfrac(nlons,nlats),phis(nlons,nlats),gaussian_wts(nlats),area(nlons,nlats))
   allocate(atm_levs(nlevs),atm_levs_bnds(nlevs+1),atm_sites(nsites))
   allocate(atm_ilevs(nilevs),atm_ilevs_bnds(nilevs+1))
   allocate(atm_plev23(nplev23),atm_plev17(nplev17),atm_plev8(nplev8),atm_plev7(nplev7),atm_plev3(nplev3),atm_plev31(nplev31))
@@ -123,6 +123,7 @@ subroutine get_atm_grid
   call read_var(gridid,'P0'    ,p0)
   call read_var(gridid,'LANDFRAC',landfrac)
   call read_var(gridid,'PHIS'  ,phis)
+  call read_var(gridid,'AREA'  ,area)
   call read_var(gridid,'gw'    ,gaussian_wts)
   call read_var(gridid,'cosp_tau',cosp_tau)
   call read_var(gridid,'cosp_tau_bnds',cosp_tau_bnds)
