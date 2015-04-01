@@ -134,7 +134,7 @@ OBJ	= mymods.o \
 	  get_atm_grid.o
 
 all:	  Amon_CMOR 3hrSlev_CMOR 3hrMlev_CMOR 3hrCurt_CMOR 3hrPlev_CMOR sites_CMOR day_CMOR Lmon_CMOR \
-	  LImon_CMOR OImon_CMOR Omon_CMOR fx_CMOR 6hrLev_CMOR 6hrPlev_CMOR 3hr_CMOR.f90 aero_CMOR \
+	  LImon_CMOR OImon_CMOR Omon_CMOR 6hrLev_CMOR 6hrPlev_CMOR 3hr_CMOR.f90 aero_CMOR \
 	  cfMon_CMOR cfDay_CMOR cf3hr_CMOR Oyr_CMOR cfSites_CMOR day_ocn_CMOR day_ice_CMOR \
           A2DM_CMOR A3DM_CMOR A2DI_CMOR CCMI1_monthly_CMOR
 
@@ -209,10 +209,6 @@ cfSites_CMOR: $(OBJ) cfSites_CMOR.o
 3hr_CMOR: $(OBJ) 3hr_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) 3hr_CMOR.o \
 	-o $(EXEDIR)/3hr_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
-
-fx_CMOR: $(OBJ) fx_CMOR.o
-	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) fx_CMOR.o \
-	-o $(EXEDIR)/fx_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
 
 Lmon_CMOR: $(OBJ) Lmon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Lmon_CMOR.o \
@@ -371,9 +367,6 @@ cfSites_CMOR.o: cfSites_CMOR.f90 $(OBJ)
 
 3hr_CMOR.o: 3hr_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c 3hr_CMOR.f90
-
-fx_CMOR.o: fx_CMOR.f90 $(OBJ)
-	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c fx_CMOR.f90
 
 Lmon_CMOR.o: Lmon_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c Lmon_CMOR.f90
