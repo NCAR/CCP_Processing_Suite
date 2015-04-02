@@ -100,7 +100,12 @@ subroutine get_cmor_info
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case ('CESM1-CAM4Chem')
-     mycmor%references    = 'UNKNOWN'//&
+     mycmor%references    = 'Tilmes S. in preparation'//&
+          ' See also http://www.cesm.ucar.edu/publications'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
+     mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
+  case ('CESM1-CAM4ChemSD')
+     mycmor%references    = 'Tilmes S. in preparation'//&
           ' See also http://www.cesm.ucar.edu/publications'
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'

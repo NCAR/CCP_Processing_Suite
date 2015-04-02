@@ -215,8 +215,6 @@ case "$TPER" in
     ARCHIVE_PROC=${ARCHIVE_PROC}/monthly  ;;
   day )
     ARCHIVE_PROC=${ARCHIVE_PROC}/daily    ;;
-  hr6 )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6  ;;
   hr3 )
     ARCHIVE_PROC=${ARCHIVE_PROC}/hourly3  ;;
   hr1 )
@@ -283,7 +281,7 @@ fi
 cd $LOCAL_PROC
 #
 case "$TPER" in
-  day | hr6 | hr3 | hr1 | m30 )
+  day | hr3 | hr1 | m30 )
     ln -s -f $BASEDIR/time_split     .
     ln -s -f $BASEDIR/days_to_year  .
     ;;
@@ -471,23 +469,6 @@ while [ $YEARNOW -ge $YEARBEG ] ; do
             exit 1
           fi
         fi ;;
-# 
-# 6-hourly data - may require lots of checks, usually
-#
-      hr6 )
-      case "$HTYP" in
-        cice )
-          NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
-          if [ ${NFNC} -eq 12 ] ; then
-            ./hist_mon_to_year
-            if [ $? -ne 0 ] ; then
-              echo "Error from hist_mon_to_year on files "$CASE.$HIST.$YEARNOW
-              ./update_status error hist_mon_to_year
-              exit 1
-            fi
-          fi ;;
-      esac ;;
-    esac
 #
 # var_split each history file that is now one years' worth of data
 #

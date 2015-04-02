@@ -22,6 +22,8 @@ subroutine get_atm_grid
      gridfile = 'atm_grid_f19.nc'
   case ('CESM1-CAM4Chem' )
      gridfile = 'atm_grid_cam4_f19_26L.nc'
+  case ('CESM1-CAM4ChemSD' )
+     gridfile = 'atm_grid_cam4_f19_56L.nc'
   case ('CESM1-CAM5')
      gridfile = 'atm_grid_cam5_f09.nc'
   case ('CESM1-CAM5.1-FV2')
@@ -86,7 +88,8 @@ subroutine get_atm_grid
   enddo
   allocate(atm_lons(nlons),atm_lats(nlats),slon(nlons),slat(nlats))
   allocate(atm_lons_bnds(2,nlons),atm_lats_bnds(2,nlats))
-  allocate(landfrac(nlons,nlats),phis(nlons,nlats),gaussian_wts(nlats),area(nlons,nlats))
+  allocate(landfrac(nlons,nlats),phis(nlons,nlats),gaussian_wts(nlats))
+  allocate(area(nlons,nlats))
   allocate(atm_levs(nlevs),atm_levs_bnds(nlevs+1),atm_sites(nsites))
   allocate(atm_ilevs(nilevs),atm_ilevs_bnds(nilevs+1))
   allocate(atm_plev23(nplev23),atm_plev17(nplev17),atm_plev8(nplev8),atm_plev7(nplev7),atm_plev3(nplev3),atm_plev31(nplev31))

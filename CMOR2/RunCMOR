@@ -45,8 +45,10 @@ ln -s -f ${BASED}/experiments.txt           .
 #
 # Get appropriate grid and xwalk files based on information in experiments.txt
 #
+echo "case"${CASE}
 MIP=`egrep "^${CASE} " experiments.txt | cut -c105- | cut -d" " -f1`
 MOD=`egrep "^${CASE} " experiments.txt | cut -c55-  | cut -d" " -f1`
+echo "hallo"${MIP}
 #
 case "$MIP" in
   cm5* )
@@ -102,7 +104,7 @@ case "$TABL" in
   2D-M | 3D-M | 2D-I )
     case "$MOD" in
       * )
-        GRIDF=atm_grid_cam4_f19_56L.nc ;;
+        GRIDF=atm_grid_cam4_f19_26L.nc ;;
     esac ;;
   * ) 
     echo "Unable to continue because "$TABL" not known table. Stopping."
@@ -110,6 +112,7 @@ case "$TABL" in
 esac
 #
 # Check for xwalk and grid files
+echo "Check for xwalk and grid files"
 #
 if [ ! -f ${CMORD}/Xwalks/${XWALK} ] ; then
   echo "xwalk file "${CMORD}"/Xwalks/"${XWALK}" not found."
@@ -145,6 +148,7 @@ fi
 #
 # Do it!
 #
+echo "do it "${TABL}_in.${CASE}.${COMP}
 rm -f ${TABL}_in.${CASE}.${COMP} Info_in.${CASE}.${COMP}
 if [ ! -d ./CMOR ] ; then
   mkdir ./CMOR
@@ -154,6 +158,7 @@ echo $CASE >> ${TABL}_in.${CASE}.${COMP}
 echo $COMP >> ${TABL}_in.${CASE}.${COMP}
 #
 # Set up various tracking information to be read in and made global metadata
+echo "setup tracking"
 #
 WHOAMI=`whoami`
 PRCHST=`hostname`
@@ -167,14 +172,18 @@ echo $SVNREV >> Info_in.${CASE}.${COMP}
 echo $SVNDAT >> Info_in.${CASE}.${COMP}
 echo $SVNUID >> Info_in.${CASE}.${COMP}
 #
+echo "cbind"
 CBIND=${HOME}/bin
+
 if [ -f ${CBIND}/${PRFX}${TABL}_CMOR ] ; then
   ln -s -f ${CBIND}/${PRFX}${TABL}_CMOR .
+  echo "linked"
 else
   echo "${PRFX}${TABL}_CMOR NOT FOUND in "${CBIND}". Rebuild."
   exit 1
 fi
 #
+echo ${TABL}_in.${CASE}.${COMP}
 cat ${TABL}_in.${CASE}.${COMP} | ./${PRFX}${TABL}_CMOR
 #
 #rm -f ${TABL}_in.${CASE}.${COMP}

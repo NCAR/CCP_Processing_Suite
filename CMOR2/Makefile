@@ -127,6 +127,7 @@ OBJ	= mymods.o \
 	  dphybrid.o \
 	  vertintp.o \
 	  pres_hybrid_ccm.o \
+	  pres_hybrid_mid_ccm.o \
 	  parse_ncfile.o \
 	  get_ice_grid.o \
 	  get_ocn_grid.o \
@@ -134,9 +135,9 @@ OBJ	= mymods.o \
 	  get_atm_grid.o
 
 all:	  Amon_CMOR 3hrSlev_CMOR 3hrMlev_CMOR 3hrCurt_CMOR 3hrPlev_CMOR sites_CMOR day_CMOR Lmon_CMOR \
-	  LImon_CMOR OImon_CMOR Omon_CMOR 6hrLev_CMOR 6hrPlev_CMOR 3hr_CMOR.f90 aero_CMOR \
+	  LImon_CMOR OImon_CMOR Omon_CMOR fx_CMOR 6hrLev_CMOR 6hrPlev_CMOR 3hr_CMOR.f90 aero_CMOR \
 	  cfMon_CMOR cfDay_CMOR cf3hr_CMOR Oyr_CMOR cfSites_CMOR day_ocn_CMOR day_ice_CMOR \
-          A2DM_CMOR A3DM_CMOR A2DI_CMOR CCMI1_monthly_CMOR
+          A2DM_CMOR A3DM_CMOR CCMI1_monthly_CMOR HTAP1_monthly_CMOR
 
 Amon_CMOR: $(OBJ) Amon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Amon_CMOR.o \
@@ -146,13 +147,13 @@ CCMI1_monthly_CMOR: $(OBJ) CCMI1_monthly_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) CCMI1_monthly_CMOR.o \
 	-o $(EXEDIR)/CCMI1_monthly_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
 
+HTAP1_monthly_CMOR: $(OBJ) HTAP1_monthly_CMOR.o
+	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) HTAP1_monthly_CMOR.o \
+	-o $(EXEDIR)/HTAP1_monthly_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
+
 A2DM_CMOR: $(OBJ) A2DM_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) A2DM_CMOR.o \
 	-o $(EXEDIR)/2D-M_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
-
-A2DI_CMOR: $(OBJ) A2DI_CMOR.o
-	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) A2DI_CMOR.o \
-	-o $(EXEDIR)/2D-I_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
 
 A3DM_CMOR: $(OBJ) A3DM_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) A3DM_CMOR.o \
@@ -210,6 +211,10 @@ cfSites_CMOR: $(OBJ) cfSites_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) 3hr_CMOR.o \
 	-o $(EXEDIR)/3hr_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
 
+fx_CMOR: $(OBJ) fx_CMOR.o
+	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) fx_CMOR.o \
+ 	-o $(EXEDIR)/fx_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
+
 Lmon_CMOR: $(OBJ) Lmon_CMOR.o
 	$(FC) $(FFLAGS) $(NCFINC) $(HD5INC) $(UDUINC) $(UIDINC) $(OBJ) Lmon_CMOR.o \
 	-o $(EXEDIR)/Lmon_CMOR $(UDULIB) $(NCFLIB) $(UIDLIB) $(CMRLIB) $(HD5LIB) $(KRBLIB) $(UDULIB)
@@ -262,6 +267,9 @@ vertintp.o: vertintp.f90 mymods.o
 
 pres_hybrid_ccm.o: pres_hybrid_ccm.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c pres_hybrid_ccm.f90
+
+pres_hybrid_mid_ccm.o: pres_hybrid_mid_ccm.f90 mymods.o
+	$(FC) $(FFLAGS) $(NCFINC) -c pres_hybrid_mid_ccm.f90
 
 dphybrid.o: dphybrid.f90 mymods.o
 	$(FC) $(FFLAGS) $(NCFINC) -c dphybrid.f90
@@ -320,6 +328,9 @@ Amon_CMOR.o: Amon_CMOR.f90 $(OBJ)
 CCMI1_monthly_CMOR.o: CCMI1_monthly_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c CCMI1_monthly_CMOR.f90
 
+HTAP1_monthly_CMOR.o: HTAP1_monthly_CMOR.f90 $(OBJ)
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c HTAP1_monthly_CMOR.f90
+
 A2DM_CMOR.o: A2DM_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c A2DM_CMOR.f90
 
@@ -367,6 +378,9 @@ cfSites_CMOR.o: cfSites_CMOR.f90 $(OBJ)
 
 3hr_CMOR.o: 3hr_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c 3hr_CMOR.f90
+
+fx_CMOR.o: fx_CMOR.f90 $(OBJ)
+	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c fx_CMOR.f90
 
 Lmon_CMOR.o: Lmon_CMOR.f90 $(OBJ)
 	$(FC) $(FFLAGS) $(NCFINC) $(LOCINC) $(CMRINC) $(UIDINC) -c Lmon_CMOR.f90

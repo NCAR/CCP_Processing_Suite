@@ -42,6 +42,8 @@ else
       case "$TPER" in 
         mon )
           TEMPLATE=process_mon_template ;;
+        hr6 )
+          TEMPLATE=process_hr6_template ;;
         * )
           TEMPLATE=process_template ;;
     esac ;;

@@ -1,4 +1,4 @@
-program CCMI_monthly_CMOR
+program HTAP_monthly_CMOR
   ! Convert CCSM4 atm monthly (cam2.h0) data from single-field format
   ! to CMOR-compliant format
   !
@@ -2733,4 +2733,4 @@ program CCMI_monthly_CMOR
         call reset_netcdf_var
      endif
   enddo xwalk_loop
-end program CCMI_monthly_CMOR
+end program HTAP_monthly_CMOR
