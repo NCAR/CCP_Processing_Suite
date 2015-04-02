@@ -283,7 +283,7 @@ YEARNOW=$YEAREND;export YEARNOW
 while [ $YEARNOW -ge $YEARBEG ] ; do
   ./update_status $YEARNOW
 #
-  OUTTIME=${YEARNOW}010100Z-${YEARNOW}123118Z ; export $OUTTIME
+  OUTTIME=${YEARNOW}010100Z-${YEARNOW}123118Z ; export OUTTIME
 #
   if [ ! -f .comp.$CASE.$HIST.$YEARNOW.nc ] ; then
     echo -n "TS PRO "${CASE}"."${HIST}"."${YEARNOW}": " ; date
