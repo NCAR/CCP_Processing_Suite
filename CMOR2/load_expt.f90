@@ -123,7 +123,7 @@ subroutine load_exp(exp_file)
            if (instring(105:109) == 'pmp') exp(iexp)%cmip(1:) = 'PMIP3'
            if (instring(105:109) == 'aer') exp(iexp)%cmip(1:) = 'AEROCOM-ACC'
            if (instring(105:109) == 'ccm') exp(iexp)%cmip(1:) = 'CCMI1'
-           if (instring(105:109) == 'htp') exp(iexp)%cmip(1:) = 'HTAP1'
+           if (instring(105:109) == 'htp') exp(iexp)%cmip(1:) = 'HTAP2'
            exp(iexp)%run_refcase(1:) = adjustl(instring(110:149))
            exp(iexp)%run_refdate(1:) = adjustl(instring(150:164))
            exp(iexp)%runbegend(1:)   = adjustl(instring(165:174))
@@ -153,6 +153,15 @@ subroutine load_exp(exp_file)
            exp(iexp)%compset(1:) = 'FCCMITSREFC1'
            exp(iexp)%run_refcase(1:) = 'N/A'
         case ('f.e11.TSREFC1SD.f19.f19.ccmi23.001')
+           exp(iexp)%compset(1:) = 'FSDCCMITSREFC1'
+           exp(iexp)%run_refcase(1:) = 'N/A'
+        end select
+     endif
+  enddo
+  do iexp = 1,num_exp
+     if (trim(exp(iexp)%cmip) == 'HTAP2') then
+        select case (exp(iexp)%case)
+        case ('cesm111ccmi23_geos5_htap_base')
            exp(iexp)%compset(1:) = 'FSDCCMITSREFC1'
            exp(iexp)%run_refcase(1:) = 'N/A'
         end select
@@ -329,7 +338,7 @@ subroutine load_exp(exp_file)
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
      case ('refC2')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
-     case ('refC1','refC1sd')
+     case ('refC1','refC1SD')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (observed sea surface temps)'
      end select
   enddo
