@@ -2061,9 +2061,9 @@ program CCMI_monthly_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    call read_var(myncid(ifile,2),var_info(var_found(ifile,1))%name,indat3b)
-                    call read_var(myncid(ifile,3),var_info(var_found(ifile,1))%name,indat3c)
-                    call read_var(myncid(ifile,4),var_info(var_found(ifile,2))%name,psdata)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
+                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat3c)
+                    call read_var(myncid(ifile,4),var_info(var_found(ifile,4))%name,psdata)
                     indat3d = indat3a + indat3b + indat3c
                     where (abs(psdata) > spval)
                        psdata = spval
