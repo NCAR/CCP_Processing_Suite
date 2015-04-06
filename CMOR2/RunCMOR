@@ -81,7 +81,12 @@ case "$TABL" in
         GRIDF=atm_grid_cam4_f09.nc ;;
     esac ;;
   monthly )
-    GRIDF=atm_grid_cam4_f19_26L.nc ;;
+    case "$MOD" in
+      CESM1-CAM4Chem )
+        GRIDF=atm_grid_cam4_f19_26L.nc ;;
+      CESM1-CAM4ChemSD )
+        GRIDF=atm_grid_cam4_f19_56L.nc ;;
+    esac ;;
   LImon | Lmon )
     case "$MOD" in
       CESM1-CAM5 )
