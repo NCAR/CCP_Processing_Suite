@@ -91,8 +91,8 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
      !
      all_continue = all_continue.and.(nc_nfiles(ivar) /= 0)
      write(*,*) 'build_filenames all_continue: ',all_continue
-     if (all_continue) write(*,'(''nfiles: '',100i5)') nc_nfiles(1:ivar)
-      if (all_continue) write(*,'('' files: '',100(a))') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
+!     if (all_continue) write(*,'(''nfiles: '',100i5)') nc_nfiles(1:ivar)
+!      if (all_continue) write(*,'('' files: '',100(a))') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
   case default
      exists = .false.
      if (runbeg .lt. runend) then
@@ -107,7 +107,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
                       year1,trim(dtbeg(idt)),&
                       year2,trim(dtend(idt))
                  inquire(file=checkname,exist=exists)
-                     write(*,'(''build_filenames: '',a,5x,i4,5x)') trim(checkname),year1
+!                     write(*,'(''build_filenames: '',a,5x,i4,5x)') trim(checkname),year1
                  if (exists) then
                     nc_nfiles(ivar) = nc_nfiles(ivar) + 1
                     ncfile(nc_nfiles(ivar),ivar) = checkname
@@ -131,7 +131,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
      endif
      !
      all_continue = all_continue.and.(nc_nfiles(ivar) /= 0)
-     write(*,*) 'build_filenames all_continue: ',all_continue
+!     write(*,*) 'build_filenames all_continue: ',all_continue
      if (all_continue) write(*,'(''nfiles: '',100i5)') nc_nfiles(1:ivar)
      if (all_continue) write(*,'('' files: '',100(a))') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
   end select
