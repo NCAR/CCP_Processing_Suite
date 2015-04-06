@@ -61,6 +61,9 @@ case "$MIP" in
     XWALK=xwalk_TAMIP_${TABL} ;;
   aer* ) 
     XWALK=xwalk_AEROCOM-ACC_${TABL} ;;
+  htp* ) 
+    PRFX=HTAP2_
+    XWALK=xwalk_HTAP2_${TABL} ;;
   ccm* ) 
     PRFX=CCMI1_
     XWALK=xwalk_CCMI1_${TABL} ;;
