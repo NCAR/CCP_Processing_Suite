@@ -1,5 +1,9 @@
 CCMI1_monthly:abs550aer:atmosphere_absorption_optical_thickness_due_to_ambient_aerosol:longitude latitude time wv550nm:atmos:1:AODABS:AODABS
 CCMI1_monthly:acceldivf:tendency_of_eastward_wind_due_to_eliassen_palm_flux_divergence:longitude latitude plevs time:atmos:1:DELF:DELF
+CCMI1_monthly:accelgw:tendency_of_eastward_wind_due_to_gravity_wave_drag:longitude latitude plevs time:atmos:4:UTGWORO UTGWSPEC BUTGWSPEC PS:UTGWORO + UTGWSPEC + BUTGWSPEC
+CCMI1_monthly:accelnogw:tendency_of_eastward_wind_due_to_nonorographic_gravity_wave_drag:longitude latitude plevs time:atmos:3:UTGWSPEC BUTGWSPEC PS:UTGWSPEC + BUTGWSPEC
+CCMI1_monthly:accelogw:tendency_of_eastward_wind_due_to_orographic_gravity_wave_drag:longitude latitude plevs time:atmos:2:UTGWORO PS:UTGWORO
+CCMI1_monthly:airmass:atmosphere_mass_of_air_per_unit_area:longitude latitude plev time:atmos:2:MASS PS:MASS
 CCMI1_monthly:albs:planetary_albedo:longitude latitude time:atmos:2:FSDT FSNT:global(FSDT-FSNT)/global(FSDT)
 CCMI1_monthly:albsrfc:surface_albedo:longitude latitude time:atmos:2:FSDS FSNS:global(FSDS-FSNS)/global (FSDS)
 CCMI1_monthly:aoa:age_of_stratospheric_air:longitude latitude alevel time:atmos:2:AOA PS:AOA
@@ -11,9 +15,9 @@ CCMI1_monthly:ccn:number_concentration_of_ambient_aerosol_in_air_at_liquid_water
 CCMI1_monthly:cheaqph2o2so4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_aqueous_phase_net_chemical_production_by_Siv_plus_H2O2:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:cheaqpo3so4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_aqueous_phase_net_chemical_production_by_Siv_plus_O3:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:cheaqpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:chegpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time:atmos:3:SO4_CHMP PS T:SO4_CHMP
+CCMI1_monthly:chegpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time:atmos:2:SO4_CHMP PS T:SO4_CHMP
 CCMI1_monthly:chepasoa:tendency_of_atmosphere_mass_content_of_anthropogenic_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:chepsoa:tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+CCMI1_monthly:chepsoa:tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude time:atmos:7:SOAM_PROD SOAI_PROD SOAT_PROD SOAB_PROD SOAX_PROD PS T:all all soa terms
 CCMI1_monthly:clc:convective_cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:cl:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:2:CLOUD PS:CLOUD 
 CCMI1_monthly:cli:mass_fraction_of_cloud_ice_in_air:longitude latitude alevel time:atmos:2:CLDICE PS:CLDICE 
@@ -58,7 +62,7 @@ CCMI1_monthly:emico:tendency_of_atmosphere_mass_content_of_carbon_monoxide_due_t
 CCMI1_monthly:emidms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission:longitude latitude time:atmos:1:SFDMS:SFDMS
 CCMI1_monthly:emidust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_emission:longitude latitude time:atmos:4:SFDST01 SFDST02 SFDST03 SFDST04:SFDST01+SFDST02+SFDST03+SFDST04
 CCMI1_monthly:emiisop:tendency_of_atmosphere_mass_content_of_isoprene_due_to_emission:longitude latitude time:atmos:1:SFISOP:SFISOP
-CCMI1_monthly:emilnox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_lightning:longitude latitude alevel time:atmos:2:LNO_PROD PS:LNO_PROD* 14./30. *1.e-3/6.022e23 *delp/9.81/rho,  rho = p/(287.04*T)  
+CCMI1_monthly:emilnox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_lightning:longitude latitude alevel time:atmos:3:LNO_PROD PS T:LNO_PROD* 14./30. *1.e-3/6.022e23 *delp/9.81/rho,  rho = p/(287.04*T)  
 CCMI1_monthly:eminh3:tendency_of_atmosphere_mass_content_of_ammonia_due_to_emission:longitude latitude time:atmos:1:SFNH3:SFNH3
 CCMI1_monthly:eminox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_emission:longitude latitude time:atmos:1:SFNOX:SFNOX
 CCMI1_monthly:emioa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude time:atmos:7:SFOC1 SFOC2 SFSOAB SFSOAI SFSOAM SFSOAT SFSOAX:(SFOC1+SFOC2)*1.4+SFSOAB+SFSOAI+SFSOAM+SFSOAT+SFSOAX
@@ -78,7 +82,7 @@ CCMI1_monthly:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atm
 CCMI1_monthly:hno3hetprod:chemical_loss_rate_of_n2o5_by_heterogeneous_reactions:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:hus:specific_humidity:longitude latitude alevel time:atmos:2:Q PS:Q on model levels
 CCMI1_monthly:icc:ice_cloud_area_fraction:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:jno2:photolysis_rate_of_NO2:longitude latitude alevel time:atmos:1:jno2:jno2
+CCMI1_monthly:jno2:photolysis_rate_of_NO2:longitude latitude alevel time:atmos:2:jno2 PS:jno2
 CCMI1_monthly:lai:leaf_area_index:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:lcc:liquid_water_cloud_area_fraction:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:lossch4:tendency_of_mole_concentration_of_methane_due_to_chemical_gross_destruction:longitude latitude alevel time:atmos:2:CH4_CHML PS:CH4_CHML
@@ -92,7 +96,7 @@ CCMI1_monthly:lossro2viaho2:reaction_rate_of_peroxy_radicals_with_ho2:longitude 
 CCMI1_monthly:lossro2viano3:reaction_rate_of_no3_with_peroxy_radicals:longitude latitude alevel time:atmos:2:RO2_NO3_sum PS:RO2_NO3_sum
 CCMI1_monthly:lossro2viano:total_reaction_rate_of_no_with_peroxy_radicals:longitude latitude alevel time:atmos:2:RO2_NO_sum PS:RO2_NO_sum
 CCMI1_monthly:lossro2viaro2:total_reaction_rate_of_peroxy_radical_self_reaction:longitude latitude alevel time:atmos:2:RO2_RO2_sum PS:RO2_RO2_sum
-CCMI1_monthly:lossso2viaoh:reaction_rate_of_hydroxyl_reaction_with_so2:longitude latitude alevel time:atmos:2:r_OH_O3 PS:r_OH_O3
+CCMI1_monthly:lossso2viaoh:reaction_rate_of_hydroxyl_reaction_with_so2:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:lso3chm:tendency_of_lower_stratosphere_mass_content_of_ozone_due_to_chemistry:longitude latitude time:atmos:2:DO3CHM_LMS PS:DO3CHM_LMS
 CCMI1_monthly:lts:potential_temperature_difference_between_700hPa_and_1000hPa:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:lwclrefc:toa_instantaneous_longwave_forcing_due_to_clouds_with_reference_composition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
