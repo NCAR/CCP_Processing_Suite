@@ -255,13 +255,12 @@ program HTAP_monthly_CMOR
         !
         select case (xw(ixw)%entry)
         case('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs','mc',&
-             'emidms','emiso2','emiss','emibc','emioa','emidust','emiso4',&
+             'emidms','emiso2','emiss','emibc','emidust','emiso4',&
              'emico','emibisop','eminh3','emipom','emivoc','eminox')
            mycmor%positive = 'up'
         case('drydms','drydust','drypoa','dryso2','dryso4','drysoa','dryss','dryoa',&
-             'wetdust','wetoa','wetso2','wetso4','wetbc','wetnh3','wetnh4',&
-             'dryhno3','drynh4','dryno2','drynoy','dryo3','drybc',&
-             'wethno3')
+             'wetdust','wetoa','wetso4','wetbc','wetnh4',&
+             'dryhno3','drynh4','dryno2','drynoy','dryo3','drybc')
            mycmor%positive = 'down'
         case ('loadoa','loadbc','loaddust','loadss','loadso4','airmass')
            var_info(var_found(1,1))%units = 'kg m-2'
@@ -279,6 +278,9 @@ program HTAP_monthly_CMOR
         case('prc','pr','prsn')
            var_info(var_found(1,1))%units = 'kg m-2 s-1'
 !           mycmor%positive = 'down'
+        case('wethno3','wetnh3','wetso2')
+           mycmor%positive = 'down'
+           var_info(var_found(1,1))%units = 'kg m-2 s-1'
         case('emiisop')
            var_info(var_found(1,1))%units = 'kg (C) m-2 s-1'
            mycmor%positive = 'up'
@@ -330,7 +332,7 @@ program HTAP_monthly_CMOR
              'losso1dviah2o','losso3viaho2','losso3viaoh','lossrcoo2viano2','lossro2viaho2',&
               'lossro2viano','lossro2viano3','lossro2viaro2',&
               'prodhno3viano2oh','prodhpx','prodo1d','prodo3viaho2','prodo3viaro2','prodoh',&
-              'mmraernh4','mmraerno3','mmraerso4','acceldivf','emilnox')
+              'mmraernh4','mmraerno3','mmraerso4','emilnox')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
@@ -345,7 +347,7 @@ program HTAP_monthly_CMOR
               'zmch3cl','zmch3ooh','zmch4','zmchbr3','zmchclf2','zmcl2o2','zmcl','zmclo','zmclono2',&
               'zmcly','zmco','zmh2','zmh2o2','zmh2o','zmhbr','zmhcl','zmhno3','zmhno4','zmho2','zmhobr',&
               'zmhocl','zmmnstrage','zmn2o5','zmn2o','zmn','zmno2','zmno','zmnoy','zmo3','zmoclo','zmoh',&
-              'zmta','zmtnt','zmua','zmva','zmzg','accelgw','accelnogw','accelogw','airmass')
+              'zmta','zmtnt','zmua','zmva','zmzg','acceldivf','accelgw','accelnogw','accelogw','airmass')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
@@ -788,7 +790,7 @@ program HTAP_monthly_CMOR
                  endif
               endif
            enddo
-        case ('drypoa')
+        case ('drypoa','emioa')
            !
            ! Add two fields, 1.4 scale factor too
            !
@@ -1171,7 +1173,7 @@ program HTAP_monthly_CMOR
               endif
            enddo
 
-        case ('dryoa','emioa')
+        case ('dryoa')
            !
            ! Sum seven fields
            !
@@ -1625,7 +1627,7 @@ program HTAP_monthly_CMOR
               enddo
            enddo
 
-        case ('toz','lso3chm','tpo3chm')
+        case ('toz','lso3chm','tpo3chm','cod')
            !
            ! One field integrated over Z and scaled
            !
@@ -1672,8 +1674,6 @@ program HTAP_monthly_CMOR
                   if (var_info(var_found(ifile,1))%name.eq.'DO3CHM_TRP') then
                       cmordat2d = cmordat2d / sum(area_wt) 
                     endif
-
-                  cmordat2d = cmordat2d / sum(area_wt)
                  !
                  tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                  error_flag = cmor_write(      &
@@ -1782,7 +1782,7 @@ program HTAP_monthly_CMOR
               'zmch3cl','zmch3ooh','zmch4','zmchbr3','zmchclf2','zmcl2o2','zmcl','zmclo','zmclono2',&
               'zmcly','zmco','zmh2','zmh2o2','zmh2o','zmhbr','zmhcl','zmhno3','zmhno4','zmho2','zmhobr',&
               'zmhocl','zmmnstrage','zmn2o5','zmn2o','zmn','zmno2','zmno','zmnoy','zmo3','zmoclo','zmoh',&
-              'zmta','zmtnt','zmua','zmva','zmzg')
+              'zmta','zmtnt','zmua','zmva','zmzg','accelogw')
            !
            ! Just one field, interpolated to plevs then zonally averaged
            !
@@ -1877,7 +1877,7 @@ program HTAP_monthly_CMOR
               enddo
            enddo
 
-        case ('airmass','acceldivf','accelogw')
+        case ('airmass','acceldivf')
            !
            ! Just one field, interpolated to plevs 
            !
@@ -2061,9 +2061,9 @@ program HTAP_monthly_CMOR
                  do it = tidx1(ic),tidx2(ic)
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    call read_var(myncid(ifile,2),var_info(var_found(ifile,1))%name,indat3b)
-                    call read_var(myncid(ifile,2),var_info(var_found(ifile,1))%name,indat3c)
-                    call read_var(myncid(ifile,3),var_info(var_found(ifile,2))%name,psdata)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,indat3b)
+                    call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat3c)
+                    call read_var(myncid(ifile,4),var_info(var_found(ifile,4))%name,psdata)
                     indat3d = indat3a + indat3b + indat3c
                     where (abs(psdata) > spval)
                        psdata = spval
@@ -2102,7 +2102,7 @@ program HTAP_monthly_CMOR
            enddo
 
 
-        case ('aoa','vmraoanh','cl','cli','clw','cod','hus','jno2','mcu','photo1d','pilev','pmlev',&
+        case ('aoa','vmraoanh','cl','cli','clw','hus','jno2','mcu','photo1d','pilev','pmlev',&
               'ta','ua','va','vmrc2h2','vmrc2h6','vmrch2o','vmrch3ccl3','vmrch3cn',&
               'vmrch4','vmrco','vmrco25','vmrco50','vmrdms','vmre90','vmre90n','vmre90s','vmrh2o',&
               'vmrhcl','vmrhcn','vmrhno3','vmrisop','vmrn2o','vmrnh5','vmrnh50','vmrnh50w','vmrno',&
@@ -2491,8 +2491,8 @@ program HTAP_monthly_CMOR
                        psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
                     enddo
                     !
-                    call pres_hybrid_mid_ccm(psdata,pshybrid_mid,nlons,nlats,nlevs)
-                    rho = pshybrid_mid/(287.04*tdata)
+                     call pres_hybrid_mid_ccm(psdata,pshybrid_mid,nlons,nlats,nlevs)
+                     rho = pshybrid_mid/(287.04*tdata)
                     !
                     cmordat3d = (indat3a*(psdelta/grav))/rho
                     !
@@ -2560,8 +2560,8 @@ program HTAP_monthly_CMOR
                     time_counter = it
                     cmordat2d = spval
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
-                    call read_var(myncid(ifile,6),'PS',psdata)
-                    call read_var(myncid(ifile,7),'T',tdata)
+                    call read_var(myncid(ifile,2),'PS',psdata)
+                    call read_var(myncid(ifile,3),'T',tdata)
                     ! Convert to kg m-2 s-1
                     !
                     call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
@@ -2571,6 +2571,7 @@ program HTAP_monthly_CMOR
                     !
                     call pres_hybrid_mid_ccm(psdata,pshybrid_mid,nlons,nlats,nlevs)
                     rho = pshybrid_mid/(287.04*tdata)
+
                     if (var_info(var_found(ifile,1))%name.eq.'DTWR_HNO3') then
                      indat3a = indat3a*mw_hno3/mw_dryair
                     endif
@@ -2580,6 +2581,7 @@ program HTAP_monthly_CMOR
                     if (var_info(var_found(ifile,1))%name.eq.'DTWR_SO2') then
                      indat3a = indat3a*mw_so2/mw_dryair
                     endif
+
                     work3da = (indat3a*(psdelta/grav))/rho
                     cmordat2d = sum(work3da,dim=3)
                     !
@@ -2621,6 +2623,7 @@ program HTAP_monthly_CMOR
            allocate(psdata(nlons,nlats))
            allocate(work3da(nlons,nlats,nlevs),pshybrid(nlons,nlats,nlevs),pshybrid_mid(nlons,nlats,nlevs),psdelta(nlons,nlats,nlevs))
            allocate(cmordat2d(nlons,nlats))
+           allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
            !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
@@ -2653,8 +2656,10 @@ program HTAP_monthly_CMOR
                     call read_var(myncid(ifile,3),var_info(var_found(ifile,3))%name,indat3c)
                     call read_var(myncid(ifile,4),var_info(var_found(ifile,4))%name,indat3d)
                     call read_var(myncid(ifile,5),var_info(var_found(ifile,5))%name,indat3e)
-                    call read_var(myncid(ifile,6),'PS',psdata)
-                    call read_var(myncid(ifile,7),'T',psdata)
+                    call read_var(myncid(ifile,6),var_info(var_found(ifile,6))%name,indat2a)
+                    call read_var(myncid(ifile,7),var_info(var_found(ifile,7))%name,indat2b)
+                    call read_var(myncid(ifile,8),'PS',psdata)
+                    call read_var(myncid(ifile,9),'T',psdata)
                     ! Convert to kg m-2 s-1
                     indat3a = indat3a * (mw_soam / mw_dryair)
                     indat3b = indat3b * (mw_soai / mw_dryair)
@@ -2672,6 +2677,7 @@ program HTAP_monthly_CMOR
                     !
                     work3da = ((indat3a + indat3b + indat3c + indat3d + indat3e)*(psdelta/grav))/rho
                     cmordat2d = sum(work3da,dim=3)
+                    cmordat2d = cmordat2d + 1.4 * (indat2a + indat2b)
                     !
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &

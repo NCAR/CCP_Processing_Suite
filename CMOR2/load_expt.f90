@@ -340,6 +340,8 @@ subroutine load_exp(exp_file)
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
      case ('refC1','refC1SD')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (observed sea surface temps)'
+     case ('BASE')
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (observed sea surface temps)'
      end select
   enddo
   !
