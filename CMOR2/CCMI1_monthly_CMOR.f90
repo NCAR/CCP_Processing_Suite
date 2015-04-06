@@ -2028,7 +2028,7 @@ program CCMI_monthly_CMOR
 
         case ('accelgw')
            !
-           ! Three ields, interpolated to plevs 
+           ! Three fields, interpolated to plevs and zonal average
            !
            allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),indat3c(nlons,nlats,nlevs))
            allocate(indat3d(nlons,nlats,nlevs))
@@ -2062,8 +2062,8 @@ program CCMI_monthly_CMOR
                     time_counter = it
                     call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
                     call read_var(myncid(ifile,2),var_info(var_found(ifile,1))%name,indat3b)
-                    call read_var(myncid(ifile,2),var_info(var_found(ifile,1))%name,indat3c)
-                    call read_var(myncid(ifile,3),var_info(var_found(ifile,2))%name,psdata)
+                    call read_var(myncid(ifile,3),var_info(var_found(ifile,1))%name,indat3c)
+                    call read_var(myncid(ifile,4),var_info(var_found(ifile,2))%name,psdata)
                     indat3d = indat3a + indat3b + indat3c
                     where (abs(psdata) > spval)
                        psdata = spval
