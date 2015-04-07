@@ -122,6 +122,12 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
              trim(cesm_var),&
              runbeg,trim(dtbeg(1)),&
              runend,trim(dtend(1))
+        inquire(file=checkname,exist=exists)
+        write(*,'(''build_filenames: '',a,5x,i4,5x)') trim(checkname),year1
+        if (exists) then
+           nc_nfiles(ivar) = nc_nfiles(ivar) + 1
+           ncfile(nc_nfiles(ivar),ivar) = checkname
+        endif
      else
         write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
              trim(case),&
@@ -130,7 +136,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
              runbeg,trim(dtbeg(1)),&
              runend,trim(dtend(1))
         inquire(file=checkname,exist=exists)
-!        write(*,'(''build_filenames: '',a,5x,i4,5x)') trim(checkname),year1
+        write(*,'(''build_filenames: '',a,5x,i4,5x)') trim(checkname),year1
         if (exists) then
            nc_nfiles(ivar) = nc_nfiles(ivar) + 1
            ncfile(nc_nfiles(ivar),ivar) = checkname
