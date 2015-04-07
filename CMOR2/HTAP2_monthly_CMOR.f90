@@ -99,7 +99,7 @@ program HTAP_monthly_CMOR
   ! Provides information on relationship between CMOR variables and
   ! model variables
   !
-  xwalk_file = 'xwalk_'//trim(exp(exp_found)%cmip)//'_'//trim(mycmor%table_file)
+  xwalk_file = 'xwalk_'//trim(exp(exp_found)%cmip)//'-'//trim(mycmor%table_file)
   call load_xwalk(xwalk_file)
   !
   ! Get table information
@@ -107,7 +107,7 @@ program HTAP_monthly_CMOR
   mycmor%table_file = 'Tables/'//trim(exp(exp_found)%cmip)//'_'//trim(mycmor%table_file)
   inquire(file=mycmor%table_file,exist=does_exist)
   if (.not.(does_exist)) then
-     write(*,*) 'Cannot find',trim(mycmor%table_file),'. Dying.'
+     write(*,*) 'Cannot find ',trim(mycmor%table_file),'. Dying.'
      stop
   endif
   !
