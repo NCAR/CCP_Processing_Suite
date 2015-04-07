@@ -116,6 +116,12 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
            enddo
         enddo
      else if (runbeg .eq. runend) then
+        write(*,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
+             trim(case),&
+             trim(comp),&
+             trim(cesm_var),&
+             runbeg,trim(dtbeg(1)),&
+             runend,trim(dtend(1))
         write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
              trim(case),&
              trim(comp),&
