@@ -2876,11 +2876,11 @@ program CCMI_monthly_CMOR
         if (allocated(psdata))    deallocate(psdata)
         if (allocated(psdelta))   deallocate(psdelta)
         if (allocated(pshybrid))  deallocate(pshybrid)
-        if (allocated(pshybrid)mid))   deallocate(pshybrid_mid)
         if (allocated(rho))       deallocate(rho)
         if (allocated(tdata))     deallocate(tdata)
         if (allocated(work3da))   deallocate(work3da)
         if (allocated(work3db))   deallocate(work3db)
+        if (allocated(pshybrid_mid))   deallocate(pshybrid_mid)
         !
         do ivar = 1,xw(ixw)%ncesm_vars
            do ifile = 1,nc_nfiles(ivar)
