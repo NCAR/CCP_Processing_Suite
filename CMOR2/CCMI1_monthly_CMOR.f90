@@ -2661,7 +2661,7 @@ program CCMI_monthly_CMOR
                     call read_var(myncid(ifile,6),var_info(var_found(ifile,6))%name,indat2a)
                     call read_var(myncid(ifile,7),var_info(var_found(ifile,7))%name,indat2b)
                     call read_var(myncid(ifile,8),'PS',psdata)
-                    call read_var(myncid(ifile,9),'T',psdata)
+                    call read_var(myncid(ifile,9),'T',tdata)
                     ! Convert to kg m-2 s-1
                     indat3a = indat3a * (mw_soam / mw_dryair)
                     indat3b = indat3b * (mw_soai / mw_dryair)
