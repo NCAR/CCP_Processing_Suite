@@ -152,7 +152,7 @@ program HTAP_monthly_CMOR
      !
      if (all_continue) then
         do ivar = 1,xw(ixw)%ncesm_vars
-           write(*,*) 'AVAILABLE: ',trim(case_read),trim(comp_read),trim(xw(ixw)%cesm_vars(ivar))
+           write(*,*) 'AVAILABLE: ',trim(case_read),trim(comp_read),'.',trim(xw(ixw)%cesm_vars(ivar))
            do ifile = 1,nc_nfiles(ivar)
               call open_cdf(myncid(ifile,ivar),trim(ncfile(ifile,ivar)),.true.)
               call get_dims(myncid(ifile,ivar))
