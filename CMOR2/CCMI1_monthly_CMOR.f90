@@ -2027,15 +2027,13 @@ program CCMI_monthly_CMOR
                  endif
               enddo
            enddo
-
         case ('accelgw')
            !
-           ! Three ields, interpolated to plevs 
+           ! Three fields, interpolated to plevs and zonal average
            !
            allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),indat3c(nlons,nlats,nlevs))
-           allocate(indat3d(nlons,nlats,nlevs))
            allocate(cmordat3d(nlons,nlats,nplev31))
-           allocate(psdata(nlons,nlats))
+           allocate(psdata(nlons,nlats),zonave(1,nlats,nplev31))
            !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
@@ -2074,15 +2072,35 @@ program CCMI_monthly_CMOR
                     endwhere
                     !
                     cmordat3d = spval
+                    zonave    = 0.
                     !
                     ! Do vertical interpolation to pressure levels
                     !
                     call vertint(indat3c,cmordat3d,atm_levs,atm_plev31*0.01,psdata,spval,nlons,nlats,nlevs,nlevs+1,nplev31)
                     !
+                    ! Zonal average
+                    !
+                    do ik = 1,nplev31
+                       do ij = 1,nlats
+                          lon_count = 0
+                          do ii = 1,nlons
+                             if (cmordat3d(ii,ij,ik) /= spval) then
+                                zonave(1,ij,ik) = zonave(1,ij,ik) + cmordat3d(ii,ij,ik)
+                                lon_count = lon_count + 1
+                             endif
+                          enddo
+                          if (lon_count == 0) then
+                             zonave(1,ij,ik) = spval
+                          else
+                             zonave(1,ij,ik) = zonave(1,ij,ik)/lon_count
+                          endif
+                       enddo
+                    enddo
+                    !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
                          var_id        = cmor_var_id, &
-                         data          = cmordat3d,      &
+                         data          = zonave,      &
                          ntimes_passed = 1,         &
                          time_vals     = tval,      &
                          time_bnds     = tbnd)
