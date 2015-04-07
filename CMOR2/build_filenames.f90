@@ -17,7 +17,7 @@ subroutine build_filenames(case,comp,cesm_var,ivar,runbeg,runend,table)
         'Tables/PMIP3_Amon','Tables/PMIP3_Lmon','Tables/PMIP3_LImon','Tables/PMIP3_Omon','Tables/PMIP3_OImon',&
         'Tables/GeoMIP_Amon','Tables/GeoMIP_Lmon','Tables/GeoMIP_LImon','Tables/GeoMIP_Omon','Tables/GeoMIP_OImon','Tables/GeoMIP_aero','Tables/GeoMIP_cfMon',&
         'Tables/AEROCOM-ACC_2D-M','Tables/AEROCOM-ACC_3D-M','Tables/AEROCOM-ACC_2D-I',&
-        'Tables/CCMI1_monthly','Tables/HTAP2_monthly')
+        'Tables/CCMI1_monthly','Tables/HTAP2-monthly')
      ndt = 2
      dtbeg(1) = '01' ; dtend(1) = '12'
      dtbeg(2) = '01' ; dtend(2) = '11'
