@@ -249,6 +249,8 @@ program CCMI_monthly_CMOR
         if (xw(ixw)%ncesm_vars ==  6) write(original_name,'(5(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
         if (xw(ixw)%ncesm_vars ==  7) write(original_name,'(6(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
         if (xw(ixw)%ncesm_vars ==  8) write(original_name,'(7(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars ==  9) write(original_name,'(8(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
+        if (xw(ixw)%ncesm_vars == 10) write(original_name,'(9(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
         if (xw(ixw)%ncesm_vars == 18) write(original_name,'(18(a,'',''),a)') (trim(xw(ixw)%cesm_vars(i)),i=1,xw(ixw)%ncesm_vars)
         !
         ! Modify units as necessary to accomodate udunits' inability to convert
@@ -2855,7 +2857,8 @@ program CCMI_monthly_CMOR
               enddo
            enddo
         end select
-        if (allocated(psdata))    deallocate(psdata)
+        !
+        if (allocated(cmordat2d)) deallocate(cmordat2d)
         if (allocated(indat2a))   deallocate(indat2a)
         if (allocated(indat2b))   deallocate(indat2b)
         if (allocated(indat2c))   deallocate(indat2c)
@@ -2863,7 +2866,6 @@ program CCMI_monthly_CMOR
         if (allocated(indat2e))   deallocate(indat2e)
         if (allocated(indat2f))   deallocate(indat2f)
         if (allocated(indat2g))   deallocate(indat2g)
-        if (allocated(cmordat2d)) deallocate(cmordat2d)
         if (allocated(indat3a))   deallocate(indat3a)
         if (allocated(indat3b))   deallocate(indat3b)
         if (allocated(indat3c))   deallocate(indat3c)
@@ -2871,8 +2873,15 @@ program CCMI_monthly_CMOR
         if (allocated(indat3e))   deallocate(indat3e)
         if (allocated(indat3f))   deallocate(indat3f)
         if (allocated(indat3g))   deallocate(indat3g)
+        if (allocated(psdata))    deallocate(psdata)
+        if (allocated(psdelta))   deallocate(psdelta)
+        if (allocated(pshybrid))  deallocate(pshybrid)
+        if (allocated(pshybrid)mid))   deallocate(pshybrid_mid)
+        if (allocated(rho))       deallocate(rho)
+        if (allocated(tdata))     deallocate(tdata)
         if (allocated(work3da))   deallocate(work3da)
         if (allocated(work3db))   deallocate(work3db)
+        !
         do ivar = 1,xw(ixw)%ncesm_vars
            do ifile = 1,nc_nfiles(ivar)
               call close_cdf(myncid(ifile,ivar))
