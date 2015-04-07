@@ -104,7 +104,7 @@ program HTAP_monthly_CMOR
   !
   ! Get table information
   !
-  mycmor%table_file = 'Tables/'//trim(exp(exp_found)%cmip)//'_'//trim(mycmor%table_file)
+  mycmor%table_file = 'Tables/'//trim(exp(exp_found)%cmip)//'-'//trim(mycmor%table_file)
   inquire(file=mycmor%table_file,exist=does_exist)
   if (.not.(does_exist)) then
      write(*,*) 'Cannot find ',trim(mycmor%table_file),'. Dying.'
