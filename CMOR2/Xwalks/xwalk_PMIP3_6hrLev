@@ -1,0 +1,5 @@
+PMIP3_6HrLev:hus:specific_humidity:longitude latitude alevel time1:atmos:2:Q PS:Q no change
+PMIP3_6HrLev:ps:surface_air_pressure:longitude latitude time1:atmos:1:PS:PS no change
+PMIP3_6HrLev:ta:air_temperature:longitude latitude alevel time1:atmos:2:T PS:T no change
+PMIP3_6HrLev:ua:eastward_wind:longitude latitude alevel time1:atmos:2:U PS:U no change
+PMIP3_6HrLev:va:northward_wind:longitude latitude alevel time1:atmos:2:V PS:V no change

@@ -1,0 +1,13 @@
+PMIP3_fx:areacella:cell_area:longitude latitude:atmos land:1:AREA:AREA
+PMIP3_fx:areacello:cell_area:longitude latitude:ocean:1:TAREA:TAREA convert cm2 to m2
+PMIP3_fx:basin:region:longitude latitude:ocean:1:REGION_MASK:REGION_MASK
+PMIP3_fx:deptho:sea_floor_depth_below_geoid:longitude latitude:ocean:1:HT:HT convert cm to m
+PMIP3_fx:hfgeou:upward_geothermal_heat_flux_at_sea_floor:longitude latitude:ocean:0:UNAVAILABLE:Always set to zero in POP namelist
+PMIP3_fx:mrsofc:soil_moisture_content_at_field_capacity:longitude latitude:land:1:WATSAT:WATSAT
+PMIP3_fx:orog:surface_altitude:longitude latitude:atmos:1:PHIS:Divide PHIS by g where LANDFRAC ne zero
+PMIP3_fx:rootd:root_depth:longitude latitude:land:0:UNKNOWN:UNKNOWN
+PMIP3_fx:sftgif:land_ice_area_fraction:longitude latitude:land:1:PCT_GLACIER:PCT_GLACIER
+PMIP3_fx:sftlf:land_area_fraction:longitude latitude:atmos:1:LANDFRAC:LANDFRAC no change
+PMIP3_fx:sftof:sea_area_fraction:longitude latitude:ocean:0:UNAVAILABLE:Not clear what this means in terms of POP
+PMIP3_fx:thkcello:cell_thickness:longitude latitude olevel:ocean:1:dz:dz at each gridcell
+PMIP3_fx:volcello:ocean_volume:longitude latitude olevel:ocean:1:TAREA:TAREA times dz, convert cm3 to m3
