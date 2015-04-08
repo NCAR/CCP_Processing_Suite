@@ -2902,7 +2902,7 @@ modeling_realm:    ocean
 ! Variable attributes:
 !----------------------------------
 standard_name:     sea_water_salinity
-units:             1 
+units:             psu 
 cell_methods:      time: mean
 cell_measures:     area: areacello volume: volcello
 long_name:         Sea Water Salinity 
@@ -2927,7 +2927,7 @@ modeling_realm:    ocean
 ! Variable attributes:
 !----------------------------------
 standard_name:     sea_water_salinity
-units:             1 
+units:             psu
 cell_methods:      time: mean area: mean where sea
 long_name:         Global Mean Sea Water Salinity 
 !----------------------------------
@@ -2947,7 +2947,7 @@ modeling_realm:    ocean
 ! Variable attributes:
 !----------------------------------
 standard_name:     sea_surface_salinity
-units:             1 
+units:             psu
 cell_methods:      time: mean
 cell_measures:     area: areacello
 long_name:         Sea Surface Salinity 
