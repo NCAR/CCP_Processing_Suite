@@ -203,6 +203,7 @@ if [ "$LENG" = "byy" ] ; then
       echo "Unable to set OUTTIME because "$TPER" not known."
       exit 1 ;;
   esac
+  export OUTTIME
 #
 # Big processing loop
 #
@@ -284,6 +285,7 @@ else
       echo "Unable to set OUTTIME because "$TPER" not known."
       exit 1 ;;
   esac
+  export OUTTIME
 #
   ./update_status $YEARBEG
   echo -n "TS PRO "${CASE}"."${HIST}": " ; date
