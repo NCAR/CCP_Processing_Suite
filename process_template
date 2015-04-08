@@ -184,6 +184,26 @@ if [ "$LENG" = "byy" ] ; then
   YEARNOW=$YEAREND;export YEARNOW
   ./update_status start
 #
+  case "$TPER" in
+    ann )
+      OUTTIME=${YEARNOW}-${YEARNOW} ;;
+    mon )
+      OUTTIME=${YEARNOW}01-${YEARNOW}12 ;;
+    day )
+      OUTTIME=${YEARNOW}0101-${YEARNOW}1231 ;;
+    hr3 )
+      OUTTIME=${YEARNOW}010100Z-${YEARNOW}123121Z ;;
+    hr6 )
+      OUTTIME=${YEARNOW}010100Z-${YEARNOW}123118Z ;;
+    hr1 )
+      OUTTIME=${YEARNOW}010100Z-${YEARNOW}123123Z ;;
+    m30 )
+      OUTTIME=${YEARNOW}01010000Z-${YEARNOW}12312330Z ;;
+    * ) 
+      echo "Unable to set OUTTIME because "$TPER" not known."
+      exit 1 ;;
+  esac
+#
 # Big processing loop
 #
   while [ $YEARNOW -ge $YEARBEG ] ; do
@@ -244,17 +264,38 @@ if [ "$LENG" = "byy" ] ; then
 #
 else
 #
+#
+  case "$TPER" in
+    ann )
+      OUTTIME=${YEARBEG}-${YEAREND} ;;
+    mon )
+      OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+    day )
+      OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+    hr3 )
+      OUTTIME=${YEARBEG}010100Z-${YEAREND}123121Z ;;
+    hr6 )
+      OUTTIME=${YEARBEG}010100Z-${YEAREND}123118Z ;;
+    hr1 )
+      OUTTIME=${YEARBEG}010100Z-${YEAREND}123123Z ;;
+    m30 )
+      OUTTIME=${YEARBEG}01010000Z-${YEAREND}12312330Z ;;
+    * ) 
+      echo "Unable to set OUTTIME because "$TPER" not known."
+      exit 1 ;;
+  esac
+#
   ./update_status $YEARBEG
   echo -n "TS PRO "${CASE}"."${HIST}": " ; date
   if [ -d $LOCAL_HIST ] ; then
     NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.* | wc -l`
     if [ $NHISTF -ne 0 ] ; then
-      echo ${CASE}"."${HIST}"."${YEARNOW}" files on disk, softlinking."
+      echo ${CASE}"."${HIST}". files on disk, softlinking."
       rm -f ${CASE}.${HIST}.*
       ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.* .
     fi
   else
-    echo ${CASE}"."${HIST}"."${YEARNOW}" files missing from disk, acquire."
+    echo ${CASE}"."${HIST}" files missing from disk, acquire."
     exit 1
   fi
 #
