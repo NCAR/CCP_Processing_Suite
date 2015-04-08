@@ -1,6 +1,7 @@
 CASE=xxxCASExxx ; export CASE
 HIST=xxxHISTxxx ; export HIST
 TPER=xxxTPERxxx ; export TPER
+LENG=xxxLENGxxx ; export LENG
 #
 echo -n "TS START: " ; date
 #
@@ -52,127 +53,14 @@ if ! [ $LOCATION ] ; then
   exit 1
 fi
 #
-# Acquire PROCHOST
+# Resolve machine dependencies
 #
-PROCHOST=`hostname`;export PROCHOST
-#
-# resolve machine/site dependencies
-#
-case "$PROCHOST" in 
-  silver* )                                # silver @ CGD/NCAR
-    BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/local/bin/ncks             ; export NCKS
-    NCRA=/usr/local/bin/ncra             ; export NCRA
-    NCRCAT=/usr/local/bin/ncrcat         ; export NCRCAT
-    PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/datalocal/proc/$CASE       ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
-    ;;
-
-  login1* )                                # tukey @ ANL
-    BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/bin/ncks                   ; export NCKS
-    NCRA=/usr/bin/ncra                   ; export NCRA
-    NCRCAT=/usr/bin/ncrcat               ; export NCRCAT
-    PROCBASE=/gpfs/mira-fs0/projects/CESM_Atmos/proc/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/gpfs/mira-fs0/projects/CESM_Atmos/archive/$CASE    ; export LOCALDSK
-#    ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
-    ARCHIVE_BASE=/home/$USER              ; export ARCHIVE_BASE
-    ;;
-
-  tramhill* | hurricane* )                 # tramhill/hurricane @ CGD/NCAR
-    BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/local/bin/ncks              ; export NCKS
-    NCRA=/usr/local/bin/ncra              ; export NCRA
-    NCRCAT=/usr/local/bin/ncrcat          ; export NCRCAT
-    PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
-    ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
-    ;;
-
-  modeling1* )                             # modeling1 in ACD
-    BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/local/bin/ncks              ; export NCKS
-    NCRA=/usr/local/bin/ncra              ; export NCRA
-    NCRCAT=/usr/local/bin/ncrcat          ; export NCRCAT
-    PROCBASE=/data6/$USER/$CASE           ; export PROCBASE
-    ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
-    ;;
-
-  yslogin* | geyser* )                      # Yellowstone (geyser) @ CISL/NCAR
-    BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncks      ; export NCKS
-    NCRA=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncra      ; export NCRA
-    NCRCAT=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncrcat  ; export NCRCAT
-    PROCBASE=/glade/scratch/$USER/$CASE           ; export PROCBASE
-    LOCALDSK=/glade/scratch/$USER/$CASE           ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
-    if [ "$MIPNAME" = "lea" ] ; then              # Special Aixue 20C runs
-      ARCHIVE_BASE=/home/ahu/csm                 ; export ARCHIVE_BASE
-    fi
-    if [ `echo $CASE | cut -d"." -f1-3` = "b.e10.B20ANTHROC5CN" ] ; then
-      PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE ; export PROCBASE
-      LOCALDSK=/glade/p/cesm0005/csm/$CASE       ; export LOCALDSK
-    fi
-    case "$CASE" in
-      b.e10.B20GHGC5CN.f09_g16.003 | b.e10.B20GHGC5CN.f09_g16.005 | b.e10.B20VOLCC5CN.f09_g16.003 | b.e10.B20VOLCC5CN.f09_g16.005 )
-        PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
-        LOCALDSK=/glade/scratch/adrianne/archive/$CASE ; export LOCALDSK
-      ;;
-    esac
-    ;;
-
-  nid* | hopper* )                              # hopper @ NERSC
-    BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/common/usg/nco/4.0.8/bin/ncks     ; export NCKS
-    NCRA=/usr/common/usg/nco/4.0.8/bin/ncra     ; export NCRA
-    NCRCAT=/usr/common/usg/nco/4.0.8/bin/ncrcat ; export NCRCAT
-    PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/global/scratch2/sd/$USER/$CASE ; export LOCALDSK
-    ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
-    if ! [ $LD_LIBRARY_PATH ] ; then
-      LD_LIBRARY_PATH=/usr/common/usg/nco/4.0.8/lib:/opt/pgi/11.9.0/linux86-64/11.9/libso:/opt/pgi/11.9.0/linux86-64/11.9/lib:/opt/cray/hdf5/1.8.5.0/hdf5-pgi/lib:/opt/cray/netcdf/4.1.1.0/netcdf-pgi/lib:/opt/moab/6.1.8/lib
-    else
-      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/common/usg/nco/4.0.8/lib:/opt/pgi/11.9.0/linux86-64/11.9/libso:/opt/pgi/11.9.0/linux86-64/11.9/lib:/opt/cray/hdf5/1.8.5.0/hdf5-pgi/lib:/opt/cray/netcdf/4.1.1.0/netcdf-pgi/lib:/opt/moab/6.1.8/lib
-    fi
-    export LD_LIBRARY_PATH
-    ;;
-
-  c1* )                                # carver @ NERSC
-    BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/common/usg/nco/4.0.5/bin/ncks     ; export NCKS
-    NCRA=/usr/common/usg/nco/4.0.5/bin/ncra     ; export NCRA
-    NCRCAT=/usr/common/usg/nco/4.0.5/bin/ncrcat ; export NCRCAT
-    PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/global/scratch2/sd/$USER/$CASE ; export LOCALDSK
-    ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
-    if ! [ $LD_LIBRARY_PATH ] ; then
-      LD_LIBRARY_PATH=/usr/common/usg/nco/4.0.5/lib:/usr/common/usg/netcdf/4.1.1/pgi/lib:/usr/syscom/opt/torque/default/lib:/usr/common/usg/openmpi/1.4.5/pgi/lib:/usr/common/usg/pgi/12.9/linux86-64/12.9/libso:/usr/syscom/nsg/lib
-    else
-      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/common/usg/nco/4.0.5/lib:/usr/common/usg/netcdf/4.1.1/pgi/lib:/usr/syscom/opt/torque/default/lib:/usr/common/usg/openmpi/1.4.5/pgi/lib:/usr/common/usg/pgi/12.9/linux86-64/12.9/libso:/usr/syscom/nsg/lib
-    fi
-    export LD_LIBRARY_PATH
-    ;;
-
-  rhea* )                                # rhea @ ORNL
-    BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/ccs/home/wgstrand/bin/ncks                   ; export NCKS
-    NCRA=/ccs/home/wgstrand/bin/ncks                   ; export NCRA
-    NCRCAT=/ccs/home/wgstrand/bin/ncrcat               ; export NCRCAT
-    PROCBASE=/lustre/atlas1/cli017/scratch/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/lustre/atlas1/cli017/scratch/$USER/$CASE ; export LOCALDSK
-    ARCHIVE_BASE=/f2/ccsm/csm                          ; export ARCHIVE_BASE
-    if ! [ $LD_LIBRARY_PATH ] ; then
-      LD_LIBRARY_PATH=/sw/analysis-x64/ompi/1.4.2/centos5.5_gnu4.4.4/lib:/ccs/compilers/gcc/centos5.5-x86_64/4.4.4/lib64:/sw/analysis-x64/udunits/2.1.21/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/netcdf/4.1.1/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/szip/2.1/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/python/2.7/centos5.5_gnu4.4.3/2.7_install_dir/lib/
-    else
-      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/sw/analysis-x64/ompi/1.4.2/centos5.5_gnu4.4.4/lib:/ccs/compilers/gcc/centos5.5-x86_64/4.4.4/lib64:/sw/analysis-x64/udunits/2.1.21/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/netcdf/4.1.1/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/szip/2.1/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/python/2.7/centos5.5_gnu4.4.3/2.7_install_dir/lib/
-    fi
-    ;;
-  * ) 
-    echo "Unable to continue because "$PROCHOST" not known."
-    exit 1 ;;
-esac
-#
-export LD_LIBRARY_PATH
+if [ -f ${HOME}/CCP_Processing_Suite/machine_depends ] ; then
+  source ${HOME}/CCP_Processing_Suite/machine_depends
+else
+  echo ${HOME}"/CCP_Processing_Suite/machine_depends missing. Fix. Dying."
+  exit 1
+fi
 #
 # Strip off first part of $HIST
 #
@@ -280,247 +168,118 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
-case "$TPER" in
-  day | hr3 | hr1 | m30 )
-    ln -s -f $BASEDIR/time_split     .
-    ln -s -f $BASEDIR/days_to_year  .
-    ;;
-esac
-#
-ln -s -f $BASEDIR/archive_list      .
-ln -s -f $BASEDIR/archive_read      .
+ln -s -f $BASEDIR/var_extract       .
 ln -s -f $BASEDIR/archive_write     .
-ln -s -f $BASEDIR/var_split         .
-ln -s -f $BASEDIR/hist_mon_to_year  .
-ln -s -f $BASEDIR/var_year_to_all   .
-ln -s -f $BASEDIR/concatenate_data  .
-ln -s -f $BASEDIR/compress_data     .
 ln -s -f $BASEDIR/store_to_archive  .
 ln -s -f $BASEDIR/update_status     .
 #
 cd $LOCAL_PROC
 #
-# Start actual processing, one year at a time
+# Start actual processing
+#
+if [ "$LENG" = "byy" ] ; then
 #
 # Start from end and go to beginning
 #
-YEARNOW=$YEAREND;export YEARNOW
-#
-./update_status start
+  YEARNOW=$YEAREND;export YEARNOW
+  ./update_status start
 #
 # Big processing loop
 #
-while [ $YEARNOW -ge $YEARBEG ] ; do
-  ./update_status $YEARNOW
-  if [ ! -f .comp.$CASE.$HIST.$YEARNOW.nc ] ; then
-    echo -n "TS PRO "${CASE}"."${HIST}"."${YEARNOW}": " ; date
-    if [ -d $LOCAL_HIST ] ; then
-      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* | wc -l`
-      if [ $NHISTF -ne 0 ] ; then
-        echo ${CASE}"."${HIST}"."${YEARNOW}" files on disk, softlinking."
-        ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* .
-      fi
-    else
-#
-# Get archive listing
-#
-      ARCHIVE_LIST=archive.$CASE.$HIST
-      if [ ! -f $ARCHIVE_LIST ] ; then
-        echo "Getting archival list of "$CASE" "$HIST
-        ./archive_list $ARCHIVE_LIST
-      fi
-      ./archive_read $ARCHIVE_LIST $YEARNOW
-      if [ $? -ne 0 ] ; then
-        echo "Error from archive_read"
-       ./update_status error "$CASE $HIST $TPER"
-       exit 1
-      fi
-    fi
-    if [ -f $CASE.$HIST.$YEARNOW*.tar ] ; then
-      NTARFL=`/bin/ls $CASE.$HIST.$YEARNOW*.tar | wc -l`
-      if [ $NTARFL -ne 0 ] ; then
-        for TARFILE in `/bin/ls $CASE.$HIST.$YEARNOW*.tar` ; do
-          tar xf $TARFILE
-          if [ $? -ne 0 ] ; then
-            echo "Error untarring "$TARFILE
-          else
-            rm -f $TARFILE
-          fi
-        done
-      fi
-    fi
-#
-# Convert all YEARNOW file(s) to netCDF-4
-#
-    if [ `echo $PROCHOST | cut -c1-2` != "c1" ] ; then
-      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}*.nc` ; do
-        TYPE=`$NCKS -M $FILE | egrep "type" | cut -d"=" -f6` ; export TYPE
-        if [ "$TYPE" != "NC_FORMAT_NETCDF4" ] ; then
-          $NCKS -4 $FILE ${FILE}4
-          if [ $? -ne 0 ] ; then
-            echo "Cannot convert "${FILE}" to netCDF-4. Exiting."
-            exit 1
-          else
-            mv ${FILE}4 $FILE
-          fi
+  while [ $YEARNOW -ge $YEARBEG ] ; do
+    ./update_status $YEARNOW
+    if [ ! -f .comp.${CASE}.${HIST}.${YEARNOW} ] ; then
+      echo -n "TS PRO "${CASE}"."${HIST}"."${YEARNOW}": " ; date
+      if [ -d $LOCAL_HIST ] ; then
+        NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* | wc -l`
+        if [ $NHISTF -ne 0 ] ; then
+          echo ${CASE}"."${HIST}"."${YEARNOW}" files on disk, softlinking."
+          rm -f ${CASE}.${HIST}.*
+          ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* .
         fi
-      done
-    fi
+      else
+        echo ${CASE}"."${HIST}"."${YEARNOW}" files missing from disk, acquire."
+        exit 1
+      fi
 #
-# Check on data type to see if it needs time splitting and reconcatenating first
+# var_extract this year
 #
-    case "$TPER" in
-# 
-# Daily data - requires lots of checks, usually
-#
-      day )
-      case "$HTYP" in
-        cam2 | cam )
-          NFNC=`echo $CASE.$HIST.${YEARNOW}-??-??-?????.nc | wc -w`
-          if [ ${NFNC} -ne 0 ] ; then
-            for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??-?????.nc` ; do
-#
-# Check for exactly 365 samples from the same year
-#
-              NTIMES=`$NCKS -s "%8.8i\n" -F -H -C -v date $FILE | egrep "^[0-9]" | wc -l`
-              NYEARS=`$NCKS -s "%8.8i\n" -F -H -C -v date $FILE | egrep "^[0-9]" | cut -c1-4 | uniq | wc -l`
-              if [ $NTIMES -eq 365 ] && [ $NYEARS -eq 1 ] ; then
-                echo "time_split not required on "$FILE" 1 year length already from same year. Renaming."
-                TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
-                mv $FILE $TRIMD
-              else
-                echo "time_split-ting on "$FILE
-                ./time_split $FILE erase
-                ./days_to_year erase
-              fi
-            done
-          fi ;;
-        clm2 )
-          NFNC=`echo $CASE.$HIST.${YEARNOW}-??-??-?????.nc | wc -w`
-          if [ ${NFNC} -ne 0 ] ; then
-            for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??-00000.nc` ; do
-#
-# Check for exactly 365 samples from the same year
-#
-              NTIMES=`$NCKS -s "%8.8i\n" -F -H -C -v mcdate $FILE | egrep "^[0-9]" | wc -l`
-              NYEARS=`$NCKS -s "%8.8i\n" -F -H -C -v mcdate $FILE | egrep "^[0-9]" | cut -c1-4 | uniq | wc -l`
-              if [ $NTIMES -eq 365 ] && [ $NYEARS -eq 1 ] ; then
-                echo "time_split not required on "$FILE" 1 year length already from same year. Renaming."
-                TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
-                mv $FILE $TRIMD
-              else
-                echo "time_split-ting on "$FILE
-                ./time_split $FILE erase
-                ./days_to_year erase
-              fi
-            done
-          fi ;;
-        cice )
-          NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
-          if [ ${NFNC} -eq 12 ] ; then
-            ./hist_mon_to_year
-            if [ $? -ne 0 ] ; then
-              echo "Error from hist_mon_to_year on file "$FILE
-              ./update_status error hist_mon_to_year
-              exit 1
-            fi
-          fi ;;
-        pop )
-          NFNC=`echo $CASE.$HIST.${YEARNOW}-??-??.nc | wc -w`
-          if [ ${NFNC} -ne 0 ] ; then
-            for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??.nc` ; do
-              TRIMD=`echo $FILE | sed -e 's/-01.nc$/.nc/g'`
-              mv $FILE $TRIMD
-              echo "time_split not required on "$FILE" 1 month already."
-            done
-            ./hist_mon_to_year
-            if [ $? -ne 0 ] ; then
-              echo "Error from hist_mon_to_year on file "$FILE
-              ./update_status error hist_mon_to_year
-              exit 1
-            fi
-          fi ;;
-        rtm )
-          NFNC=`echo $CASE.$HIST.${YEARNOW}-01-02-00000.nc | wc -w`
-          if [ ${NFNC} -ne 0 ] ; then
-            for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-01.nc` ; do
-              TRIMD=`echo $FILE | sed -e 's/\-01\.nc$/\.nc/g'`
-              mv $FILE $TRIMD
-              echo "time_split not required on "$FILE" 1 month already."
-            done
-            ./hist_mon_to_year
-            if [ $? -ne 0 ] ; then
-              echo "Error from hist_mon_to_year on files "$CASE.$HIST.$YEARNOW
-              ./update_status error hist_mon_to_year
-              exit 1
-            fi
-          fi
-        esac ;;
-#
-# Monthly data, hopefully no time splitting needed
-#
-      mon )
-        NFNC=`echo $CASE.$HIST.${YEARNOW}-??.nc | wc -w`
-        if [ ${NFNC} -eq 12 ] ; then
-          ./hist_mon_to_year
-          if [ $? -ne 0 ] ; then
-            echo "Error from hist_mon_to_year on files "$CASE.$HIST.$YEARNOW
-            ./update_status error hist_mon_to_year
-            exit 1
-          fi
-        fi ;;
-#
-# var_split each history file that is now one years' worth of data
-#
-    NFNC=`echo $CASE.$HIST.${YEARNOW}.nc | wc -w`
-    if [ ${NFNC} -eq 1 ] ; then
-      for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}.nc` ; do
-        ./var_split $FILE erase
+      NFNC=`echo $CASE.$HIST.${YEARNOW}.nc | wc -w`
+      if [ ${NFNC} -eq 1 ] ; then
+        ./var_extract
         if [ $? -ne 0 ] ; then
-          echo "Error from var_split on file "$FILE
-          ./update_status error var_split
+          echo "Error from var_extract at year "${YEARNOW}
+          ./update_status error var_extract
           exit 1
         else
-          touch .comp.$FILE
+          touch .comp.${CASE}.${HIST}.${YEARNOW}
         fi
-      done
+      fi
     fi
-  fi
-#
-  YEARNOW=`expr $YEARNOW - 1`
-  if [ $YEARNOW -lt 1000 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
-  if [ $YEARNOW -lt 100 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
-  if [ $YEARNOW -lt 10 ] ; then
-    YEARNOW=0${YEARNOW}
-  fi
-  export YEARNOW
-done
-#
-# Concatenate years -> all
-#
-echo -n "TS final concat start: " ; date
-./concatenate_data
-echo -n "TS final concat   end: " ; date
-#
-# Compress data
-#
-echo -n "TS compression start: " ; date
-./compress_data
-echo -n "TS compression   end: " ; date
 #
 # Store completed data on archival system
 #
-echo -n "TS archive start: " ; date
-./store_to_archive
-if [ $? -ne 0 ] ; then
-  echo "store_to_archive failed"
-  ./update_status error "$CASE $HIST $TPER"
-  exit 1
+    echo -n "TS archive start: " ; date
+    ./store_to_archive
+    if [ $? -ne 0 ] ; then
+      echo "store_to_archive failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    fi
+    echo -n "TS archive end: " ; date
+    YEARNOW=`expr $YEARNOW - 1`
+    if [ $YEARNOW -lt 1000 ] ; then
+      YEARNOW=0${YEARNOW}
+    fi
+    if [ $YEARNOW -lt 100 ] ; then
+      YEARNOW=0${YEARNOW}
+    fi
+    if [ $YEARNOW -lt 10 ] ; then
+      YEARNOW=0${YEARNOW}
+    fi
+    export YEARNOW
+  done
+#
+# Do all times
+#
+else
+#
+  ./update_status $YEARBEG
+  echo -n "TS PRO "${CASE}"."${HIST}": " ; date
+  if [ -d $LOCAL_HIST ] ; then
+    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.* | wc -l`
+    if [ $NHISTF -ne 0 ] ; then
+      echo ${CASE}"."${HIST}"."${YEARNOW}" files on disk, softlinking."
+      rm -f ${CASE}.${HIST}.*
+      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.* .
+    fi
+  else
+    echo ${CASE}"."${HIST}"."${YEARNOW}" files missing from disk, acquire."
+    exit 1
+  fi
+#
+# var_extract all years
+#
+  ./var_extract
+  if [ $? -ne 0 ] ; then
+    echo "Error from var_extract"
+    ./update_status error var_extract
+    exit 1
+  fi
+#
+# Store completed data on archival system
+#
+  echo -n "TS archive start: " ; date
+  ./store_to_archive
+  if [ $? -ne 0 ] ; then
+    echo "store_to_archive failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  fi
+  echo -n "TS archive end: " ; date
 fi
-echo -n "TS archive end: " ; date
+#
 ./update_status complete
 echo -n "TS COMPLETE: " ; date
+#
+exit
