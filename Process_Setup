@@ -50,7 +50,6 @@ else
       TEMPLATE=process_yyg_template ;;
     * )
       TEMPLATE=process_template ;;
-    esac ;;
   esac
 fi
 #
