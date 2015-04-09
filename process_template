@@ -190,7 +190,7 @@ if [ "$LENG" = "byy" ] ; then
 #
   while [ $YEARNOW -ge $YEARBEG ] ; do
     ./update_status $YEARNOW
-    if [ ! -f .comp.${CASE}.${HIST}.${YEARNOW} ] ; then
+    if [ ! -f .comp.${CASE}.${HIST}.${YEARNOW}.nc ] ; then
       echo -n "TS PRO "${CASE}"."${HIST}"."${YEARNOW}": " ; date
       if [ -d $LOCAL_HIST ] ; then
         NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* | wc -l`
@@ -235,7 +235,7 @@ if [ "$LENG" = "byy" ] ; then
           ./update_status error var_extract
           exit 1
         else
-          touch .comp.${CASE}.${HIST}.${YEARNOW}
+          touch .comp.${CASE}.${HIST}.${YEARNOW}.nc
         fi
       fi
     fi
