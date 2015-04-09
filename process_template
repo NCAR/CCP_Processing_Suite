@@ -183,7 +183,7 @@ if [ "$LENG" = "byy" ] ; then
 #
 # Start from end and go to beginning
 #
-  YEARNOW=$YEAREND;export YEARNOW
+  YEARNOW=$YEAREND ; export YEARNOW
   ./update_status start
 #
   case "$TPER" in
