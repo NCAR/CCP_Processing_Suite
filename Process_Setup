@@ -49,11 +49,7 @@ else
     yyg )
       TEMPLATE=process_yyg_template ;;
     * )
-      case "$TPER" in 
-        hr6 )
-          TEMPLATE=process_hr6_template ;;
-        * )
-          TEMPLATE=process_template ;;
+      TEMPLATE=process_template ;;
     esac ;;
   esac
 fi

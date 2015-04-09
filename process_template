@@ -103,6 +103,8 @@ case "$TPER" in
     ARCHIVE_PROC=${ARCHIVE_PROC}/monthly  ;;
   day )
     ARCHIVE_PROC=${ARCHIVE_PROC}/daily    ;;
+  hr6 )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6  ;;
   hr3 )
     ARCHIVE_PROC=${ARCHIVE_PROC}/hourly3  ;;
   hr1 )
