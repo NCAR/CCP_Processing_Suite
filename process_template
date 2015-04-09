@@ -186,27 +186,6 @@ if [ "$LENG" = "byy" ] ; then
   YEARNOW=$YEAREND ; export YEARNOW
   ./update_status start
 #
-  case "$TPER" in
-    ann )
-      OUTTIME=${YEARNOW}-${YEARNOW} ;;
-    mon )
-      OUTTIME=${YEARNOW}01-${YEARNOW}12 ;;
-    day )
-      OUTTIME=${YEARNOW}0101-${YEARNOW}1231 ;;
-    hr3 )
-      OUTTIME=${YEARNOW}010100Z-${YEARNOW}123121Z ;;
-    hr6 )
-      OUTTIME=${YEARNOW}010100Z-${YEARNOW}123118Z ;;
-    hr1 )
-      OUTTIME=${YEARNOW}010100Z-${YEARNOW}123123Z ;;
-    m30 )
-      OUTTIME=${YEARNOW}01010000Z-${YEARNOW}12312330Z ;;
-    * ) 
-      echo "Unable to set OUTTIME because "$TPER" not known."
-      exit 1 ;;
-  esac
-  export OUTTIME
-#
 # Big processing loop
 #
   while [ $YEARNOW -ge $YEARBEG ] ; do
@@ -224,6 +203,27 @@ if [ "$LENG" = "byy" ] ; then
         echo ${CASE}"."${HIST}"."${YEARNOW}" files missing from disk, acquire."
         exit 1
       fi
+#
+      case "$TPER" in
+        ann )
+          OUTTIME=${YEARNOW}-${YEARNOW} ;;
+        mon )
+          OUTTIME=${YEARNOW}01-${YEARNOW}12 ;;
+        day )
+          OUTTIME=${YEARNOW}0101-${YEARNOW}1231 ;;
+        hr3 )
+          OUTTIME=${YEARNOW}010100Z-${YEARNOW}123121Z ;;
+        hr6 )
+          OUTTIME=${YEARNOW}010100Z-${YEARNOW}123118Z ;;
+        hr1 )
+          OUTTIME=${YEARNOW}010100Z-${YEARNOW}123123Z ;;
+        m30 )
+          OUTTIME=${YEARNOW}01010000Z-${YEARNOW}12312330Z ;;
+        * ) 
+          echo "Unable to set OUTTIME because "$TPER" not known."
+          exit 1 ;;
+      esac
+      export OUTTIME
 #
 # var_extract this year
 #
