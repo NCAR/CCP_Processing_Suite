@@ -60,7 +60,7 @@ subroutine get_cmor_info
      mycmor%calendar   = 'noleap'
   end select
   select case (exp(exp_found)%case)
-  case ('f.e11.TSREFC1SD.f19.f19.ccmi23.001')
+  case ('f.e11.TSREFC1SD.f19.f19.ccmi23.001','cesm111ccmi23_geos5_htap_base')
      mycmor%calendar   = 'gregorian'
   case default
      mycmor%calendar   = 'noleap'
