@@ -331,7 +331,7 @@ subroutine define_atm_axes(dimensions)
              zaxis_id=ilev,     &
              zfactor_name='p0',       &
              units='Pa',              &
-             zfactor_values=p0)
+             zfactor_values=p0Pa)
         error_flag = cmor_zfactor(       &
              zaxis_id=ilev,        &
              zfactor_name='b',           &
@@ -382,7 +382,7 @@ subroutine define_atm_axes(dimensions)
              zaxis_id=ilev,     &
              zfactor_name='p0',       &
              units='Pa',              &
-             zfactor_values=p0)
+             zfactor_values=p0Pa)
         error_flag = cmor_zfactor(       &
              zaxis_id=ilev,        &
              zfactor_name='b',           &

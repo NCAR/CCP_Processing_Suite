@@ -123,7 +123,7 @@ subroutine get_atm_grid
   call read_var(gridid,'hybi'  ,b_coeff_bnds)
   call read_var(gridid,'hyai'  ,ah_coeff)
   call read_var(gridid,'hybi'  ,bh_coeff)
-  call read_var(gridid,'P0'    ,p0)
+  call read_var(gridid,'P0'    ,p0Pa)
   call read_var(gridid,'LANDFRAC',landfrac)
   call read_var(gridid,'PHIS'  ,phis)
   call read_var(gridid,'AREA'  ,area)
@@ -157,7 +157,7 @@ subroutine get_atm_grid
   !
   ! Convert Pa values to mb (for vertint)
   !
-  p0 = p0 * 0.01
+  p0mb = p0Pa * 0.01
   !
   ! Transfer bounds for lons and lats
   !

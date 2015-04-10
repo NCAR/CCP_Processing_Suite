@@ -128,7 +128,7 @@ module grid_info
   real,dimension(:),    allocatable::lnd_lats,lnd_lons,lnd_levs,lnd_levs_bnds,atm_sites
   real,dimension(:,:,:),allocatable::lnd_zsoi,lnd_dzsoi  ! CLM soil depth (m), CLM soil layer thickness (m)
   real,dimension(:,:),  allocatable::lnd_lats_bnds,lnd_lons_bnds
-  real::p0
+  real::p0Pa,p0mb
   integer::nlons,nlats,nlevs,nilevs,nplev23,nplev17,nplev8,nplev7,nplev3,nplev31
   integer::ncosp_tau,ncosp_prs,ncosp_ht,ncosp_dbze,nsites,ncosp_sza
   integer::naxes,zfactor_id

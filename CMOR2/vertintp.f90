@@ -22,7 +22,7 @@ subroutine vertint(dati,dato,plevi,plevo,psfc,spvl,nlon,nlat,nlevi,nlevip1,nlevo
      do i = 1,nlon
         do k = 1,nlevi
            kpi = k
-           plevi(k) = (a_coeff(kpi)*p0) + b_coeff(kpi)* (psfc(i,j))
+           plevi(k) = (a_coeff(kpi)*p0mb) + b_coeff(kpi)* (psfc(i,j))
         enddo
 !
 !****     call p2hbd to perform vertical interp. then transfer data to

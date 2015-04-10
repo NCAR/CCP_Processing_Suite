@@ -3,17 +3,15 @@ subroutine pres_hybrid_ccm(ps_in,ps_out,nx,ny,nz)
   implicit none
   !
   integer::nx,ny,nz
-  real::pzero
   real,dimension(nx,ny)::ps_in
   real,dimension(nx,ny,nz)::ps_out
   !
   integer::i,j,k
   !
-  pzero = p0 * 100.
   do k = 1,nz
      do j = 1,ny
         do i = 1,nx
-           ps_out(i,j,k) = a_coeff_bnds(k)*pzero + b_coeff_bnds(k)*ps_in(i,j)
+           ps_out(i,j,k) = a_coeff_bnds(k)*p0Pa + b_coeff_bnds(k)*ps_in(i,j)
         enddo
      enddo
   enddo
