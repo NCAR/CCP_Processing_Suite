@@ -336,7 +336,7 @@ program CCMI_monthly_CMOR
              'vmrisop','vmrn2o','vmrnh50','vmrnh50w','vmrnh5','vmrno2','vmrno','vmro3','vmro3s',&
              'vmroh','vmrpan','vmrsf6','vmrso2','vmrso2t','vmrst8025',&
              'losso1dviah2o','losso3viaho2','losso3viaoh','lossrcoo2viano2','lossro2viaho2',&
-              'lossro2viano','lossro2viano3','lossro2viaro2',&
+              'lossro2viano','lossro2viano3','lossro2viaro2','airmass',&
               'prodhno3viano2oh','prodhpx','prodo1d','prodo3viaho2','prodo3viaro2','prodoh',&
               'mmraernh4','mmraerno3','mmraerso4','emilnox')
            cmor_var_id = cmor_variable(                            &
@@ -2855,8 +2855,6 @@ program CCMI_monthly_CMOR
            enddo
         case ('airmass')
            !
-           ! Vertically integrate over Z to get total air mass
-           !
            allocate(indat3a(nlons,nlats,nlevs),cmordat2d(nlons,nlats),cmordat3d(nlons,nlats,nlevs))
            allocate(psdata(nlons,nlats),pshybrid(nlons,nlats,nlevs))
            !
@@ -2905,25 +2903,43 @@ program CCMI_monthly_CMOR
                     ! Compute vertical integral
                     !
                     cmordat3d = indat3a * pshybrid
-                    do ij = 1,nlats
-                       do ii = 1,nlons
-                          cmordat2d = sum(cmordat3d(ii,ij,:))
-                       enddo
-                    enddo
                     ! 
                     ! Divide by area of each grid cell
                     !
-                    write(*,*) '0: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
-                    cmordat2d = cmordat2d / area
-                    write(*,*) '1: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
+                    do ik = 1,nlevs
+                       cmordat3d = cmordat3d(:,:,ik)/area
+                    enddo
+!                    write(*,*) '0: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
+!                    do ij = 1,nlats
+!                       do ii = 1,nlons
+!                          cmordat2d = sum(cmordat3d(ii,ij,:))
+!                       enddo
+!                    enddo
+                    ! 
+                    ! Divide by area of each grid cell
+                    !
+!                    write(*,*) '0: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
+!                    cmordat2d = cmordat2d / area
+!                    write(*,*) '1: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
                          var_id        = cmor_var_id, &
-                         data          = cmordat2d,   &
+                         data          = cmordat3d,   &
                          ntimes_passed = 1,         &
                          time_vals     = tval,      &
                          time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                    error_flag = cmor_write(        &
+                         var_id        = zfactor_id,&
+                         data          = psdata,   &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd,      &
+                         store_with    = cmor_var_id)
                     if (error_flag < 0) then
                        write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
