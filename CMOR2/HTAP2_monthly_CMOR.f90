@@ -268,7 +268,7 @@ program HTAP_monthly_CMOR
              'wetdust','wetoa','wetso4','wetbc','wetnh4',&
              'dryhno3','drynh4','dryno2','drynoy','dryo3','drybc')
            mycmor%positive = 'down'
-        case ('loadoa','loadbc','loaddust','loadss','loadso4','airmass')
+        case ('loadoa','loadbc','loaddust','loadss','loadso4')
            var_info(var_found(1,1))%units = 'kg m-2'
         case ('wetss')
            mycmor%positive = 'up'
@@ -353,7 +353,7 @@ program HTAP_monthly_CMOR
               'zmch3cl','zmch3ooh','zmch4','zmchbr3','zmchclf2','zmcl2o2','zmcl','zmclo','zmclono2',&
               'zmcly','zmco','zmh2','zmh2o2','zmh2o','zmhbr','zmhcl','zmhno3','zmhno4','zmho2','zmhobr',&
               'zmhocl','zmmnstrage','zmn2o5','zmn2o','zmn','zmno2','zmno','zmnoy','zmo3','zmoclo','zmoh',&
-              'zmta','zmtnt','zmua','zmva','zmzg','acceldivf','accelgw','accelnogw','accelogw','airmass')
+              'zmta','zmtnt','zmua','zmva','zmzg','acceldivf','accelgw','accelnogw','accelogw')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
