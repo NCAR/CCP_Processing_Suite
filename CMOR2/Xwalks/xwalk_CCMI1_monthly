@@ -3,7 +3,7 @@ CCMI1_monthly:acceldivf:tendency_of_eastward_wind_due_to_eliassen_palm_flux_dive
 CCMI1_monthly:accelgw:tendency_of_eastward_wind_due_to_gravity_wave_drag:longitude latitude plevs time:atmos:4:UTGWORO UTGWSPEC BUTGWSPEC PS:UTGWORO + UTGWSPEC + BUTGWSPEC
 CCMI1_monthly:accelnogw:tendency_of_eastward_wind_due_to_nonorographic_gravity_wave_drag:longitude latitude plevs time:atmos:3:UTGWSPEC BUTGWSPEC PS:UTGWSPEC + BUTGWSPEC
 CCMI1_monthly:accelogw:tendency_of_eastward_wind_due_to_orographic_gravity_wave_drag:longitude latitude plevs time:atmos:2:UTGWORO PS:UTGWORO
-CCMI1_monthly:airmass:atmosphere_mass_of_air_per_unit_area:longitude latitude alevel time:atmos:2:MASS PS:MASS
+CCMI1_monthly:airmass:atmosphere_mass_of_air_per_unit_area:longitude latitude plevs time:atmos:2:MASS PS:MASS
 CCMI1_monthly:albs:planetary_albedo:longitude latitude time:atmos:2:FSDT FSNT:global(FSDT-FSNT)/global(FSDT)
 CCMI1_monthly:albsrfc:surface_albedo:longitude latitude time:atmos:2:FSDS FSNS:global(FSDS-FSNS)/global (FSDS)
 CCMI1_monthly:aoa:age_of_stratospheric_air:longitude latitude alevel time:atmos:2:AOA PS:AOA
@@ -62,7 +62,7 @@ CCMI1_monthly:emico:tendency_of_atmosphere_mass_content_of_carbon_monoxide_due_t
 CCMI1_monthly:emidms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission:longitude latitude time:atmos:1:SFDMS:SFDMS
 CCMI1_monthly:emidust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_emission:longitude latitude time:atmos:4:SFDST01 SFDST02 SFDST03 SFDST04:SFDST01+SFDST02+SFDST03+SFDST04
 CCMI1_monthly:emiisop:tendency_of_atmosphere_mass_content_of_isoprene_due_to_emission:longitude latitude time:atmos:1:SFISOP:SFISOP
-CCMI1_monthly:emilnox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_lightning:longitude latitude alevel time:atmos:3:LNO_PROD PS T:LNO_PROD* 14./30. *1.e-3/6.022e23 *delp/9.81/rho,  rho = p/(287.04*T)  
+CCMI1_monthly:emilnox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_lightning:longitude latitude alevel time:atmos:3:LNO_PROD PS T:LNO_PROD* 14. *1.e+3/6.022e23 *delp/9.81/rho,  rho = p/(287.04*T)  
 CCMI1_monthly:eminh3:tendency_of_atmosphere_mass_content_of_ammonia_due_to_emission:longitude latitude time:atmos:1:SFNH3:SFNH3
 CCMI1_monthly:eminox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_emission:longitude latitude time:atmos:1:SFNOX:SFNOX
 CCMI1_monthly:emioa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude time:atmos:2:SFOC1 SFOC2 :(SFOC1+SFOC2)*1.4

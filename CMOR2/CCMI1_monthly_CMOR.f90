@@ -1934,9 +1934,6 @@ program CCMI_monthly_CMOR
                              zonave(1,ij,ik) = spval
                           else
                              zonave(1,ij,ik) = zonave(1,ij,ik)/lon_count
-                            if (trim(xw(ixw)%cesm_vars(1)).eq.'MASS') then
-                              zonave(1,ij,ik) = zonave(1,ij,ik)/area_wt(ij)
-                            endif
                           endif
                        enddo
                     enddo
@@ -2548,7 +2545,7 @@ program CCMI_monthly_CMOR
                     call read_var(myncid(ifile,2),'PS',psdata)
                     call read_var(myncid(ifile,3),'T',tdata)
                     ! Convert to kg m-2 s-1
-                    indat3a = indat3a * (14./13. * 1.e-3 / avogn )
+                    indat3a = indat3a * (14. * 1.e+3 / avogn )
                     !
                     call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
                     do k = 1,nlevs-1

@@ -2461,7 +2461,7 @@ program HTAP_monthly_CMOR
                     call read_var(myncid(ifile,2),'PS',psdata)
                     call read_var(myncid(ifile,3),'T',tdata)
                     ! Convert to kg m-2 s-1
-                    indat3a = indat3a * (mw_dryair * 1.e-3 / avogn )
+                    indat3a = indat3a * (mw_so4 * 1.e+3 / avogn )
                     !
                     call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
                     do k = 1,nlevs-1
@@ -2470,7 +2470,7 @@ program HTAP_monthly_CMOR
                     !
                     call pres_hybrid_mid_ccm(psdata,pshybrid_mid,nlons,nlats,nlevs)
                     rho = pshybrid_mid/(287.04*tdata)
-                    cmordat3d = indat3a*mw_so4 * psdelta/grav/rho
+                    cmordat3d = indat3a* psdelta/grav/rho
                     !
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
@@ -2633,7 +2633,7 @@ program HTAP_monthly_CMOR
                     call read_var(myncid(ifile,2),'PS',psdata)
                     call read_var(myncid(ifile,3),'T',tdata)
                     ! Convert to kg m-2 s-1
-                    indat3a = indat3a * (14./13. * 1.e-3 / avogn )
+                    indat3a = indat3a * (14. * 1.e+3 / avogn )
                     !
                     call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
                     do k = 1,nlevs-1

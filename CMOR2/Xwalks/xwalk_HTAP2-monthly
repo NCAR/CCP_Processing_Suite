@@ -1,7 +1,6 @@
 HTAP2-monthly:airmass:atmosphere_mass_of_air_per_unit_area:longitude latitude time:atmos:2:MASS PS:MASS
-HTAP2-monthly:vmro3:mole_fraction_of_ozone_in_air:longitude latitude alevel time:atmos:2:O3 PS:O3 on model levels
-HTAP2-monthly:chegpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time:atmos:2:SO4_CHMP PS T:SO4_CHMP
-HTAP2-monthly:chepsoa:tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude time:atmos:9:SOAM_PROD SOAI_PROD SOAT_PROD SOAB_PROD SOAX_PROD SFOC1 SFOC2 PS T:all all soa terms and oa surface emis
+HTAP2-monthly:chegpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time:atmos:3:SO4_CHMP PS T:SO4_CHMP
+CCMI1_monthly:chepsoa:tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude time:atmos:9:SOAM_PROD SOAI_PROD SOAT_PROD SOAB_PROD SOAX_PROD SFOC1 SFOC2 PS T:all all soa terms and oa surface emis
 HTAP2-monthly:dh:model_level_geometric_thickness:longitude latitude alevel time:atmos:2:Z3 PS:Z3 PS
 HTAP2-monthly:do3chm:tendency_of_atmosphere_mass_content_of_ozone_due_to_chemistry:longitude latitude alevel time:atmos:2:DO3CHM PS:DO3CHM
 HTAP2-monthly:drybc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:2:DF_CB1 DF_CB2:DF_CB1+DF_CB2
@@ -36,7 +35,7 @@ HTAP2-monthly:emico:tendency_of_atmosphere_mass_content_of_carbon_monoxide_due_t
 HTAP2-monthly:emidms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission:longitude latitude time:atmos:1:SFDMS:SFDMS
 HTAP2-monthly:emidust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_emission:longitude latitude time:atmos:4:SFDST01 SFDST02 SFDST03 SFDST04:SFDST01+SFDST02+SFDST03+SFDST04
 HTAP2-monthly:emiisop:tendency_of_atmosphere_mass_content_of_isoprene_due_to_emission:longitude latitude time:atmos:1:SFISOP:SFISOP
-HTAP2-monthly:emilnox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_lightning:longitude latitude alevel time:atmos:3:LNO_PROD PS T:LNO_PROD* 14./30. *1.e-3/6.022e23 *delp/9.81/rho,  rho = p/(287.04*T)  
+HTAP2-monthly:emilnox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_lightning:longitude latitude alevel time:atmos:3:LNO_PROD PS T:LNO_PROD* 14. *1.e+3/6.022e23 *delp/9.81/rho,  rho = p/(287.04*T)  
 HTAP2-monthly:eminh3:tendency_of_atmosphere_mass_content_of_ammonia_due_to_emission:longitude latitude time:atmos:1:SFNH3:SFNH3
 HTAP2-monthly:eminox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_emission:longitude latitude time:atmos:1:SFNOX:SFNOX
 HTAP2-monthly:emioa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude time:atmos:7:SFOC1 SFOC2 SFSOAB SFSOAI SFSOAM SFSOAT SFSOAX:(SFOC1+SFOC2)*1.4+SFSOAB+SFSOAI+SFSOAM+SFSOAT+SFSOAX
@@ -46,10 +45,9 @@ HTAP2-monthly:emiso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_
 HTAP2-monthly:emiss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_emission:longitude latitude time:atmos:4:SFSSLT01 SFSSLT02 SFSSLT03 SFSSLT04:SFSSLT01+SFSSLT02+SFSSLT03+SFSSLT04
 HTAP2-monthly:emivoc:tendency_of_atmosphere_mass_content_of_non_methane_volatile_organic_compounds_as_carbon_due_to_emission:longitude latitude time:atmos:18:SFCH3OH SFCH3COCH3 SFCH3CHO SFCH2O SFCO SFC2H6 SFC3H8 SFC2H4 SFC3H6 SFC2H5OH SFC10H16 SFBIGALK SFBIGENE SFTOLUENE SFMEK SFHCOOH SFCH3COOH SFISOP:SFCH3OH+SFCH3COCH3+SFCH3CHO+SFCH2O+SFCO+SFC2H6+SFC3H8+SFC2H4+SFC3H6+SFC2H5OH+SFC10H16+SFBIGALK+SFBIGENE+SFTOLUENE+SFMEK+SFHCOOH+SFCH3COOH+SFISOP+SFHCN
 HTAP2-monthly:hus:specific_humidity:longitude latitude alevel time:atmos:2:Q PS:Q on model levels
-HTAP2-monthly:jno2:photolysis_rate_of_NO2:longitude latitude alevel time:atmos:1:jno2:jno2
+HTAP2-monthly:jno2:photolysis_rate_of_NO2:longitude latitude alevel time:atmos:2:jno2 PS:jno2
 HTAP2-monthly:lossch4:tendency_of_mole_concentration_of_methane_due_to_chemical_gross_destruction:longitude latitude alevel time:atmos:2:CH4_CHML PS:CH4_CHML
 HTAP2-monthly:lossco:tendency_of_mole_concentration_of_carbon_monoxide_due_to_chemical_gross_destruction:longitude latitude alevel time:atmos:2:CO_CHML PS:CO_CHML
-HTAP2-monthly:mmraerso4:mass_fraction_of_sulfate_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:SO4 PS:SO4
 HTAP2-monthly:mmrbc:mass_fraction_of_black_carbon_dry_aerosol_in_air:longitude latitude alevel time:atmos:4:CB1 CB2 PS:CB1+CB2 
 HTAP2-monthly:mmrdust:mass_fraction_of_dust_dry_aerosol_in_air:longitude latitude alevel time:atmos:6:DST01 DST02 DST03 DST04 PS TS:DST01+DST02+DST03+DST04 
 HTAP2-monthly:mmroa:mass_fraction_of_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time:atmos:9:OC1 OC2 SOAM SOAI SOAT SOAB SOAX PS TS:OC1+OC2+SOAM+SOAI+SOAT+SOAB+SOAX 
@@ -58,15 +56,12 @@ HTAP2-monthly:mmrpm1:mass_fraction_of_pm1_ambient_aerosol_in_air:longitude latit
 HTAP2-monthly:mmrpm2p5:mass_fraction_of_pm2p5_ambient_aerosol_in_air:longitude latitude alevel time relh50p:atmos:0:UNKNOWN:UNKNOWN
 HTAP2-monthly:mmrsoa:mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time:atmos:6:SOAM SOAI SOAT SOAB SOAX PS:SOAM+SOAI+SOAT+SOAB+SOAX on model levels
 HTAP2-monthly:mmrss:mass_fraction_of_seasalt_dry_aerosol_in_air:longitude latitude alevel time:atmos:5:SSLT01 SSLT02 SSLT03 SSLT04 PS:SSLT01+SSLT02+SSLT03+SSLT04 on model levels
-HTAP2-monthly:o3loss:tendency_of_mole_concentration_of_ozone_due_to_chemical_loss:longitude latitude alevel time:atmos:2:O3_Loss PS:O3_Loss *1.e-6 / avogn 
-HTAP2-monthly:o3prod:tendency_of_mole_concentration_of_ozone_due_to_chemical_production:longitude latitude alevel time:atmos:2:O3_Prod PS:O3_Prod *1.e-6 / avogn
 HTAP2-monthly:orog:surface_altitude:longitude latitude:atmos:1:PHIS:PHIS
 HTAP2-monthly:photo1d:photolysis_rate_of_ozone_to_O1D:longitude latitude alevel time:atmos:2:jo3_b PS:jo3_b
 HTAP2-monthly:pilev:air_pressure_at_model_level_interface:longitude latitude alevel time:atmos:2:ilev PS:ilev
 HTAP2-monthly:pmlev:air_pressure:longitude latitude alevel time:atmos:2:lev PS:lev
 HTAP2-monthly:pr:precipitation_flux:longitude latitude time:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
 HTAP2-monthly:ps:surface_air_pressure:longitude latitude time:atmos:1:PS:PS 
-HTAP2-monthly:ptp:tropopause_air_pressure:longitude latitude time:atmos:1:TROP_P:TROP_P
 HTAP2-monthly:ta:air_temperature:longitude latitude alevel time:atmos:2:T PS:T on model levels
 HTAP2-monthly:tatp:tropopause_air_temperature:longitude latitude time:atmos:1:TROP_T:TROP_T
 HTAP2-monthly:toz:equivalent_thickness_at_stp_of_atmosphere_ozone_content:longitude latitude time:atmos:3:O3 PS T:O3 column
