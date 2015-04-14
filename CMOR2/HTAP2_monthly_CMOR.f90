@@ -1970,7 +1970,7 @@ program HTAP_monthly_CMOR
            !
            ! Vertically integrate over Z to get total air mass
            !
-           allocate(indat3a(nlons,nlats,nlevs),cmordat2d(nlons,nlats))
+           allocate(indat3a(nlons,nlats,nlevs),cmordat2d(nlons,nlats),cmordat3d(nlons,nlats,nlevs))
            allocate(psdata(nlons,nlats),pshybrid(nlons,nlats,nlevs))
            !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
@@ -2009,7 +2009,7 @@ program HTAP_monthly_CMOR
                        psdata = psdata * 0.01
                     endwhere
                     !
-                    cmordat2d = spval
+                    cmordat2d = 0.
                     !
                     ! Compute layer thicknesses
                     !
@@ -2026,8 +2026,9 @@ program HTAP_monthly_CMOR
                     ! 
                     ! Divide by area of each grid cell
                     !
+                    write(*,*) '0: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
                     cmordat2d = cmordat2d / area
-                    write(*,*) minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
+                    write(*,*) '1: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
