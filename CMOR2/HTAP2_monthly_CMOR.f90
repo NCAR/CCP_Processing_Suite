@@ -2516,7 +2516,7 @@ program HTAP_monthly_CMOR
            !
            allocate(indat3a(nlons,nlats,nlevs),psdata(nlons,nlats),tdata(nlons,nlats,nlevs))
            allocate(pshybrid(nlons,nlats,nlevs),pshybrid_mid(nlons,nlats,nlevs),psdelta(nlons,nlats,nlevs))
-           allocate(cmordat3d(nlons,nlats,nlevs))
+           allocate(cmordat3d(nlons,nlats,nlevs),rho(nlons,nlats,nlevs))
            !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
@@ -2548,7 +2548,7 @@ program HTAP_monthly_CMOR
                     call read_var(myncid(ifile,3),'T',tdata)
                     ! Convert to kg m-2 s-1
                     indat3a = indat3a * (14./13. * 1.e-3 / avogn )
-
+                    !
                     call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
                     do k = 1,nlevs-1
                        psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
@@ -2558,7 +2558,6 @@ program HTAP_monthly_CMOR
                     rho = pshybrid_mid/(287.04*tdata)
                     !
                     cmordat3d = indat3a* psdelta/grav/rho
-
                     !
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
