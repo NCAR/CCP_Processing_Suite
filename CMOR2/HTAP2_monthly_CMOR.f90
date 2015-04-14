@@ -268,7 +268,7 @@ program HTAP_monthly_CMOR
              'wetdust','wetoa','wetso4','wetbc','wetnh4',&
              'dryhno3','drynh4','dryno2','drynoy','dryo3','drybc')
            mycmor%positive = 'down'
-        case ('loadoa','loadbc','loaddust','loadss','loadso4')
+        case ('loadoa','loadbc','loaddust','loadss','loadso4','airmass')
            var_info(var_found(1,1))%units = 'kg m-2'
         case ('wetss')
            mycmor%positive = 'up'
@@ -2023,7 +2023,11 @@ program HTAP_monthly_CMOR
                           cmordat2d = sum(cmordat3d(ii,ij,:))
                        enddo
                     enddo
-!                    write(*,*) minval(cmordat3d),maxval(cmordat3d,mask=cmordat3d/=spval),minval(zonave),maxval(zonave,mask=zonave/=spval)
+                    ! 
+                    ! Divide by area of each grid cell
+                    !
+                    cmordat2d = cmordat2d / area
+                    write(*,*) minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
