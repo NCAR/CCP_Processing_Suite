@@ -2514,9 +2514,7 @@ program HTAP_monthly_CMOR
            !
            ! nc1:LNO_PROD 
            !
-           allocate(indat3a(nlons,nlats,nlevs))
-           allocate(psdata(nlons,nlats))
-           allocate(tdata(nlons,nlats,nlevs))
+           allocate(indat3a(nlons,nlats,nlevs),psdata(nlons,nlats),tdata(nlons,nlats,nlevs))
            allocate(pshybrid(nlons,nlats,nlevs),pshybrid_mid(nlons,nlats,nlevs),psdelta(nlons,nlats,nlevs))
            allocate(cmordat3d(nlons,nlats,nlevs))
            !

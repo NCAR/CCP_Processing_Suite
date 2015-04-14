@@ -36,7 +36,7 @@ HTAP2-monthly:emico:tendency_of_atmosphere_mass_content_of_carbon_monoxide_due_t
 HTAP2-monthly:emidms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission:longitude latitude time:atmos:1:SFDMS:SFDMS
 HTAP2-monthly:emidust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_emission:longitude latitude time:atmos:4:SFDST01 SFDST02 SFDST03 SFDST04:SFDST01+SFDST02+SFDST03+SFDST04
 HTAP2-monthly:emiisop:tendency_of_atmosphere_mass_content_of_isoprene_due_to_emission:longitude latitude time:atmos:1:SFISOP:SFISOP
-HTAP2-monthly:emilnox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_lightning:longitude latitude alevel time:atmos:2:LNO_PROD PS:LNO_PROD* 14./30. *1.e-3/6.022e23 *delp/9.81/rho,  rho = p/(287.04*T)  
+HTAP2-monthly:emilnox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_lightning:longitude latitude alevel time:atmos:3:LNO_PROD PS T:LNO_PROD* 14./30. *1.e-3/6.022e23 *delp/9.81/rho,  rho = p/(287.04*T)  
 HTAP2-monthly:eminh3:tendency_of_atmosphere_mass_content_of_ammonia_due_to_emission:longitude latitude time:atmos:1:SFNH3:SFNH3
 HTAP2-monthly:eminox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_emission:longitude latitude time:atmos:1:SFNOX:SFNOX
 HTAP2-monthly:emioa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude time:atmos:7:SFOC1 SFOC2 SFSOAB SFSOAI SFSOAM SFSOAT SFSOAX:(SFOC1+SFOC2)*1.4+SFSOAB+SFSOAI+SFSOAM+SFSOAT+SFSOAX
