@@ -1965,8 +1965,89 @@ program HTAP_monthly_CMOR
                  endif
               enddo
            enddo
-
-
+           !
+        case ('airmass')
+           !
+           ! Vertically integrate over Z to get total air mass
+           !
+           allocate(indat3a(nlons,nlats,nlevs),cmordat2d(nlons,nlats))
+           allocate(psdata(nlons,nlats),pshybrid(nlons,nlats,nlevs))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
+           do ifile = 1,nc_nfiles(1)
+              select case(ntimes(ifile,1))
+              case default
+                 nchunks(ifile) = 1
+                 tidx1(1:nchunks(ifile)) = 1
+                 tidx2(1:nchunks(ifile)) = ntimes(ifile,1)
+              end select
+              write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(ifile),(tidx1(ic),tidx2(ic),ic=1,nchunks(ifile))
+              do ic = 1,nchunks(ifile)
+                 do it = tidx1(ic),tidx2(ic)
+                    time_counter = it
+                    call read_var(myncid(ifile,1),var_info(var_found(ifile,1))%name,indat3a)
+                    call read_var(myncid(ifile,2),var_info(var_found(ifile,2))%name,psdata)
+                    where (abs(indat3a) > spval)
+                       indat3a = spval
+                    endwhere
+                    where (abs(psdata) > spval)
+                       psdata = spval
+                    elsewhere
+                       psdata = psdata * 0.01
+                    endwhere
+                    !
+                    cmordat2d = spval
+                    !
+                    ! Compute layer thicknesses
+                    !
+                    call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
+                    !
+                    ! Compute vertical integral
+                    !
+                    cmordat3d = indat3a * pshybrid
+                    do ij = 1,nlats
+                       do ii = 1,nlons
+                          cmordat2d = sum(cmordat3d(ii,ij,:))
+                       enddo
+                    enddo
+!                    write(*,*) minval(cmordat3d),maxval(cmordat3d,mask=cmordat3d/=spval),minval(zonave),maxval(zonave,mask=zonave/=spval)
+                    !
+                    tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                    error_flag = cmor_write(        &
+                         var_id        = cmor_var_id, &
+                         data          = cmordat2d,   &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                 enddo
+                 write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic-1,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic-1,cmor_filename(1:128)
+                 endif
+              enddo
+           enddo
         case ('accelnogw')
            !
            ! Two fields, interpolated to plevs 
