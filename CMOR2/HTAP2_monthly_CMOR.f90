@@ -2556,8 +2556,8 @@ program HTAP_monthly_CMOR
                        psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
                     enddo
                     !
-                      call pres_hybrid_mid_ccm(psdata,pshybrid_mid,nlons,nlats,nlevs)
-                      rho = pshybrid_mid/(287.04*tdata)
+                    call pres_hybrid_mid_ccm(psdata,pshybrid_mid,nlons,nlats,nlevs)
+                    rho = pshybrid_mid/(287.04*tdata)
                     !
                     cmordat3d = indat3a* psdelta/grav/rho
 
@@ -2569,6 +2569,17 @@ program HTAP_monthly_CMOR
                          ntimes_passed = 1,         &
                          time_vals     = tval,      &
                          time_bnds     = tbnd)
+                    if (error_flag < 0) then
+                       write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                       stop
+                    endif
+                    error_flag = cmor_write(        &
+                         var_id        = zfactor_id,&
+                         data          = psdata,   &
+                         ntimes_passed = 1,         &
+                         time_vals     = tval,      &
+                         time_bnds     = tbnd,      &
+                         store_with    = cmor_var_id)
                     if (error_flag < 0) then
                        write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
                        stop
