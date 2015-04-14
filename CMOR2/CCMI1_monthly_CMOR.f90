@@ -2907,7 +2907,7 @@ program CCMI_monthly_CMOR
                     ! Divide by area of each grid cell
                     !
                     do ik = 1,nlevs
-                       cmordat3d = cmordat3d(:,:,ik)/area
+                       cmordat3d(:,:,k) = cmordat3d(:,:,ik)/area
                     enddo
 !                    write(*,*) '0: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
 !                    do ij = 1,nlats
