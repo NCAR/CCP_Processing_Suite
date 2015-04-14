@@ -1867,7 +1867,7 @@ program HTAP_monthly_CMOR
               'zmch3cl','zmch3ooh','zmch4','zmchbr3','zmchclf2','zmcl2o2','zmcl','zmclo','zmclono2',&
               'zmcly','zmco','zmh2','zmh2o2','zmh2o','zmhbr','zmhcl','zmhno3','zmhno4','zmho2','zmhobr',&
               'zmhocl','zmmnstrage','zmn2o5','zmn2o','zmn','zmno2','zmno','zmnoy','zmo3','zmoclo','zmoh',&
-              'zmta','zmtnt','zmua','zmva','zmzg','airmass','accelogw','acceldivf')
+              'zmta','zmtnt','zmua','zmva','zmzg','accelogw','acceldivf')
            !
            ! Just one field, interpolated to plevs then zonally averaged
            !
