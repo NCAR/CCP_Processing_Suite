@@ -6,6 +6,7 @@
 subroutine add_global_metadata
   use cmor_users_functions
   use exp_info
+  use table_info
   use mycmor_info
   !
   implicit none
@@ -33,6 +34,13 @@ subroutine add_global_metadata
   ! Add additional forcing information
   !
   if (mycmor%forcing_note(1:1) /= ' ') error_flag = cmor_set_cur_dataset_attribute("forcing_note",trim(adjustl(mycmor%forcing_note)))
+  !
+  ! Add cmor_version for HTAP2 (odd)
+  !
+  if (trim(exp(iexp)%cmip) == 'HTAP2') then
+     write(*,*) 'add_global_metadata for HTAP2: ',trim(cmor_version)
+     error_flag = cmor_set_cur_dataset_attribute("cmor_version",cmor_version)
+  endif
   !
   info_file = 'Info_in.'//trim(case_read)//'.'//trim(comp_read)
   inquire(file=trim(info_file),exist=exists)
