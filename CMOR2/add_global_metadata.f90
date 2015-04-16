@@ -11,7 +11,8 @@ subroutine add_global_metadata
   !
   implicit none
   integer::error_flag
-  character(len=256)::whoami,prochost,ccps_rev,ccps_date,ccps_uuid,info_file,cmor_version_str
+  character(len=256)::whoami,prochost,ccps_rev,ccps_date,ccps_uuid,info_file
+  character(len=256)::cmor_version_str,realization_str
   character(len=10)::pdate,ptime
   logical::exists
   !
@@ -41,6 +42,9 @@ subroutine add_global_metadata
      write(cmor_version_str,*) cmor_version
      write(*,*) 'add_global_metadata for HTAP2: ',cmor_version_str
      error_flag = cmor_set_cur_dataset_attribute("cmor_version",cmor_version_str)
+     write(realization_str,*) mycmor%realization
+     write(*,*) 'add_global_metadata for HTAP2: ',realization_str
+     error_flag = cmor_set_cur_dataset_attribute("realization",realization_str)
   endif
   !
   info_file = 'Info_in.'//trim(case_read)//'.'//trim(comp_read)
