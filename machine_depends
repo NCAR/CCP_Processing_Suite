@@ -85,7 +85,7 @@ case "$PROCHOST" in
     export LD_LIBRARY_PATH
     ;;
 
-  c1* )                                # carver @ NERSC
+  c1* | cvr* )                                # carver @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/common/usg/nco/4.0.5/bin/ncks     ; export NCKS
     NCRA=/usr/common/usg/nco/4.0.5/bin/ncra     ; export NCRA
