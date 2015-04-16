@@ -38,8 +38,8 @@ subroutine add_global_metadata
   ! Add cmor_version for HTAP2 (odd)
   !
   if (index(mycmor%table_file,'HTAP2') /= 0) then
-     write(*,*) 'add_global_metadata for HTAP2: ',trim(cmor_version)
-     error_flag = cmor_set_cur_dataset_attribute("cmor_version",cmor_version)
+     write(*,*) 'add_global_metadata for HTAP2: ',cmor_version
+!     error_flag = cmor_set_cur_dataset_attribute("cmor_version",cmor_version)
   endif
   !
   info_file = 'Info_in.'//trim(case_read)//'.'//trim(comp_read)
