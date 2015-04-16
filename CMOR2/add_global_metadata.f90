@@ -35,17 +35,17 @@ subroutine add_global_metadata
   ! Add additional forcing information
   !
   if (mycmor%forcing_note(1:1) /= ' ') error_flag = cmor_set_cur_dataset_attribute("forcing_note",trim(adjustl(mycmor%forcing_note)))
-  !
-  ! Add cmor_version for HTAP2 (odd)
-  !
-  if (index(mycmor%table_file,'HTAP2') /= 0) then
-     write(cmor_version_str,*) cmor_version
-     write(*,*) 'add_global_metadata for HTAP2: ',cmor_version_str
-     error_flag = cmor_set_cur_dataset_attribute("cmor_version",cmor_version_str)
-     write(realization_str,*) mycmor%realization
-     write(*,*) 'add_global_metadata for HTAP2: ',realization_str
-     error_flag = cmor_set_cur_dataset_attribute("realization",realization_str)
-  endif
+!!$  !
+!!$  ! Add cmor_version for HTAP2 (odd)
+!!$  !
+!!$  if (index(mycmor%table_file,'HTAP2') /= 0) then
+!!$     write(cmor_version_str,*) cmor_version
+!!$     write(*,*) 'add_global_metadata for HTAP2: ',cmor_version_str
+!!$     error_flag = cmor_set_cur_dataset_attribute("cmor_version",cmor_version_str)
+!!$     write(realization_str,*) mycmor%realization
+!!$     write(*,*) 'add_global_metadata for HTAP2: ',realization_str
+!!$     error_flag = cmor_set_cur_dataset_attribute("realization",realization_str)
+!!$  endif
   !
   info_file = 'Info_in.'//trim(case_read)//'.'//trim(comp_read)
   inquire(file=trim(info_file),exist=exists)
