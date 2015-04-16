@@ -22,7 +22,7 @@ CCMI1_monthly:clc:convective_cloud_area_fraction_in_atmosphere_layer:longitude l
 CCMI1_monthly:cl:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:2:CLOUD PS:CLOUD 
 CCMI1_monthly:cli:mass_fraction_of_cloud_ice_in_air:longitude latitude alevel time:atmos:2:CLDICE PS:CLDICE 
 CCMI1_monthly:clivi:atmosphere_mass_content_of_cloud_ice:longitude latitude time:atmos:1:TGCLDIWP:TGCLDIWP 
-CCMI1_monthly:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT u
+CCMI1_monthly:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT 
 CCMI1_monthly:clw:mass_fraction_of_cloud_liquid_water_in_air:longitude latitude alevel time:atmos:2:CLDLIQ PS:CLDLIQ 
 CCMI1_monthly:cnpz:canopy_height:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:cod:atmosphere_optical_thickness_due_to_cloud:longitude latitude time:atmos:1:TOT_CLD_VISTAU:TOT_CLD_VISTAU
@@ -144,7 +144,7 @@ CCMI1_monthly:od870aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longi
 CCMI1_monthly:ogwflux:upward_eastward_momentum_flux_in_air_due_to_orographic_gravity_waves:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:ohloss:total_rate_of_hydroxyl_loss_reactions:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:orog:surface_altitude:longitude latitude:atmos:1:PHIS:PHIS
-CCMI1_monthly:photo1d:photolysis_rate_of_ozone_to_O1D:longitude latitude alevel time:atmos:2:jo3_b PS:jo3_b
+CCMI1_monthly:photo1d:photolysis_rate_of_ozone_to_O1D:longitude latitude alevel time:atmos:2:jo3_a PS:jo3_a
 CCMI1_monthly:pilev:air_pressure_at_model_level_interface:longitude latitude alevel time:atmos:2:ilev PS:ilev
 CCMI1_monthly:pmlev:air_pressure:longitude latitude alevel time:atmos:2:lev PS:lev
 CCMI1_monthly:prodh2o2viaho2:rate_of_h2o2_production_from_ho2_self_reaction:longitude latitude alevel time:atmos:2:r_HO2_HO2 PS:r_HO2_HO2

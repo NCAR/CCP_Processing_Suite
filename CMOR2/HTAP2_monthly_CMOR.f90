@@ -262,10 +262,10 @@ program HTAP_monthly_CMOR
         select case (xw(ixw)%entry)
         case('tauu','tauv','hfss','rlut','rlutcs','hfls','rlus','rsus','rsuscs','rsut','rsutcs','mc',&
              'emidms','emiso2','emiss','emibc','emidust','emiso4',&
-             'emico','emibisop','eminh3','emipom','emivoc','eminox')
+             'emico','emibisop','eminh3','emipom','emivoc','eminox','emiisop')
            mycmor%positive = 'up'
         case('drydms','drydust','drypoa','dryso2','dryso4','drysoa','dryss','dryoa',&
-             'wetdust','wetoa','wetso4','wetbc','wetnh4',&
+             'wetdust','wetoa','wetso4','wetbc','wetnh4','wetdms',&
              'dryhno3','drynh4','dryno2','drynoy','dryo3','drybc')
            mycmor%positive = 'down'
         case ('loadoa','loadbc','loaddust','loadss','loadso4','airmass')
@@ -287,14 +287,12 @@ program HTAP_monthly_CMOR
         case('wethno3','wetnh3','wetso2')
            mycmor%positive = 'down'
            var_info(var_found(1,1))%units = 'kg m-2 s-1'
-        case('emiisop')
-           var_info(var_found(1,1))%units = 'kg (C) m-2 s-1'
-           mycmor%positive = 'up'
         case ('chegpso4','do3chm','chepsoa','lso3chm','tpo3chm','emilnox')
            var_info(var_found(1,1))%units = 'kg m-2 s-1'
-        case ('photo1d','jno2')
+        case ('photo1d','jno2','jo3o1d')
            var_info(var_found(1,1))%units = 's-1'
         case('lossch4','lossco','o3loss','o3prod','ohloss',&
+             'losso3','prodo3',&
              'losso1dviah2o','losso3viaho2','losso3viaoh',&
              'lossrcoo2viano2','lossro2viaho2',&
              'lossro2viano','lossro2viano3','lossro2viaro2',&
@@ -329,16 +327,17 @@ program HTAP_monthly_CMOR
         case ('aoa','vmraoanh','chegpso4','cl','cli','clw',&
              'dh','do3chm','jno2','lossch4','lossco',&
              'mcu','mmrbc','mmrdust','mmroa','mmrsoa','mmrss',&
-             'o3loss','o3prod','ohloss','photo1d','pilev','pmlev',&
-             'prodh2o2viaho2','ta','ua','va','hus','zg',&
-             'vmrc2h2','vmrc2h6','vmrch2o','vmrch3ccl3','vmrch3cn','vmrch4','vmrco25','vmrco50',&
+             'o3loss','o3prod','losso3','prodo3','ohloss','photo1d','jo3o1d','pilev','pmlev',&
+             'prodh2o2viaho2','ta','ua','va','hus','zg','vmrcodirect25d','vmrcodirect50d',&
+             'vmrc2h2','vmrc2h6','vmrch2o','vmrhcho','vmrch3ccl3','vmrch3cn','vmrch4','vmrco25','vmrco50',&
              'vmrco','vmrdms','vmre90','vmre90n','vmre90s','vmrh2o','vmrhcl','vmrhcn','vmrhno3',&
              'vmrisop','vmrn2o','vmrnh50','vmrnh50w','vmrnh5','vmrno2','vmrno','vmro3','vmro3s',&
              'vmroh','vmrpan','vmrsf6','vmrso2','vmrso2t','vmrst8025',&
              'losso1dviah2o','losso3viaho2','losso3viaoh','lossrcoo2viano2','lossro2viaho2',&
               'lossro2viano','lossro2viano3','lossro2viaro2',&
               'prodhno3viano2oh','prodhpx','prodo1d','prodo3viaho2','prodo3viaro2','prodoh',&
-              'mmraernh4','mmraerno3','mmraerso4','emilnox')
+              'mmraernh4','mmraerno3','mmraerso4','emilnox',&
+              'mmrnh4','mmrno3','mmrso4')
            cmor_var_id = cmor_variable(                            &
                 table=mycmor%table_file,                           &
                 table_entry=xw(ixw)%entry,                         &
@@ -391,12 +390,12 @@ program HTAP_monthly_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('clt','od550aer','od550bc','od550oa','ps',&
+        case ('od440aer','od550aer','od550bc','od550oa','ps',&
                'rlds','rlutcs','rsdscs','rsds','rsdt','clivi',&
                'abs550aer','dryhno3','drynh3','drynh4','dryno2','drynoy','dryo3',&
                'emico','emiisop','eminh3','eminox','emibisop',&
               'hfls','hfss','od550so4','reffclwtop',&
-                'wetso4','wetbc','wetnh4','ztp',&
+                'wetso4','wetbc','wetnh4','wetdms','ztp',&
               'drydms','dryso2','dryso4','emidms','emiso2','emiso4',&
               'dryss','wetss','drydust','wetdust',&
               'ptp','tatp','flashrate','lwp','swclrefc')
@@ -435,9 +434,6 @@ program HTAP_monthly_CMOR
                  endwhere
                 
                   write(*,*),trim(xw(ixw)%cesm_vars(1))
-                 if (trim(xw(ixw)%cesm_vars(1)).eq.'SFISOP') then
-                   indat2a = indat2a*iscale
-                 endif
                  if (trim(xw(ixw)%cesm_vars(1)).eq.'FLASHFRQ') then
                     do j = 1,nlats
                      indat2a(:,j)=indat2a(:,j)/area_wt(j)/60.
@@ -1708,7 +1704,7 @@ program HTAP_monthly_CMOR
               enddo
            enddo
 
-        case ('toz','cod','lso3chm','tpo3chm')
+        case ('toz','cod','lso3chm','tpo3chm','clt')
            !
            ! One field integrated over Z and scaled
            !
@@ -2251,12 +2247,12 @@ program HTAP_monthly_CMOR
            enddo
 
 
-        case ('aoa','vmraoanh','cl','cli','clw','hus','jno2','mcu','photo1d','pilev','pmlev',&
-              'ta','ua','va','vmrc2h2','vmrc2h6','vmrch2o','vmrch3ccl3','vmrch3cn',&
+        case ('aoa','vmraoanh','cl','cli','clw','hus','jno2','mcu','photo1d','jo3o1d','pilev','pmlev',&
+              'ta','ua','va','vmrc2h2','vmrc2h6','vmrch2o','vmrhcho','vmrch3ccl3','vmrch3cn',&
               'vmrch4','vmrco','vmrco25','vmrco50','vmrdms','vmre90','vmre90n','vmre90s','vmrh2o',&
               'vmrhcl','vmrhcn','vmrhno3','vmrisop','vmrn2o','vmrnh5','vmrnh50','vmrnh50w','vmrno',&
               'vmrno2','vmro3','vmro3s','vmroh','vmrpan','vmrsf6','vmrso2','vmrso2t','vmrst8025','zg',&
-              'mmraernh4','mmraerno3','mmraerso4','dh')
+              'mmraernh4','mmraerno3','mmraerso4','dh','mmrnh4','mmrno3','mmrso4','vmrcodirect25d','vmrcodirect50d')
            !
            ! Just one field, leave on model levels
            !
@@ -2507,7 +2503,7 @@ program HTAP_monthly_CMOR
                  endif
               enddo
            enddo
-        case ('lossch4','lossco','o3loss',&
+        case ('lossch4','lossco','o3loss','losso3','prodo3',&
               'losso1dviah2o','losso3viaho2','losso3viaoh','lossrcoo2viano2','lossro2viaho2',&
               'lossro2viano','lossro2viano3','lossro2viaro2', 'o3prod','ohloss',&
               'prodh2o2viaho2','prodhno3viano2oh','prodhpx','prodo1d','prodo3viaho2','prodo3viaro2','prodoh')

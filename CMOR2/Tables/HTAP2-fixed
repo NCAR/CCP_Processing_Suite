@@ -3,7 +3,7 @@ cf_version:   1.6    ! version of CF that output conforms to
 project_id:   HTAP2
 table_id:     HTAP2-fixed
 table_date:   16 May 2014 ! date this table was constructed or updated
-comment:        Model documentation available via http://iek8wikis.iek.fz-juelich.de/HTAPWiki/modeldocumentation ! mandatory in the global attribute
+!comment:        Model documentation available via http://iek8wikis.iek.fz-juelich.de/HTAPWiki/modeldocumentation ! mandatory in the global attribute
  
 frequency: fx
 

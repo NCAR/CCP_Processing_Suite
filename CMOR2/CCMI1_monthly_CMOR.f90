@@ -391,7 +391,7 @@ program CCMI_monthly_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('clt','od550aer','od550bc','od550oa','ps',&
+        case ('od550aer','od550bc','od550oa','ps',&
                'rlds','rlutcs','rsdscs','rsds','rsdt','clivi',&
                'abs550aer','dryhno3','drynh3','drynh4','dryno2','drynoy','dryo3',&
                'emico','emiisop','eminh3','eminox','emibisop',&
@@ -1708,7 +1708,7 @@ program CCMI_monthly_CMOR
               enddo
            enddo
 
-        case ('toz','cod','lso3chm','tpo3chm')
+        case ('toz','cod','lso3chm','tpo3chm','clt')
            !
            ! One field integrated over Z and scaled
            !
