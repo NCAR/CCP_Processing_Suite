@@ -1,7 +1,8 @@
 #!/bin/sh
 #
 # var_extract - use 'ncrcat' with compression over all history files to 
-# pull out each field individually into complete time series
+# pull out each field individually into complete time series with level 1
+# deflation (i.e., compression)
 #
 if [ $# -ne 0 ] ; then
    echo "Usage: var_extract"
@@ -93,7 +94,7 @@ if [ "$COMP" = "cice" ] ; then
 # Check for cice resolution - split into NH and SH if gx1; if SE, do not
 #
   NLATJ=`$NCKS -m $FILE | egrep -c "nj, size = 1 "`
-  if [ $NLATJ -ne 0 ] ; then
+  if [ $NLATJ -eq 0 ] ; then
     LAT_SHS=0   ; export LAT_SHS
     LAT_SHN=75  ; export LAT_SHN
     LAT_NHS=280 ; export LAT_NHS
