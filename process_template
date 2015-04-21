@@ -235,8 +235,8 @@ if [ "$LENG" = "byy" ] ; then
 #
 # var_extract this year
 #
-      NFNC=`echo $CASE.$HIST.${YEARNOW}.nc | wc -w`
-      if [ ${NFNC} -eq 1 ] ; then
+      NFNC=`echo $CASE.$HIST.${YEARNOW}*.nc | wc -w`
+      if [ ${NFNC} -ne 0 ] ; then
         ./var_extract
         if [ $? -ne 0 ] ; then
           echo "Error from var_extract at year "${YEARNOW}
@@ -245,6 +245,10 @@ if [ "$LENG" = "byy" ] ; then
         else
           touch .comp.${CASE}.${HIST}.${YEARNOW}.nc
         fi
+      else
+        echo "Error from softlink of "${CASE}"."${HIST}"."${YEARNOW}" files. Count: "${NFNC}
+        ./update_status error link
+        exit 1
       fi
     fi
 #
