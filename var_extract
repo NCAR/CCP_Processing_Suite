@@ -88,6 +88,21 @@ DCMP=$DHT1
 #
 COMP=`echo $FILE | cut -d"." -f${DCMP}`
 #
+if [ "$COMP" = "cice" ] ; then
+#
+# Check for cice resolution - split into NH and SH if gx1; if SE, do not
+#
+  NLATJ=`$NCKS -m $FILE | egrep -c "nj, size = 1 "`
+  if [ $NLATJ -ne 0 ] ; then
+    LAT_SHS=0   ; export LAT_SHS
+    LAT_SHN=75  ; export LAT_SHN
+    LAT_NHS=280 ; export LAT_NHS
+    LAT_NHN=383 ; export LAT_NHS
+  else
+    LAT_NHN=0   ; export LAT_NHS
+  fi
+fi
+#
 # Check to see if $FILE is a POP daily tape denoted by 'pop.h.h2|nday1|pop.h.ecosys.year1' string
 #
 if [ "$COMP" = "pop" ] ; then
@@ -170,34 +185,49 @@ fi
 # All time-dependent vars
 #
 if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
-  for IVAR in $VARTIME ; do
-    if [ "$COMP" = "cice" ] ; then
-      OUT=${CACHEDIR}/${OUTPFX}.${IVAR}_nh.${OUTTIME}.nc
-      if [ ! -f $OUT ] ; then
-        $NCRCAT -4 -L 1 -h -d nj,280,383 -v ${HEADER},${IVAR} ${CASE}.${HIST}.*.nc $OUT
-        if [ $? -ne 0 ] ; then
-          echo ${NCRCAT}" -4 -L 1 -h -d nj,280,383 -v "${HEADER}","${IVAR}" failed"
-          exit 1
+  if [ "$COMP" = "cice" ] ; then
+    if [ $LAT_NHN -ne 0 ] ; then
+      for IVAR in $VARTIME ; do
+        OUT=${CACHEDIR}/${OUTPFX}.${IVAR}_nh.${OUTTIME}.nc
+        if [ ! -f $OUT ] ; then
+          $NCRCAT -4 -L 1 -h -O -d nj,${LAT_NHS},${LAT_NHN} -v ${HEADER},${IVAR} ${CASE}.${HIST}.*.nc $OUT
+          if [ $? -ne 0 ] ; then
+            echo ${NCRCAT}" -4 -L 1 -h -d nj,"${LAT_NHS}","${LAT_NHN}" -v "${HEADER}","${IVAR}" failed"
+            exit 1
+          fi
         fi
-      fi
-      OUT=${CACHEDIR}/${OUTPFX}.${IVAR}_sh.${OUTTIME}.nc
-      if [ ! -f $OUT ] ; then
-        $NCRCAT -4 -L 1 -h -O -d nj,0,75 -v ${HEADER},${IVAR} ${CASE}.${HIST}.*.nc $OUT
-        if [ $? -ne 0 ] ; then
-          echo ${NCRCAT}" -4 -L 1 -h -d nj,0,75 -v "${HEADER}","${IVAR}" failed"
-          exit 1
+        OUT=${CACHEDIR}/${OUTPFX}.${IVAR}_sh.${OUTTIME}.nc
+        if [ ! -f $OUT ] ; then
+          $NCRCAT -4 -L 1 -h -O -d nj,${LAT_SHS},${LAT_SHN} -v ${HEADER},${IVAR} ${CASE}.${HIST}.*.nc $OUT
+          if [ $? -ne 0 ] ; then
+            echo ${NCRCAT}" -4 -L 1 -h -d nj,"${LAT_SHS}","${LAT_SHN}" -v "${HEADER}","${IVAR}" failed"
+            exit 1
+          fi
         fi
-      fi
+      done
     else
+      for IVAR in $VARTIME ; do
+        OUT=${CACHEDIR}/${OUTPFX}.${IVAR}.${OUTTIME}.nc
+        if [ ! -f $OUT ] ; then
+          $NCRCAT -4 -L 1 -h -v ${HEADER},${IVAR} ${CASE}.${HIST}.*.nc $OUT
+          if [ $? -ne 0 ] ; then
+            echo ${NCRCAT}" -4 -L 1 -h -v "${HEADER}","${IVAR}" failed"
+            exit 1
+          fi
+        fi
+      done
+    fi
+  else
+    for IVAR in $VARTIME ; do
       OUT=${CACHEDIR}/${OUTPFX}.${IVAR}.${OUTTIME}.nc
       if [ ! -f $OUT ] ; then
         $NCRCAT -4 -L 1 -h -O -v ${HEADER},${IVAR} ${CASE}.${HIST}.*.nc $OUT
         if [ $? -ne 0 ] ; then
-          echo ${NCRCAT}" -h -O -v "${HEADER}","${IVAR}" failed"
+          echo ${NCRCAT}" -4 L 1 -h -O -v "${HEADER}","${IVAR}" failed"
           exit 1
         fi
       fi
-    fi
- done
+    done
+  fi
 fi
 #
