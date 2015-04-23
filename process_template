@@ -174,7 +174,7 @@ case "$HTYP" in
         ln -s -f $BASEDIR/var_extract_compress    var_extract ;;
       day | hr6 | hr3 | hr1 | m30 )
         ln -s -f $BASEDIR/var_extract_no_compress var_extract ;;
-    esac
+    esac ;;
   clm2 | pop | rtm | csim | cice ) 
     ln -s -f $BASEDIR/var_extract_compress        var_extract ;;
 esac
