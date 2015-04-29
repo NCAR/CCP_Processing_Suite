@@ -204,7 +204,7 @@ if [ "$LENG" = "byy" ] ; then
         NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* | wc -l`
         if [ $NHISTF -ne 0 ] ; then
           echo ${CASE}"."${HIST}"."${YEARNOW}" files on disk, softlinking."
-          rm -f ${CASE}.${HIST}.*
+          rm -f ${CASE}.${HIST}.[0-9]*
           ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* .
         fi
       else
@@ -304,11 +304,11 @@ else
   ./update_status $YEARBEG
   echo -n "TS PRO "${CASE}"."${HIST}": " ; date
   if [ -d $LOCAL_HIST ] ; then
-    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.* | wc -l`
+    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]* | wc -l`
     if [ $NHISTF -ne 0 ] ; then
       echo ${CASE}"."${HIST}". files on disk, softlinking."
-      rm -f ${CASE}.${HIST}.*
-      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.* .
+      rm -f ${CASE}.${HIST}.[0-9]*
+      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]* .
     fi
   else
     echo ${CASE}"."${HIST}" files missing from disk, acquire."
