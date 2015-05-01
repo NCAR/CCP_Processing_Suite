@@ -2461,12 +2461,7 @@ program CCMI_monthly_CMOR
                     ! Convert to kg m-2 s-1
                     indat3a = indat3a * 1.e-6 / avogn 
                     !
-                    call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
-                    do k = 1,nlevs-1
-                       psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
-                    enddo
-                    !
-                    cmordat3d = indat3a*(psdelta/grav)
+                    cmordat3d = indat3a
                     !
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
@@ -2899,13 +2894,19 @@ program CCMI_monthly_CMOR
                     !
                     ! Compute vertical integral
                     !
-                    cmordat3d = indat3a * pshybrid
+                          cmordat3d = indat3a * pshybrid
                     ! 
                     ! Divide by area of each grid cell
                     !
-                    do ik = 1,nlevs
-                       cmordat3d(:,:,ik) = cmordat3d(:,:,ik)/area
-                    enddo
+               !    do j = 1,nlats
+               !      cmordat3d(:,j,:)=cmordat3d(:,j,:)/area_wt(j)
+               !     enddo
+                   
+                     do ik = 1,nlevs
+                        cmordat3d(:,:,ik) = cmordat3d(:,:,ik)/area *1.e-06
+!                        cmordat3d(:,:,ik) = cmordat3d(:,:,ik)/area 
+                     enddo
+                     
 !                    write(*,*) '0: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
 !                    do ij = 1,nlats
 !                       do ii = 1,nlons
