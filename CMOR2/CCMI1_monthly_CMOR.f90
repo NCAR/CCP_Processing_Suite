@@ -2886,39 +2886,16 @@ program CCMI_monthly_CMOR
                        psdata = psdata * 0.01
                     endwhere
                     !
-                    cmordat2d = 0.
-                    !
                     ! Compute layer thicknesses
                     !
                     call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
-                    !
-                    ! Compute vertical integral
-                    !
-                          cmordat3d = indat3a * pshybrid
+                    cmordat3d = indat3a * pshybrid
                     ! 
                     ! Divide by area of each grid cell
                     !
-               !    do j = 1,nlats
-               !      cmordat3d(:,j,:)=cmordat3d(:,j,:)/area_wt(j)
-               !     enddo
-                   
                      do ik = 1,nlevs
-                        cmordat3d(:,:,ik) = cmordat3d(:,:,ik)/area *1.e-06
-!                        cmordat3d(:,:,ik) = cmordat3d(:,:,ik)/area 
+                        cmordat3d(:,:,ik) = cmordat3d(:,:,ik)/area*1.e-06
                      enddo
-                     
-!                    write(*,*) '0: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
-!                    do ij = 1,nlats
-!                       do ii = 1,nlons
-!                          cmordat2d = sum(cmordat3d(ii,ij,:))
-!                       enddo
-!                    enddo
-                    ! 
-                    ! Divide by area of each grid cell
-                    !
-!                    write(*,*) '0: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
-!                    cmordat2d = cmordat2d / area
-!                    write(*,*) '1: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
