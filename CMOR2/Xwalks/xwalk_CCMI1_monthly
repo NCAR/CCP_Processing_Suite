@@ -3,7 +3,7 @@ CCMI1_monthly:acceldivf:tendency_of_eastward_wind_due_to_eliassen_palm_flux_dive
 CCMI1_monthly:accelgw:tendency_of_eastward_wind_due_to_gravity_wave_drag:longitude latitude plevs time:atmos:4:UTGWORO UTGWSPEC BUTGWSPEC PS:UTGWORO + UTGWSPEC + BUTGWSPEC
 CCMI1_monthly:accelnogw:tendency_of_eastward_wind_due_to_nonorographic_gravity_wave_drag:longitude latitude plevs time:atmos:3:UTGWSPEC BUTGWSPEC PS:UTGWSPEC + BUTGWSPEC
 CCMI1_monthly:accelogw:tendency_of_eastward_wind_due_to_orographic_gravity_wave_drag:longitude latitude plevs time:atmos:2:UTGWORO PS:UTGWORO
-CCMI1_monthly:airmass:atmosphere_mass_of_air_per_unit_area:longitude latitude plevs time:atmos:2:MASS PS:MASS
+CCMI1_monthly:airmass:atmosphere_mass_of_air_per_unit_area:longitude latitude alevel time:atmos:2:MASS PS:MASS
 CCMI1_monthly:albs:planetary_albedo:longitude latitude time:atmos:2:FSDT FSNT:global(FSDT-FSNT)/global(FSDT)
 CCMI1_monthly:albsrfc:surface_albedo:longitude latitude time:atmos:2:FSDS FSNS:global(FSDS-FSNS)/global (FSDS)
 CCMI1_monthly:aoa:age_of_stratospheric_air:longitude latitude alevel time:atmos:2:AOA PS:AOA
