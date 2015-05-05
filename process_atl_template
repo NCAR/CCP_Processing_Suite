@@ -154,7 +154,7 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
-ln -s -f $BASEDIR/var_extract          .
+ln -s -f $BASEDIR/var_extract_compress var_extract
 ln -s -f $BASEDIR/store_to_archive_var .
 ln -s -f $BASEDIR/archive_write_var    .
 ln -s -f $BASEDIR/update_status        .
