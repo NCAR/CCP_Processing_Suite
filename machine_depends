@@ -66,7 +66,6 @@ case "$PROCHOST" in
     PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
     LOCALDSK=/global/scratch2/sd/adrianne/archive/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
-    export LD_LIBRARY_PATH
     ;;
 
   c1* | cvr* )                                # carver @ NERSC
@@ -78,7 +77,6 @@ case "$PROCHOST" in
     PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
     LOCALDSK=/global/scratch2/sd/adrianne/archive/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
-    export LD_LIBRARY_PATH
     ;;
 
   rhea* )                                # rhea @ ORNL
@@ -89,7 +87,6 @@ case "$PROCHOST" in
     PROCBASE=/lustre/atlas1/cli017/scratch/$USER/$CASE ; export PROCBASE
     LOCALDSK=/lustre/atlas1/cli017/scratch/$USER/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/f2/ccsm/csm                          ; export ARCHIVE_BASE
-    fi
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
