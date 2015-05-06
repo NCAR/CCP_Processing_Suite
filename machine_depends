@@ -48,56 +48,36 @@ case "$PROCHOST" in
 
   yslogin* | geyser* )                      # Yellowstone (geyser) @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncks      ; export NCKS
-    NCRA=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncra      ; export NCRA
-    NCRCAT=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncrcat  ; export NCRCAT
-    PROCBASE=/glade/scratch/$USER/$CASE           ; export PROCBASE
-    LOCALDSK=/glade/scratch/$USER/$CASE           ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
-    if [ "$MIPNAME" = "lea" ] ; then              # Special Aixue 20C runs
-      ARCHIVE_BASE=/home/ahu/csm                 ; export ARCHIVE_BASE
-    fi
-    if [ `echo $CASE | cut -d"." -f1-3` = "b.e10.B20ANTHROC5CN" ] ; then
-      PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE ; export PROCBASE
-      LOCALDSK=/glade/p/cesm0005/csm/$CASE       ; export LOCALDSK
-    fi
-    case "$CASE" in
-      b.e10.B20GHGC5CN.f09_g16.003 | b.e10.B20GHGC5CN.f09_g16.005 | b.e10.B20VOLCC5CN.f09_g16.003 | b.e10.B20VOLCC5CN.f09_g16.005 )
-        PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
-        LOCALDSK=/glade/scratch/adrianne/archive/$CASE ; export LOCALDSK
-      ;;
-    esac
+    NCODIR=/glade/apps/opt/nco/4.4.2/gnu/4.8.2/bin ; export NCODIR
+    NCKS=${NCODIR}/ncks      ; export NCKS
+    NCRA=${NCODIR}/ncra      ; export NCRA
+    NCRCAT=${NCODIR}/ncrcat  ; export NCRCAT
+    PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
+    LOCALDSK=/glade/scratch/adrianne/archive/$CASE ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm                         ; export ARCHIVE_BASE
     ;;
 
   nid* | hopper* )                              # hopper @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/common/usg/nco/4.0.8/bin/ncks     ; export NCKS
-    NCRA=/usr/common/usg/nco/4.0.8/bin/ncra     ; export NCRA
-    NCRCAT=/usr/common/usg/nco/4.0.8/bin/ncrcat ; export NCRCAT
+    NCODIR=/usr/common/usg/nco/4.0.8/bin ; export NCODIR
+    NCKS=${NCODIR}/ncks     ; export NCKS
+    NCRA=${NCODIR}/ncra     ; export NCRA
+    NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
     PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/global/scratch2/sd/$USER/$CASE ; export LOCALDSK
+    LOCALDSK=/global/scratch2/sd/adrianne/archive/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
-    if ! [ $LD_LIBRARY_PATH ] ; then
-      LD_LIBRARY_PATH=/usr/common/usg/nco/4.0.8/lib:/opt/pgi/11.9.0/linux86-64/11.9/libso:/opt/pgi/11.9.0/linux86-64/11.9/lib:/opt/cray/hdf5/1.8.5.0/hdf5-pgi/lib:/opt/cray/netcdf/4.1.1.0/netcdf-pgi/lib:/opt/moab/6.1.8/lib
-    else
-      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/common/usg/nco/4.0.8/lib:/opt/pgi/11.9.0/linux86-64/11.9/libso:/opt/pgi/11.9.0/linux86-64/11.9/lib:/opt/cray/hdf5/1.8.5.0/hdf5-pgi/lib:/opt/cray/netcdf/4.1.1.0/netcdf-pgi/lib:/opt/moab/6.1.8/lib
-    fi
     export LD_LIBRARY_PATH
     ;;
 
   c1* | cvr* )                                # carver @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCKS=/usr/common/usg/nco/4.0.5/bin/ncks     ; export NCKS
-    NCRA=/usr/common/usg/nco/4.0.5/bin/ncra     ; export NCRA
-    NCRCAT=/usr/common/usg/nco/4.0.5/bin/ncrcat ; export NCRCAT
+    NCODIR=/usr/common/usg/nco/4.3.8/gnu/bin ; export NCODIR
+    NCKS=${NCODIR}/ncks     ; export NCKS
+    NCRA=${NCODIR}/ncra     ; export NCRA
+    NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
     PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/global/scratch2/sd/$USER/$CASE ; export LOCALDSK
+    LOCALDSK=/global/scratch2/sd/adrianne/archive/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
-    if ! [ $LD_LIBRARY_PATH ] ; then
-      LD_LIBRARY_PATH=/usr/common/usg/nco/4.0.5/lib:/usr/common/usg/netcdf/4.1.1/pgi/lib:/usr/syscom/opt/torque/default/lib:/usr/common/usg/openmpi/1.4.5/pgi/lib:/usr/common/usg/pgi/12.9/linux86-64/12.9/libso:/usr/syscom/nsg/lib
-    else
-      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/common/usg/nco/4.0.5/lib:/usr/common/usg/netcdf/4.1.1/pgi/lib:/usr/syscom/opt/torque/default/lib:/usr/common/usg/openmpi/1.4.5/pgi/lib:/usr/common/usg/pgi/12.9/linux86-64/12.9/libso:/usr/syscom/nsg/lib
-    fi
     export LD_LIBRARY_PATH
     ;;
 
@@ -109,10 +89,6 @@ case "$PROCHOST" in
     PROCBASE=/lustre/atlas1/cli017/scratch/$USER/$CASE ; export PROCBASE
     LOCALDSK=/lustre/atlas1/cli017/scratch/$USER/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/f2/ccsm/csm                          ; export ARCHIVE_BASE
-    if ! [ $LD_LIBRARY_PATH ] ; then
-      LD_LIBRARY_PATH=/sw/analysis-x64/ompi/1.4.2/centos5.5_gnu4.4.4/lib:/ccs/compilers/gcc/centos5.5-x86_64/4.4.4/lib64:/sw/analysis-x64/udunits/2.1.21/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/netcdf/4.1.1/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/szip/2.1/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/python/2.7/centos5.5_gnu4.4.3/2.7_install_dir/lib/
-    else
-      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/sw/analysis-x64/ompi/1.4.2/centos5.5_gnu4.4.4/lib:/ccs/compilers/gcc/centos5.5-x86_64/4.4.4/lib64:/sw/analysis-x64/udunits/2.1.21/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/netcdf/4.1.1/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/szip/2.1/centos5.5_gnu4.4.4/lib:/sw/analysis-x64/python/2.7/centos5.5_gnu4.4.3/2.7_install_dir/lib/
     fi
     ;;
   * ) 
