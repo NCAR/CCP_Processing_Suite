@@ -24,8 +24,7 @@ case "$PROCHOST" in
     NCRCAT=/usr/bin/ncrcat               ; export NCRCAT
     PROCBASE=/gpfs/mira-fs0/projects/CESM_Atmos/proc/$USER/$CASE ; export PROCBASE
     LOCALDSK=/gpfs/mira-fs0/projects/CESM_Atmos/archive/$CASE    ; export LOCALDSK
-#    ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
-    ARCHIVE_BASE=/home/$USER              ; export ARCHIVE_BASE
+    ARCHIVE_BASE=/home/adrianne/csm      ; export ARCHIVE_BASE
     ;;
 
   tramhill* | hurricane* )                 # tramhill/hurricane @ CGD/NCAR
@@ -69,6 +68,7 @@ case "$PROCHOST" in
     ;;
 
   c1* | cvr* )                                # carver @ NERSC
+    eval `/usr/bin/modulecmd sh load nco`
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCODIR=/usr/common/usg/nco/4.3.8/gnu/bin ; export NCODIR
     NCKS=${NCODIR}/ncks     ; export NCKS
@@ -93,4 +93,3 @@ case "$PROCHOST" in
     exit 1 ;;
 esac
 #
-export LD_LIBRARY_PATH
