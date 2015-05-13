@@ -97,7 +97,7 @@ fi
 #
 rm -f MKDIR
 for IVAR in $VARS ; do
-  echo "mkdir -p ${ARCHIVE_PROC}/${IVAR} ; chmod 775 ${ARCHIVE_PROC}/${IVAR}" >> MKDIR
+  echo "umask 0 ; mkdir -m 7775 -p ${ARCHIVE_PROC}/${IVAR} ; chmod 775 ${ARCHIVE_PROC}/${IVAR}" >> MKDIR
 done
 hsi in MKDIR
 if [ $? -eq 0 ] ; then

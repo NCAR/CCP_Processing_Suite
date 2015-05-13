@@ -24,16 +24,19 @@ fi
 #
 # Use HSI to write files to ARCHIVE_D but directory for each field
 #
-echo "mkdir -p $ARCHIVE_D ; chmod 775 $ARCHIVE_D" > MKDIR
-$HSI in MKDIR
-echo ${ARCHIVE_D}" created. Ready." ; rm MKDIR
-echo "cd $ARCHIVE_D ; put -d -U *nc ; chmod 644 *nc" > PUT
-$HSI in PUT
-if [ $? -eq 0 ] ; then
-  echo "Files written to "${ARCHIVE_D}
-  rm -f PUT 
-else
-  echo "Problem with HPSS on write. Stopping"
-  ../update_status error archive_write
-  exit 1
+$HSI -q "umask 0 ; mkdir -m 7775 -p $ARCHIVE_D"
+if [ $? -ne 0 ] ; then
+  echo "Problem with HPSS on mkdir of "${ARCHIVE_D}". Warning."
+  ../update_status warning archive_write
+  echo ${ARCHIVE_D}" created. Ready."
+  echo "cd $ARCHIVE_D ; put -d -U *nc ; chmod 644 *nc" > PUT
+  $HSI in PUT
+  if [ $? -eq 0 ] ; then
+    echo "Files written to "${ARCHIVE_D}" and erased."
+    rm -f PUT 
+  else
+    echo "Problem with HPSS on write to "${ARCHIVE_D}". Stopping"
+    ../update_status error archive_write
+    exit 1
+  fi
 fi
