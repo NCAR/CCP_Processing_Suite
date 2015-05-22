@@ -172,9 +172,9 @@ cd $LOCAL_PROC
 #
 EXPTYP=`echo $CASE | cut -d"." -f3 | cut -c2-4`
 #
-ln -s -f $BASEDIR/var_extract          .
-ln -s -f $BASEDIR/store_to_archive_var .
-ln -s -f $BASEDIR/archive_write_var    .
+ln -s -f $BASEDIR/var_extract_compress var_extract  .
+ln -s -f $BASEDIR/store_to_archive_var_keep         .
+ln -s -f $BASEDIR/archive_write_var_keep            .
 ln -s -f $BASEDIR/disk_move_var        .
 ln -s -f $BASEDIR/update_status        .
 #
@@ -501,14 +501,14 @@ echo -n "TS disk move start: " ; date
 if [ "$TPER" = "hr6" ] ; then
   if [ "$EXPTYP" = "RCP" ] ; then
     OUTTIME=2026010100Z-2035123118Z ; export OUTTIME
-    ./disk_move_var
+#    ./disk_move_var
     if [ $? -ne 0 ] ; then
       echo "disk_move failed"
       ./update_status error "$CASE $HIST $TPER"
       exit 1
     else
       OUTTIME=2071010100Z-2080123118Z ; export OUTTIME
-      ./disk_move_var
+#      ./disk_move_var
       if [ $? -ne 0 ] ; then
          echo "disk_move failed"
         ./update_status error "$CASE $HIST $TPER"
@@ -519,7 +519,7 @@ if [ "$TPER" = "hr6" ] ; then
     fi
   else
     OUTTIME=1990010100Z-2005123118Z ; export OUTTIME
-    ./disk_move_var
+#    ./disk_move_var
     if [ $? -ne 0 ] ; then
       echo "disk_move failed"
       ./update_status error "$CASE $HIST $TPER"
@@ -527,7 +527,7 @@ if [ "$TPER" = "hr6" ] ; then
     fi
   fi
 else
-  ./disk_move_var
+#  ./disk_move_var
   if [ $? -ne 0 ] ; then
     echo "disk_move failed"
     ./update_status error "$CASE $HIST $TPER"
