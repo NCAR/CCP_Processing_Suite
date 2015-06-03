@@ -171,7 +171,7 @@ if [ -d $LOCAL_HIST ] ; then
     echo ${CASE}"."${HIST}" files on disk, softlinking."
     rm -f ${CASE}.${HIST}.[0-9]*.nc
     ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
-    rm -f ${CASE}.${HIST}.2006-01-01-00000.nc
+#    rm -f ${CASE}.${HIST}.2006-01-01-00000.nc
   else
     echo "History files not on "${LOCAL_HIST}". Exiting."
     exit 1
@@ -184,13 +184,13 @@ NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
 #
 case "$HIST" in 
   cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 )
-    if [ $NHISTF -ne 1032 ] ; then
-      echo ${NHISTF}" should be 1032. File count mismatch. Exit."
+    if [ $NHISTF -ne 96 ] ; then
+      echo ${NHISTF}" should be 96. File count mismatch. Exit."
       exit 1
     fi ;;
-  clm2.h1 )
-    if [ $NHISTF -ne 86 ] ; then
-      echo ${NHISTF}" should be 86. File count mismatch. Exit."
+  cam.h1 | clm2.h1 | rtm.h1 )
+    if [ $NHISTF -ne 8 ] ; then
+      echo ${NHISTF}" should be 8. File count mismatch. Exit."
       exit 1
     fi ;;
 esac
