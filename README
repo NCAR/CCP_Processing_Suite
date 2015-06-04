@@ -11,31 +11,24 @@ General notes:
    an algorithmic perspective, but the scripts are written in such a way that
    they can be easily modified to account for those permutations.
 
-2. At this time (November 2011) the code to process the single-field format 
-   data into CMIP5-compliant format is not completely functional. Please do not
-   use that code (under the CMOR2 directory) at this time.
+2. At this time (June 2015) the code to process the single-field format data
+   into MIP-compliant format is not completely functional for all instances.
+   Considerable changes may need to be made to accomplish this. Use the code
+   under the CMOR2 directory more as templates than as polished and robust.
 
 Dependencies:
 ===============================================================================
 The transposition software depends only on the NCO (netCDF Operators) software
 package, so it needs to be available somewhere on your system. The location of
 the NCO tools can be set in the software. 
-The CMIP5 processing software has a fair number of dependencies at this time, 
-which are not fully general.
 
 Functionality:
 ===============================================================================
 The general functionality is as follows:
 
-1. Read in each netCDF file (or tarfile of netCDF files) from archival storage;
-2. Concatenate months of history data into a years' worth of history data, and
-   convert to netCDF-4 format with "level 1" compression;
-3. Split each netCDF file into single files for each time-dependent variable,
-   placing them into individual subdirectories, which are named for each field
-   and suffixed by the dimensionality of the field (i.e., T_4d.d, TS_3d.d, &c.);
-4. Step through each per-field subdirectory and concatenate along time, one
-   file per entire length of the run;
-5. Write each per-field file back to the archival storage system using the CESM
+1. For each field present in all the history files, concatenate and compress 
+   all the time samples into a single netCDF-4 file;
+2. Write each per-field file to the archival storage system using the CESM
    standard for the directory structure.
 
 The key scripts and their purpose are as follows:
@@ -48,24 +41,12 @@ process_template: Used by Process_Setup, with changes given by the arguments to
 experiments.txt : An ASCII-formatted listing of the relevant metadata for each
                   experiment; details on the format are given in the file
 
-archive_*
 store_to_archive: Interfaces to the archival system
 
-hist_mon_to_year: Concatenates monthly history netCDF files into years
+var_extract     : Transposes each field from all files into a single timeseries
+                  file and compresses that file as it does so.
 
-var_split       : Splits the 12 month netCDF file into its component fields
-
-concatenate_data
-var_year_to_all : Concatenates the single-field format files along time
-
-time_split      : Splits daily and subdaily history files into individual files
-                  per time interval (needed due to the month-spanning nature of
-                  most CAM daily and subdaily history files)
-
-days_to_month   : Concatenates files created by time_split into a single file
-                  per month, so regular processing can resume
-
-update_status    : Script that notifies user of start/finish, problems, etc. It
+update_status   : Script that notifies user of start/finish, problems, etc. It
                   is tied closely to our postprocessing database, so you may
                   not want to use it.
 
@@ -102,6 +83,7 @@ The arguments are as follows:
 $1: The CESM case name to be processed
 $2: The component name (i.e., cam2.h0, pop.h, clm2.h1, etc.)
 $3: The time type of the data (i.e., mon, day, hr6, hr3, hr1, m30, etc.)
+$4: Do all time samples ("all") or by year ("byy") - always use "all"
 
 All are required.
 
@@ -109,9 +91,8 @@ The output is a shell script called "case_name_component_process.sh" that you
 can either start with a "Y" response to the "Run script now?" prompt or else
 not run and manually edit as needed with any other response.
 
-Depending on the volume of data, the speed of archival retrieval and storage,
-system load, etc. the processing can take anywhere from a day or so to a couple
-of weeks.
+Depending on the volume of data, the speed of archival storage, system load,
+etc. the processing can take anywhere from a day or so to a couple of weeks.
 
 Support:
 ===============================================================================
