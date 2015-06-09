@@ -34,6 +34,13 @@ subroutine add_global_metadata
   !
   if (mycmor%forcing_note(1:1) /= ' ') error_flag = cmor_set_cur_dataset_attribute("forcing_note",trim(adjustl(mycmor%forcing_note)))
   !
+  ! Add cmor_version for HTAP2 (odd)
+  !
+  if (index(mycmor%table_file,'CCMI1') /= 0) then
+     error_flag = cmor_set_cur_dataset_attribute("initialization_description"," ")
+     error_flag = cmor_set_cur_dataset_attribute("physics_description"," ")
+  endif
+  !
   info_file = 'Info_in.'//trim(case_read)//'.'//trim(comp_read)
   inquire(file=trim(info_file),exist=exists)
   if (exists) then
