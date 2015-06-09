@@ -2894,7 +2894,7 @@ program CCMI_monthly_CMOR
                     ! Divide by area of each grid cell
                     !
                      do ik = 1,nlevs
-                        cmordat3d(:,:,ik) = cmordat3d(:,:,ik)/(area*1.e-06)
+                        cmordat3d(:,:,ik) = cmordat3d(:,:,ik)/area*1.e-06
                      enddo
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)

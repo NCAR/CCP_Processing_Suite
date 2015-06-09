@@ -60,7 +60,7 @@ subroutine get_cmor_info
      mycmor%calendar   = 'noleap'
   end select
   select case (exp(exp_found)%case)
-  case ('f.e11.TSREFC1SD.f19.f19.ccmi23.001','cesm111ccmi23_geos5_htap_base')
+  case ('f.e11.TSREFC1SD.f19.f19.ccmi23.001','cesm111ccmi23_geos5_htap_base','cesm111ccmi23_geos5_htap_eural')
      mycmor%calendar   = 'gregorian'
   case default
      mycmor%calendar   = 'noleap'
@@ -105,6 +105,20 @@ subroutine get_cmor_info
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case ('CESM1-CAM4ChemSD')
+     mycmor%references    = 'Tilmes S. in preparation'//&
+          ' See also http://www.cesm.ucar.edu/publications'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
+     mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
+  case ('CESM1-BASE')
+     mycmor%references    = 'Tilmes S. in preparation'//&
+          ' See also http://www.cesm.ucar.edu/publications'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
+     mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
+  case ('CESM1-EASALL')
+     mycmor%references    = 'Tilmes S. in preparation'//&
+          ' See also http://www.cesm.ucar.edu/publications'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
+  case ('CESM1-EURALL')
      mycmor%references    = 'Tilmes S. in preparation'//&
           ' See also http://www.cesm.ucar.edu/publications'
      mycmor%institute_id  = 'NSF-DOE-NCAR'

@@ -263,7 +263,7 @@ subroutine define_atm_axes(dimensions)
                 units=dimunits(i),            &
                 coord_vals=atm_plev23)
            write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
-        case ('CESM1-CAM4Chem','CESM1-CAM4ChemSD')
+        case ('CESM1-CAM4Chem','CESM1-CAM4ChemSD','CESM1-EASALL','CESM1-EURALL')
            axis_ids(idim) = cmor_axis(        &
                 table=mycmor%table_file,      &
                 table_entry=dimnames(i),      &

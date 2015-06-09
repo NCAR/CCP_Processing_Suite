@@ -2023,7 +2023,7 @@ program HTAP_monthly_CMOR
                     ! Divide by area of each grid cell
                     !
                     write(*,*) '0: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
-                    cmordat2d = cmordat2d / area
+                    cmordat2d = cmordat2d / area *1.e-06
                     write(*,*) '1: ',minval(cmordat2d,mask=cmordat2d/=spval),maxval(cmordat2d,mask=cmordat2d/=spval)
                     !
                     tval(1) = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
@@ -2546,12 +2546,7 @@ program HTAP_monthly_CMOR
                     ! Convert to kg m-2 s-1
                     indat3a = indat3a * 1.e-6 / avogn 
                     !
-                    call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
-                    do k = 1,nlevs-1
-                       psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
-                    enddo
-                    !
-                    cmordat3d = indat3a*(psdelta/grav)
+                    cmordat3d = indat3a
                     !
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
