@@ -37,8 +37,8 @@ subroutine add_global_metadata
   ! Add cmor_version for HTAP2 (odd)
   !
   if (index(mycmor%table_file,'CCMI1') /= 0) then
-     error_flag = cmor_set_cur_dataset_attribute("initialization_description"," ")
-     error_flag = cmor_set_cur_dataset_attribute("physics_description"," ")
+     error_flag = cmor_set_cur_dataset_attribute("initialization_description","TBA")
+     error_flag = cmor_set_cur_dataset_attribute("physics_description","TBA")
   endif
   !
   info_file = 'Info_in.'//trim(case_read)//'.'//trim(comp_read)
