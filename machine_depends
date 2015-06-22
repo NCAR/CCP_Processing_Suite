@@ -52,7 +52,8 @@ case "$PROCHOST" in
     NCRA=${NCODIR}/ncra      ; export NCRA
     NCRCAT=${NCODIR}/ncrcat  ; export NCRCAT
     PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
-    LOCALDSK=/glade/scratch/adrianne/archive/$CASE ; export LOCALDSK
+#    LOCALDSK=/glade/scratch/adrianne/archive/$CASE ; export LOCALDSK
+    LOCALDSK=/glade/scratch/strandwg/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm                         ; export ARCHIVE_BASE
     ;;
 
