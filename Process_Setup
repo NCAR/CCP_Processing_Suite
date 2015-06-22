@@ -91,7 +91,7 @@ case "$PROCHOST" in
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
                       | sed -e "s/xxxLENGxxx/$LENG/g" \
                       >> $CCPS_SCRIPT ;;
-  login1* )                                # tukey @ ANL
+  cooleylogin* | login1* )                                # tukey/cooley @ ANL
     cat ./LSF_tukey   | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
