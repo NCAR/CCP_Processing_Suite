@@ -17,7 +17,7 @@ case "$PROCHOST" in
     ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
     ;;
 
-  cooleylog* | login1* | vs[0-9]* )                                # tukey @ ANL
+  cooleylog* | login1* | vs[0-9]* | cc[0-9]* ) # tukey/cooley @ ANL
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=/usr/bin/ncks                   ; export NCKS
     NCRA=/usr/bin/ncra                   ; export NCRA
