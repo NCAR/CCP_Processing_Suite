@@ -118,7 +118,7 @@ if [ "$DORUN" = "Y" ] ; then
       ( qsub ./${CCPS_SCRIPT} ) ;;
     yslogin* | geyser* )
       ( bsub < ./${CCPS_SCRIPT} ) ;;
-    login1* )
+    cooleylogin* | login1* )
       ( /usr/bin/qsub -n 1 -t 720 -A CESM_Atmos ./${CCPS_SCRIPT} ) ;;
     * )
       ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
