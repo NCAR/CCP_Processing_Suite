@@ -57,8 +57,8 @@ case "$PROCHOST" in
     NCKS=${NCODIR}/ncks      ; export NCKS
     NCRA=${NCODIR}/ncra      ; export NCRA
     NCRCAT=${NCODIR}/ncrcat  ; export NCRCAT
-    LOCALDSK=/glade/scratch/strandwg/$CASE ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm/PAC-PACEMAKER       ; export ARCHIVE_BASE
+    LOCALDSK=/glade/scratch/nanr/archive/$CASE ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm/ATL-PACEMAKER       ; export ARCHIVE_BASE
     PROCBASE=/glade/scratch/$USER/$CASE        ; export PROCBASE
     ;;
   * ) 
@@ -171,7 +171,6 @@ if [ -d $LOCAL_HIST ] ; then
     echo ${CASE}"."${HIST}" files on disk, softlinking."
     rm -f ${CASE}.${HIST}.[0-9]*.nc
     ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
-#    rm -f ${CASE}.${HIST}.2006-01-01-00000.nc
   else
     echo "History files not on "${LOCAL_HIST}". Exiting."
     exit 1
