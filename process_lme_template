@@ -59,10 +59,10 @@ case "$PROCHOST" in
     NCODIR=/glade/apps/opt/nco/4.3.7/gnu/4.7.2/bin
     NCKS=${NCODIR}/ncks      ; export NCKS
     NCRCAT=${NCODIR}/ncrcat  ; export NCRCAT
-    PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/glade/p/cesm0005/csm/$CASE        ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME        ; export ARCHIVE_BASE
-    DISK_BASE=/glade/p/cesm0005/CESM-CAM5-LME   ; export DISK_BASE
+    PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE  ; export PROCBASE
+    LOCALDSK=/glade/p/cesm/palwg_dev/LME/archive ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME         ; export ARCHIVE_BASE
+    DISK_BASE=/glade/p/cesm0005/CESM-CAM5-LME    ; export DISK_BASE
     LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
     LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
     ;;
@@ -472,14 +472,19 @@ if [ "$LMEX" = "rcp" ] ; then
   ln -s -f  ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-9][0-9],2100}-*.nc .
   NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
   case "$HIST" in 
-    cam.h0 | cice.h1 | cice.h | clm2.h0 | pop.h | pop.h.nday1 | rtm.h0 )
+    cam.h0 | cice.h | clm2.h0 | pop.h | pop.h.nday1 | rtm.h0 )
       if [ $NHISTF -ne 1140 ] ; then
         echo ${NHISTF}" should be 1140. File count mismatch. Exit."
         exit 1
       fi ;;
+    cice.h1 )
+      if [ $NHISTF -ne 34675 ] ; then
+        echo ${NHISTF}" should be 34675. File count mismatch. Exit."
+        exit 1
+      fi ;;
     cam.h1 | clm2.h1 )
-      if [ $NHISTF -ne 96 ] ; then
-        echo ${NHISTF}" should be 96. File count mismatch. Exit."
+      if [ $NHISTF -ne 95 ] ; then
+        echo ${NHISTF}" should be 95. File count mismatch. Exit."
         exit 1
       fi ;;
   esac
