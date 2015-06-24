@@ -154,7 +154,20 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
-ln -s -f $BASEDIR/var_extract_compress var_extract
+#
+# Decide to compress or not compress output
+#
+case "$HTYP" in
+  cam2 | cam )
+    case "$TPER" in
+      ann | mon )
+        ln -s -f $BASEDIR/var_extract_compress    var_extract ;;
+      day | hr6 | hr3 | hr1 | m30 )
+        ln -s -f $BASEDIR/var_extract_no_compress var_extract ;;
+    esac ;;
+  clm2 | pop | rtm | csim | cice ) 
+    ln -s -f $BASEDIR/var_extract_compress        var_extract ;;
+esac
 ln -s -f $BASEDIR/store_to_archive_var .
 ln -s -f $BASEDIR/archive_write_var    .
 ln -s -f $BASEDIR/update_status        .
