@@ -62,7 +62,7 @@ case "$PROCHOST" in
     PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE  ; export PROCBASE
     LOCALDSK=/glade/p/cesm/palwg_dev/LME/archive/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME         ; export ARCHIVE_BASE
-    DISK_BASE=/glade/p/cesm0005/CESM-CAM5-LME    ; export DISK_BASE
+    DISK_BASE=/glade/p/cesmLME                   ; export DISK_BASE
     LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
     LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
     ;;

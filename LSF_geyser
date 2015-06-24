@@ -8,6 +8,6 @@
 #BSUB -W 72:00         # wall-clock time (hrs:mins)
 #BSUB -B
 #BSUB -N
-#BSUB -P P93300014
+#BSUB -P PROJNO
 #BSUB -u USER@ucar.edu
 #

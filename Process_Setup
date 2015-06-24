@@ -71,7 +71,10 @@ case "$PROCHOST" in
                       | sed -e "s/xxxLENGxxx/$LENG/g" \
                       >> $CCPS_SCRIPT ;;
   yslogin* | geyser* )                     # yellowstone/geyser @ NCAR
-    cat ./LSF_geyser       | sed -e "s/NAME/$CCPS_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CCPS_SCRIPT
+    cat ./LSF_geyser  | sed -e "s/NAME/$CCPS_SCRIPT/g" \
+                      | sed -e "s/USER/$USER/g"        \
+                      | sed -e "s/PROJNO/P93300014/g"  \
+                      > $CCPS_SCRIPT
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
