@@ -15,6 +15,7 @@ case "$PROCHOST" in
     PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
     LOCALDSK=/datalocal/proc/$CASE       ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
+    HSIOPTS=""                           ; export HSIOPTS
     ;;
 
   cooleylog* | login1* | vs[0-9]* | cc[0-9]* ) # tukey/cooley @ ANL
@@ -25,6 +26,7 @@ case "$PROCHOST" in
     PROCBASE=/gpfs/mira-fs0/projects/CESM_Atmos/proc/$USER/$CASE ; export PROCBASE
     LOCALDSK=/gpfs/mira-fs0/projects/CESM_Atmos/archive/$CASE    ; export LOCALDSK
     ARCHIVE_BASE=/home/adrianne/csm      ; export ARCHIVE_BASE
+    HSIOPTS=""                           ; export HSIOPTS
     ;;
 
   tramhill* | hurricane* )                 # tramhill/hurricane @ CGD/NCAR
@@ -34,6 +36,7 @@ case "$PROCHOST" in
     NCRCAT=/usr/local/bin/ncrcat          ; export NCRCAT
     PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
+    HSIOPTS=""                            ; export HSIOPTS
     ;;
 
   modeling1* )                             # modeling1 in ACD
@@ -43,6 +46,7 @@ case "$PROCHOST" in
     NCRCAT=/usr/local/bin/ncrcat          ; export NCRCAT
     PROCBASE=/data6/$USER/$CASE           ; export PROCBASE
     ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
+    HSIOPTS=""                            ; export HSIOPTS
     ;;
 
   yslogin* | geyser* )                      # Yellowstone (geyser) @ CISL/NCAR
@@ -52,9 +56,9 @@ case "$PROCHOST" in
     NCRA=${NCODIR}/ncra      ; export NCRA
     NCRCAT=${NCODIR}/ncrcat  ; export NCRCAT
     PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
-#    LOCALDSK=/glade/scratch/adrianne/archive/$CASE ; export LOCALDSK
-    LOCALDSK=/glade/scratch/strandwg/$CASE ; export LOCALDSK
+    LOCALDSK=/glade/scratch/adrianne/archive/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm                         ; export ARCHIVE_BASE
+    HSIOPTS=""                                     ; export HSIOPTS
     ;;
 
   nid* | hopper* )                              # hopper @ NERSC
@@ -66,6 +70,7 @@ case "$PROCHOST" in
     PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
     LOCALDSK=/global/scratch2/sd/adrianne/archive/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
+    HSIOPTS=""                              ; export HSIOPTS
     ;;
 
   c1* | cvr* )                                # carver @ NERSC
@@ -78,6 +83,7 @@ case "$PROCHOST" in
     PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
     LOCALDSK=/global/scratch2/sd/adrianne/archive/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
+    HSIOPTS=""                              ; export HSIOPTS
     ;;
 
   rhea* )                                # rhea @ ORNL
@@ -88,6 +94,7 @@ case "$PROCHOST" in
     PROCBASE=/lustre/atlas1/cli017/scratch/$USER/$CASE ; export PROCBASE
     LOCALDSK=/lustre/atlas1/cli017/scratch/$USER/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/f2/ccsm/csm                          ; export ARCHIVE_BASE
+    HSIOPTS=""                                         ; export HSIOPTS
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
