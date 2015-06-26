@@ -24,13 +24,13 @@ fi
 #
 # Use HSI to write files to ARCHIVE_D but directory for each field
 #
-$HSI -a $HSIOPTS -q "umask 0 ; mkdir -m 7775 -p $ARCHIVE_D"
+$HSI $HSIOPTS -q "umask 0 ; mkdir -m 7775 -p $ARCHIVE_D"
 if [ $? -ne 0 ] ; then
   echo "Problem with HPSS on mkdir of "${ARCHIVE_D}". Warning."
   ../update_status warning archive_write
   echo ${ARCHIVE_D}" created. Ready."
   echo "cd $ARCHIVE_D ; put -d -U *nc ; chmod 644 *nc" > PUT
-  $HSI -a $HSIOPTS in PUT
+  $HSI $HSIOPTS in PUT
   if [ $? -eq 0 ] ; then
     echo "Files written to "${ARCHIVE_D}" and erased."
     rm -f PUT 
