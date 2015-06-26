@@ -99,7 +99,7 @@ rm -f MKDIR
 for IVAR in $VARS ; do
   echo "umask 0 ; mkdir -m 7775 -p ${ARCHIVE_PROC}/${IVAR} ; chmod 775 ${ARCHIVE_PROC}/${IVAR}" >> MKDIR
 done
-$HSI in MKDIR
+$HSI -a $HSIOPTS in MKDIR
 if [ $? -eq 0 ] ; then
   echo ${ARCHIVE_PROC}" and subdirs created. Ready."
   rm -f MKDIR
@@ -111,15 +111,15 @@ fi
 rm -f PUT
 if [ "$COMP" == "cice" ] ; then
   for IVAR in $VARS ; do
-    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put $HSIOPTS ${CASE}.${HIST}.${IVAR}_?h.${OUTTIME}.nc ; chmod 644 ${CASE}.${HIST}.${IVAR}_?h.${OUTTIME}.nc" >> PUT
+    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put ${CASE}.${HIST}.${IVAR}_?h.${OUTTIME}.nc ; chmod 644 ${CASE}.${HIST}.${IVAR}_?h.${OUTTIME}.nc" >> PUT
   done
 else
   for IVAR in $VARS ; do
-    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put $HSIOPTS ${CASE}.${HIST}.${IVAR}.${OUTTIME}.nc ; chmod 644 ${CASE}.${HIST}.${IVAR}.${OUTTIME}.nc" >> PUT
+    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put ${CASE}.${HIST}.${IVAR}.${OUTTIME}.nc ; chmod 644 ${CASE}.${HIST}.${IVAR}.${OUTTIME}.nc" >> PUT
   done
 fi
 #
-$HSI in PUT
+$HSI -a $HSIOPTS in PUT
 #
 if [ $? -eq 0 ] ; then
   echo "Files written to "${ARCHIVE_PROC}" and subdirs and kept on disk."
