@@ -48,6 +48,8 @@ else
       TEMPLATE=process_le5_template ;;
     atl )
       TEMPLATE=process_atl_template ;;
+    pac )
+      TEMPLATE=process_pac_template ;;
     yyg )
       TEMPLATE=process_yyg_template ;;
     * )
