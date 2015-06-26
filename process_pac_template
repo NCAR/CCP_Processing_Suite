@@ -60,6 +60,7 @@ case "$PROCHOST" in
     LOCALDSK=/glade/scratch/nanr/archive/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/CCSM/csm/PAC-PACEMAKER       ; export ARCHIVE_BASE
     PROCBASE=/glade/scratch/$USER/$CASE        ; export PROCBASE
+    HSIOPTS="-a P93300014"                     ; export HSIOPTS
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
