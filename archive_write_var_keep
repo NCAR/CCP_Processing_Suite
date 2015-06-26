@@ -97,7 +97,7 @@ fi
 #
 rm -f MKDIR
 for IVAR in $VARS ; do
-  echo "$HSIOPTS ; umask 0 ; mkdir -m 7775 -p ${ARCHIVE_PROC}/${IVAR} ; chmod 775 ${ARCHIVE_PROC}/${IVAR}" >> MKDIR
+  echo "umask 0 ; mkdir -m 7775 -p ${ARCHIVE_PROC}/${IVAR} ; chmod 775 ${ARCHIVE_PROC}/${IVAR}" >> MKDIR
 done
 $HSI in MKDIR
 if [ $? -eq 0 ] ; then
@@ -111,11 +111,11 @@ fi
 rm -f PUT
 if [ "$COMP" == "cice" ] ; then
   for IVAR in $VARS ; do
-    echo "$HSIOPTS ; cd ${ARCHIVE_PROC}/${IVAR} ; put ${CASE}.${HIST}.${IVAR}_?h.${OUTTIME}.nc ; chmod 644 ${CASE}.${HIST}.${IVAR}_?h.${OUTTIME}.nc" >> PUT
+    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put $HSIOPTS ${CASE}.${HIST}.${IVAR}_?h.${OUTTIME}.nc ; chmod 644 ${CASE}.${HIST}.${IVAR}_?h.${OUTTIME}.nc" >> PUT
   done
 else
   for IVAR in $VARS ; do
-    echo "$HSIOPTS ; cd ${ARCHIVE_PROC}/${IVAR} ; put ${CASE}.${HIST}.${IVAR}.${OUTTIME}.nc ; chmod 644 ${CASE}.${HIST}.${IVAR}.${OUTTIME}.nc" >> PUT
+    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put $HSIOPTS ${CASE}.${HIST}.${IVAR}.${OUTTIME}.nc ; chmod 644 ${CASE}.${HIST}.${IVAR}.${OUTTIME}.nc" >> PUT
   done
 fi
 #
