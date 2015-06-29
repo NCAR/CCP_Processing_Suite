@@ -1,0 +1,200 @@
+#!/bin/sh
+#
+# run_slice2series - use 'slice2series' with compression over all history files to 
+# pull out each field individually into complete time series with level 1
+# deflation (i.e., compression)
+#
+if [ $# -ne 0 ] ; then
+   echo "Usage: run_slice2series"
+   ./update_status error run_slice2series
+   exit 1
+fi
+# 
+# Check for SUFFIX
+#
+if [ ! $SUFFIX ] ; then
+  echo "SUFFIX not defined. Exiting"
+  ./update_status error run_slice2series
+  exit 1
+fi
+# 
+# Check for PREFIX
+#
+if [ ! $PREFIX ] ; then
+  echo "PREFIX not defined. Exiting"
+  ./update_status error run_slice2series
+  exit 1
+fi
+# 
+# Check for CASE
+#
+if [ ! $CASE ] ; then
+  echo "CASE not defined. Exiting"
+  ./update_status error run_slice2series
+  exit 1
+fi
+# 
+# Check for HIST
+#
+if [ ! $HIST ] ; then
+  echo "HIST not defined. Exiting"
+  ./update_status error run_slice2series
+  exit 1
+fi
+#
+# Parse filename 1
+#
+NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
+if [ $NHISTF -eq 0 ] ; then 
+  echo "No "${CASE}"."${HIST}" files in "${LOCAL_PROC}". Exiting."
+  ./update_status error run_slice2series
+  exit 1
+else
+  FILE=`/bin/ls ${CASE}.${HIST}.*.nc | head -1`
+  if ! [ -f $FILE ] ; then
+    echo "No "${FILE}" in "${LOCAL_PROC}". Exiting."
+    ./update_status error run_slice2series
+    exit 1
+  fi
+fi
+#
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DCAS=1
+DVAR=1
+DHT1=1
+DHT2=1
+DPFX=1
+DSFX=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 | cam | clm2 | pop | csim | cice | rtm )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'`
+      DHT1=$IDOT ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+DCMP=$DHT1
+#
+COMP=`echo $FILE | cut -d"." -f${DCMP}`
+#
+if [ "$COMP" = "cice" ] ; then
+#
+# Check for cice resolution - split into NH and SH if gx1; if SE, do not
+#
+  NLATJ=`$NCKS -m $FILE | egrep -c "nj, size = 1 "`
+  if [ $NLATJ -eq 0 ] ; then
+    LAT_SHS=0   ; export LAT_SHS
+    LAT_SHN=75  ; export LAT_SHN
+    LAT_NHS=280 ; export LAT_NHS
+    LAT_NHN=383 ; export LAT_NHS
+  else
+    LAT_NHN=0   ; export LAT_NHS
+  fi
+fi
+#
+# Check to see if $FILE is a POP daily tape denoted by 'pop.h.h2|nday1|pop.h.ecosys.year1' string
+#
+if [ "$COMP" = "pop" ] ; then
+  DYCK=`expr '(' $DCMP ')' '+' '2'`
+  ODAY=`echo $FILE | cut -d"." -f${DYCK}`
+  if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
+    DPFX=`expr '(' $DPFX ')' '+' '1'`
+    DSFX=`expr '(' $DSFX ')' '+' '1'`
+  fi
+  if [ "$ODAY" = "ecosys" ] ; then
+    DPFX=`expr '(' $DPFX ')' '+' '2'`
+    DSFX=`expr '(' $DSFX ')' '+' '2'`
+  fi
+fi
+#
+OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
+OUTSFX=`echo $FILE | cut -d"." -f${DSFX}-`
+#
+# Save "$NCKS -m" metadata output for this file
+#
+rm -f meta.${FILE} ; $NCKS -m $FILE > meta.${FILE}
+#
+# Scalar (i.e., single value) fields, to be put in all output files
+#
+SCALARS=`cat meta.${FILE} | egrep "( 0 dimension|# dim\. = 0)" | cut -d":" -f1`
+#
+# Time-variant fields, the fields we will be splitting upon
+#
+TIMEVAR=`cat meta.${FILE} | egrep "dimension 0: time" | cut -d" " -f1`
+#
+# Time-invariant fields, to be put in all output files
+#
+TIMEINV=`cat meta.${FILE} | egrep "dimension 0:" | egrep -v " dimension 0: time" | cut -d" " -f1`
+#
+#echo "SCALARS :"$SCALARS
+#echo
+#echo "TIMEVAR :"$TIMEVAR
+#echo
+#echo "TIMEINV :"$TIMEINV
+#
+# Find time-variant fields that are more than 1 dimension, i.e., not dimensioned just along time
+# Those that are 1-dimensional and along time only are not put into separate output files
+#
+for V in $TIMEVAR ; do
+  NDIMS=`cat meta.${FILE} | egrep "^${V}:" | cut -d"," -f2`
+#  echo "Checking "${V}" NDIMS: "${NDIMS}
+  case "$NDIMS" in 
+    " 1 dimension" )
+      METAVARS=`echo ${METAVARS}${V}" "` ;; 
+    " 2 dimensions" )
+      if [ "$V" = "time_bnds" ] || [ "$V" = "time_bound" ] || [ "$V" = "time_bounds" ] || [ "$V" = "date_written" ] || [ "$V" = "time_written" ] ; then
+        METAVARS=`echo ${METAVARS}${V}" "`
+      else
+        VARTIME=`echo ${VARTIME}${V}" "`
+      fi ;; 
+    " 3 dimensions" | " 4 dimensions" | " 5 dimensions" )
+      VARTIME=`echo ${VARTIME}${V}" "` ;; 
+  esac
+done
+if [ `echo $METAVARS | wc -w` -ne 0 ] ; then
+  if [ `echo $TIMEINV | wc -w` -ne 0 ] ; then
+    if [ `echo $SCALAR | wc -w` -ne 0 ] ; then
+      METAVARS=`echo ${SCALAR}${METAVARS}${TIMEINV} | sed -e 's/ / -m /g'`
+    fi
+    METAVARS=`echo ${METAVARS}${TIMEINV} | sed -e 's/ / -m /g'`
+  fi
+fi
+#echo 
+#echo "VARTIME: "$VARTIME
+#
+# Add SCALARS (if present) to METAVARS
+#
+if [ `echo $SCALARS | wc -w` -ne 0 ] ; then
+  SCALARS=`echo $SCALARS | sed -e 's/ / -m /g'`
+  METAVARS=`echo $METAVARS","$SCALARS`
+fi
+#
+# Now create the argument list for each metadata variable
+#
+for i in `seq 0 $((${#METAVARS[*]} - 1))`; do
+  METAARGS[$((2 * i))]=-m
+  METAARGS[$((2 * i + 1))]=${METAVARS[$i]}
+done
+#
+echo "METAVARS: "$METAVARS
+echo "METAARGS: "$METAARGS
+#
+#
+# All time-dependent vars
+#
+if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
+#
+mpirun.lsf slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} ${SLICEFILES[*]}
+#

@@ -162,13 +162,16 @@ case "$HTYP" in
   cam2 | cam )
     case "$TPER" in
       ann | mon )
-        ln -s -f $BASEDIR/var_extract_compress    var_extract ;;
+        NCFORMAT=netcdf4c
       day | hr6 | hr3 | hr1 | m30 )
-        ln -s -f $BASEDIR/var_extract_no_compress var_extract ;;
+        NCFORMAT=netcdf4
     esac ;;
   clm2 | pop | rtm | csim | cice ) 
-    ln -s -f $BASEDIR/var_extract_compress        var_extract ;;
+    NCFORMAT=netcdf4c
 esac
+export NCFORMAT
+#
+ln -s -f $BASEDIR/run_slice2series     .
 ln -s -f $BASEDIR/store_to_archive_var .
 ln -s -f $BASEDIR/archive_write_var    .
 ln -s -f $BASEDIR/update_status        .
@@ -208,27 +211,39 @@ fi
 #    fi ;;
 #esac
 #
+# PyReshaper Arguments
+#
+VERBOSITY=3 ; export VERBOSITY
+#
+# Array of all history (aka time-slice) files
+#
+SLICEFILES=(${LOCALHST}/${CASE}.${HIST}.[0-9]*.nc)
+#
+# Create output filename time period prefix
+#
+PREFIX=${CACHEDIR}/${CASE}.${HIST}.
+#
 # Create output filename time period suffix
 #
 case "$TPER" in
   mon )
-    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+    SUFFIX=${YEARBEG}01-${YEAREND}12.nc ;;
   day ) 
-    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+    SUFFIX=${YEARBEG}0101-${YEAREND}1231.nc ;;
 esac
 #
-export OUTTIME
+export SUFFIX
 #
 # Extract each field from all files
 #
-echo -n "TS var_extract start: " ; date
-./var_extract
+echo -n "TS run slice2_series start: " ; date
+./run_slice2series
 if [ $? -ne 0 ] ; then
-  echo "var_extract failed"
-  ./update_status error "$CASE $HIST $TPER"
+  echo "run_slice2series failed"
+  ./update_status error s2s "$CASE $HIST $TPER"
   exit 1
 fi
-echo -n "TS var_extract end  : " ; date
+echo -n "TS run_slice2series end   : " ; date
 #
 # Store completed data on archival system
 #
