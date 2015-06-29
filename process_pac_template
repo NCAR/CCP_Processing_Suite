@@ -134,7 +134,7 @@ VERBOSITY=3
 #
 # Array of all history (aka time-slice) files
 #
-SLICEFILES=(${LOCAL_PROC}/${CASE}.${HIST}.[0-9]*.nc)
+SLICEFILES=(${LOCAL_PROC}/${CASE}.${HIST}.[0-9]*.nc) ; export SLICEFILES
 #
 # Create output filename time period prefix
 #
