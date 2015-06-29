@@ -94,11 +94,11 @@ esac
 # Set up local names and archival names
 #
 LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
-LOCAL_PROC=$PROCBASE/$COMP_NAME
+LOCAL_PROC=$PROCBASE/$COMP_NAME/hist
 ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
 #
 ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
-DISK_PROC=$DISK_BASE/$COMP_NAME/proc/tseries
+LOCALDISK_PROC=$DISK_BASE/$COMP_NAME/proc/tseries
 #
 case "$TPER" in
   mon )
@@ -112,7 +112,6 @@ case "$TPER" in
     exit 1 ;;
 esac
 #
-LOCAL_PROC=${LOCAL_PROC}/${TPER}
 CACHEDIR=${LOCAL_PROC}/to_archive
 #
 YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
@@ -185,7 +184,7 @@ cd $LOCAL_PROC
 if [ -d $LOCAL_HIST ] ; then
   NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
   if [ $NHISTF -ne 0 ] ; then
-    echo ${CASE}"."${HIST}" files on disk, softlinking."
+    echo ${CASE}"."${HIST}" files on disk."
     rm -f ${CASE}.${HIST}.[0-9]*.nc
     ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
   else
@@ -217,7 +216,7 @@ VERBOSITY=3 ; export VERBOSITY
 #
 # Array of all history (aka time-slice) files
 #
-SLICEFILES=(${LOCALHST}/${CASE}.${HIST}.[0-9]*.nc)
+SLICEFILES=(${LOCAL_PROC}/${CASE}.${HIST}.[0-9]*.nc)
 #
 # Create output filename time period prefix
 #
