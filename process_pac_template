@@ -95,7 +95,7 @@ esac
 #
 LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
 LOCAL_PROC=$PROCBASE/$COMP_NAME/hist
-CACHEDIR=$PROCBASE/$COMP_NAME/${TPER}/to_archive
+CACHEDIR=$PROCBASE/$COMP_NAME/${TPER}
 ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
 LOCALDISK_PROC=$DISK_BASE/$COMP_NAME/proc/tseries
 #
@@ -216,7 +216,7 @@ SLICEFILES=(${LOCAL_PROC}/${CASE}.${HIST}.[0-9]*.nc)
 #
 # Create output filename time period prefix
 #
-PREFIX=${CACHEDIR}/${CASE}.${HIST}.
+PREFIX=${CACHEDIR}/to_archive/${CASE}.${HIST}.
 export PREFIX
 #
 # Create output filename time period suffix
