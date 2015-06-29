@@ -186,12 +186,14 @@ fi
 #
 # Now create the argument list for each metadata variable
 #
-for i in `seq 0 $((${#METAVARS[*]} - 1))`; do
-  METAARGS[$((2 * i))]=-m
-  METAARGS[$((2 * i + 1))]=${METAVARS[$i]}
-done
+METAARGS=`echo $METAARGS | sed -e 's/ / -m /g'`
+#for i in `seq 0 $((${#METAVARS[*]} - 1))`; do
+#  METAARGS[$((2 * i))]=-m
+#  METAARGS[$((2 * i + 1))]=${METAVARS[$i]}
+#done
 #
 echo "METAVARS: "$METAVARS
+echo ""
 echo "METAARGS: "$METAARGS
 #
 #
