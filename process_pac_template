@@ -95,8 +95,7 @@ esac
 #
 LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
 LOCAL_PROC=$PROCBASE/$COMP_NAME/hist
-ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
-#
+CACHEDIR=$PROCBASE/$COMP_NAME/${TPER}/to_archive
 ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
 LOCALDISK_PROC=$DISK_BASE/$COMP_NAME/proc/tseries
 #
@@ -111,8 +110,6 @@ case "$TPER" in
     echo "Unable to continue because "$TPER" not known."
     exit 1 ;;
 esac
-#
-CACHEDIR=${LOCAL_PROC}/to_archive
 #
 YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
 MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
@@ -154,19 +151,18 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
-#
 # Decide to compress or not compress output
 #
 case "$HTYP" in
   cam2 | cam )
     case "$TPER" in
       ann | mon )
-        NCFORMAT=netcdf4c
+        NCFORMAT=netcdf4c ;;
       day | hr6 | hr3 | hr1 | m30 )
-        NCFORMAT=netcdf4
+        NCFORMAT=netcdf4  ;;
     esac ;;
   clm2 | pop | rtm | csim | cice ) 
-    NCFORMAT=netcdf4c
+    NCFORMAT=netcdf4c ;;
 esac
 export NCFORMAT
 #
