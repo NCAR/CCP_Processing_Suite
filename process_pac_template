@@ -222,6 +222,7 @@ SLICEFILES=(${LOCALHST}/${CASE}.${HIST}.[0-9]*.nc)
 # Create output filename time period prefix
 #
 PREFIX=${CACHEDIR}/${CASE}.${HIST}.
+export PREFIX
 #
 # Create output filename time period suffix
 #
