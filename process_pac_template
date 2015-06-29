@@ -128,6 +128,27 @@ esac
 YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
 MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
+# PyReshaper Arguments
+#
+VERBOSITY=3
+#
+# Array of all history (aka time-slice) files
+#
+SLICEFILES=(${LOCAL_PROC}/${CASE}.${HIST}.[0-9]*.nc)
+#
+# Create output filename time period prefix
+#
+PREFIX=${CACHEDIR}/to_archive/${CASE}.${HIST}.
+#
+# Create output filename time period suffix
+#
+case "$TPER" in
+  mon )
+    SUFFIX=${YEARBEG}01-${YEAREND}12.nc ;;
+  day ) 
+    SUFFIX=${YEARBEG}0101-${YEAREND}1231.nc ;;
+esac
+#
 # Print out values
 #
 echo "            Case name : "$CASE ; export CASE
@@ -151,7 +172,11 @@ echo "    Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
 echo "        History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
 echo "        History names : "$HIST          ; export HIST
 echo ""
+echo "PyReshaper"
+echo "        Output prefix : "$PREFIX        ; export PREFIX
+echo "        Output suffix : "$SUFFIX        ; export SUFFIX
 echo "        Output format : "$NCFORMAT      ; export NCFORMAT
+echo "            Verbosity : "$VERBOSITY     ; export VERBOSITY
 echo ""
 echo "      Processing host : "$PROCHOST      ; export PROCHOST
 echo "  Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
@@ -163,23 +188,20 @@ if [ ! -d $LOCAL_PROC ] ; then
   mkdir -p $LOCAL_PROC 
 fi
 if [ ! -d $CACHEDIR ] ; then 
-  mkdir -p $CACHEDIR
   mkdir -p ${CACHEDIR}/to_archive
 fi
 #
-cd $LOCAL_PROC
-#
-ln -s -f $BASEDIR/run_slice2series     .
-ln -s -f $BASEDIR/store_to_archive_var .
-ln -s -f $BASEDIR/archive_write_var    .
-ln -s -f $BASEDIR/update_status        .
-#
-cd $LOCAL_PROC
+cd 
+ln -s -f ${BASEDIR}/run_slice2series     ${CACHEDIR}/run_slice2series
+ln -s -f ${BASEDIR}/store_to_archive_var ${CACHEDIR}/store_to_archive_var 
+ln -s -f ${BASEDIR}/archive_write_var    ${CACHEDIR}/archive_write_var    
+ln -s -f ${BASEDIR}/update_CACHEDIR      ${CACHEDIR}/update_status        
 #
 # Start actual processing, extract each field one at a time for all times
 #
 ./update_status start
 #
+cd $LOCAL_PROC
 if [ -d $LOCAL_HIST ] ; then
   NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
   if [ $NHISTF -ne 0 ] ; then
@@ -209,31 +231,11 @@ fi
 #    fi ;;
 #esac
 #
-# PyReshaper Arguments
-#
-VERBOSITY=3 ; export VERBOSITY
-#
-# Array of all history (aka time-slice) files
-#
-SLICEFILES=(${LOCAL_PROC}/${CASE}.${HIST}.[0-9]*.nc)
-#
-# Create output filename time period prefix
-#
-PREFIX=${CACHEDIR}/to_archive/${CASE}.${HIST}.
-export PREFIX
-#
-# Create output filename time period suffix
-#
-case "$TPER" in
-  mon )
-    SUFFIX=${YEARBEG}01-${YEAREND}12.nc ;;
-  day ) 
-    SUFFIX=${YEARBEG}0101-${YEAREND}1231.nc ;;
-esac
-#
-export SUFFIX
-#
 # Extract each field from all files
+#
+cd $CACHEDIR
+rm -f ${CASE}.${HIST}.[0-9]*.nc
+ln -s -f ${LOCAL_PROC}/${CASE}.${HIST}.[0-9]*.nc .
 #
 echo -n "TS run slice2_series start: " ; date
 ./run_slice2series
