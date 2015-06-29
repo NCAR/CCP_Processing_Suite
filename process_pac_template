@@ -111,6 +111,20 @@ case "$TPER" in
     exit 1 ;;
 esac
 #
+# Decide to compress or not compress output
+#
+case "$HTYP" in
+  cam2 | cam )
+    case "$TPER" in
+      ann | mon )
+        NCFORMAT=netcdf4c ;;
+      day | hr6 | hr3 | hr1 | m30 )
+        NCFORMAT=netcdf4  ;;
+    esac ;;
+  clm2 | pop | rtm | csim | cice ) 
+    NCFORMAT=netcdf4c ;;
+esac
+#
 YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
 MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
@@ -137,6 +151,8 @@ echo "    Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
 echo "        History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
 echo "        History names : "$HIST          ; export HIST
 echo ""
+echo "        Output format : "$NCFORMAT      ; export NCFORMAT
+echo ""
 echo "      Processing host : "$PROCHOST      ; export PROCHOST
 echo "  Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
 echo "       Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
@@ -150,22 +166,8 @@ if [ ! -d $CACHEDIR ] ; then
   mkdir -p $CACHEDIR
   mkdir -p ${CACHEDIR}/to_archive
 fi
+#
 cd $LOCAL_PROC
-#
-# Decide to compress or not compress output
-#
-case "$HTYP" in
-  cam2 | cam )
-    case "$TPER" in
-      ann | mon )
-        NCFORMAT=netcdf4c ;;
-      day | hr6 | hr3 | hr1 | m30 )
-        NCFORMAT=netcdf4  ;;
-    esac ;;
-  clm2 | pop | rtm | csim | cice ) 
-    NCFORMAT=netcdf4c ;;
-esac
-export NCFORMAT
 #
 ln -s -f $BASEDIR/run_slice2series     .
 ln -s -f $BASEDIR/store_to_archive_var .
