@@ -167,10 +167,10 @@ if [ `echo $METAVARS | wc -w` -ne 0 ] ; then
   if [ `echo $TIMEINV | wc -w` -ne 0 ] ; then
     if [ `echo $SCALAR | wc -w` -ne 0 ] ; then
 #      METAVARS=`echo ${SCALAR}${METAVARS}${TIMEINV} | sed -e 's/ / -m /g'`
-      METAVARS=`echo ${SCALAR}${METAVARS}${TIMEINV}`
+      METAVARS=`echo ${SCALAR}" "${METAVARS}" "${TIMEINV}`
     fi
 #    METAVARS=`echo ${METAVARS}${TIMEINV} | sed -e 's/ / -m /g'`
-    METAVARS=`echo ${METAVARS}${TIMEINV}`
+    METAVARS=`echo ${METAVARS}" "${TIMEINV}`
   fi
 fi
 #echo 
@@ -179,7 +179,7 @@ fi
 # Add SCALARS (if present) to METAVARS
 #
 if [ `echo $SCALARS | wc -w` -ne 0 ] ; then
-  SCALARS=`echo $SCALARS | sed -e 's/ / -m /g'`
+#  SCALARS=`echo $SCALARS | sed -e 's/ / -m /g'`
 #  METAVARS=`echo $METAVARS","$SCALARS`
   METAVARS=`echo $METAVARS" "$SCALARS`
 fi
