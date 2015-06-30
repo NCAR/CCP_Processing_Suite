@@ -73,7 +73,9 @@ case "$PROCHOST" in
     exit 1 ;;
 esac
 #
-export LD_LIBRARY_PATH
+if [`echo $CASE | egrep "tambora" | wc -l` -ne 0 ] ; then
+  DISK_BASE=/glade/p/cesm/palwg_dev/LME/CESM-CAM5-LME ; export DISK_BASE
+fi
 #
 # Strip off first part of $HIST
 #

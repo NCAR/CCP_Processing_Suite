@@ -8,20 +8,21 @@ if [ $# -ne 0 ] ; then
   exit 1
 fi
 # 
-# Check for CACHEDIR
+# Check for CACHEDIR/to_archive
 #
-if [ ! $CACHEDIR ] ; then
-  echo "CACHEDIR not defined. Exiting"
+if [ ! $CACHEDIR/to_archive ] ; then
+  echo "CACHEDIR/to_archive not defined. Exiting"
   ./update_status error store_to_archive
   exit 1
 fi
 #
-cd $CACHEDIR
+cd $CACHEDIR/to_archive
 #
 if [ `/bin/ls *.nc | wc -l` -ne 0 ] ; then
   ../archive_write $ARCHIVE_PROC
 else
-  echo "No files in "$CACHEDIR
+  echo "No files in "${CACHEDIR}"/to_archive"
+  ./update_status error store_to_archive
 fi
 #
 cd $LOCAL_PROC
