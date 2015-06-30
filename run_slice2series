@@ -179,8 +179,6 @@ fi
 # Add SCALARS (if present) to METAVARS
 #
 if [ `echo $SCALARS | wc -w` -ne 0 ] ; then
-#  SCALARS=`echo $SCALARS | sed -e 's/ / -m /g'`
-#  METAVARS=`echo $METAVARS","$SCALARS`
   METAVARS=`echo $METAVARS" "$SCALARS`
 fi
 #
@@ -188,20 +186,17 @@ fi
 #
 METAARGS=`echo $METAVARS | sed -e 's/ / -m /g'`
 METAARGS="-m "${METAARGS}
-#for i in `seq 0 $((${#METAVARS[*]} - 1))`; do
-#  METAARGS[$((2 * i))]=-m
-#  METAARGS[$((2 * i + 1))]=${METAVARS[$i]}
-#done
 #
-echo "METAVARS: "$METAVARS
-echo ""
-echo "METAARGS: "$METAARGS
-#
-#
-# All time-dependent vars
+#echo "METAVARS: "$METAVARS
+#echo ""
+#echo "METAARGS: "$METAARGS
+#echo ""
+#echo "SLICEFILES 1: "${SLICEFILES[*]}
+SLICEFILES=(`/bin/ls ${LOCAL_PROC}/${CASE}.${HIST}.[0-9]*.nc`)
+#echo "SLICEFILES 2: "${SLICEFILES[*]}
 #
 if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
-  echo "mpirun.lsf slice2series -v "${VERBOSITY}" -f "${NCFORMAT}" -p "${PREFIX}" -s "${SUFFIX}" "${METAARGS[*]}" "${SLICEFILES[*]}
+#  echo "mpirun.lsf slice2series -v "${VERBOSITY}" -f "${NCFORMAT}" -p "${PREFIX}" -s "${SUFFIX}" "${METAARGS[*]}" "${SLICEFILES[*]}
   mpirun.lsf slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} ${SLICEFILES[*]}
 fi
 #
