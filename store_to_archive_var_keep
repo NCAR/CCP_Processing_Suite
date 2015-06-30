@@ -18,7 +18,7 @@ fi
 #
 cd $CACHEDIR/to_archive
 #
-if [ `/bin/ls ${CASE}.${HIST}.*.${OUTTIME}.nc | wc -l` -ne 0 ] ; then
+if [ `/bin/ls *.nc | wc -l` -ne 0 ] ; then
   ../archive_write_var_keep
   if [ $? -ne 0 ] ; then
     echo "store_to_archive_var_keep failed"
