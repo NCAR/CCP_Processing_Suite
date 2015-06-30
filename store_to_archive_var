@@ -10,13 +10,14 @@ fi
 # 
 # Check for CACHEDIR/to_archive
 #
-if [ ! ${CACHEDIR}/to_archive ] ; then
-  echo "CACHEDIR/to_archive not defined. Exiting"
+if [ ! ${CACHEDIR} ] ; then
+  echo "CACHEDIR not defined. Exiting"
   ./update_status error store_to_archive_var
   exit 1
 fi
 #
 cd ${CACHEDIR}/to_archive
+pwd
 #
 if [ `/bin/ls *.nc | wc -l` -ne 0 ] ; then
   ../archive_write_var
@@ -28,6 +29,6 @@ if [ `/bin/ls *.nc | wc -l` -ne 0 ] ; then
 else
   echo "No files in "$CACHEDIR"/to_archive. Exit."
   ./update_status error archive_write_var
-
+fi
 #
 cd $LOCAL_PROC
