@@ -101,7 +101,7 @@ fi
 #
 rm -f PUT
 for IVAR in $VARS ; do
-  echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -d ${CASE}.${HIST}.${IVAR}* ; chmod 644 ${CASE}.${HIST}.${IVAR}*" >> PUT
+  echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -d ${CASE}.${HIST}.${IVAR}.* ; chmod 644 ${CASE}.${HIST}.${IVAR}.*" >> PUT
 done
 #
 $HSI $HSIOPTS in PUT

@@ -10,8 +10,8 @@ fi
 # 
 # Check for CACHEDIR/to_archive
 #
-if [ ! $CACHEDIR/to_archive ] ; then
-  echo "CACHEDIR/to_archive not defined. Exiting"
+if [ ! $CACHEDIR ] ; then
+  echo "CACHEDIR not defined. Exiting"
   ./update_status error store_to_archive_var_keep
   exit 1
 fi
