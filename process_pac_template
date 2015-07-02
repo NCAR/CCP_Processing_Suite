@@ -91,9 +91,6 @@ esac
 #
 # Set up local names and archival names
 #
-#
-# Set up local names and archival names
-#
 LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
 LOCAL_PROC=$PROCBASE/$COMP_NAME/hist
 CACHEDIR=$PROCBASE/$COMP_NAME/${TPER}/to_archive
