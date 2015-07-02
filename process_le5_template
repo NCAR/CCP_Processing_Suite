@@ -225,11 +225,13 @@ ln -s -f ${BASEDIR}/update_status             update_status
 #      case "$CASE" in
 #        "b.e11.B1850C5CN.f09_g16.005" | "f.e11.F1850C5CN.f09_f09.001" )
 #          ln -s -f ${LOCAL_PROC}/${CASE}.${HIST}.${CENT}*.nc . ;;
-          ln -s -f ${LOCAL_PROC}/${CASE}.${HIST}.${CENT}*.nc .
+          ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc .
+          rm -f ${LOCAL_HIST}/${CASE}.${HIST}.0100*.nc .
 #        "b.e11.B1850LENS_RAMP.2xcap.f09_g16.001" )
 #          if [ $CENT = "02" ] ; then
 #            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.0[2-3]*.nc .
 #          else
+#            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc .
 #            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc .
 #          fi ;;
 #        "b.e11.BRCP45C5CNBDRD.f09_g16.???" )
