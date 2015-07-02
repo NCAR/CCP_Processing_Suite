@@ -143,10 +143,11 @@ PREFIX=${CACHEDIR}/${CASE}.${HIST}.
 #
 case "$TPER" in
   mon )
-    SUFFIX=.${YEARBEG}01-${YEAREND}12.nc ;;
+    OUTTIME=.${YEARBEG}01-${YEAREND}12 ;;
   day ) 
-    SUFFIX=.${YEARBEG}0101-${YEAREND}1231.nc ;;
+    OUTTIME=.${YEARBEG}0101-${YEAREND}1231 ;;
 esac
+SUFFIX=${OUTTIME}.nc
 #
 # Print out values
 #
