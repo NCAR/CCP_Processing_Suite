@@ -8,7 +8,7 @@ if [ $# -ne 0 ] ; then
   exit 1
 fi
 # 
-# Check for CACHEDIR/to_archive
+# Check for CACHEDIR
 #
 if [ ! ${CACHEDIR} ] ; then
   echo "CACHEDIR not defined. Exiting"
@@ -16,7 +16,7 @@ if [ ! ${CACHEDIR} ] ; then
   exit 1
 fi
 #
-cd ${CACHEDIR}/to_archive
+cd ${CACHEDIR}
 pwd
 #
 if [ `/bin/ls *.nc | wc -l` -ne 0 ] ; then
@@ -27,7 +27,7 @@ if [ `/bin/ls *.nc | wc -l` -ne 0 ] ; then
     exit 1
   fi
 else
-  echo "No files in "$CACHEDIR"/to_archive. Exit."
+  echo "No files in "$CACHEDIR". Exit."
   ./update_status error archive_write_var
 fi
 #

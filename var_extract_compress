@@ -189,7 +189,7 @@ if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
   if [ "$COMP" = "cice" ] ; then
     if [ $LAT_NHN -ne 0 ] ; then
       for IVAR in $VARTIME ; do
-        OUT=${CACHEDIR}/to_archive/${OUTPFX}.${IVAR}_nh.${OUTTIME}.nc
+        OUT=${CACHEDIR}/${OUTPFX}.${IVAR}_nh.${OUTTIME}.nc
         if [ ! -f $OUT ] ; then
           $NCRCAT -4 -L 1 -h -O -d nj,${LAT_NHS},${LAT_NHN} -v ${HEADER},${IVAR} ${CASE}.${HIST}.*.nc $OUT
           if [ $? -ne 0 ] ; then
@@ -208,7 +208,7 @@ if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
       done
     else
       for IVAR in $VARTIME ; do
-        OUT=${CACHEDIR}/to_archive/${OUTPFX}.${IVAR}.${OUTTIME}.nc
+        OUT=${CACHEDIR}/${OUTPFX}.${IVAR}.${OUTTIME}.nc
         if [ ! -f $OUT ] ; then
           $NCRCAT -4 -L 1 -h -v ${HEADER},${IVAR} ${CASE}.${HIST}.*.nc $OUT
           if [ $? -ne 0 ] ; then

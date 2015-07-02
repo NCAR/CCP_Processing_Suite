@@ -126,7 +126,7 @@ case "$TPER" in
 esac
 #
 LOCAL_PROC=${LOCAL_PROC}/${TPER}/${LMEX}
-CACHEDIR=${LOCAL_PROC}
+CACHEDIR=${LOCAL_PROC}/to_archive
 #
 YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
 MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
@@ -164,7 +164,7 @@ if [ ! -d $LOCAL_PROC ] ; then
   mkdir -p $LOCAL_PROC 
 fi
 if [ ! -d ${CACHEDIR} ] ; then 
-  mkdir -p ${CACHEDIR}/to_archive
+  mkdir -p $CACHEDIR
 fi
 cd $LOCAL_PROC
 #

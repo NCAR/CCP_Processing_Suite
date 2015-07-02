@@ -96,7 +96,7 @@ esac
 #
 LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
 LOCAL_PROC=$PROCBASE/$COMP_NAME/hist
-CACHEDIR=$PROCBASE/$COMP_NAME/${TPER}
+CACHEDIR=$PROCBASE/$COMP_NAME/${TPER}/to_archive
 ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
 LOCALDISK_PROC=$DISK_BASE/$COMP_NAME/proc/tseries
 #
@@ -140,7 +140,7 @@ VERBOSITY=3
 #
 # Create output filename time period prefix
 #
-PREFIX=${CACHEDIR}/to_archive/${CASE}.${HIST}.
+PREFIX=${CACHEDIR}/${CASE}.${HIST}.
 #
 # Create output filename time period suffix
 #
@@ -190,20 +190,19 @@ if [ ! -d $LOCAL_PROC ] ; then
   mkdir -p $LOCAL_PROC 
 fi
 if [ ! -d $CACHEDIR ] ; then 
-  mkdir -p ${CACHEDIR}/to_archive
+  mkdir -p $CACHEDIR
 fi
 #
-cd 
-ln -s -f ${BASEDIR}/run_slice2series     ${CACHEDIR}/run_slice2series
-ln -s -f ${BASEDIR}/store_to_archive_var ${CACHEDIR}/store_to_archive_var 
-ln -s -f ${BASEDIR}/archive_write_var    ${CACHEDIR}/archive_write_var    
-ln -s -f ${BASEDIR}/update_status        ${CACHEDIR}/update_status        
+cd $LOCAL_PROC
+ln -s -f ${BASEDIR}/run_slice2series     .
+ln -s -f ${BASEDIR}/store_to_archive_var .
+ln -s -f ${BASEDIR}/archive_write_var    .
+ln -s -f ${BASEDIR}/update_status        .
 #
 # Start actual processing, extract each field one at a time for all times
 #
 ./update_status start
 #
-cd $LOCAL_PROC
 if [ -d $LOCAL_HIST ] ; then
   NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
   if [ $NHISTF -ne 0 ] ; then
@@ -235,7 +234,6 @@ fi
 #
 # Extract each field from all files
 #
-cd $CACHEDIR
 rm -f ${CASE}.${HIST}.[0-9]*.nc
 ln -s -f ${LOCAL_PROC}/${CASE}.${HIST}.[0-9]*.nc .
 #
