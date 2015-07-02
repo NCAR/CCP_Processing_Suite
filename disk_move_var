@@ -20,10 +20,10 @@ if [ ! $DISK_PROC ] ; then
   exit 1
 fi
 # 
-# Check for OUTTIME
+# Check for SUFFIX
 #
-if [ ! $OUTTIME ] ; then
-  echo "OUTTIME not defined. Exiting."
+if [ ! $SUFFIX ] ; then
+  echo "SUFFIX not defined. Exiting."
   ../update_status error disk_move_var
   exit 1
 fi
@@ -32,7 +32,7 @@ cd $CACHEDIR
 #
 # Parse first filename
 #
-FILE=`/bin/ls *.${OUTTIME}.nc | head -n 1`
+FILE=`/bin/ls *.${SUFFIX} | head -n 1`
 FLEN=`echo $FILE | wc -c`
 NDOT=0
 CSTR=1
@@ -63,16 +63,16 @@ DCMP=$DHT1
 DHT2=`expr '(' $DHT1 ')' '+' '1'`
 DVAR=`expr '(' $DVAR ')' '+' '1'`
 #
-CASE=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f1-${DCAS} | sort | uniq`
-HIST=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
-COMP=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DCMP} | sort | uniq`
-VARS=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DVAR} | sort | uniq`
+CASE=`/bin/ls *.${SUFFIX} | cut -d"." -f1-${DCAS} | sort | uniq`
+HIST=`/bin/ls *.${SUFFIX} | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+COMP=`/bin/ls *.${SUFFIX} | cut -d"." -f${DCMP} | sort | uniq`
+VARS=`/bin/ls *.${SUFFIX} | cut -d"." -f${DVAR} | sort | uniq`
 #
 # Check for pop.h.nday1/h2/ecosys
 #
 if [ "$HIST" = "pop.h" ] ; then
   DYCK=`expr '(' $DHT2 ')' '+' '1'`
-  ODAY=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DYCK} | sort | uniq`
+  ODAY=`/bin/ls *.${SUFFIX} | cut -d"." -f${DYCK} | sort | uniq`
   if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
     DHT2=$DYCK
     DVAR=`expr '(' $DVAR ')' '+' '1'`
@@ -84,10 +84,10 @@ if [ "$HIST" = "pop.h" ] ; then
   fi
 fi
 #
-CASE=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f1-${DCAS} | sort | uniq`
-HIST=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
-COMP=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DCMP} | sort | uniq`
-VARS=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DVAR} | sort | uniq`
+CASE=`/bin/ls *.${SUFFIX} | cut -d"." -f1-${DCAS} | sort | uniq`
+HIST=`/bin/ls *.${SUFFIX} | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+COMP=`/bin/ls *.${SUFFIX} | cut -d"." -f${DCMP} | sort | uniq`
+VARS=`/bin/ls *.${SUFFIX} | cut -d"." -f${DVAR} | sort | uniq`
 #
 # Check for cice data, remove _nh and _sh from VARS
 #
@@ -113,20 +113,20 @@ echo ${DISK_PROC}" and subdirs created. Ready."
 #
 if [ "$COMP" == "cice" ] ; then
   for IVAR in $VARS ; do
-    mv ${CASE}.${HIST}.${IVAR}_?h.${OUTTIME}.nc ${DISK_PROC}/${IVAR}
+    mv ${CASE}.${HIST}.${IVAR}_?h.${SUFFIX} ${DISK_PROC}/${IVAR}
     if [ $? -ne 0 ] ; then
-      echo "Problem moving "${CASE}"."${HIST}"."${IVAR}"._?h."${OUTTIME}".nc to "${DISK_PROC}"/"${IVAR}
+      echo "Problem moving "${CASE}"."${HIST}"."${IVAR}"._?h."${SUFFIX}" to "${DISK_PROC}"/"${IVAR}
     else
-      echo "Moved "${CASE}"."${HIST}"."${IVAR}"._?h."${OUTTIME}".nc to "${DISK_PROC}"/"${IVAR}
+      echo "Moved "${CASE}"."${HIST}"."${IVAR}"._?h."${SUFFIX}" to "${DISK_PROC}"/"${IVAR}
     fi
   done
 else
   for IVAR in $VARS ; do
-    mv ${CASE}.${HIST}.${IVAR}.${OUTTIME}.nc ${DISK_PROC}/${IVAR}
+    mv ${CASE}.${HIST}.${IVAR}.${SUFFIX} ${DISK_PROC}/${IVAR}
     if [ $? -ne 0 ] ; then
-      echo "Problem moving "${CASE}"."${HIST}"."${IVAR}"."${OUTTIME}".nc to "${DISK_PROC}"/"${IVAR}
+      echo "Problem moving "${CASE}"."${HIST}"."${IVAR}"."${SUFFIX}" to "${DISK_PROC}"/"${IVAR}
     else
-      echo "Moved "${CASE}"."${HIST}"."${IVAR}"."${OUTTIME}".nc to "${DISK_PROC}"/"${IVAR}
+      echo "Moved "${CASE}"."${HIST}"."${IVAR}"."${SUFFIX}" to "${DISK_PROC}"/"${IVAR}
     fi
   done
 fi
