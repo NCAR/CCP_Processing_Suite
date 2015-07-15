@@ -159,7 +159,7 @@ case "$TPER" in
       OUTTIME=1990010100Z-${YEAREND}123118Z
     fi ;;
 esac
-SUFFIX=${OUTTIME}.nc
+SUFFIX=.${OUTTIME}.nc
 #
 # Print out values
 #
@@ -431,7 +431,7 @@ if [ "$TPER" = "hr6" ] ; then
   if [ "$EXPTYP" = "RCP" ] ; then
     cd ${LOCAL_PROC}/202s
     OUTTIME=2026010100Z-2035123118Z ; export OUTTIME
-    SUFFIX=${OUTTIME}.nc ; export SUFFIX
+    SUFFIX=.${OUTTIME}.nc ; export SUFFIX
     ../slice2series
     if [ $? -ne 0 ] ; then
       echo "slice2series failed"
@@ -441,7 +441,7 @@ if [ "$TPER" = "hr6" ] ; then
       cd ..
     fi
     OUTTIME=2071010100Z-2080123118Z ; export OUTTIME
-    SUFFIX=${OUTTIME}.nc ; export SUFFIX
+    SUFFIX=.${OUTTIME}.nc ; export SUFFIX
     cd ${LOCAL_PROC}/207s
     ../slice2series
     if [ $? -ne 0 ] ; then
