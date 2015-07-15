@@ -463,12 +463,13 @@ else
 #
 # Run it!
 #
-echo -n "TS run slice2_series start: " ; date
-./run_slice2series
-if [ $? -ne 0 ] ; then
-  echo "run_slice2series failed"
-  ./update_status error slice2series "$CASE $HIST $TPER"
-  exit 1
+  echo -n "TS run slice2_series start: " ; date
+  ./run_slice2series
+  if [ $? -ne 0 ] ; then
+    echo "run_slice2series failed"
+    ./update_status error slice2series "$CASE $HIST $TPER"
+    exit 1
+  fi
 fi
 echo -n "TS run_slice2series end   : " ; date
 #
