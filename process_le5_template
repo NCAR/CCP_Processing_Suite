@@ -211,6 +211,7 @@ ln -s -f ${BASEDIR}/store_to_archive_var_keep store_to_archive_var
 ln -s -f ${BASEDIR}/archive_write_var_keep    archive_write_var
 ln -s -f ${BASEDIR}/disk_move_var             disk_move_var
 ln -s -f ${BASEDIR}/update_status             update_status
+ln -s -f ${BASEDIR}/slice_cice_hemis          slice_cice_hemis
 #
 # Start actual processing, extract each field one at a time for all times
 #
