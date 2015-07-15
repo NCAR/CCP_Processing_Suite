@@ -1,0 +1,66 @@
+#!/bin/sh
+#
+LAT_SHS=0   ; export LAT_SHS
+LAT_SHN=75  ; export LAT_SHN
+LAT_NHS=280 ; export LAT_NHS
+LAT_NHN=383 ; export LAT_NHS
+#
+for FILE in `/bin/ls *cice.h*nc`
+  FLEN=`echo $FILE | wc -c`
+  NDOT=0
+  CSTR=1
+  while [ $CSTR -le $FLEN ] ; do
+    CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+    if [ "$CURC" = "." ] ; then
+       NDOT=`expr '(' $NDOT ')' '+' '1'`
+    fi
+    CSTR=`expr '(' $CSTR ')' '+' '1'`
+  done
+  IDOT=1
+  DCAS=1
+  DVAR=1
+  DHT1=1
+  DHT2=1
+  DPFX=1
+  DSFX=1
+  while [ $IDOT -le $NDOT ] ; do
+    CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+    case "$CURC" in
+      cam2 | cam | clm2 | pop | csim | cice | rtm )
+        DPFX=`expr '(' $IDOT ')' '+' '1'`
+        DSFX=`expr '(' $DPFX ')' '+' '1'`
+        DHT1=$IDOT ;;
+    esac
+    IDOT=`expr '(' $IDOT ')' '+' '1'`
+  done
+  DCMP=$DHT1
+#
+  OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
+  OUTSFX=`echo $FILE | cut -d"." -f${DSFX}-`
+#
+  echo "OUTPFX: "${OUTPFX}
+  echo "OUTSFX: "${OUTSFX}
+#
+# NH
+#
+  OUT=${OUTPFX}_nh.${OUTSFX}
+  if [ ! -f $OUT ] ; then
+    $NCKS -h -O -d nj,${LAT_NHS},${LAT_NHN} $FILE $OUT
+    if [ $? -ne 0 ] ; then
+       echo ${NCKS}" -h -d nj,"${LAT_NHS}","${LAT_NHN}" "${FILE}" "${OUT}" failed"
+       exit 1
+    fi
+  fi
+#
+# SH
+#
+  OUT=${OUTPFX}_sh.${OUTSFX}
+  if [ ! -f $OUT ] ; then
+    $NCKS -h -O -d nj,${LAT_SHS},${LAT_SHN} $FILE $OUT
+    if [ $? -ne 0 ] ; then
+       echo ${NCKS}" -h -d nj,"${LAT_SHS}","${LAT_SHN}" "${FILE}" "${OUT}" failed"
+       exit 1
+    fi
+  fi
+done
+#
