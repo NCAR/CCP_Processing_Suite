@@ -5,7 +5,7 @@ LAT_SHN=75  ; export LAT_SHN
 LAT_NHS=280 ; export LAT_NHS
 LAT_NHN=383 ; export LAT_NHS
 #
-for FILE in `/bin/ls *cice.h*nc`
+for FILE in `/bin/ls *cice.h*.*.*.nc` ; do
   FLEN=`echo $FILE | wc -c`
   NDOT=0
   CSTR=1
@@ -35,6 +35,8 @@ for FILE in `/bin/ls *cice.h*nc`
   done
   DCMP=$DHT1
 #
+  DPFX=`expr '(' $DPFX ')' '+' '1'`
+  DSFX=`expr '(' $DPFX ')' '+' '1'`
   OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
   OUTSFX=`echo $FILE | cut -d"." -f${DSFX}-`
 #
