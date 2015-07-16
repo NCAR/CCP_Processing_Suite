@@ -42,6 +42,9 @@ for FILE in `/bin/ls *cice.h*.*.*.nc` ; do
   OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
   OUTSFX=`echo $FILE | cut -d"." -f${DSFX}-`
 #
+  echo "OUTPFX: "${OUTPFX}
+  echo "OUTSFX: "${OUTSFX}
+#
 # NH
 #
   OUT=${OUTPFX}_nh.${OUTSFX}
@@ -63,5 +66,6 @@ for FILE in `/bin/ls *cice.h*.*.*.nc` ; do
        exit 1
     fi
   fi
+  rm ${OUTPFX}.${OUTSFX}
 done
 #
