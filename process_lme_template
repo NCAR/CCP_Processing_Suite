@@ -185,21 +185,21 @@ if [ -d $LOCAL_HIST ] ; then
     lm )
       NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc | wc -l`
       if [ $NHISTF -eq 0 ] ; then
-        echo "History files from 850-1849 not on "${LOCAL_HIST}". Exiting."
+        echo "History files from "${YEARBEG}"-"${YEAREND}" not on "${LOCAL_HIST}". Exiting."
         ./update_status error "$CASE $HIST $TPER"
         exit 1
       fi ;;
     ext ) 
       NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],2000}-*.nc | wc -l`
       if [ $NHISTF -eq 0 ] ; then
-        echo "History files from 1850-2005 not on "${LOCAL_HIST}". Exiting."
+        echo "History files from "${YEARBEG}"-"${YEAREND}" not on "${LOCAL_HIST}". Exiting."
         ./update_status error "$CASE $HIST $TPER"
         exit 1
       fi ;;
     rcp ) 
       NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-9][0-9],2100}-*.nc | wc -l`
       if [ $NHISTF -eq 0 ] ; then
-        echo "History files from 2006-2100 not on "${LOCAL_HIST}". Exiting."
+        echo "History files from "${YEARBEG}"-"${YEAREND}" not on "${LOCAL_HIST}". Exiting."
         ./update_status error "$CASE $HIST $TPER"
         exit 1
       fi ;;
@@ -323,8 +323,8 @@ if [ "$LMEX" = "lm" ] ; then
     NHISTF=`/bin/ls ${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc | wc -l`
     case "$HIST" in 
       cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 )
-        if [ $NHISTF -ne 12000 ] ; then
-          echo ${NHISTF}" should be 12000. File count mismatch. Exit."
+        if [ $NHISTF -ne $MNCOUNT ] ; then
+          echo ${NHISTF}" should be "${MNCOUNT}". File count mismatch. Exit."
           exit 1
         fi ;;
       cam.h1 | clm2.h1 )
@@ -396,31 +396,31 @@ if [ "$LMEX" = "ext" ] ; then
     exit 1
   fi
   ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],200[0-5]}-*.nc .
-  NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
-  case "$HIST" in 
-    cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 )
-      if [ $NHISTF -ne 1872 ] ; then
-        echo ${NHISTF}" should be 1872. File count mismatch. Exit."
-        exit 1
-      fi ;;
-    cam.h1 | clm2.h1 )
-      if [ $NHISTF = 156 ] || [ $NHISTF = 157 ] ; then
-        echo ""
-      else
-        echo ${NHISTF}" should be 156 or 157. File count mismatch. Exit."
-        exit 1
-      fi ;;
-  esac
+#  NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
+#  case "$HIST" in 
+#    cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 )
+#      if [ $NHISTF -ne 1872 ] ; then
+#        echo ${NHISTF}" should be 1872. File count mismatch. Exit."
+#        exit 1
+#      fi ;;
+#    cam.h1 | clm2.h1 )
+#      if [ $NHISTF = 156 ] || [ $NHISTF = 157 ] ; then
+#        echo ""
+#      else
+#        echo ${NHISTF}" should be 156 or 157. File count mismatch. Exit."
+#        exit 1
+#      fi ;;
+#  esac
 #
 # Create output filename time period suffix
 #
   case "$TPER" in
     mon )
-      OUTTIME=185001-200512 ;;
+      OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
     day ) 
-      OUTTIME=18500101-20051231 ;;
+      OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
     hr6 ) 
-      OUTTIME=1850010100Z-2005123118Z ;;
+      OUTTIME=${YEARBEG}010100Z-${YEAREND}123118Z ;;
   esac
   export OUTTIME
 #
