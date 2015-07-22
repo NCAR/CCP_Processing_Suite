@@ -100,9 +100,15 @@ else
 fi
 #
 rm -f PUT
-for IVAR in $VARS ; do
-  echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -d ${CASE}.${HIST}.${IVAR}.* ; chmod 644 ${CASE}.${HIST}.${IVAR}.*" >> PUT
-done
+if [ "$COMP" == "cice" ] ; then
+  for IVAR in $VARS ; do
+    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -d ${CASE}.${HIST}.${IVAR}.* ; chmod 644 ${CASE}.${HIST}.${IVAR}_?h.*" >> PUT
+  done
+else
+  for IVAR in $VARS ; do
+    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -d ${CASE}.${HIST}.${IVAR}.* ; chmod 644 ${CASE}.${HIST}.${IVAR}.*" >> PUT
+  done
+fi
 #
 $HSI $HSIOPTS in PUT
 #
