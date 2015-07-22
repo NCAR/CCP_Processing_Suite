@@ -61,11 +61,10 @@ case "$PROCHOST" in
     NCRCAT=${NCODIR}/ncrcat  ; export NCRCAT
     PROCBASE=/glade/p/cesm/palwg_dev/LME/proc/$USER/$CASE  ; export PROCBASE
     LOCALDSK=/glade/p/cesm/palwg_dev/LME/archive/$CASE ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME         ; export ARCHIVE_BASE
-    DISK_BASE=/glade/p/cesmLME/CESM-CAM5-LME     ; export DISK_BASE
-    HSIOPTS="-a P93300019"                       ; export HSIOPTS
-    LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
-    LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
+#    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME         ; export ARCHIVE_BASE
+    ARCHIVE_BASE=/CCSM/csm/${CASE}                ; export ARCHIVE_BASE
+    DISK_BASE=/glade/p/cesmLME/CESM-CAM5-LME      ; export DISK_BASE
+    HSIOPTS="-a P93300019"                        ; export HSIOPTS
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
@@ -190,7 +189,8 @@ if [ -d $LOCAL_HIST ] ; then
         exit 1
       fi ;;
     ext ) 
-      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],2000}-*.nc | wc -l`
+#      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],2000}-*.nc | wc -l`
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.*.nc | wc -l`
       if [ $NHISTF -eq 0 ] ; then
         echo "History files from "${YEARBEG}"-"${YEAREND}" not on "${LOCAL_HIST}". Exiting."
         ./update_status error "$CASE $HIST $TPER"
@@ -390,12 +390,8 @@ fi
 # Make sure there's the correct number of files
 #
 if [ "$LMEX" = "ext" ] ; then
-  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],200[0-5]}-*.nc | wc -l`
-  if [ $NHISTF -eq 0 ] ; then 
-    echo "No files in "${LOCAL_HIST}"/"${CASE}"."${HIST}". Incorrect - exiting."
-    exit 1
-  fi
-  ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],200[0-5]}-*.nc .
+  ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.*.nc .
+#  ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],200[0-5]}-*.nc .
 #  NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
 #  case "$HIST" in 
 #    cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 )
