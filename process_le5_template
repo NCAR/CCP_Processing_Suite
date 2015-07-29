@@ -171,11 +171,11 @@ cd $LOCAL_PROC
 #
 EXPTYP=`echo $CASE | cut -d"." -f3 | cut -c2-4`
 #
-ln -s -f $BASEDIR/var_extract          .
-ln -s -f $BASEDIR/store_to_archive_var .
-ln -s -f $BASEDIR/archive_write_var    .
-ln -s -f $BASEDIR/disk_move_var        .
-ln -s -f $BASEDIR/update_status        .
+ln -s -f $BASEDIR/var_extract_compress      var_extract
+ln -s -f $BASEDIR/store_to_archive_var_keep store_to_archive_var
+ln -s -f $BASEDIR/archive_write_var_keep    archive_write_var
+ln -s -f $BASEDIR/disk_move_var             .
+ln -s -f $BASEDIR/update_status             .
 #
 cd $LOCAL_PROC
 #
