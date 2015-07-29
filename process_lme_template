@@ -62,7 +62,8 @@ case "$PROCHOST" in
     PROCBASE=/glade/p/cesm/palwg_dev/LME/proc/$USER/$CASE  ; export PROCBASE
     LOCALDSK=/glade/p/cesm/palwg_dev/LME/archive/$CASE ; export LOCALDSK
 #    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME         ; export ARCHIVE_BASE
-    ARCHIVE_BASE=/CCSM/csm/${CASE}                ; export ARCHIVE_BASE
+    ARCHIVE_BASE=/CCSM/csm/palwg_dev/cesmLME/CESM-CAM5-LME
+#    ARCHIVE_BASE=/CCSM/csm/${CASE}                ; export ARCHIVE_BASE
     DISK_BASE=/glade/p/cesmLME/CESM-CAM5-LME      ; export DISK_BASE
     HSIOPTS="-a P93300019"                        ; export HSIOPTS
     ;;
