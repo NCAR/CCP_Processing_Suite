@@ -56,7 +56,7 @@ PROCHOST=`hostname`;export PROCHOST
 case "$PROCHOST" in 
   yslogin* | geyser* )                                # Yellowstone (geyser) @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCODIR=/glade/apps/opt/nco/4.3.7/gnu/4.7.2/bin
+    NCODIR=/glade/apps/opt/nco/4.4.2/gnu/4.8.2/bin
     NCKS=${NCODIR}/ncks      ; export NCKS
     NCRCAT=${NCODIR}/ncrcat  ; export NCRCAT
     PROCBASE=/glade/p/cesm/palwg_dev/LME/proc/$USER/$CASE  ; export PROCBASE
