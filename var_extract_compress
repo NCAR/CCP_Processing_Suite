@@ -224,7 +224,7 @@ if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
       if [ ! -f $OUT ] ; then
         $NCRCAT -4 -L 1 -h -O -v ${HEADER},${IVAR} ${CASE}.${HIST}.*.nc $OUT
         if [ $? -ne 0 ] ; then
-          echo ${NCRCAT}" -4 L 1 -h -O -v "${HEADER}","${IVAR}" failed"
+          echo ${NCRCAT}" -4 -L 1 -h -O -v "${HEADER}","${IVAR}" failed"
           exit 1
         fi
       fi
