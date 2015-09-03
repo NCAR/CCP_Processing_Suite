@@ -16,6 +16,8 @@ if [ ! $SUFFIX ] ; then
   echo "SUFFIX not defined. Exiting"
   ./update_status error run_slice2series
   exit 1
+else
+  echo "s2s: SUFFIX "${SUFFIX}
 fi
 # 
 # Check for PREFIX
@@ -24,6 +26,8 @@ if [ ! $PREFIX ] ; then
   echo "PREFIX not defined. Exiting"
   ./update_status error run_slice2series
   exit 1
+else
+  echo "s2s: PREFIX "${PREFIX}
 fi
 # 
 # Check for CASE
@@ -44,19 +48,19 @@ fi
 #
 # Parse filename 1
 #
-NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
-if [ $NHISTF -eq 0 ] ; then 
-  echo "No "${CASE}"."${HIST}" files in "${LOCAL_PROC}". Exiting."
-  ./update_status error run_slice2series
-  exit 1
-else
+#NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
+#if [ $NHISTF -eq 0 ] ; then 
+#  echo "No "${CASE}"."${HIST}" files in "${LOCAL_PROC}". Exiting."
+#  ./update_status error run_slice2series
+#  exit 1
+#else
   FILE=`/bin/ls ${CASE}.${HIST}.*.nc | head -1`
   if ! [ -f $FILE ] ; then
     echo "No "${FILE}" in "${LOCAL_PROC}". Exiting."
     ./update_status error run_slice2series
     exit 1
   fi
-fi
+#fi
 #
 FLEN=`echo $FILE | wc -c`
 NDOT=0
@@ -192,12 +196,10 @@ METAARGS="-m "${METAARGS}
 #echo "METAARGS: "$METAARGS
 #echo ""
 #echo "SLICEFILES 1: "${SLICEFILES[*]}
-SLICEFILES=(`/bin/ls ${LOCAL_PROC}/${CASE}.${HIST}.[0-9]*.nc`)
+SLICEFILES=(`/bin/ls ${CASE}.${HIST}.[0-9]*.nc`)
 #echo "SLICEFILES 2: "${SLICEFILES[*]}
 #
 if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
-#  echo "mpirun.lsf slice2series -v "${VERBOSITY}" -f "${NCFORMAT}" -p "${PREFIX}" -s "${SUFFIX}" "${METAARGS[*]}" "${SLICEFILES[*]}
-  mpirun.lsf slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} ${SLICEFILES[*]}
+  echo "mpirun.lsf slice2series -v "${VERBOSITY}" -f "${NCFORMAT}" -p "${PREFIX}" -s "${SUFFIX}" "${METAARGS[*]}
+  mpirun.lsf slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} "${SLICEFILES[*]}"
 fi
-#
-exit
