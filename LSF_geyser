@@ -22,4 +22,4 @@ eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load python`
 eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load all-python-libs`
 PATH=/glade/u/home/strandwg/.local/bin:${PATH} ; export PATH
 #
-PYTHONPATH=/glade/u/home/mickelso/PyReshaper//lib/python2.7/site-packages/:${PYTHONPATH}
+PYTHONPATH=/glade/u/home/mickelso/PyReshaper/lib/python2.7/site-packages/:${PYTHONPATH}
