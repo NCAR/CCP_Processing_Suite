@@ -146,7 +146,7 @@ case "$TPER" in
   day ) 
     OUTTIME=.${YEARBEG}0101-${YEAREND}1231 ;;
 esac
-SUFFIX=".${OUTTIME}.nc"
+SUFFIX="${OUTTIME}.nc"
 #
 # Print out values
 #

@@ -66,7 +66,7 @@ if [ "$DORUN" = "Y" ] ; then
   echo "Running "${CCPS_SCRIPT}
   case "$PROCHOST" in
     yslogin* | geyser* )
-      ( /ncar/opt/lsf/8.3/linux2.6-glibc2.3-x86_64/bin/bsub < ./${CCPS_SCRIPT} ) ;;
+      ( bsub < ./${CCPS_SCRIPT} ) ;;
     * )
       echo "Unable to run script because not on yellowstone."
       exit 1 ;;
