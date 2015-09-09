@@ -16,8 +16,8 @@ if [ ! $SUFFIX ] ; then
   echo "SUFFIX not defined. Exiting"
   ./update_status error run_slice2series
   exit 1
-else
-  echo "s2s: SUFFIX "${SUFFIX}
+#else
+#  echo "s2s: SUFFIX "${SUFFIX}
 fi
 # 
 # Check for PREFIX
@@ -26,8 +26,8 @@ if [ ! $PREFIX ] ; then
   echo "PREFIX not defined. Exiting"
   ./update_status error run_slice2series
   exit 1
-else
-  echo "s2s: PREFIX "${PREFIX}
+#else
+#  echo "s2s: PREFIX "${PREFIX}
 fi
 # 
 # Check for CASE
@@ -46,10 +46,10 @@ if [ ! $HIST ] ; then
   exit 1
 fi
 #
-S2SBIN=`which slice2series`
-echo "s2s: slice2series: "${S2SBIN}
+#S2SBIN=`which slice2series`
+#echo "s2s: slice2series: "${S2SBIN}
 #
-echo "s2s: LOCAL_PROC: "${LOCAL_PROC}
+#echo "s2s: LOCAL_PROC: "${LOCAL_PROC}
 #
 # Parse filename 1
 #
