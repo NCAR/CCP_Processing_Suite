@@ -46,6 +46,11 @@ if [ ! $HIST ] ; then
   exit 1
 fi
 #
+S2SBIN=`which slice2series`
+echo "s2s: slice2series: "${S2SBIN}
+#
+echo "s2s: LOCAL_PROC: "${LOCAL_PROC}
+#
 # Parse filename 1
 #
 #NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
@@ -196,10 +201,19 @@ METAARGS="-m "${METAARGS}
 #echo "METAARGS: "$METAARGS
 #echo ""
 #echo "SLICEFILES 1: "${SLICEFILES[*]}
-SLICEFILES=(`/bin/ls ${CASE}.${HIST}.[0-9]*.nc`)
+#SLICEFILES=(`/bin/ls ${CASE}.${HIST}.[0-9]*.nc`)
+#echo "SLICEFILES 2: "${SLICEFILES[*]}
+#
+#if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
+#  echo "mpirun.lsf slice2series -v "${VERBOSITY}" -f "${NCFORMAT}" -p "${PREFIX}" -s "${SUFFIX}" "${METAARGS[*]}
+#  mpirun.lsf slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} "${SLICEFILES[*]}"
+#fi
+#SLICEFILES="${LOCAL_PROC}/${CASE}.${HIST}.[0-9]*.nc"
+SLICEFILES="${CASE}.${HIST}.[0-9]*.nc"
 #echo "SLICEFILES 2: "${SLICEFILES[*]}
 #
 if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
   echo "mpirun.lsf slice2series -v "${VERBOSITY}" -f "${NCFORMAT}" -p "${PREFIX}" -s "${SUFFIX}" "${METAARGS[*]}
-  mpirun.lsf slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} "${SLICEFILES[*]}"
+#  mpirun.lsf slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} \"$SLICEFILES\"
+  poe slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} "$SLICEFILES"
 fi
