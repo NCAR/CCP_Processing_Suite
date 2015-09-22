@@ -4,7 +4,7 @@
 #
 if [ $# -ne 0 ] ; then
   echo "Usage: store_to_archive_var"
-  ./update_status error store_to_archive_var
+  ../update_status error store_to_archive_var
   exit 1
 fi
 # 
@@ -12,7 +12,7 @@ fi
 #
 if [ ! ${CACHEDIR} ] ; then
   echo "CACHEDIR not defined. Exiting"
-  ./update_status error store_to_archive_var
+  ../update_status error store_to_archive_var
   exit 1
 fi
 #
@@ -23,7 +23,7 @@ if [ `/bin/ls *.nc | wc -l` -ne 0 ] ; then
   ../archive_write_var
   if [ $? -ne 0 ] ; then
     echo "archive_write_var failed"
-    ./update_status error archive_write_var
+    ../update_status error archive_write_var
     exit 1
   fi
 else

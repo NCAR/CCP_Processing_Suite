@@ -52,6 +52,8 @@ PROCHOST=`hostname`;export PROCHOST
 #
 #eval `/usr/bin/modulecmd sh load nco`
 BASEDIR=${HOME}/CCP_Processing_Suite
+HSIOPTS="" ; export HSIOPTS
+#
 NCODIR=/usr/common/usg/nco/4.5.2/intel/bin ; export NCODIR
 NCKS=${NCODIR}/ncks     ; export NCKS
 NCRA=${NCODIR}/ncra     ; export NCRA
