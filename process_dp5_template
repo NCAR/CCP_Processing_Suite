@@ -55,13 +55,13 @@ eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload hdf5`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload nco`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh load nco`
 #
+NCKS=`which ncks`     ; export NCKS
+NCRA=`which ncra`     ; export NCRA
+NCRCAT=`which ncrcat` ; export NCRCAT
+#
 BASEDIR=${HOME}/CCP_Processing_Suite
 HSIOPTS="" ; export HSIOPTS
 #
-NCODIR=/usr/common/usg/nco/4.5.2/intel/bin ; export NCODIR
-NCKS=${NCODIR}/ncks     ; export NCKS
-NCRA=${NCODIR}/ncra     ; export NCRA
-NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
 PROCBASE=/scratch3/scratchdirs/$USER/$CASE ; export PROCBASE
 LOCALDSK=/scratch3/scratchdirs/nanr/DP/archive/$CASE ; export LOCALDSK
 ARCHIVE_BASE=/home/c/ccsm/csm/CESM1-CAM5-DP          ; export ARCHIVE_BASE
