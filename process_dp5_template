@@ -56,7 +56,7 @@ NCODIR=/usr/common/usg/nco/4.5.2/intel/bin ; export NCODIR
 NCKS=${NCODIR}/ncks     ; export NCKS
 NCRA=${NCODIR}/ncra     ; export NCRA
 NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
-PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
+PROCBASE=/scratch3/scratchdirs/$USER/$CASE ; export PROCBASE
 LOCALDSK=/scratch3/scratchdirs/nanr/DP/archive/$CASE ; export LOCALDSK
 ARCHIVE_BASE=/home/c/ccsm/csm/CESM1-CAM5-DP          ; export ARCHIVE_BASE
 #
