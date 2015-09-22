@@ -60,7 +60,7 @@ NCRA=`which ncra`     ; export NCRA
 NCRCAT=`which ncrcat` ; export NCRCAT
 #
 BASEDIR=${HOME}/CCP_Processing_Suite
-HSIOPTS="firewall -on" ; export HSIOPTS
+HSIOPTS="" ; export HSIOPTS
 #
 PROCBASE=/scratch3/scratchdirs/$USER/$CASE ; export PROCBASE
 LOCALDSK=/scratch3/scratchdirs/nanr/DP/archive/$CASE ; export LOCALDSK
