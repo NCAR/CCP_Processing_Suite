@@ -50,7 +50,7 @@ PROCHOST=`hostname`;export PROCHOST
 #
 # resolve machine/site dependencies
 #
-eval `/usr/bin/modulecmd sh load nco`
+#eval `/usr/bin/modulecmd sh load nco`
 BASEDIR=${HOME}/CCP_Processing_Suite
 NCODIR=/usr/common/usg/nco/4.5.2/intel/bin ; export NCODIR
 NCKS=${NCODIR}/ncks     ; export NCKS
@@ -207,7 +207,7 @@ case "$HIST" in
       echo ${NHISTF}" should be 3711. File count mismatch. Exit."
       exit 1
     fi ;;
-esac ;;
+esac
 #
 # Create output filename time period suffix
 #
