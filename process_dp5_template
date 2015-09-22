@@ -50,7 +50,10 @@ PROCHOST=`hostname`;export PROCHOST
 #
 # resolve machine/site dependencies
 #
-#eval `/usr/bin/modulecmd sh load nco`
+eval `/usr/bin/modulecmd sh unload nco`
+eval `/usr/bin/modulecmd sh unload netcdf`
+eval `/usr/bin/modulecmd sh load nco`
+#
 BASEDIR=${HOME}/CCP_Processing_Suite
 HSIOPTS="" ; export HSIOPTS
 #
