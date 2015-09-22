@@ -50,8 +50,9 @@ PROCHOST=`hostname`;export PROCHOST
 #
 # resolve machine/site dependencies
 #
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload nco`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload netcdf`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload hdf5`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload nco`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh load nco`
 #
 BASEDIR=${HOME}/CCP_Processing_Suite
