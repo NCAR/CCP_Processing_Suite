@@ -110,20 +110,6 @@ case "$TPER" in
     exit 1 ;;
 esac
 #
-# Decide to compress or not compress output
-#
-case "$HTYP" in
-  cam2 | cam )
-    case "$TPER" in
-      ann | mon )
-        NCFORMAT=netcdf4c ;;
-      day | hr6 | hr3 | hr1 | m30 )
-        NCFORMAT=netcdf4  ;;
-    esac ;;
-  clm2 | pop | rtm | csim | cice ) 
-    NCFORMAT=netcdf4c ;;
-esac
-#
 LOCAL_PROC=${LOCAL_PROC}/${TPER}
 CACHEDIR=${LOCAL_PROC}/to_archive
 #
@@ -190,7 +176,17 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
-ln -s -f $BASEDIR/run_slice2series     .
+# slice2series for monthly and annual data, var_extract for all else
+# also decide to compress or not compress output
+#
+case "$TPER" in
+  mon | ann )
+    ln -s -f $BASEDIR/run_slice2series        transpose_data
+    NCFORMAT=netcdf4c ; export NCFORMAT ;;
+  *   )
+    ln -s -f $BASEDIR/var_extract_no_compress transpose_data ;;
+esac
+#
 ln -s -f $BASEDIR/store_to_archive_var .
 ln -s -f $BASEDIR/archive_write_var    .
 ln -s -f $BASEDIR/update_status        .
@@ -243,15 +239,15 @@ esac
 #
 # Extract each field from all files
 #
-echo -n "TS run_slice2series start: " ; date
-./run_slice2series
+echo -n "TS transpose_data start: " ; date
+./transpose_data
 if [ $? -ne 0 ] ; then
-  echo "run_slice2series failed"
+  echo "transpose_data failed"
   ./update_status error "$CASE $HIST $TPER"
   exit 1
 fi
 #
-echo -n "TS run_slice2series end  : " ; date
+echo -n "TS transpose_data end  : " ; date
 #
 # Store completed data on archival system
 #
