@@ -154,6 +154,7 @@ echo "         Months count : "$MNCOUNT  ; export MNCOUNT
 echo ""
 echo "PyReshaper"
 echo "          Output time : "$OUTTIME       ; export OUTTIME
+echo "        Output prefix : "$PREFIX        ; export PREFIX
 echo "        Output suffix : "$SUFFIX        ; export SUFFIX
 echo "        Output format : "$NCFORMAT      ; export NCFORMAT
 echo "            Verbosity : "$VERBOSITY     ; export VERBOSITY
