@@ -182,10 +182,10 @@ cd $LOCAL_PROC
 #
 case "$TPER" in
   mon | ann )
-    ln -s -f $BASEDIR/run_slice2series        transpose_data
+    ln -s -f $BASEDIR/run_slice2series        Tranpose_Data
     NCFORMAT=netcdf4c ; export NCFORMAT ;;
   *   )
-    ln -s -f $BASEDIR/var_extract_no_compress transpose_data ;;
+    ln -s -f $BASEDIR/var_extract_no_compress Tranpose_Data ;;
 esac
 #
 ln -s -f $BASEDIR/store_to_archive_var .
@@ -240,15 +240,15 @@ esac
 #
 # Extract each field from all files
 #
-echo -n "TS transpose_data start: " ; date
-./transpose_data
+echo -n "TS tranpose_data start: " ; date
+./Tranpose_Data
 if [ $? -ne 0 ] ; then
-  echo "transpose_data failed"
+  echo "Tranpose_Data failed"
   ./update_status error "$CASE $HIST $TPER"
   exit 1
 fi
 #
-echo -n "TS transpose_data end  : " ; date
+echo -n "TS tranpose_data end  : " ; date
 #
 # Store completed data on archival system
 #

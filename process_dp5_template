@@ -158,23 +158,20 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
+# slice2series for monthly and annual data, var_extract for all else
+# also decide to compress or not compress output
 #
-# Decide to compress or not compress output
-#
-case "$HTYP" in
- cam )
-    case "$TPER" in
-      mon )
-        ln -s -f $BASEDIR/var_extract_compress    var_extract ;;
-      day | hr6 )
-        ln -s -f $BASEDIR/var_extract_no_compress var_extract ;;
-    esac ;;
-  clm2 | pop | rtm | cice ) 
-    ln -s -f $BASEDIR/var_extract_compress        var_extract ;;
+case "$TPER" in
+  mon | ann )
+    ln -s -f $BASEDIR/var_extract_compress     Tranpose_Data ;;
+#    ln -s -f $BASEDIR/run_slice2series        Tranpose_Data
+#    NCFORMAT=netcdf4c ; export NCFORMAT ;;
+  *   )
+    ln -s -f $BASEDIR/var_extract_no_compress  Tranpose_Data ;;
 esac
 #
 ln -s -f $BASEDIR/store_to_archive_var store_to_archive_var
-ln -s -f $BASEDIR/archive_write_var    archive_write_var
+ln -s -f $BASEDIR/archive_write_var_fw archive_write_var
 ln -s -f $BASEDIR/update_status        update_status
 #
 cd $LOCAL_PROC
@@ -231,14 +228,14 @@ export OUTTIME
 #
 # Extract each field from all files
 #
-echo -n "TS var_extract start: " ; date
-./var_extract
+echo -n "TS transpose_data start: " ; date
+./Transpose_Data
 if [ $? -ne 0 ] ; then
-  echo "var_extract failed"
+  echo "Transpose_Data failed"
   ./update_status error "$CASE $HIST $TPER"
   exit 1
 fi
-echo -n "TS var_extract end  : " ; date
+echo -n "TS transpose_data end  : " ; date
 #
 # Store completed data on archival system
 #
