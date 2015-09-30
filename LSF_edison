@@ -9,17 +9,16 @@
 #PBS -m abe
 #PBS -V
 #
-/opt/modules/default/init/sh
-module load python/2.7.9
-module load virtualenv/12.1.1
-module load numpy/1.9.2
-module load scipy/0.15.1
-module load mpi4py/1.3.1
-module load matplotlib/1.4.3
-module load nco/4.3.9
-module load ncl/6.1.1
-module load cray-netcdf/4.3.2
-module load cray-hdf5/1.8.13
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load python/2.7.9`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load virtualenv/12.1.1`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load numpy/1.9.2`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load scipy/0.15.1`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load mpi4py/1.3.1`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load matplotlib/1.4.3`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load nco/4.3.9`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load ncl/6.1.1`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load cray-netcdf/4.3.2`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load cray-hdf5/1.8.13`
 #
 PYTHONPATH=/global/project/projectdirs/ccsm1/pythonlib/lib/python2.7/site-packages/PyNIO:$PYTHONPATH
 export PYTHONPATH
