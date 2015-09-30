@@ -48,13 +48,6 @@ fi
 #
 PROCHOST=`hostname`;export PROCHOST
 #
-# resolve machine/site dependencies
-#
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload netcdf`
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload hdf5`
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload nco`
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh load nco`
-#
 NCKS=`which ncks`     ; export NCKS
 NCRA=`which ncra`     ; export NCRA
 NCRCAT=`which ncrcat` ; export NCRCAT
@@ -163,11 +156,10 @@ cd $LOCAL_PROC
 #
 case "$TPER" in
   mon | ann )
-    ln -s -f $BASEDIR/var_extract_compress     Tranpose_Data ;;
-#    ln -s -f $BASEDIR/run_slice2series        Tranpose_Data
-#    NCFORMAT=netcdf4c ; export NCFORMAT ;;
+    NCFORMAT=netcdf4c ; export NCFORMAT
+    ln -s -f $BASEDIR/run_slice2series         Transpose_Data ;;
   *   )
-    ln -s -f $BASEDIR/var_extract_no_compress  Tranpose_Data ;;
+    ln -s -f $BASEDIR/var_extract_no_compress  Transpose_Data ;;
 esac
 #
 ln -s -f $BASEDIR/store_to_archive_var store_to_archive_var
@@ -225,6 +217,7 @@ case "$TPER" in
     OUTTIME=${YEARBEG}110100Z-${YEAREND}123118Z ;;
 esac
 export OUTTIME
+SUFFIX=".${OUTTIME}.nc" ; export SUFFIX
 #
 # Extract each field from all files
 #

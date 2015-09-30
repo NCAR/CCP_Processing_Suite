@@ -23,8 +23,6 @@ case "$TPER" in
     exit 1 ;;
 esac
 #
-# Check for LME runs
-#
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if ! [ -f $EXPFILE ] ; then
   echo "Cannot find "$EXPFILE". EXIT"
@@ -38,9 +36,15 @@ PROCHOST=`hostname`;export PROCHOST
 #
 CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
 rm -f $CCPS_SCRIPT
+case "$TPER" in
+  mon | ann )
+    cat ./LSF_edison         | sed -e "s/NAME/$CCPS_SCRIPT/g" \
+                             | sed -e "s/USER/$USER/g"        > $CCPS_SCRIPT ;;
+  * ) 
+    cat ./LSF_edison_serial  | sed -e "s/NAME/$CCPS_SCRIPT/g" \
+                             | sed -e "s/USER/$USER/g"        > $CCPS_SCRIPT ;;
+esac
 #
-cat ./LSF_edison_serial  | sed -e "s/NAME/$CCPS_SCRIPT/g" \
-                         | sed -e "s/USER/$USER/g"        > $CCPS_SCRIPT
 cat ./${TEMPLATE}        | sed -e "s/xxxCASExxx/$CASE/g" \
                          | sed -e "s/xxxHISTxxx/$HIST/g" \
                          | sed -e "s/xxxTPERxxx/$TPER/g" \
