@@ -114,6 +114,24 @@ CACHEDIR=${LOCAL_PROC}/to_archive
 YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
 MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
+# PyReshaper Arguments
+#
+VERBOSITY=3
+#
+# Create output filename time period prefix
+#
+PREFIX="${CACHEDIR}/${CASE}.${HIST}."
+#
+# Create output filename time period suffix
+#
+case "$TPER" in
+  mon )
+    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+  day ) 
+    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+esac
+SUFFIX=".${OUTTIME}.nc"
+#
 # Print out values
 #
 echo "            Case name : "$CASE ; export CASE
@@ -136,6 +154,14 @@ echo ""
 echo "    Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
 echo "        History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
 echo "        History names : "$HIST          ; export HIST
+echo ""
+echo "PyReshaper"
+echo "          Output time : "$OUTTIME       ; export OUTTIME
+echo "        Output prefix : "$PREFIX        ; export PREFIX
+echo "        Output suffix : "$SUFFIX        ; export SUFFIX
+echo "        Output format : "$NCFORMAT      ; export NCFORMAT
+echo "            Verbosity : "$VERBOSITY     ; export VERBOSITY
+echo ""
 echo ""
 echo "      Processing host : "$PROCHOST      ; export PROCHOST
 echo "  Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
