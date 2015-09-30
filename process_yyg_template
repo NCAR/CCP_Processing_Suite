@@ -128,11 +128,11 @@ PREFIX="${CACHEDIR}/${CASE}.${HIST}."
 #
 case "$TPER" in
   mon )
-    OUTTIME=.${YEARBEG}01-${YEAREND}12 ;;
+    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
   day ) 
-    OUTTIME=.${YEARBEG}0101-${YEAREND}1231 ;;
+    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
 esac
-SUFFIX="${OUTTIME}.nc"
+SUFFIX=".${OUTTIME}.nc"
 #
 # Print out values
 #
