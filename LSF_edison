@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+#PBS -N NAME
+#PBS -q regular
+#PBS -l mppwidth=144
+#PBS -l walltime=48:00
+#PBS -o log.NAME
+#PBS -e log.NAME
+#PBS -m abe
+#PBS -V
+#
+/opt/modules/default/init/sh
+module load python/2.7.9
+module load virtualenv/12.1.1
+module load numpy/1.9.2
+module load scipy/0.15.1
+module load mpi4py/1.3.1
+module load matplotlib/1.4.3
+module load nco/4.3.9
+module load ncl/6.1.1
+module load cray-netcdf/4.3.2
+module load cray-hdf5/1.8.13
+#
+PYTHONPATH=/global/project/projectdirs/ccsm1/pythonlib/lib/python2.7/site-packages/PyNIO:$PYTHONPATH
+export PYTHONPATH
