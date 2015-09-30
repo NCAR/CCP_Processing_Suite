@@ -203,6 +203,7 @@ if [ -d $LOCAL_HIST ] ; then
   if [ $NHISTF -ne 0 ] ; then
     echo ${CASE}"."${HIST}" files on disk, softlinking."
     ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
+    rm -f ${CASE}.${HIST}.2101*
   else
     echo "History files not on "${LOCAL_HIST}". Exiting."
     exit 1
@@ -211,7 +212,7 @@ fi
 #
 # Make sure there's the correct number of files, based on stream and time period and 20C/RCP
 #
-NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
 #
 case "$HIST" in 
   cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )

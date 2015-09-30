@@ -215,5 +215,5 @@ SLICEFILES="${CASE}.${HIST}.[0-9]*.nc"
 if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
   echo "poe slice2series -v "$VERBOSITY" -f "$NCFORMAT" -p "$PREFIX" -s "$SUFFIX" "${METAARGS[*]}
 #  mpirun.lsf slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} \"$SLICEFILES\"
-  poe slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} "$SLICEFILES"
+#  poe slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} "$SLICEFILES"
 fi
