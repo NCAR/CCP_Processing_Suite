@@ -9,7 +9,7 @@
 #PBS -m abe
 #PBS -V
 #
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload all`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload netcdf/4.3.0`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh load python/2.7.9`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh load virtualenv/12.1.1`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh load numpy/1.9.2`
