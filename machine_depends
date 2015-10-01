@@ -74,6 +74,7 @@ case "$PROCHOST" in
     ;;
 
   ed* )                                         # edison @ NERSC
+    eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload cray-netcdf/4.3.2`
     eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload netcdf/4.3.0`
     eval `/opt/modules/3.2.10.3/bin/modulecmd sh load nco`
     BASEDIR=${HOME}/CCP_Processing_Suite
