@@ -41,8 +41,8 @@ rm -f $CCPS_SCRIPT
 #    cat ./LSF_edison         | sed -e "s/NAME/$CCPS_SCRIPT/g" \
 #                             | sed -e "s/USER/$USER/g"        > $CCPS_SCRIPT ;;
 #  * ) 
-    cat ./LSF_edison_serial  | sed -e "s/NAME/$CCPS_SCRIPT/g" \
 #                             | sed -e "s/USER/$USER/g"        > $CCPS_SCRIPT ;;
+    cat ./LSF_edison_serial  | sed -e "s/NAME/$CCPS_SCRIPT/g" \
                              | sed -e "s/USER/$USER/g"        > $CCPS_SCRIPT
 #esac
 #
