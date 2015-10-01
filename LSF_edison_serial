@@ -9,8 +9,6 @@
 #PBS -o log.NAME
 #PBS -V
 #
-#/opt/modules/default/init/sh
-#module load nco/4.3.9
-#module load cray-netcdf/4.3.2
-#module load cray-hdf5/1.8.13
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload netcdf/4.3.0`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load nco/4.3.9`
 #
