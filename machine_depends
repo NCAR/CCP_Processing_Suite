@@ -73,15 +73,14 @@ case "$PROCHOST" in
     HSIOPTS=""                              ; export HSIOPTS
     ;;
 
-  c1* | cvr* )                                # carver @ NERSC
-    eval `/usr/bin/modulecmd sh load nco`
+  ed* )                                         # edison @ NERSC
+    eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload netcdf/4.3.0`
+    eval `/opt/modules/3.2.10.3/bin/modulecmd sh load nco`
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCODIR=/usr/common/usg/nco/4.3.8/gnu/bin ; export NCODIR
-    NCKS=${NCODIR}/ncks     ; export NCKS
-    NCRA=${NCODIR}/ncra     ; export NCRA
-    NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
-    PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/global/scratch2/sd/adrianne/archive/$CASE ; export LOCALDSK
+    NCKS=`which ncks`       ; export NCKS
+    NCRCAT=`which ncrcat`    ; export NCRCAT
+    PROCBASE=/scratch2/scratchdirs/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/scratch2/scratchdirs/strandwg/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
     HSIOPTS=""                              ; export HSIOPTS
     ;;

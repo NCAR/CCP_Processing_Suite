@@ -89,8 +89,8 @@ case "$PROCHOST" in
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
                       | sed -e "s/xxxLENGxxx/$LENG/g" \
                       >> $CCPS_SCRIPT ;;
-  nid* | hopper* | cvrsvc* )               # hopper/carver @ NERSC
-    cat ./LSF_carver       | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
+  ed* )                                    # edison @ NERSC
+    cat ./LSF_edison_serial | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
@@ -119,8 +119,10 @@ read DORUN
 if [ "$DORUN" = "Y" ] ; then
   echo "Running "${CCPS_SCRIPT}
   case "$PROCHOST" in
-    rhea* | hopper* | cvrsvc* )
+    rhea* | hopper* )
       ( qsub ./${CCPS_SCRIPT} ) ;;
+    ed* )
+      ( qsub.serial ./${CCPS_SCRIPT} ) ;;
     yslogin* | geyser* )
       ( bsub < ./${CCPS_SCRIPT} ) ;;
     cooleylogin* | login1* )
