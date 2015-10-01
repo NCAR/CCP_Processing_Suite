@@ -61,7 +61,7 @@ case "$PROCHOST" in
     HSIOPTS=""                                     ; export HSIOPTS
     ;;
 
-  nid* | hopper* )                              # hopper @ NERSC
+  hopper* )                              # hopper @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCODIR=/usr/common/usg/nco/4.0.8/bin ; export NCODIR
     NCKS=${NCODIR}/ncks     ; export NCKS
@@ -73,9 +73,9 @@ case "$PROCHOST" in
     HSIOPTS=""                              ; export HSIOPTS
     ;;
 
-  ed* )                                         # edison @ NERSC
-    eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload cray-netcdf/4.3.2`
-    eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload netcdf/4.3.0`
+  nid* | ed* )                                         # edison @ NERSC
+    eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload netcdf`
+    eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload cray-netcdf`
     eval `/opt/modules/3.2.10.3/bin/modulecmd sh load nco`
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=`which ncks`       ; export NCKS
