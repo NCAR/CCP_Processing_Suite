@@ -185,7 +185,7 @@ case "$TPER" in
 #    NCFORMAT=netcdf4c ; export NCFORMAT
 #    ln -s -f $BASEDIR/run_slice2series         Transpose_Data ;;
     ln -s -f $BASEDIR/var_extract_compress      Transpose_Data ;;
-  *   )
+  day | hr6 )
     ln -s -f $BASEDIR/var_extract_no_compress  Transpose_Data ;;
 esac
 #
@@ -212,21 +212,16 @@ fi
 #
 # Make sure there's the correct number of files, based on stream and time period
 #
-NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
 case "$HIST" in 
   cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
     if [ $NHISTF -ne 122 ] ; then
       echo ${NHISTF}" should be 122. File count mismatch. Exit."
       exit 1
     fi ;;
-  cam.h1 | cam.h2 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 )
+  cam.h1 | cam.h2 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 | cice.h1 )
     if [ $NHISTF -ne 11 ] ; then
       echo ${NHISTF}" should be 11. File count mismatch. Exit."
-      exit 1
-    fi ;;
-  cice.h1 )
-    if [ $NHISTF -ne 3711 ] ; then
-      echo ${NHISTF}" should be 3711. File count mismatch. Exit."
       exit 1
     fi ;;
 esac
