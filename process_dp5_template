@@ -53,7 +53,6 @@ NCRA=`which ncra`     ; export NCRA
 NCRCAT=`which ncrcat` ; export NCRCAT
 #
 BASEDIR=${HOME}/CCP_Processing_Suite
-HSIOPTS="" ; export HSIOPTS
 #
 PROCBASE=/scratch3/scratchdirs/$USER/$CASE ; export PROCBASE
 LOCALDSK=/scratch3/scratchdirs/nanr/DP/archive/$CASE ; export LOCALDSK
@@ -108,7 +107,17 @@ case "$TPER" in
     exit 1 ;;
 esac
 #
-LOCAL_PROC=${LOCAL_PROC}/${TPER}
+# LOCAL_PROC separate for ecosys.nday1 and nday1
+#
+case "$HIST" in 
+  pop.h.nday1 )
+    LOCAL_PROC=${LOCAL_PROC}/oday ;;
+  pop.h.ecosys.nday1 )
+    LOCAL_PROC=${LOCAL_PROC}/eday ;;
+  * )
+    LOCAL_PROC=${LOCAL_PROC}/${TPER} ;;
+esac
+#
 CACHEDIR=${LOCAL_PROC}/to_archive
 #
 YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
