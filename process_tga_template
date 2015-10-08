@@ -79,8 +79,6 @@ case "$HTYP" in
     COMP_NAME=atm ;;
   clm2 ) 
     COMP_NAME=lnd ;;
-  cice ) 
-    COMP_NAME=ice ;;
   * ) 
     echo "Unable to continue because "$HIST" not known."
     exit 1 ;;
@@ -102,9 +100,6 @@ case "$TPER" in
   day )
     ARCHIVE_PROC=${ARCHIVE_PROC}/daily
        DISK_PROC=${DISK_PROC}/daily ;;
-  hr6 )
-    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6
-       DISK_PROC=${DISK_PROC}/hourly6 ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
     exit 1 ;;
@@ -115,6 +110,25 @@ CACHEDIR=${LOCAL_PROC}/to_archive
 #
 YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
 MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
+#
+# PyReshaper Arguments
+#
+VERBOSITY=3
+NCFORMAT=netcdf4c
+#
+# Create output filename time period prefix
+#
+PREFIX="${CACHEDIR}/${CASE}.${HIST}."
+#
+# Create output filename time period suffix
+#
+case "$TPER" in
+  mon )
+    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+  day ) 
+    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+esac
+SUFFIX=".${OUTTIME}.nc"
 #
 # Print out values
 #
@@ -135,6 +149,13 @@ echo "             End year : "$YEAREND  ; export YEAREND
 echo "           Year count : "$YRCOUNT  ; export YRCOUNT
 echo "         Months count : "$MNCOUNT  ; export MNCOUNT
 echo ""
+echo "PyReshaper"
+echo "          Output time : "$OUTTIME       ; export OUTTIME
+echo "        Output prefix : "$PREFIX        ; export PREFIX
+echo "        Output suffix : "$SUFFIX        ; export SUFFIX
+echo "        Output format : "$NCFORMAT      ; export NCFORMAT
+echo "            Verbosity : "$VERBOSITY     ; export VERBOSITY
+echo ""
 echo "    Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
 echo "        History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
 echo "        History names : "$HIST          ; export HIST
@@ -153,7 +174,7 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
-ln -s -f $BASEDIR/var_extract_compress      var_extract
+ln -s -f $BASEDIR/run_slice2series          Transpose_Data
 ln -s -f $BASEDIR/store_to_archive_var_keep store_to_archive_var
 ln -s -f $BASEDIR/archive_write_var_keep    archive_write_var_keep
 ln -s -f $BASEDIR/disk_move_var             .
@@ -210,20 +231,10 @@ case "$EXPTYP" in
   esac ;;
 esac
 #
-# Create output filename time period suffix
-#
-case "$TPER" in
-  mon )
-    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
-  day ) 
-    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
-esac
-export OUTTIME
-#
 # Extract each field from all files
 #
 echo -n "TS var_extract start: " ; date
-./var_extract
+./Tranpose_Data
 if [ $? -ne 0 ] ; then
   echo "var_extract failed"
   ./update_status error "$CASE $HIST $TPER"
