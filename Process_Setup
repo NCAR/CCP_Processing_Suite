@@ -50,8 +50,8 @@ else
       TEMPLATE=process_atl_template ;;
     pac )
       TEMPLATE=process_pac_template ;;
-    yyg )
-      TEMPLATE=process_yyg_template ;;
+    tga )
+      TEMPLATE=process_tga_template ;;
     * )
       TEMPLATE=process_template ;;
   esac
@@ -89,14 +89,14 @@ case "$PROCHOST" in
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
                       | sed -e "s/xxxLENGxxx/$LENG/g" \
                       >> $CCPS_SCRIPT ;;
-  ed* )                                    # edison @ NERSC
+  ed* | nid* )                             # edison @ NERSC
     cat ./LSF_edison_serial | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
                       | sed -e "s/xxxLENGxxx/$LENG/g" \
                       >> $CCPS_SCRIPT ;;
-  cooleylogin* | login1* )                                # tukey/cooley @ ANL
+  cooleylogin* | login1* )                 # tukey/cooley @ ANL
     cat ./LSF_tukey   | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \

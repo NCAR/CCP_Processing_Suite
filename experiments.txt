@@ -3,6 +3,7 @@
 #
 #  Columns   Field
 #   1 -  54  CCSM case name
+#  55 -  74  model_id
 #  75 -  76  Location (NC = NCAR; NE = NERSC; OR = ORNL)
 #  80 -  94  Official MIP name, or very brief description (n/a if not applicable)
 #  95 - 104  RIP code (cm5) or realization number (cm3) (n/a if not applicable)
@@ -2849,3 +2850,13 @@ b40.RCP4.5.greenland.gcm                              CCSM4               NE   N
 b40.RCP4.5.greenland.rcm                              CCSM4               NE   N/A            N/A       byv  N/A                                     2005-01-01     2005-2300 2005-2300 f09_g16   BRCP45C5CN          unknown             15/09-15/09    hopper    /home/a/ahu/csm
 b40.RCP8.5.greenland.gcm                              CCSM4               NE   N/A            N/A       byv  N/A                                     2005-01-01     2005-2300 2005-2300 f09_g16   BRCP85C5CN          unknown             15/09-15/09    hopper    /home/a/ahu/csm
 b40.RCP8.5.greenland.rcm                              CCSM4               NE   N/A            N/A       byv  N/A                                     2005-01-01     2005-2300 2005-2300 f09_g16   BRCP85C5CN          unknown             15/09-15/09    hopper    /home/a/ahu/csm
+f.e11.FAMIPC5CN.f09_f09.historical.toga.ens01         CESM1-CAM5          NC   N/A            N/A       tga  N/A                                     1880-01-01     1880-2005 1880-2005 f09_f09   B20TRC5CN           unknown             15/10-15/11    yellow    /CCSM/csm
+f.e11.FAMIPC5CN.f09_f09.historical.toga.ens02         CESM1-CAM5          NC   N/A            N/A       tga  N/A                                     1880-01-01     1880-2005 1880-2005 f09_f09   B20TRC5CN           unknown             15/10-15/11    yellow    /CCSM/csm
+f.e11.FAMIPC5CN.f09_f09.historical.toga.ens03         CESM1-CAM5          NC   N/A            N/A       tga  N/A                                     1880-01-01     1880-2005 1880-2005 f09_f09   B20TRC5CN           unknown             15/10-15/11    yellow    /CCSM/csm
+f.e11.FAMIPC5CN.f09_f09.historical.toga.ens04         CESM1-CAM5          NC   N/A            N/A       tga  N/A                                     1880-01-01     1880-2005 1880-2005 f09_f09   B20TRC5CN           unknown             15/10-15/11    yellow    /CCSM/csm
+f.e11.FAMIPC5CN.f09_f09.historical.toga.ens05         CESM1-CAM5          NC   N/A            N/A       tga  N/A                                     1880-01-01     1880-2005 1880-2005 f09_f09   B20TRC5CN           unknown             15/10-15/11    yellow    /CCSM/csm
+f.e11.FAMIPC5CN.f09_f09.historical.toga.ens06         CESM1-CAM5          NC   N/A            N/A       tga  N/A                                     1880-01-01     1880-2005 1880-2005 f09_f09   B20TRC5CN           unknown             15/10-15/11    yellow    /CCSM/csm
+f.e11.FAMIPC5CN.f09_f09.historical.toga.ens07         CESM1-CAM5          NC   N/A            N/A       tga  N/A                                     1880-01-01     1880-2005 1880-2005 f09_f09   B20TRC5CN           unknown             15/10-15/11    yellow    /CCSM/csm
+f.e11.FAMIPC5CN.f09_f09.historical.toga.ens08         CESM1-CAM5          NC   N/A            N/A       tga  N/A                                     1880-01-01     1880-2005 1880-2005 f09_f09   B20TRC5CN           unknown             15/10-15/11    yellow    /CCSM/csm
+f.e11.FAMIPC5CN.f09_f09.historical.toga.ens09         CESM1-CAM5          NC   N/A            N/A       tga  N/A                                     1880-01-01     1880-2005 1880-2005 f09_f09   B20TRC5CN           unknown             15/10-15/11    yellow    /CCSM/csm
+f.e11.FAMIPC5CN.f09_f09.historical.toga.ens10         CESM1-CAM5          NC   N/A            N/A       tga  N/A                                     1880-01-01     1880-2005 1880-2005 f09_f09   B20TRC5CN           unknown             15/10-15/11    yellow    /CCSM/csm
