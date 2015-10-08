@@ -234,7 +234,7 @@ esac
 # Extract each field from all files
 #
 echo -n "TS var_extract start: " ; date
-./Tranpose_Data
+./Transpose_Data
 if [ $? -ne 0 ] ; then
   echo "var_extract failed"
   ./update_status error "$CASE $HIST $TPER"
