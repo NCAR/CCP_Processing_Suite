@@ -57,7 +57,7 @@ case "$PROCHOST" in
     NCKS=${NCODIR}/ncks      ; export NCKS
     NCRCAT=${NCODIR}/ncrcat  ; export NCRCAT
     LOCALDSK=/glade/scratch/adrianne/archive/$CASE ; export LOCALDSK
-    ARCHIVE_BASE=CCSM/csm/f.e11.FAMIPC5CN.f09_f09.historical.toga ; export ARCHIVE_BASE
+    ARCHIVE_BASE=/CCSM/csm/f.e11.FAMIPC5CN.f09_f09.historical.toga ; export ARCHIVE_BASE
     DISK_BASE=/glade/p/cesmLE/CESM-CAM5-BGC-LE     ; export DISK_BASE
     PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
     ;;
