@@ -126,9 +126,9 @@ read DORUN
 if [ "$DORUN" = "Y" ] ; then
   echo "Running "${CCPS_SCRIPT}
   case "$PROCHOST" in
-    rhea* | hopper* )
+    rhea* )
       ( qsub ./${CCPS_SCRIPT} ) ;;
-    ed* )
+    ed* | hopper* )
       ( qsub.serial ./${CCPS_SCRIPT} ) ;;
     yslogin* | geyser* )
       ( bsub < ./${CCPS_SCRIPT} ) ;;
