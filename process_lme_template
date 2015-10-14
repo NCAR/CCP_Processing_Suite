@@ -414,11 +414,11 @@ if [ "$LMEX" = "ext" ] ; then
 #
   case "$TPER" in
     mon )
-      OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+      OUTTIME=185001-200512 ;;
     day ) 
-      OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+      OUTTIME=18500101-20051231 ;;
     hr6 ) 
-      OUTTIME=${YEARBEG}010100Z-${YEAREND}123118Z ;;
+      OUTTIME=1850010100Z-2005123118Z ;;
   esac
   export OUTTIME
 #
