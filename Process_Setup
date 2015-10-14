@@ -90,7 +90,7 @@ case "$PROCHOST" in
                       | sed -e "s/xxxLENGxxx/$LENG/g" \
                       >> $CCPS_SCRIPT ;;
   hopper* )                                # hopper @ NERSC
-    cat ./LSF_edison_serial | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
+    cat ./LSF_hopper_serial | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
