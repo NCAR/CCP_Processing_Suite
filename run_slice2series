@@ -213,9 +213,9 @@ SLICEFILES="${CASE}.${HIST}.[0-9]*.nc"
 #echo "SLICEFILES 2: "${SLICEFILES[*]}
 #
 if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
-  echo "poe slice2series -v "$VERBOSITY" -f "$NCFORMAT" -p "$PREFIX" -s "$SUFFIX" "${METAARGS[*]}
+  echo "s2smake -c 1 -o "${CASE}"."${HIST}".spec -v "$VERBOSITY" -f "$NCFORMAT" -p "$PREFIX" -s "$SUFFIX" "${METAARGS[*]}
 #  mpirun.lsf slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} \"$SLICEFILES\"
-  s2smake -c 1 -o ${CASE}.${HIST}.spec -f $NCFORMAT -p $PREFIX -s $SUFFIX -m ${METAARGS[*]} "$SLICEFILES"
+  s2smake -c 1 -o ./${CASE}.${HIST}.spec -f $NCFORMAT -p $PREFIX -s $SUFFIX -m ${METAARGS[*]} "$SLICEFILES"
   poe s2srun -v $VERBOSITY -l 0 -m w ${CASE}.${HIST}.spec
 #  poe slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} "$SLICEFILES"
 fi
