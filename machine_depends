@@ -76,14 +76,13 @@ case "$PROCHOST" in
     ;;
 
   nid* | ed* )                                         # edison @ NERSC
-    eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload netcdf`
-    eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload cray-netcdf`
-    eval `/opt/modules/3.2.10.3/bin/modulecmd sh load nco`
     BASEDIR=${HOME}/CCP_Processing_Suite
     NCKS=`which ncks`       ; export NCKS
     NCRCAT=`which ncrcat`    ; export NCRCAT
-    PROCBASE=/scratch2/scratchdirs/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/scratch2/scratchdirs/strandwg/$CASE ; export LOCALDSK
+    PROCBASE=/scratch/scratchdirs/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/scratch/scratchdirs/ahu/archive/$CASE ; export LOCALDSK
+#    PROCBASE=/scratch2/scratchdirs/$USER/$CASE ; export PROCBASE
+#    LOCALDSK=/scratch2/scratchdirs/strandwg/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
     HSIOPTS=""                              ; export HSIOPTS
     ;;
