@@ -213,12 +213,12 @@ fi
 # Make sure there's the correct number of files, based on stream and time period and 20C/RCP
 #
 if [ "$YEARBEG" = 2081 ] ; then
-  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.*.nc | egrep "\.${HIST}\.(208[1-9]|209[0-9]|2100)" | wc -l`
+  NHISTF=`/bin/ls LOCAL_HIST}/${CASE}.${HIST}.*.nc | egrep "\.${HIST}\.(208[1-9]|209[0-9]|2100)" | wc -l`
 else
   if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
-    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc | wc -l`
+    NHISTF=`/bin/ls ${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc | wc -l`
   else
-    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+    NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
   fi
 fi
 #
@@ -259,40 +259,28 @@ case "$EXPTYP" in
     2006 )
     case "$HIST" in 
       cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
-        if [ $NHISTF -ne 900 ] ; then
-          echo ${NHISTF}" should be 900. File count mismatch. Exit."
+        if [ $NHISTF -ne 1140 ] ; then
+          echo ${NHISTF}" should be 1140. File count mismatch. Exit."
           exit 1
         fi ;;
-      cice.h | cice.h1 )
-        if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
-          if [ $NHISTF -ne 27375 ] ; then
-            echo ${NHISTF}" should be 27375. File count mismatch. Exit."
-            exit 1
-          fi
-        else
-          if [ $NHISTF -ne 900 ] ; then
-            echo ${NHISTF}" should be 900. File count mismatch. Exit."
-            exit 1
-          fi
+      cice.h1 )
+        if [ $NHISTF -ne 95 ] ; then
+          echo ${NHISTF}" should be 95. File count mismatch. Exit."
+          exit 1
         fi ;;
       cam.h1 | clm2.h1 )
-        if [ $NHISTF -eq 75 ] || [ $NHISTF -eq 76 ] ; then
+        if [ $NHISTF -eq 95 ] || [ $NHISTF -eq 96 ] ; then
           echo ${NHISTF}" good."
         else
-          echo ${NHISTF}" should be 75 or 76. File count mismatch. Exit."
+          echo ${NHISTF}" should be 95 or 96. File count mismatch. Exit."
           exit 1
         fi ;;
       rtm.h1 | pop.h.ecosys.nyear1 )
-        if [ $NHISTF -ne 75 ] ; then
-          echo ${NHISTF}" should be 75. File count mismatch. Exit."
+        if [ $NHISTF -ne 95 ] ; then
+          echo ${NHISTF}" should be 95. File count mismatch. Exit."
           exit 1
         fi ;;
-      cice.h2_06h )
-        if [ $NHISTF -ne 240 ] ; then
-          echo ${NHISTF}" should be 240. File count mismatch. Exit."
-          exit 1
-        fi ;;
-      cam.h2 )
+      cice.h2_06h | cam.h2 )
         if [ $NHISTF -ne 20 ] ; then
           echo ${NHISTF}" should be 20. File count mismatch. Exit."
           exit 1
