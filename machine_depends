@@ -63,12 +63,14 @@ case "$PROCHOST" in
 
   hopper* )                              # hopper @ NERSC
     BASEDIR=${HOME}/CCP_Processing_Suite
-    NCODIR=/usr/common/usg/nco/4.0.8/bin ; export NCODIR
+    NCODIR=/usr/common/usg/nco/4.4.8/gnu_pic/bin   ; export NCODIR
     NCKS=${NCODIR}/ncks     ; export NCKS
     NCRA=${NCODIR}/ncra     ; export NCRA
     NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
-    PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
-    LOCALDSK=/global/scratch2/sd/adrianne/archive/$CASE ; export LOCALDSK
+#    PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
+#    LOCALDSK=/global/scratch2/sd/adrianne/archive/$CASE ; export LOCALDSK
+    PROCBASE=/scratch/scratchdirs/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/scratch/scratchdirs/ahu/archive/$CASE ; export LOCALDSK
     ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
     HSIOPTS=""                              ; export HSIOPTS
     ;;
