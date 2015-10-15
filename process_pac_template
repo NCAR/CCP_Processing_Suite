@@ -196,6 +196,7 @@ ln -s -f ${BASEDIR}/run_slice2series     Transpose_Data
 ln -s -f ${BASEDIR}/store_to_archive_var .
 ln -s -f ${BASEDIR}/archive_write_var    .
 ln -s -f ${BASEDIR}/update_status        .
+ln -s -f ${BASEDIR}/split_cice_hemis     .
 #
 # Start actual processing, extract each field one at a time for all times
 #
@@ -223,6 +224,14 @@ if [ $? -ne 0 ] ; then
   exit 1
 fi
 echo -n "TS Transpose_Data end   : " ; date
+#
+# If cice, split hemispheres
+#
+case "$HTYP" in
+  cice ) 
+    cd $CACHEDIR
+    ../split_cice_hemis ;;
+esac
 #
 # Store completed data on archival system
 #
