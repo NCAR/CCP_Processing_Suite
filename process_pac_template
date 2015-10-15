@@ -226,16 +226,16 @@ echo -n "TS Transpose_Data end   : " ; date
 #
 # Store completed data on archival system
 #
-echo -n "TS archive start: " ; date
-./store_to_archive_var
-if [ $? -ne 0 ] ; then
-  echo "store_to_archive failed"
-  ./update_status error "$CASE $HIST $TPER"
-  exit 1
-else
-  echo -n "TS archive end: " ; date
-fi
-#
+#echo -n "TS archive start: " ; date
+#./store_to_archive_var
+#if [ $? -ne 0 ] ; then
+#  echo "store_to_archive failed"
+#  ./update_status error "$CASE $HIST $TPER"
+#  exit 1
+#else
+#  echo -n "TS archive end: " ; date
+#fi
+##
 ./update_status complete
 echo -n "TS COMPLETE: " ; date
 #
