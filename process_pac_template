@@ -230,7 +230,8 @@ echo -n "TS Transpose_Data end   : " ; date
 case "$HTYP" in
   cice ) 
     cd $CACHEDIR
-    ../split_cice_hemis ;;
+    ../split_cice_hemis
+    cd $LOCAL_PROC ;;
 esac
 #
 # Store completed data on archival system
