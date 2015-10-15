@@ -195,7 +195,7 @@ fi
 #
 METAARGS=`echo $METAVARS | sed -e 's/ / -m /g'`
 #METAARGS=`echo $METAVARS`
-#METAARGS="-m "${METAARGS}
+METAARGS="-m "${METAARGS}
 #
 #echo "METAVARS: "$METAVARS
 #echo ""
@@ -217,6 +217,7 @@ if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
   echo "s2smake -c 1 -o SPEC."${CASE}"."${HIST}" -v "$VERBOSITY" -f "$NCFORMAT" -p "$PREFIX" -s "$SUFFIX" -m "${METAARGS}
 #  mpirun.lsf slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} \"$SLICEFILES\"
   s2smake -c 1 -o SPEC.${CASE}.${HIST} -f $NCFORMAT -p $PREFIX -s $SUFFIX -m "$METAARGS" "$SLICEFILES"
+  echo "poe s2run --write mode w -v "$VERBOSITY" SPEC."${CASE}.${HIST}
   poe s2srun --write_mode w -v $VERBOSITY SPEC.${CASE}.${HIST}
 #  poe slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} "$SLICEFILES"
 fi
