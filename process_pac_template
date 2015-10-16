@@ -92,7 +92,7 @@ esac
 # Set up local names and archival names
 #
 LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
-LOCAL_PROC=$PROCBASE/$COMP_NAME/mon
+LOCAL_PROC=$PROCBASE/$COMP_NAME/${TPER}
 CACHEDIR=$PROCBASE/$COMP_NAME/${TPER}/to_archive
 ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
 LOCALDISK_PROC=$DISK_BASE/$COMP_NAME/proc/tseries
@@ -104,6 +104,9 @@ case "$TPER" in
   day )
     ARCHIVE_PROC=${ARCHIVE_PROC}/daily
        DISK_PROC=${DISK_PROC}/daily ;;
+  hr6 )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6
+       DISK_PROC=${DISK_PROC}/hourly6 ;;
   * ) 
     echo "Unable to continue because "$TPER" not known."
     exit 1 ;;
@@ -129,11 +132,6 @@ MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 # PyReshaper Arguments
 #
 VERBOSITY=3
-#
-# Array of all history (aka time-slice) files
-#
-#SLICEFILES=(${LOCAL_PROC}/${CASE}.${HIST}.[0-9]*.nc) ; export SLICEFILES
-#echo "SLICEFILES 0: "${SLICEFILES[*]}
 #
 # Create output filename time period prefix
 #
