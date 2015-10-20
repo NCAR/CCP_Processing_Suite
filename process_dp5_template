@@ -197,6 +197,7 @@ esac
 ln -s -f $BASEDIR/store_to_archive_var store_to_archive_var
 ln -s -f $BASEDIR/archive_write_var_fw archive_write_var
 ln -s -f $BASEDIR/update_status        update_status
+ln -s -f ${BASEDIR}/split_cice_hemis   .
 #
 cd $LOCAL_PROC
 #
@@ -256,6 +257,17 @@ if [ $? -ne 0 ] ; then
   exit 1
 fi
 echo -n "TS transpose_data end  : " ; date
+#
+# If cice, split hemispheres
+#
+case "$HTYP" in
+  cice ) 
+    cd $CACHEDIR
+    echo -n "TS split cice hemis start: " ; date
+    ../split_cice_hemis
+    echo -n "TS split cice hemis end  : " ; date
+    cd $LOCAL_PROC ;;
+esac
 #
 # Store completed data on archival system
 #
