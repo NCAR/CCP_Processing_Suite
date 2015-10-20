@@ -54,12 +54,7 @@ read DORUN
 #
 if [ "$DORUN" = "Y" ] ; then
   echo "Running "${CCPS_SCRIPT}
-  case "$TPER" in
-    mon | ann )
-      qsub ./${CCPS_SCRIPT} ;;
-    * )
-      qsub.serial ./${CCPS_SCRIPT} ;;
-  esac
+  qsub ./${CCPS_SCRIPT}
 else
   echo "Will not run "${CCPS_SCRIPT}
 fi
