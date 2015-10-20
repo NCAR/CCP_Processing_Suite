@@ -1,7 +1,5 @@
 #!/bin/sh
 #
-NCKS=`which ncks`
-#
 LAT_SHS=0   ; export LAT_SHS
 LAT_SHN=75  ; export LAT_SHN
 LAT_NHS=280 ; export LAT_NHS
