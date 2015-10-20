@@ -48,10 +48,6 @@ fi
 #
 PROCHOST=`hostname`;export PROCHOST
 #
-NCKS=`which ncks`     ; export NCKS
-NCRA=`which ncra`     ; export NCRA
-NCRCAT=`which ncrcat` ; export NCRCAT
-#
 BASEDIR=${HOME}/CCP_Processing_Suite
 #
 PROCBASE=/scratch3/scratchdirs/$USER/$CASE ; export PROCBASE

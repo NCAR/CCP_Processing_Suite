@@ -7,19 +7,28 @@
 #PBS -o log.NAME.out
 #PBS -e log.NAME.err
 #PBS -m abe
+#PBS -u USER@ucar.edu
 #PBS -V
 #
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh unload netcdf/4.3.0`
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh load python/2.7.9`
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh load virtualenv/12.1.1`
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh load numpy/1.9.2`
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh load scipy/0.15.1`
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh load mpi4py/1.3.1`
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh load matplotlib/1.4.3`
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh load nco/4.3.9`
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh load ncl/6.1.1`
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh load cray-netcdf/4.3.2`
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh load cray-hdf5/1.8.13`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm PrgEnv-intel`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm intel`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm cray-netcdf`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm ncar`
+#
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load gcc`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load python/2.7-anaconda`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load netcdf/4.3.0`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load szip`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load zlib`
 #
 PYTHONPATH=/global/project/projectdirs/ccsm1/pythonlib/lib/python2.7/site-packages/PyNIO:$PYTHONPATH
 export PYTHONPATH
+PATH=/global/u2/s/strandwg/.local/bin:${PATH}
+export PATH
+LD_LIBRARY_PATH=/usr/common/usg/nco/4.5.2/gnu/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
+#
+NCODIR=/usr/common/usg/nco/4.5.2/gnu/bin ; export NCODIR
+NCKS=${NCODIR}/ncks     ; export NCKS
+NCRA=${NCODIR}/ncra     ; export NCRA
+NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
+#
