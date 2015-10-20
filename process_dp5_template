@@ -187,11 +187,11 @@ cd $LOCAL_PROC
 #
 case "$TPER" in
   mon | ann )
-#    NCFORMAT=netcdf4c ; export NCFORMAT
-#    ln -s -f $BASEDIR/run_slice2series         Transpose_Data ;;
-    ln -s -f $BASEDIR/var_extract_compress      Transpose_Data ;;
+    NCFORMAT=netcdf4c ; export NCFORMAT
+    ln -s -f $BASEDIR/run_slice2series         Transpose_Data ;;
   day | hr6 )
-    ln -s -f $BASEDIR/var_extract_no_compress  Transpose_Data ;;
+    NCFORMAT=netcdf4c ; export NCFORMAT
+    ln -s -f $BASEDIR/run_slice2series         Transpose_Data ;;
 esac
 #
 ln -s -f $BASEDIR/store_to_archive_var store_to_archive_var
