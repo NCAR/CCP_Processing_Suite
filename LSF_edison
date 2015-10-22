@@ -3,7 +3,7 @@
 #PBS -N NAME
 #PBS -q regular
 #PBS -l mppwidth=144
-#PBS -l walltime=6:00:00
+#PBS -l walltime=WALL
 #PBS -o log.NAME.out
 #PBS -e log.NAME.err
 #PBS -m abe

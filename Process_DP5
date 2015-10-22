@@ -28,6 +28,41 @@ if ! [ -f $EXPFILE ] ; then
   echo "Cannot find "$EXPFILE". EXIT"
   exit 1
 fi
+#
+# Deduce appropriate wallclock limits
+#
+case "$HIST" in
+  cam.h0 )
+    WALL="06:00:00" ;;
+  cam.h1 )
+    WALL="06:00:00" ;;
+  cam.h2 )
+    WALL="06:00:00" ;;
+  clm2.h0 )
+    WALL="06:00:00" ;;
+  clm2.h1 )
+    WALL="06:00:00" ;;
+  cice.h )
+    WALL="06:00:00" ;;
+  cice.h1 )
+    WALL="06:00:00" ;;
+  pop.h )
+    WALL="06:00:00" ;;
+  pop.h.nday1 )
+    WALL="06:00:00" ;;
+  pop.h.ecosys.nday1 )
+    WALL="06:00:00" ;;
+  pop.h.ecosys.nyear1 )
+    WALL="06:00:00" ;;
+  rtm.h0 )
+    WALL="06:00:00" ;;
+  rtm.h1 )
+    WALL="06:00:00" ;;
+  * )
+    echo "Unknown "${HIST}
+    exit 1 ;;
+esac
+#
 TEMPLATE=process_dp5_template
 #
 PROCHOST=`hostname`;export PROCHOST
@@ -37,6 +72,7 @@ PROCHOST=`hostname`;export PROCHOST
 CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
 rm -f $CCPS_SCRIPT
 cat ./LSF_edison  | sed -e "s/NAME/$CCPS_SCRIPT/g" \
+                  | sed -e "s/WALL/$WALL/g"        \
                   | sed -e "s/USER/$USER/g"        > $CCPS_SCRIPT
 #
 cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
