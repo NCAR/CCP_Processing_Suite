@@ -1,3 +1,26 @@
+#
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm PrgEnv-intel`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm intel`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm cray-netcdf`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm ncar`
+#
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load gcc`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load python/2.7-anaconda`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load netcdf/4.3.0`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load szip`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load zlib`
+#
+PYTHONPATH=/global/project/projectdirs/ccsm1/pythonlib/lib/python2.7/site-packages/PyNIO:$PYTHONPATH
+export PYTHONPATH
+PATH=${HOME}/.local/bin:${PATH}
+export PATH
+LD_LIBRARY_PATH=/usr/common/usg/nco/4.5.2/gnu/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
+#
+NCODIR=/usr/common/usg/nco/4.5.2/gnu/bin ; export NCODIR
+NCKS=${NCODIR}/ncks     ; export NCKS
+NCRA=${NCODIR}/ncra     ; export NCRA
+NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
+#
 CASE=xxxCASExxx ; export CASE
 HIST=xxxHISTxxx ; export HIST
 TPER=xxxTPERxxx ; export TPER
