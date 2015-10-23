@@ -217,10 +217,16 @@ case "$TPER" in
     ln -s -f $BASEDIR/run_slice2series         Transpose_Data ;;
 esac
 #
+case "$COMP_NAME" in
+  ice )
+    NCFORMAT=netcdf4 ; export NCFORMAT
+    ln -s -f $BASEDIR/run_slice2series         Transpose_Data ;;
+esac
+#
 ln -s -f $BASEDIR/store_to_archive_var store_to_archive_var
 ln -s -f $BASEDIR/archive_write_var_fw archive_write_var
 ln -s -f $BASEDIR/update_status        update_status
-ln -s -f ${BASEDIR}/split_cice_hemis   .
+ln -s -f $BASEDIR/split_cice_hemis   .
 #
 cd $LOCAL_PROC
 #

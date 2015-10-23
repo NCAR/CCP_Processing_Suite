@@ -40,16 +40,13 @@ for FILE in `/bin/ls *cice.h*.*.*.nc` ; do
   OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
   OUTSFX=`echo $FILE | cut -d"." -f${DSFX}-`
 #
-  echo "OUTPFX: "${OUTPFX}
-  echo "OUTSFX: "${OUTSFX}
-#
 # NH
 #
   OUT=${OUTPFX}_nh.${OUTSFX}
   if [ ! -f $OUT ] ; then
-    $NCKS -h -O -d nj,${LAT_NHS},${LAT_NHN} $FILE $OUT
+    $NCKS -4 -L 1 -h -O -d nj,${LAT_NHS},${LAT_NHN} $FILE $OUT
     if [ $? -ne 0 ] ; then
-       echo ${NCKS}" -h -d nj,"${LAT_NHS}","${LAT_NHN}" "${FILE}" "${OUT}" failed"
+       echo ${NCKS}" -4 -L 1 -h -d nj,"${LAT_NHS}","${LAT_NHN}" "${FILE}" "${OUT}" failed"
        exit 1
     fi
   fi
@@ -58,9 +55,9 @@ for FILE in `/bin/ls *cice.h*.*.*.nc` ; do
 #
   OUT=${OUTPFX}_sh.${OUTSFX}
   if [ ! -f $OUT ] ; then
-    $NCKS -h -O -d nj,${LAT_SHS},${LAT_SHN} $FILE $OUT
+    $NCKS -4 -L 1 -h -O -d nj,${LAT_SHS},${LAT_SHN} $FILE $OUT
     if [ $? -ne 0 ] ; then
-       echo ${NCKS}" -h -d nj,"${LAT_SHS}","${LAT_SHN}" "${FILE}" "${OUT}" failed"
+       echo ${NCKS}" -4 -L 1 -h -d nj,"${LAT_SHS}","${LAT_SHN}" "${FILE}" "${OUT}" failed"
        exit 1
     fi
   fi
