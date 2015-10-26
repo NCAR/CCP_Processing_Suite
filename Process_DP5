@@ -86,12 +86,14 @@ CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
 rm -f $CCPS_SCRIPT
 cat ./LSF_dp5     | sed -e "s/NAME/$CCPS_SCRIPT/g" \
                   | sed -e "s/WALL/$WALL/g"        \
+                  | sed -e "s/USER/$USER/g"        \
                   | sed -e "s/TASK/$TASK/g"        \
-                  | sed -e "s/USER/$USER/g"        > $CCPS_SCRIPT
+                  > $CCPS_SCRIPT
 #
 cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                   | sed -e "s/xxxHISTxxx/$HIST/g" \
                   | sed -e "s/xxxTPERxxx/$TPER/g" \
+                  | sed -e "s/TASK/$TASK/g"       \
                   >> $CCPS_SCRIPT
 #
 chmod +x $CCPS_SCRIPT
