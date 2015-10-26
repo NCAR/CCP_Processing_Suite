@@ -10,6 +10,8 @@ eval `/opt/modules/3.2.10.3/bin/modulecmd sh load netcdf/4.3.0`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh load szip`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh load zlib`
 #
+MPPW=TASK ; export MPPW
+#
 PYTHONPATH=/global/project/projectdirs/ccsm1/pythonlib/lib/python2.7/site-packages/PyNIO:$PYTHONPATH
 export PYTHONPATH
 PATH=${HOME}/.local/bin:${PATH}
@@ -210,23 +212,26 @@ cd $LOCAL_PROC
 #
 case "$TPER" in
   mon | ann )
-    NCFORMAT=netcdf4c ; export NCFORMAT
-    ln -s -f $BASEDIR/run_slice2series         Transpose_Data ;;
+    NCFORMAT=netcdf4c   ; export NCFORMAT ;;
   day | hr6 )
-    NCFORMAT=netcdf4c ; export NCFORMAT
-    ln -s -f $BASEDIR/run_slice2series         Transpose_Data ;;
+    case "$COMP_NAME" in
+    atm )
+      NCFORMAT=netcdf4  ; export NCFORMAT ;;
+    ocn | lnd | rof )
+      NCFORMAT=netcdf4c ; export NCFORMAT ;;
+  esac ;;
 esac
 #
 case "$COMP_NAME" in
   ice )
-    NCFORMAT=netcdf4 ; export NCFORMAT
-    ln -s -f $BASEDIR/run_slice2series         Transpose_Data ;;
+    ln -s -f $BASEDIR/split_cice_hemis .
+    NCFORMAT=netcdf4 ; export NCFORMAT ;;
 esac
 #
 ln -s -f $BASEDIR/store_to_archive_var store_to_archive_var
 ln -s -f $BASEDIR/archive_write_var_fw archive_write_var
 ln -s -f $BASEDIR/update_status        update_status
-ln -s -f $BASEDIR/split_cice_hemis   .
+ln -s -f $BASEDIR/run_slice2series     Transpose_Data
 #
 cd $LOCAL_PROC
 #

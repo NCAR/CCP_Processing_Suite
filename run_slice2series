@@ -224,7 +224,7 @@ if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
       echo "poe s2srun --write mode w -v "$VERBOSITY" SPEC."${CASE}.${HIST}
       poe s2srun --write_mode w -v $VERBOSITY SPEC.${CASE}.${HIST} ;;
     * )
-      echo "aprun -n 144 s2srun --write mode w -v "$VERBOSITY" SPEC."${CASE}.${HIST}
-      aprun -n 144 s2srun --write_mode w -v $VERBOSITY SPEC.${CASE}.${HIST} ;;
+      echo "aprun -n "${MPPW}" s2srun --write mode w -v "$VERBOSITY" SPEC."${CASE}.${HIST}
+      aprun -n $MPPW s2srun --write_mode w -v $VERBOSITY SPEC.${CASE}.${HIST} ;;
   esac
 fi
