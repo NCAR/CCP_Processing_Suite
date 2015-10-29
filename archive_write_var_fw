@@ -104,11 +104,11 @@ echo "firewall -on" > PUT
 #
 if [ "$COMP" == "cice" ] ; then
   for IVAR in $VARS ; do
-    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -d ${CASE}.${HIST}.${IVAR}_?h.* ; chmod 644 ${CASE}.${HIST}.${IVAR}_?h.*nc" >> PUT
+    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -d ${CASE}.${HIST}.${IVAR}_?h.*nc ; chmod 644 ${CASE}.${HIST}.${IVAR}_?h.*nc" >> PUT
   done
 else
   for IVAR in $VARS ; do
-    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -d ${CASE}.${HIST}.${IVAR}.* ; chmod 644 ${CASE}.${HIST}.${IVAR}.*nc" >> PUT
+    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -d ${CASE}.${HIST}.${IVAR}.*nc ; chmod 644 ${CASE}.${HIST}.${IVAR}.*nc" >> PUT
   done
 fi
 #
