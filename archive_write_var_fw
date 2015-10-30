@@ -86,20 +86,20 @@ if [ "$COMP" == "cice" ] ; then
   rm -f .IVAR
 fi
 #
-rm -f MKDIR
-for IVAR in $VARS ; do
-  echo "umask 0 ; mkdir -m 7775 -p ${ARCHIVE_PROC}/${IVAR} ; chmod 775 ${ARCHIVE_PROC}/${IVAR}" >> MKDIR
-done
-$HSI $HSIOPTS in MKDIR
-if [ $? -eq 0 ] ; then
-  echo ${ARCHIVE_PROC}" and subdirs created. Ready."
-  rm -f MKDIR
-else
-  echo "Problem with HPSS on mkdir. Warning."
-  ../update_status warning archive_write_var
-fi
+#rm -f MKDIR
+#for IVAR in $VARS ; do
+#  echo "umask 0 ; mkdir -m 7775 -p ${ARCHIVE_PROC}/${IVAR} ; chmod 775 ${ARCHIVE_PROC}/${IVAR}" >> MKDIR
+#done
+#$HSI $HSIOPTS in MKDIR
+#if [ $? -eq 0 ] ; then
+#  echo ${ARCHIVE_PROC}" and subdirs created. Ready."
+#  rm -f MKDIR
+#else
+#  echo "Problem with HPSS on mkdir. Warning."
+#  ../update_status warning archive_write_var
+#fi
 #
-rm -f PUT
+#rm -f PUT
 echo "firewall -on" > PUT
 #
 if [ "$COMP" == "cice" ] ; then
