@@ -303,16 +303,19 @@ case "$HTYP" in
     cd $LOCAL_PROC ;;
 esac
 #
-# Store completed data on archival system
+# Move completed data for later transfer to archival system
 #
-echo -n "TS archive start: " ; date
-./store_to_archive_var
+cd $CACHEDIR
+if [ ! -f /scratch3/scratchdirs/$USER/toHPSS_$HIST ] ; then
+  mkdir -p /scratch3/scratchdirs/$USER/toHPSS_$HIST
+fi
+mv ${CASE}.${HIST}.*.[0-9]*.nc /scratch3/scratchdirs/$USER/toHPSS_$HIST
 if [ $? -ne 0 ] ; then
-  echo "store_to_archive failed"
+  echo "move toHPSS_"${HIST}" failed"
   ./update_status error "$CASE $HIST $TPER"
   exit 1
 else
-  echo -n "TS archive end: " ; date
+  echo -n "move toHPSS_"${HIST}" end: " ; date
 fi
 #
 ./update_status complete
