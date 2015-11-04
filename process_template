@@ -1,3 +1,16 @@
+#
+export MP_TIMEOUT=14400
+export MP_PULSE=1800
+export MP_DEBUG_NOTIMEOUT=yes
+#
+# Necessary modules to load
+#
+eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load python`
+eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load all-python-libs`
+PATH=/glade/u/home/strandwg/.local/bin:${PATH} ; export PATH
+#
+PYTHONPATH=/glade/u/home/strandwg/.local/lib/python2.7/site-packages:${PYTHONPATH}
+#
 CASE=xxxCASExxx ; export CASE
 HIST=xxxHISTxxx ; export HIST
 TPER=xxxTPERxxx ; export TPER
@@ -171,14 +184,15 @@ case "$HTYP" in
   cam2 | cam )
     case "$TPER" in
       ann | mon )
-        ln -s -f $BASEDIR/var_extract_compress    var_extract ;;
+        NCFORMAT=netcdf4c ;;
       day | hr6 | hr3 | hr1 | m30 )
-        ln -s -f $BASEDIR/var_extract_no_compress var_extract ;;
+        NCFORMAT=netcdf4 ;;
     esac ;;
   clm2 | pop | rtm | csim | cice ) 
-    ln -s -f $BASEDIR/var_extract_compress        var_extract ;;
+    NCFORMAT=netcdf4c ;;
 esac
 #
+ln -s -f $BASEDIR/run_slice2series  Transpose_Data
 ln -s -f $BASEDIR/archive_write     .
 ln -s -f $BASEDIR/store_to_archive  .
 ln -s -f $BASEDIR/update_status     .
@@ -233,14 +247,14 @@ if [ "$LENG" = "byy" ] ; then
       esac
       export OUTTIME
 #
-# var_extract this year
+# Transpose_Data this year
 #
       NFNC=`echo $CASE.$HIST.${YEARNOW}*.nc | wc -w`
       if [ ${NFNC} -ne 0 ] ; then
-        ./var_extract
+        ./Transpose_Data
         if [ $? -ne 0 ] ; then
-          echo "Error from var_extract at year "${YEARNOW}
-          ./update_status error var_extract
+          echo "Error from Transpose_Data at year "${YEARNOW}
+          ./update_status error Transpose_Data
           exit 1
         else
           touch .comp.${CASE}.${HIST}.${YEARNOW}.nc
@@ -315,12 +329,12 @@ else
     exit 1
   fi
 #
-# var_extract all years
+# Transpose_Data all years
 #
-  ./var_extract
+  ./Transpose_Data
   if [ $? -ne 0 ] ; then
-    echo "Error from var_extract"
-    ./update_status error var_extract
+    echo "Error from Transpose_Data"
+    ./update_status error Transpose_Data
     exit 1
   fi
 #
