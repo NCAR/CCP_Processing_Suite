@@ -129,6 +129,16 @@ CACHEDIR=${LOCAL_PROC}/to_archive
 YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
 MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
+EXPNAME=`echo $CASE | cut -d"." -f5`
+case "$EXPNAME" in
+  el_volc | la_volc )
+    MONBEG=01
+    MONEND=12 ;;
+  toel_volc | tola_volc )
+    MONBEG=06
+    MONEND=05 ;;
+esac
+#
 # PyReshaper Arguments
 #
 VERBOSITY=3
@@ -141,9 +151,9 @@ PREFIX="${CACHEDIR}/${CASE}.${HIST}."
 #
 case "$TPER" in
   mon )
-    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+    OUTTIME=${YEARBEG}${MONBEG}-${YEAREND}${MONEND} ;;
   day ) 
-    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+    OUTTIME=${YEARBEG}${MONBEG}01-${YEAREND}${MONEND}31 ;;
 esac
 SUFFIX=".${OUTTIME}.nc"
 #

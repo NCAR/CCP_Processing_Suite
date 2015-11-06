@@ -14,7 +14,6 @@ PYTHONPATH=/glade/u/home/strandwg/.local/lib/python2.7/site-packages:${PYTHONPAT
 CASE=xxxCASExxx ; export CASE
 HIST=xxxHISTxxx ; export HIST
 TPER=xxxTPERxxx ; export TPER
-LENG=xxxLENGxxx ; export LENG
 #
 echo -n "TS START: " ; date
 #
@@ -146,29 +145,6 @@ fi
 if [ "$LOCATION" = "OR" ] ; then
   HARDWARE=${HARDWARE}".ccs.ornl.gov"
 fi
-echo "            Location : "$LOCATION ; export LOCATION
-echo "         Description : "$DESCRIP  ; export DESCRIP
-echo "     Realization/RIP : "$REALIZN  ; export REALIZN
-echo "         Parent case : "$PARENT   ; export PARENT
-echo "         Branch date : "$BRANCH   ; export BRANCH
-echo "          Resolution : "$RES      ; export RES
-echo "            Hardware : "$HARDWARE ; export HARDWARE
-echo "             Compset : "$COMPSET  ; export COMPSET
-echo "      Repository tag : "$REPOTAG  ; export REPOTAG
-echo "          Begin year : "$YEARBEG  ; export YEARBEG
-echo "            End year : "$YEAREND  ; export YEAREND
-echo "          Year count : "$YRCOUNT  ; export YRCOUNT
-echo "        Months count : "$MNCOUNT  ; export MNCOUNT
-echo ""
-echo "   Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
-echo "       History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
-echo "       History names : "$HIST          ; export HIST
-echo ""
-echo "     Processing host : "$PROCHOST      ; export PROCHOST
-echo " Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
-echo "      Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
-echo "   Archive cache dir : "$CACHEDIR      ; export CACHEDIR
-echo " Processing code dir : "$BASEDIR       ; export BASEDIR
 #  
 if [ ! -d $LOCAL_PROC ] ; then 
   mkdir -p $LOCAL_PROC 
@@ -196,6 +172,41 @@ ln -s -f $BASEDIR/run_slice2series  Transpose_Data
 ln -s -f $BASEDIR/archive_write     .
 ln -s -f $BASEDIR/store_to_archive  .
 ln -s -f $BASEDIR/update_status     .
+#
+# Print out values
+#
+echo "            Case name : "$CASE ; export CASE
+echo "    History file type : "$HIST ; export HIST
+echo "          Time period : "$TPER ; export TPER
+echo "    by var processing : YES"
+echo " HPSS processed files : "$ARCHIVE_PROC ; export ARCHIVE_PROC
+HARDWARE=${HARDWARE}".ucar.edu"
+echo "          Branch date : "$BRANCH   ; export BRANCH
+echo "           Resolution : "$RES      ; export RES
+echo "             Hardware : "$HARDWARE ; export HARDWARE
+echo "              Compset : "$COMPSET  ; export COMPSET
+echo "       Repository tag : "$REPOTAG  ; export REPOTAG
+echo "           Begin year : "$YEARBEG  ; export YEARBEG
+echo "             End year : "$YEAREND  ; export YEAREND
+echo "           Year count : "$YRCOUNT  ; export YRCOUNT
+echo "         Months count : "$MNCOUNT  ; export MNCOUNT
+echo ""
+echo "PyReshaper"
+echo "          Output time : "$OUTTIME       ; export OUTTIME
+echo "        Output prefix : "$PREFIX        ; export PREFIX
+echo "        Output suffix : "$SUFFIX        ; export SUFFIX
+echo "        Output format : "$NCFORMAT      ; export NCFORMAT
+echo "            Verbosity : "$VERBOSITY     ; export VERBOSITY
+echo ""
+echo "    Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo "        History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
+echo "        History names : "$HIST          ; export HIST
+echo ""
+echo "      Processing host : "$PROCHOST      ; export PROCHOST
+echo "  Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
+echo "       Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
+echo "    Archive cache dir : "$CACHEDIR      ; export CACHEDIR
+echo "  Processing code dir : "$BASEDIR       ; export BASEDIR
 #
 cd $LOCAL_PROC
 #
