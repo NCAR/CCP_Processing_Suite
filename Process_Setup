@@ -5,7 +5,7 @@ if [ $# -ne 4 ] ; then
    echo "First three arguments REQUIRED:"
    echo "1: CASE name"
    echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h rtm.h0 etc]"
-   echo "3: TPER time period of above HIST type - must be one of [ann mon 10d day hr6 hr3 hr1 m30]"
+   echo "3: TPER time period of above HIST type - must be one of [ann mon d10 day hr6 hr3 hr1 m30]"
    echo "4: LENG either by year or all time samples - must be one of [byy all]"
    exit 1
 else
@@ -18,7 +18,7 @@ fi
 # Set up a bunch of stuff
 #
 case "$TPER" in
-  ann | mon | 10d | day | hr6 | hr3 | hr1 | m30 )
+  ann | mon | d10 | day | hr6 | hr3 | hr1 | m30 )
     echo ${TPER}" is known time period. Proceeding." ;;
   * ) 
     echo "Unable to continue because "$TPER" is unknown. Stopping."

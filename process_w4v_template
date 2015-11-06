@@ -112,6 +112,8 @@ ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
 ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
 #
 case "$TPER" in
+  d10 )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/day10   ;;
   ann )
     ARCHIVE_PROC=${ARCHIVE_PROC}/annual  ;;
   mon )
@@ -150,6 +152,8 @@ PREFIX="${CACHEDIR}/${CASE}.${HIST}."
 # Create output filename time period suffix
 #
 case "$TPER" in
+  d10 )
+    OUTTIME=${YEARBEG}${MONBEG}01-${YEAREND}${MONEND}27 ;;
   mon )
     OUTTIME=${YEARBEG}${MONBEG}-${YEAREND}${MONEND} ;;
   day ) 
