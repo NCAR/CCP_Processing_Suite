@@ -207,14 +207,15 @@ cd $LOCAL_PROC
 # slice2series for monthly and annual data, var_extract for all else
 # also decide to compress or not compress output
 #
-case "$TPER" in
-  mon | ann )
-    ln -s -f $BASEDIR/run_slice2series        Transpose_Data
-    NCFORMAT=netcdf4c ; export NCFORMAT ;;
-  *   )
-    ln -s -f $BASEDIR/var_extract_no_compress Transpose_Data ;;
+NCFORMAT=netcdf4c ; export NCFORMAT
+#
+case "$COMP_NAME" in
+  ice )
+    ln -s -f $BASEDIR/split_cice_hemis .
+    NCFORMAT=netcdf4 ; export NCFORMAT ;;
 esac
 #
+ln -s -f $BASEDIR/run_slice2series     Transpose_Data
 ln -s -f $BASEDIR/store_to_archive_var .
 ln -s -f $BASEDIR/archive_write_var    .
 ln -s -f $BASEDIR/update_status        .
@@ -247,6 +248,17 @@ if [ $? -ne 0 ] ; then
 fi
 #
 echo -n "TS tranpose_data end  : " ; date
+#
+# If cice, split hemispheres
+#
+case "$HTYP" in
+  cice ) 
+    cd $CACHEDIR
+    echo -n "TS split cice hemis start: " ; date
+    ../split_cice_hemis
+    echo -n "TS split cice hemis end  : " ; date
+    cd $LOCAL_PROC ;;
+esac
 #
 # Store completed data on archival system
 #
