@@ -36,11 +36,11 @@ case "$HIST" in
     TASK=144
     WALL="00:30:00" ;;
   cam.h1 )
-    TASK=96
-    WALL="02:00:00" ;;
+    TASK=120
+    WALL="04:30:00" ;;
   cam.h2 )
     TASK=144
-    WALL="04:00:00" ;;
+    WALL="08:00:00" ;;
   clm2.h0 )
     TASK=312
     WALL="00:20:00" ;;
