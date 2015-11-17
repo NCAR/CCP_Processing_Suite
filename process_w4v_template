@@ -216,8 +216,8 @@ case "$COMP_NAME" in
 esac
 #
 ln -s -f $BASEDIR/run_slice2series     Transpose_Data
-ln -s -f $BASEDIR/store_to_archive_var .
-ln -s -f $BASEDIR/archive_write_var    .
+#ln -s -f $BASEDIR/store_to_archive_var .
+#ln -s -f $BASEDIR/archive_write_var    .
 ln -s -f $BASEDIR/update_status        .
 #
 cd $LOCAL_PROC
@@ -262,15 +262,15 @@ esac
 #
 # Store completed data on archival system
 #
-echo -n "TS archive start: " ; date
-./store_to_archive_var
-if [ $? -ne 0 ] ; then
-  echo "store_to_archive failed"
-  ./update_status error "$CASE $HIST $TPER"
-  exit 1
-else
-  echo -n "TS archive end: " ; date
-fi
+#echo -n "TS archive start: " ; date
+#./store_to_archive_var
+#if [ $? -ne 0 ] ; then
+#  echo "store_to_archive failed"
+#  ./update_status error "$CASE $HIST $TPER"
+#  exit 1
+#else
+#  echo -n "TS archive end: " ; date
+#fi
 #
 ./update_status complete
 echo -n "TS COMPLETE: " ; date
