@@ -36,7 +36,7 @@ case "$HIST" in
     TASK=144
     WALL="00:30:00" ;;
   cam.h1 )
-    TASK=120
+    TASK=72
     WALL="04:30:00" ;;
   cam.h2 )
     TASK=144
