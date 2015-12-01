@@ -7,9 +7,9 @@ export MP_DEBUG_NOTIMEOUT=yes
 #
 eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load python`
 eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load all-python-libs`
-PATH=${HOME}/.local/bin:${PATH} ; export PATH
+PATH=/glade/u/home/strandwg/.local/bin:${PATH} ; export PATH
 #
-PYTHONPATH=${HOME}/.local/lib/python2.7/site-packages:${PYTHONPATH}
+PYTHONPATH=/glade/u/home/strandwg/.local/lib/python2.7/site-packages:${PYTHONPATH}
 #
 CASE=xxxCASExxx ; export CASE
 HIST=xxxHISTxxx ; export HIST
