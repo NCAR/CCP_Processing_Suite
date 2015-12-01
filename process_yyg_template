@@ -1,3 +1,16 @@
+#
+export MP_TIMEOUT=14400
+export MP_PULSE=1800
+export MP_DEBUG_NOTIMEOUT=yes
+#
+# Necessary modules to load
+#
+eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load python`
+eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load all-python-libs`
+PATH=${HOME}/.local/bin:${PATH} ; export PATH
+#
+PYTHONPATH=${HOME}/.local/lib/python2.7/site-packages:${PYTHONPATH}
+#
 CASE=xxxCASExxx ; export CASE
 HIST=xxxHISTxxx ; export HIST
 TPER=xxxTPERxxx ; export TPER
@@ -177,20 +190,19 @@ if [ ! -d $CACHEDIR ] ; then
 fi
 cd $LOCAL_PROC
 #
-# slice2series for monthly and annual data, var_extract for all else
-# also decide to compress or not compress output
-#
-case "$TPER" in
-  mon | ann )
-    ln -s -f $BASEDIR/run_slice2series        Tranpose_Data
+case "$HIST" in
+  cice.h | cice.h1 )
+    NCFORMAT=netcdf4  ; export NCFORMAT
+    ln -s -f $BASEDIR/split_cice_hemis . ;;
+  *   )
     NCFORMAT=netcdf4c ; export NCFORMAT ;;
   *   )
-    ln -s -f $BASEDIR/var_extract_no_compress Tranpose_Data ;;
 esac
 #
 ln -s -f $BASEDIR/store_to_archive_var .
 ln -s -f $BASEDIR/archive_write_var    .
 ln -s -f $BASEDIR/update_status        .
+ln -s -f $BASEDIR/run_slice2series     Tranpose_Data
 #
 cd $LOCAL_PROC
 #
@@ -248,8 +260,18 @@ if [ $? -ne 0 ] ; then
   ./update_status error "$CASE $HIST $TPER"
   exit 1
 fi
-#
 echo -n "TS tranpose_data end  : " ; date
+# 
+# Split cice hemispheres
+#
+case "$HTYP" in
+  cice ) 
+    cd $CACHEDIR
+    echo -n "TS split cice hemis start: " ; date
+    ../split_cice_hemis
+    echo -n "TS split cice hemis end  : " ; date
+    cd $LOCAL_PROC ;;
+esac
 #
 # Store completed data on archival system
 #
