@@ -168,10 +168,32 @@ case "$HTYP" in
     NCFORMAT=netcdf4c ;;
 esac
 #
+cd $LOCAL_PROC
 ln -s -f $BASEDIR/run_slice2series  Transpose_Data
 ln -s -f $BASEDIR/archive_write     .
 ln -s -f $BASEDIR/store_to_archive  .
 ln -s -f $BASEDIR/update_status     .
+#
+case "$TPER" in
+  ann )
+    OUTTIME=${YEARBEG}-${YEAREND} ;;
+  mon )
+    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+  day )
+    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+  hr3 )
+    OUTTIME=${YEARBEG}010100Z-${YEAREND}123121Z ;;
+  hr6 )
+    OUTTIME=${YEARBEG}010100Z-${YEAREND}123118Z ;;
+  hr1 )
+    OUTTIME=${YEARBEG}010100Z-${YEAREND}123123Z ;;
+  m30 )
+    OUTTIME=${YEARBEG}01010000Z-${YEAREND}12312330Z ;;
+  * ) 
+    echo "Unable to set OUTTIME because "$TPER" not known."
+    exit 1 ;;
+esac
+SUFFIX=".${OUTTIME}.nc"
 #
 # Print out values
 #
@@ -208,158 +230,41 @@ echo "       Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
 echo "    Archive cache dir : "$CACHEDIR      ; export CACHEDIR
 echo "  Processing code dir : "$BASEDIR       ; export BASEDIR
 #
-cd $LOCAL_PROC
-#
 # Start actual processing
 #
-if [ "$LENG" = "byy" ] ; then
-#
-# Start from end and go to beginning
-#
-  YEARNOW=$YEAREND ; export YEARNOW
-  ./update_status start
-#
-# Big processing loop
-#
-  while [ $YEARNOW -ge $YEARBEG ] ; do
-    ./update_status $YEARNOW
-    if [ ! -f .comp.${CASE}.${HIST}.${YEARNOW}.nc ] ; then
-      echo -n "TS PRO "${CASE}"."${HIST}"."${YEARNOW}": " ; date
-      if [ -d $LOCAL_HIST ] ; then
-        NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* | wc -l`
-        if [ $NHISTF -ne 0 ] ; then
-          echo ${CASE}"."${HIST}"."${YEARNOW}" files on disk, softlinking."
-          rm -f ${CASE}.${HIST}.[0-9]*
-          ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* .
-        fi
-      else
-        echo ${CASE}"."${HIST}"."${YEARNOW}" files missing from disk, acquire."
-        exit 1
-      fi
-#
-      case "$TPER" in
-        ann )
-          OUTTIME=${YEARNOW}-${YEARNOW} ;;
-        mon )
-          OUTTIME=${YEARNOW}01-${YEARNOW}12 ;;
-        day )
-          OUTTIME=${YEARNOW}0101-${YEARNOW}1231 ;;
-        hr3 )
-          OUTTIME=${YEARNOW}010100Z-${YEARNOW}123121Z ;;
-        hr6 )
-          OUTTIME=${YEARNOW}010100Z-${YEARNOW}123118Z ;;
-        hr1 )
-          OUTTIME=${YEARNOW}010100Z-${YEARNOW}123123Z ;;
-        m30 )
-          OUTTIME=${YEARNOW}01010000Z-${YEARNOW}12312330Z ;;
-        * ) 
-          echo "Unable to set OUTTIME because "$TPER" not known."
-          exit 1 ;;
-      esac
-      export OUTTIME
-#
-# Transpose_Data this year
-#
-      NFNC=`echo $CASE.$HIST.${YEARNOW}*.nc | wc -w`
-      if [ ${NFNC} -ne 0 ] ; then
-        ./Transpose_Data
-        if [ $? -ne 0 ] ; then
-          echo "Error from Transpose_Data at year "${YEARNOW}
-          ./update_status error Transpose_Data
-          exit 1
-        else
-          touch .comp.${CASE}.${HIST}.${YEARNOW}.nc
-        fi
-      else
-        echo "Error from softlink of "${CASE}"."${HIST}"."${YEARNOW}" files. Count: "${NFNC}
-        ./update_status error link
-        exit 1
-      fi
-    fi
-#
-# Store completed data on archival system
-#
-    echo -n "TS archive start: " ; date
-    ./store_to_archive
-    if [ $? -ne 0 ] ; then
-      echo "store_to_archive failed"
-      ./update_status error "$CASE $HIST $TPER"
-      exit 1
-    fi
-    echo -n "TS archive end: " ; date
-    YEARNOW=`expr $YEARNOW - 1`
-    if [ $YEARNOW -lt 1000 ] ; then
-      YEARNOW=0${YEARNOW}
-    fi
-    if [ $YEARNOW -lt 100 ] ; then
-      YEARNOW=0${YEARNOW}
-    fi
-    if [ $YEARNOW -lt 10 ] ; then
-      YEARNOW=0${YEARNOW}
-    fi
-    export YEARNOW
-  done
-#
-# Do all times
-#
-else
-#
-#
-  case "$TPER" in
-    ann )
-      OUTTIME=${YEARBEG}-${YEAREND} ;;
-    mon )
-      OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
-    day )
-      OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
-    hr3 )
-      OUTTIME=${YEARBEG}010100Z-${YEAREND}123121Z ;;
-    hr6 )
-      OUTTIME=${YEARBEG}010100Z-${YEAREND}123118Z ;;
-    hr1 )
-      OUTTIME=${YEARBEG}010100Z-${YEAREND}123123Z ;;
-    m30 )
-      OUTTIME=${YEARBEG}01010000Z-${YEAREND}12312330Z ;;
-    * ) 
-      echo "Unable to set OUTTIME because "$TPER" not known."
-      exit 1 ;;
-  esac
-  export OUTTIME
-#
-  ./update_status $YEARBEG
-  echo -n "TS PRO "${CASE}"."${HIST}": " ; date
-  if [ -d $LOCAL_HIST ] ; then
-    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]* | wc -l`
-    if [ $NHISTF -ne 0 ] ; then
-      echo ${CASE}"."${HIST}". files on disk, softlinking."
-      rm -f ${CASE}.${HIST}.[0-9]*
-      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]* .
-    fi
-  else
-    echo ${CASE}"."${HIST}" files missing from disk, acquire."
-    exit 1
+./update_status $YEARBEG
+echo -n "TS PRO "${CASE}"."${HIST}": " ; date
+if [ -d $LOCAL_HIST ] ; then
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]* | wc -l`
+  if [ $NHISTF -ne 0 ] ; then
+    echo ${CASE}"."${HIST}". files on disk, softlinking."
+    rm -f ${CASE}.${HIST}.[0-9]*
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]* .
   fi
+else
+  echo ${CASE}"."${HIST}" files missing from disk, acquire."
+  exit 1
+fi
 #
 # Transpose_Data all years
 #
-  ./Transpose_Data
-  if [ $? -ne 0 ] ; then
-    echo "Error from Transpose_Data"
-    ./update_status error Transpose_Data
-    exit 1
-  fi
+./Transpose_Data
+if [ $? -ne 0 ] ; then
+  echo "Error from Transpose_Data"
+  ./update_status error Transpose_Data
+  exit 1
+fi
 #
 # Store completed data on archival system
 #
-  echo -n "TS archive start: " ; date
-  ./store_to_archive
-  if [ $? -ne 0 ] ; then
-    echo "store_to_archive failed"
-    ./update_status error "$CASE $HIST $TPER"
-    exit 1
-  fi
-  echo -n "TS archive end: " ; date
+echo -n "TS archive start: " ; date
+./store_to_archive
+if [ $? -ne 0 ] ; then
+  echo "store_to_archive failed"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
 fi
+echo -n "TS archive end: " ; date
 #
 ./update_status complete
 echo -n "TS COMPLETE: " ; date

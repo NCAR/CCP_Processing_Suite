@@ -1,18 +1,16 @@
 #!/bin/sh
 #
-if [ $# -ne 4 ] ; then
-   echo "Usage: ./Process_Setup CASE HIST TPER"
+if [ $# -ne 3 ] ; then
+   echo "Usage: ./Process_Setup CASE HIST"
    echo "First three arguments REQUIRED:"
    echo "1: CASE name"
    echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h rtm.h0 etc]"
    echo "3: TPER time period of above HIST type - must be one of [ann mon d10 day hr6 hr3 hr1 m30]"
-   echo "4: LENG either by year or all time samples - must be one of [byy all]"
    exit 1
 else
    CASE=$1 ; export CASE
    HIST=$2 ; export HIST
    TPER=$3 ; export TPER
-   LENG=$4 ; export LENG
 fi
 #
 # Set up a bunch of stuff
@@ -24,16 +22,6 @@ case "$TPER" in
     echo "Unable to continue because "$TPER" is unknown. Stopping."
     exit 1 ;;
 esac
-#
-case "$LENG" in
-  byy | all )
-    echo ${LENG}" is good length." ;;
-  * ) 
-    echo "Unable to continue because "$LENG" is unknown. Stopping."
-    exit 1 ;;
-esac
-#
-# Check for LME runs
 #
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if ! [ -f $EXPFILE ] ; then
@@ -72,7 +60,6 @@ case "$PROCHOST" in
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
-                      | sed -e "s/xxxLENGxxx/$LENG/g" \
                       >> $CCPS_SCRIPT ;;
   yslogin* | geyser* )                     # yellowstone/geyser @ NCAR
     cat ./LSF_geyser  | sed -e "s/NAME/$CCPS_SCRIPT/g" \
@@ -82,35 +69,30 @@ case "$PROCHOST" in
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
-                      | sed -e "s/xxxLENGxxx/$LENG/g" \
                       >> $CCPS_SCRIPT ;;
   rhea* )                                  # rhea @ ORNL
     cat ./LSF_rhea    > $CCPS_SCRIPT
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
-                      | sed -e "s/xxxLENGxxx/$LENG/g" \
                       >> $CCPS_SCRIPT ;;
   hopper* )                                # hopper @ NERSC
     cat ./LSF_hopper_serial | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
-                      | sed -e "s/xxxLENGxxx/$LENG/g" \
                       >> $CCPS_SCRIPT ;;
   ed* | nid* )                             # edison @ NERSC
     cat ./LSF_edison_serial | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
-                      | sed -e "s/xxxLENGxxx/$LENG/g" \
                       >> $CCPS_SCRIPT ;;
   cooleylogin* | login1* )                 # tukey/cooley @ ANL
     cat ./LSF_tukey   | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
-                      | sed -e "s/xxxLENGxxx/$LENG/g" \
                       >> $CCPS_SCRIPT ;;
   * )
     echo "Unable to build script because "$PROCHOST" unknown."
