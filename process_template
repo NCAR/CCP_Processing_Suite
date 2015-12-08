@@ -201,6 +201,14 @@ case "$TPER" in
 esac
 SUFFIX=".${OUTTIME}.nc"
 #
+# PyReshaper Arguments
+#
+VERBOSITY=0
+#
+# Create output filename time period prefix
+#
+PREFIX="${CACHEDIR}/${CASE}.${HIST}."
+#
 # Print out values
 #
 echo "            Case name : "$CASE ; export CASE
@@ -238,8 +246,6 @@ echo "  Processing code dir : "$BASEDIR       ; export BASEDIR
 #
 # Start actual processing
 #
-./update_status $YEARBEG
-echo -n "TS PRO "${CASE}"."${HIST}": " ; date
 if [ -d $LOCAL_HIST ] ; then
   NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]* | wc -l`
   if [ $NHISTF -ne 0 ] ; then
