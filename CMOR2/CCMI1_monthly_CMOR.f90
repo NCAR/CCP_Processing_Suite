@@ -328,7 +328,7 @@ program CCMI_monthly_CMOR
         select case (xw(ixw)%entry)
         case ('aoa','vmraoanh','chegpso4','cl','cli','clw',&
              'dh','do3chm','jno2','lossch4','lossco',&
-             'mcu','mmrbc','mmrdust','mmroa','mmrsoa','mmrss',&
+             'mcu','mmrbc','mmroa','mmrdust','mmrsoa','mmrss',&
              'o3loss','o3prod','ohloss','photo1d','pilev','pmlev',&
              'prodh2o2viaho2','ta','ua','va','hus','zg',&
              'vmrc2h2','vmrc2h6','vmrch2o','vmrch3ccl3','vmrch3cn','vmrch4','vmrco25','vmrco50',&
@@ -1222,8 +1222,8 @@ program CCMI_monthly_CMOR
                  call read_var(myncid(1,5),var_info(var_found(1,5))%name,indat2e)
                  call read_var(myncid(1,6),var_info(var_found(1,6))%name,indat2f)
                  !
-                 where ((indat2a /= 1.e36).and.(indat2b /= 1.e36).and.(indat2c /= 1.e36).and.(indat2d /= 1.e36).and.(indat2e /= 1.e36).and.(indat2f /= 1.e36).and.(indat2g /= 1.e36))
-                    cmordat2d = 1.4*(indat2a) + indat2b + indat2c + indat2d + indat2e + indat2f + indat2g
+                 where ((indat2a /= 1.e36).and.(indat2b /= 1.e36).and.(indat2c /= 1.e36).and.(indat2d /= 1.e36).and.(indat2e /= 1.e36).and.(indat2f /= 1.e36))
+                    cmordat2d = 1.4*(indat2a) + indat2b + indat2c + indat2d + indat2e + indat2f 
                  elsewhere
                     cmordat2d = spval
                  endwhere
@@ -1554,8 +1554,8 @@ program CCMI_monthly_CMOR
            !
            allocate(indat3a(nlons,nlats,nlevs),indat3b(nlons,nlats,nlevs),indat3c(nlons,nlats,nlevs))
            allocate(indat3d(nlons,nlats,nlevs),indat3e(nlons,nlats,nlevs),indat3f(nlons,nlats,nlevs))
-           allocate(indat3g(nlons,nlats,nlevs),cmordat3d(nlons,nlats,nlevs))
-           allocate(psdata(nlons,nlats))
+           allocate(indat3g(nlons,nlats,nlevs))
+           allocate(cmordat3d(nlons,nlats,nlevs),psdata(nlons,nlats))
            !
            call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
            call get_dims(myncid(1,1))
@@ -1592,7 +1592,7 @@ program CCMI_monthly_CMOR
                     call read_var(myncid(1,7),var_info(var_found(1,7))%name,indat3g)
                     call read_var(myncid(1,8),'PS',psdata)
                     !
-                    cmordat3d = indat3a+indat3b+indat3c+indat3d+indat3e+indat3f+indat3g
+                    cmordat3d = 1.4*(indat3a+indat3b)+indat3c+indat3d+indat3e+indat3f+indat3g
                     !
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
                     error_flag = cmor_write(        &
