@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+#BSUB -n 32
+#BSUB -R "span[ptile=16]"
+#BSUB -q regular
+#BSUB -a poe
+#BSUB -q geyser
+#BSUB -W 72:00
+#BSUB -o log.NAME
+#BSUB -e log.NAME
+#BSUB -J NAME
+#BSUB -P P19010000
+#BSUB -u tilmes@ucar.edu
+#

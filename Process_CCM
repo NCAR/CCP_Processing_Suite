@@ -41,11 +41,9 @@ rm -f $CCPS_SCRIPT
 #
 case "$PROCHOST" in 
   yslogin* | geyser* )                     # yellowstone/geyser @ NCAR
-    cat ./LSF_geyser  | sed -e "s/NAME/$CCPS_SCRIPT/g" \
-                      | sed -e "s/72:00/24:00/g"       \
-                      | sed -e "s/USER/$USER/g"        \
-                      | sed -e "s/PROJNO/P19010000/g"  \
-                      > $CCPS_SCRIPT
+    cat ./LSF_geyser_CCM  | sed -e "s/NAME/$CCPS_SCRIPT/g" \
+                          | sed -e "s/USER/$USER/g"        \
+                          > $CCPS_SCRIPT
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
