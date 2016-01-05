@@ -25,7 +25,7 @@ PROCHOST=`hostname`;export PROCHOST
 #
 # Build processing script
 #
-SUBC=`echo $CASE | sed -e 's/e11.BDP.f09_g16.//g' | sed -e 's/-11//g'`
+SUBC=`echo $CASE | sed -e 's/e11.BDP.f09_g16.//g' | sed -e 's/-11//g'` ; export SUBC
 CCPS_SCRIPT=${SUBC}.sh ; export CCPS_SCRIPT
 #
 rm -f $CCPS_SCRIPT
