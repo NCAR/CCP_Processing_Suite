@@ -1,9 +1,13 @@
-#!/bin/sh
+#!/bin/csh
 #
-#SBATCH --jobname=GxxxSUBCxxx
+#SBATCH --jobname=GSUBC
 #SBATCH --queue=xfer
 #SBATCH --time=24:00:00
 #SBATCH --account=mp9
 #SBATCH -i
 #SBATCH --mail-user=USER@ucar.edu
 #
+cd $LOCAL_HIST
+hsi -q "cd /home/c/ccsm/csm/DP-CAM5_cam.h2_hist/CASE ; get CASE.cam.h2.*.nc"
+#
+exit

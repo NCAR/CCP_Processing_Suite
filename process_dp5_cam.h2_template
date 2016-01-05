@@ -164,7 +164,10 @@ ln -s -f $BASEDIR/run_slice2series     Transpose_Data
 #
 cd $LOCAL_HIST
 cp ${HOME}/CCP_Processing_Suite/get_cam.h2_template .
-cat get_cam.h2_template | sed -e "s/xxxSUBCxxx/$SUBC/g" > get_${SUBC}
+cat get_cam.h2_template         | \
+  sed -e "s/SUBC/$SUBC/g" | \
+  sed -e "s/USER/$USER/g" | \
+  sed -e "s/CASE/$CASE/g" > g.${SUBC}
 exit
 #
 cd $LOCAL_PROC
