@@ -76,7 +76,7 @@ PROCHOST=`hostname`;export PROCHOST
 BASEDIR=${HOME}/CCP_Processing_Suite
 #
 PROCBASE=/scratch3/scratchdirs/$USER/$CASE ; export PROCBASE
-LOCALDSK=/scratch3/scratchdirs/nanr/DP/archive/$CASE ; export LOCALDSK
+LOCALDSK=/scratch3/scratchdirs/strandwg/archive/$CASE ; export LOCALDSK
 ARCHIVE_BASE=/home/c/ccsm/csm/CESM1-CAM5-DP          ; export ARCHIVE_BASE
 #
 # Strip off first part of $HIST

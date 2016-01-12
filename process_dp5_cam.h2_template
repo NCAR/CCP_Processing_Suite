@@ -168,7 +168,7 @@ cat get_cam.h2_template         | \
   sed -e "s/SUBC/$SUBC/g" | \
   sed -e "s/USER/$USER/g" | \
   sed -e "s/CASE/$CASE/g" > g.${SUBC}
-exit
+/opt/slurm/default/bin/sbatch g.${SUBC}
 #
 cd $LOCAL_PROC
 #
