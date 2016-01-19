@@ -140,7 +140,6 @@ CCMI1_monthly:od550ss:atmosphere_optical_thickness_due_to_seasalt_ambient_aeroso
 CCMI1_monthly:od870aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time wv870nm:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:ogwflux:upward_eastward_momentum_flux_in_air_due_to_orographic_gravity_waves:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:ohloss:total_rate_of_hydroxyl_loss_reactions:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:orog:surface_altitude:longitude latitude:atmos:1:PHIS:PHIS
 CCMI1_monthly:photo1d:photolysis_rate_of_ozone_to_O1D:longitude latitude alevel time:atmos:2:jo3_a PS:jo3_a
 CCMI1_monthly:pilev:air_pressure_at_model_level_interface:longitude latitude alevel time:atmos:2:ilev PS:ilev
 CCMI1_monthly:pmlev:air_pressure:longitude latitude alevel time:atmos:2:lev PS:lev

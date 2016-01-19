@@ -1,5 +1,3 @@
-CCMI1_monthly:abs550aer:atmosphere_absorption_optical_thickness_due_to_ambient_aerosol:longitude latitude time wv550nm:atmos:1:AODABS:AODABS
-CCMI1_monthly:acceldivf:tendency_of_eastward_wind_due_to_eliassen_palm_flux_divergence:longitude latitude plevs time:atmos:1:DELF:DELF
 CCMI1_monthly:accelgw:tendency_of_eastward_wind_due_to_gravity_wave_drag:longitude latitude plevs time:atmos:4:UTGWORO UTGWSPEC BUTGWSPEC PS:UTGWORO + UTGWSPEC + BUTGWSPEC
 CCMI1_monthly:accelnogw:tendency_of_eastward_wind_due_to_nonorographic_gravity_wave_drag:longitude latitude plevs time:atmos:3:UTGWSPEC BUTGWSPEC PS:UTGWSPEC + BUTGWSPEC
 CCMI1_monthly:accelogw:tendency_of_eastward_wind_due_to_orographic_gravity_wave_drag:longitude latitude plevs time:atmos:2:UTGWORO PS:UTGWORO
@@ -73,8 +71,6 @@ CCMI1_monthly:emiso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_
 CCMI1_monthly:emiss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_emission:longitude latitude time:atmos:4:SFSSLT01 SFSSLT02 SFSSLT03 SFSSLT04:SFSSLT01+SFSSLT02+SFSSLT03+SFSSLT04
 CCMI1_monthly:emivoc:tendency_of_atmosphere_mass_content_of_non_methane_volatile_organic_compounds_as_carbon_due_to_emission:longitude latitude time:atmos:18:SFCH3OH SFCH3COCH3 SFCH3CHO SFCH2O SFCO SFC2H6 SFC3H8 SFC2H4 SFC3H6 SFC2H5OH SFC10H16 SFBIGALK SFBIGENE SFTOLUENE SFMEK SFHCOOH SFCH3COOH SFISOP:SFCH3OH+SFCH3COCH3+SFCH3CHO+SFCH2O+SFCO+SFC2H6+SFC3H8+SFC2H4+SFC3H6+SFC2H5OH+SFC10H16+SFBIGALK+SFBIGENE+SFTOLUENE+SFMEK+SFHCOOH+SFCH3COOH+SFISOP+SFHCN
 CCMI1_monthly:flashrate:lightning_flash_rate:longitude latitude time:atmos:1:FLASHFRQ:FLASHFRQ/60./area
-CCMI1_monthly:fy:northward_eliassen_palm_flux_in_air:longitude latitude plevs time:atmos:1:Fphi:Fphi
-CCMI1_monthly:fz:upward_eliassen_palm_flux_in_air:longitude latitude plevs time:atmos:1:Fz:Fz
 CCMI1_monthly:gf90aer:aerosol_growth_factor_at_90_percent_relative_humidity:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:gsto:stomatal_conductance_of_water_vapour_per_unit_leaf_area:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:LHFLX:LHFLX 
@@ -114,9 +110,9 @@ CCMI1_monthly:mmraerh2o:mass_fraction_of_water_in_ambient_aerosol_in_air:longitu
 CCMI1_monthly:mmraernh4:mass_fraction_of_ammonium_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:NH4 PS:NH4
 CCMI1_monthly:mmraerno3:mass_fraction_of_nitrate_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:NH4NO3 PS:NH4NO3
 CCMI1_monthly:mmraerso4:mass_fraction_of_sulfate_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:SO4 PS:SO4
-CCMI1_monthly:mmrbc:mass_fraction_of_black_carbon_dry_aerosol_in_air:longitude latitude alevel time:atmos:4:CB1 CB2 PS:CB1+CB2 
+CCMI1_monthly:mmrbc:mass_fraction_of_black_carbon_dry_aerosol_in_air:longitude latitude alevel time:atmos:3:CB1 CB2 PS:CB1+CB2 
 CCMI1_monthly:mmrdust:mass_fraction_of_dust_dry_aerosol_in_air:longitude latitude alevel time:atmos:6:DST01 DST02 DST03 DST04 PS TS:DST01+DST02+DST03+DST04 
-CCMI1_monthly:mmroa:mass_fraction_of_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time:atmos:9:OC1 OC2 SOAM SOAI SOAT SOAB SOAX PS TS:OC1+OC2+SOAM+SOAI+SOAT+SOAB+SOAX 
+CCMI1_monthly:mmroa:mass_fraction_of_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time:atmos:8:OC1 OC2 SOAM SOAI SOAT SOAB SOAX PS:1.4*(OC1+OC2)+SOAM+SOAI+SOAT+SOAB+SOAX 
 CCMI1_monthly:mmrpm10:mass_fraction_of_pm10_ambient_aerosol_in_air:longitude latitude alevel time relh50p:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:mmrpm1:mass_fraction_of_pm1_ambient_aerosol_in_air:longitude latitude alevel time relh50p:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:mmrpm2p5:mass_fraction_of_pm2p5_ambient_aerosol_in_air:longitude latitude alevel time relh50p:atmos:0:UNKNOWN:UNKNOWN
@@ -143,7 +139,6 @@ CCMI1_monthly:od550ss:atmosphere_optical_thickness_due_to_seasalt_ambient_aeroso
 CCMI1_monthly:od870aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time wv870nm:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:ogwflux:upward_eastward_momentum_flux_in_air_due_to_orographic_gravity_waves:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:ohloss:total_rate_of_hydroxyl_loss_reactions:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:orog:surface_altitude:longitude latitude:atmos:1:PHIS:PHIS
 CCMI1_monthly:photo1d:photolysis_rate_of_ozone_to_O1D:longitude latitude alevel time:atmos:2:jo3_a PS:jo3_a
 CCMI1_monthly:pilev:air_pressure_at_model_level_interface:longitude latitude alevel time:atmos:2:ilev PS:ilev
 CCMI1_monthly:pmlev:air_pressure:longitude latitude alevel time:atmos:2:lev PS:lev
@@ -256,7 +251,7 @@ CCMI1_monthly:wethno3:tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_
 CCMI1_monthly:wetnh3:tendency_of_atmosphere_mass_content_of_ammonia_due_to_wet_deposition:longitude latitude time:atmos:3:DTWR_NH3 PS T:DTWR_NH3
 CCMI1_monthly:wetnh4:tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 CCMI1_monthly:wetnoy:tendency_of_atmosphere_mass_content_of_all_nitrogen_oxides_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
-CCMI1_monthly:wetoa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:6:OC1SFWET OC2SFWET SOABSFWET SOAISFWET SOAMSFWET SOATSFWET SOAXSFWET:1.4*OC1SFWET + OC2SFWET + SOABSFWET + SOAISFWET + SOAMSFWET + SOATSFWET + SOAXSFWET
+CCMI1_monthly:wetoa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:6:OC2SFWET SOABSFWET SOAISFWET SOAMSFWET SOATSFWET SOAXSFWET:1.4*OC2SFWET + SOABSFWET + SOAISFWET + SOAMSFWET + SOATSFWET + SOAXSFWET
 CCMI1_monthly:wetso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition:longitude latitude time:atmos:3:DTWR_SO2 PS T:DTWR_SO2
 CCMI1_monthly:wetso4:tendency_of_atmosphere_mass_content_of_sulfate_expressed_as_sulfur_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:1:SO4SFWET:SO4SFWET
 CCMI1_monthly:wetss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:1:SSTSFWET:SSTSFWET
