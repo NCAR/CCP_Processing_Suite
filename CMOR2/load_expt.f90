@@ -146,13 +146,13 @@ subroutine load_exp(exp_file)
   do iexp = 1,num_exp
      if (trim(exp(iexp)%cmip) == 'CCMI1') then
         select case (exp(iexp)%case)
-        case ('b.e11.TSREFC2.f19.f19.ccmi23.001','b.e11.TSREFC2.f19.f19.ccmi23.002','b.e11.TSREFC2.f19.f19.ccmi23.003')
+        case ('b.e11.TSREFC2.f19.g16.ccmi23.001','b.e11.TSREFC2.f19.g16.ccmi23.002','b.e11.TSREFC2.f19.g16.ccmi23.003')
            exp(iexp)%compset(1:) = 'FCCMITSREFC2'
            exp(iexp)%run_refcase(1:) = 'N/A'
         case ('f.e11.TSREFC1.f19.f19.ccmi23.001','f.e11.TSREFC1.f19.f19.ccmi23.002','f.e11.TSREFC1.f19.f19.ccmi23.003')
            exp(iexp)%compset(1:) = 'FCCMITSREFC1'
            exp(iexp)%run_refcase(1:) = 'N/A'
-        case ('f.e11.TSREFC1SD.f19.f19.ccmi23.001')
+        case ('f.e11.TSREFC1SD.f19.f19.ccmi23.001','f.e11.TSREFC1SD_fEmis.f19.f19.ccmi23.001','f.e11.TSREFC1SD_fEmis_fCH4.f19.f19.ccmi23.001','f.e11.TSREFC1SD_fEmis_vMEG.f19.f19.ccmi23.001')
            exp(iexp)%compset(1:) = 'FSDCCMITSREFC1'
            exp(iexp)%run_refcase(1:) = 'N/A'
         end select
@@ -161,7 +161,8 @@ subroutine load_exp(exp_file)
   do iexp = 1,num_exp
      if (trim(exp(iexp)%cmip) == 'HTAP2') then
         select case (exp(iexp)%case)
-        case ('cesm111ccmi23_geos5_htap_base','cesm111ccmi23_geos5_htap_easall','cesm111ccmi23_geos5_htap_eurall')
+        case ('cesm111ccmi23_geos5_htap_base','cesm111ccmi23_geos5_htap_easall','cesm111ccmi23_geos5_htap_eurall','cesm111ccmi23_geos5_htap_gloall',&
+               'cesm111ccmi23_geos5_htap_mdeall','cesm111ccmi23_geos5_htap_namall','cesm111ccmi23_geos5_htap_rbuall','cesm111ccmi23_geos5_htap_sasall')
            exp(iexp)%compset(1:) = 'FSDCCMITSREFC1'
            exp(iexp)%run_refcase(1:) = 'N/A'
         end select
@@ -339,9 +340,9 @@ subroutine load_exp(exp_file)
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
      case ('refC2')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
-     case ('refC1','refC1SD')
+     case ('refC1','refC1SD','senC1SD_emis','senC1SD_emis_fCH4','senC1SD_emis_vMEG')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (observed sea surface temps)'
-     case ('BASE','EASALL','EURALL')
+     case ('BASE','EASALL','EURALL','GLOALL','MDEALL','NAMALL','RBUALL','SASALL')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (observed sea surface temps)'
      end select
   enddo

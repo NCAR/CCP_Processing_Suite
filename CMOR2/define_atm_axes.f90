@@ -255,7 +255,7 @@ subroutine define_atm_axes(dimensions)
         idim = idim + 1
      case ('plevs')
         select case(exp(exp_found)%model_id)
-        case ('CESM1-WACCM')
+        case ('CESM1-WACCM','CESM1-WACCMSD')
            axis_ids(idim) = cmor_axis(        &
                 table=mycmor%table_file,      &
                 table_entry=dimnames(i),      &
@@ -263,7 +263,8 @@ subroutine define_atm_axes(dimensions)
                 units=dimunits(i),            &
                 coord_vals=atm_plev23)
            write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
-        case ('CESM1-CAM4Chem','CESM1-CAM4ChemSD','CESM1-EASALL','CESM1-EURALL')
+        case ('CESM1-CAM4Chem','CESM1-CAM4ChemSD','CESM1-EASALL','CESM1-EURALL','CESM1-GLOALL', &
+               'CESM1-NDEALL','CESM1-NAMALL','CESM1-RBUALL','CESM1-SASALL')
            axis_ids(idim) = cmor_axis(        &
                 table=mycmor%table_file,      &
                 table_entry=dimnames(i),      &

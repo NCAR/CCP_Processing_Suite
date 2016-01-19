@@ -60,7 +60,9 @@ subroutine get_cmor_info
      mycmor%calendar   = 'noleap'
   end select
   select case (exp(exp_found)%case)
-  case ('f.e11.TSREFC1SD.f19.f19.ccmi23.001','cesm111ccmi23_geos5_htap_base','cesm111ccmi23_geos5_htap_eural')
+  case ('f.e11.TSREFC1SD.f19.f19.ccmi23.001','cesm111ccmi23_geos5_htap_base','cesm111ccmi23_geos5_htap_eurall','cesm111ccmi23_geos5_htap_gloall','cesm111ccmi23_geos5_htap_mdeall',&
+         'cesm111ccmi23_geos5_htap_namall','cesm111ccmi23_geos5_htap_rbuall','cesm111ccmi23_geos5_htap_sasall', &
+         'f.e11.TSREFC1SD_fEmis.f19.f19.ccmi23.001','f.e11.TSREFC1SD_fEmis_fCH4.f19.f19.ccmi23.001','f.e11.TSREFC1SD_fEmis_vMEG.f19.f19.ccmi23.001')
      mycmor%calendar   = 'gregorian'
   case default
      mycmor%calendar   = 'noleap'
@@ -95,7 +97,12 @@ subroutine get_cmor_info
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case ('CESM1-WACCM')
-     mycmor%references    = 'Marsh, D., et.al. 2012: WACCM4 simulations of atmospheric trends from 1850 to present.'//&
+     mycmor%references    = 'Kinnison et.al. 2016: in preparation.'//&
+          ' See also http://www.cesm.ucar.edu/publications'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
+     mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
+  case ('CESM1-WACCMSD')
+     mycmor%references    = 'Kinnison et.al. 2016: in preparation.'//&
           ' See also http://www.cesm.ucar.edu/publications'
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
@@ -110,16 +117,42 @@ subroutine get_cmor_info
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case ('CESM1-BASE')
-     mycmor%references    = 'Tilmes S. in preparation'//&
+     mycmor%references    = ' '//&
           ' See also http://www.cesm.ucar.edu/publications'
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case ('CESM1-EASALL')
-     mycmor%references    = 'Tilmes S. in preparation'//&
+     mycmor%references    = ' '//&
           ' See also http://www.cesm.ucar.edu/publications'
      mycmor%institute_id  = 'NSF-DOE-NCAR'
+     mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
   case ('CESM1-EURALL')
-     mycmor%references    = 'Tilmes S. in preparation'//&
+     mycmor%references    = ' '//&
+          ' See also http://www.cesm.ucar.edu/publications'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
+     mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
+  case ('CESM1-GLOALL')
+     mycmor%references    = ' '//&
+          ' See also http://www.cesm.ucar.edu/publications'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
+     mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
+  case ('CESM1-MDEALL')
+     mycmor%references    = ' '//&
+          ' See also http://www.cesm.ucar.edu/publications'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
+     mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
+  case ('CESM1-NAMALL')
+     mycmor%references    = ' '//&
+          ' See also http://www.cesm.ucar.edu/publications'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
+     mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
+  case ('CESM1-RBUALL')
+     mycmor%references    = ' '//&
+          ' See also http://www.cesm.ucar.edu/publications'
+     mycmor%institute_id  = 'NSF-DOE-NCAR'
+     mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'
+  case ('CESM1-SASALL')
+     mycmor%references    = ' '//&
           ' See also http://www.cesm.ucar.edu/publications'
      mycmor%institute_id  = 'NSF-DOE-NCAR'
      mycmor%institution   = 'NSF/DOE NCAR (National Center for Atmospheric Research) Boulder, CO, USA'

@@ -19,7 +19,9 @@ subroutine get_atm_grid
   !
   select case (exp(exp_found)%model_id)
   case ('CESM1-WACCM')
-     gridfile = 'atm_grid_f19.nc'
+     gridfile = 'atm_grid_f19_L66.nc'
+  case ('CESM1-WACCMSD')
+     gridfile = 'atm_grid_f19_L88.nc'
   case ('CESM1-CAM4Chem' )
      gridfile = 'atm_grid_cam4_f19_26L.nc'
   case ('CESM1-CAM4ChemSD' )
@@ -27,6 +29,16 @@ subroutine get_atm_grid
   case ('CESM1-EASALL' )
      gridfile = 'atm_grid_cam4_f19_56L.nc'
   case ('CESM1-EURALL' )
+     gridfile = 'atm_grid_cam4_f19_56L.nc'
+  case ('CESM1-GLOALL' )
+     gridfile = 'atm_grid_cam4_f19_56L.nc'
+  case ('CESM1-MDEALL' )
+     gridfile = 'atm_grid_cam4_f19_56L.nc'
+  case ('CESM1-NAMALL' )
+     gridfile = 'atm_grid_cam4_f19_56L.nc'
+  case ('CESM1-RBUALL' )
+     gridfile = 'atm_grid_cam4_f19_56L.nc'
+  case ('CESM1-SASALL' )
      gridfile = 'atm_grid_cam4_f19_56L.nc'
   case ('CESM1-CAM5')
      gridfile = 'atm_grid_cam5_f09.nc'
