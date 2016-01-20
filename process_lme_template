@@ -59,11 +59,15 @@ case "$PROCHOST" in
     NCODIR=/glade/apps/opt/nco/4.4.2/gnu/4.8.2/bin
     NCKS=${NCODIR}/ncks      ; export NCKS
     NCRCAT=${NCODIR}/ncrcat  ; export NCRCAT
-    PROCBASE=/glade/p/cesm/palwg_dev/LME/proc/$USER/$CASE  ; export PROCBASE
-    LOCALDSK=/glade/p/cesm/palwg_dev/LME/archive/$CASE ; export LOCALDSK
-#    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME         ; export ARCHIVE_BASE
-    ARCHIVE_BASE=/CCSM/csm/palwg_dev/cesmLME/CESM-CAM5-LME
-#    ARCHIVE_BASE=/CCSM/csm/${CASE}                ; export ARCHIVE_BASE
+    if [ "$USER" = "ottobli" ] ; then
+      PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE  ; export PROCBASE
+      LOCALDSK=/glade/p/cesm0005/csm/$CASE         ; export LOCALDSK
+      ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME         ; export ARCHIVE_BASE 
+    else
+      PROCBASE=/glade/p/cesm/palwg_dev/LME/proc/$USER/$CASE  ; export PROCBASE
+      LOCALDSK=/glade/p/cesm/palwg_dev/LME/archive/$CASE     ; export LOCALDSK
+      ARCHIVE_BASE=/CCSM/csm/palwg_dev/cesmLME/CESM-CAM5-LME ; export ARCHIVE_BASE
+    fi
     DISK_BASE=/glade/p/cesmLME/CESM-CAM5-LME      ; export DISK_BASE
     HSIOPTS="-a P93300019"                        ; export HSIOPTS
     ;;
