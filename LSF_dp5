@@ -1,10 +1,9 @@
 #!/bin/sh
 #
-#SBATCH --jobname=NAME
+#SBATCH -J NAME
 #SBATCH --partition=regular
-#SBATCH --nodes=TASK
+#SBATCH --nodes=NODE
 #SBATCH --time=WALL
 #SBATCH --account=mp9
-#SBATCH -i
 #SBATCH --mail-user=USER@ucar.edu
 #

@@ -33,43 +33,43 @@ fi
 #
 case "$HIST" in
   cam.h0 )
-    TASK=144
+    NODE=6
     WALL="00:30:00" ;;
   cam.h1 )
-    TASK=72
+    NODE=3
     WALL="04:30:00" ;;
   cam.h2 )
-    TASK=144
+    NODE=6
     WALL="10:00:00" ;;
   clm2.h0 )
-    TASK=312
+    NODE=13
     WALL="00:20:00" ;;
   clm2.h1 )
-    TASK=24
+    NODE=2
     WALL="01:30:00" ;;
   cice.h )
-    TASK=120
+    NODE=10
     WALL="00:30:00" ;;
   cice.h1 )
-    TASK=72
+    NODE=6
     WALL="02:00:00" ;;
   pop.h )
-    TASK=288
+    NODE=12
     WALL="01:00:00" ;;
   pop.h.nday1 )
-    TASK=24
+    NODE=1
     WALL="00:30:00" ;;
   pop.h.ecosys.nday1 )
-    TASK=24
+    NODE=1
     WALL="00:30:00" ;;
   pop.h.ecosys.nyear1 )
-    TASK=48
+    NODE=2
     WALL="00:20:00" ;;
   rtm.h0 )
-    TASK=24
+    NODE=1
     WALL="00:20:00" ;;
   rtm.h1 )
-    TASK=24
+    NODE=1
     WALL="00:30:00" ;;
   * )
     echo "Unknown "${HIST}
@@ -77,6 +77,7 @@ case "$HIST" in
 esac
 #
 TEMPLATE=process_dp5_template
+TASK=`expr $NODE '*' '24'`
 #
 PROCHOST=`hostname`;export PROCHOST
 #
@@ -87,13 +88,13 @@ rm -f $CCPS_SCRIPT
 cat ./LSF_dp5     | sed -e "s/NAME/$CCPS_SCRIPT/g" \
                   | sed -e "s/WALL/$WALL/g"        \
                   | sed -e "s/USER/$USER/g"        \
-                  | sed -e "s/TASK/$TASK/g"        \
+                  | sed -e "s/NODE/$NODE/g"        \
                   > $CCPS_SCRIPT
 #
 cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                   | sed -e "s/xxxHISTxxx/$HIST/g" \
                   | sed -e "s/xxxTPERxxx/$TPER/g" \
-                  | sed -e "s/TASK/$TASK/g"       \
+                  | sed -e "s/NODE/$NODE/g"       \
                   >> $CCPS_SCRIPT
 #
 chmod +x $CCPS_SCRIPT
