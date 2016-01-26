@@ -59,7 +59,7 @@ case "$PROCHOST" in
     NCODIR=/glade/apps/opt/nco/4.4.2/gnu/4.8.2/bin
     NCKS=${NCODIR}/ncks      ; export NCKS
     NCRCAT=${NCODIR}/ncrcat  ; export NCRCAT
-    if [ "$USER" = "ottobli" ] ; then
+    if [ `echo $CASE | egrep "tambora" | wc -c` = 0 ] ; then
       PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE  ; export PROCBASE
       LOCALDSK=/glade/p/cesm0005/csm/$CASE         ; export LOCALDSK
       ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME         ; export ARCHIVE_BASE 
