@@ -256,13 +256,24 @@ subroutine define_atm_axes(dimensions)
      case ('plevs')
         select case(exp(exp_found)%model_id)
         case ('CESM1-WACCM')
-           axis_ids(idim) = cmor_axis(        &
-                table=mycmor%table_file,      &
-                table_entry=dimnames(i),      &
-                length=SIZE(atm_plev23),       &
-                units=dimunits(i),            &
-                coord_vals=atm_plev23)
-           write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           select case (mycmor%table_file)
+           case ('Tables/CMIP5_Amon')
+             axis_ids(idim) = cmor_axis(        &
+                  table=mycmor%table_file,      &
+                  table_entry=dimnames(i),      &
+                  length=SIZE(atm_plev23),       &
+                  units=dimunits(i),            &
+                  coord_vals=atm_plev23)
+             write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           case ('Tables/CCMI1_monthly')
+             axis_ids(idim) = cmor_axis(        &
+                  table=mycmor%table_file,      &
+                  table_entry=dimnames(i),      &
+                  length=SIZE(atm_plev31),       &
+                  units=dimunits(i),            &
+                  coord_vals=atm_plev31)
+             write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           end select
         case ('CESM1-CAM4Chem','CESM1-CAM4ChemSD','CESM1-EASALL','CESM1-EURALL','CESM1-GLOALL', &
               'CESM1-NDEALL','CESM1-NAMALL','CESM1-RBUALL','CESM1-SASALL','CESM1-WACCMSD')
            axis_ids(idim) = cmor_axis(        &
