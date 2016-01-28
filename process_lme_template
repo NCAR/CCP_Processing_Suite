@@ -1,3 +1,16 @@
+#
+export MP_TIMEOUT=14400
+export MP_PULSE=1800
+export MP_DEBUG_NOTIMEOUT=yes
+#
+# Necessary modules to load
+#
+eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load python`
+eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load all-python-libs`
+PATH=/glade/u/home/strandwg/.local/bin:${PATH} ; export PATH
+#
+PYTHONPATH=/glade/u/home/strandwg/.local/lib/python2.7/site-packages:${PYTHONPATH}
+#
 CASE=xxxCASExxx ; export CASE
 HIST=xxxHISTxxx ; export HIST
 TPER=xxxTPERxxx ; export TPER
@@ -136,6 +149,14 @@ CACHEDIR=${LOCAL_PROC}/to_archive
 YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
 MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
+# PyReshaper Arguments
+#
+VERBOSITY=1
+#
+# Create output filename time period prefix
+#
+PREFIX="${CACHEDIR}/${CASE}.${HIST}."
+#
 # Print out values
 #
 echo "            Case name : "$CASE ; export CASE
@@ -155,6 +176,12 @@ echo "             End year : "$YEAREND  ; export YEAREND
 echo "           Year count : "$YRCOUNT  ; export YRCOUNT
 echo "         Months count : "$MNCOUNT  ; export MNCOUNT
 echo ""
+echo "PyReshaper"
+echo "          Output time : "$OUTTIME       ; export OUTTIME
+echo "        Output prefix : "$PREFIX        ; export PREFIX
+echo "        Output format : "$NCFORMAT      ; export NCFORMAT
+echo "            Verbosity : "$VERBOSITY     ; export VERBOSITY
+echo ""
 echo "    Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
 echo "        History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
 echo "        History names : "$HIST          ; export HIST
@@ -173,7 +200,17 @@ if [ ! -d ${CACHEDIR} ] ; then
 fi
 cd $LOCAL_PROC
 #
-ln -s -f $BASEDIR/var_extract_compress      var_extract
+#
+#
+case "$HIST" in
+  cice.h | cice.h1 )
+    ln -s -f $BASEDIR/split_cice_hemis  .
+    NCFORMAT=netcdf4  ; export NCFORMAT ;;
+  *   )
+    NCFORMAT=netcdf4c ; export NCFORMAT ;;
+esac
+#
+ln -s -f $BASEDIR/run_slice2series          Transpose_Data
 ln -s -f $BASEDIR/store_to_archive_var_keep store_to_archive_var
 ln -s -f $BASEDIR/archive_write_var_keep    archive_write_var_keep
 ln -s -f $BASEDIR/disk_move_var             .
@@ -274,17 +311,18 @@ if [ "$LMEX" = "lm" ] ; then
             fi ;;
         esac
         export OUTTIME
+        SUFFIX=".${OUTTIME}.nc" ; export SUFFIX
 #
 # Extract each field from all files
 #
-        echo -n "TS var_extract start: " ; date
-        ./var_extract
+        echo -n "TS Transpose_Data start: " ; date
+        ./Transpose_Data
         if [ $? -ne 0 ] ; then
-          echo "var_extract failed"
+          echo "Transpose_Data failed"
           ./update_status error "$CASE $HIST $TPER"
           exit 1
         fi
-        echo -n "TS var_extract end  : " ; date
+        echo -n "TS Transpose_Data end  : " ; date
 #
 # Store completed data on archival system
 #
@@ -351,17 +389,18 @@ if [ "$LMEX" = "lm" ] ; then
         OUTTIME=08500101-18491231 ;;
     esac
     export OUTTIME
+    SUFFIX=".${OUTTIME}.nc" ; export SUFFIX
 #
 # Extract each field from all files
 #
-    echo -n "TS var_extract start: " ; date
-    ./var_extract
+    echo -n "TS Transpose_Data start: " ; date
+    ./Transpose_Data
     if [ $? -ne 0 ] ; then
-      echo "var_extract failed"
+      echo "Transpose_Data failed"
       ./update_status error "$CASE $HIST $TPER"
       exit 1
     fi
-    echo -n "TS var_extract end  : " ; date
+    echo -n "TS Transpose_Data end  : " ; date
 #
 # Store completed data on archival system
 #
@@ -425,17 +464,18 @@ if [ "$LMEX" = "ext" ] ; then
       OUTTIME=1850010100Z-2005123118Z ;;
   esac
   export OUTTIME
+  SUFFIX=".${OUTTIME}.nc" ; export SUFFIX
 #
 # Extract each field from all files
 #
-  echo -n "TS var_extract start: " ; date
-  ./var_extract
+  echo -n "TS Transpose_Data start: " ; date
+  ./Transpose_Data
   if [ $? -ne 0 ] ; then
-    echo "var_extract failed"
+    echo "Transpose_Data failed"
     ./update_status error "$CASE $HIST $TPER"
     exit 1
   fi
-  echo -n "TS var_extract end  : " ; date
+  echo -n "TS Transpose_Data end  : " ; date
 #
 # Store completed data on archival system
 #
@@ -505,17 +545,18 @@ if [ "$LMEX" = "rcp" ] ; then
       OUTTIME=2006010100Z-2100123118Z ;;
   esac
   export OUTTIME
+  SUFFIX=".${OUTTIME}.nc" ; export SUFFIX
 #
 # Extract each field from all files
 #
-  echo -n "TS var_extract start: " ; date
-  ./var_extract
+  echo -n "TS Transpose_Data start: " ; date
+  ./Transpose_Data
   if [ $? -ne 0 ] ; then
-    echo "var_extract failed"
+    echo "Transpose_Data failed"
     ./update_status error "$CASE $HIST $TPER"
     exit 1
   fi
-  echo -n "TS var_extract end  : " ; date
+  echo -n "TS Transpose_Data end  : " ; date
 #
 # Store completed data on archival system
 #

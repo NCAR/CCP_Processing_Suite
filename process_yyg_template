@@ -202,7 +202,7 @@ esac
 ln -s -f $BASEDIR/store_to_archive_var .
 ln -s -f $BASEDIR/archive_write_var    .
 ln -s -f $BASEDIR/update_status        .
-ln -s -f $BASEDIR/run_slice2series     Tranpose_Data
+ln -s -f $BASEDIR/run_slice2series     Transpose_Data
 #
 cd $LOCAL_PROC
 #
