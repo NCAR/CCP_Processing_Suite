@@ -45,6 +45,10 @@ else
     * )
       TEMPLATE=process_template ;;
   esac
+  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c75-76`
+  if [ "$LOCATION" = "AN" ] ; then
+    TEMPLATE=process_anl_template
+  fi
 fi
 #
 PROCHOST=`hostname`;export PROCHOST
@@ -88,8 +92,8 @@ case "$PROCHOST" in
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
                       >> $CCPS_SCRIPT ;;
-  cooleylogin* | login1* )                 # tukey/cooley @ ANL
-    cat ./LSF_tukey   | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
+  cooleylogin* | login1* )                 # cooley @ ANL
+    cat ./LSF_cooley  | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
     cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                       | sed -e "s/xxxHISTxxx/$HIST/g" \
                       | sed -e "s/xxxTPERxxx/$TPER/g" \
@@ -116,8 +120,8 @@ if [ "$DORUN" = "Y" ] ; then
       ( qsub.serial ./${CCPS_SCRIPT} ) ;;
     yslogin* | geyser* )
       ( bsub < ./${CCPS_SCRIPT} ) ;;
-    cooleylogin* | login1* )
-      ( /usr/bin/qsub -n 1 -t 720 -A CESM_Atmos ./${CCPS_SCRIPT} ) ;;
+    cooleylogin* )
+      ( /usr/bin/qsub -n 1 -t 720 -A CESM_Atmos_PostProc ./${CCPS_SCRIPT} ) ;;
     * )
       ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
   esac
