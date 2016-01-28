@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-#COBALT -A CESM_Atmos
+#COBALT -A CESM_Atmos_PostProc
 #COBALT -t 12:00:00
 #COBALT -n 1
 #
