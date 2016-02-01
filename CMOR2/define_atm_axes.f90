@@ -273,6 +273,16 @@ subroutine define_atm_axes(dimensions)
                   units=dimunits(i),            &
                   coord_vals=atm_plev31)
              write(*,'('' dimension: '',a,'' defined: '',i4)') trim(dimnames(i)),axis_ids(idim)
+           !
+           ! KLUDGE in degenerate longitude as axis_ids(5); for zonal means - Geez
+           !
+             axis_ids(5) = cmor_axis(           &
+                table=mycmor%table_file,      &
+                table_entry='longitude',      &
+                length=1,                     &
+                units='degrees_east',         &
+                coord_vals=(/180.0/),         &
+                cell_bounds=(/0.0,360.0/))
            end select
         case ('CESM1-CAM4Chem','CESM1-CAM4ChemSD','CESM1-EASALL','CESM1-EURALL','CESM1-GLOALL', &
               'CESM1-NDEALL','CESM1-NAMALL','CESM1-RBUALL','CESM1-SASALL','CESM1-WACCMSD')
