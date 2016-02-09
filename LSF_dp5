@@ -1,9 +1,12 @@
 #!/bin/sh
 #
-#SBATCH -J NAME
+#SBATCH --jobname=NAME
+#SBATCH --err=NAME.err
+#SBATCH --output=NAME.out
 #SBATCH --partition=regular
 #SBATCH --nodes=NODE
 #SBATCH --time=WALL
 #SBATCH --account=mp9
+#SBATCH --mail-type=ALL
 #SBATCH --mail-user=USER@ucar.edu
 #
