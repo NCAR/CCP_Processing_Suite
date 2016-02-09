@@ -4,7 +4,7 @@ if [ $# -ne 3 ] ; then
    echo "Usage: ./Process_DP5 CASE HIST TPER"
    echo "Three arguments REQUIRED:"
    echo "1: CASE name"
-   echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h rtm.h0 etc]"
+   echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 clm.h0 pop.h csim.h cice.h rtm.h0 etc]"
    echo "3: TPER time period of above HIST type - must be one of [ann mon day hr6 hr3 hr1 m30]"
    exit 1
 else
@@ -40,7 +40,7 @@ case "$HIST" in
     WALL="04:30:00" ;;
   cam.h2 )
     NODE=6
-    WALL="10:00:00" ;;
+    WALL="16:00:00" ;;
   clm2.h0 )
     NODE=13
     WALL="00:20:00" ;;
