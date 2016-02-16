@@ -40,7 +40,7 @@ case "$HIST" in
     WALL="04:30:00" ;;
   cam.h2 )
     NODE=6
-    WALL="16:00:00" ;;
+    WALL="06:00:00" ;;
   clm2.h0 )
     NODE=13
     WALL="00:20:00" ;;

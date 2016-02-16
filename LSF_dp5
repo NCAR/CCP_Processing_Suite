@@ -1,9 +1,10 @@
 #!/bin/sh
 #
-#SBATCH --jobname=NAME
+#SBATCH -J NAME
 #SBATCH --err=NAME.err
 #SBATCH --output=NAME.out
 #SBATCH --partition=regular
+#SBATCH --qos=premium
 #SBATCH --nodes=NODE
 #SBATCH --time=WALL
 #SBATCH --account=mp9
