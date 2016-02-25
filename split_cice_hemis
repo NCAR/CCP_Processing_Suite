@@ -26,7 +26,14 @@ for FILE in `/bin/ls *{cice,csim}.h*.*.*.nc` ; do
   while [ $IDOT -le $NDOT ] ; do
     CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
     case "$CURC" in
-      cam2 | cam | clm2 | pop | csim | cice | rtm )
+      csim )
+        NAME=nlat
+        DPFX=`expr '(' $IDOT ')' '+' '1'`
+        DSFX=`expr '(' $DPFX ')' '+' '1'`
+        DHT1=$IDOT ;;
+    case "$CURC" in
+      cice )
+        NAME=nj
         DPFX=`expr '(' $IDOT ')' '+' '1'`
         DSFX=`expr '(' $DPFX ')' '+' '1'`
         DHT1=$IDOT ;;
@@ -44,9 +51,9 @@ for FILE in `/bin/ls *{cice,csim}.h*.*.*.nc` ; do
 #
   OUT=${OUTPFX}_nh.${OUTSFX}
   if [ ! -f $OUT ] ; then
-    $NCKS -4 -L 1 -h -O -d nj,${LAT_NHS},${LAT_NHN} $FILE $OUT
+    $NCKS -4 -L 1 -h -O -d ${NAME},${LAT_NHS},${LAT_NHN} $FILE $OUT
     if [ $? -ne 0 ] ; then
-       echo ${NCKS}" -4 -L 1 -h -d nj,"${LAT_NHS}","${LAT_NHN}" "${FILE}" "${OUT}" failed"
+       echo ${NCKS}" -4 -L 1 -h -d "${NAME}","${LAT_NHS}","${LAT_NHN}" "${FILE}" "${OUT}" failed"
        exit 1
     fi
   fi
@@ -55,9 +62,9 @@ for FILE in `/bin/ls *{cice,csim}.h*.*.*.nc` ; do
 #
   OUT=${OUTPFX}_sh.${OUTSFX}
   if [ ! -f $OUT ] ; then
-    $NCKS -4 -L 1 -h -O -d nj,${LAT_SHS},${LAT_SHN} $FILE $OUT
+    $NCKS -4 -L 1 -h -O -d ${NAME},${LAT_SHS},${LAT_SHN} $FILE $OUT
     if [ $? -ne 0 ] ; then
-       echo ${NCKS}" -4 -L 1 -h -d nj,"${LAT_SHS}","${LAT_SHN}" "${FILE}" "${OUT}" failed"
+       echo ${NCKS}" -4 -L 1 -h -d "${NAME}","${LAT_SHS}","${LAT_SHN}" "${FILE}" "${OUT}" failed"
        exit 1
     fi
   fi
