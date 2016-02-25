@@ -31,7 +31,6 @@ for FILE in `/bin/ls *{cice,csim}.h*.*.*.nc` ; do
         DPFX=`expr '(' $IDOT ')' '+' '1'`
         DSFX=`expr '(' $DPFX ')' '+' '1'`
         DHT1=$IDOT ;;
-    case "$CURC" in
       cice )
         NAME=nj
         DPFX=`expr '(' $IDOT ')' '+' '1'`
