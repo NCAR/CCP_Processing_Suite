@@ -12,8 +12,12 @@ eval `/opt/modules/3.2.10.3/bin/modulecmd sh load zlib`
 #
 MPPW=TASK ; export MPPW
 #
+PYTHONSTARTUP=/etc/pythonstart ; export PYTHONSTARTUP
+PYTHONUSERBASE=/global/homes/s/strandwg/.local/edison/2.7-anaconda ; export PYTHONUSERBASE
+PYTHON_DIR=/usr/common/usg/python/2.7-anaconda ; export PYTHON_DIR
 PYTHONPATH=/global/project/projectdirs/ccsm1/pythonlib/lib/python2.7/site-packages/PyNIO:$PYTHONPATH
 export PYTHONPATH
+#
 PATH=/global/u2/s/strandwg/.local/edison/2.7-anaconda/bin:${PATH}
 export PATH
 LD_LIBRARY_PATH=/usr/common/usg/nco/4.5.2/gnu/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
