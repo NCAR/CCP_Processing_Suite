@@ -14,7 +14,7 @@ MPPW=TASK ; export MPPW
 #
 PYTHONPATH=/global/project/projectdirs/ccsm1/pythonlib/lib/python2.7/site-packages/PyNIO:$PYTHONPATH
 export PYTHONPATH
-PATH=${HOME}/.local/bin:${PATH}
+PATH=/global/u2/s/strandwg/.local/edison/2.7-anaconda/bin:${PATH}
 export PATH
 LD_LIBRARY_PATH=/usr/common/usg/nco/4.5.2/gnu/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
 #
