@@ -17,7 +17,6 @@ if [ ! ${CACHEDIR} ] ; then
 fi
 #
 cd ${CACHEDIR}
-pwd
 #
 if [ `/bin/ls *.nc | wc -l` -ne 0 ] ; then
   ../archive_write_var

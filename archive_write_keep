@@ -17,7 +17,7 @@ fi
 #
 HSI=`which hsi 2<&1`
 if [ $? -ne 0 ] ; then
-  echo "hsi command not found"
+  echo "hsi command not found. Stopping."
   ../update_status error archive_write
   exit 1
 fi
@@ -35,8 +35,7 @@ if [ $? -ne 0 ] ; then
     echo "Files written to "${ARCHIVE_D}" and kept on disk."
     rm -f PUT 
   else
-    echo "Problem with HPSS on write to "${ARCHIVE_D}". Stopping"
+    echo "Problem with HPSS on write to "${ARCHIVE_D}". Warning."
     ../update_status error archive_write
-    exit 1
   fi
 fi

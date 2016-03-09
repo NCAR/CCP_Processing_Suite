@@ -324,6 +324,17 @@ if [ "$LMEX" = "lm" ] ; then
         fi
         echo -n "TS Transpose_Data end  : " ; date
 #
+# If cice, split hemispheres
+#
+        case "$HTYP" in
+          cice ) 
+          cd $CACHEDIR
+          echo -n "TS split cice hemis start: " ; date
+          ../split_cice_hemis
+          echo -n "TS split cice hemis end  : " ; date
+          cd $LOCAL_PROC ;;
+        esac
+#
 # Store completed data on archival system
 #
         echo -n "TS archive start: " ; date
@@ -402,6 +413,17 @@ if [ "$LMEX" = "lm" ] ; then
     fi
     echo -n "TS Transpose_Data end  : " ; date
 #
+# If cice, split hemispheres
+#
+  case "$HTYP" in
+    cice ) 
+      cd $CACHEDIR
+      echo -n "TS split cice hemis start: " ; date
+      ../split_cice_hemis
+      echo -n "TS split cice hemis end  : " ; date
+      cd $LOCAL_PROC ;;
+  esac
+#
 # Store completed data on archival system
 #
     echo -n "TS archive start: " ; date
@@ -476,6 +498,17 @@ if [ "$LMEX" = "ext" ] ; then
     exit 1
   fi
   echo -n "TS Transpose_Data end  : " ; date
+#
+# If cice, split hemispheres
+#
+  case "$HTYP" in
+    cice ) 
+      cd $CACHEDIR
+      echo -n "TS split cice hemis start: " ; date
+      ../split_cice_hemis
+      echo -n "TS split cice hemis end  : " ; date
+      cd $LOCAL_PROC ;;
+  esac
 #
 # Store completed data on archival system
 #
@@ -557,6 +590,17 @@ if [ "$LMEX" = "rcp" ] ; then
     exit 1
   fi
   echo -n "TS Transpose_Data end  : " ; date
+#
+# If cice, split hemispheres
+#
+  case "$HTYP" in
+    cice ) 
+      cd $CACHEDIR
+      echo -n "TS split cice hemis start: " ; date
+      ../split_cice_hemis
+      echo -n "TS split cice hemis end  : " ; date
+      cd $LOCAL_PROC ;;
+  esac
 #
 # Store completed data on archival system
 #

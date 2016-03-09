@@ -29,14 +29,13 @@ if [ $? -ne 0 ] ; then
   echo "Problem with HPSS on mkdir of "${ARCHIVE_D}". Warning."
   ../update_status warning archive_write
   echo ${ARCHIVE_D}" created. Ready."
-  echo "cd $ARCHIVE_D ; put -d -U *nc ; chmod 644 *nc" > PUT
+  echo "cd $ARCHIVE_D ; put -d -U *nc ; chmod 644 ${CASE}.${HIST}.*" > PUT
   $HSI $HSIOPTS in PUT
   if [ $? -eq 0 ] ; then
     echo "Files written to "${ARCHIVE_D}" and erased."
     rm -f PUT 
   else
-    echo "Problem with HPSS on write to "${ARCHIVE_D}". Stopping"
+    echo "Problem with HPSS on write to "${ARCHIVE_D}". Warning."
     ../update_status error archive_write
-    exit 1
   fi
 fi
