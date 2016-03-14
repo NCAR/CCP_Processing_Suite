@@ -3,9 +3,10 @@ eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm PrgEnv-intel`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm intel`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm cray-netcdf`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm ncar`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm mpi4py`
 #
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh load gcc`
-eval `/opt/modules/3.2.10.3/bin/modulecmd sh load python/2.7-anaconda`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load python/2.7`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh load netcdf/4.3.0`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh load szip`
 eval `/opt/modules/3.2.10.3/bin/modulecmd sh load zlib`
