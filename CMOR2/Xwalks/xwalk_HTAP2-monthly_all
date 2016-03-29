@@ -34,7 +34,7 @@ HTAP2-monthly:lossco:tendency_of_mole_concentration_of_carbon_monoxide_due_to_ch
 HTAP2-monthly:mmrnh4:mass_fraction_of_ammonium_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:NH4 PS:NH4
 HTAP2-monthly:mmrno3:mass_fraction_of_nitrate_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:NH4NO3 PS:NH4NO3
 HTAP2-monthly:mmrso4:mass_fraction_of_sulfate_dry_aerosol_in_air:longitude latitude alevel time:atmos:2:SO4 PS:SO4
-HTAP2-monthly:mmrbc:mass_fraction_of_black_carbon_dry_aerosol_in_air:longitude latitude alevel time:atmos:4:CB1 CB2 PS:CB1+CB2 
+HTAP2-monthly:mmrbc:mass_fraction_of_black_carbon_dry_aerosol_in_air:longitude latitude alevel time:atmos:3:CB1 CB2 PS:CB1+CB2 
 HTAP2-monthly:mmrdust:mass_fraction_of_dust_dry_aerosol_in_air:longitude latitude alevel time:atmos:6:DST01 DST02 DST03 DST04 PS TS:DST01+DST02+DST03+DST04 
 HTAP2-monthly:mmroa:mass_fraction_of_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time:atmos:9:OC1 OC2 SOAM SOAI SOAT SOAB SOAX PS TS:1.4*(OC1+OC2)+SOAM+SOAI+SOAT+SOAB+SOAX 
 HTAP2-monthly:mmrsoa:mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time:atmos:6:SOAM SOAI SOAT SOAB SOAX PS:SOAM+SOAI+SOAT+SOAB+SOAX on model levels
@@ -42,10 +42,12 @@ HTAP2-monthly:mmrss:mass_fraction_of_seasalt_dry_aerosol_in_air:longitude latitu
 HTAP2-monthly:losso3:tendency_of_mole_concentration_of_ozone_due_to_chemical_loss:longitude latitude alevel time:atmos:2:O3_Loss PS:O3_Loss *1.e-6 / avogn 
 HTAP2-monthly:prodo3:tendency_of_mole_concentration_of_ozone_due_to_chemical_production:longitude latitude alevel time:atmos:2:O3_Prod PS:O3_Prod *1.e-6 / avogn
 HTAP2-monthly:od440aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time wv440nm:atmos:1:AEROD_v:AEROD_v
-HTAP2-monthly:od550aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time wv550nm:atmos:1:AODVIS:AODVIS
-HTAP2-monthly:od550bc:atmosphere_optical_thickness_due_to_black_carbon_ambient_aerosol:longitude latitude time wv550nm:atmos:1:ODV_BC1:ODV_BC1
-HTAP2-monthly:od550dust:atmosphere_optical_thickness_due_to_dust_ambient_aerosol:longitude latitude time wv550nm:atmos:4:ODV_DST01 ODV_DST02 ODV_DST03 ODV_DST04:ODV_DST01+ODV_DST02+ODV_DST03+ODV_DST04
-HTAP2-monthly:od550oa:atmosphere_optical_thickness_due_to_particulate_organic_matter_ambient_aerosol:longitude latitude time wv550nm:atmos:1:ODV_OC1:ODV_OC1
+HTAP2-monthly:od550aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time wv550nm:atmos:1:AEROD_v:AEROD_v
+HTAP2-monthly:od550bc:atmosphere_optical_thickness_due_to_black_carbon_ambient_aerosol:longitude latitude time:atmos:2:ODV_CB1 ODV_CB2:ODV_CB1+ODV_CB2
+HTAP2-monthly:od550dust:atmosphere_optical_thickness_due_to_dust_ambient_aerosol:longitude latitude time:atmos:4:ODV_DST01 ODV_DST02 ODV_DST03 ODV_DST04:ODV_DST01+ODV_DST02+ODV_DST03+ODV_DST04
+HTAP2-monthly:od550oa:atmosphere_optical_thickness_due_to_particulate_organic_matter_ambient_aerosol:longitude latitude time:atmos:2:ODV_OC1 ODV_OC2:ODV_OC1+ODV_OC2
+HTAP2-monthly:od550ss:atmosphere_optical_thickness_due_to_seasalt_ambient_aerosol_particles:longitude latitude time:atmos:2:ODV_SSLTA ODV_SSLTC:ODV_SSLTC+ODV_SSLTC
+HTAP2-monthly:od550so4:atmosphere_optical_thickness_due_to_sulfate_ambient_aerosol_particles:longitude latitude time:atmos:1:ODV_SO4:ODV_SO4
 HTAP2-monthly:jo3o1d:photolysis_rate_of_ozone_to_1D_oxygen_atom:longitude latitude alevel time:atmos:2:jo3_a PS:jo3_a
 HTAP2-monthly:pr:precipitation_flux:longitude latitude time:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
 HTAP2-monthly:ps:surface_air_pressure:longitude latitude time:atmos:1:PS:PS 
@@ -64,6 +66,23 @@ HTAP2-monthly:vmro3:mole_fraction_of_ozone_in_air:longitude latitude alevel time
 HTAP2-monthly:vmroh:mole_fraction_of_hydroxyl_radical_in_air:longitude latitude alevel time:atmos:2:OH PS:OH on model levels
 HTAP2-monthly:vmrpan:mole_fraction_of_peroxyacetyl_nitrate_in_air:longitude latitude alevel time:atmos:2:PAN PS:PAN on model levels
 HTAP2-monthly:vmrso2:mole_fraction_of_sulfur_dioxide_in_air:longitude latitude alevel time:atmos:2:SO2 PS:SO2 on model levels
+HTAP2-monthly:vmrhno4:mole_fraction_of_peroxynitric_acid_in_air:longitude latitude alevel time:atmos:2:HO2NO2 PS:HO2NO2 on model levels
+HTAP2-monthly:vmrn2o5:mole_fraction_of_dinotrogen_pentoxide_in_air:longitude latitude alevel time:atmos:2:N2O5 PS:N2O5 on model levels
+HTAP2-monthly:vmrnoy:atmosphere_mass_content_of_noy_expressed_as_nitrogen:longitude latitude alevel time:atmos:2:NOY PS:NOY on model levels
+HTAP2-monthly:vmrh2o2:mole_fraction_of_hydrogen_peroxide_in_air:longitude latitude alevel time:atmos:2:H2O2 PS:H2O2 on model levels
+HTAP2-monthly:vmrho2:mole_fraction_of_hydroperoxyl_radical_in_air:longitude latitude alevel time:atmos:2:HO2 PS:HO2 on model levels
+HTAP2-monthly:vmrnh3:mole_fraction_of_ammonia_in_air:longitude latitude alevel time:atmos:2:NH3 PS:NH3 on model levels
+HTAP2-monthly:vmrc3h8:mole_fraction_of_propane_in_air:longitude latitude alevel time:atmos:2:C3H8 PS:C3H8 on model levels
+HTAP2-monthly:vmrc2h4:mole_fraction_of_propane_in_air:longitude latitude alevel time:atmos:2:C2H4 PS:C2H4 on model levels
+HTAP2-monthly:vmrc3h6:mole_fraction_of_propene_in_air:longitude latitude alevel time:atmos:2:C3H6 PS:C3H6 on model levels
+HTAP2-monthly:vmralkanes:mole_fraction_of_alkanes_in_air:longitude latitude alevel time:atmos:4:C2H6 C3H8 BIGALK PS:C2H6+C3H8+BIGALK on model levels
+HTAP2-monthly:vmralkenes:mole_fraction_of_alkenes_in_air:longitude latitude alevel time:atmos:4:C2H4 C3H6 BIGENE PS:C2H4+C3H6+BIGENE on model levels
+HTAP2-monthly:vmrch3cho:mole_fraction_of_acetaldehyde_in_air:longitude latitude alevel time:atmos:2:CH3CHO PS:CH3CHO on model levels
+HTAP2-monthly:vmracetone:mole_fraction_of_acetone_in_air:longitude latitude alevel time:atmos:2:CH3COCH3 PS:CH3COCH3 on model levels
+HTAP2-monthly:vmrglyoxal:mole_fraction_of_glyoxal_in_air:longitude latitude alevel time:atmos:2:GLYOXAL PS:GLYOXAL on model levels
+HTAP2-monthly:vmrmethanol:mole_fraction_of_methanol_in_air:longitude latitude alevel time:atmos:2:CH3OH PS:CH3OH on model levels
+HTAP2-monthly:vmraro:mole_fraction_of_aromatic_compounds_in_air:longitude latitude alevel time:atmos:4:TOLUENE BENZENE XYLENE PS:TOLUENE+BENZENE+XYLENE on model levels
+HTAP2-monthly:vmrtp:mole_fraction_of_terpenes_in_air:longitude latitude alevel time:atmos:2:C10H16 PS:C10H16 on model levels
 HTAP2-monthly:wetbc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:1:CB2SFWET:CB2SFWET
 HTAP2-monthly:wetdms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
 HTAP2-monthly:wetdust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:1:DSTSFWET:DSTSFWET 
