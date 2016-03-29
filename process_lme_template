@@ -200,8 +200,6 @@ if [ ! -d ${CACHEDIR} ] ; then
 fi
 cd $LOCAL_PROC
 #
-#
-#
 case "$HIST" in
   cice.h | cice.h1 )
     ln -s -f $BASEDIR/split_cice_hemis  .

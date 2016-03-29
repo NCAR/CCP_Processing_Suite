@@ -338,9 +338,9 @@ subroutine load_exp(exp_file)
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
      case ('AEROCOM-A2-CTRL')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
-     case ('refC2')
+     case ('refC2','senC2rcp45','senC2rcp85')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
-     case ('refC1','refC1SD','senC1SD_emis','senC1SD_emis_fCH4','senC1SD_emis_vMEG')
+     case ('refC1','refC1SD','senC1SDfEmis')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (observed sea surface temps)'
      case ('BASE','EASALL','EURALL','GLOALL','MDEALL','NAMALL','RBUALL','SASALL')
         exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (observed sea surface temps)'

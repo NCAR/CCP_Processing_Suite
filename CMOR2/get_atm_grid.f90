@@ -26,6 +26,8 @@ subroutine get_atm_grid
      gridfile = 'atm_grid_cam4_f19_26L.nc'
   case ('CESM1-CAM4ChemSD' )
      gridfile = 'atm_grid_cam4_f19_56L.nc'
+  case ('CESM1-BASE' )
+     gridfile = 'atm_grid_cam4_f19_56L.nc'
   case ('CESM1-EASALL' )
      gridfile = 'atm_grid_cam4_f19_56L.nc'
   case ('CESM1-EURALL' )

@@ -1,4 +1,4 @@
-#!/bin/sh -f
+#!/bin/sh
 #
 #BSUB -n 16
 #BSUB -R "span[ptile=4]"

@@ -113,7 +113,9 @@ program CCMI_monthly_CMOR
   !
   ! Get grid information
   !
+  write(*,*) 'Get Grid information'
   call get_atm_grid
+  write(*,*) 'Get Grid information done'
   !
  if (allocated(area_wt)) deallocate(area_wt)
   allocate(area_wt(nlats))
@@ -153,6 +155,7 @@ program CCMI_monthly_CMOR
            call build_filenames(case_read,comp_read,xw(ixw)%cesm_vars(ivar),ivar,exp(exp_found)%runbeg,exp(exp_found)%runend,mycmor%table_file)
         endif
      enddo
+  write(*,*) 'build_filenames done ', all_continue
      !
      ! Open CESM file(s) and get information(s)
      !
@@ -391,7 +394,7 @@ program CCMI_monthly_CMOR
         ! Perform derivations and cycle through time, writing data too
         !
         select case (xw(ixw)%entry)
-        case ('od550aer','od550bc','od550oa','ps',&
+        case ('od550aer','ps',&
                'rlds','rlutcs','rsdscs','rsds','rsdt','clivi',&
                'abs550aer','dryhno3','drynh3','drynh4','dryno2','drynoy','dryo3',&
                'emico','emiisop','eminh3','eminox','emibisop',&
@@ -1002,7 +1005,73 @@ program CCMI_monthly_CMOR
                  endif
               endif
            enddo
-        case ('od550dust','od550ss','emidust','emiss')
+        case ('od550bc','od550oc','od550ss','od550oa')
+         !
+           ! Sum two fields
+           !
+           allocate(indat2a(nlons,nlats),indat2b(nlons,nlats))
+           allocate(cmordat2d(nlons,nlats))
+           !
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
+           select case(ntimes(1,1))
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
+           end select
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           do ic = 1,nchunks(1)
+              do it = tidx1(ic),tidx2(ic)
+                 time_counter = it
+                 cmordat2d = spval
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat2a)
+                 call read_var(myncid(1,2),var_info(var_found(1,2))%name,indat2b)
+                 !
+                 where ((indat2a /= 1.e36).and.(indat2b /= 1.e36))
+                    cmordat2d = indat2a + indat2b
+                 elsewhere
+                    cmordat2d = spval
+                 endwhere
+                 !
+                 tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                 error_flag = cmor_write(      &
+                      var_id        = cmor_var_id, &
+                      data          = cmordat2d, &
+                      ntimes_passed = 1,       &
+                      time_vals     = tval,    &
+                      time_bnds     = tbnd)
+                 if (error_flag < 0) then
+                     write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
+              enddo
+              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              !
+              if (ic < nchunks(1)) then
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              endif
+           enddo
+        case ('od550dust','emidust','emiss')
            !
            ! Sum four fields
            !
@@ -1708,7 +1777,81 @@ program CCMI_monthly_CMOR
               enddo
            enddo
 
-        case ('toz','cod','lso3chm','tpo3chm','clt')
+        case ('toz')
+           !
+           ! One field multiplied by delta p and integrated over Z and scaled
+           !
+           allocate(indat3a(nlons,nlats,nlevs))
+           allocate(work3da(nlons,nlats,nlevs))
+           allocate(cmordat2d(nlons,nlats),psdata(nlons,nlats))
+           allocate(pshybrid(nlons,nlats,nlevs),pshybrid_mid(nlons,nlats,nlevs),psdelta(nlons,nlats,nlevs))
+
+           call open_cdf(myncid(1,1),trim(ncfile(1,1)),.true.)
+           call get_dims(myncid(1,1))
+           call get_vars(myncid(1,1))
+           if (allocated(time))       deallocate(time)
+           if (allocated(time_bnds))  deallocate(time_bnds)
+           allocate(time(ntimes(1,1)))
+           allocate(time_bnds(2,ntimes(1,1)))
+           !
+           do n=1,ntimes(1,1)
+              time_counter = n
+              call read_var(myncid(1,1),'time_bnds',time_bnds(:,n))
+              time(n) = (time_bnds(1,n)+time_bnds(2,n))/2.
+           enddo
+           !
+           select case(ntimes(1,1))
+           case default
+              nchunks(1) = 1
+              tidx1(1:nchunks(1)) = 1
+              tidx2(1:nchunks(1)) = ntimes(1,1)
+           end select
+           write(*,'(''# chunks '',i3,'':'',10((i6,''-'',i6),1x))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+           do ic = 1,nchunks(1)
+              do it = tidx1(ic),tidx2(ic)
+                 time_counter = it
+                 work3da   = spval
+                 cmordat2d = spval
+                 call read_var(myncid(1,1),var_info(var_found(1,1))%name,indat3a)
+                 call read_var(myncid(1,2),'PS',psdata)
+                 !
+                 call pres_hybrid_ccm(psdata,pshybrid,nlons,nlats,nlevs)
+                 do k = 1,nlevs-1
+                       psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
+                 enddo
+                 !
+                 work3da = indat3a*psdelta*1.e-02
+                 cmordat2d = sum(work3da,dim=3)
+                 cmordat2d = cmordat2d * 2.1e+22 / 2.69e16 
+                 !
+                 tval(1)   = time(it) ; tbnd(1,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
+                 error_flag = cmor_write(      &
+                      var_id        = cmor_var_id, &
+                      data          = cmordat2d, &
+                      ntimes_passed = 1,       &
+                      time_vals     = tval,    &
+                      time_bnds     = tbnd)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR writing '',a,'' T# '',i6)') trim(xw(ixw)%entry),it
+                    stop
+                 endif
+              enddo
+              write(*,'(''DONE writing '',a,'' T# '',i6,'' chunk# '',i6)') trim(xw(ixw)%entry),it-1,ic
+              !
+              if (ic < nchunks(1)) then
+                 cmor_filename(1:) = ' '
+                 error_flag = cmor_close(var_id=cmor_var_id,file_name=cmor_filename,preserve=1)
+                 if (error_flag < 0) then
+                    write(*,'(''ERROR close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                    stop
+                 else
+                    write(*,'(''GOOD close chunk: '',i6,'' of '',a)') ic,cmor_filename(1:128)
+                 endif
+              endif
+           enddo
+
+
+        case ('cod','lso3chm','tpo3chm','clt')
            !
            ! One field integrated over Z and scaled
            !
@@ -1785,6 +1928,7 @@ program CCMI_monthly_CMOR
                  endif
               endif
            enddo
+
         case ('rsus','rsuscs','rsut','rsutcs','rtmt')
            !
            ! rsus   : FSDS  - FSNS
@@ -2379,8 +2523,6 @@ program CCMI_monthly_CMOR
                        psdelta(:,:,k)=pshybrid(:,:,k+1)-pshybrid(:,:,k)
                     enddo
                     !
-                    call pres_hybrid_mid_ccm(psdata,pshybrid_mid,nlons,nlats,nlevs)
-                    rho = pshybrid_mid/(287.04*tdata)
                     cmordat3d = indat3a * psdelta/grav/rho
                     !
                     tval(1) = time(it) ; tbnd(ifile,1) = time_bnds(1,it) ; tbnd(2,1) = time_bnds(2,it)
