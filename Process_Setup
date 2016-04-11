@@ -42,6 +42,8 @@ else
       TEMPLATE=process_tga_template ;;
     w4v )
       TEMPLATE=process_w4v_template ;;
+    w4s )
+      TEMPLATE=process_w4s_template ;;
     * )
       TEMPLATE=process_template ;;
   esac
