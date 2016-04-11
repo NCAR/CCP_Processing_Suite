@@ -133,10 +133,10 @@ MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
 EXPNAME=`echo $CASE | cut -d"." -f5`
 case "$EXPNAME" in
-  el_volc | la_volc )
+  el_solar | la_solar )
     MONBEG=01
     MONEND=12 ;;
-  toel_volc | tola_volc )
+  toel_solar | tola_solar )
     MONBEG=06
     MONEND=05 ;;
 esac
