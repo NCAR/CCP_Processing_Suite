@@ -260,17 +260,20 @@ case "$HTYP" in
     cd $LOCAL_PROC ;;
 esac
 #
-# Store completed data on archival system
+# Move completed data for later transfer to archival system
 #
-#echo -n "TS archive start: " ; date
-#./store_to_archive_var
-#if [ $? -ne 0 ] ; then
-#  echo "store_to_archive failed"
-#  ./update_status error "$CASE $HIST $TPER"
-#  exit 1
-#else
-#  echo -n "TS archive end: " ; date
-#fi
+cd $CACHEDIR
+if [ ! -f /glade/scratch/$USER/ENSO-SOLAR/toHPSS_$HIST ] ; then
+  mkdir -p /glade/scratch/$USER/ENSO-SOLAR/toHPSS_$HIST
+fi
+mv ${CASE}.${HIST}.*.[0-9]*.nc /glade/scratch/$USER/ENSO-SOLAR/toHPSS_$HIST
+if [ $? -ne 0 ] ; then
+  echo "move toHPSS_"${HIST}" failed"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
+else
+  echo -n "move toHPSS_"${HIST}" end: " ; date
+fi
 #
 ./update_status complete
 echo -n "TS COMPLETE: " ; date
