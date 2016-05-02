@@ -66,7 +66,7 @@ read DORUN
 #
 if [ "$DORUN" = "Y" ] ; then
   echo "Running "${CCPS_SCRIPT}
-  /ncar/opt/lsf/8.3/linux2.6-glibc2.3-x86_64/bin/bsub < ./${CCPS_SCRIPT}
+  bsub < ./${CCPS_SCRIPT}
 else
   echo "Will not run "${CCPS_SCRIPT}
 fi
