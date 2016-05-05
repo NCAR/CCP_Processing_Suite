@@ -55,10 +55,7 @@ read DORUN
 #
 if [ "$DORUN" = "Y" ] ; then
   echo "Running "${CCPS_SCRIPT}
-  case "$PROCHOST" in
-    * )
-      ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
-  esac
+  qsub ${CCPS_SCRIPT}
 else
   echo "Will not run "${CCPS_SCRIPT}
 fi
