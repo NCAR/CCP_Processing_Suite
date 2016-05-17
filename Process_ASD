@@ -57,8 +57,8 @@ case "$HIST" in
     NODE=6
     WALL="02:00:00" ;;
   pop.h )
-    NODE=3
-    WALL="01:00:00" ;;
+    NODE=2
+    WALL="04:00:00" ;;
   pop.h.nday1 )
     NODE=1
     WALL="00:30:00" ;;
