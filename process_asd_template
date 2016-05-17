@@ -1,20 +1,19 @@
 #
-/opt/modules/default/init/bash
-#
 export MP_TIMEOUT=14400
 export MP_PULSE=1800
 export MP_DEBUG_NOTIMEOUT=yes
 #
 # Necessary modules to load
 #
-eval `eval `/opt/modules/3.2.10.3/bin/modulecmd bash load bwpy`
+eval `/opt/modules/3.2.10.3/bin/modulecmd bash load bwpy`
 PATH=/mnt/a/u/sciteam/strandjr/.local/bin:${PATH} ; export PATH
+eval `/opt/modules/3.2.10.3/bin/modulecmd bash load nco`
 #
 PYTHONPATH=/mnt/a/u/sciteam/strandjr/.local/lib/python2.7/site-packages:${PYTHONPATH}
 #
-CASE=xxxCASExxx ; export CASE
-HIST=xxxHISTxxx ; export HIST
-TPER=xxxTPERxxx ; export TPER
+CASE=xxxxCASExxxx ; export CASE
+HIST=xxxxHISTxxxx ; export HIST
+TPER=xxxxTPERxxxx ; export TPER
 #
 echo -n "TS START: " ; date
 #
@@ -63,12 +62,12 @@ fi
 PROCHOST=`hostname`;export PROCHOST
 #
 BASEDIR=${HOME}/CCP_Processing_Suite
-NCODIR=/sw/xe/nco/4.5.5/cnl5.2_gnu4.9.3/bin ; export NCODIR
-NCKS=${NCODIR}/ncks     ; export NCKS
-NCRA=${NCODIR}/ncra     ; export NCRA
-NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
-LOCALDSK=/mnt/c/scratch/sciteam/truesdal/archive ; export LOCALDSK
-PROCBASE=/mnt/c/scratch/sciteam/strandjr/$CASE   ; export PROCBASE
+#NCODIR=/sw/xe/nco/4.5.5/cnl5.2_gnu4.9.3/bin ; export NCODIR
+NCKS=`which ncks`     ; export NCKS
+NCRA=`which ncra`     ; export NCRA
+NCRCAT=`which ncrcat` ; export NCRCAT
+LOCALDSK=/mnt/c/scratch/sciteam/truesdal/archive/$CASE ; export LOCALDSK
+PROCBASE=/mnt/c/scratch/sciteam/strandjr/$CASE         ; export PROCBASE
 #
 # Strip off first part of $HIST
 #
@@ -126,20 +125,6 @@ VERBOSITY=1
 #
 PREFIX="${CACHEDIR}/${CASE}.${HIST}."
 #
-# Create output filename time period suffix
-#
-case "$TPER" in
-  ann )
-    OUTTIME=${YEARBEG}-${YEAREND} ;;
-  mon )
-    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
-  day ) 
-    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
-esac
-export OUTTIME
-#  
-SUFFIX=".${OUTTIME}.nc"
-#
 # Print out values
 #
 echo "            Case name : "$CASE ; export CASE
@@ -159,9 +144,7 @@ echo "           Year count : "$YRCOUNT  ; export YRCOUNT
 echo "         Months count : "$MNCOUNT  ; export MNCOUNT
 echo ""
 echo "PyReshaper"
-echo "          Output time : "$OUTTIME       ; export OUTTIME
 echo "        Output prefix : "$PREFIX        ; export PREFIX
-echo "        Output suffix : "$SUFFIX        ; export SUFFIX
 echo "        Output format : "$NCFORMAT      ; export NCFORMAT
 echo "            Verbosity : "$VERBOSITY     ; export VERBOSITY
 echo ""
@@ -200,81 +183,69 @@ cd $LOCAL_PROC
 #
 ./update_status start
 #
-if [ -d $LOCAL_HIST ] ; then
-  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.2006*.nc | wc -l`
+for YEAR in 2006 ; do
+#
+# Create output filename time period suffix
+#
+  case "$TPER" in
+    ann )
+      OUTTIME=${YEAR}-${YEAR} ;;
+    mon )
+      OUTTIME=${YEAR}01-${YEAR}12 ;;
+    day ) 
+      OUTTIME=${YEAR}0101-${YEAR}1231 ;;
+  esac
+  export OUTTIME
+  SUFFIX=".${OUTTIME}.nc" ; export SUFFIX
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEAR}*.nc | wc -l`
   if [ $NHISTF -ne 0 ] ; then
     echo ${CASE}"."${HIST}" files on disk, softlinking."
-    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.2006*.nc .
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${YEAR}*.nc .
   else
     echo "History files not on "${LOCAL_HIST}". Exiting."
     exit 1
   fi    
-fi
 #
 # Make sure there's the correct number of files, based on stream and time period and 20C/RCP
 #
-#NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.2006*.nc | wc -l`
-#
-#case "$HIST" in 
-#  cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
-#    if [ $NHISTF -ne 372 ] ; then
-#      echo ${NHISTF}" should be 1140. File count mismatch. Exit."
-#      exit 1
-#    fi ;;
-#  cice.h | cice.h1 )
-#    if [ $NHISTF -ne 34675 ] ; then
-#      echo ${NHISTF}" should be 34675. File count mismatch. Exit."
-#      exit 1
-#    fi ;;
-#  cam.h1 | clm2.h1 )
-#    if [ $NHISTF -eq 95 ] || [ $NHISTF -eq 96 ] ; then
-#      echo ${NHISTF}" good."
-#    else
-#      echo ${NHISTF}" should be 95 or 96. File count mismatch. Exit."
-#      exit 1
-#    fi ;;
-#  rtm.h1 | pop.h.ecosys.nyear1 )
-#    if [ $NHISTF -ne 95 ] ; then
-#      echo ${NHISTF}" should be 95. File count mismatch. Exit."
-#      exit 1
-#    fi ;;
-#esac
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEAR}*.nc | wc -l`
+  case "$HIST" in 
+    cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+      if [ $NHISTF -ne 12 ] ; then
+        echo ${NHISTF}" should be 12. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cice.h | cice.h1 )
+      if [ $NHISTF -ne 34675 ] ; then
+        echo ${NHISTF}" should be 34675. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cam.h1 | clm2.h1 )
+      if [ $NHISTF -eq 95 ] || [ $NHISTF -eq 96 ] ; then
+        echo ${NHISTF}" good."
+      else
+        echo ${NHISTF}" should be 95 or 96. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    rtm.h1 | pop.h.ecosys.nyear1 )
+      if [ $NHISTF -ne 95 ] ; then
+        echo ${NHISTF}" should be 95. File count mismatch. Exit."
+        exit 1
+      fi ;;
+  esac
 #
 # Extract each field from all files
 #
-./Transpose_Data
-if [ $? -ne 0 ] ; then
-  echo "Transpose_Data failed"
-  ./update_status error "$CASE $HIST $TPER"
-  exit 1
-fi
-echo -n "TS Transpose_Data end  : " ; date
-## 
-## Split cice hemispheres
-##
-#case "$HTYP" in
-#  cice ) 
-#    cd $CACHEDIR
-#    echo -n "TS split cice hemis start: " ; date
-#    ../split_cice_hemis
-#    echo -n "TS split cice hemis end  : " ; date
-#    cd $LOCAL_PROC ;;
-#esac
-##
-## Store completed data on archival system
-##
-#echo -n "TS archive start: " ; date
-#./store_to_archive
-#if [ $? -ne 0 ] ; then
-#  echo "store_to_archive failed"
-#  ./update_status error "$CASE $HIST $TPER"
-#  exit 1
-#else
-#  echo -n "TS archive end: " ; date
-#fi
+  ./Transpose_Data
+  if [ $? -ne 0 ] ; then
+    echo "Transpose_Data failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  fi
+  echo -n "TS Transpose_Data end  : " ; date
+done
 #
 ./update_status complete
 echo -n "TS COMPLETE: " ; date
 #
 exit
-
