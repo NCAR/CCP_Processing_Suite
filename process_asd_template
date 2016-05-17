@@ -3,6 +3,8 @@ export MP_TIMEOUT=14400
 export MP_PULSE=1800
 export MP_DEBUG_NOTIMEOUT=yes
 #
+NODE=xxxNODExxx ; export NODE
+#
 # Necessary modules to load
 #
 eval `/opt/modules/3.2.10.3/bin/modulecmd bash load bwpy`
