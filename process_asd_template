@@ -11,9 +11,9 @@ eval `/opt/modules/3.2.10.3/bin/modulecmd bash load nco`
 #
 PYTHONPATH=/mnt/a/u/sciteam/strandjr/.local/lib/python2.7/site-packages:${PYTHONPATH}
 #
-CASE=xxxxCASExxxx ; export CASE
-HIST=xxxxHISTxxxx ; export HIST
-TPER=xxxxTPERxxxx ; export TPER
+CASE=xxxCASExxx ; export CASE
+HIST=xxxHISTxxx ; export HIST
+TPER=xxxTPERxxx ; export TPER
 #
 echo -n "TS START: " ; date
 #
