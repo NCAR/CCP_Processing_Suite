@@ -32,14 +32,68 @@ else
   LOCATION=BW
 fi
 #
+# Deduce appropriate wallclock limits and task counts
+#
+case "$HIST" in
+  cam.h0 )
+    NODE=6
+    WALL="00:30:00" ;;
+  cam.h1 )
+    NODE=3
+    WALL="04:30:00" ;;
+  cam.h2 )
+    NODE=6
+    WALL="06:00:00" ;;
+  clm2.h0 )
+    NODE=13
+    WALL="00:20:00" ;;
+  clm2.h1 )
+    NODE=2
+    WALL="01:30:00" ;;
+  cice.h )
+    NODE=10
+    WALL="00:30:00" ;;
+  cice.h1 )
+    NODE=6
+    WALL="02:00:00" ;;
+  pop.h )
+    NODE=3
+    WALL="01:00:00" ;;
+  pop.h.nday1 )
+    NODE=1
+    WALL="00:30:00" ;;
+  pop.h.ecosys.nday1 )
+    NODE=1
+    WALL="00:30:00" ;;
+  pop.h.ecosys.nyear1 )
+    NODE=2
+    WALL="00:20:00" ;;
+  rtm.h0 )
+    NODE=1
+    WALL="00:20:00" ;;
+  rtm.h1 )
+    NODE=1
+    WALL="00:30:00" ;;
+  * )
+    echo "Unknown "${HIST}
+    exit 1 ;;
+esac
+#
+export NODE
+export WALL
+#
 PROCHOST=`hostname`;export PROCHOST
 #
 # Build processing script
 #
 CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
 rm -f $CCPS_SCRIPT
+cat ./LSF_bwaters | sed -e "s/NAME/$CCPS_SCRIPT/g" \
+                  | sed -e "s/WALL/$WALL/g"        \
+                  | sed -e "s/USER/$USER/g"        \
+                  | sed -e "s/NODE/$NODE/g"        \
+                  > $CCPS_SCRIPT
 #
-cat ./LSF_bwaters | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
 cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
                   | sed -e "s/xxxHISTxxx/$HIST/g" \
                   | sed -e "s/xxxTPERxxx/$TPER/g" \
