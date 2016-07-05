@@ -80,12 +80,12 @@ PROCHOST=`hostname`;export PROCHOST
 #
 BASEDIR=${HOME}/CCP_Processing_Suite
 #
-PROCBASE=/scratch3/scratchdirs/$USER/$CASE ; export PROCBASE
+PROCBASE=/scratch1/scratchdirs/$USER/$CASE ; export PROCBASE
 case "$TPER" in
   hr6 )
-    LOCALDSK=/scratch3/scratchdirs/strandwg/archive/$CASE ; export LOCALDSK ;;
+    LOCALDSK=/scratch1/scratchdirs/strandwg/archive/$CASE ; export LOCALDSK ;;
   * ) 
-    LOCALDSK=/scratch3/scratchdirs/nanr/DP/archive/$CASE ; export LOCALDSK ;;
+    LOCALDSK=/scratch1/scratchdirs/nanr/DP/archive/$CASE ; export LOCALDSK ;;
 esac
 #
 ARCHIVE_BASE=/home/c/ccsm/csm/CESM1-CAM5-DP          ; export ARCHIVE_BASE
@@ -317,10 +317,10 @@ esac
 # Move completed data for later transfer to archival system
 #
 cd $CACHEDIR
-if [ ! -f /scratch3/scratchdirs/$USER/toHPSS_$HIST ] ; then
-  mkdir -p /scratch3/scratchdirs/$USER/toHPSS_$HIST
+if [ ! -f /scratch1/scratchdirs/$USER/toHPSS_$HIST ] ; then
+  mkdir -p /scratch1/scratchdirs/$USER/toHPSS_$HIST
 fi
-mv ${CASE}.${HIST}.*.[0-9]*.nc /scratch3/scratchdirs/$USER/toHPSS_$HIST
+mv ${CASE}.${HIST}.*.[0-9]*.nc /scratch1/scratchdirs/$USER/toHPSS_$HIST
 if [ $? -ne 0 ] ; then
   echo "move toHPSS_"${HIST}" failed"
   ./update_status error "$CASE $HIST $TPER"
