@@ -85,7 +85,7 @@ case "$TPER" in
   hr6 )
     LOCALDSK=/scratch3/scratchdirs/strandwg/archive/$CASE ; export LOCALDSK ;;
   * ) 
-    LOCALDSK=/scratch1/scratchdirs/nanr/DP/archive/$CASE ; export LOCALDSK ;;
+    LOCALDSK=/scratch3/scratchdirs/nanr/DP/archive/$CASE ; export LOCALDSK ;;
 esac
 #
 ARCHIVE_BASE=/home/c/ccsm/csm/CESM1-CAM5-DP          ; export ARCHIVE_BASE
