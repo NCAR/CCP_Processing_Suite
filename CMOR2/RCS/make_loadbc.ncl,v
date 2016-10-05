@@ -1,0 +1,121 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.01.31.15.14.22;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@; NCL script to read several output and plot them diff.
+; Climate Sensitivitgy Plot based on Gregory et al. 2004
+; "scatter_4.ncl" as a base
+; JHYoon 10/08/2010
+;*************************************************
+load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
+load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
+load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
+load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/shea_util.ncl"
+;************************************************
+
+begin
+
+;-input-----------------------
+inpath0 = "/lustre/yoon753/cesm_diagnostics/amwg_diag5.2/climo/cam5_1_00_PDaero_e01/"
+inpath1 = "/lustre/yoon753/project/IPCC_CMIP5/data_ts/"
+
+case1="b40_20th_2d_r07c5cn_161jp"
+
+VAR = "bc_a1"
+
+;-outputs----------
+ output = "./out.nc"
+;-----------------------------
+in0 = addfile(inpath0+"cam5_1_00_PDaero_e01_01_climo.nc","r") 
+in1 = addfile(inpath1+case1+"."+VAR+".185001-200512.nc","r") 
+
+lon  = in1->lon
+lat  = in1->lat
+time = in1->time
+
+hyai = in0->hyai
+hybi = in0->hybi
+p0   = in0->P0
+ps   = in0->PS(0,:,:)
+g    = 9.81                                   ; m/s
+
+nlon = dimsizes(lon)
+nlat = dimsizes(lat)
+ntime= dimsizes(time)
+
+printVarSummary(ps)
+printVarSummary(p0)
+printVarSummary(hyai)
+
+dp   = dpres_hybrid_ccm (ps,p0,hyai,hybi)     ; Pa [kg/(m s2)]   
+
+printVarSummary(dp)
+
+tmp1a = in1->$VAR$                            ; (time,lev,lat,lon)
+do n=0,1872-1
+  tmp1a(n,:,:,:)  = (/tmp1a(n,:,:,:)*dp(:,:,:)/)   ; [kg/(m s2)]   (temporary variable)
+end do
+tmp1   = dim_sum_n_Wrap(tmp1a, 1)            ; integrated burden
+delete(tmp1a)
+
+tmp1   = tmp1/g                         ; kg/m2  
+
+tmp1@@long_name = "Buden of "+VAR
+tmp1@@units     = "kg/m2"
+
+; write to NetCDF file
+ fout = addfile(output,"c")
+ setfileoption(fout,"DefineMode",True)
+
+ fileAtt = True
+ fileAtt@@title = "Vertically integrated aerosol loading of "+VAR
+ fileAtt@@conventions = "CAM output"
+ fileAtt@@source = "make_loadbc.ncl"
+ fileAtt@@description = "CAM history="+case1
+ fileAtt@@note1 = "Integrated w/o missing values"
+ fileAtt@@author = "Jin-Ho Yoon"
+ fileAtt@@calendar = "standard"
+ fileAtt@@comment = "Jin-Ho.Yoon@@pnnl.gov "
+ fileAtt@@creation_date = systemfunc("date")
+ fileattdef(fout,fileAtt)
+
+ dimNames = (/"time","lat","lon"/)
+ dimSizes = (/ntime,nlat,nlon/)
+ dimUnlim = (/False,False,False/)
+ filedimdef(fout,dimNames,dimSizes,dimUnlim)
+
+ filevardef(fout,"lat",typeof(lat),(/"lat"/))
+ filevarattdef(fout,"lat",lat)
+ filevardef(fout,"lon",typeof(lon),(/"lon"/))
+ filevarattdef(fout,"lon",lon)
+ filevardef(fout,"time",typeof(time),(/"time"/))
+ filevarattdef(fout,"time",time)
+
+ filevardef(fout,"loadbc",typeof(tmp1),dimNames)
+ filevarattdef(fout,"loadbc",tmp1)
+
+ fout->lat = (/lat/)
+ fout->lon = (/lon/)
+ fout->time = (/time/)
+ fout->loadbc = (/tmp1/)
+
+end
+@

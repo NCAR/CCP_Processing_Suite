@@ -1,0 +1,52 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.04.02.20.14.49;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@If you have submitted, or plan to submit, any historicalMisc runs, could you please send (toGavin.A.Schmidt@@nasa.gov):
+a) the model name, 
+b) the "rip" identifier(s), 
+c) a list of included forcings (and whether they are driven by concentration or emission where relevant), 
+d) the name given in the Metafor questionnaire for these simulations, and 
+e) an expected due date for the data to be available.
+
+For the included forcings, please use, when possible, the abbreviations found in
+
+http://cmip-pcmdi.llnl.gov/cmip5/docs/cmip5_data_reference_Appendix1-2.pdf.
+(These are the abbreviations that should also have been used in the "forcing" global attribute in your netCDF output files.)
+
+Please record the above information in semicolon-separated lists, as in this example:
+
+GISS-E2-R ;  r[1-5]i1p102 ;         Sl                                           ;  historicalSol        ;   June 2012
+GISS-E2-R ;  r[1-5]i1p1      ; all but aerosol indirect effect                  ;  historicalNoAIE      ;  available now
+GISS-E2-H ;  r[1-5]i1p310  ; anthro tropospheric aerosol (via emissions of SO2, BC, OC, NH3) ; historicalAer  ; June 2012
+GFDL-CM3 ;  r[135]i1p2   ;         Ant                                          ;  historicalMisc Anth  ;  available now
+
+model   RIP             forcings                                                                                                                                   Metafor  Availability
+CCSM4 ; r[146]i1p10   ; SS Ds SD BC MD OC AA (time-varying over course of simulation), Sl GHG Vl LU (fixed at 1850 values) Oz (cycled over 1850 seasonal values) ;          ; Amon now; remainder by 1 June 2012
+CCSM4 ; r[1246]i1p11  ; GHG Oz SS Ds SD BC MD OC AA LU (time-varying over course of simulation), Sl Vl (fixed at 1850 values)                                    ;          ; Amon now; remainder by 1 June 2012
+CCSM4 ; r1i1p12       ; BC OC (time-varying over course of simulation), GHG MD AA LU Oz SS Ds SD Sl Vl (all fixed at or cycled over 1850 values)                 ;          ; Amon now; remainder by 1 June 2012
+CCSM4 ; r[136]i1p13   ; LU (time-varying over course of simulation), GHG Oz SS Ds SD BC MD OC AA LU Sl Vl (all fixed at or cycled over 1850 values)              ;          ; Amon now; remainder by 1 June 2012
+CCSM4 ; r[146]1i1p14  ; Oz (time-varying over course of simulation), GHG LU SS Ds SD BC MD OC AA LU Sl Vl (all fixed at or cycled over 1850 values)              ;          ; Amon now; remainder by 1 June 2012
+CCSM4 ; r1i1p15       ; SD (time-varying over course of simulation), GHG LU SS Ds Oz BC MD OC AA LU Sl Vl (all fixed at or cycled over 1850 values)              ;          ; Amon now; remainder by 1 June 2012
+CCSM4 ; r[146]i1p16   ; Sl (time-varying over course of simulation), Vl GHG LU SS Ds SD BC MD OC Oz AA (all fixed at or cycled over 1850 values)                 ;          ; Amon now; remainder by 1 June 2012
+CCSM4 ; r[146]i1p17   ; Vl (time-varying over course of simulation), Sl GHG LU SS Ds SD BC MD OC Oz AA (all fixed at or cycled over 1850 values)                 ;          ; Amon now; remainder by 1 June 2012
+
+@

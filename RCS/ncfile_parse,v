@@ -1,0 +1,116 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.08.13.22.09.52;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh
+#
+# Parse netCDF filename to determine position (assume "." delimeter) of
+# CASE      : 1 to ${DOT_CASE}
+# COMPONENT : ${DOT_CMP1} to ${DOT_CMP2}
+# VARNAME   : ${DOT_SVAR}
+# TIME      : ${DOT_TIME}
+#
+if [ $# -ne 1 ] ; then
+  echo "Usage: parse_ncfile filename"
+  ./update_status error parse_ncfile
+  exit 1
+else
+  NCFILE=$1
+fi
+#
+# Do it!
+#
+FLEN=`echo $NCFILE | wc -c`
+#
+NDOT=0 ; CSTR=1
+#
+# Find all "."
+#
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $NCFILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+#
+if [ $NDOT -eq 0 ] ; then
+  echo "parse_ncfile error on "${NCFILE}
+  exit 1
+fi
+#
+IDOT=1 ; DOT_CASE=1 ; DOT_TIME=1 ; DOT_CMP1=1 ; DOT_CMP2=1 ; DOT_SVAR=0
+#
+# Step through dots
+#
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $NCFILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 | cam | clm2 | pop | csim | cice | rtm )
+      DOT_CASE=`expr '(' $IDOT ')' '-' '1'`
+      DOT_CMP1=$IDOT ;;
+  esac
+  DOT_TIME=$IDOT
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+DOT_CMP2=`expr '(' $DOT_CMP1 ')' '+' '1'`
+HCHECK=`echo $NCFILE | cut -d"." -f${DOT_CMP1}-${DOT_CMP2}`
+#
+# Check for pop.h2/pop.h.nday1/pop.h.ecosys.nday1/pop.h.ecosys.nyear1
+#
+if [ "$HCHECK" = "pop.h" ] ; then
+  DYCK=`expr '(' $DOT_CMP2 ')' '+' '1'`
+  IS_NDAY=`echo $NCFILE | cut -d"." -f${DYCK}`
+  if [ "$IS_NDAY" = "nday1" ] || [ "$IS_NDAY" = "h2" ] ; then
+    DOT_CMP2=$DYCK
+    DOT_TIME=`expr '(' $DOT_CMP2 ')' '+' '1'`
+  fi
+  if [ "$IS_NDAY" = "ecosys" ] ; then
+    DOT_CMP2=`expr '(' $DYCK ')' '+' '1'`
+    DOT_TIME=`expr '(' $DOT_CMP2 ')' '+' '1'`
+  fi
+  IS_TIME=`echo $NCFILE | cut -d"." -f${DOT_TIME} | cut -c1-1`
+  case "$IS_TIME" in 
+   [0-9] )
+     DOT_TIME=$DOT_TIME ;;
+   * )
+     DOT_TIME=`expr '(' $DOT_TIME ')' '+' '1'` ;;
+  esac
+fi
+
+#
+# Check for single-field format
+#
+DOT_SVAR=`expr '(' $DOT_TIME ')' '-' '1'`
+IS_SVAR=`echo $NCFILE | cut -d"." -f${DOT_SVAR}`
+#
+case "$IS_SVAR" in 
+   h | h0 | h1 | h2 | h3 | h4 | h2_06h | nday1 | nyear1 )
+   DOT_SVAR=0 ;;
+esac
+#
+export DOT_CASE
+export DOT_CMP1
+export DOT_CMP2
+export DOT_SVAR
+export DOT_TIME
+#
+@

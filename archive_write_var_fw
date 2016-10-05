@@ -1,0 +1,126 @@
+#!/bin/sh
+#
+# Write file(s) to archival tape, directories for each field
+#
+# Check for ARCHIVE_PROC
+#
+if [ ! $ARCHIVE_PROC ] ; then
+  echo "ARCHIVE_PROC not defined. Exiting."
+  ../update_status error archive_write_var
+  exit 1
+fi
+#
+# If hsi command exists, use it.
+#
+HSI=`which hsi 2<&1`
+if [ $? -ne 0 ] ; then
+  echo "hsi command not found"
+  ../update_status error archive_write_var
+fi
+#
+# Parse first filename
+#
+FILE=`/bin/ls *.nc | head -n 1`
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DCAS=1
+DVAR=1
+DHT1=1
+DHT2=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 | cam | clm2 | pop | csim | cice | rtm )
+      DCAS=`expr '(' $IDOT ')' '-' '1'`
+      DVAR=`expr '(' $IDOT ')' '+' '1'`
+      DHT1=$IDOT ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+#
+DCMP=$DHT1
+DHT2=`expr '(' $DHT1 ')' '+' '1'`
+DVAR=`expr '(' $DVAR ')' '+' '1'`
+#
+HIST=`/bin/ls *.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+COMP=`/bin/ls *.nc | cut -d"." -f${DCMP} | sort | uniq`
+#
+# Check for pop.h.nday1/h2/ecosys
+#
+if [ "$HIST" = "pop.h" ] ; then
+  DYCK=`expr '(' $DHT2 ')' '+' '1'`
+  ODAY=`/bin/ls *.nc | cut -d"." -f${DYCK} | sort | uniq`
+  if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
+    DHT2=$DYCK
+    DVAR=`expr '(' $DVAR ')' '+' '1'`
+  fi
+  if [ "$ODAY" = "ecosys" ] ; then
+    DHT2=$DYCK
+    DHT2=`expr '(' $DHT2 ')' '+' '1'`
+    DVAR=`expr '(' $DVAR ')' '+' '2'`
+  fi
+fi
+#
+CASE=`/bin/ls *.nc | cut -d"." -f1-${DCAS} | sort | uniq`
+HIST=`/bin/ls *.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+VARS=`/bin/ls *.nc | cut -d"." -f${DVAR} | sort | uniq`
+COMP=`/bin/ls *.nc | cut -d"." -f${DCMP} | sort | uniq`
+#
+# Check for cice data, remove _nh and _sh from VARS
+#
+if [ "$COMP" == "cice" ] ; then
+  rm -f .IVAR
+  for IVAR in $VARS ; do
+    echo $IVAR | sed -e 's/_nh//g' | sed -e 's/_sh//g' >> .IVAR
+  done
+  VARS=`cat .IVAR | sort | uniq`
+  rm -f .IVAR
+fi
+#
+#rm -f MKDIR
+#for IVAR in $VARS ; do
+#  echo "umask 0 ; mkdir -m 7775 -p ${ARCHIVE_PROC}/${IVAR} ; chmod 775 ${ARCHIVE_PROC}/${IVAR}" >> MKDIR
+#done
+#$HSI $HSIOPTS in MKDIR
+#if [ $? -eq 0 ] ; then
+#  echo ${ARCHIVE_PROC}" and subdirs created. Ready."
+#  rm -f MKDIR
+#else
+#  echo "Problem with HPSS on mkdir. Warning."
+#  ../update_status warning archive_write_var
+#fi
+#
+#rm -f PUT
+echo "firewall -on" > PUT
+#
+if [ "$COMP" == "cice" ] ; then
+  for IVAR in $VARS ; do
+#    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -d *.${HIST}.${IVAR}_?h.*.nc ; chmod 644 ${CASE}.${HIST}.*.*.nc" >> PUT
+    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -d *.${HIST}.${IVAR}_?h.*.nc" >> PUT
+  done
+else
+  for IVAR in $VARS ; do
+#    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -d *.${HIST}.${IVAR}.*.nc ; chmod 644 ${CASE}.${HIST}.*.*.nc" >> PUT
+    echo "cd ${ARCHIVE_PROC}/${IVAR} ; put -d *.${HIST}.${IVAR}.*.nc" >> PUT
+  done
+fi
+#
+$HSI $HSIOPTS in PUT
+#
+if [ $? -eq 0 ] ; then
+  echo "Files written to "${ARCHIVE_PROC}" and subdirs and erased."
+  rm -f PUT 
+else
+  echo "Problem with HPSS on write. Stopping"
+  ../update_status error archive_write_var
+  exit 1
+fi

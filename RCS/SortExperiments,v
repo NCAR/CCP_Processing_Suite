@@ -1,0 +1,48 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2013.03.07.15.23.05;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2013.03.07.15.22.36;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@#!/bin/csh -f
+#
+set now = `date '+%y%m%d'`
+#
+egrep    "^#" experiments.txt > H.${now}
+egrep -v "^#" experiments.txt | sort > S.${now}
+#
+cat H.${now} S.${now} > experiments.txt
+rm -f H.${now} S.${now}
+#
+exit
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d9 1
+@

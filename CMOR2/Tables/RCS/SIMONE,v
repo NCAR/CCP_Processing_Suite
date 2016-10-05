@@ -1,0 +1,122 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.10.17.15.43.06;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@AEROCOM-ACC_2D-M:abs550aer:atmosphere_absorption_optical_thickness_due_to_ambient_aerosol:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_3D-M:airmass:atmosphere_mass_content_of_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:asyaer:atmosphere_aerosol_asymmetry_parameter:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_3D-M:cheaqpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_3D-M:chegpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time:atmos:3:SO4_CHMP PS TS:SO4_CHMP*(28.97e-3 kg mol-1*1.e-3/6.022e23), on model levels
+AEROCOM-ACC_2D-M:chepsoa:tendency_of_atmosphere_mass_content_of_secondary_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_Amon:cl:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:2:CLOUD PS:CLOUD on model levels, no change
+CMIP5_Amon:cli:mass_fraction_of_cloud_ice_in_air:longitude latitude alevel time:atmos:2:CLDICE PS:CLDICE on model levels, no change
+CMIP5_Amon:clivi:atmosphere_cloud_ice_content:longitude latitude time:atmos:1:TGCLDIWP:TGCLDIWP no change
+CMIP5_Amon:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT unit conversion
+AEROCOM-ACC_2D-M:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT unit conversion
+CMIP5_Amon:clw:mass_fraction_of_cloud_liquid_water_in_air:longitude latitude alevel time:atmos:2:CLDLIQ PS:CLDLIQ on model levels, no change
+AEROCOM-ACC_2D-M:drybc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:drydms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_dry_deposition:longitude latitude time:atmos:1:DF_DMS:DF_DMS
+AEROCOM-ACC_2D-M:drydust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:1:DST01DD:DST01DD
+AEROCOM-ACC_2D-M:dryhno3:tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_dry_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:drynh3:tendency_of_atmosphere_mass_content_of_ammonia_due_to_dry_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:drynh4:tendency_of_atmosphere_mass_content_of_ammonium_due_to_dry_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:dryno2:tendency_of_atmosphere_mass_content_of_nitrogen_dioxide_due_to_dry_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:drynoy:tendency_of_atmosphere_mass_content_of_noy_due_to_dry_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:dryoa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:dryso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_dry_deposition:longitude latitude time:atmos:1:DF_SO2:DF_SO2
+AEROCOM-ACC_2D-M:dryso4:tendency_of_atmosphere_mass_content_of_sulfate_due_to_dry_deposition:longitude latitude time:atmos:1:DF_SO4:DF_SO4
+AEROCOM-ACC_2D-M:dryss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:1:SSLT01DD:SSLT01DD
+AEROCOM-ACC_2D-M:emibc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_emission:longitude latitude time:atmos:2:SFCB1 SFCB2:SFCB1+SFCB2
+AEROCOM-ACC_2D-M:emidms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission:longitude latitude time:atmos:1:SFDMS:SFDMS
+AEROCOM-ACC_2D-M:emidust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_emission:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:eminh3:tendency_of_atmosphere_mass_content_of_ammonia_due_to_emission:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:eminox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_emission:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:emioa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude time:atmos:2:SFOC1 SFOC2:(SFOC1+SFOC2)*1.4 scale factor
+AEROCOM-ACC_2D-M:emiso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_emission:longitude latitude time:atmos:1:SFSO2:SFSO2
+AEROCOM-ACC_2D-M:emiso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_emission:longitude latitude time:atmos:1:SFSO4:SFSO4
+AEROCOM-ACC_2D-M:emiss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_emission:longitude latitude time:atmos:4:SFSSLT01 SFSSLT02 SFSSLT03 SFSSLT04:SFSSLT01+SFSSLT02+SFSSLT03+SFSSLT04
+AEROCOM-ACC_2D-M:gf90aer:aerosol_growth_factor_at_90_percent_relative_humidity:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_Amon:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:LHFLX:LHFLX no change
+CMIP5_Amon:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:SHFLX:SHFLX no change
+CMIP5_Amon:hus:specific_humidity:longitude latitude plevs time:atmos:2:Q PS:Q interpolated to standard plevs
+AEROCOM-ACC_3D-M:hus:specific_humidity:longitude latitude alevel time:atmos:2:Q PS:Q on model levels, no change
+AEROCOM-ACC_3D-M:mcu:updraught_convective_mass_flux:longitude latitude alevel time:atmos:2:ZMMU PS:ZMMU on model levels
+AEROCOM-ACC_3D-M:mmraerh2o:mass_fraction_of_water_in_ambient_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_3D-M:mmrbc:mass_fraction_of_black_carbon_dry_aerosol_in_air:longitude latitude alevel time:atmos:4:CB1 CB2 PS TS:CB1+CB2 on model levels
+AEROCOM-ACC_3D-M:mmroa:mass_fraction_of_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_3D-M:mmrsoa:mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time:atmos:7:SOAM SOAI SOAT SOAB SOAX PS TS:SOAM+SOAI+SOAT+SOAB+SOAX on model levels
+AEROCOM-ACC_3D-M:mmrss:mass_fraction_of_seasalt_dry_aerosol_in_air:longitude latitude alevel time:atmos:6:SSLT01 SSLT02 SSLT03 SSLT04 PS TS:SSLT01+SSLT02+SSLT03+SSLT04 on model levels
+AEROCOM-ACC_2D-M:od440aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:od550aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time:atmos:1:AEROD_v:AEROD_v
+AEROCOM-ACC_2D-M:od550aerh2o:atmosphere_optical_thickness_due_to_water_ambient_aerosol:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:od550bb:atmosphere_optical_thickness_due_to_biomass_burning_ambient_aerosol:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:od550bc:atmosphere_optical_thickness_due_to_black_carbon_ambient_aerosol:longitude latitude time:atmos:1:ODV_BC1:ODV_BC1
+AEROCOM-ACC_2D-M:od550dust:atmosphere_optical_thickness_due_to_dust_ambient_aerosol:longitude latitude time:atmos:4:ODV_DST01 ODV_DST02 ODV_DST03 ODV_DST04:ODV_DST01+ODV_DST02+ODV_DST03+ODV_DST04
+AEROCOM-ACC_2D-M:od550lt1aer:atmosphere_optical_thickness_due_to_pm1_ambient_aerosol:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:od550no3:atmosphere_optical_thickness_due_to_nitrate_ambient_aerosol:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:od550oa:atmosphere_optical_thickness_due_to_particulate_organic_matter_ambient_aerosol:longitude latitude time:atmos:1:ODV_OC1:ODV_OC1
+AEROCOM-ACC_2D-M:od550so4:atmosphere_optical_thickness_due_to_sulfate_ambient_aerosol:longitude latitude time:atmos:1:ODV_SO4:ODV_SO4
+AEROCOM-ACC_2D-M:od550soa:atmosphere_optical_thickness_due_to_secondary_particulate_organic_matter_ambient_aerosol:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:od550ss:atmosphere_optical_thickness_due_to_seasalt_ambient_aerosol:longitude latitude time:atmos:4:SSLT01OD SSLT02OD SSLT03OD SSLT04OD:SSLT01OD+SSLT02OD+SSLT03OD+SSLT04OD
+AEROCOM-ACC_2D-M:od870aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_Amon:pr:precipitation_flux:longitude latitude time:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
+CMIP5_Amon:ps:surface_air_pressure:longitude latitude time:atmos:1:PS:PS no change
+AEROCOM-ACC_2D-M:ps:surface_air_pressure:longitude latitude time:atmos:1:PS:PS no change
+AEROCOM-ACC_3D-M:ps:surface_air_pressure:longitude latitude time:atmos:1:PS:PS no change
+CMIP5_Amon:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:1:FLDS:FLDS no change
+AEROCOM-ACC_2D-M:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:1:FLDS:FLDS no change
+CMIP5_Amon:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:2:FLDS FLNS:FLDS + FLNS
+AEROCOM-ACC_2D-M:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:2:FLDS FLNS:FLDS + FLNS
+CMIP5_Amon:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:3:FSNTOA FSNT FLNT:FSNTOA-FSNT+FLNT
+AEROCOM-ACC_2D-M:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:3:FSNTOA FSNT FLNT:FSNTOA-FSNT+FLNT
+CMIP5_Amon:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:longitude latitude time:atmos:1:FLUTC:FLUTC no change
+AEROCOM-ACC_2D-M:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:longitude latitude time:atmos:1:FLUTC:FLUTC no change
+CMIP5_Amon:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:FSDS:FSDS no change
+AEROCOM-ACC_2D-M:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:FSDS:FSDS no change
+CMIP5_Amon:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:2:FSDS FSNS:FSDS - FSNS
+AEROCOM-ACC_2D-M:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:2:FSDS FSNS:FSDS - FSNS
+CMIP5_Amon:rsut:toa_outgoing_shortwave_flux:longitude latitude time:atmos:2:SOLIN FSNTOA:SOLIN - FSNTOA
+AEROCOM-ACC_2D-M:rsut:toa_outgoing_shortwave_flux:longitude latitude time:atmos:2:SOLIN FSNTOA:SOLIN - FSNTOA
+CMIP5_Amon:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude latitude time:atmos:2:SOLIN FSNTOAC:SOLIN - FSNTOAC
+AEROCOM-ACC_2D-M:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude latitude time:atmos:2:SOLIN FSNTOAC:SOLIN - FSNTOAC
+AEROCOM-ACC_2D-M:swtoaasdust:net_downward_shortwave_flux_at_top_of_atmosphere_model:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:swtoaasss:net_downward_shortwave_flux_at_top_of_atmosphere_model:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_Amon:ta:air_temperature:longitude latitude plevs time:atmos:2:T PS:T interpolated to standard plevs
+CMIP5_Amon:ua:eastward_wind:longitude latitude plevs time:atmos:2:U PS:U interpolated to standard plevs
+CMIP5_Amon:va:northward_wind:longitude latitude plevs time:atmos:2:V PS:V interpolated to standard plevs
+AEROCOM-ACC_3D-M:vmrdms:mole_fraction_of_dimethyl_sulfide_in_air:longitude latitude alevel time:atmos:3:DMS PS TS:DMS on model levels
+AEROCOM-ACC_3D-M:vmrhno3:mole_fraction_of_nitrogen_acid_in_air:longitude latitude alevel time:atmos:3:HNO3 PS TS:HNO3 on model levels
+AEROCOM-ACC_3D-M:vmrno:mole_fraction_of_nitrogen_monoxide_in_air:longitude latitude alevel time:atmos:3:NO PS TS:NO on model levels
+AEROCOM-ACC_3D-M:vmrno2:mole_fraction_of_nitrogen_dioxide_in_air:longitude latitude alevel time:atmos:3:NO2 PS TS:NO2 on model levels
+AEROCOM-ACC_3D-M:vmrpan:mole_fraction_of_peroxyacetyl_nitrate_in_air:longitude latitude alevel time:atmos:3:PAN PS TS:PAN on model levels
+AEROCOM-ACC_3D-M:vmrso2:mole_fraction_of_sulfur_dioxide_in_air:longitude latitude alevel time:atmos:3:SO2 PS TS:SO2 on model levels
+AEROCOM-ACC_2D-M:wetbc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:wetdms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:wetdust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:4:a2x_DSTWET1 a2x_DSTWET2 a2x_DSTWET3 a2x_DSTWET4:a2x_DSTWET+a2x_DSTWET2+a2x_DSTWET3+a2x_DSTWET4
+AEROCOM-ACC_2D-M:wethno3:tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:wetnh4:tendency_of_atmosphere_mass_content_of_ammonium_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:wetnoy:tendency_of_atmosphere_mass_content_of_all_nitrogen_oxides_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:wetoa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:5:SOABSFWET SOAISFWET SOAMSFWET SOATSFWET SOAXSFWET:SOABSFWET+SOAISFWET+SOAMSFWET+SOATSFWET+SOAXSFWET
+AEROCOM-ACC_2D-M:wetso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition:longitude latitude time:atmos:1:SO2SFWET:SO2SFWET
+AEROCOM-ACC_2D-M:wetso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:1:SO4SFWET:SO4SFWET
+AEROCOM-ACC_2D-M:wetss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:6:SSLT01PP SSLT02PP SSLT03PP SSLT04PP PS TS:SSLT01PP+SSLT02PP+SSLT03PP+SSLT04PP integrated over Z
+CMIP5_Amon:zg:geopotential_height:longitude latitude plevs time:atmos:2:Z3 PS:Z3 interpolated to standard plevs
+@

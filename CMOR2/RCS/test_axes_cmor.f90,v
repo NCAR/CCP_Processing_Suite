@@ -1,0 +1,70 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.10.24.16.46.31;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@program test_cmor
+
+  USE netcdf
+  USE cmor_users_functions
+  IMPLICIT NONE
+
+  integer :: i, x,y, j,a, d, k, id, grid
+  integer, parameter :: sx = 300
+  real, dimension(sx) :: lon, lat
+  real, dimension(4,sx,sx) :: lat_v, lon_v
+  real, dimension(sx,sx) :: lat_co, lon_co
+
+  do i=1,sx
+     lon(i) = i*1.0
+     lat(i) = i*1.0
+  end do
+  do i = 1,sx
+     do j=1,sx
+        lat_co(i, j) = 1.0*i
+        lon_co(i,j) = 1.0*i
+        do d=1,4
+           lat_v(d,i,j) = 1.0*i
+           lon_v(d,i,j) = 1.0*i
+        end do
+     end do
+  end do
+  j = CMOR_REPLACE
+  K = CMOR_EXIT_ON_MAJOR
+
+  id= cmor_setup(&
+       inpath = 'data',&
+       netcdf_file_action = j,&
+       exit_control = k)
+
+  x = cmor_axis( table = 'Tables/CMIP5_grids',&
+       table_entry='x',  units='m',&
+       length=sx,  coord_vals = lon)
+  y = cmor_axis( table = 'Tables/CMIP5_grids',&
+       table_entry='y',  units='m',&
+       length=sx,  coord_vals = lat)
+  grid = cmor_grid( (/x, y/),&
+       latitude = lat_co,&
+       longitude = lon_co,&
+       latitude_vertices = lat_v,&
+       longitude_vertices = lon_v)
+  write(*,*) x,y,grid
+end program test_cmor
+@

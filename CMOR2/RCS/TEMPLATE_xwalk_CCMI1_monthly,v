@@ -1,0 +1,344 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2015.02.13.21.57.47;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@CCMI1_monthly:ccmi_year::time::
+CCMI1_monthly:ccmi_month::time::
+CCMI1_monthly:ccmi_day::time::
+CCMI1_monthly:ccmi_hour::time::
+CCMI1_monthly:ccmi_minute::time::
+CCMI1_monthly:ps:surface_air_pressure:longitude latitude time:atmos:
+CCMI1_monthly:clt:cloud_area_fraction:longitude latitude time:atmos:
+CCMI1_monthly:convclt:convective_cloud_area_fraction:longitude latitude time:atmos:
+CCMI1_monthly:ptp:tropopause_air_pressure:longitude latitude time:atmos:
+CCMI1_monthly:tatp:tropopause_air_temperature:longitude latitude time:atmos:
+CCMI1_monthly:ztp:tropopause_altitude:longitude latitude time:atmos:
+CCMI1_monthly:pr:precipitation_flux:longitude latitude time:atmos:
+CCMI1_monthly:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:
+CCMI1_monthly:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:
+CCMI1_monthly:toz:equivalent_thickness_at_stp_of_atmosphere_ozone_content:longitude latitude time:atmos:
+CCMI1_monthly:tropoz::longitude latitude time:atmos:
+CCMI1_monthly:tos:sea_surface_temperature:longitude latitude time:atmos:
+CCMI1_monthly:sic:sea_ice_area_fraction:longitude latitude time:atmos:
+CCMI1_monthly:od440aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time wv440nm:atmos:
+CCMI1_monthly:od550aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time wv550nm:atmos:
+CCMI1_monthly:od870aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time wv870nm:atmos:
+CCMI1_monthly:od550lt1aer:atmosphere_optical_thickness_due_to_pm1_ambient_aerosol:longitude latitude time wv550nm:atmos:
+CCMI1_monthly:abs550aer:atmosphere_absorption_optical_thickness_due_to_ambient_aerosol:longitude latitude time wv550nm:atmos:
+CCMI1_monthly:emioa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude time:atmos:
+CCMI1_monthly:emiaoa::longitude latitude time:atmos:
+CCMI1_monthly:chepsoa:tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude time:atmos:
+CCMI1_monthly:chepasoa::longitude latitude time:atmos:
+CCMI1_monthly:emibc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_emission:longitude latitude time:atmos:
+CCMI1_monthly:emiabc::longitude latitude time:atmos:
+CCMI1_monthly:dryoa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:
+CCMI1_monthly:drybc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:
+CCMI1_monthly:wetoa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:
+CCMI1_monthly:wetbc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:
+CCMI1_monthly:emiso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_emission:longitude latitude time:atmos:
+CCMI1_monthly:emiaso2::longitude latitude time:atmos:
+CCMI1_monthly:emiso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_emission:longitude latitude time:atmos:
+CCMI1_monthly:emiaso4::longitude latitude time:atmos:
+CCMI1_monthly:emidms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission:longitude latitude time:atmos:
+CCMI1_monthly:dryso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_dry_deposition:longitude latitude time:atmos:
+CCMI1_monthly:dryso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:
+CCMI1_monthly:drydms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_dry_deposition:longitude latitude time:atmos:
+CCMI1_monthly:wetso4::longitude latitude time:atmos:
+CCMI1_monthly:wetso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition:longitude latitude time:atmos:
+CCMI1_monthly:wetdms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_wet_deposition:longitude latitude time:atmos:
+CCMI1_monthly:eminh3:tendency_of_atmosphere_mass_content_of_ammonia_due_to_emission:longitude latitude time:atmos:
+CCMI1_monthly:emianh3::longitude latitude time:atmos:
+CCMI1_monthly:drynh3:tendency_of_atmosphere_mass_content_of_ammonia_due_to_dry_deposition:longitude latitude time:atmos:
+CCMI1_monthly:drynh4:tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:
+CCMI1_monthly:wetnh4:tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:
+CCMI1_monthly:emiss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_emission:longitude latitude time:atmos:
+CCMI1_monthly:dryss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:
+CCMI1_monthly:wetss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:
+CCMI1_monthly:emidust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_emission:longitude latitude time:atmos:
+CCMI1_monthly:drydust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:
+CCMI1_monthly:wetdust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:
+CCMI1_monthly:reffclwtop:effective_radius_of_cloud_liquid_water_particle_at_liquid_water_cloud_top:longitude latitude time:atmos:
+CCMI1_monthly:reffclitop::longitude latitude time:atmos:
+CCMI1_monthly:dryo3:tendency_of_atmosphere_mass_content_of_ozone_due_to_dry_deposition:longitude latitude time:atmos:
+CCMI1_monthly:stoo3:tendency_of_atmosphere_mass_content_of_ozone_due_to_dry_deposition_into_stomata:longitude latitude time:atmos:
+CCMI1_monthly:wetnh3:tendency_of_atmosphere_mass_content_of_ammonia_due_to_wet_deposition:longitude latitude time:atmos:
+CCMI1_monthly:emico:tendency_of_atmosphere_mass_content_of_carbon_monoxide_due_to_emission:longitude latitude time:atmos:
+CCMI1_monthly:emivoc::longitude latitude time:atmos:
+CCMI1_monthly:emibvoc::longitude latitude time:atmos:
+CCMI1_monthly:emibisop::longitude latitude time:atmos:
+CCMI1_monthly:emiavoc::longitude latitude time:atmos:
+CCMI1_monthly:emiaco::longitude latitude time:atmos:
+CCMI1_monthly:asyaer::longitude latitude time:atmos:
+CCMI1_monthly:ang4487aer:angstrom_exponent_of_ambient_aerosol_in_air:longitude latitude time:atmos:
+CCMI1_monthly:ang4467aer:angstrom_exponent_of_ambient_aerosol_in_air:longitude latitude time:atmos:
+CCMI1_monthly:ang5087aer:angstrom_exponent_of_ambient_aerosol_in_air:longitude latitude time:atmos:
+CCMI1_monthly:od550so4::longitude latitude time wv550nm:atmos:
+CCMI1_monthly:od550bc:atmosphere_optical_thickness_due_to_black_carbon_ambient_aerosol:longitude latitude time wv550nm:atmos:
+CCMI1_monthly:od550oa:atmosphere_optical_thickness_due_to_particulate_organic_matter_ambient_aerosol:longitude latitude time wv550nm:atmos:
+CCMI1_monthly:od550soa::longitude latitude time wv550nm:atmos:
+CCMI1_monthly:od550bb::longitude latitude time wv550nm:atmos:
+CCMI1_monthly:od550no3::longitude latitude time wv550nm:atmos:
+CCMI1_monthly:od550ss:atmosphere_optical_thickness_due_to_seasalt_ambient_aerosol:longitude latitude time wv550nm:atmos:
+CCMI1_monthly:od550dust:atmosphere_optical_thickness_due_to_dust_ambient_aerosol:longitude latitude time wv550nm:atmos:
+CCMI1_monthly:od550aerh2o:atmosphere_optical_thickness_due_to_water_in_ambient_aerosol:longitude latitude time wv550nm:atmos:
+CCMI1_monthly:gf90aer::longitude latitude time:atmos:
+CCMI1_monthly:lwclrefc::longitude latitude time:atmos:
+CCMI1_monthly:swclrefc::longitude latitude time:atmos:
+CCMI1_monthly:lcc::longitude latitude time:atmos:
+CCMI1_monthly:icc::longitude latitude time:atmos:
+CCMI1_monthly:lwp:atmosphere_mass_content_of_cloud_liquid_water:longitude latitude time:atmos:
+CCMI1_monthly:clivi:atmosphere_mass_content_of_cloud_ice:longitude latitude time:atmos:
+CCMI1_monthly:albs:planetary_albedo:longitude latitude time:atmos:
+CCMI1_monthly:albsrfc:surface_albedo:longitude latitude time:atmos:
+CCMI1_monthly:cod:atmosphere_optical_thickness_due_to_cloud:longitude latitude time:atmos:
+CCMI1_monthly:ccn::longitude latitude time:atmos:
+CCMI1_monthly:ttop:air_temperature_at_cloud_top:longitude latitude time:atmos:
+CCMI1_monthly:lts::longitude latitude time:atmos:
+CCMI1_monthly:rsut:toa_outgoing_shortwave_flux:longitude latitude time:atmos:
+CCMI1_monthly:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude latitude time:atmos:
+CCMI1_monthly:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:
+CCMI1_monthly:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:longitude latitude time:atmos:
+CCMI1_monthly:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:
+CCMI1_monthly:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:
+CCMI1_monthly:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:
+CCMI1_monthly:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:
+CCMI1_monthly:swtoaasch4::longitude latitude time:atmos:
+CCMI1_monthly:lwtoaasch4::longitude latitude time:atmos:
+CCMI1_monthly:swtoaasn2o::longitude latitude time:atmos:
+CCMI1_monthly:lwtoaasn2o::longitude latitude time:atmos:
+CCMI1_monthly:swtoaashc::longitude latitude time:atmos:
+CCMI1_monthly:lwtoaashc::longitude latitude time:atmos:
+CCMI1_monthly:swtoaaso3::longitude latitude time:atmos:
+CCMI1_monthly:lwtoaaso3::longitude latitude time:atmos:
+CCMI1_monthly:swtropaso3::longitude latitude time:atmos:
+CCMI1_monthly:lwtropaso3::longitude latitude time:atmos:
+CCMI1_monthly:swtoaasso4::longitude latitude time:atmos:
+CCMI1_monthly:swtoaasbcff::longitude latitude time:atmos:
+CCMI1_monthly:swtoacsbcff::longitude latitude time:atmos:
+CCMI1_monthly:swtoaasoaff::longitude latitude time:atmos:
+CCMI1_monthly:swtoacsoaff::longitude latitude time:atmos:
+CCMI1_monthly:swtoaasbb::longitude latitude time:atmos:
+CCMI1_monthly:swtoacsbb::longitude latitude time:atmos:
+CCMI1_monthly:swtoaassoa::longitude latitude time:atmos:
+CCMI1_monthly:swtoaasno3::longitude latitude time:atmos:
+CCMI1_monthly:swtoaasss::longitude latitude time:atmos:
+CCMI1_monthly:swtoaasdust::longitude latitude time:atmos:
+CCMI1_monthly:lwtoaasdust::longitude latitude time:atmos:
+CCMI1_monthly:swtoacsdust::longitude latitude time:atmos:
+CCMI1_monthly:swtoaasaer::longitude latitude time:atmos:
+CCMI1_monthly:swtoacsaer::longitude latitude time:atmos:
+CCMI1_monthly:lwtoaasaer::longitude latitude time:atmos:
+CCMI1_monthly:lwtoacsaer::longitude latitude time:atmos:
+CCMI1_monthly:eminox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_emission:longitude latitude time:atmos:
+CCMI1_monthly:emianox::longitude latitude time:atmos:
+CCMI1_monthly:dryhno3:tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_dry_deposition:longitude latitude time:atmos:
+CCMI1_monthly:dryno2:tendency_of_atmosphere_mass_content_of_nitrogen_dioxide_due_to_dry_deposition:longitude latitude time:atmos:
+CCMI1_monthly:drynoy::longitude latitude time:atmos:
+CCMI1_monthly:wethno3:tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_wet_deposition:longitude latitude time:atmos:
+CCMI1_monthly:wetnoy::longitude latitude time:atmos:
+CCMI1_monthly:flashrate::longitude latitude time:atmos:
+CCMI1_monthly:tpo3chm::longitude latitude time:atmos:
+CCMI1_monthly:lso3chm::longitude latitude time:atmos:
+CCMI1_monthly:emipom::longitude latitude time:atmos:
+CCMI1_monthly:emipcb153:tendency_of_atmosphere_mass_content_of_hexachlorobiphenyl_due_to_emission:longitude latitude time:atmos:
+CCMI1_monthly:emiahch:tendency_of_atmosphere_mass_content_of_alpha_hexachlorocyclohexane_due_to_emission:longitude latitude time:atmos:
+CCMI1_monthly:reemipcb153:tendency_of_atmosphere_mass_content_of_hexachlorobiphenyl_due_to_re_emission:longitude latitude time:atmos:
+CCMI1_monthly:reemiahch:tendency_of_atmosphere_mass_content_of_alpha_hexachlorocyclohexane_due_to_re_emission:longitude latitude time:atmos:
+CCMI1_monthly:emiapom::longitude latitude time:atmos:
+CCMI1_monthly:emiasoa::longitude latitude time:atmos:
+CCMI1_monthly:emiisop:tendency_of_atmosphere_mass_content_of_isoprene_due_to_emission:longitude latitude time:atmos:
+CCMI1_monthly:vgd::longitude latitude vgidx time:atmos:
+CCMI1_monthly:lai:leaf_area_index:longitude latitude time:atmos:
+CCMI1_monthly:cnpz:canopy_height:longitude latitude time:atmos:
+CCMI1_monthly:gsto::longitude latitude time:atmos:
+CCMI1_monthly:vmro3cnp:mole_fraction_of_ozone_in_air:longitude latitude time:atmos:
+CCMI1_monthly:snc:surface_snow_area_fraction:longitude latitude time:atmos:
+CCMI1_monthly:o3steflx::longitude latitude time:atmos:
+CCMI1_monthly:pmlev:air_pressure:longitude latitude alevel time:atmos:
+CCMI1_monthly:pilev::longitude latitude alevel time:atmos:
+CCMI1_monthly:ta:air_temperature:longitude latitude alevel time:atmos:
+CCMI1_monthly:zg:geopotential_height:longitude latitude alevel time:atmos:
+CCMI1_monthly:ua:eastward_wind:longitude latitude alevel time:atmos:
+CCMI1_monthly:va:northward_wind:longitude latitude alevel time:atmos:
+CCMI1_monthly:wa:upward_air_velocity:longitude latitude alevel time:atmos:
+CCMI1_monthly:tntsw:tendency_of_air_temperature_due_to_shortwave_heating:longitude latitude alevel time:atmos:
+CCMI1_monthly:tntlw:tendency_of_air_temperature_due_to_longwave_heating:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmro3:mole_fraction_of_ozone_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrh2o:mole_fraction_of_water_vapor_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:mnstrage:age_of_stratospheric_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrn2o:mole_fraction_of_nitrous_oxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrch4:mole_fraction_of_methane_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrco2:mole_fraction_of_carbon_dioxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrhcl:mole_fraction_of_hydrogen_chloride_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrco:mole_fraction_of_carbon_monoxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrno2:mole_fraction_of_nitrogen_dioxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrno:mole_fraction_of_nitrogen_monoxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrc2h6:mole_fraction_of_ethane_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrc2h2:mole_fraction_of_ethyne_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrhcn:mole_fraction_of_hydrogen_cyanide_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:cl:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:
+CCMI1_monthly:clc:convective_cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmroh:mole_fraction_of_hydroxyl_radical_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:mmrpm10:mass_fraction_of_pm10_ambient_aerosol_in_air:longitude latitude alevel time relh50p:atmos:
+CCMI1_monthly:mmrpm2p5:mass_fraction_of_pm2p5_ambient_aerosol_in_air:longitude latitude alevel time relh50p:atmos:
+CCMI1_monthly:mmrpm1:mass_fraction_of_pm1_ambient_aerosol_in_air:longitude latitude alevel time relh50p:atmos:
+CCMI1_monthly:prodo1d::longitude latitude alevel time:atmos:
+CCMI1_monthly:prodoh::longitude latitude alevel time:atmos:
+CCMI1_monthly:prodo3viaho2::longitude latitude alevel time:atmos:
+CCMI1_monthly:prodo3viach3o2::longitude latitude alevel time:atmos:
+CCMI1_monthly:prodo3viaro2::longitude latitude alevel time:atmos:
+CCMI1_monthly:losso3viaoh::longitude latitude alevel time:atmos:
+CCMI1_monthly:losso3viaho2::longitude latitude alevel time:atmos:
+CCMI1_monthly:losso3viaalkenes::longitude latitude alevel time:atmos:
+CCMI1_monthly:lossch4::longitude latitude alevel time:atmos:
+CCMI1_monthly:lossco::longitude latitude alevel time:atmos:
+CCMI1_monthly:photo1d::longitude latitude alevel time:atmos:
+CCMI1_monthly:hus:specific_humidity:longitude latitude alevel time:atmos:
+CCMI1_monthly:dh::longitude latitude alevel time:atmos:
+CCMI1_monthly:airmass:atmosphere_mass_of_air_per_unit_area:longitude latitude alevel time:atmos:
+CCMI1_monthly:mmraerh2o:mass_fraction_of_water_in_ambient_aerosol_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:mmroa:mass_fraction_of_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:mmrsoa:mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:mmrbc:mass_fraction_of_black_carbon_dry_aerosol_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:mcu:atmosphere_updraft_convective_mass_flux:longitude latitude alevel time:atmos:
+CCMI1_monthly:clw:mass_fraction_of_cloud_liquid_water_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:cli:mass_fraction_of_cloud_ice_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:mmraerso4:mass_fraction_of_sulfate_dry_aerosol_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrso2:mole_fraction_of_sulfur_dioxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrisop:mole_fraction_of_isoprene_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrch2o:mole_fraction_of_formaldehyde_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrdms:mole_fraction_of_dimethyl_sulfide_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:emilnox::longitude latitude alevel time:atmos:
+CCMI1_monthly:chegpso4::longitude latitude alevel time:atmos:
+CCMI1_monthly:cheaqpso4::longitude latitude alevel time:atmos:
+CCMI1_monthly:cheaqph2o2so4::longitude latitude alevel time:atmos:
+CCMI1_monthly:cheaqpo3so4::longitude latitude alevel time:atmos:
+CCMI1_monthly:mmraerno3:mass_fraction_of_nitrate_dry_aerosol_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:mmraernh4:mass_fraction_of_ammonium_dry_aerosol_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrhno3:mole_fraction_of_nitric_acid_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrpan:mole_fraction_of_peroxyacetyl_nitrate_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:mmrss:mass_fraction_of_seasalt_dry_aerosol_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:mmrdust:mass_fraction_of_dust_dry_aerosol_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:do3chm::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrnh5::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrnh50::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrnh50w::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmraoanh::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrst8025::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrco25::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrco50::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrco50ea::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrco50na::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrco50eu::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrco50sa::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrso2t::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmro3s::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrsf6::longitude latitude alevel time:atmos:
+CCMI1_monthly:altaoa:age_of_stratospheric_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:o3prod::longitude latitude alevel time:atmos:
+CCMI1_monthly:o3loss::longitude latitude alevel time:atmos:
+CCMI1_monthly:jno2::longitude latitude alevel time:atmos:
+CCMI1_monthly:losso1dviah2o::longitude latitude alevel time:atmos:
+CCMI1_monthly:ohloss::longitude latitude alevel time:atmos:
+CCMI1_monthly:prodh2o2viaho2::longitude latitude alevel time:atmos:
+CCMI1_monthly:prodhno3viano2oh::longitude latitude alevel time:atmos:
+CCMI1_monthly:prodhpx::longitude latitude alevel time:atmos:
+CCMI1_monthly:hno3hetprod::longitude latitude alevel time:atmos:
+CCMI1_monthly:lossso2viaoh::longitude latitude alevel time:atmos:
+CCMI1_monthly:lossro2viano::longitude latitude alevel time:atmos:
+CCMI1_monthly:lossro2viano3::longitude latitude alevel time:atmos:
+CCMI1_monthly:lossro2viaho2::longitude latitude alevel time:atmos:
+CCMI1_monthly:lossro2viaro2::longitude latitude alevel time:atmos:
+CCMI1_monthly:lossrcoo2viano2::longitude latitude alevel time:atmos:
+CCMI1_monthly:tntmp:tendency_of_air_temperature_due_to_model_physics:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrch3ccl3:mole_fraction_of_hcc140a_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmrch3cn:mole_fraction_of_aceto_nitrile_in_air:longitude latitude alevel time:atmos:
+CCMI1_monthly:vmro3ste::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmre90::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmre90n::longitude latitude alevel time:atmos:
+CCMI1_monthly:vmre90s::longitude latitude alevel time:atmos:
+CCMI1_monthly:zmta:air_temperature:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmua:eastward_wind:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmva:northward_wind:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmzg:geopotential_height:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmo3:mole_fraction_of_ozone_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmn2o:mole_fraction_of_nitrous_oxide_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmch4:mole_fraction_of_methane_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmh2o:mole_fraction_of_water_vapor_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmmnstrage:age_of_stratospheric_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmch3cl:mole_fraction_of_methyl_chloride_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmch3ccl3:mole_fraction_of_hcc140a_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmccl4:mole_fraction_of_carbon_tetrachloride_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmcfcl3:mole_fraction_of_cfc11_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmcf2cl2:mole_fraction_of_cfc12_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmchclf2:mole_fraction_of_hcfc22_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmch3ccl2f:mole_fraction_of_hcfc141b_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmch3cclf2:mole_fraction_of_hcfc142b_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmcbrclf2:mole_fraction_of_halon1211_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmcbrf3:mole_fraction_of_halon1301_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmc2br2f4:mole_fraction_of_halon2402_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmch3br:mole_fraction_of_methyl_bromide_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmch2br2::longitude latitude plevs time:atmos:
+CCMI1_monthly:zmchbr3::longitude latitude plevs time:atmos:
+CCMI1_monthly:zmhno3:mole_fraction_of_nitric_acid_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmhcl:mole_fraction_of_hydrogen_chloride_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmclono2:mole_fraction_of_chlorine_nitrate_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmnoy:mole_fraction_of_total_reactive_nitrogen_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmcly:mole_fraction_of_inorganic_chlorine_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmbry:mole_fraction_of_total_inorganic_bromine_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmcl:mole_fraction_of_atomic_chlorine_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmclo:mole_fraction_of_chlorine_monoxide_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmcl2o2:mole_fraction_of_dichlorine_peroxide_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmhocl:mole_fraction_of_hypochlorous_acid_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmoclo:mole_fraction_of_chlorine_dioxide_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmoh:mole_fraction_of_hydroxyl_radical_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmho2:mole_fraction_of_hydroperoxyl_radical_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmh2o2:mole_fraction_of_hydrogen_peroxide_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmh2:mole_fraction_of_molecular_hydrogen_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmn:mole_fraction_of_atomic_nitrogen_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmno:mole_fraction_of_nitrogen_monoxide_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmno2:mole_fraction_of_nitrogen_dioxide_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmn2o5:mole_fraction_of_dinitrogen_pentoxide_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmhno4:mole_fraction_of_peroxynitric_acid_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmbr:mole_fraction_of_atomic_bromine_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmbro:mole_fraction_of_bromine_monoxide_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmbrcl:mole_fraction_of_bromine_chloride_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmhbr:mole_fraction_of_hydrogen_bromide_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmhobr:mole_fraction_of_hypobromous_acid_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmbrono2:mole_fraction_of_bromine_nitrate_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:fy:northward_eliassen_palm_flux_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:fz:upward_eliassen_palm_flux_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:acceldivf:tendency_of_eastward_wind_due_to_eliassen_palm_flux_divergence:longitude latitude plevs time:atmos:
+CCMI1_monthly:vstar:northward_transformed_eulerian_mean_air_velocity:longitude latitude plevs time:atmos:
+CCMI1_monthly:wstar::longitude latitude plevs time:atmos:
+CCMI1_monthly:accelgw:tendency_of_eastward_wind_due_to_gravity_wave_drag:longitude latitude plevs time:atmos:
+CCMI1_monthly:accelogw:tendency_of_eastward_wind_due_to_orographic_gravity_wave_drag:longitude latitude plevs time:atmos:
+CCMI1_monthly:ogwflux:upward_eastward_momentum_flux_in_air_due_to_orographic_gravity_waves:longitude latitude plevs time:atmos:
+CCMI1_monthly:accelnogw:tendency_of_eastward_wind_due_to_nonorographic_gravity_wave_drag:longitude latitude plevs time:atmos:
+CCMI1_monthly:nogwfluxe:upward_eastward_momentum_flux_in_air_due_to_nonorographic_eastward_gravity_waves:longitude latitude plevs time:atmos:
+CCMI1_monthly:nogwfluxw:upward_eastward_momentum_flux_in_air_due_to_nonorographic_westward_gravity_waves:longitude latitude plevs time:atmos:
+CCMI1_monthly:diabdrag:tendency_of_eastward_wind_due_to_numerical_artefacts:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmch2o:mole_fraction_of_formaldehyde_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmch3ooh:mole_fraction_of_methyl_hydroperoxide_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmco:mole_fraction_of_carbon_monoxide_in_air:longitude latitude plevs time:atmos:
+CCMI1_monthly:zmtnt:tendency_of_air_temperature_due_to_diabatic_processes:longitude latitude plevs time:atmos:
+CCMI1_monthly:vt100:northward_heat_flux_in_air_due_to_eddy_advection:longitude latitude time pr100:atmos:
+@

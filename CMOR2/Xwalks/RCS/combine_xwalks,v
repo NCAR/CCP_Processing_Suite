@@ -1,0 +1,60 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.01.31.16.35.16;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/csh -f
+#
+set out = COMBINED_monthly
+set cnt = 1
+rm -f ${out}
+#
+foreach i (`cat xwalk_CCMI1_monthly | sed -e 's/ /\|/g'`)
+  set field = `echo $i | cut -d":" -f2`
+  set amon = `egrep -c ":${field}:" xwalk_CMIP5_Amon`
+  set aero = `egrep -c ":${field}:" xwalk_CMIP5_aero`
+  set accm = `egrep -c -h ":${field}:" xwalk_AEROCOM-ACC_monthly`
+  echo "Checking for "${field}" #"${cnt}" Amon: "${amon}" aero: "${aero}" ACOM: "${accm}
+  @@ cnt = $cnt + 1
+  echo ${i} >> $out
+  if (${amon} != 0) then
+    echo ${field}" in Amon"
+    set famon  = `egrep ":${field}:" xwalk_CMIP5_Amon | sed -e 's/ /\|/g'`
+    echo ${famon} >> $out
+  else
+    if (${aero} != 0) then
+      echo ${field}" in aero"
+      set faero  = `egrep ":${field}:" xwalk_CMIP5_aero | sed -e 's/ /\|/g'`
+      echo ${faero} >> $out
+    else
+      if (${accm} != 0) then
+        echo ${field}" in AEROCOM-ACC"
+        set faccm  = `egrep -h ":${field}:" xwalk_AEROCOM-ACC_monthly | sed -e 's/ /\|/g'`
+        echo ${faccm} >> $out
+      else
+        echo ${field}" NOT FOUND"
+      endif
+    endif
+  endif
+end
+#
+exit
+
+@

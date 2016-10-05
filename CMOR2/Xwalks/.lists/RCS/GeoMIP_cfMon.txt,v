@@ -1,0 +1,130 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.03.19.18.10.24;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@p0|||vertical coordinate formula term: reference pressure|||Pa|||||||||||
+ptop|||pressure at top of model|||Pa|||||||||||
+a|||vertical coordinate formula term: a(k)|alevel|double||||||||||||
+b|||vertical coordinate formula term: b(k)|alevel|double||||||||||||
+a_bnds|||vertical coordinate formula term: a(k+1/2)|alevel|double||||||||||||
+b_bnds|||vertical coordinate formula term: b(k+1/2)|alevel|double||||||||||||
+ap|||vertical coordinate formula term: ap(k)|alevel|double|Pa|||||||||||
+ap_bnds|||vertical coordinate formula term: ap(k+1/2)|alevel|double|Pa|||||||||||
+ztop|||height of top of model|||m|||||||||||
+ps|ps|surface_air_pressure|Surface Air Pressure|longitude latitude time|real|Pa||time: mean|atmos||||||||
+rlu|rlu|upwelling_longwave_flux_in_air|Upwelling Longwave Radiation|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rsu|rsu|upwelling_shortwave_flux_in_air|Upwelling Shortwave Radiation|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rld|rld|downwelling_longwave_flux_in_air|Downwelling Longwave Radiation|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+rsd|rsd|downwelling_shortwave_flux_in_air|Downwelling Shortwave Radiation|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+rlucs|rlucs|upwelling_longwave_flux_in_air_assuming_clear_sky|Upwelling Clear-Sky Longwave Radiation|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rsucs|rsucs|upwelling_shortwave_flux_in_air_assuming_clear_sky|Upwelling Clear-Sky Shortwave Radiation|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rldcs|rldcs|downwelling_longwave_flux_in_air_assuming_clear_sky|Downwelling Clear-Sky Longwave Radiation|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+rsdcs|rsdcs|downwelling_shortwave_flux_in_air_assuming_clear_sky|Downwelling Clear-Sky Shortwave Radiation|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+ta|ta|air_temperature|Air Temperature|longitude latitude alevel time|real|K|area: areacella|time: mean|atmos||299.8|194.3|||336.3|157.1|
+tnt|tnt|tendency_of_air_temperature|Tendency of Air Temperature|longitude latitude alevel time|real|K s-1|area: areacella|time: mean|atmos||||||||
+tnta|tnta|tendency_of_air_temperature_due_to_advection|Tendency of Air Temperature due to Advection|longitude latitude alevel time|real|K s-1|area: areacella|time: mean|atmos||||||||
+tntmp|tntmp|tendency_of_air_temperature_due_to_model_physics|Tendency of Air Temperature due to Diabatic Processes|longitude latitude alevel time|real|K s-1|area: areacella|time: mean|atmos||||||||
+tntscpbl|tntscpbl|tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing|Tendency of Air Temperature Due to Stratiform Cloud and Precipitation and Boundary Layer Mixing|longitude latitude alevel time|real|K s-1|area: areacella|time: mean|atmos||||||||
+tntr|tntr|tendency_of_air_temperature_due_to_radiative_heating|Tendency of Air Temperature due to Radiative Heating|longitude latitude alevel time|real|K s-1|area: areacella|time: mean|atmos||||||||
+tntc|tntc|tendency_of_air_temperature_due_to_convection|Tendency of Air Temperature due to Moist Convection|longitude latitude alevel time|real|K s-1|area: areacella|time: mean|atmos||||||||
+hur|hur|relative_humidity|Relative Humidity|longitude latitude alevel time|real|%|area: areacella|time: mean|atmos||97|-10.31|||135.7|-2.642|
+hus|hus|specific_humidity|Specific Humidity|longitude latitude alevel time|real|1|area: areacella|time: mean|atmos||0.01041|-0.0003539|||0.02841|-0.000299|
+tnhus|tnhus|tendency_of_specific_humidity|Tendency of Specific Humidity|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnhusa|tnhusa|tendency_of_specific_humidity_due_to_advection|Tendency of Specific Humidity due to Advection|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnhusc|tnhusc|tendency_of_specific_humidity_due_to_convection|Tendency of Specific Humidity due to Convection|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnhusd|tnhusd|tendency_of_specific_humidity_due_to_diffusion|Tendency of Specific Humidity due to Diffusion|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnhusscpbl|tnhusscpbl|tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing|Tendency of Specific Humidity due to Stratiform Cloud Condensation and Evaporation|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnhusmp|tnhusmp|tendency_of_specific_humidity_due_to_model_physics|Tendency of Specific Humidity due to Model Physics|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+eviscu|eviscu|atmosphere_momentum_diffusivity|Eddy Viscosity Coefficients for Momentum|longitude latitude alevel time|real|m2 s-1|area: areacella|time: mean|atmos||||||||
+evisct|evisct|atmosphere_heat_diffusivity|Eddy Diffusivity Coefficients for Temperature|longitude latitude alevel time|real|m2 s-1|area: areacella|time: mean|atmos||||||||
+clc|clc|convective_cloud_area_fraction_in_atmosphere_layer|Convective Cloud Area Fraction|longitude latitude alevel time|real|%|area: areacella|time: mean|atmos||||||||
+clwc|clwc|mass_fraction_of_convective_cloud_liquid_water_in_air|Mass Fraction of Convective Cloud Liquid Water|longitude latitude alevel time|real|1|area: areacella|time: mean|atmos||||||||
+clic|clic|mass_fraction_of_convective_cloud_ice_in_air|Mass Fraction of Convective Cloud Ice|longitude latitude alevel time|real|1|area: areacella|time: mean|atmos||||||||
+cls|cls|stratiform_cloud_area_fraction_in_atmosphere_layer|Stratiform Cloud Area Fraction|longitude latitude alevel time|real|%|area: areacella|time: mean|atmos||||||||
+clws|clws|mass_fraction_of_stratiform_cloud_liquid_water_in_air|Mass Fraction of Stratiform Cloud Liquid Water|longitude latitude alevel time|real|1|area: areacella|time: mean|atmos||||||||
+clis|clis|mass_fraction_of_stratiform_cloud_ice_in_air|Mass Fraction of Stratiform Cloud Ice|longitude latitude alevel time|real|1|area: areacella|time: mean|atmos||||||||
+mcu|mcu|atmosphere_updraft_convective_mass_flux|Updraft Convective Mass Flux|longitude latitude alevhalf time|real|kg m-2 s-1|area: areacella|time: mean|atmos||||up||||
+mcd|mcd|atmosphere_downdraft_convective_mass_flux|Downdraft Convective Mass Flux|longitude latitude alevhalf time|real|kg m-2 s-1|area: areacella|time: mean|atmos||||down||||
+smc|smc|atmosphere_net_upward_shallow_convective_mass_flux|Shallow Convective Mass Flux|longitude latitude alevhalf time|real|kg m-2 s-1|area: areacella|time: mean|atmos||||up||||
+dmc|dmc|atmosphere_net_upward_deep_convective_mass_flux|Deep Convective Mass Flux|longitude latitude alevhalf time|real|kg m-2 s-1|area: areacella|time: mean|atmos||||up||||
+tnsclw|tnsclw|tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air|Tendency of Mass Fraction of Stratiform Cloud Liquid Water In Air|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclwcm|tnsclwcm|tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_cloud_microphysics|Tendency of Mass Fraction of Stratiform Cloud Liquid Water In Air Due To Cloud Microphysics|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclwbl|tnsclwbl|tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_boundary_layer_mixing|Tendency of Mass Fraction of Stratiform Cloud Liquid Water In Air Due To Boundary Layer Mixing|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclwbfpcli|tnsclwbfpcli|tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_bergeron_findeisen_process_to_cloud_ice|Tendency of Mass Fraction of Stratiform Cloud Liquid Water In Air Due To Bergeron Findeisen Process To Cloud Ice|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclwce|tnsclwce|tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_condensation_and_evaporation|Tendency of Mass Fraction of Stratiform Cloud Liquid Water due to Condensation and Evaporation|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclwcd|tnsclwcd|tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_convective_detrainment|Tendency of Mass Fraction of Stratiform Cloud Liquid Water Due to Convective Detrainment|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclwhon|tnsclwhon|tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_homogeneous_nucleation|Tendency of Mass Fraction of Stratiform Cloud Liquid Water due to Homogeneous Nucleation|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclwhen|tnsclwhen|tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_heterogeneous_nucleation|Tendency of Mass Fraction of Stratiform Cloud Liquid Water due to Heterogeneous Nucleation|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclwri|tnsclwri|tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_riming|Tendency of Mass Fraction of Stratiform Cloud Liquid Water due to Riming|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclwar|tnsclwar|tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_accretion_to_rain|Tendency of Mass Fraction of Stratiform Cloud Liquid Water due to Accretion to Rain|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclwas|tnsclwas|tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_accretion_to_snow|Tendency of Mass Fraction of Stratiform Cloud Liquid Water due to Accretion to Snow|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclwmi|tnsclwmi|tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_melting_from_cloud_ice|Tendency of Mass Fraction of Stratiform Cloud Liquid Water due to Melting From Cloud Ice|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclwac|tnsclwac|tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_autoconversion|Tendency of Mass Fraction of Stratiform Cloud Liquid Water due to Autoconversion|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclwa|tnsclwa|tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_advection|Tendency of Mass Fraction of Stratiform Cloud Liquid Water due to Advection|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnscli|tnscli|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air|Tendency of Mass Fraction of Stratiform Cloud Ice In Air|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclicm|tnsclicm|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_cloud_microphysics|Tendency of Mass Fraction of Stratiform Cloud Ice In Air Due To Cloud Microphysics|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclibl|tnsclibl|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_boundary_layer_mixing|Tendency of Mass Fraction of Stratiform Cloud Ice In Air Due To Boundary Layer Mixing|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclibfpcl|tnsclibfpcl|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_bergeron_findeisen_process_from_cloud_liquid|Tendency of Mass Fraction of Stratiform Cloud Ice In Air Due To Bergeron Findeisen Process from Cloud Liquid|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclicd|tnsclicd|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_convective_detrainment|Tendency of Mass Fraction of Stratiform Cloud Ice Due Convective Detrainment|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclihon|tnsclihon|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_homogeneous_nucleation|Tendency of Mass Fraction of Stratiform Cloud Ice due to Homogeneous Nucleation|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclihencl|tnsclihencl|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_heterogeneous_nucleation_from_cloud_liquid_water|Tendency of Mass Fraction of Stratiform Cloud Ice due to Heterogeneous Nucleation From Cloud Liquid|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclihenv|tnsclihenv|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_heterogeneous_nucleation_from_water_vapor|Tendency of Mass Fraction of Stratiform Cloud Ice due to Heterogeneous Nucleation From Water Vapor|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnscliricl|tnscliricl|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_riming_from_cloud_liquid_water|Tendency of Mass Fraction of Stratiform Cloud Ice due to Riming From Cloud Liquid|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclirir|tnsclirir|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_riming_from_rain|Tendency of Mass Fraction of Stratiform Cloud Ice due to Riming From Rain|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclids|tnsclids|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_deposition_and_sublimation|Tendency of Mass Fraction of Stratiform Cloud Ice due to Deposition and Sublimation|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnscliag|tnscliag|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_aggregation|Tendency of Mass Fraction of Stratiform Cloud Ice due to Aggregation|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclias|tnsclias|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_accretion_to_snow|Tendency of Mass Fraction of Stratiform Cloud Ice due to Accretion to Snow|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnscliemi|tnscliemi|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_evaporation_of_melting_ice|Tendency of Mass Fraction of Stratiform Cloud Ice due to Evaporation of Melting Ice|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclimr|tnsclimr|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_melting_to_rain|Tendency of Mass Fraction of Stratiform Cloud Ice due to Melting to Rain|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclimcl|tnsclimcl|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_melting_to_cloud_liquid_water|Tendency of Mass Fraction of Stratiform Cloud Ice due to Melting to Cloud Liquid|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnscliif|tnscliif|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_icefall|Tendency of Mass Fraction of Stratiform Cloud Ice due to Icefall|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsclia|tnsclia|tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_advection|Tendency of Mass Fraction of Stratiform Cloud Ice due to Advection|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsccw|tnsccw|tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air|Tendency of Mass Fraction of Stratiform Cloud Condensed Water In Air|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsccwcm|tnsccwcm|tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_cloud_microphysics|Tendency of Mass Fraction of Stratiform Cloud Condensed Water In Air Due To Cloud Microphysics|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsccwbl|tnsccwbl|tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_boundary_layer_mixing|Tendency of Mass Fraction of Stratiform Cloud Condensed Water In Air Due To Boundary Layer Mixing|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsccwce|tnsccwce|tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_condensation_and_evaporation|Tendency of Mass Fraction of Stratiform Cloud Condensed Water due to Condensation and Evaporation|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsccwacr|tnsccwacr|tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_autoconversion_to_rain|Tendency of Mass Fraction of Stratiform Cloud Condensed Water due to Autoconversion to Rain|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsccwacs|tnsccwacs|tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_autoconversion_to_snow|Tendency of Mass Fraction of Stratiform Cloud Condensed Water due to Autoconversion to Snow|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsccwif|tnsccwif|tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_icefall|Tendency of Mass Fraction of Stratiform Cloud Condensed Water due to Icefall|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+tnsccwa|tnsccwa|tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_advection|Tendency of Mass Fraction of Stratiform Cloud Condensed Water due to Advection|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+rsut4co2|rsut4co2|toa_outgoing_shortwave_flux|TOA Outgoing Shortwave Radiation in 4XCO2 Atmosphere|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rlut4co2|rlut4co2|toa_outgoing_longwave_flux|TOA Outgoing Longwave Radiation 4XCO2 Atmosphere|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rsutcs4co2|rsutcs4co2|toa_outgoing_shortwave_flux_assuming_clear_sky|TOA Outgoing Clear-Sky Shortwave Radiation 4XCO2 Atmosphere|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rlutcs4co2|rlutcs4co2|toa_outgoing_longwave_flux_assuming_clear_sky|TOA Outgoing Clear-Sky Longwave Radiation 4XCO2 Atmosphere|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rlu4co2|rlu4co2|upwelling_longwave_flux_in_air|Upwelling Longwave Radiation 4XCO2 Atmosphere|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rsu4co2|rsu4co2|upwelling_shortwave_flux_in_air|Upwelling Shortwave Radiation 4XCO2 Atmosphere|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rld4co2|rld4co2|downwelling_longwave_flux_in_air|Downwelling Longwave Radiation 4XCO2 Atmosphere|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+rsd4co2|rsd4co2|downwelling_shortwave_flux_in_air|Downwelling Shortwave Radiation 4XCO2 Atmosphere|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+rlucs4co2|rlucs4co2|upwelling_longwave_flux_in_air_assuming_clear_sky|Upwelling Clear-Sky Longwave Radiation 4XCO2 Atmosphere|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rsucs4co2|rsucs4co2|upwelling_shortwave_flux_in_air_assuming_clear_sky|Upwelling Clear-Sky Shortwave Radiation 4XCO2 Atmosphere|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rldcs4co2|rldcs4co2|downwelling_longwave_flux_in_air_assuming_clear_sky|Downwelling Clear-Sky Longwave Radiation 4XCO2 Atmosphere|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+rsdcs4co2|rsdcs4co2|downwelling_shortwave_flux_in_air_assuming_clear_sky|Downwelling Clear-Sky Shortwave Radiation 4XCO2 Atmosphere|longitude latitude alevhalf time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+cltisccp|cltisccp|cloud_area_fraction|ISCCP Total Cloud Fraction|longitude latitude time|real|%|area: areacella|time: mean|atmos||||||||
+albisccp|albisccp|cloud_albedo|ISCCP Mean Cloud Albedo|longitude latitude time|real|1|area: areacella|time: mean|atmos||||||||
+pctisccp|pctisccp|air_pressure_at_cloud_top|ISCCP Mean Cloud Top Pressure|longitude latitude time|real|Pa|area: areacella|time: mean|atmos||||||||
+clisccp|clisccp|isccp_cloud_area_fraction|ISCCP Cloud Area Fraction|longitude latitude plev7 tau time|real|%|area: areacella|time: mean|atmos||||||||
+cltcalipso|cltcalipso|cloud_area_fraction|CALIPSO Total Cloud Fraction|longitude latitude time|real|%|area: areacella|time: mean|atmos||||||||
+cllcalipso|cllcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Low Level Cloud Fraction|longitude latitude time p840|real|%|area: areacella|time: mean|atmos||||||||
+clmcalipso|clmcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Mid Level Cloud Fraction|longitude latitude time p560|real|%|area: areacella|time: mean|atmos||||||||
+clhcalipso|clhcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO High Level Cloud Fraction|longitude latitude time p220|real|%|area: areacella|time: mean|atmos||||||||
+clcalipso|clcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Cloud Fraction|longitude latitude alt40 time|real|%|area: areacella|time: mean|atmos||||||||
+parasolRefl|parasolRefl|toa_bidirectional_reflectance|PARASOL Reflectance|longitude latitude sza5 time|real|1|area: areacella|time: mean|atmos||||||||
+@

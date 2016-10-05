@@ -1,0 +1,113 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.03.19.18.10.24;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@p0|||vertical coordinate formula term: reference pressure|||Pa|||||||||||
+ptop|||pressure at top of model|||Pa|||||||||||
+a|||vertical coordinate formula term: a(k)|alevel|double||||||||||||
+b|||vertical coordinate formula term: b(k)|alevel|double||||||||||||
+a_bnds|||vertical coordinate formula term: a(k+1/2)|alevel|double||||||||||||
+b_bnds|||vertical coordinate formula term: b(k+1/2)|alevel|double||||||||||||
+ap|||vertical coordinate formula term: ap(k)|alevel|double|Pa|||||||||||
+ap_bnds|||vertical coordinate formula term: ap(k+1/2)|alevel|double|Pa|||||||||||
+ztop|||height of top of model|||m|||||||||||
+clcalipso|clcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Cloud Area Fraction|location alt40 time1|real|%||time: point|atmos||||||||
+clcalipso2|clcalipso2|cloud_area_fraction_in_atmosphere_layer|CALIPSO Cloud Fraction Undetected by CloudSat|location alt40 time1|real|%||time: point|atmos||||||||
+cfadDbze94|cfadDbze94|histogram_of_equivalent_reflectivity_factor_over_height_above_reference_ellipsoid|CloudSat Radar Reflectivity CFAD|location alt40 dbze time1|real|1||time: point|atmos||||||||
+cfadLidarsr532|cfadLidarsr532|histogram_of_backscattering_ratio_over_height_above_reference_ellipsoid|CALIPSO Scattering Ratio CFAD|location alt40 scatratio time1|real|1||time: point|atmos||||||||
+parasolRefl|parasolRefl|toa_bidirectional_reflectance|PARASOL Reflectance|location sza5 time1|real|1||time: point|atmos||||||||
+cltcalipso|cltcalipso|cloud_area_fraction|CALIPSO Total Cloud Fraction|location time1|real|%||time: point|atmos||||||||
+cllcalipso|cllcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Low Level Cloud Fraction|location time1 p840|real|%||time: point|atmos||||||||
+clmcalipso|clmcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Mid Level Cloud Fraction|location time1 p560|real|%||time: point|atmos||||||||
+clhcalipso|clhcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO High Level Cloud Fraction|location time1 p220|real|%||time: point|atmos||||||||
+longitude|lon|longitude|Longitude|location time1|real|degrees_east||time: point|atmos||||||360.0|0.0|
+latitude|lat|latitude|Latitude|location time1|real|degrees_north||time: point|atmos||||||90.0|-90.0|
+toffset|toffset|time|Offset Time|location time1|real|day|||atmos||||||||
+tas|tas|air_temperature|Near-Surface Air Temperature|longitude latitude time1 height2m|real|K|area: areacella|time: point|atmos||||||||
+ts|ts|surface_temperature|Surface Temperature|longitude latitude time1|real|K|area: areacella|time: point|atmos||||||||
+psl|psl|air_pressure_at_sea_level|Sea Level Pressure|longitude latitude time1|real|Pa|area: areacella|time: point|atmos||||||||
+ps|ps|surface_air_pressure|Surface Air Pressure|longitude latitude time1|real|Pa|area: areacella|time: point|atmos||||||||
+uas|uas|eastward_wind|Eastward Near-Surface Wind|longitude latitude time1 height10m|real|m s-1||time: point|atmos||||||||
+vas|vas|northward_wind|Northward Near-Surface Wind|longitude latitude time1 height10m|real|m s-1||time: point|atmos||||||||
+sfcWind|sfcWind|wind_speed|Near-Surface Wind Speed|longitude latitude time1 height10m|real|m s-1||time: point|atmos||||||||
+hurs|hurs|relative_humidity|Near-Surface Relative Humidity|longitude latitude time1 height2m|real|%|area: areacella|time: point|atmos||||||||
+huss|huss|specific_humidity|Near-Surface Specific Humidity|longitude latitude time1 height2m|real|1|area: areacella|time: point|atmos||||||||
+pr|pr|precipitation_flux|Precipitation|longitude latitude time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+prsn|prsn|snowfall_flux|Snowfall Flux|longitude latitude time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+prc|prc|convective_precipitation_flux|Convective Precipitation|longitude latitude time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+evspsbl|evspsbl|water_evaporation_flux|Evaporation|longitude latitude time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+sbl|sbl|surface_snow_and_ice_sublimation_flux|Surface Snow and Ice Sublimation Flux|longitude latitude time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+tauu|tauu|surface_downward_eastward_stress|Surface Downward Eastward Wind Stress|longitude latitude time1|real|Pa||time: point|atmos||||down||||
+tauv|tauv|surface_downward_northward_stress|Surface Downward Northward Wind Stress|longitude latitude time1|real|Pa||time: point|atmos||||down||||
+hfls|hfls|surface_upward_latent_heat_flux|Surface Upward Latent Heat Flux|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+hfss|hfss|surface_upward_sensible_heat_flux|Surface Upward Sensible Heat Flux|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+rlds|rlds|surface_downwelling_longwave_flux_in_air|Surface Downwelling Longwave Radiation|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||down||||
+rlus|rlus|surface_upwelling_longwave_flux_in_air|Surface Upwelling Longwave Radiation|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+rsds|rsds|surface_downwelling_shortwave_flux_in_air|Surface Downwelling Shortwave Radiation|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||down||||
+rsus|rsus|surface_upwelling_shortwave_flux_in_air|Surface Upwelling Shortwave Radiation|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+rsdscs|rsdscs|surface_downwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Shortwave Radiation|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||down||||
+rsuscs|rsuscs|surface_upwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Upwelling Clear-Sky Shortwave Radiation|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+rldscs|rldscs|surface_downwelling_longwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Longwave Radiation|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||down||||
+rsdt|rsdt|toa_incoming_shortwave_flux|TOA Incident Shortwave Radiation|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||down||||
+rsut|rsut|toa_outgoing_shortwave_flux|TOA Outgoing Shortwave Radiation|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+rlut|rlut|toa_outgoing_longwave_flux|TOA Outgoing Longwave Radiation|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+rlutcs|rlutcs|toa_outgoing_longwave_flux_assuming_clear_sky|TOA Outgoing Clear-Sky Longwave Radiation|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+rsutcs|rsutcs|toa_outgoing_shortwave_flux_assuming_clear_sky|TOA Outgoing Clear-Sky Shortwave Radiation|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+prw|prw|atmosphere_water_vapor_content|Water Vapor Path|longitude latitude time1|real|kg m-2|area: areacella|time: point|atmos||||||||
+clt|clt|cloud_area_fraction|Total Cloud Fraction|longitude latitude time1|real|%|area: areacella|time: point|atmos||||||||
+clwvi|clwvi|atmosphere_cloud_condensed_water_content|Condensed Water Path|longitude latitude time1|real|kg m-2|area: areacella|time: point|atmos||||||||
+clivi|clivi|atmosphere_cloud_ice_content|Ice Water Path|longitude latitude time1|real|kg m-2|area: areacella|time: point|atmos||||||||
+rtmt|rtmt|net_downward_radiative_flux_at_top_of_atmosphere_model|Net Downward Flux at Top of Model|longitude latitude time1|real|W m-2|area: areacella|time: point|atmos||||down||||
+ccb|ccb|air_pressure_at_convective_cloud_base|Air Pressure at Convective Cloud Base|longitude latitude time1|real|Pa|area: areacella|time: point|atmos||||||||
+cct|cct|air_pressure_at_convective_cloud_top|Air Pressure at Convective Cloud Top|longitude latitude time1|real|Pa|area: areacella|time: point|atmos||||||||
+ci|ci|convection_time_fraction|Fraction of Time Convection Occurs|longitude latitude time1|real|1|area: areacella|time: point|atmos||||||||
+sci|sci|shallow_convection_time_fraction|Fraction of Time Shallow Convection Occurs|longitude latitude time1|real|1|area: areacella|time: point|atmos||||||||
+fco2antt|fco2antt|tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission|Carbon Mass Flux into Atmosphere Due to All Anthropogenic Emissions of CO2|longitude latitude time1|real|kg  m-2 s-1|area: areacella|time: point|atmos||||up||||
+fco2fos|fco2fos|tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fossil_fuel_combustion|Carbon Mass Flux into Atmosphere Due to Fossil Fuel Emissions of CO2|longitude latitude time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||up||||
+fco2nat|fco2nat|surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources|Surface Carbon Mass Flux into the Atmosphere Due to Natural Sources|longitude latitude time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||up||||
+cltc|cltc|convective_cloud_area_fraction|Convective Cloud Fraction|longitude latitude time1|real|%|area: areacella|time: point|atmos||||||100.0|0.0|
+ta|ta|air_temperature|Air Temperature|longitude latitude alevel time1|real|K|area: areacella|time: point|atmos||||||||
+h2o|h2o|mass_fraction_of_water_in_air|Mass Fraction of Water|longitude latitude alevel time1|real|1|area: areacella|time: point|atmos||||||||
+clws|clws|mass_fraction_of_stratiform_cloud_liquid_water_in_air|Mass Fraction of Stratiform Cloud Liquid Water|longitude latitude alevel time1|real|1|area: areacella|time: point|atmos||||||||
+clis|clis|mass_fraction_of_stratiform_cloud_ice_in_air|Mass Fraction of Stratiform Cloud Ice|longitude latitude alevel time1|real|1|area: areacella|time: point|atmos||||||||
+clwc|clwc|mass_fraction_of_convective_cloud_liquid_water_in_air|Mass Fraction of Convective Cloud Liquid Water|longitude latitude alevel time1|real|1|area: areacella|time: point|atmos||||||||
+clic|clic|mass_fraction_of_convective_cloud_ice_in_air|Mass Fraction of Convective Cloud Ice|longitude latitude alevel time1|real|1|area: areacella|time: point|atmos||||||||
+reffclws|reffclws|effective_radius_of_stratiform_cloud_liquid_water_particle|Hydrometeor Effective Radius of Stratiform Cloud Liquid Water|longitude latitude alevel time1|real|m|area: areacella|time: point|atmos||||||||
+reffclis|reffclis|effective_radius_of_stratiform_cloud_ice_particle|Hydrometeor Effective Radius of Stratiform Cloud Ice|longitude latitude alevel time1|real|m|area: areacella|time: point|atmos||||||||
+reffclwc|reffclwc|effective_radius_of_convective_cloud_liquid_water_particle|Hydrometeor Effective Radius of Convective Cloud Liquid Water|longitude latitude alevel time1|real|m|area: areacella|time: point|atmos||||||||
+reffclic|reffclic|effective_radius_of_convective_cloud_ice_particle|Hydrometeor Effective Radius of Convective Cloud Ice|longitude latitude alevel time1|real|m|area: areacella|time: point|atmos||||||||
+grpllsprof|grpllsprof|large_scale_graupel_flux|Stratiform Graupel Flux|longitude latitude alevel time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+prcprof|prcprof|convective_rainfall_flux|Convective Rainfall Flux|longitude latitude alevel time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+prlsprof|prlsprof|large_scale_rainfall_flux|Stratiform Rainfall Flux|longitude latitude alevel time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+prsnc|prsnc|convective_snowfall_flux|Convective Snowfall Flux|longitude latitude alevel time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+prlsns|prlsns|large_scale_snowfall_flux|Stratiform Snowfall Flux|longitude latitude alevel time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+reffgrpls|reffgrpls|effective_radius_of_stratiform_cloud_graupel_particle|Hydrometeor Effective Radius of Stratiform Graupel|longitude latitude alevel time1|real|m|area: areacella|time: point|atmos||||||||
+reffrainc|reffrainc|effective_radius_of_convective_cloud_rain_particle|Hydrometeor Effective Radius of Convective Rainfall|longitude latitude alevel time1|real|m|area: areacella|time: point|atmos||||||||
+reffrains|reffrains|effective_radius_of_stratiform_cloud_rain_particle|Hydrometeor Effective Radius of Stratiform Rainfall|longitude latitude alevel time1|real|m|area: areacella|time: point|atmos||||||||
+reffsnowc|reffsnowc|effective_radius_of_convective_cloud_snow_particle|Hydrometeor Effective Radius of Convective Snowfall|longitude latitude alevel time1|real|m|area: areacella|time: point|atmos||||||||
+reffsnows|reffsnows|effective_radius_of_stratiform_cloud_snow_particle|Hydrometeor Effective Radius of Stratiform Snowfall|longitude latitude alevel time1|real|m|area: areacella|time: point|atmos||||||||
+dtaus|dtaus|atmosphere_optical_thickness_due_to_stratiform_cloud|Stratiform Cloud Optical Depth|longitude latitude alevel time1|real|1|area: areacella|time: point|atmos||||||||
+dtauc|dtauc|atmosphere_optical_thickness_due_to_convective_cloud|Convective Cloud Optical Depth|longitude latitude alevel time1|real|1|area: areacella|time: point|atmos||||||||
+dems|dems|stratiform_cloud_longwave_emissivity|Stratiform Cloud Emissivity|longitude latitude alevel time1|real|1|area: areacella|time: point|atmos||||||||
+demc|demc|convective_cloud_longwave_emissivity|Convective Cloud Emissivity|longitude latitude alevel time1|real|1|area: areacella|time: point|atmos||||||||
+clc|clc|convective_cloud_area_fraction_in_atmosphere_layer|Convective Cloud Area Fraction|longitude latitude alevel time1|real|%|area: areacella|time: point|atmos||||||||
+cls|cls|stratiform_cloud_area_fraction_in_atmosphere_layer|Stratiform Cloud Area Fraction|longitude latitude alevel time1|real|%|area: areacella|time: point|atmos||||||||
+@

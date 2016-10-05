@@ -1,0 +1,128 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2012.06.14.17.58.39;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.06.03.12.50.11;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@GeoMIP_Amon:BrOx:mole_fraction_of_BrOx_in_air:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:Bry:mole_fraction_of_Bry_in_air:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:carbonmonoxide:mole_fraction_of_CO_in_air:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:ccb:air_pressure_at_convective_cloud_base:longitude latitude time:atmos:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Amon:cct:air_pressure_at_convective_cloud_top:longitude latitude time:atmos:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Amon:cfc113global:mole_fraction_of_cfc113_in_air:time:atmos atmosChem:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:cfc11global:mole_fraction_of_cfc11_in_air:time:atmos atmosChem:1:f11vmr:f11vmr convert to mass
+GeoMIP_Amon:cfc12global:mole_fraction_of_cfc12_in_air:time:atmos atmosChem:1:f12vmr:f12vmr convert to mass
+GeoMIP_Amon:ch4Clim:mole_fraction_of_methane_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:ch4globalClim:mole_fraction_of_methane_in_air:time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:ch4global:mole_fraction_of_methane_in_air:time2:atmos atmosChem:1:ch4vmr:ch4vmr convert to mass
+GeoMIP_Amon:ch4:mole_fraction_of_methane_in_air:longitude latitude plevs time:atmos atmosChem:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:ci:convection_time_fraction:longitude latitude time:atmos:1:FREQZM:FREQZM unit conversion
+GeoMIP_Amon:cl:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:2:CLOUD PS:CLOUD on model levels, no change
+GeoMIP_Amon:cli:mass_fraction_of_cloud_ice_in_air:longitude latitude alevel time:atmos:2:CLDICE PS:CLDICE on model levels, no change
+GeoMIP_Amon:clivi:atmosphere_cloud_ice_content:longitude latitude time:atmos:1:TGCLDIWP:TGCLDIWP no change
+GeoMIP_Amon:ClOx:mole_fraction_of_ClOx_in_air:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT unit conversion
+GeoMIP_Amon:clw:mass_fraction_of_cloud_liquid_water_in_air:longitude latitude alevel time:atmos:2:CLDLIQ PS:CLDLIQ on model levels, no change
+GeoMIP_Amon:clwvi:atmosphere_cloud_condensed_water_content:longitude latitude time:atmos:1:TGCLDLWP:TGCLDLWP no change
+GeoMIP_Amon:Cly:mole_fraction_of_Cly_in_air:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:co2Clim:mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time2:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:co2mass:atmosphere_mass_of_carbon_dioxide:time2:atmos:1:co2vmr:co2vmr convert to mass
+GeoMIP_Amon:co2massClim:atmosphere_mass_of_carbon_dioxide:time2:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:co2:mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:evspsbl:water_evaporation_flux:longitude latitude time:atmos:1:QFLX:QFLX no change
+GeoMIP_Amon:fco2antt:tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:fco2fos:tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fossil_fuel_combustion:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:fco2nat:surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:hcfc22global:mole_fraction_of_hcfc22_in_air:time:atmos atmosChem:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:HCl:mole_fraction_of_HCl_in_air:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:LHFLX:LHFLX no change
+GeoMIP_Amon:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:SHFLX:SHFLX no change
+GeoMIP_Amon:hur:relative_humidity:longitude latitude plevs time:atmos:2:RELHUM PS:RELHUM interpolated to standard plevs
+GeoMIP_Amon:hurs:relative_humidity:longitude latitude time height2m:atmos:1:RHREFHT:RHREFHT no change
+GeoMIP_Amon:hus:specific_humidity:longitude latitude plevs time:atmos:2:Q PS:Q interpolated to standard plevs
+GeoMIP_Amon:huss:specific_humidity:longitude latitude time height2m:atmos:1:QREFHT:QREFHT no change
+GeoMIP_Amon:hydroxide:mole_fraction_of_hydroxide_in_air:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:J_NO2:NO2_photolysis_rate:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:J_O1D:Ox_to_O1D_photolysis_rate:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:mc:atmosphere_net_upward_convective_mass_flux:longitude latitude alevhalf time:atmos:3:CMFMC CMFMCDZM PS:CMFMC + CMFMCDZM on model levels, no change
+GeoMIP_Amon:n2oClim:mole_fraction_of_nitrous_oxide_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:n2oglobalClim:mole_fraction_of_nitrous_oxide_in_air:time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:n2oglobal:mole_fraction_of_nitrous_oxide_in_air:time2:atmos atmosChem:1:n2ovmr:n2ovmr convert to mass
+GeoMIP_Amon:n2o:mole_fraction_of_nitrous_oxide_in_air:longitude latitude plevs time:atmos atmosChem:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:NOx:mole_fraction_of_NOx_in_air:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:prAdjust:precipitation_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:prc:convective_precipitation_flux:longitude latitude time:atmos:1:PRECC:PRECC unit conversion
+GeoMIP_Amon:pr:precipitation_flux:longitude latitude time:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
+GeoMIP_Amon:prsn:snowfall_flux:longitude latitude time:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
+GeoMIP_Amon:prw:atmosphere_water_vapor_content:longitude latitude time:atmos:1:TMQ:TMQ no change
+GeoMIP_Amon:pslAdjust:air_pressure_at_sea_level:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:psl:air_pressure_at_sea_level:longitude latitude time:atmos:1:PSL:PSL no change
+GeoMIP_Amon:ps:surface_air_pressure:longitude latitude time:atmos:1:PS:PS no change
+GeoMIP_Amon:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FLDSC:FLDSC no change
+GeoMIP_Amon:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:1:FLDS:FLDS no change
+GeoMIP_Amon:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:2:FLDS FLNS:FLDS + FLNS
+GeoMIP_Amon:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:longitude latitude time:atmos:1:FLUTC:FLUTC no change
+GeoMIP_Amon:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:1:FLUT:FLUT no change
+GeoMIP_Amon:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FSDSC:FSDSC no change
+GeoMIP_Amon:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:FSDS:FSDS no change
+GeoMIP_Amon:rsdt:toa_incoming_shortwave_flux:longitude latitude time:atmos:1:SOLIN:SOLIN no change
+GeoMIP_Amon:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:2:FSDSC FSNSC:FSDSC - FSNSC
+GeoMIP_Amon:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:2:FSDS FSNS:FSDS - FSNS
+GeoMIP_Amon:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude latitude time:atmos:2:SOLIN FSNTOAC:SOLIN - FSNTOAC
+GeoMIP_Amon:rsut:toa_outgoing_shortwave_flux:longitude latitude time:atmos:2:SOLIN FSNTOA:SOLIN - FSNTOA
+GeoMIP_Amon:rtmt:net_downward_radiative_flux_at_top_of_atmosphere_model:longitude latitude time:atmos:2:FSNT FLNT:FSNT - FLNT
+GeoMIP_Amon:sbl:surface_snow_and_ice_sublimation_flux:longitude latitude time:atmos:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Amon:sci:shallow_convection_time_fraction:longitude latitude time:atmos:1:FREQSH:FREQSH no change
+GeoMIP_Amon:sfcWind:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Amon:strathr:strat_radiative_heating_rate:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:ta:air_temperature:longitude latitude plevs time:atmos:2:T PS:T interpolated to standard plevs
+GeoMIP_Amon:tasAdjust:air_temperature:longitude latitude time height2m:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:tas:air_temperature:longitude latitude time height2m:atmos:1:TREFHT:TREFHT no change
+GeoMIP_Amon:tasmax:air_temperature:longitude latitude time height2m:atmos:1:TREFMXAV:TREFMXAV no change
+GeoMIP_Amon:tasmin:air_temperature:longitude latitude time height2m:atmos:1:TREFMNAV:TREFMNAV no change
+GeoMIP_Amon:tauu:surface_downward_eastward_stress:longitude latitude time:atmos:1:TAUX:TAUX no change
+GeoMIP_Amon:tauv:surface_downward_northward_stress:longitude latitude time:atmos:1:TAUY:TAUY no change
+GeoMIP_Amon:tro3Clim:mole_fraction_of_ozone_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:tro3:mole_fraction_of_ozone_in_air:longitude latitude plevs time:atmos atmosChem:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:tsAdjust:surface_temperature:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:ts:surface_temperature:longitude latitude time:atmos:1:TS:TS no change
+GeoMIP_Amon:ua:eastward_wind:longitude latitude plevs time:atmos:2:U PS:U interpolated to standard plevs
+GeoMIP_Amon:uas:eastward_wind:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Amon:uvb:ultraviolet_radiation_B:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+GeoMIP_Amon:va:northward_wind:longitude latitude plevs time:atmos:2:V PS:V interpolated to standard plevs
+GeoMIP_Amon:vas:northward_wind:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Amon:wap:lagrangian_tendency_of_air_pressure:longitude latitude plevs time:atmos:2:OMEGA PS:OMEGA interpolated to standard plevs
+GeoMIP_Amon:zg:geopotential_height:longitude latitude plevs time:atmos:2:Z3 PS:Z3 interpolated to standard plevs
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d59 1
+a59 1
+GeoMIP_Amon:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:3:FSNTOA FSNT FLNT:FSNTOA-FSNT+FLNT
+@

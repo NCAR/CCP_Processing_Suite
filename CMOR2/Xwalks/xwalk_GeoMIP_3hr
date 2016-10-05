@@ -1,0 +1,23 @@
+3hr:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT unit conversion
+3hr:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:LHFLX:LHFLX no change
+3hr:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:SHFLX:SHFLX no change
+3hr:huss:specific_humidity:longitude latitude time1 height2m:atmos:1:QREFHT:QREFHT no change
+3hr:mrro:runoff_flux:longitude latitude time:land:1:QRUNOFF:QRUNOFF
+3hr:mrsos:moisture_content_of_soil_layer:longitude latitude time1 sdepth1:land:1:SOILWATER_10CM:SOILWATER_10CM
+3hr:pr:precipitation_flux:longitude latitude time:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
+3hr:prc:convective_precipitation_flux:longitude latitude time:atmos:1:PRECC:PRECC unit conversion
+3hr:prsn:snowfall_flux:longitude latitude time:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
+3hr:ps:surface_air_pressure:longitude latitude time1:atmos:1:PS:PS no change
+3hr:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:1:FLDS:FLDS no change
+3hr:rldscs:downwelling_longwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FLDSC:FLDSC no change
+3hr:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:2:FLDS FLNS:FLDS + FLNS
+3hr:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:FSDS:FSDS no change
+3hr:rsdsdiff:surface_diffuse_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+3hr:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FSDSC:FSDSC no change
+3hr:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:2:FSDS FSNS:FSDS - FSNS
+3hr:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:2:FSDSC FSNSC:FSDSC - FSNSC
+3hr:tslsi:surface_temperature:longitude latitude time1:land:1:UNKNOWN:UNKNOWN
+3hr:tso:sea_surface_temperature:longitude latitude time1:ocean:1:UNKNOWN:UNKNOWN
+3hr:tas:air_temperature:longitude latitude time1 height2m:atmos:1:TREFHT:TREFHT no change
+3hr:uas:eastward_wind:longitude latitude time1 height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+3hr:vas:northward_wind:longitude latitude time1 height10m:atmos:0:UNAVAILABLE:UNAVAILABLE

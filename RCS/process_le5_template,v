@@ -1,0 +1,983 @@
+head	1.4;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.4
+date	2016.10.05.17.49.19;	author strandwg;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2015.07.29.15.44.01;	author strandwg;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2014.10.03.16.46.46;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2014.06.01.18.57.11;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@CASE=xxxCASExxx ; export CASE
+HIST=xxxHISTxxx ; export HIST
+TPER=xxxTPERxxx ; export TPER
+#
+echo -n "TS START: " ; date
+#
+# Template for processing large ensemble CESM history netCDF files into single-field format 
+#
+# Extract relevant information from "experiments.txt"
+#
+#  Columns   Field
+#   1 -  54  CCSM case name
+# 105 - 109  MIP (cm3 or cm5) experiment (N/A if not applicable)
+# 110 - 149  RUN_REFCASE (parent case)
+# 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 165 - 174  years of experiment (YYYY if unknown)
+# 165 - 174  run years of experiment (YYYY if unknown)
+# 175 - 184  CMIP5-requested years
+# 185 - 194  GRID (resolution)
+# 195 - 214  COMPSET (N/A if not applicable)
+# 215 - 234  REPOTAG (N/A if not applicable)
+# 234 - 249  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 250 - 259  MACH (hardware)
+# 260 - end  DOUT_L_MSROOT (history file location on archive)
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if [ -f $EXPFILE ] ; then
+   MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c105-  | cut -d" " -f1`
+    PARENT=`egrep "^$CASE " $EXPFILE | cut -c110- | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c165-168`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c170-173`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c185- | cut -d" " -f1`
+   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c215- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c250- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c260- | cut -d" " -f1`
+else
+  echo "Cannot find $EXPFILE. EXIT"
+  exit 1
+fi
+#
+if ! [ $YEARBEG ] ; then
+  echo "Unable to set variables because "$CASE" not found in $EXPFILE"
+  exit 1
+fi
+#
+# Acquire PROCHOST
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+# resolve machine/site dependencies
+#
+case "$PROCHOST" in 
+  yslogin* | geyser* )                                # Yellowstone (geyser) @@ CISL/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncks      ; export NCKS
+    NCRA=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncra      ; export NCRA
+    NCRCAT=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncrcat  ; export NCRCAT
+    if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+      LOCALDSK=/glade/p/ncgd0014/medens/archive/$CASE ; export LOCALDSK
+      ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-ME      ; export ARCHIVE_BASE
+      DISK_BASE=/glade/p/ncgd0014/CESM-CAM5-BGC-ME ; export DISK_BASE
+      PROCBASE=/glade/p/ncgd0014/proc/$USER/$CASE  ; export PROCBASE
+    else
+      LOCALDSK=/glade/p/cesm0005/csm/$CASE         ; export LOCALDSK
+      ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-LE      ; export ARCHIVE_BASE
+      DISK_BASE=/glade/p/cesmLE/CESM-CAM5-BGC-LE   ; export DISK_BASE
+      PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE  ; export PROCBASE
+    fi
+    LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
+    LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
+    ;;
+  * ) 
+    echo "Unable to continue because "$PROCHOST" not known."
+    exit 1 ;;
+esac
+#
+export LD_LIBRARY_PATH
+#
+# Strip off first part of $HIST
+#
+HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
+#
+# Convert history type to component name
+#
+case "$HTYP" in
+  cam2 | cam )
+    COMP_NAME=atm ;;
+  clm2 ) 
+    COMP_NAME=lnd ;;
+  pop  ) 
+    COMP_NAME=ocn ;;
+  rtm  ) 
+    COMP_NAME=rof ;;
+  cice ) 
+    COMP_NAME=ice ;;
+  * ) 
+    echo "Unable to continue because "$HIST" not known."
+    exit 1 ;;
+esac
+#
+# Set up local names and archival names
+#
+LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
+LOCAL_PROC=$PROCBASE/$COMP_NAME
+ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
+#
+ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
+DISK_PROC=$DISK_BASE/$COMP_NAME/proc/tseries
+#
+case "$TPER" in
+  ann )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/annual
+       DISK_PROC=${DISK_PROC}/annual ;;
+  mon )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly
+       DISK_PROC=${DISK_PROC}/monthly ;;
+  day )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/daily
+       DISK_PROC=${DISK_PROC}/daily ;;
+  hr6 )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6
+       DISK_PROC=${DISK_PROC}/hourly6 ;;
+  * ) 
+    echo "Unable to continue because "$TPER" not known."
+    exit 1 ;;
+esac
+#
+LOCAL_PROC=${LOCAL_PROC}/${TPER}
+CACHEDIR=${LOCAL_PROC}/to_archive
+#
+YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
+MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
+#
+# Print out values
+#
+echo "            Case name : "$CASE ; export CASE
+echo "    History file type : "$HIST ; export HIST
+echo "          Time period : "$TPER ; export TPER
+echo "    by var processing : YES"
+echo " HPSS processed files : "$ARCHIVE_PROC ; export ARCHIVE_PROC
+echo " disk processed files : "$DISK_PROC    ; export DISK_PROC
+HARDWARE=${HARDWARE}".ucar.edu"
+echo "          Branch date : "$BRANCH   ; export BRANCH
+echo "           Resolution : "$RES      ; export RES
+echo "             Hardware : "$HARDWARE ; export HARDWARE
+echo "              Compset : "$COMPSET  ; export COMPSET
+echo "       Repository tag : "$REPOTAG  ; export REPOTAG
+echo "           Begin year : "$YEARBEG  ; export YEARBEG
+echo "             End year : "$YEAREND  ; export YEAREND
+echo "           Year count : "$YRCOUNT  ; export YRCOUNT
+echo "         Months count : "$MNCOUNT  ; export MNCOUNT
+echo ""
+echo "    Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo "        History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
+echo "        History names : "$HIST          ; export HIST
+echo ""
+echo "      Processing host : "$PROCHOST      ; export PROCHOST
+echo "  Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
+echo "       Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
+echo "    Archive cache dir : "$CACHEDIR      ; export CACHEDIR
+echo "  Processing code dir : "$BASEDIR       ; export BASEDIR
+#  
+if [ ! -d $LOCAL_PROC ] ; then 
+  mkdir -p $LOCAL_PROC 
+fi
+if [ ! -d $CACHEDIR ] ; then 
+  mkdir -p $CACHEDIR 
+fi
+cd $LOCAL_PROC
+#
+EXPTYP=`echo $CASE | cut -d"." -f3 | cut -c2-4`
+#
+ln -s -f $BASEDIR/var_extract_compress      var_extract
+ln -s -f $BASEDIR/store_to_archive_var_keep store_to_archive_var
+ln -s -f $BASEDIR/archive_write_var_keep    archive_write_var_keep
+ln -s -f $BASEDIR/disk_move_var             .
+ln -s -f $BASEDIR/update_status             .
+#
+cd $LOCAL_PROC
+#
+# Start actual processing, extract each field one at a time for all times
+#
+./update_status start
+#
+if [ -d $LOCAL_HIST ] ; then
+  if [ "$YEARBEG" = 2081 ] ; then
+    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.*.nc | egrep "\.${HIST}\.(208[1-9]|209[0-9]|2100)" | wc -l`
+  else
+    if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc | wc -l`
+    else
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+    fi
+  fi
+  if [ $NHISTF -ne 0 ] ; then
+    echo ${CASE}"."${HIST}" files on disk, softlinking."
+    if [ "$YEARBEG" = 2081 ] ; then
+      ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{208[1-9],209[0-9],2100}*.nc .
+    else
+      if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+        ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc .
+      else
+        ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
+      fi
+    fi 
+  else
+    echo "History files not on "${LOCAL_HIST}". Exiting."
+    exit 1
+  fi    
+fi
+#
+# Make sure there's the correct number of files, based on stream and time period and 20C/RCP
+#
+if [ "$YEARBEG" = 2081 ] ; then
+  NHISTF=`/bin/ls LOCAL_HIST}/${CASE}.${HIST}.*.nc | egrep "\.${HIST}\.(208[1-9]|209[0-9]|2100)" | wc -l`
+else
+  if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+    NHISTF=`/bin/ls ${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc | wc -l`
+  else
+    NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
+  fi
+fi
+#
+EXPTYP=`echo $CASE | cut -d"." -f3 | cut -c2-4`
+#
+case "$EXPTYP" in 
+  20T )
+  case "$HIST" in 
+    cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+      if [ $NHISTF -ne 1032 ] ; then
+        echo ${NHISTF}" should be 1032. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cam.h1 | clm2.h1 )
+      if [ $NHISTF -ne 87 ] ; then
+        echo ${NHISTF}" should be 87. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    rtm.h1 | pop.h.ecosys.nyear1 )
+      if [ $NHISTF -ne 86 ] ; then
+        echo ${NHISTF}" should be 86. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cice.h2_06h )
+      if [ $NHISTF -ne 192 ] ; then
+        echo ${NHISTF}" should be 192. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cam.h2 )
+      if [ $NHISTF -ne 16 ] ; then
+        echo ${NHISTF}" should be 16. File count mismatch. Exit."
+        exit 1
+      fi ;;
+  esac ;;
+  
+  RCP )
+  case "$YEARBEG" in 
+    2006 )
+    case "$HIST" in 
+      cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+        if [ $NHISTF -ne 1140 ] ; then
+          echo ${NHISTF}" should be 1140. File count mismatch. Exit."
+          exit 1
+        fi ;;
+      cice.h1 )
+        if [ $NHISTF -ne 95 ] ; then
+          echo ${NHISTF}" should be 95. File count mismatch. Exit."
+          exit 1
+        fi ;;
+      cam.h1 | clm2.h1 )
+        if [ $NHISTF -eq 95 ] || [ $NHISTF -eq 96 ] ; then
+          echo ${NHISTF}" good."
+        else
+          echo ${NHISTF}" should be 95 or 96. File count mismatch. Exit."
+          exit 1
+        fi ;;
+      rtm.h1 | pop.h.ecosys.nyear1 )
+        if [ $NHISTF -ne 95 ] ; then
+          echo ${NHISTF}" should be 95. File count mismatch. Exit."
+          exit 1
+        fi ;;
+      cice.h2_06h | cam.h2 )
+        if [ $NHISTF -ne 20 ] ; then
+          echo ${NHISTF}" should be 20. File count mismatch. Exit."
+          exit 1
+        fi ;;
+      esac ;;
+    2081 )
+    case "$HIST" in 
+      cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+        if [ $NHISTF -ne 240 ] ; then
+          echo ${NHISTF}" should be 240. File count mismatch. Exit."
+          exit 1
+        fi ;;
+      cice.h1 )
+        if [ $NHISTF -ne 240 ] ; then
+          if [ $NHISTF -ne 7300 ] ; then
+            echo ${NHISTF}" should be 240 or 7300. File count mismatch. Exit."
+            exit 1
+          fi
+        fi ;;
+      cam.h1 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 )
+        if [ $NHISTF -ne 20 ] ; then
+          echo ${NHISTF}" should be 76. File count mismatch. Exit."
+          exit 1
+        fi ;;
+    esac ;;
+  esac ;;
+  * )
+    echo ${EXPTYP}" unknown. Must be 20T or RCP. Exit."
+    ./update_status error process_le5_template
+    exit 1 ;;
+esac
+#
+# Create subdirectories for each of the two 10-year periods for 6-hourly data for the RCP runs
+#
+if [ "$TPER" = "hr6" ] ; then
+  if [ "$EXPTYP" = "RCP" ] ; then
+    mkdir ${LOCAL_PROC}/202s
+    mv ${LOCAL_PROC}/${CASE}.${HIST}.20[2-3]*.nc ${LOCAL_PROC}/202s
+    mkdir ${LOCAL_PROC}/207s
+    mv ${LOCAL_PROC}/${CASE}.${HIST}.20[7-8]*.nc ${LOCAL_PROC}/207s
+  fi
+fi
+#
+# Create output filename time period suffix
+#
+case "$TPER" in
+  ann )
+    OUTTIME=${YEARBEG}-${YEAREND} ;;
+  mon )
+    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+  day ) 
+    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+  hr6 ) 
+    if [ "$EXPTYP" = "20T" ] ; then
+      OUTTIME=1990010100Z-${YEAREND}123118Z
+    fi ;;
+  hr3 )
+    OUTTIME=${YEARBEG}010100Z-${YEAREND}123121Z ;;
+  hr1 )
+    OUTTIME=${YEARBEG}010100Z-${YEAREND}123123Z ;;
+  m30 )
+    OUTTIME=${YEARBEG}001010000Z-${YEAREND}12312330Z ;;
+esac
+export OUTTIME
+#
+# Extract each field from all files
+#
+echo -n "TS var_extract start: " ; date
+#
+# Special subdirs for 6-hourly data ONLY
+#
+if [ "$TPER" = "hr6" ] ; then
+  if [ "$EXPTYP" = "RCP" ] ; then
+    cd ${LOCAL_PROC}/202s
+    OUTTIME=2026010100Z-2035123118Z ; export OUTTIME
+    ../var_extract
+    if [ $? -ne 0 ] ; then
+      echo "var_extract failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      cd ..
+    fi
+    OUTTIME=2071010100Z-2080123118Z ; export OUTTIME
+    cd ${LOCAL_PROC}/207s
+    ../var_extract
+    if [ $? -ne 0 ] ; then
+      echo "var_extract failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      cd ..
+    fi
+  else
+    ./var_extract
+    if [ $? -ne 0 ] ; then
+      echo "var_extract failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    fi
+  fi
+else
+  ./var_extract
+  if [ $? -ne 0 ] ; then
+    echo "var_extract failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  fi
+fi
+#
+echo -n "TS var_extract end  : " ; date
+#
+# Store completed data on archival system
+#
+echo -n "TS archive start: " ; date
+if [ "$TPER" = "hr6" ] ; then
+  if [ "$EXPTYP" = "RCP" ] ; then
+    OUTTIME=2026010100Z-2035123118Z ; export OUTTIME
+    ./store_to_archive_var
+    if [ $? -ne 0 ] ; then
+      echo "store_to_archive failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      OUTTIME=2071010100Z-2080123118Z ; export OUTTIME
+      ./store_to_archive_var
+      if [ $? -ne 0 ] ; then
+         echo "store_to_archive failed"
+        ./update_status error "$CASE $HIST $TPER"
+        exit 1
+      else
+        echo -n "TS archive end: " ; date
+      fi
+    fi
+  else
+    OUTTIME=1990010100Z-2005123118Z ; export OUTTIME
+    ./store_to_archive_var
+    if [ $? -ne 0 ] ; then
+      echo "store_to_archive failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    fi
+  fi
+else
+  ./store_to_archive_var
+  if [ $? -ne 0 ] ; then
+    echo "store_to_archive failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  else
+    echo -n "TS archive end: " ; date
+  fi
+fi
+#
+# Move completed data on to DISK_PROC
+#
+echo -n "TS disk move start: " ; date
+if [ "$TPER" = "hr6" ] ; then
+  if [ "$EXPTYP" = "RCP" ] ; then
+    OUTTIME=2026010100Z-2035123118Z ; export OUTTIME
+    ./disk_move_var
+    if [ $? -ne 0 ] ; then
+      echo "disk_move failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      OUTTIME=2071010100Z-2080123118Z ; export OUTTIME
+      ./disk_move_var
+      if [ $? -ne 0 ] ; then
+         echo "disk_move failed"
+        ./update_status error "$CASE $HIST $TPER"
+        exit 1
+      else
+        echo -n "TS disk_move end: " ; date
+      fi
+    fi
+  else
+    OUTTIME=1990010100Z-2005123118Z ; export OUTTIME
+    ./disk_move_var
+    if [ $? -ne 0 ] ; then
+      echo "disk_move failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    fi
+  fi
+else
+  ./disk_move_var
+  if [ $? -ne 0 ] ; then
+    echo "disk_move failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  else
+    echo -n "TS disk_move end: " ; date
+  fi
+fi
+#
+./update_status complete
+echo -n "TS COMPLETE: " ; date
+#
+exit
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@a3 1
+CENT=xxxCENTxxx ; export CENT
+d56 16
+a71 9
+    NCODIR=/glade/apps/opt/nco/4.4.2/gnu/4.8.2/bin ; export NCODIR
+    NCKS=${NCODIR}/ncks      ; export NCKS
+    NCRA=${NCODIR}/ncra      ; export NCRA
+    NCRCAT=${NCODIR}/ncrcat  ; export NCRCAT
+    LOCALDSK=/glade/p/cesm0005/csm/$CASE         ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-LE      ; export ARCHIVE_BASE
+    DISK_BASE=/glade/p/cesmLE/CESM-CAM5-BGC-LE   ; export DISK_BASE
+    PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE  ; export PROCBASE
+    HSIOPTS="-a P93300014"                       ; export HSIOPTS
+d78 2
+d107 1
+a131 14
+# Decide to compress or not compress output
+#
+case "$HTYP" in
+  cam2 | cam )
+    case "$TPER" in
+      ann | mon )
+        NCFORMAT=netcdf4c ;;
+      day | hr6 | hr3 | hr1 | m30 )
+        NCFORMAT=netcdf4  ;;
+    esac ;;
+  clm2 | pop | rtm | csim | cice ) 
+    NCFORMAT=netcdf4c ;;
+esac
+#
+a134 24
+# PyReshaper Arguments
+#
+VERBOSITY=1
+#
+# Create output filename time period prefix
+#
+PREFIX=${CACHEDIR}/${CASE}.${HIST}.
+#
+# Create output filename time period suffix
+#
+case "$TPER" in
+  ann )
+    OUTTIME=${YEARBEG}-${YEAREND} ;;
+  mon )
+    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+  day ) 
+    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+  hr6 ) 
+    if [ "$EXPTYP" = "20T" ] ; then
+      OUTTIME=1990010100Z-${YEAREND}123118Z
+    fi ;;
+esac
+SUFFIX=.${OUTTIME}.nc
+#
+a157 6
+echo "PyReshaper"
+echo "        Output prefix : "$PREFIX        ; export PREFIX
+echo "        Output suffix : "$SUFFIX        ; export SUFFIX
+echo "        Output format : "$NCFORMAT      ; export NCFORMAT
+echo "            Verbosity : "$VERBOSITY     ; export VERBOSITY
+echo ""
+d174 7
+a180 6
+ln -s -f ${BASEDIR}/run_slice2series          run_slice2series
+ln -s -f ${BASEDIR}/store_to_archive_var_keep store_to_archive_var
+ln -s -f ${BASEDIR}/archive_write_var_keep    archive_write_var
+ln -s -f ${BASEDIR}/disk_move_var             disk_move_var
+ln -s -f ${BASEDIR}/update_status             update_status
+ln -s -f ${BASEDIR}/slice_cice_hemis          slice_cice_hemis
+d188 1
+a188 1
+    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | egrep "\.${HIST}\.(208[1-9]|209[0-9]|2100)" | wc -l`
+d190 2
+a191 2
+    if [ $CASE = "b.e11.B1850C5CN.f09_g16.005" ] || [ $CASE = "f.e11.F1850C5CN.f09_f09.001" ] || [ $CASE = "b.e11.B1850LENS_RAMP.2xcap.f09_g16.001" ] ; then
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc | wc -l`
+d193 1
+a193 5
+      if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+        NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc | wc -l`
+      else
+        NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+      fi
+a197 1
+    rm -f ${CASE}.${HIST}.[0-9]*.nc
+d201 6
+a206 14
+      case "$CASE" in
+        "b.e11.B1850LENS_RAMP.2xcap.f09_g16.001" )
+          if [ $CENT = "02" ] ; then
+            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.0[2-3]*.nc .
+          else
+            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc .
+            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc .
+          fi ;;
+        "b.e11.BRCP45C5CNBDRD.f09_g16.???" )
+          ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc . ;;
+        * )
+          ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${CENT}*.nc . ;;
+       esac
+    fi
+d215 11
+a225 1
+NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
+a227 49
+  185 )
+  case "$CENT" in
+    "00" )
+      YEARBEG=0001
+      YEAREND=0099
+      case "$HIST" in 
+        cam.h0 | cice.h1 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+          if [ $NHISTF -ne 1188 ] ; then
+            echo ${NHISTF}" should be 1188. File count mismatch. Exit."
+            exit 1
+          fi ;;
+        cam.h1 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 )
+          if [ $NHISTF -ne 99 ] ; then
+            echo ${NHISTF}" should be 99. File count mismatch. Exit."
+            exit 1
+          fi ;;
+      esac ;;
+    "01" )
+      YEARBEG=0100
+      YEAREND=0199
+      case "$HIST" in 
+        cam.h0 | cice.h1 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+          if [ $NHISTF -ne 1200 ] ; then
+            echo ${NHISTF}" should be 1200. File count mismatch. Exit."
+            exit 1
+          fi ;;
+        cam.h1 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 )
+          if [ $NHISTF -ne 100 ] ; then
+            echo ${NHISTF}" should be 100. File count mismatch. Exit."
+            exit 1
+          fi ;;
+      esac ;;
+    "02" )
+      YEARBEG=0200
+      YEAREND=0305
+      case "$HIST" in 
+        cam.h0 | cice.h1 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+          if [ $NHISTF -ne 1272 ] ; then
+            echo ${NHISTF}" should be 1272. File count mismatch. Exit."
+            exit 1
+          fi ;;
+        cam.h1 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 )
+          if [ $NHISTF -ne 106 ] ; then
+            echo ${NHISTF}" should be 106. File count mismatch. Exit."
+            exit 1
+          fi ;;
+      esac ;;
+  esac ;;
+
+d262 2
+a263 2
+        if [ $NHISTF -ne 900 ] ; then
+          echo ${NHISTF}" should be 900. File count mismatch. Exit."
+d266 4
+a269 11
+      cice.h | cice.h1 )
+        if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+          if [ $NHISTF -ne 27375 ] ; then
+            echo ${NHISTF}" should be 27375. File count mismatch. Exit."
+            exit 1
+          fi
+        else
+          if [ $NHISTF -ne 900 ] ; then
+            echo ${NHISTF}" should be 900. File count mismatch. Exit."
+            exit 1
+          fi
+d272 1
+a272 1
+        if [ $NHISTF -eq 75 ] || [ $NHISTF -eq 76 ] ; then
+d275 1
+a275 1
+          echo ${NHISTF}" should be 75 or 76. File count mismatch. Exit."
+d279 2
+a280 2
+        if [ $NHISTF -ne 75 ] ; then
+          echo ${NHISTF}" should be 75. File count mismatch. Exit."
+d283 1
+a283 6
+      cice.h2_06h )
+        if [ $NHISTF -ne 240 ] ; then
+          echo ${NHISTF}" should be 240. File count mismatch. Exit."
+          exit 1
+        fi ;;
+      cam.h2 )
+d311 1
+a311 1
+    echo ${EXPTYP}" unknown. Must be 20T or RCP or 185. Exit."
+d327 22
+d351 1
+a351 1
+echo -n "TS slice2series start: " ; date
+d359 1
+a359 2
+    SUFFIX=.${OUTTIME}.nc ; export SUFFIX
+    ../slice2series
+d361 1
+a361 1
+      echo "slice2series failed"
+a367 1
+    SUFFIX=.${OUTTIME}.nc ; export SUFFIX
+d369 1
+a369 1
+    ../slice2series
+d371 1
+a371 1
+      echo "slice2series failed"
+d378 1
+a378 1
+    ./slice2series
+d380 1
+a380 1
+      echo "slice2series failed"
+d386 1
+a386 5
+#
+# Run it!
+#
+  echo -n "TS run slice2_series start: " ; date
+  ./run_slice2series
+d388 2
+a389 2
+    echo "run_slice2series failed"
+    ./update_status error slice2series "$CASE $HIST $TPER"
+a392 3
+echo -n "TS run_slice2series end   : " ; date
+#
+# Split cice into NH and SH
+d394 1
+a394 13
+case "$HIST" in
+  cice.h | cice.h1 | cice.h2_06h )
+    echo -n "TS run split_cice_hemis: " ; date
+    cd $CACHEDIR
+    ../split_cice_hemis
+    if [ $? -ne 0 ] ; then
+      echo "split_cice_hemis failed"
+      ./update_status error split_cice_hemis "$CASE $HIST $TPER"
+      exit 1
+    else
+      cd $LOCAL_PROC
+    fi ;;
+esac
+d444 1
+a444 1
+#    ./disk_move_var
+d451 1
+a451 1
+#      ./disk_move_var
+d462 1
+a462 1
+#    ./disk_move_var
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d4 1
+d57 9
+a65 16
+    NCKS=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncks      ; export NCKS
+    NCRA=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncra      ; export NCRA
+    NCRCAT=/glade/apps/opt/nco/4.3.4/gnu/nco-4.3.4/bin/ncrcat  ; export NCRCAT
+    if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+      LOCALDSK=/glade/p/ncgd0014/medens/archive/$CASE ; export LOCALDSK
+      ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-ME      ; export ARCHIVE_BASE
+      DISK_BASE=/glade/p/ncgd0014/CESM-CAM5-BGC-ME ; export DISK_BASE
+      PROCBASE=/glade/p/ncgd0014/proc/$USER/$CASE  ; export PROCBASE
+    else
+      LOCALDSK=/glade/p/cesm0005/csm/$CASE         ; export LOCALDSK
+      ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-LE      ; export ARCHIVE_BASE
+      DISK_BASE=/glade/p/cesm0005/CESM-CAM5-BGC-LE ; export DISK_BASE
+      PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE  ; export PROCBASE
+    fi
+    LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
+    LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
+a71 2
+export LD_LIBRARY_PATH
+#
+a98 1
+#
+d123 14
+d140 24
+d187 6
+d209 6
+a214 7
+ln -s -f $BASEDIR/var_extract          .
+ln -s -f $BASEDIR/store_to_archive_var .
+ln -s -f $BASEDIR/archive_write_var    .
+ln -s -f $BASEDIR/disk_move_var        .
+ln -s -f $BASEDIR/update_status        .
+#
+cd $LOCAL_PROC
+d222 1
+a222 1
+    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.*.nc | egrep "\.${HIST}\.(208[1-9]|209[0-9]|2100)" | wc -l`
+d224 2
+a225 2
+    if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc | wc -l`
+d227 5
+a231 1
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+d236 1
+d240 14
+a253 6
+      if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+        ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc .
+      else
+        ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
+      fi
+    fi 
+d262 1
+a262 11
+if [ "$YEARBEG" = 2081 ] ; then
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.*.nc | egrep "\.${HIST}\.(208[1-9]|209[0-9]|2100)" | wc -l`
+else
+  if [ `echo $CASE | cut -d"." -f3 | cut -c1-6` = "BRCP45" ] ; then
+    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-7][0-9],2080}*.nc | wc -l`
+  else
+    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+  fi
+fi
+#
+EXPTYP=`echo $CASE | cut -d"." -f3 | cut -c2-4`
+d265 49
+d409 1
+a409 1
+    echo ${EXPTYP}" unknown. Must be 20T or RCP. Exit."
+a424 22
+# Create output filename time period suffix
+#
+case "$TPER" in
+  ann )
+    OUTTIME=${YEARBEG}-${YEAREND} ;;
+  mon )
+    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+  day ) 
+    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+  hr6 ) 
+    if [ "$EXPTYP" = "20T" ] ; then
+      OUTTIME=1990010100Z-${YEAREND}123118Z
+    fi ;;
+  hr3 )
+    OUTTIME=${YEARBEG}010100Z-${YEAREND}123121Z ;;
+  hr1 )
+    OUTTIME=${YEARBEG}010100Z-${YEAREND}123123Z ;;
+  m30 )
+    OUTTIME=${YEARBEG}001010000Z-${YEAREND}12312330Z ;;
+esac
+export OUTTIME
+#
+d427 1
+a427 1
+echo -n "TS var_extract start: " ; date
+d435 2
+a436 1
+    ../var_extract
+d438 1
+a438 1
+      echo "var_extract failed"
+d445 1
+d447 1
+a447 1
+    ../var_extract
+d449 1
+a449 1
+      echo "var_extract failed"
+d456 1
+a456 1
+    ./var_extract
+d458 1
+a458 1
+      echo "var_extract failed"
+d464 5
+a468 1
+  ./var_extract
+d470 2
+a471 2
+    echo "var_extract failed"
+    ./update_status error "$CASE $HIST $TPER"
+d475 1
+d477 15
+a491 1
+echo -n "TS var_extract end  : " ; date
+d541 1
+a541 1
+    ./disk_move_var
+d548 1
+a548 1
+      ./disk_move_var
+d559 1
+a559 1
+    ./disk_move_var
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d59 11
+a69 4
+    PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE  ; export PROCBASE
+    LOCALDSK=/glade/p/cesm0005/csm/$CASE         ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-LE      ; export ARCHIVE_BASE
+    DISK_BASE=/glade/p/cesm0005/CESM-CAM5-BGC-LE ; export DISK_BASE
+d187 9
+a195 1
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+d198 9
+a206 1
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
+d215 9
+a223 1
+NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
+d258 63
+a320 26
+  case "$HIST" in 
+    cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+      if [ $NHISTF -ne 900 ] ; then
+        echo ${NHISTF}" should be 900. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cam.h1 | clm2.h1 )
+      if [ $NHISTF -ne 76 ] ; then
+        echo ${NHISTF}" should be 76. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    rtm.h1 | pop.h.ecosys.nyear1 )
+      if [ $NHISTF -ne 75 ] ; then
+        echo ${NHISTF}" should be 75. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cice.h2_06h )
+      if [ $NHISTF -ne 240 ] ; then
+        echo ${NHISTF}" should be 240. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cam.h2 )
+      if [ $NHISTF -ne 20 ] ; then
+        echo ${NHISTF}" should be 20. File count mismatch. Exit."
+        exit 1
+      fi ;;
+d494 2
+@

@@ -1,0 +1,435 @@
+head	1.3;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.3
+date	2016.04.11.22.22.47;	author strandwg;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2015.05.22.20.47.06;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2014.11.20.16.11.24;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@#
+export MP_TIMEOUT=14400
+export MP_PULSE=1800
+export MP_DEBUG_NOTIMEOUT=yes
+#
+# Necessary modules to load
+#
+eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load python`
+eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load all-python-libs`
+PATH=/glade/u/home/strandwg/.local/bin:${PATH} ; export PATH
+#
+PYTHONPATH=/glade/u/home/strandwg/.local/lib/python2.7/site-packages:${PYTHONPATH}
+#
+CASE=xxxCASExxx ; export CASE
+HIST=xxxHISTxxx ; export HIST
+TPER=xxxTPERxxx ; export TPER
+#
+echo -n "TS START: " ; date
+#
+# Template for processing large ensemble CESM history netCDF files into single-field format 
+#
+# Extract relevant information from "experiments.txt"
+#
+#  Columns   Field
+#   1 -  54  CCSM case name
+# 105 - 109  MIP (cm3 or cm5) experiment (N/A if not applicable)
+# 110 - 149  RUN_REFCASE (parent case)
+# 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 165 - 174  years of experiment (YYYY if unknown)
+# 165 - 174  run years of experiment (YYYY if unknown)
+# 175 - 184  CMIP5-requested years
+# 185 - 194  GRID (resolution)
+# 195 - 214  COMPSET (N/A if not applicable)
+# 215 - 234  REPOTAG (N/A if not applicable)
+# 234 - 249  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 250 - 259  MACH (hardware)
+# 260 - end  DOUT_L_MSROOT (history file location on archive)
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if [ -f $EXPFILE ] ; then
+   MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c105-  | cut -d" " -f1`
+    PARENT=`egrep "^$CASE " $EXPFILE | cut -c110- | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c165-168`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c170-173`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c185- | cut -d" " -f1`
+   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c215- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c250- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c260- | cut -d" " -f1`
+else
+  echo "Cannot find $EXPFILE. EXIT"
+  exit 1
+fi
+#
+if ! [ $YEARBEG ] ; then
+  echo "Unable to set variables because "$CASE" not found in $EXPFILE"
+  exit 1
+fi
+#
+# Acquire PROCHOST
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+# resolve machine/site dependencies
+#
+case "$PROCHOST" in 
+  yslogin* | geyser* )                                # Yellowstone (geyser) @@ CISL/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCODIR=/glade/apps/opt/nco/4.5.1/gnu/4.8.2/bin    ; export NCODIR
+    NCKS=${NCODIR}/ncks     ; export NCKS
+    NCRA=${NCODIR}/ncra     ; export NCRA
+    NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
+    LOCALDSK=/glade/scratch/yangyang/archive/$CASE ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-YY        ; export ARCHIVE_BASE
+    PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
+    ;;
+  * ) 
+    echo "Unable to continue because "$PROCHOST" not known."
+    exit 1 ;;
+esac
+#
+export LD_LIBRARY_PATH
+#
+# Strip off first part of $HIST
+#
+HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
+#
+# Convert history type to component name
+#
+case "$HTYP" in
+  cam2 | cam )
+    COMP_NAME=atm ;;
+  clm2 ) 
+    COMP_NAME=lnd ;;
+  pop  ) 
+    COMP_NAME=ocn ;;
+  rtm  ) 
+    COMP_NAME=rof ;;
+  cice ) 
+    COMP_NAME=ice ;;
+  * ) 
+    echo "Unable to continue because "$HIST" not known."
+    exit 1 ;;
+esac
+#
+# Set up local names and archival names
+#
+LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
+LOCAL_PROC=$PROCBASE/$COMP_NAME
+ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
+#
+ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
+#
+case "$TPER" in
+  ann )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/annual  ;;
+  mon )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly ;;
+  day )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/daily   ;;
+  * ) 
+    echo "Unable to continue because "$TPER" not known."
+    exit 1 ;;
+esac
+#
+LOCAL_PROC=${LOCAL_PROC}/${TPER}
+CACHEDIR=${LOCAL_PROC}/to_archive
+#
+YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
+MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
+#
+# PyReshaper Arguments
+#
+VERBOSITY=3
+#
+# Create output filename time period prefix
+#
+PREFIX="${CACHEDIR}/${CASE}.${HIST}."
+#
+# Create output filename time period suffix
+#
+case "$TPER" in
+  mon )
+    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+  day ) 
+    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+esac
+SUFFIX=".${OUTTIME}.nc"
+#
+# Print out values
+#
+echo "            Case name : "$CASE ; export CASE
+echo "    History file type : "$HIST ; export HIST
+echo "          Time period : "$TPER ; export TPER
+echo "    by var processing : YES"
+echo " HPSS processed files : "$ARCHIVE_PROC ; export ARCHIVE_PROC
+HARDWARE=${HARDWARE}".ucar.edu"
+echo "          Branch date : "$BRANCH   ; export BRANCH
+echo "           Resolution : "$RES      ; export RES
+echo "             Hardware : "$HARDWARE ; export HARDWARE
+echo "              Compset : "$COMPSET  ; export COMPSET
+echo "       Repository tag : "$REPOTAG  ; export REPOTAG
+echo "           Begin year : "$YEARBEG  ; export YEARBEG
+echo "             End year : "$YEAREND  ; export YEAREND
+echo "           Year count : "$YRCOUNT  ; export YRCOUNT
+echo "         Months count : "$MNCOUNT  ; export MNCOUNT
+echo ""
+echo "PyReshaper"
+echo "          Output time : "$OUTTIME       ; export OUTTIME
+echo "        Output prefix : "$PREFIX        ; export PREFIX
+echo "        Output suffix : "$SUFFIX        ; export SUFFIX
+echo "        Output format : "$NCFORMAT      ; export NCFORMAT
+echo "            Verbosity : "$VERBOSITY     ; export VERBOSITY
+echo ""
+echo "    Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo "        History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
+echo "        History names : "$HIST          ; export HIST
+echo ""
+echo "      Processing host : "$PROCHOST      ; export PROCHOST
+echo "  Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
+echo "       Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
+echo "    Archive cache dir : "$CACHEDIR      ; export CACHEDIR
+echo "  Processing code dir : "$BASEDIR       ; export BASEDIR
+#  
+if [ ! -d $LOCAL_PROC ] ; then 
+  mkdir -p $LOCAL_PROC 
+fi
+if [ ! -d $CACHEDIR ] ; then 
+  mkdir -p $CACHEDIR 
+fi
+cd $LOCAL_PROC
+#
+case "$HIST" in
+  cice.h | cice.h1 )
+    NCFORMAT=netcdf4  ; export NCFORMAT
+    ln -s -f $BASEDIR/split_cice_hemis . ;;
+  *   )
+    NCFORMAT=netcdf4c ; export NCFORMAT ;;
+  *   )
+esac
+#
+ln -s -f $BASEDIR/store_to_archive_var .
+ln -s -f $BASEDIR/archive_write_var    .
+ln -s -f $BASEDIR/update_status        .
+ln -s -f $BASEDIR/run_slice2series     Transpose_Data
+#
+cd $LOCAL_PROC
+#
+# Start actual processing, extract each field one at a time for all times
+#
+./update_status start
+#
+if [ -d $LOCAL_HIST ] ; then
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+  if [ $NHISTF -ne 0 ] ; then
+    echo ${CASE}"."${HIST}" files on disk, softlinking."
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
+    rm -f ${CASE}.${HIST}.2101*
+  else
+    echo "History files not on "${LOCAL_HIST}". Exiting."
+    exit 1
+  fi    
+fi
+#
+# Make sure there's the correct number of files, based on stream and time period and 20C/RCP
+#
+#NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
+##
+#case "$HIST" in 
+#  cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+#    if [ $NHISTF -ne 1140 ] ; then
+#      echo ${NHISTF}" should be 1140. File count mismatch. Exit."
+#      exit 1
+#    fi ;;
+#  cice.h | cice.h1 )
+#    if [ $NHISTF -ne 34675 ] ; then
+#      echo ${NHISTF}" should be 34675. File count mismatch. Exit."
+#      exit 1
+#    fi ;;
+#  cam.h1 | clm2.h1 )
+#    if [ $NHISTF -eq 95 ] || [ $NHISTF -eq 96 ] ; then
+#      echo ${NHISTF}" good."
+#    else
+#      echo ${NHISTF}" should be 95 or 96. File count mismatch. Exit."
+#      exit 1
+#    fi ;;
+#  rtm.h1 | pop.h.ecosys.nyear1 )
+#    if [ $NHISTF -ne 95 ] ; then
+#      echo ${NHISTF}" should be 95. File count mismatch. Exit."
+#      exit 1
+#    fi ;;
+#esac
+#
+# Extract each field from all files
+#
+echo -n "TS tranpose_data start: " ; date
+./Tranpose_Data
+if [ $? -ne 0 ] ; then
+  echo "Tranpose_Data failed"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
+fi
+echo -n "TS tranpose_data end  : " ; date
+# 
+# Split cice hemispheres
+#
+case "$HTYP" in
+  cice ) 
+    cd $CACHEDIR
+    echo -n "TS split cice hemis start: " ; date
+    ../split_cice_hemis
+    echo -n "TS split cice hemis end  : " ; date
+    cd $LOCAL_PROC ;;
+esac
+#
+# Store completed data on archival system
+#
+echo -n "TS archive start: " ; date
+./store_to_archive_var
+if [ $? -ne 0 ] ; then
+  echo "store_to_archive failed"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
+else
+  echo -n "TS archive end: " ; date
+fi
+#
+./update_status complete
+echo -n "TS COMPLETE: " ; date
+#
+exit
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d1 13
+d69 1
+a69 1
+    NCODIR=/glade/apps/opt/nco/4.4.4/gnu/4.9.1/bin            ; export NCODIR
+a75 2
+    LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
+    LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
+d132 18
+d168 7
+d193 13
+a205 5
+ln -s -f $BASEDIR/var_extract                 .
+ln -s -f $BASEDIR/store_to_archive_var_delete .
+ln -s -f $BASEDIR/archive_write_var_delete    .
+ln -s -f $BASEDIR/update_status               .
+#ln -s -f $S2SDIR/bin/slice2series             .
+d218 1
+d227 26
+a252 38
+NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+#
+case "$HIST" in 
+  cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+    if [ $NHISTF -ne 1140 ] ; then
+      echo ${NHISTF}" should be 1140. File count mismatch. Exit."
+      exit 1
+    fi ;;
+  cice.h | cice.h1 )
+    if [ $NHISTF -ne 34675 ] ; then
+      echo ${NHISTF}" should be 34675. File count mismatch. Exit."
+      exit 1
+    fi ;;
+  cam.h1 | clm2.h1 )
+    if [ $NHISTF -eq 95 ] || [ $NHISTF -eq 96 ] ; then
+      echo ${NHISTF}" good."
+    else
+      echo ${NHISTF}" should be 95 or 96. File count mismatch. Exit."
+      exit 1
+    fi ;;
+  rtm.h1 | pop.h.ecosys.nyear1 )
+    if [ $NHISTF -ne 95 ] ; then
+      echo ${NHISTF}" should be 95. File count mismatch. Exit."
+      exit 1
+    fi ;;
+esac
+#
+# Create output filename time period suffix
+#
+case "$TPER" in
+  ann )
+    OUTTIME=${YEARBEG}-${YEAREND} ;;
+  mon )
+    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+  day ) 
+    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+esac
+export OUTTIME
+d256 2
+a257 2
+echo -n "TS var_extract start: " ; date
+./var_extract
+d259 1
+a259 1
+  echo "var_extract failed"
+d263 3
+d267 8
+a274 1
+echo -n "TS var_extract end  : " ; date
+d279 1
+a279 1
+./store_to_archive_var_delete
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d56 1
+a56 1
+    NCODIR=/glade/apps/opt/nco/4.4.2/gnu/4.8.2/bin            ; export NCODIR
+d63 2
+a64 4
+    S2SDIR=/glade/p/cesm/cseg/tools/pyReshaper     ; export S2SDIR
+    PYTHONPATH=${S2SDIR}/lib/python2.7/site-packages:/glade/apps/opt/PyNIO/1.4.1/gnu/4.7.2/PyNIO:/glade/apps/opt/numpy/1.8.1/intel-autodispatch/14.0.2/lib/python2.7/site-packages ; export PYTHONPATH
+#    LD_LIBRARY_PATH=/glade/apps/opt/hdf5/1.8.9/pgi/12.5/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
+#    LD_LIBRARY_PATH=/glade/apps/opt/szlib/2.1/pgi/12.5/lib:${LD_LIBRARY_PATH}  ; export LD_LIBRARY_PATH
+d161 1
+a161 1
+ln -s -f $S2SDIR/bin/slice2series             .
+d224 1
+a224 10
+#
+./slice2series \
+       --serial \
+       --netcdf_format="netcdf4c" \
+       --output_prefix="${CACHEDIR}/${CASE}.${HIST}." \
+       --output_suffix=".${OUTTIME}.nc" \
+       -m "time" \
+       ${LOCAL_PROC}/${CASE}.${HIST}.*.nc
+#
+#./var_extract
+@

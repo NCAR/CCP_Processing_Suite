@@ -1,0 +1,269 @@
+head	1.3;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.3
+date	2011.12.02.17.26.00;	author strandwg;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2011.09.29.17.16.17;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2011.07.28.17.22.57;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@Amon:ccb:atmos:1:CLDBOT:CLDBOT no change
+Amon:cct:atmos:1:CLDTOP:CLDTOP no change
+Amon:ch4global:atmos atmosChem:1:ch4vmr:ch4vmr convert to mass
+Amon:ch4:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:ci:atmos:1:FREQZM:FREQZM unit conversion
+Amon:cl:atmos:1:CLOUD:CLOUD on model levels, no change
+Amon:cli:atmos:1:CLDICE:CLDICE on model levels, no change
+Amon:clivi:atmos:1:TGCLDIWP:TGCLDIWP no change
+Amon:clt:atmos:1:CLDTOT:CLDTOT unit conversion
+Amon:clw:atmos:1:CLDLIQ:CLDLIQ on model levels, no change
+Amon:clwvi:atmos:1:TGCLDLWP:TGCLDLWP no change
+Amon:co2mass:atmos:1:co2vmr:co2vmr convert to mass
+Amon:co2:atmos:1:UNKNOWN:UNKNOWN
+Amon:evspsbl:atmos:1:QFLX:QFLX no change
+Amon:fco2antt:atmos:1:UNKNOWN:UNKNOWN
+Amon:fco2fos:atmos:1:UNKNOWN:UNKNOWN
+Amon:fco2nat:atmos:1:UNKNOWN:UNKNOWN
+Amon:hfls:atmos:1:LHFLX:LHFLX no change
+Amon:hfss:atmos:1:SHFLX:SHFLX no change
+Amon:hur:atmos:2:RELHUM,PS:RELHUM interpolated to standard plevs
+Amon:hurs:atmos:1:RHREFHT:RHREFHT no change
+Amon:hus:atmos:2:Q,PS:Q interpolated to standard plevs
+Amon:huss:atmos:1:QREFHT:QREFHT no change
+Amon:mc:atmos:2:CMFMC,CMFMCDZM:CMFMC + CMFMCDZM on model levels, no change
+Amon:n2oglobal:atmos atmosChem:1:n2ovmr:n2ovmr convert to mass
+Amon:n2o:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:prAdjust:atmos:1:UNKNOWN:UNKNOWN
+Amon:prc:atmos:1:PRECC:PRECC unit conversion
+Amon:pr:atmos:2:PRECC,PRECL:PRECC + PRECL and unit conversion
+Amon:prsn:atmos:2:PRECSC,PRECSL:PRECSC + PRECSL and unit conversion
+Amon:prw:atmos:1:TMQ:TMQ no change
+Amon:pslAdjust:atmos:1:UNKNOWN:UNKNOWN
+Amon:psl:atmos:1:PSL:PSL no change
+Amon:ps:atmos:1:PS:PS no change
+Amon:rldscs:atmos:1:FLDSC:FLDSC no change
+Amon:rlds:atmos:1:FLDS:FLDS no change
+Amon:rlus:atmos:2:FLDS,FLNS:FLDS + FLNS
+Amon:rlutcs:atmos:1:FLUTC:FLUTC no change
+Amon:rlut:atmos:1:FLUT:FLUT no change
+Amon:rsdscs:atmos:1:FSDSC:FSDSC no change
+Amon:rsds:atmos:1:FSDS:FSDS no change
+Amon:rsdt:atmos:1:SOLIN:SOLIN no change
+Amon:rsuscs:atmos:2:FSDSC,FSNSC:FSDSC - FSNSC
+Amon:rsus:atmos:2:FSDS,FSNS:FSDS - FSNS
+Amon:rsutcs:atmos:2:SOLIN,FSNTOAC:SOLIN - FSNTOAC
+Amon:rsut:atmos:2:SOLIN,FSNTOA:SOLIN - FSNTOA
+Amon:rtmt:atmos:2:FSNT,FLNT:FSNT - FLNT
+Amon:sbl:atmos:1:UNAVAILABLE:UNAVAILABLE
+Amon:sci:atmos:1:FREQSI:FREQSI no change
+Amon:ta:atmos:2:T,PS:T interpolated to standard plevs
+Amon:tas:atmos:1:TREFHT:TREFHT no change
+Amon:tasmax:atmos:1:TREFMXAV:TREFMXAV no change
+Amon:tasmin:atmos:1:TREFMNAV:TREFMNAV no change
+Amon:tauu:atmos:1:TAUX:TAUX no change
+Amon:tauv:atmos:1:TAUY:TAUY no change
+Amon:tro3:atmos atmosChem:2:O3VMR,PS:O3VMR,PS:Interpolate to standard plevs
+Amon:tsAdjust:atmos:1:UNKNOWN:UNKNOWN
+Amon:ts:atmos:1:TS:TS no change
+Amon:ua:atmos:2:U,PS:U interpolated to standard plevs
+Amon:uas:atmos:1:UNAVAILABLE:UNAVAILABLE
+Amon:va:atmos:2:V,PS:V interpolated to standard plevs
+Amon:vas:atmos:1:UNAVAILABLE:UNAVAILABLE
+Amon:wap:atmos:2:OMEGA,PS:OMEGA interpolated to standard plevs
+Amon:zg:atmos:2:Z3,PS:Z3 interpolated to standard plevs
+Amon:tro3Clim:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:co2Clim:atmos:1:UNKNOWN:UNKNOWN
+Amon:co2massClim:atmos:1:UNKNOWN:UNKNOWN
+Amon:ch4Clim:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:ch4globalClim:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:n2oClim:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:n2oglobalClim:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:cfc113global:atmos atmosChem:1:UNKNOWN:UNKNOWN
+Amon:cfc11global:atmos atmosChem:1:f11vmr:f11vmr convert to mass
+Amon:cfc12global:atmos atmosChem:1:f12vmr:f12vmr convert to mass
+Amon:hcfc22global:atmos atmosChem:1:UNKNOWN:UNKNOWN:
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d1 75
+a75 74
+Amon:1.0:ccb:longitude,latitude,time:atmos:1:CLDBOT
+Amon:1.0:cct:longitude,latitude,time:atmos:1:CLDTOP
+Amon:1.0:ch4global:time:atmos|atmosChem:1:ch4vmr
+Amon:1.0:ch4:longitude,latitude,plevs,time:atmos|atmosChem:1:UNKNOWN
+Amon:1.0:ci:longitude,latitude,time:atmos:1:FREQZM
+Amon:1.0:cl:longitude,latitude,alevel,time:atmos:2:CLOUD,PS
+Amon:1.0:cli:longitude,latitude,alevel,time:atmos:2:CLDICE,PS
+Amon:1.0:clivi:longitude,latitude,time:atmos:1:TGCLDIWP
+Amon:1.0:clt:longitude,latitude,time:atmos:1:CLDTOT
+Amon:1.0:clw:longitude,latitude,alevel,time:atmos:2:CLDLIQ,PS
+Amon:1.0:clwvi:longitude,latitude,time:atmos:1:TGCLDLWP
+Amon:1.0:co2mass:time:atmos:1:co2vmr
+Amon:1.0:co2:longitude,latitude,plevs,time:atmos:1:UNKNOWN
+Amon:1.0:evspsbl:longitude,latitude,time:atmos:1:QFLX
+Amon:1.0:fco2antt:longitude,latitude,time:atmos:1:UNKNOWN
+Amon:1.0:fco2fos:longitude,latitude,time:atmos:1:UNKNOWN
+Amon:1.0:fco2nat:longitude,latitude,time:atmos:1:UNKNOWN
+Amon:1.0:hfls:longitude,latitude,time:atmos:1:LHFLX
+Amon:1.0:hfss:longitude,latitude,time:atmos:1:SHFLX
+Amon:1.0:hur:longitude,latitude,plevs,time:atmos:2:RELHUM,PS
+Amon:1.0:hurs:longitude,latitude,time,height2m:atmos:1:RHREFHT
+Amon:1.0:hus:longitude,latitude,plevs,time:atmos:2:Q,PS
+Amon:1.0:huss:longitude,latitude,time,height2m:atmos:1:QREFHT
+Amon:1.0:mc:longitude,latitude,alevhalf,time:atmos:3:CMFMC,CMFMCDZM,PS
+Amon:1.0:n2oglobal:time:atmos|atmosChem:1:n2ovmr
+Amon:1.0:n2o:longitude,latitude,plevs,time:atmos|atmosChem:1:UNKNOWN
+Amon:1.0:prAdjust:longitude,latitude,time:atmos:1:UNKNOWN
+Amon:1.0:prc:longitude,latitude,time:atmos:1:PRECC
+Amon:1.0:pr:longitude,latitude,time:atmos:2:PRECC,PRECL
+Amon:1.0:prsn:longitude,latitude,time:atmos:2:PRECSC,PRECSL
+Amon:1.0:prw:longitude,latitude,time:atmos:1:TMQ
+Amon:1.0:pslAdjust:longitude,latitude,time:atmos:1:UNKNOWN
+Amon:1.0:psl:longitude,latitude,time:atmos:1:PSL
+Amon:1.0:ps:longitude,latitude,time:atmos:1:PS
+Amon:1.0:rldscs:longitude,latitude,time:atmos:1:FLDSC
+Amon:1.0:rlds:longitude,latitude,time:atmos:1:FLDS
+Amon:1.0:rlus:longitude,latitude,time:atmos:2:FLDS,FLNS
+Amon:1.0:rlutcs:longitude,latitude,time:atmos:1:FLUTC
+Amon:1.0:rlut:longitude,latitude,time:atmos:1:FLUT
+Amon:1.0:rsdscs:longitude,latitude,time:atmos:1:FSDSC
+Amon:1.0:rsds:longitude,latitude,time:atmos:1:FSDS
+Amon:1.0:rsdt:longitude,latitude,time:atmos:1:SOLIN
+Amon:1.0:rsuscs:longitude,latitude,time:atmos:2:FSDSC,FSNSC
+Amon:1.0:rsus:longitude,latitude,time:atmos:2:FSDS,FSNS
+Amon:1.0:rsutcs:longitude,latitude,time:atmos:2:SOLIN,FSNTOAC
+Amon:1.0:rsut:longitude,latitude,time:atmos:2:SOLIN,FSNTOA
+Amon:1.0:rtmt:longitude,latitude,time:atmos:2:FLNT,FSNT
+Amon:1.0:sbl:longitude,latitude,time:atmos:1:UNAVAILABLE
+Amon:1.0:sci:longitude,latitude,time:atmos:1:FREQSI
+Amon:1.0:tas:longitude,latitude,time,height2m:atmos:1:TREFHT
+Amon:1.0:tasmax:longitude,latitude,time,height2m:atmos:1:TREFMXAV
+Amon:1.0:tasmin:longitude,latitude,time,height2m:atmos:1:TREFMNAV
+Amon:1.0:tauu:longitude,latitude,time:atmos:1:TAUX
+Amon:1.0:tauv:longitude,latitude,time:atmos:1:TAUY
+Amon:1.0:tro3:longitude,latitude,plevs,time:atmos|atmosChem:2:O3VMR,PS
+Amon:1.0:tsAdjust:longitude,latitude,time:atmos:1:UNKNOWN
+Amon:1.0:ts:longitude,latitude,time:atmos:1:TS
+Amon:1.0:ua:longitude,latitude,plevs,time:atmos:2:U,PS
+Amon:1.0:uas:longitude,latitude,time,height10m:atmos:1:UNAVAILABLE
+Amon:1.0:va:longitude,latitude,plevs,time:atmos:2:V,PS
+Amon:1.0:vas:longitude,latitude,time,height10m:atmos:1:UNAVAILABLE
+Amon:1.0:wap:longitude,latitude,plevs,time:atmos:2:OMEGA,PS
+Amon:1.0:zg:longitude,latitude,plevs,time:atmos:2:Z3,PS
+Amon:3.0:tro3Clim:longitude,latitude,plevs,time2:atmos|atmosChem:1:UNKNOWN
+Amon:3.0:co2Clim:longitude,latitude,plevs,time2:atmos:1:UNKNOWN
+Amon:3.0:co2massClim:time2:atmos:1:UNKNOWN
+Amon:3.0:ch4Clim:longitude,latitude,plevs,time2:atmos|atmosChem:1:UNKNOWN
+Amon:3.0:ch4globalClim:time2:atmos|atmosChem:1:UNKNOWN
+Amon:3.0:n2oClim:longitude,latitude,plevs,time2:atmos|atmosChem:1:UNKNOWN
+Amon:3.0:n2oglobalClim:time2:atmos|atmosChem:1:UNKNOWN
+Amon:3.0:cfc113global:time:atmos|atmosChem:1:UNKNOWN
+Amon:3.0:cfc11global:time:atmos|atmosChem:1:f11vmr
+Amon:3.0:cfc12global:time:atmos|atmosChem:1:f12vmr
+Amon:3.0:hcfc22global:time:atmos|atmosChem:1:UNKNOWN
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 74
+a74 67
+Amon:1.0:ccb:air_pressure_at_convective_cloud_base:atmos:1:CLDBOT
+Amon:1.0:cct:air_pressure_at_convective_cloud_top:atmos:1:CLDTOP
+Amon:1.0:ch4global:mole_fraction_of_methane_in_air:atmos atmosChem:1:UNKNOWN
+Amon:1.0:ch4:mole_fraction_of_methane_in_air:atmos atmosChem:1:ch4vmr
+Amon:1.0:ci:convection_time_fraction:atmos:1:FREQZM
+Amon:1.0:cl:cloud_area_fraction_in_atmosphere_layer:atmos:1:CLOUD
+Amon:1.0:cli:mass_fraction_of_cloud_ice_in_air:atmos:1:CLDICE
+Amon:1.0:clivi:atmosphere_cloud_ice_content:atmos:1:TGCLDIWP
+Amon:1.0:clt:cloud_area_fraction:atmos:1:CLDTOT
+Amon:1.0:clw:mass_fraction_of_cloud_liquid_water_in_air:atmos:1:CLDLIQ
+Amon:1.0:clwvi:atmosphere_cloud_condensed_water_content:atmos:1:TGCLDLWP
+Amon:1.0:co2mass:atmosphere_mass_of_carbon_dioxide:atmos:1:UNKNOWN
+Amon:1.0:co2:mole_fraction_of_carbon_dioxide_in_air:atmos:1:co2vmr
+Amon:1.0:evspsbl:water_evaporation_flux:atmos:1:QFLX
+Amon:1.0:fco2antt:tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission:atmos:1:UNKNOWN
+Amon:1.0:fco2fos:tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fossil_fuel_combustion:atmos:1:UNKNOWN
+Amon:1.0:fco2nat:surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources:atmos:1:UNKNOWN
+Amon:1.0:hfls:surface_upward_latent_heat_flux:atmos:1:LHFLX
+Amon:1.0:hfss:surface_upward_sensible_heat_flux:atmos:1:SHFLX
+Amon:1.0:hur:relative_humidity:atmos:1:RELHUM
+Amon:1.0:hurs:relative_humidity:atmos:1:RHREFHT
+Amon:1.0:hus:specific_humidity:atmos:1:Q
+Amon:1.0:huss:specific_humidity:atmos:1:QREFHT
+Amon:1.0:mc:atmosphere_net_upward_convective_mass_flux:atmos:2:CMFMC,CMFMCDZM
+Amon:1.0:n2oglobal:mole_fraction_of_nitrous_oxide_in_air:atmos atmosChem:1:UNKNOWN
+Amon:1.0:n2o:mole_fraction_of_nitrous_oxide_in_air:atmos atmosChem:1:n2ovmr
+Amon:1.0:prAdjust:precipitation_flux:atmos:1:UNKNOWN
+Amon:1.0:prc:convective_precipitation_flux:atmos:1:PRECC
+Amon:1.0:pr:precipitation_flux:atmos:2:PRECC,PRECL
+Amon:1.0:prsn:snowfall_flux:atmos:2:PRECSC,PRECSL
+Amon:1.0:prw:atmosphere_water_vapor_content:atmos:1:TMQ
+Amon:1.0:pslAdjust:air_pressure_at_sea_level:atmos:1:UNKNOWN
+Amon:1.0:psl:air_pressure_at_sea_level:atmos:1:PSL
+Amon:1.0:ps:surface_air_pressure:atmos:1:PS
+Amon:1.0:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:atmos:1:FLDSC
+Amon:1.0:rlds:surface_downwelling_longwave_flux_in_air:atmos:1:FLDS
+Amon:1.0:rlus:surface_upwelling_longwave_flux_in_air:atmos:2:FLDS,FLNS
+Amon:1.0:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:atmos:1:FLUTC
+Amon:1.0:rlut:toa_outgoing_longwave_flux:atmos:1:FLUT
+Amon:1.0:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:atmos:1:FSDSC
+Amon:1.0:rsds:surface_downwelling_shortwave_flux_in_air:atmos:1:FSDS
+Amon:1.0:rsdt:toa_incoming_shortwave_flux:atmos:1:SOLIN
+Amon:1.0:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:atmos:2:FSDSC,FSNSC
+Amon:1.0:rsus:surface_upwelling_shortwave_flux_in_air:atmos:2:FSNS,FSDS
+Amon:1.0:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:atmos:2:SOLIN,FSNTOAC
+Amon:1.0:rsut:toa_outgoing_shortwave_flux:atmos:2:SOLIN,FSNTOA
+Amon:1.0:rtmt:net_downward_radiative_flux_at_top_of_atmosphere_model:atmos:2:FLNT,FSNT
+Amon:1.0:sbl:surface_snow_and_ice_sublimation_flux:atmos:1:UNAVAILABLE
+Amon:1.0:sci:shallow_convection_time_fraction:atmos:1:FREQSI
+Amon:1.0:tas:air_temperature:atmos:1:TREFHT
+Amon:1.0:tasmax:air_temperature:atmos:1:TREFMXAV
+Amon:1.0:tasmin:air_temperature:atmos:1:TREFMNAV
+Amon:1.0:tauu:surface_downward_eastward_stress:atmos:1:TAUX
+Amon:1.0:tauv:surface_downward_northward_stress:atmos:1:TAUY
+Amon:1.0:tro3:mole_fraction_of_ozone_in_air:atmos atmosChem:1:O3VMR
+Amon:1.0:tsAdjust:surface_temperature:atmos:1:UNKNOWN
+Amon:1.0:ts:surface_temperature:atmos:1:TS
+Amon:1.0:ua:eastward_wind:atmos:1:U
+Amon:1.0:uas:eastward_wind:atmos:1:UREFHT
+Amon:1.0:va:northward_wind:atmos:1:V
+Amon:1.0:vas:northward_wind:atmos:1:VREFHT
+Amon:1.0:wap:lagrangian_tendency_of_air_pressure:atmos:1:OMEGA
+Amon:1.0:zg:geopotential_height:atmos:1:Z3
+Amon:3.0:cfc113global:mole_fraction_of_cfc113_in_air:atmos atmosChem:1:UNKNOWN
+Amon:3.0:cfc11global:mole_fraction_of_cfc11_in_air:atmos atmosChem:1:f11vmr
+Amon:3.0:cfc12global:mole_fraction_of_cfc12_in_air:atmos atmosChem:1:f12vmr
+Amon:3.0:hcfc22global:mole_fraction_of_hcfc22_in_air:atmos atmosChem:1:UNKNOWN
+@

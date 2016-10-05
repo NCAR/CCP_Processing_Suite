@@ -1,0 +1,71 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.01.17.15.58.44;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh
+# Write a file to a mass store
+#
+# Arguments:
+# 1 directory on archival system to write file to
+#
+if [ $# = 1 ] ; then
+  ARCHIVE_D=$1
+else
+  echo "I need an arguments:"
+  echo "Directory on archival system to write file to"
+  ./procstat.sh error archive_write
+  exit 1
+fi
+#
+# If hsi command exists, use it.
+#
+TEST4HSI=`which hsi 2<&1`
+if [ $? -eq 0 ] ; then
+  PROCHOST=`hostname`;export PROCHOST
+  case "$PROCHOST" in 
+    modeling1* )  # Funny bash implementation of hsi 
+      HSI="hsi -s nocache" ;;
+    * )           # Everywhere else
+      HSI="hsi -q" ;;
+  esac
+  echo "HSI command: "${HSI}
+#
+  $HSI "mkdir -p $ARCHIVE_D"
+  $HSI "chmod 775 $ARCHIVE_D"
+  $HSI "cd $ARCHIVE_D ; put -U *.nc ; chmod 644 *.nc"
+  if [ $? -eq 0 ] ; then
+    echo "Files written to "${ARCHIVE_D}" and erased."
+  else
+    $HSI "put -d *.nc"
+    if [ $? -eq 0 ] ; then
+      echo "Files written to your HPSS HOME and erased."
+    else
+      echo "Problem with HPSS on write. Stopping"
+	./procstat.sh error archive_write
+      exit 1
+    fi
+  fi      
+else
+  echo "Cannot find hsi command."
+  ./procstat.sh error archive_write
+  exit 1
+fi
+@

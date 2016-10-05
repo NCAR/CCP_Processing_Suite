@@ -1,0 +1,56 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.01.17.17.16.42;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@casename                            atm stream frequency fields
+----------------------------------- ---------- --------- --------------------------------------------------------------------------------
+b.e10.B20EOZONEC5CN.f09_g16.001     cam2.h1    daily     PRECC PRECL PSL QREFHT TREFHTMN TREFHTMX TREFHT UBOT VBOT
+b.e10.B20EOZONEC5CN.f09_g16.001     cam2.h3    6-hourly  PRECC PRECL T200 T500 U850 UBOT V850 VBOT Z100 Z200
+
+b.e10.B20EOZONEC5CN.f09_g16.002     cam2.h1    daily     PRECC PRECL PSL QREFHT TREFHTMN TREFHTMX TREFHT UBOT VBOT
+b.e10.B20EOZONEC5CN.f09_g16.002     cam2.h3    6-hourly  PRECC PRECL T200 T500 U850 UBOT V850 VBOT Z100 Z200
+
+b.e10.B20EOZONEC5CN.f09_g16.004     cam2.h1    daily     PRECC PRECL PSL QREFHT TREFHTMN TREFHTMX TREFHT UBOT VBOT
+b.e10.B20EOZONEC5CN.f09_g16.004     cam2.h2    daily     CLDICE CLDLIQ CLDTOT CLOUD CMFMCDZM CMFMC FLDSC FLDS FLNS 
+                                                         FLUTC FLUT FSDSC FSDS FSNSC FSNS FSNTOAC FSNTOA LHFLX OMEGA500
+                                                         PRECSC PRECSL PSL PS QREFHT Q RHREFHT SHFLX SOLIN TGCLDIWP TGCLDLWP
+                                                         T U V Z3
+b.e10.B20EOZONEC5CN.f09_g16.004     cam2.h3    6-hourly  PRECC PRECL T200 T500 U850 UBOT V850 VBOT Z100 Z200
+                                                         PSL PS Q T U V Z3
+
+b.e10.B20VOLCNEWC5CN.f09_g16.001    cam2.h1    daily     PRECC PRECL PSL QREFHT TREFHTMN TREFHTMX TREFHT UBOT VBOT
+b.e10.B20VOLCNEWC5CN.f09_g16.001    cam2.h3    6-hourly  PRECC PRECL T200 T500 U850 UBOT V850 VBOT Z100 Z200
+
+b.e11.BRCP85EOZONEC5CN.f09_g16.001  cam.h1     daily     PRECC PRECL PSL QREFHT TREFHTMN TREFHTMX TREFHT UBOT VBOT
+b.e11.BRCP85EOZONEC5CN.f09_g16.001  cam.h3     6-hourly  PRECC PRECL T200 T500 U850 UBOT V850 VBOT Z100 Z200
+
+b.e11.BRCP85EOZONEC5CN.f09_g16.002  cam.h1     daily     PRECC PRECL PSL QREFHT TREFHTMN TREFHTMX TREFHT UBOT VBOT
+b.e11.BRCP85EOZONEC5CN.f09_g16.002  cam.h3     6-hourly  PRECC PRECL T200 T500 U850 UBOT V850 VBOT Z100 Z200
+
+b.e11.BRCP85EOZONEC5CN.f09_g16.004  cam.h1     daily     PRECC PRECL PSL QREFHT TREFHTMN TREFHTMX TREFHT UBOT VBOT
+b.e11.BRCP85EOZONEC5CN.f09_g16.004  cam.h2     daily     CLDICE CLDLIQ CLDTOT CLOUD CMFMCDZM CMFMC FLDSC FLDS FLNS 
+                                                         FLUTC FLUT FSDSC FSDS FSNSC FSNS FSNTOAC FSNTOA LHFLX OMEGA500
+                                                         PRECSC PRECSL PSL PS QREFHT Q RHREFHT SHFLX SOLIN TGCLDIWP TGCLDLWP
+                                                         T U V Z3
+b.e11.BRCP85EOZONEC5CN.f09_g16.004  cam.h3     6-hourly  PRECC PRECL T200 T500 U850 UBOT V850 VBOT Z100 Z200
+                                                         PSL PS Q T U V Z3
+
+@

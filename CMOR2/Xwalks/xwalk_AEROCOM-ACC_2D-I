@@ -1,0 +1,3 @@
+AEROCOM-ACC_2D-I:orog:surface_altitude:longitude latitude:atmos:1:PHIS:PHIS divided by g
+AEROCOM-ACC_2D-I:landf:land_area_fraction:longitude latitude:atmos:1:LANDFRAC:LANDFRAC
+AEROCOM-ACC_2D-I:area:area:longitude latitude:atmos:1:AREA:AREA

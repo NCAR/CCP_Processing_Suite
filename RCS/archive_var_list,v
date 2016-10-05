@@ -1,0 +1,59 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.04.01.15.26.48;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh
+# List a directory on an archival system
+# Arguments:
+# 1 local file that has list
+#
+if [ $# -ne 1 ] ; then
+  echo "Usage: archive_var_list local_list - REQUIRED"
+  ./procstat.sh error archive_var_list
+  exit 1
+else
+  ARCHIVE_L=$1
+fi
+#
+# If hsi command exists, use it.
+#
+TEST4HSI=`which hsi 2<&1`
+if [ $? -eq 0 ] ; then
+  PROCHOST=`hostname`;export PROCHOST
+  case "$PROCHOST" in 
+    modeling1* )  # Funny bash implementation of hsi 
+      HSI="hsi -s nocache" ;;
+    * )           # Everywhere else
+      HSI="hsi -q" ;;
+  esac
+#
+  $HSI "cd $ARCHIVE_PROC ; ls" 2>&1 | egrep "\.${HIST}\." > $ARCHIVE_L 2>&1 
+  if [ $? -ne 0 ] ; then
+    echo "Error on archive_var_list from "$ARCHIVE_PROC
+    ./procstat.sh error archive_var_list
+    exit 1
+  fi
+else
+  echo "Cannot find hsi command."
+  ./procstat.sh error archive_var_list
+  exit 1
+fi
+@

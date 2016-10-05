@@ -1,0 +1,37 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.02.27.16.34.15;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@CMIP5 name  CMIP5 long_name                            CMIP5 units  CLM equivalent
+----------  -----------------------------------------  -----------  --------------
+agesno      age_of_surface_snow                        day          not available?
+hfdsn       surface_downward_heat_flux_in_snow         W m-2        ?
+lwsnl       liquid_water_content_of_snow_layer         kg m-2       SNOWLIQ, no change
+pflw        liquid_water_content_of_permafrost_layer   kg m-2       ?
+sbl         surface_snow_and_ice_sublimation_flux      kg m-2 s-1   ?
+snc         surface_snow_area_fraction                 %            FSNO
+snd         surface_snow_thickness                     m            SNOWDP, unchanged
+snm         surface_snow_melt_flux                     kg m-2 s-1   QMELT, unit change from mm s-1 to kg m-2 s-1, same numerical value
+snw         surface_snow_amount                        kg m-2       SNOWDP * 1000 kg m-3
+sootsn      soot_content_of_surface_snow               kg m-2       not available?
+tpf         permafrost_layer_thickness                 m            not available?
+tsn         temperature_in_surface_snow                K            ?
+@

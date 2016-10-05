@@ -1,0 +1,46 @@
+eta|||Sea Surface Height|longitude latitude time2|real|m||time: mean|||||||||
+depth|depth||Sea Floor Depth|longitude latitude|real|m|||||5000.|2000.|||12000.|0.|
+sigma|||vertical coordinate formula term: sigma(k)|olevel|double||||||||||||
+sigma_bnds|||vertical coordinate formula term: sigma(k+1/2)|olevel|double||||||||||||
+zlev|||vertical coordinate formula term: zlev(k)|olevel|double||||||||||||
+zlev_bnds|||vertical coordinate formula term: zlev(k+1/2)|olevel|double||||||||||||
+depth_c|||vertical coordinate formula term: depth_c||double||||||||||||
+a|||vertical coordinate formula term: coefficient a||double||||||||||||
+b|||vertical coordinate formula term: coefficient b||double||||||||||||
+nsigma|||vertical coordinate formula term: nsigma||integer||||||||||||
+z1|||vertical coordinate formula term: z1||double||||||||||||
+z2|||vertical coordinate formula term: z2||double||||||||||||
+href|||vertical coordinate formula term: href||double||||||||||||
+k_c|||vertical coordinate formula term: k_c||integer||||||||||||
+difvho|difvho|ocean_vertical_heat_diffusivity|Ocean Vertical Heat Diffusivity|longitude latitude olevel time2|real|m2 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+difvso|difvso|ocean_vertical_salt_diffusivity|Ocean Vertical Salt Diffusivity|longitude latitude olevel time2|real|m2 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+difvtrbo|difvtrbo|ocean_vertical_tracer_diffusivity_due_to_background|Ocean Vertical Tracer Diffusivity due to Background|longitude latitude olevel time2|real|m2 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+difvtrto|difvtrto|ocean_vertical_tracer_diffusivity_due_to_tides|Ocean Vertical Tracer Diffusivity due to Tides|longitude latitude olevel time2|real|m2 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+tnpeo|tnpeo|tendency_of_ocean_potential_energy_content|Tendency of Ocean Potential Energy Content|longitude latitude olevel time2|real|W m-2|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+tnpeot|tnpeot|tendency_of_ocean_potential_energy_content_due_to_tides|Tendency of Ocean Potential Energy Content due to Tides|longitude latitude olevel time2|real|W m-2|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+tnpeotb|tnpeotb|tendency_of_ocean_potential_energy_content_due_to_background|Tendency of Ocean Potential Energy Content due to Background|longitude latitude olevel time2|real|W m-2|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+difvmo|difvmo|ocean_vertical_momentum_diffusivity|Ocean Vertical Momentum Diffusivity|longitude latitude olevel time2|real|m2 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+difvmbo|difvmbo|ocean_vertical_momentum_diffusivity_due_to_background|Ocean Vertical Momentum Diffusivity due to Background|longitude latitude olevel time2|real|m2 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+difvmto|difvmto|ocean_vertical_momentum_diffusivity_due_to_tides|Ocean Vertical Momentum Diffusivity due to Tides|longitude latitude olevel time2|real|m2 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+difvmfdo|difvmfdo|ocean_vertical_momentum_diffusivity_due_to_form_drag|Ocean Vertical Momentum Diffusivity due to Form Drag|longitude latitude olevel time2|real|m2 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+dispkevfo|dispkevfo|ocean_kinetic_energy_dissipation_per_unit_area_due_to_vertical_friction|Ocean Kinetic Energy Dissipation Per Unit Area due to Vertical Friction|longitude latitude olevel time2|real|W m-2|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+diftrblo|diftrblo|ocean_tracer_bolus_laplacian_diffusivity|Ocean Tracer Bolus Laplacian Diffusivity|longitude latitude olevel time2|real|m2 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+diftrbbo|diftrbbo|ocean_tracer_bolus_biharmonic_diffusivity|Ocean Tracer Bolus Biharmonic Diffusivity|longitude latitude olevel time2|real|m4 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+diftrelo|diftrelo|ocean_tracer_epineutral_laplacian_diffusivity|Ocean Tracer Epineutral Laplacian Diffusivity|longitude latitude olevel time2|real|m2 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+diftrebo|diftrebo|ocean_tracer_epineutral_biharmonic_diffusivity|Ocean Tracer Epineutral Biharmonic Diffusivity|longitude latitude olevel time2|real|m4 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+diftrxylo|diftrxylo|ocean_tracer_xy_laplacian_diffusivity|Ocean Tracer XY Laplacian Diffusivity|longitude latitude olevel time2|real|m2 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+diftrxybo|diftrxybo|ocean_tracer_xy_biharmonic_diffusivity|Ocean Tracer XY Biharmonic Diffusivity|longitude latitude olevel time2|real|m4 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+tnkebto|tnkebto|tendency_of_ocean_eddy_kinetic_energy_content_due_to_bolus_transport|Tendency of Ocean Eddy Kinetic Energy Content due to Bolus Transport|longitude latitude olevel time2|real|W m-2|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+difmxylo|difmxylo|ocean_momentum_xy_laplacian_diffusivity|Ocean Momentum XY Laplacian Diffusivity|longitude latitude olevel time2|real|m2 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+difmxybo|difmxybo|ocean_momentum_xy_biharmonic_diffusivity|Ocean Momentum XY Biharmonic Diffusivity|longitude latitude olevel time2|real|m4 s-1|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+dispkexyfo|dispkexyfo|ocean_kinetic_energy_dissipation_per_unit_area_due_to_xy_friction|Ocean Kinetic Energy Dissipation Per Unit Area due to XY Friction|longitude latitude olevel time2|real|W m-2|area: areacello volume: volcello|time: mean within years time: mean over years|ocean||||||||
+diftrblo2d|diftrblo|ocean_tracer_bolus_laplacian_diffusivity|Ocean Tracer Bolus Laplacian Diffusivity|longitude latitude olevel time2|real|m2 s-1|area: areacello|time: mean within years time: mean over years|ocean||||||||
+diftrbbo2d|diftrbbo|ocean_tracer_bolus_biharmonic_diffusivity|Ocean Tracer Bolus Biharmonic Diffusivity|longitude latitude olevel time2|real|m4 s-1|area: areacello|time: mean within years time: mean over years|ocean||||||||
+diftrelo2d|diftrelo|ocean_tracer_epineutral_laplacian_diffusivity|Ocean Tracer Epineutral Laplacian Diffusivity|longitude latitude olevel time2|real|m2 s-1|area: areacello|time: mean within years time: mean over years|ocean||||||||
+diftrebo2d|diftrebo|ocean_tracer_epineutral_biharmonic_diffusivity|Ocean Tracer Epineutral Biharmonic Diffusivity|longitude latitude olevel time2|real|m4 s-1|area: areacello|time: mean within years time: mean over years|ocean||||||||
+diftrxylo2d|diftrxylo|ocean_tracer_xy_laplacian_diffusivity|Ocean Tracer XY Laplacian Diffusivity|longitude latitude olevel time2|real|m2 s-1|area: areacello|time: mean within years time: mean over years|ocean||||||||
+diftrxybo2d|diftrxybo|ocean_tracer_xy_biharmonic_diffusivity|Ocean Tracer XY Biharmonic Diffusivity|longitude latitude olevel time2|real|m4 s-1|area: areacello|time: mean within years time: mean over years|ocean||||||||
+tnkebto2d|tnkebto|tendency_of_ocean_eddy_kinetic_energy_content_due_to_bolus_transport|Tendency of Ocean Eddy Kinetic Energy Content due to Bolus Transport|longitude latitude olevel time2|real|W m-2|area: areacello|time: mean within years time: mean over years|ocean||||||||
+difmxylo2d|difmxylo|ocean_momentum_xy_laplacian_diffusivity|Ocean Momentum XY Laplacian Diffusivity|longitude latitude olevel time2|real|m2 s-1|area: areacello|time: mean within years time: mean over years|ocean||||||||
+difmxybo2d|difmxybo|ocean_momentum_xy_biharmonic_diffusivity|Ocean Momentum XY Biharmonic Diffusivity|longitude latitude olevel time2|real|m4 s-1|area: areacello|time: mean within years time: mean over years|ocean||||||||
+dispkexyfo2d|dispkexyfo|ocean_kinetic_energy_dissipation_per_unit_area_due_to_xy_friction|Ocean Kinetic Energy Dissipation Per Unit Area due to XY Friction|longitude latitude olevel time2|real|W m-2|area: areacello|time: mean within years time: mean over years|ocean||||||||

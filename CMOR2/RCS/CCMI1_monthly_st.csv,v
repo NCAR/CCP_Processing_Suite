@@ -1,0 +1,345 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.12.08.20.32.51;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@abs550aer,atmosphere_absorption_optical_thickness_due_to_ambient_aerosol,Ambient Aerosol Absorption Optical Thickness at 550 nm,longitude latitude time wv550nm,real,1,area: areacella,time: mean,atmos,,,,500,0,AODABS,rho = p/(287.04*t)  on model levels
+acceldivf,tendency_of_eastward_wind_due_to_eliassen_palm_flux_divergence,Tendency of Eastward Wind from EPF Divergence,longitude latitude plevs time,real,m s-2,,time: mean longitude: mean,atmos,,,,"10,000","-10,000",post processing,avog = 6.022e23 
+accelgw,tendency_of_eastward_wind_due_to_gravity_wave_drag,Tendency of Eastward Wind from GWD,longitude latitude plevs time,real,m s-2,,time: mean longitude: mean,atmos,,,,"10,000","-10,000",,chmp = CHMP * (mw_spec*1.e-3/avog)/rho ; /cm3/s to kg/m2/s
+accelnogw,tendency_of_eastward_wind_due_to_nonorographic_gravity_wave_drag,Tendency of Eastward Wind from Non-OGWD,longitude latitude plevs time,real,m s-2,,time: mean longitude: mean,atmos,,,,"10,000","-10,000",UTGWSPEC,chml = CHML *  (mw_spec*1.e-3/avog)/rho ; /cm3/s to kg/m2/s
+accelogw,tendency_of_eastward_wind_due_to_orographic_gravity_wave_drag,Tendency of Eastward Wind from OGWD,longitude latitude plevs time,real,m s-2,,time: mean longitude: mean,atmos,,,,"10,000","-10,000",UTGWORO,b_spec = 
+airmass,atmosphere_mass_of_air_per_unit_area,Vertically Integrated Mass Content of Air in Layer,longitude latitude alevel time,real,kg m-2,area: areacella,time: mean,atmos,,,,"1,000,000",0,MASS_PS,mw_air = 28.97e-3
+albs,planetary_albedo,Planetary Albedo,longitude latitude time,real,1,area: areacella,time: mean,atmos,,,,1,0,,mw_ch4 = 16.
+albsrfc,surface_albedo,Surface Albedo,longitude latitude time,real,1,area: areacella,time: mean,atmos,,,,1,0,, mw_co = 28.
+altaoa,age_of_stratospheric_air,Alternate Stratospheric Age of Air,longitude latitude alevel time,real,year,area: areacella,time: mean,atmos,,,,50,0,post processing), mw_h2o = 18.
+ang4467aer,angstrom_exponent_of_ambient_aerosol_in_air,Angstrom Exponent 440/670nm,longitude latitude time,real,1,area: areacella,time: mean,atmos,,,,"1,000",0,,
+ang4487aer,angstrom_exponent_of_ambient_aerosol_in_air,Angstrom Exponent 440/870nm,longitude latitude time,real,1,area: areacella,time: mean,atmos,,,,"1,000",0,, mw_nox = 46.0055
+ang5087aer,angstrom_exponent_of_ambient_aerosol_in_air,Angstrom Exponent 500/870nm,longitude latitude time,real,1,area: areacella,time: mean,atmos,,,,"1,000",0,, mw_o3 = 47.9982
+asyaer,,Asymmetry Parameter,longitude latitude time,real,1,area: areacella,time: mean,atmos,,,,"1,000",0,, mw_hno3 =  63.0128
+ccn,,Cloud Condensation Nuclei Concentration at Liquid Cloud Top,longitude latitude time,real,m-3,area: areacella,time: mean,atmos,,,,"100,000,000",0,,
+cheaqph2o2so4,,Aqueous-Phase Production Rate of SO4 via S(iv)+H2O2,longitude latitude alevel time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,,,"10,000","-10,000",,
+cheaqpo3so4,,Aqueous-Phase Production Rate of SO4 via S(iv)+O3,longitude latitude alevel time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,,,"10,000","-10,000",,
+cheaqpso4,,Aqueous-Phase Production Rate of SO4,longitude latitude alevel time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,,,"10,000","-10,000","DSO4CHM, SO4_CHML, SO4_CHMP, PS, T, mw_SO4",DSO4CHM - (chmp-chm
+chegpso4,,Gas-Phase Production Rate of SO4,longitude latitude alevel time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,,,"10,000","-10,000","SO4_CHMP, PS, T, mw_SO4, avog",chmp (see above)
+chepasoa,,Production Rate of Anthropogenic Dry Aerosol Secondary Organic Matter,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,"SO4_CHMP, PS, T, mw_SO4, avog",chml (see above)
+chepsoa,tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production,Production Rate of Dry Aerosol Secondary Organic Matter,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,SOAM_PROD SOAI_PROD SOAT_PROD SOAB_PROD SOAX_PROD PS TS,SOAM_PROD+SOAI_PROD+SOAT_PROD+SOAB_PROD+SOAX_PROD on model levels
+cl,cloud_area_fraction_in_atmosphere_layer,Cloud Area Fraction,longitude latitude alevel time,real,%,area: areacella,time: mean,atmos,,,,101,0,CLOUD PS,
+clc,convective_cloud_area_fraction_in_atmosphere_layer,Convective Cloud Area Fraction,longitude latitude alevel time,real,%,area: areacella,time: mean,atmos,,,,101,0,,
+cli,mass_fraction_of_cloud_ice_in_air,Mass Fraction of Cloud Ice,longitude latitude alevel time,real,1,area: areacella,time: mean,atmos,,,,1,0,CLDICE,
+clivi,atmosphere_mass_content_of_cloud_ice,Ice Water Path,longitude latitude time,real,kg m-2,area: areacella,time: mean,atmos,,,,"100,000",0,ICLDIWP,
+clt,cloud_area_fraction,Total Cloud Fraction,longitude latitude time,real,1,area: areacella,time: mean,atmos,,,,1,0,,
+clw,mass_fraction_of_cloud_liquid_water_in_air,Mass Fraction of Cloud Liquid Water,longitude latitude alevel time,real,1,area: areacella,time: mean,atmos,,,,1,0,,
+cnpz,canopy_height,Canopy Height,longitude latitude time,real,m,area: areacella,time: mean,atmos,,,,500,0,,
+cod,atmosphere_optical_thickness_due_to_cloud,Cloud Optical Depth,longitude latitude time,real,1,area: areacella,time: mean,atmos,,,,"100,000",0,,
+convclt,convective_cloud_area_fraction,Convective Cloud Area Fraction,longitude latitude time,real,1,area: areacella,time: mean,atmos,,,,1,0,,
+dh,,Atmosphere Model Cell Geometric Thickness,longitude latitude alevel time,real,m,area: areacella,time: mean,atmos,,,,"50,000",0,,
+diabdrag,tendency_of_eastward_wind_due_to_numerical_artefacts,,longitude latitude plevs time,real,m s-2,,time: mean longitude: mean,atmos,,,,"10,000","-10,000",,
+do3chm,,Layer-Integrated Net Chemistry Tendency of O3,longitude latitude alevel time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,,,"10,000","-10,000",DO3CHM,DO3CHM on model levels
+drybc,tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_dry_deposition,Dry Deposition Rate of Black Carbon Aerosol Mass,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DF_CB1 DF_CB2,DF_CB1+DF_CB2
+drydms,tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_dry_deposition,Dry Deposition Rate of DMS,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DF_DMS,DF_DMS
+drydust,tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_dry_deposition,Dry Deposition Rate of Dust,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DSTSFDRY,DSTSFDRY
+dryhno3,tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_dry_deposition,Dry Deposition Rate of HNO3,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DF_HNO3,DF_HNO3
+drynh3,tendency_of_atmosphere_mass_content_of_ammonia_due_to_dry_deposition,Dry Deposition Rate of NH3,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DF_NH3,DF_NH3
+drynh4,tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_dry_deposition,Dry Deposition Rate of NH4,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DF_NH4,DF_NH4
+dryno2,tendency_of_atmosphere_mass_content_of_nitrogen_dioxide_due_to_dry_deposition,Dry Deposition Rate of NO2,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DF_NO2,DF_NO2
+drynoy,,Dry Deposition Rate of NOy,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DF_NOY,DF_NOY
+dryo3,tendency_of_atmosphere_mass_content_of_ozone_due_to_dry_deposition,Dry Deposition Rate of O3,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DF_O3,DF_O3
+dryoa,tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_dry_deposition,Dry Deposition Rate of Dry Aerosol Organic Matter,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DF_OC1 DF_OC2 DF_SOAB DF_SOAI DF_SOAM DF_SOAT DF_SOAX,(DF_OC1+DF_OC2)*1.4 scale factor + DF_SOAB+DF_SOAI+DF_SOAM+DF_SOAT+DF_SOAX
+dryso2,tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_dry_deposition,Dry Deposition Rate of SO2,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DF_SO2,DF_SO2
+dryso4,tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_dry_deposition,Dry Deposition Rate of SO4,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DF_SO4,DF_SO4
+dryss,tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_dry_deposition,Dry Deposition Rate of Seasalt,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,"DF_SSLT01,DF_SSLT02,DF_SSLT03,DF_SSLT04",DF_SSLT01+DF_SSLT02+DF_SSLT03+DF_SSLT04
+emiabc,,Anthropogenic Emission Rate of Black Carbon Aerosol Mass,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+emiaco,,Total Emission Rate of Anthropogenic CO,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+emiahch,tendency_of_atmosphere_mass_content_of_alpha_hexachlorocyclohexane_due_to_emission,Total Emission of a-HCH,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+emianh3,,Anthropogenic Emission Rate of NH3,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+emianox,,Anthropogenic Emission Rate of NOx,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+emiaoa,,Anthropogenic Emission Rate of Dry Aerosol Total Organic Matter,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+emiapom,,Total Emission of Anthropogenic POM,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+emiaso2,,Anthropogenic Emission Rate of SO2,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+emiaso4,,Anthropogenic Direct Emission Rate of SO4,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+emiasoa,,Total Emission of Anthropogenic SOA,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+emiavoc,,Total Emission Rate of Anthropogenic NMVOC,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+emibc,tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_emission,Emission Rate of Black Carbon Aerosol Mass,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,"SFCB1, SFCB2, CB1_CLXF, CB2_CLXF",SFCB1+SFCB1+CB1_CLXF+CB2_CLXF
+emibisop,,Total Emission Rate of Biogenic Isoprene,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,MEG_ISOP,MEG_ISOP
+emibvoc,,Total Emission Rate of Biogenic NMVOC,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+emico,tendency_of_atmosphere_mass_content_of_carbon_monoxide_due_to_emission,Total Emission Rate of CO,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,SFCO,SFCO
+emidms,tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission,Total Emission Rate of DMS,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,SFDMS,SFDMS
+emidust,tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_emission,Total Emission Rate of Dust,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,"SF_DST01,SF_DST02,SF_DST03,SF_DST04",SF_DST01+SF_DST02+SF_DST03+SF_DST04
+emiisop,tendency_of_atmosphere_mass_content_of_isoprene_due_to_emission,Total Emission Rate of Isoprene,longitude latitude time,real,kg (C) m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,SF_ISOP,SF_ISOP
+emilnox,,Layer-Integrated Lightning Production of NOx,longitude latitude alevel time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,,,"10,000",0,LND_PROD,LND_PROD
+eminh3,tendency_of_atmosphere_mass_content_of_ammonia_due_to_emission,Total Emission Rate of NH3,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,SFNH3,SFNH3
+eminox,tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_emission,Total Emission Rate of NOx,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,SFNHX,SFNHX
+emioa,tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission,Rate of Emission and Production of Dry Aerosol Total Organic Matter,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,SFOC1 SFOC2,(SFOC1+SFOC2)
+emipcb153,tendency_of_atmosphere_mass_content_of_hexachlorobiphenyl_due_to_emission,Total Emission of PCB-153,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+emipom,,Total Emission of POM,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,SFOC1 SFOC2,(SFOC1+SFOC2)*1.4 scale factor
+emiso2,tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_emission,Total Emission Rate of SO2,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,SFSO2,SFSO2
+emiso4,tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_emission,Total Direct Emission Rate of SO4,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+emiss,tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_emission,Total Emission Rate of Seasalt,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,"SF_SSLT01,SF_SSLT02,SF_SSLT03,SF_SSLT04",SF_SSLT01+SF_SSLT02+SF_SSLT03+SF_SSLT04
+emivoc,,Total Emission Rate of NMVOC,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,"MEG_CH3OH, MEG_CH3COCH3, MEG_CH3CHO,  MEG_CH2O, MEG_CO, MEG_C2H6, MEG_C3H8, MEG_C2H4, MEG_C3H6, MEG_C2H5OH, MEG_C10H16, MEG_BIGALK,'MEG_BIGENE, MEG_TOLUENE, MEG_MEK, MEG_HCOOH, MEG_CH3COOH",sum of all
+flashrate,,Lightning Flash Rate,longitude latitude time,real,km-2 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,,
+fy,northward_eliassen_palm_flux_in_air,Northward EPF,longitude latitude plevs time,real,kg s-2,,time: mean longitude: mean,atmos,,,,"10,000","-10,000",post processing,
+fz,upward_eliassen_palm_flux_in_air,Upward EPF,longitude latitude plevs time,real,kg s-2,,time: mean longitude: mean,atmos,,,,"10,000","-10,000",post processing,
+gf90aer,,Aerosol Growth Factor at 90 Percent RH,longitude latitude time,real,1,area: areacella,time: mean,atmos,,,,"1,000",0,,
+gsto,,Stomatal Conductance of Water Vapour,longitude latitude time,real,mmol m-2 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,,
+hfls,surface_upward_latent_heat_flux,Surface Upward Latent Heat Flux,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,up,,"100,000","-100,000",LHFLX,LHFLX no change
+hfss,surface_upward_sensible_heat_flux,Surface Upward Sensible Heat Flux,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,up,,"100,000","-100,000",SHFLX,SHFLX
+hno3hetprod,,Aerosol Reactions Rates as Separate Diagnostics,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,,
+hus,specific_humidity,Specific Humidity,longitude latitude alevel time,real,1,area: areacella,time: mean,atmos,,,,1,0,"Q, PS",Q
+icc,,Ice Cloud Area Fraction,longitude latitude time,real,1,area: areacella,time: mean,atmos,,,,1,0,,
+jno2,,Photolysis Rate of NO2,longitude latitude alevel time,real,s-1,area: areacella,time: mean,atmos,,,,100,0,jno2,jno2
+lai,leaf_area_index,Leaf Area Index,longitude latitude time,real,1,area: areacella,time: mean,atmos,,,,100,0,,
+lcc,,Liquid Water Cloud Area Fraction,longitude latitude time,real,1,area: areacella,time: mean,atmos,,,,1,0,lat,lat
+lossch4,,Rate of CH4 Oxidation,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000","-1,000,000",CH4_CHML,see formula above
+lossco,,Rate of CO Oxidation,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000","-1,000,000",CO_CHML,see formula above
+losso1dviah2o,,Rate of O1D+H2O,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,r_O1D_H2O,
+losso3viaalkenes,,Chemical Loss Rate of O3 via O3+alkenes,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000","-1,000,000",,
+losso3viaho2,,Chemical Loss Rate of O3 via O3+HO2,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000","-1,000,000",r_HO2_O3,
+losso3viaoh,,Chemical Loss Rate of O3 via O3+OH,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000","-1,000,000",r_OH_O3,
+lossrcoo2viano2,,Reaction Rate of RC(O)O2+NO2,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,RCO2_NO2_sum,
+lossro2viaho2,,Reaction Rate of RO2+HO2,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,RO2_HO2_sum ,
+lossro2viano,,Reaction Rate of RO2+NO,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,RO2_NO_sum,
+lossro2viano3,,Reaction Rate of RO2+NO3,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,RO2_NO3_sum,
+lossro2viaro2,,Reaction Rate of RO2+RO2,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,RO2_RO2_sum,
+lossso2viaoh,,Reaction Rate of SO2+OH,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,,
+lso3chm,,Net Chemistry Tendency of O3 in the Lower-Most Stratosphere,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,,,"1,000,000","-1,000,000",DO3CHM_LMS,DO3CHM_LMS
+lts,,Lower Tropospheric Stability,longitude latitude time,real,K,area: areacella,time: mean,atmos,,,,"1,000","-1,000",,
+lwclrefc,,Clouds TOA LW-RF With Reference Composition,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"100,000","-1,000",,
+lwp,atmosphere_mass_content_of_cloud_liquid_water,Liquid Water Path,longitude latitude time,real,kg m-2,area: areacella,time: mean,atmos,,,,"100,000",0,TGCLDLWP ,TGCLDLWP/1000. (from gram to kg)
+lwtoaasaer,,All-Sky LW-RF Aerosols at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",,
+lwtoaasch4,,All-Sky LS-RF CH4 at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",,
+lwtoaasdust,,All-Sky LW-RF Dust at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",,
+lwtoaashc,,All-Sky LW-RF Halocarbons at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",,
+lwtoaasn2o,,All-Sky LW-RF N2O at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",,
+lwtoaaso3,,All-Sky LW-RF O3 at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",,
+lwtoacsaer,,Clear-Sky LW-RF Aerosols at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",,
+lwtropaso3,,All-Sky LW-RF O3 at Tropopause,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",,
+mcu,atmosphere_updraft_convective_mass_flux,Updraft Convective Mass Flux,longitude latitude alevel time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,,,"10,000",0,ZMMU PS,ZMMU on model levels
+mmraerh2o,mass_fraction_of_water_in_ambient_aerosol_in_air,Aerosol Water Mass Mixing Ratio,longitude latitude alevel time,real,kg kg-1,area: areacella,time: mean,atmos,,,,1,0,,
+mmraernh4,mass_fraction_of_ammonium_dry_aerosol_in_air,NH4 Mass Mixing Ratio,longitude latitude alevel time,real,kg kg-1,area: areacella,time: mean,atmos,,,,1,0,NH4,on model levels
+mmraerno3,mass_fraction_of_nitrate_dry_aerosol_in_air,NO3 Aerosol Mass Mixing Ratio,longitude latitude alevel time,real,kg kg-1,area: areacella,time: mean,atmos,,,,1,0,NH4NO3,on model levels
+mmraerso4,mass_fraction_of_sulfate_dry_aerosol_in_air,Aerosol Sulfate Mass Mixing Ratio,longitude latitude alevel time,real,kg kg-1,area: areacella,time: mean,atmos,,,,1,0,SO4,on model levels
+mmrbc,mass_fraction_of_black_carbon_dry_aerosol_in_air,BC Mass Mixing Ratio,longitude latitude alevel time,real,kg kg-1,area: areacella,time: mean,atmos,,,,1,0,CB1 CB2 PS TS,CB1+CB2 on model levels
+mmrdust,mass_fraction_of_dust_dry_aerosol_in_air,Dust Aerosol Mass Mixing Ratio,longitude latitude alevel time,real,kg kg-1,area: areacella,time: mean,atmos,,,,1,0,DST01 DST02 DST03 DST04 PS TS,DST01+DST02+DST03+DST04 on model levels
+mmroa,mass_fraction_of_particulate_organic_matter_dry_aerosol_in_air,POM Mass Mixing Ratio,longitude latitude alevel time,real,kg kg-1,area: areacella,time: mean,atmos,,,,1,0,OC1 OC2 SOAM SOAI SOAT SOAB SOAX PS TS,OC1 + OC2 + SOAM+SOAI+SOAT+SOAB+SOAX on model levels
+mmrpm1,mass_fraction_of_pm1_ambient_aerosol_in_air,PM1.0 Mass Mixing Ratio at 50 Percent RH,longitude latitude alevel time relh50p,real,kg kg-1,area: areacella,time: mean,atmos,,,,1,0,,
+mmrpm10,mass_fraction_of_pm10_ambient_aerosol_in_air,PM10 Mass Mixing Ratio at 50 Percent RH,longitude latitude alevel time relh50p,real,kg kg-1,area: areacella,time: mean,atmos,,,,1,0,,
+mmrpm2p5,mass_fraction_of_pm2p5_ambient_aerosol_in_air,PM2.5 Mass Mixing Ratio at 50 Percent RH,longitude latitude alevel time relh50p,real,kg kg-1,area: areacella,time: mean,atmos,,,,1,0,,
+mmrsoa,mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_in_air,SOA Mass Mixing Ratio,longitude latitude alevel time,real,kg kg-1,area: areacella,time: mean,atmos,,,,1,0,SOAM SOAI SOAT SOAB SOAX PS TS,SOAM+SOAI+SOAT+SOAB+SOAX on model levels
+mmrss,mass_fraction_of_seasalt_dry_aerosol_in_air,Sea Salt Mass Mixing Ratio,longitude latitude alevel time,real,kg kg-1,area: areacella,time: mean,atmos,,,,1,0,SSLT01 SSLT02 SSLT03 SSLT04 PS TS,SSLT01+SSLT02+SSLT03+SSLT04 on model levels
+mnstrage,age_of_stratospheric_air,Mean Age of Stratospheric Air,longitude latitude alevel time,real,year,area: areacella,time: mean,atmos,,,,50,0,,
+nogwfluxe,upward_eastward_momentum_flux_in_air_due_to_nonorographic_westward_gravity_waves,,longitude latitude plevs time,real,Pa,,time: mean longitude: mean,atmos,,,,"10,000","-10,000",post processing,
+nogwfluxw,upward_eastward_momentum_flux_in_air_due_to_nonorographic_eastward_gravity_waves,,longitude latitude plevs time,real,Pa,,time: mean longitude: mean,atmos,,,,"10,000","-10,000",post processing,
+o3loss,,O3 Destruction Rate,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,O3_Loss,see above
+o3prod,,O3 Production Rate,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,O3_Prod,see above
+o3steflx,,STE O3 Flux,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,,
+od440aer,atmosphere_optical_thickness_due_to_ambient_aerosol,Ambient Aerosol Optical Thickness at 440 nm,longitude latitude time wv440nm,real,1,area: areacella,time: mean,atmos,,,,500,0,,
+od550aer,atmosphere_optical_thickness_due_to_ambient_aerosol,Ambient Aerosol Optical Thickness at 550 nm,longitude latitude time wv550nm,real,1,area: areacella,time: mean,atmos,,,,500,0,AEROD_v,AEROD_v
+od550aerh2o,atmosphere_optical_thickness_due_to_water_in_ambient_aerosol,Aerosol Water AOD at 550nm,longitude latitude time wv550nm,real,1,area: areacella,time: mean,atmos,,,,"1,000",0,,
+od550bb,,BB AOD at 550nm,longitude latitude time wv550nm,real,1,area: areacella,time: mean,atmos,,,,"1,000",0,,
+od550bc,atmosphere_optical_thickness_due_to_black_carbon_ambient_aerosol,Black Carbon AOD at 550nm,longitude latitude time wv550nm,real,1,area: areacella,time: mean,atmos,,,,"1,000",0,ODV_BC1 ODV_BC2,ODV_BC1 ODV_BC2
+od550dust,atmosphere_optical_thickness_due_to_dust_ambient_aerosol,Dust AOD at 550nm,longitude latitude time wv550nm,real,1,area: areacella,time: mean,atmos,,,,"1,000",0,ODV_DST01 ODV_DST02 ODV_DST03 ODV_DST04,ODV_DST01+ODV_DST02+ODV_DST03+ODV_DST04
+od550lt1aer,atmosphere_optical_thickness_due_to_pm1_ambient_aerosol,Ambient Fine Aerosol Optical Thickness at 550 nm,longitude latitude time wv550nm,real,1,area: areacella,time: mean,atmos,,,,500,0,,
+od550no3,,Nitrate AOD at 550nm,longitude latitude time wv550nm,real,1,area: areacella,time: mean,atmos,,,,"1,000",0,,
+od550oa,atmosphere_optical_thickness_due_to_particulate_organic_matter_ambient_aerosol,POM AOD at 550nm,longitude latitude time wv550nm,real,1,area: areacella,time: mean,atmos,,,,"1,000",0,ODV_OC1+ ODV_OC2,ODV_OC1+ODV_OC2
+od550so4,,Sulfate AOD at 550nm,longitude latitude time wv550nm,real,1,area: areacella,time: mean,atmos,,,,"1,000",0,ODV_SO4,ODV_SO4
+od550soa,,SOA AOD at 550nm,longitude latitude time wv550nm,real,1,area: areacella,time: mean,atmos,,,,"1,000",0,,
+od550ss,atmosphere_optical_thickness_due_to_seasalt_ambient_aerosol,Seasalt AOD at 550nm,longitude latitude time wv550nm,real,1,area: areacella,time: mean,atmos,,,,"1,000",0,SSLT01OD SSLT02OD SSLT03OD SSLT04OD,SSLT01OD+SSLT02OD+SSLT03OD+SSLT04OD
+od870aer,atmosphere_optical_thickness_due_to_ambient_aerosol,Ambient Aerosol Optical Thickness at 870 nm,longitude latitude time wv870nm,real,1,area: areacella,time: mean,atmos,,,,500,0,,
+ogwflux,upward_eastward_momentum_flux_in_air_due_to_orographic_gravity_waves,,longitude latitude plevs time,real,Pa,,time: mean longitude: mean,atmos,,,,"10,000","-10,000",,
+ohloss,,Total Loss of OH,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,OH_CHML,see above
+orog,surface_altitude,Surface Altitude,longitude latitude,real,m,,,atmos,,,,1E+04,-700,PHIS,PHIS/9.81
+photo1d,,Photolysis Rate of O3 to O1D,longitude latitude alevel time,real,s-1,area: areacella,time: mean,atmos,,,,100,0,jo3_a,jo3_a
+pilev,,Air Pressure at Interfaces,longitude latitude alevel time,real,Pa,area: areacella,time: mean,atmos,,,,"1,000,000",0,ilev PS,
+pmlev,air_pressure,Air Pressure,longitude latitude alevel time,real,Pa,area: areacella,time: mean,atmos,,,,"1,000,000",0,,
+pr,precipitation_flux,Precipitation,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"10,000",0,PRECC PRECL,PRECC + PRECL and unit conversion
+prodh2o2viaho2,,Production Rate of H2O2,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,r_HO2_HO2,r_HO2_HO2
+prodhno3viano2oh,,Production Rate of HNO3,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,r_HNO3_OH,
+prodhpx,,Production Rate of all Hydrogen Peroxides,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000",0,RO2_HO2_sum ,
+prodo1d,,Chemical Gross Production Rate of O_1D,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000","-1,000,000",O1D_CHMP,
+prodo3viach3o2,,Chemical Production Rate of O3 via CH3O2+NO,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000","-1,000,000",,
+prodo3viaho2,,Chemical Production Rate of O3 via HO2+NO,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000","-1,000,000",r_NO_HO2,
+prodo3viaro2,,Chemical Production Rate of O3 via RO2+NO,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000","-1,000,000",r_RO2_NO,
+prodoh,,Chemical Gross Production Rate of OH,longitude latitude alevel time,real,mole m-3 s-1,area: areacella,time: mean,atmos,,,,"1,000,000","-1,000,000",OH_CHMP,
+ps,surface_air_pressure,Surface Air Pressure,longitude latitude time,real,Pa,area: areacella,time: mean,atmos,,,,"1,000,000",0,PS,PS no change
+ptp,tropopause_air_pressure,Tropopause Air Pressure,longitude latitude time,real,Pa,area: areacella,time: mean,atmos,,,,"100,000",0,TROP_P,
+reemiahch,tendency_of_atmosphere_mass_content_of_alpha_hexachlorocyclohexane_due_to_re_emission,Total Re-Emission of a-HCH,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+reemipcb153,tendency_of_atmosphere_mass_content_of_hexachlorobiphenyl_due_to_re_emission,Total Re-Emission of PCB-153,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,up,,"1,000,000",0,,
+reffclitop,,Ice Cloud-Top Effective Crystal Radius,longitude latitude time,real,m,area: areacella,time: mean,atmos,,,,1,0,REI,
+reffclwtop,effective_radius_of_cloud_liquid_water_particle_at_liquid_water_cloud_top,Cloud-Top Effective Droplet Radius,longitude latitude time,real,m,area: areacella,time: mean,atmos,,,,1,0,REL,
+relh50p,relative_humidity,Relative Humidity,,double,%,,,,no,,increasing,,,RELHUM,
+rlds,surface_downwelling_longwave_flux_in_air,Surface Downwelling Longwave Radiation,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,down,,"10,000",-0.1,FLDS,FLDS no change
+rlus,surface_upwelling_longwave_flux_in_air,Surface Upwelling Longwave Radiation,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,up,,"10,000",-0.1,FLDS FLNS,FLDS + FLNS
+rlut,toa_outgoing_longwave_flux,TOA Outgoing Longwave Radiation,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,up,,"10,000",-0.1,FSNTOA FSNT FLNT,FSNTOA-FSNT+FLNT
+rlutcs,toa_outgoing_longwave_flux_assuming_clear_sky,TOA Outgoing Clear-Sky Longwave Radiation,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,up,,"10,000",-0.1,FLUTC,FLUTC no change
+rsds,surface_downwelling_shortwave_flux_in_air,Surface Downwelling Shortwave Radiation,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,down,,"10,000",-0.1,FSDS,FSDS no change
+rsus,surface_upwelling_shortwave_flux_in_air,Surface Upwelling Shortwave Radiation,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,up,,"10,000",-0.1,FSDS FSNS,FSDS - FSNS
+rsut,toa_outgoing_shortwave_flux,TOA Outgoing Shortwave Radiation,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,up,,"10,000",-0.1,SOLIN FSNTOA,SOLIN - FSNTOA
+rsutcs,toa_outgoing_shortwave_flux_assuming_clear_sky,TOA Outgoing Clear-Sky Shortwave Radiation,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,up,,"10,000",-0.1,SOLIN FSNTOAC,SOLIN - FSNTOAC
+sic,sea_ice_area_fraction,Sea Ice Area Fraction,longitude latitude time,real,%,area: areacella,time: mean,atmos,,,,101,0,ICEFRAC,ICEFRAC
+snc,surface_snow_area_fraction,Snow Area Fraction,longitude latitude time,real,%,area: areacella,time: mean,atmos,,,,101,0,UNKNOWN,UNKNOWN
+stoo3,tendency_of_atmosphere_mass_content_of_ozone_due_to_dry_deposition_into_stomata,Dry Deposition Rate of O3 in Stomata,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,UNKNOWN,UNKNOWN
+swclrefc,,Clouds TOA SW-RF With Reference Composition,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"100,000","-1,000",UNKNOWN,UNKNOWN
+swtoaasaer,,All-Sky SW-RF Aerosols at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoaasbb,,All-Sky SW-RF BB at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoaasbcff,,All-Sky SW-RF BCFF at TOA Anthropogenic,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoaasch4,,All-Sky SW-RF CH4 at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoaasdust,,All-Sky SW-RF Dust at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoaashc,,All-Sky SW-RF Halocarbons at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoaasn2o,,All-Sky SW-RF N2O at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoaasno3,,All-Sky SW-RF NO3 at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoaaso3,,All-Sky SW-RF O3 at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoaasoaff,,All-Sky SW-RF OAFF at TOA Anthropogenic,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoaasso4,,All-Sky SW-RF SO4 at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoaassoa,,All-Sky SW-RF SOA at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoaasss,,All-Sky SW-RF SS at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoacsaer,,Clear-Sky SW-RF Aerosols at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoacsbb,,Clear-Sky SW-RF BB at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoacsbcff,,Clear-Sky SW-RF BCFF at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoacsdust,,Clear-Sky SW-RF Dust at TOA,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtoacsoaff,,Clear-Sky SW-RF OAFF at TOA Anthropogenic,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+swtropaso3,,All-Sky SW-RF O3 at Tropopause,longitude latitude time,real,W m-2,area: areacella,time: mean,atmos,,,,"1,000","-1,000",UNKNOWN,UNKNOWN
+ta,air_temperature,Air Temperature,longitude latitude alevel time,real,K,area: areacella,time: mean,atmos,,,,"1,000",0,T PS,T on model levels
+tatp,tropopause_air_temperature,Tropopause Air Temperature,longitude latitude time,real,K,area: areacella,time: mean,atmos,,,,400,0,TROP_T,
+tntlw,tendency_of_air_temperature_due_to_longwave_heating,Longwave Heating Rate,longitude latitude alevel time,real,K s-1,area: areacella,time: mean,atmos,,,,100,-100,,
+tntmp,tendency_of_air_temperature_due_to_model_physics,Tendency of Air Temperature due to Diabatic Processes,longitude latitude alevel time,real,K s-1,area: areacella,time: mean,atmos,,,,"1,000","-1,000",,
+tntsw,tendency_of_air_temperature_due_to_shortwave_heating,Shortwave Heating Rate,longitude latitude alevel time,real,K s-1,area: areacella,time: mean,atmos,,,,100,-100,,
+tos,sea_surface_temperature,Sea Surface Temperature,longitude latitude time,real,K,area: areacella,time: mean,atmos,,,,500,0,TS,TS over ocean
+toz,equivalent_thickness_at_stp_of_atmosphere_ozone_content,Total Ozone Column,longitude latitude time,real,DU,area: areacella,time: mean,atmos,,,,"5,000",0,O3 T PS,total ozone column
+tpo3chm,,Net Chemistry Tendency of O3 in the Troposphere,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,,,"1,000,000","-1,000,000",,
+tropoz,,Tropospheric Ozone Column,longitude latitude time,real,DU,area: areacella,time: mean,atmos,,,,500,0,O3 T PS TROP_P,column ozone below TROP_P
+ttop,air_temperature_at_cloud_top,Air Temperature at Cloud Top,longitude latitude time,real,K,area: areacella,time: mean,atmos,,,,500,0,UNKNOWN,UNKNOWN
+ua,eastward_wind,Eastward Wind,longitude latitude alevel time,real,m s-1,area: areacella,time: mean,atmos,,,,"1,000","-1,000",U PS,U interpolated to standard plevs
+va,northward_wind,Northward Wind,longitude latitude alevel time,real,m s-1,area: areacella,time: mean,atmos,,,,"1,000","-1,000",V PS,V interpolated to standard plevs
+vgd,,Vegetation Distribution,longitude latitude vgidx time,real,%,area: areacella,time: mean,atmos,,,,101,0,,
+vgidx,,Vegetation Type Index,,integer,1,,,,no,,,,,,
+vmraoanh,,aoa_nh Volume Mixing Ratio,longitude latitude alevel time,real,year,area: areacella,time: mean,atmos,,,,"1,000,000",0,,
+vmrc2h2,mole_fraction_of_ethyne_in_air,C2H2 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,C2H2 PS ,
+vmrc2h6,mole_fraction_of_ethane_in_air,C2H6 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,C2H6 PS,
+vmrch2o,mole_fraction_of_formaldehyde_in_air,CH2O Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,CH2O PS,
+vmrch3ccl3,mole_fraction_of_hcc140a_in_air,CH3CCl3 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,CH3CCL3 PS,
+vmrch3cn,mole_fraction_of_aceto_nitrile_in_air,CH3CN Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,CH3CN PS,
+vmrch4,mole_fraction_of_methane_in_air,CH4 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,CH4 PS,
+vmrco,mole_fraction_of_carbon_monoxide_in_air,CO Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,CO PS,
+vmrco2,mole_fraction_of_carbon_dioxide_in_air,CO2 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,CO_25 PS,
+vmrco25,,co_25 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,CO_50 PS,
+vmrco50,,co_50 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,,
+vmrco50ea,,co_50_ea Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,,
+vmrco50eu,,co_50_eu Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,,
+vmrco50na,,co_50_na Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,,
+vmrco50sa,,co_50_sa Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,,
+vmrdms,mole_fraction_of_dimethyl_sulfide_in_air,DMS Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,DMS PS,DMS on model levels
+vmre90,,e90 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,E90 PS,
+vmre90n,,e90n Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,E90_NH PS,
+vmre90s,,e90s Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,E9_SH PS,
+vmrh2o,mole_fraction_of_water_vapor_in_air,Water Vapour Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,H2O PS,
+vmrhcl,mole_fraction_of_hydrogen_chloride_in_air,HCl Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,HCL PS,
+vmrhcn,mole_fraction_of_hydrogen_cyanide_in_air,HCN Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,HCN PS,
+vmrhno3,mole_fraction_of_nitric_acid_in_air,HNO3 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,HNO3 PS ,HNO3 on model levels
+vmrisop,mole_fraction_of_isoprene_in_air,Isoprene Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,ISOP PS,
+vmrn2o,mole_fraction_of_nitrous_oxide_in_air,N2O Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,N2O PS,
+vmrnh5,,nh_5 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,NH_5 PS,
+vmrnh50,,nh_50 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,NH_50 PS,
+vmrnh50w,,nh_50w Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,NH_50W PS,
+vmrno,mole_fraction_of_nitrogen_monoxide_in_air,NO Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,NO PS,NO on model levels
+vmrno2,mole_fraction_of_nitrogen_dioxide_in_air,NO2 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,NO2 PS ,NO2 on model levels
+vmro3,mole_fraction_of_ozone_in_air,Ozone Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,O3 PS,
+vmro3cnp,mole_fraction_of_ozone_in_air,Ozone Volume Mixing Ratio at Canopy Height,longitude latitude time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,,
+vmro3s,,o3s Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,O3S PS,
+vmro3ste,,O3ste Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,,
+vmroh,mole_fraction_of_hydroxyl_radical_in_air,OH Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,OH PS,OH on model levels
+vmrpan,mole_fraction_of_peroxyacetyl_nitrate_in_air,PAN Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,PAN PS ,PAN on model levels
+vmrsf6,,SF6 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,SF6 PS,
+vmrso2,mole_fraction_of_sulfur_dioxide_in_air,SO2 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,SO2 PS ,SO2 on model levels
+vmrso2t,,so2t Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,SO2t PS,
+vmrst8025,,st80_25 Volume Mixing Ratio,longitude latitude alevel time,real,mole mole-1,area: areacella,time: mean,atmos,,,,1,0,TMST80_25 PS,
+vstar,northward_transformed_eulerian_mean_air_velocity,Northward TEM air velocity,longitude latitude plevs time,real,m s-1,,time: mean longitude: mean,atmos,,,,"10,000","-10,000",,
+vt100,northward_heat_flux_in_air_due_to_eddy_advection,Meridional Heat Flux,longitude latitude time pr100,real,K m s-1,,time: mean longitude: mean,atmos,,,,"1,000","-1,000",,
+wa,upward_air_velocity,Upward Air Velocity,longitude latitude alevel time,real,m s-1,area: areacella,time: mean,atmos,,,,"1,000","-1,000",,
+wetbc,tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_wet_deposition,Wet Deposition Rate of Black Carbon Aerosol Mass,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,CB2WET PS TS,CB2WET on model levels
+wetdms,tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_wet_deposition,Wet Deposition Rate of DMS,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DMSSFWET PS TS,DMSSFWET on model levels
+wetdust,tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_wet_deposition,Wet Deposition Rate of Dust,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,a2x_DSTWET1 a2x_DSTWET2 a2x_DSTWET3 a2x_DSTWET4,a2x_DSTWET+a2x_DSTWET2+a2x_DSTWET3+a2x_DSTWET4
+wethno3,tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_wet_deposition,Wet Deposition Rate of HNO3,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DTWR_HNO3 PS TS,DTWR_HNO3 on model levels
+wetnh3,tendency_of_atmosphere_mass_content_of_ammonia_due_to_wet_deposition,Wet Deposition Rate of NH3,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DTWR_NH3 PS TS,UNKNOWN
+wetnh4,tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_wet_deposition,Wet Deposition Rate of NH4,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DTWR_NH4 PS TS,UNKNOWN
+wetnoy,,Wet Deposition of NOy incl aerosol nitrate,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,,
+wetoa,tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_wet_deposition,Wet Deposition Rate of Dry Aerosol Organic Matter,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,SOABSFWET SOAISFWET SOAMSFWET SOATSFWET SOAXSFWET OC2SFWET,SOABSFWET+SOAISFWET+SOAMSFWET+SOATSFWET+SOAXSFWET + OC2SFWET
+wetso2,tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition,Wet Deposition Rate of SO2,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,DTWR_SO2 PS TS,
+wetso4,,Wet Deposition Rate of SO4,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,SO4SFWET,SO4SFWET
+wetss,tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition,Wet Deposition Rate of Seasalt,longitude latitude time,real,kg m-2 s-1,area: areacella,time: mean,atmos,,down,,"1,000,000",0,SSLT01PP SSLT02PP SSLT03PP SSLT04PP PS TS,SSLT01PP+SSLT02PP+SSLT03PP+SSLT04PP integrated over Z
+wstar,,Upward TEM air velocity,longitude latitude plevs time,real,m s-1,,time: mean longitude: mean,atmos,,,,"10,000","-10,000",post processing,
+wv440nm,radiation_wavelength,Radiation Wavelength,,double,nm,,,,no,,increasing,,,,
+wv550nm,radiation_wavelength,Radiation Wavelength,,double,nm,,,,no,,increasing,,,,
+wv870nm,radiation_wavelength,Radiation Wavelength,,double,nm,,,,no,,increasing,,,,
+zg,geopotential_height,Geopotential Height,longitude latitude alevel time,real,m,area: areacella,time: mean,atmos,,,,"500,000",0,Z3 PS,Z3 on model levels
+zmbr,mole_fraction_of_atomic_bromine_in_air,Zonal Mean Br Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,BR PS TS  zonal mean,
+zmbrcl,mole_fraction_of_bromine_chloride_in_air,Zonal mean BrCl Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,BRCL PS TS zonal mean,
+zmbro,mole_fraction_of_bromine_monoxide_in_air,Zonal mean BrO Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,BRO PS TS zonal mean,
+zmbrono2,mole_fraction_of_bromine_nitrate_in_air,Zonal Mean BrONO2 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,BRONO2 PS TS zonal mean,
+zmbry,mole_fraction_of_total_inorganic_bromine_in_air,Zonal Mean Total Inorganic Bromine (Bry) Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,BRY PS TS zonal mean,
+zmc2br2f4,mole_fraction_of_halon2402_in_air,Zonal Mean CBrF2CBrF2 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,H2402 PS TS zonal mean,
+zmcbrclf2,mole_fraction_of_halon1211_in_air,Zonal mean CBrClF2 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,,
+zmcbrf3,mole_fraction_of_halon1301_in_air,Zonal Mean CBrF3 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,,
+zmccl4,mole_fraction_of_carbon_tetrachloride_in_air,Zonal Mean CCl4 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CCL4 PS TS zonal mean,
+zmcf2cl2,mole_fraction_of_cfc12_in_air,Zonal Mean CF2Cl2 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CF2CL2 PS TS zonal mean,
+zmcfcl3,mole_fraction_of_cfc11_in_air,Zonal Mean CFCl3 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CFC11PS TS zonal mean,
+zmch2br2,,Zonal Mean CH2Br2 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CH2BR2PS TS zonal mean,
+zmch2o,mole_fraction_of_formaldehyde_in_air,Zonal Mean CH2O Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CH2O PS TS zonal mean,
+zmch3br,mole_fraction_of_methyl_bromide_in_air,Zonal Mean CH3Br Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CH3BR PS TS zonal mean,
+zmch3ccl2f,mole_fraction_of_hcfc141b_in_air,Zonal Mean CH3CCl2F Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,HCFC141B PS TS zonal mean,
+zmch3ccl3,mole_fraction_of_hcc140a_in_air,Zonal Mean CH3CCl3 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CH3CCL3 PS TS zonal mean,
+zmch3cclf2,mole_fraction_of_hcfc142b_in_air,Zonal Mean CH3CClF2 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,HCFC142B PS TS zonal mean,
+zmch3cl,mole_fraction_of_methyl_chloride_in_air,Zonal Mean CH3Cl Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CH3CL PS TS zonal mean,
+zmch3ooh,mole_fraction_of_methyl_hydroperoxide_in_air,Zonal Mean CH3OOH Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CH3OOH PS TS zonal mean,
+zmch4,mole_fraction_of_methane_in_air,Zonal Mean CH4 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CH4 PS TS zonal mean,
+zmchbr3,,Zonal mean CHBr3 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CHBR3 PS TS zonal mean,
+zmchclf2,mole_fraction_of_hcfc22_in_air,Zonal Mean CHClF2 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,HCFC22 PS TS zonal mean,
+zmcl,mole_fraction_of_atomic_chlorine_in_air,Zonal Mean Cl Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CL PS TS zonal mean,
+zmcl2o2,mole_fraction_of_dichlorine_peroxide_in_air,Zonal Mean ClOOCl Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CL2O2 PS TS zonal mean,
+zmclo,mole_fraction_of_chlorine_monoxide_in_air,Zonal Mean ClO Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CLO PS TS zonal mean,
+zmclono2,mole_fraction_of_chlorine_nitrate_in_air,Zonal Mean ClONO2 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CLONO2 PS TS zonal mean,
+zmcly,mole_fraction_of_inorganic_chlorine_in_air,Zonal Mean Total Inorganic Chlorine (Cly) Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CLY PS TS zonal mean,
+zmco,mole_fraction_of_carbon_monoxide_in_air,Zonal Mean CO Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,CO PS TS zonal mean,
+zmh2,mole_fraction_of_molecular_hydrogen_in_air,Zonal Mean H2 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,H2 PS TS zonal mean,
+zmh2o,mole_fraction_of_water_vapor_in_air,Zonal Mean H2O Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,H2O PS TS zonal mean,
+zmh2o2,mole_fraction_of_hydrogen_peroxide_in_air,Zonal Mean H2O2 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,H2O2 PS TS zonal mean,
+zmhbr,mole_fraction_of_hydrogen_bromide_in_air,Zonal Mean HBr Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,HBR PS TS zonal mean,
+zmhcl,mole_fraction_of_hydrogen_chloride_in_air,Zonal mean HCl Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,HCL PS TS zonal mean,
+zmhno3,mole_fraction_of_nitric_acid_in_air,Zonal Mean HNO3 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,HNO3 PS TS zonal mean,
+zmhno4,mole_fraction_of_peroxynitric_acid_in_air,Zonal Mean HNO4 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,,
+zmho2,mole_fraction_of_hydroperoxyl_radical_in_air,Zonal Mean HO2 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,HO2 PS TS zonal mean,
+zmhobr,mole_fraction_of_hypobromous_acid_in_air,Zonal Mean HOBr Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,HOBR PS TS zonal mean,
+zmhocl,mole_fraction_of_hypochlorous_acid_in_air,Zonal Mean HOCl Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,HOCL PS TS zonal mean,
+zmmnstrage,age_of_stratospheric_air,Zonal Mean Mean Age of Stratospheric Air,longitude latitude plevs time,real,years,,time: mean longitude: mean,atmos,,,,20,0,,
+zmn,mole_fraction_of_atomic_nitrogen_in_air,Zonal Mean N Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,N  PS TS zonal mean,
+zmn2o,mole_fraction_of_nitrous_oxide_in_air,Zonal Mean N2O Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,N2O PS TS zonal mean,
+zmn2o5,mole_fraction_of_dinitrogen_pentoxide_in_air,Zonal Mean N2O5 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,N2O5 PS TS zonal mean,
+zmno,mole_fraction_of_nitrogen_monoxide_in_air,Zonal Mean NO Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,NO PS TS zonal mean,
+zmno2,mole_fraction_of_nitrogen_dioxide_in_air,Zonal Mean NO2 Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,NO2 PS TS zonal mean,
+zmnoy,mole_fraction_of_total_reactive_nitrogen_in_air,Zonal Mean Total Reactive Nitrogen (NOy) Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,NOY PS TS zonal mean,
+zmo3,mole_fraction_of_ozone_in_air,Zonal Mean Ozone Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,O3 PS TS zonal mean,
+zmoclo,mole_fraction_of_chlorine_dioxide_in_air,Zonal Mean OClO Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,OCLO PS TS zonal mean,
+zmoh,mole_fraction_of_hydroxyl_radical_in_air,Zonal Mean OH Volume Mixing Ratio,longitude latitude plevs time,real,mole mole-1,,time: mean longitude: mean,atmos,,,,1,0,OH PS TS zonal mean,
+zmta,air_temperature,Zonal Mean Air Temperature,longitude latitude plevs time,real,K,,time: mean longitude: mean,atmos,,,,500,0,T PS TS zonal mean,
+zmtnt,tendency_of_air_temperature_due_to_diabatic_processes,Zonal Mean Diabatic Heating Rates,longitude latitude plevs time,real,K s-1,,time: mean longitude: mean,atmos,,,,500,-500,,
+zmua,eastward_wind,Zonal Mean Eastward Wind,longitude latitude plevs time,real,m s-1,,time: mean longitude: mean,atmos,,,,500,-500,UA ,
+zmva,northward_wind,Zonal Mean Northward Wind,longitude latitude plevs time,real,m s-1,,time: mean longitude: mean,atmos,,,,500,-500,VA,
+zmzg,geopotential_height,Zonal Mean Geopotential Height,longitude latitude plevs time,real,m,,time: mean longitude: mean,atmos,,,,"500,000","-1,000",HEIGHT,PHIS/9.81
+ztop,,height of top of model,,,m,,,,,,,,,,
+ztp,tropopause_altitude,Tropopause Altitude,longitude latitude time,real,m,area: areacella,time: mean,atmos,,,,"40,000",0,TROP_Z,TROP_Z@

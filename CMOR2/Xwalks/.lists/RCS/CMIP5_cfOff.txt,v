@@ -1,0 +1,33 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.01.31.00.03.19;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@ variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min
+variable|clcalipso|clcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Cloud Fraction|longitude latitude alt40 time|real|%|area: areacella|time: mean|atmos||||||||
+variable|clcalipso2|clcalipso2|cloud_area_fraction_in_atmosphere_layer|CALIPSO Cloud Fraction Undetected by CloudSat|longitude latitude alt40 time|real|%|area: areacella|time: mean|atmos||||||||
+variable|cfadDbze94|cfadDbze94|histogram_of_equivalent_reflectivity_factor_over_height_above_reference_ellipsoid|CloudSat Radar Reflectivity|longitude latitude alt40 dbze time|real|1|area: areacella|time: mean|atmos||||||||
+variable|cfadLidarsr532|cfadLidarsr532|histogram_of_backscattering_ratio_over_height_above_reference_ellipsoid|CALIPSO Scattering Ratio|longitude latitude alt40 scatratio time|real|1|area: areacella|time: mean|atmos||||||||
+variable|parasolRefl|parasolRefl|toa_bidirectional_reflectance|PARASOL Reflectance|longitude latitude sza5 time|real|1|area: areacella|time: mean|atmos||||||||
+variable|cltcalipso|cltcalipso|cloud_area_fraction|CALIPSO Total Cloud Fraction|longitude latitude time|real|%|area: areacella|time: mean|atmos||||||||
+variable|cllcalipso|cllcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Low Level Cloud Fraction|longitude latitude time p840|real|%|area: areacella|time: mean|atmos||||||||
+variable|clmcalipso|clmcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Mid Level Cloud Fraction|longitude latitude time p560|real|%|area: areacella|time: mean|atmos||||||||
+variable|clhcalipso|clhcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO High Level Cloud Fraction|longitude latitude time p220|real|%|area: areacella|time: mean|atmos||||||||
+@

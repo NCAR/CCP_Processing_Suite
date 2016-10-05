@@ -1,0 +1,48 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.04.26.15.26.51;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#
+# Master CCSM experiment list
+#
+#  Columns   Field
+#   1 -  54  CCSM case name
+#  55 -  74  model_id (CCSM4, CESM-CAM5, CESM-BGC, CESM-CHEM, CESM-WACCM, CESM1-CAM5.1-FV2, etc)
+#  75 -  76  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  80 -  94  Official MIP name, or very brief description (N/A if not applicable)
+#  95 - 104  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+# 105 - 109  MIP (cm3 or cm5) experiment (N/A if not applicable)
+# 110 - 149  RUN_REFCASE (parent case)
+# 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 165 - 174  years of experiment (YYYY if unknown)
+# 175 - 184  GRID (resolution)
+# 185 - 204  COMPSET (N/A if not applicable)
+# 205 - 224  REPOTAG (N/A if not applicable)
+# 225 - 244  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 245 - 254  MACH (hardware)
+# 255 - end  DOUT_L_MSROOT (history file location on archive)
+#
+#                                                                                                  1         1         1         1         1         1         1         1         1         1         2         2         2         2         2         2         2         2
+#        1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345
+#CASE                                                 model_id            LC   MIP name       #/RIP     MIP  RUN_REFCASE                             RUN_REFDATE    bbbb-eeee GRID      COMPSET             REPOTAG             sim start/end       MACH      DOUT
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+@

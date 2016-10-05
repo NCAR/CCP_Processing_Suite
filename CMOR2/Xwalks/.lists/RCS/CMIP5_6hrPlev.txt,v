@@ -1,0 +1,51 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2012.01.31.00.03.19;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.01.19.16.19.08;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@ variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min
+variable|ua|ua|eastward_wind|Eastward Wind|longitude latitude plev3 time1|real|m s-1|||atmos||||||145.0|-90.0|
+variable|va|va|northward_wind|Northward Wind|longitude latitude plev3 time1|real|m s-1|||atmos||||||80.0|-80.0|
+variable|ta|ta|air_temperature|Air Temperature|longitude latitude plev3 time1|real|K|area: areacella||atmos||||||330.0|144.0|
+variable|psl|psl|air_pressure_at_sea_level|Sea Level Pressure|longitude latitude time1|real|Pa|area: areacella||atmos||||||113000.0|92500.0|
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 4
+a5 8
+axis:longitude:lon:longitude:longitude::double:degrees_east::::yes::::increasing:360.0:0.0:
+axis:latitude:lat:latitude:latitude::double:degrees_north::::yes::::increasing:90.0:-90.0:
+axis:plev3:plev:air_pressure:pressure::double:Pa::::no:::down:decreasing:::
+axis:time1:time:time:time::double:days since ?::::no::::increasing:::
+variable:ua:ua:eastward_wind:Eastward Wind:longitude latitude plev3 time1:real:m s-1:::atmos::::::145.0:-90.0:
+variable:va:va:northward_wind:Northward Wind:longitude latitude plev3 time1:real:m s-1:::atmos::::::80.0:-80.0:
+variable:ta:ta:air_temperature:Air Temperature:longitude latitude plev3 time1:real:K:area: areacella::atmos::::::330.0:144.0:
+variable:psl:psl:air_pressure_at_sea_level:Sea Level Pressure:longitude latitude time1:real:Pa:area: areacella::atmos::::::113000.0:92500.0:
+@

@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+#PBS -N NAME
+#PBS -q regular
+#PBS -l mppwidth=144
+#PBS -l walltime=WALL
+#PBS -j eo
+#PBS -o log.NAME
+#PBS -e log.NAME
+#PBS -m abe
+#PBS -u USER@ucar.edu
+#PBS -V
+#

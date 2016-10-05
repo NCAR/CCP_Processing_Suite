@@ -1,0 +1,43 @@
+axis:Tables/CMIP5_OImon:longitude:lon:longitude:longitude
+axis:Tables/CMIP5_OImon:latitude:lat:latitude:latitude
+axis:Tables/CMIP5_OImon:time:time:time:time
+variable:Tables/CMIP5_OImon:1.0:sic:seaIce ocean:1
+variable:Tables/CMIP5_OImon:1.0:sit:seaIce ocean:1
+variable:Tables/CMIP5_OImon:1.0:sim:seaIce ocean:1
+variable:Tables/CMIP5_OImon:1.0:evap:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:snd:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:snc:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:ialb:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:ssi:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:tsice:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:tsnint:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:pr:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:prsn:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:ageice:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:grFrazil:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:grCongel:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:grLateral:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:snoToIce:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:snomelt:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:tmelt:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:bmelt:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:hcice:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:rsdssi:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:rsussi:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:rldssi:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:rlussi:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:hfssi:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:hflssi:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:sblsi:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:transix:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:transiy:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:transifs:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:strairx:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:strairy:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:strocnx:seaIce ocean:1
+variable:Tables/CMIP5_OImon:1.0:strocny:seaIce ocean:1
+variable:Tables/CMIP5_OImon:1.0:streng:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:divice:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:eshrice:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:nshrice:seaIce:1
+variable:Tables/CMIP5_OImon:1.0:ridgice:seaIce:1

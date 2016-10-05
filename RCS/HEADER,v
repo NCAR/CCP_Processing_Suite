@@ -1,0 +1,50 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2016.01.04.21.49.13;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#
+# Master CCSM experiment list
+#
+#  Columns   Field
+#   1 -  54  CCSM case name
+#  55 -  74  model_id
+#  75 -  76  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  80 -  94  Official MIP name, or very brief description (n/a if not applicable)
+#  95 - 104  RIP code (cm5) or realization number (cm3) (n/a if not applicable)
+# 105 - 109  MIP (cm3 or cm5) experiment (n/a if not applicable)
+# 110 - 149  RUN_REFCASE (parent case)
+# 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 165 - 174  run years of experiment (YYYY if unknown)
+# 175 - 184  CMIP5-requested years
+# 185 - 194  GRID (resolution)
+# 195 - 214  COMPSET (n/a if not applicable)
+# 215 - 234  REPOTAG (n/a if not applicable)
+# 234 - 249  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 250 - 259  MACH (hardware)
+# 260 - end  DOUT_L_MSROOT (history file location on archive)
+#
+#                                                                                                  1         1         1         1         1         1         1         1         1         1         2         2         2         2         2         2         2         2         2         2         3
+#        1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7         8         9         0
+#23456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+#                                                                                                                                                                   run       CMIP5                                                       run beg-end
+#CASE                                                 model_id            LC   MIP name       #/RIP     MIP  RUN_REFCASE                             RUN_REFDATE    beg  end  beg  end  GRID      COMPSET             REPOTAG             yy/mm-yy/mm    MACH      DOUT
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+@

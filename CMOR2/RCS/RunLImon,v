@@ -1,0 +1,158 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.03.21.16.31.08;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@y
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh 
+#
+# RunLImon
+#
+if [ $# -eq 0 ] ; then
+   echo 'Usage: RunLImon case comp "CMIP5 fields"'
+   echo ""
+   echo "  case is required"
+   echo "  comp is required"
+   echo '  "CMIP5_fields" is optional - if not given, then all fields in xwalk will be processed'
+   echo "   Otherwise, blank-delimited list inside double quotes, example:"
+   echo ""
+   echo '   ./RunLImon b40.20th.track1.deg.008 clm2.h0 "fFire fLuc lai"'
+   exit 1
+elif [ $# -eq 2 ] ; then
+   CASE=$1
+   COMP=$2
+elif [ $# -eq 3 ] ; then
+   CASE=$1
+   COMP=$2
+   VARS=$3
+else
+   echo 'Usage: RunLImon case comp "CMIP5 fields"'
+   echo ""
+   echo "  case is required"
+   echo "  comp is required"
+   echo '  "CMIP5_fields" is optional - if not given, then all fields in xwalk will be processed'
+   echo "   Otherwise, blank-delimited list inside double quotes, example:"
+   echo ""
+   echo '   ./RunLImon b40.20th.track1.deg.008 clm2.h0 "fFire fLuc lai"'
+fi
+#
+LD_LIBRARY_PATH=/usr/local/netcdf-4.1.3-pgi-hpf-cc-11.5-0/lib:/usr/lib64/mpich2/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
+#
+BASED=${HOME}/CCP_Processing_Suite
+CMORD=${HOME}/CCP_Processing_Suite/CMOR2
+#
+ln -s -f ${BASED}/experiments.txt           .
+#
+# Get appropriate grid and xwalk files based on information in experiments.txt
+#
+MIP=`egrep "^${CASE} " experiments.txt | cut -c90-94`
+case "$MIP" in
+  cm5* )
+    XWALK=xwalk_CMIP5_LImon ;;
+  gmp* ) 
+    XWALK=xwalk_GeoMIP_LImon ;;
+  tmp* ) 
+    XWALK=xwalk_TAMIP_LImon ;;
+  * )
+    echo "Unknown MIP for CASE "${CASE}": "${MIP}
+    echo "Stopping"
+    ./procstat.sh error RunLImon
+    exit 1 ;;
+esac
+#
+MOD=`egrep "^${CASE} " experiments.txt | cut -c45-59`
+case "$MOD" in
+  * )
+    GRIDF=lnd_grid_f09.nc ;;
+esac
+#
+# Check for xwalk and grid files
+#
+if [ ! -f ${CMORD}/Xwalks/${XWALK} ] ; then
+  echo "xwalk file "${CMORD}"/Xwalks/"${XWALK}" not found."
+  echo "Stopping"
+  ./procstat.sh error RunLImon
+  exit 1
+fi
+#
+if [ ! -f ${CMORD}/GridFiles/${GRIDF} ] ; then
+  echo "grid file "${CMORD}"/GridFiles/"${GRIDF}" not found."
+  echo "Stopping"
+  ./procstat.sh error RunLImon
+  exit 1
+fi
+#
+ln -s -f ${CMORD}/Tables             .
+ln -s -f ${CMORD}/GridFiles/${GRIDF} .
+#
+# Assume all fields in xwalk to be processed
+#
+if [ $# -eq 2 ] ; then
+  echo "Linking "${CMORD}"/Xwalks/"${XWALK}
+  ln -s -f ${CMORD}/Xwalks/${XWALK} .
+fi
+#
+# Create new xwalk file containing just the fields to be processed
+#
+if [ $# -eq 3 ] ; then
+  echo "Creating new xwalk file from default "${XWALK}
+  rm -f ${XWALK}
+  for ivar in `echo $VARS` ; do
+    egrep ":${ivar}:" ${CMORD}/Xwalks/${XWALK} >> ${XWALK} 
+    echo $ivar" added to "${XWALK}
+  done
+fi
+#
+# Do it!
+#
+rm -f LImon_in.${CASE}.${COMP} Info_in.${CASE}.${COMP}
+if [ ! -d ./CMOR ] ; then
+  mkdir ./CMOR
+fi
+#
+echo $CASE >> LImon_in.${CASE}.${COMP}
+echo $COMP >> LImon_in.${CASE}.${COMP}
+#
+# Set up various tracking information to be read in and made global metadata
+#
+WHOAMI=`whoami`
+PRCHST=`hostname`
+SVNBIN=`which svn`
+SVNREV=`$SVNBIN info $SVN | egrep "Rev:"`
+SVNDAT=`$SVNBIN info $SVN | egrep "Date:"`
+SVNUID=`$SVNBIN info $SVN | egrep "UUID:"`
+echo $WHOAMI >> Info_in.${CASE}.${COMP}
+echo $PRCHST >> Info_in.${CASE}.${COMP}
+echo $SVNREV >> Info_in.${CASE}.${COMP}
+echo $SVNDAT >> Info_in.${CASE}.${COMP}
+echo $SVNUID >> Info_in.${CASE}.${COMP}
+#
+CBIND=${HOME}/bin
+if [ -f ${CBIND}/LImon_CMOR ] ; then
+  ln -s -f ${CBIND}/LImon_CMOR .
+else
+  echo "LImon_CMOR NOT FOUND in "${CBIND}". Rebuild."
+  exit 1
+fi
+#
+cat LImon_in.${CASE}.${COMP} | ./LImon_CMOR
+#
+#rm -f LImon_in.${CASE}.${COMP}
+@

@@ -1,0 +1,63 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.06.03.13.22.43;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@program fixtime
+  implicit none
+  include 'netcdf.inc'
+  !
+  integer,parameter::real8 = selected_real_kind(15,128)
+  integer::rcode,recdim,i,j,k,l,timeid,tbndid,il
+  integer::iglc,ill,ncid,ndims,ngatts,nts,month
+  integer::ntp,nvdim,nvs,lenstr,ndsize,nvars
+  logical::exists,leap
+  character(len=80)::dummy,cdfnam,tunit
+  !
+  real(real8),dimension(1140)::time,rime
+  real(real8),dimension(2,1140)::tbnd,rbnd
+  integer, dimension(10)::tstart,tcount,bstart,bcount,vdims
+  !
+  read(*,*) cdfnam
+  !
+  ncid=ncopn(trim(cdfnam),ncwrite,rcode)
+  call ncinq(ncid,ndims,nvars,ngatts,recdim,rcode)
+  !
+  tbndid = ncvid(ncid,'time_bnds',rcode)
+  call ncvinq(ncid,tbndid,dummy,ntp,nvdim,vdims,nvs,rcode)
+  lenstr=1
+  do j=1,nvdim
+     call ncdinq(ncid,vdims(j),dummy,ndsize,rcode)
+     lenstr=lenstr*ndsize
+     bstart(j)=1
+     bcount(j)=ndsize
+  enddo
+  call ncvgt(ncid,tbndid,bstart,bcount,tbnd,rcode)
+  write(*,'(a,4i8)') trim(cdfnam),bstart(1),bcount(1),bstart(2),bcount(2)
+  !
+  rbnd = tbnd
+  rbnd(1,1129:1140) = (/34310,34341,34369,34400,34430,34461,34491,34522,34553,34583,34614,34644/)
+  rbnd(2,1129:1140) = (/34341,34369,34400,34430,34461,34491,34522,34553,34583,34614,34644,34675/)
+  call ncvpt(ncid,tbndid,bstart,bcount,rbnd,rcode)
+  call ncclos(ncid,rcode)
+end program fixtime
+
+
+@

@@ -1,0 +1,65 @@
+huss|huss|specific_humidity|Near-Surface Specific Humidity|longitude latitude time height2m|real|1|area: areacella|time: mean|atmos||||||||
+tasmin|tasmin|air_temperature|Daily Minimum Near-Surface Air Temperature|longitude latitude time height2m|real|K|area: areacella|time: minimum|atmos||||||||
+tasmax|tasmax|air_temperature|Daily Maximum Near-Surface Air Temperature|longitude latitude time height2m|real|K|area: areacella|time: maximum|atmos||||||||
+tas|tas|air_temperature|Near-Surface Air Temperature|longitude latitude time height2m|real|K|area: areacella|time: mean|atmos||||||||
+pr|pr|precipitation_flux|Precipitation|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|atmos||||||||
+psl|psl|air_pressure_at_sea_level|Sea Level Pressure|longitude latitude time|real|Pa|area: areacella|time: mean|atmos||||||||
+sfcWind|sfcWind|wind_speed|Daily-Mean Near-Surface Wind Speed|longitude latitude time height10m|real|m s-1||time: mean|atmos||||||||
+tossq|tossq|square_of_sea_surface_temperature|Square of Sea Surface Temperature|longitude latitude time|real|K2|area: areacello|time:mean|ocean||||||||
+tos|tos|surface_temperature|Sea Surface Temperature|longitude latitude time|real|K|area: areacello|time: mean|ocean||||||||
+omldamax|omldamax|ocean_mixed_layer_thickness_defined_by_mixing_scheme|Daily Maximum Ocean Mixed Layer Thickness Defined by Mixing Scheme|longitude latitude time|real|m|area: areacello|time: maximum|ocean||||||||
+mrsos|mrsos|moisture_content_of_soil_layer|Moisture in Upper Portion of Soil Column|longitude latitude time sdepth1|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+rhs|rhs|relative_humidity|Near-Surface Relative Humidity|longitude latitude time height2m|real|%|area: areacella|time: mean|atmos||||||||
+rhsmin|rhsmin|relative_humidity|Surface Daily Minimum Relative Humidity|longitude latitude time height2m|real|%|area: areacella|time: minimum|atmos||||||||
+rhsmax|rhsmax|relative_humidity|Surface Daily Maximum Relative Humidity|longitude latitude time height2m|real|%|area: areacella|time: maximum|atmos||||||||
+snc|snc|surface_snow_area_fraction|Snow Area Fraction|longitude latitude time|real|%|area: areacella|time: mean|landIce land||||||||
+clt|clt|cloud_area_fraction|Total Cloud Fraction|longitude latitude time|real|%|area: areacella|time: mean|atmos||||||||
+tslsi|tslsi|surface_temperature|Surface Temperature Where Land or Sea Ice|longitude latitude time|real|K|area: areacella|time: mean|land||||||||
+snw|snw|surface_snow_amount|Surface Snow Amount|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|landIce land||||||||
+prc|prc|convective_precipitation_flux|Convective Precipitation|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|atmos||||||||
+prsn|prsn|snowfall_flux|Solid Precipitation|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|atmos||||||||
+mrro|mrro|runoff_flux|Total Runoff|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||||||
+uas|uas|eastward_wind|Eastward Near-Surface Wind|longitude latitude time height10m|real|m s-1||time: mean|atmos||||||||
+vas|vas|northward_wind|Northward Near-Surface Wind|longitude latitude time height10m|real|m s-1||time: mean|atmos||||||||
+sfcWindmax|sfcWindmax|wind_speed|Daily Maximum Near-Surface Wind Speed|longitude latitude time height10m|real|m s-1||time: maximum|atmos||||||||
+hfls|hfls|surface_upward_latent_heat_flux|Surface Upward Latent Heat Flux|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+hfss|hfss|surface_upward_sensible_heat_flux|Surface Upward Sensible Heat Flux|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rlds|rlds|surface_downwelling_longwave_flux_in_air|Surface Downwelling Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+rlus|rlus|surface_upwelling_longwave_flux_in_air|Surface Upwelling Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rsds|rsds|surface_downwelling_shortwave_flux_in_air|Surface Downwelling Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+rsus|rsus|surface_upwelling_shortwave_flux_in_air|Surface Upwelling Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rlut|rlut|toa_outgoing_longwave_flux|TOA Outgoing Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+usi|usi|sea_ice_x_velocity|X-Component of Sea Ice Velocity|longitude latitude time|real|m s-1||time: mean|seaIce ocean||||||||
+vsi|vsi|sea_ice_y_velocity|Y-Component of Sea Ice Velocity|longitude latitude time|real|m s-1||time: mean|seaIce ocean||||||||
+sic|sic|sea_ice_area_fraction|Sea Ice Area Fraction|longitude latitude time|real|%|area: areacello|time: mean|seaIce ocean||||||||
+sit|sit|sea_ice_thickness|Sea Ice Thickness|longitude latitude time|real|m|area: areacello|time: mean area: mean where sea|seaIce ocean||||||||
+ta|ta|air_temperature|Air Temperature|longitude latitude plev8 time|real|K|area: areacella|time: mean|atmos||||||||
+hur|hur|relative_humidity|Relative Humidity|longitude latitude plev8 time|real|%|area: areacella|time: mean|atmos||||||||
+hus|hus|specific_humidity|Specific Humidity|longitude latitude plev8 time|real|1|area: areacella|time: mean|atmos||||||||
+wap|wap|lagrangian_tendency_of_air_pressure|omega (=dp/dt)|longitude latitude plev8 time|real|Pa s-1|area: areacella|time: mean|atmos||||||||
+va|va|northward_wind|Northward Wind|longitude latitude plev8 time|real|m s-1||time: mean|atmos||||||||
+ua|ua|eastward_wind|Eastward Wind|longitude latitude plev8 time|real|m s-1||time: mean|atmos||||||||
+zg|zg|geopotential_height|Geopotential Height|longitude latitude plev8 time|real|m|area: areacella|time: mean|atmos||||||||
+par|par|photosynthetically_active_radiation|Photosynthetically Active Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||||||
+radtoa|radtoa|total_incoming_solar_radiation_TOA|Total Incoming Solar Radiation at TOA|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+rsdsdiff|rsdsdiff|surface_downwelling_shortwave_flux_in_air_diffuse|Surface Downwelling Shortwave Radiation (Diffuse)|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+ch4day|ch4|daily_mole_fraction_of_methane_in_air|Mole Fraction of CH4|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos atmosChem||||||||
+tro3day|tro3day|daily_mole_fraction_of_ozone_in_air|Mole Fraction of O3|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos atmosChem||7558|-149.1|||1.162e+04|-419.2|
+hydroxideday|hydroxide|mole_fraction_of_hydroxide_in_air|Mole fraction of OH|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+ClOxday|ClOxday|mole_fraction_of_ClOx_in_air|Mole fraction of ClOx|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+NOxday|NOxday|mole_fraction_of_NOx_in_air|Mole fraction of NOx|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+carbonmonoxideday|carbonmonoxideday|mole_fraction_of_CO_in_air|Mole fraction of CO|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+Clyday|Clyday|mole_fraction_of_Cly_in_air|Mole fraction of Cly|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+Bryday|Bryday|mole_fraction_of_Bry_in_air|Mole fraction of Bry|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+BrOxday|BrOxday|mole_fraction_of_BrOx_in_air|Mole fraction of BrOx|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+HClday|HClday|mole_fraction_of_HCl_in_air|Mole fraction of HCl|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+J_NO2day|J_NO2day|NO2_photolysis_rate|NO2 photolysis rate|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+J_O1Dday|J_O1Dday|Ox_to_O1D_photolysis_rate|Ox to O1D photolysis rate|longitude latitude alevel time|real|s-1|area: areacella|time: mean|atmos||||||||
+CO2day|CO2dat|mole_fraction_of_CO2_in_air|Mole fraction of CO2|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+NOday|NOday|mole_fraction_of_NO_in_air|Mole fraction of NO|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+NO2day|NO2day|mole_fraction_of_NO2_in_air|Mole fraction of NO2|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+N2Oday|N2Oday|mole_fraction_of_N2O_in_air|Mole fraction of N2O|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+H2Oday|H2Oday|mole_fraction_of_water_vapor_in_air|Mole fraction of H2O|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+HNO3day|HNO3day|mole_fraction_of_HNO3_in_air|Mole fraction of HNO3|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+SO2day|SO2day|mole_fraction_of_SO2_in_air|Mole fraction of SO2|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||
+SO4day|SO4day|mole_fraction_of_SO4_in_air|Mole fraction of SO4|longitude latitude alevel time|real|1e-9|area: areacella|time: mean|atmos||||||||

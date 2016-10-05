@@ -1,0 +1,219 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.03.19.18.10.24;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@eta|||Sea Surface Height|longitude latitude time|real|m||time: mean|||||||||
+depth|depth||Sea Floor Depth|longitude latitude|real|m|||||5000.|2000.|||12000.|0.|
+sigma|||vertical coordinate formula term: sigma(k)|olevel|double||||||||||||
+sigma_bnds|||vertical coordinate formula term: sigma(k+1/2)|olevel|double||||||||||||
+zlev|||vertical coordinate formula term: zlev(k)|olevel|double||||||||||||
+zlev_bnds|||vertical coordinate formula term: zlev(k+1/2)|olevel|double||||||||||||
+depth_c|||vertical coordinate formula term: depth_c||double||||||||||||
+a|||vertical coordinate formula term: coefficient a||double||||||||||||
+b|||vertical coordinate formula term: coefficient b||double||||||||||||
+nsigma|||vertical coordinate formula term: nsigma||integer||||||||||||
+z1|||vertical coordinate formula term: z1||double||||||||||||
+z2|||vertical coordinate formula term: z2||double||||||||||||
+href|||vertical coordinate formula term: href||double||||||||||||
+k_c|||vertical coordinate formula term: k_c||integer||||||||||||
+dissic|dissic|mole_concentration_of_dissolved_inorganic_carbon_in_sea_water|Dissolved Inorganic Carbon Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+dissoc|dissoc|mole_concentration_of_dissolved_organic_carbon_in_sea_water|Dissolved Organic Carbon Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+phyc|phyc|mole_concentration_of_phytoplankton_expressed_as_carbon_in_sea_water|Phytoplankton Carbon Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+zooc|zooc|mole_concentration_of_zooplankton_expressed_as_carbon_in_sea_water|Zooplankton Carbon Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+bacc|bacc|mole_concentration_of_bacteria_expressed_as_carbon_in_sea_water|Bacterial Carbon Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+detoc|detoc|mole_concentration_of_organic_detritus_expressed_as_carbon_in_sea_water|Detrital Organic Carbon Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+calc|calc|mole_concentration_of_calcite_expressed_as_carbon_in_sea_water|Calcite Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+arag|arag|mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water|Aragonite Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+phydiat|phydiat|mole_concentration_of_diatoms_expressed_as_carbon_in_sea_water|Mole Concentration of Diatoms expressed as Carbon in Sea Water at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+phydiaz|phydiaz|mole_concentration_of_diazotrophs_expressed_as_carbon_in_sea_water|Mole Concentration of Diazotrophs Expressed as Carbon in Sea Water at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+phycalc|phycalc|mole_concentration_of_calcareous_phytoplankton_expressed_as_carbon_in_sea_water|Mole Concentration of Calcareous Phytoplankton expressed as Carbon in Sea Water at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+phypico|phypico|mole_concentration_of_picophytoplankton_expressed_as_carbon_in_sea_water|Mole Concentration of Picophytoplankton expressed as Carbon in Sea Water at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+phymisc|phymisc|mole_concentration_of_miscellaneous_phytoplankton_expressed_as_carbon_in_sea_water|Mole Concentration of Miscellaneous Phytoplankton expressed as Carbon in Sea Water at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+zmicro|zmicro|mole_concentration_of_microzooplankton_expressed_as_carbon_in_sea_water|Mole Concentration of Microzooplankton expressed as Carbon in Sea Water at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+zmeso|zmeso|mole_concentration_of_mesozooplankton_expressed_as_carbon_in_sea_water|Mole Concentration of Mesozooplankton expressed as Carbon in Sea Water at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+zoocmisc|zoocmisc|mole_concentration_of_miscellaneous_zooplankton_expressed_as_carbon_in_sea_water|Other Zooplankton Carbon Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+talk|talk|sea_water_alkalinity_expressed_as_mole_equivalent|Total Alkalinity at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+ph|ph|sea_water_ph_reported_on_total_scale|pH at Surface|longitude latitude time depth0m|real|1|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+o2|o2|mole_concentration_of_molecular_oxygen_in_sea_water|Dissolve Oxygen Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+no3|no3|mole_concentration_of_nitrate_in_sea_water|Dissolved Nitrate Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+nh4|nh4|mole_concentration_of_ammonium_in_sea_water|Dissolved Ammonium Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+po4|po4|mole_concentration_of_phosphate_in_sea_water|Dissolved Phosphate Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+dfe|dfe|mole_concentration_of_dissolved_iron_in_sea_water|Dissolved Iron Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+si|si|mole_concentration_of_silicate_in_sea_water|Dissolved Silicate Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+chl|chl|mass_concentration_of_phytoplankton_expressed_as_chlorophyll_in_sea_water|Total Chlorophyll Mass Concentration at Surface|longitude latitude time depth0m|real|kg m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+chldiat|chldiat|mass_concentration_of_diatoms_expressed_as_chlorophyll_in_sea_water|Diatom Chlorophyll Mass Concentration at Surface|longitude latitude time depth0m|real|kg m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+chldiaz|chldiaz|mass_concentration_of_diazotrophs_expressed_as_chlorophyll_in_sea_water|Mass Concentration of Diazotrophs expressed as Chlorophyll in Sea Water at Surface|longitude latitude time depth0m|real|kg m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+chlcalc|chlcalc|mass_concentration_of_calcareous_phytoplankton_expressed_as_chlorophyll_in_sea_water|Mass Concentration of Calcareous Phytoplankton expressed as Chlorophyll in Sea Water at Surface|longitude latitude time depth0m|real|kg m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+chlpico|chlpico|mass_concentration_of_picophytoplankton_expressed_as_chlorophyll_in_sea_water|Mass Concentration of Picophytoplankton expressed as Chlorophyll in Sea Water at Surface|longitude latitude time depth0m|real|kg m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+chlmisc|chlmisc|mass_concentration_of_miscellaneous_phytoplankton_expressed_as_chlorophyll_in_sea_water|Other Phytoplankton Chlorophyll Mass Concentration at Surface|longitude latitude time depth0m|real|kg m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+pon|pon|mole_concentration_of_particulate_organic_matter_expressed_as_nitrogen_in_sea_water|Particulate Organic Nitrogen Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+pop|pop|mole_concentration_of_particulate_organic_matter_expressed_as_phosphorus_in_sea_water|Particulate Organic Phosphorus Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+bfe|bfe|mole_concentration_of_particulate_organic_matter_expressed_as_iron_in_sea_water|Particulate Biogenic Iron Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+bsi|bsi|mole_concentration_of_particulate_matter_expressed_as_silicon_in_sea_water|Particulate Biogenic Silica Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+phyn|phyn|mole_concentration_of_phytoplankton_expressed_as_nitrogen_in_sea_water|Phytoplankton Nitrogen Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+phyp|phyp|mole_concentration_of_phytoplankton_expressed_as_phosphorus_in_sea_water|Phytoplankton Phosphorus Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+phyfe|phyfe|mole_concentration_of_phytoplankton_expressed_as_iron_in_sea_water|Phytoplankton Iron Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+physi|physi|mole_concentration_of_phytoplankton_expressed_as_silicon_in_sea_water|Phytoplankton Silica Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+dms|dms|mole_concentration_of_dimethyl_sulfide_in_sea_water|Dimethyl Sulphide Concentration at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+co3|co3|mole_concentration_of_carbonate_expressed_as_carbon_in_sea_water|Mole Concentration of Carbonate expressed as Carbon in Sea Water at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+co3satcalc|co3satcalc|mole_concentration_of_calcite_expressed_as_carbon_in_sea_water_at_saturation|Mole Concentration of Calcite expressed as Carbon in Sea Water at Saturation at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+co3satarag|co3satarag|mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water_at_saturation|Mole Concentration of Aragonite expressed as Carbon in Sea Water at Saturation at Surface|longitude latitude time depth0m|real|mol m-3|area: areacello volume: volcello|time: mean area: mean where sea|ocnBgchem||||||||
+intpp|intpp|net_primary_mole_productivity_of_carbon_by_phytoplankton|Primary Organic Carbon Production by All Types of Phytoplankton|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+intpnitrate|intpnitrate|net_primary_mole_productivity_of_carbon_due_to_nitrate_utilization|Primary Organic Carbon Production by Phytoplankton Based on Nitrate Uptake Alone|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+intpdiat|intpdiat|net_primary_mole_productivity_of_carbon_by_diatoms|Primary Organic Carbon Production by Diatoms|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+intpdiaz|intpdiaz|net_primary_mole_productivity_of_carbon_by_diazotrophs|Net Primary Mole Productivity of Carbon by Diazotrophs|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+intpcalc|intpcalc|net_primary_mole_productivity_of_carbon_by_calcareous_phytoplankton|Net Primary Mole Productivity of Carbon by Calcareous Phytoplankton|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+intppico|intppico|net_primary_mole_productivity_of_carbon_by_picophytoplankton|Net Primary Mole Productivity of Carbon by Picophytoplankton|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+intpmisc|intpmisc|net_primary_mole_productivity_of_carbon_by_miscellaneous_phytoplankton|Primary Organic Carbon Production by Other Phytoplankton|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+intpbfe|intpbfe|tendency_of_ocean_mole_content_of_iron_due_to_biological_production|Iron Production|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+intpbsi|intpbsi|tendency_of_ocean_mole_content_of_silicon_due_to_biological_production|Silica Production|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+intpcalcite|intpcalcite|tendency_of_ocean_mole_content_of_calcite_expressed_as_carbon_due_to_biological_production|Calcite Production|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+intparag|intparag|tendency_of_ocean_mole_content_of_aragonite_expressed_as_carbon_due_to_biological_production|Aragonite Production|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+epc100|epc100|sinking_mole_flux_of_particulate_organic_matter_expressed_as_carbon_in_sea_water|Downward Flux of Particle Organic Carbon|longitude latitude time depth100m|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||down||||
+epfe100|epfe100|sinking_mole_flux_of_particulate_iron_in_sea_water|Downward Flux of Particulate Iron|longitude latitude time depth100m|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||down||||
+epsi100|epsi100|sinking_mole_flux_of_particulate_silicon_in_sea_water|Downward Flux of Particulate Silica|longitude latitude time depth100m|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||down||||
+epcalc100|epcalc100|sinking_mole_flux_of_calcite_expressed_as_carbon_in_sea_water|Downward Flux of Calcite|longitude latitude time depth100m|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||down||||
+eparag100|eparag100|sinking_mole_flux_of_aragonite_expressed_as_carbon_in_sea_water|Downward Flux of Aragonite|longitude latitude time depth100m|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||down||||
+intdic|intdic|ocean_mass_content_of_dissolved_inorganic_carbon|Dissolved Inorganic Carbon Content|longitude latitude time|real|kg m-2|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+spco2|spco2|surface_partial_pressure_of_carbon_dioxide_in_sea_water|Surface Aqueous Partial Pressure of CO2|longitude latitude time|real|Pa|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+dpco2|dpco2|surface_carbon_dioxide_partial_pressure_difference_between_sea_water_and_air|Delta PCO2|longitude latitude time|real|Pa|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+dpo2|dpo2|surface_molecular_oxygen_partial_pressure_difference_between_sea_water_and_air|Delta PO2|longitude latitude time|real|Pa|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+fgco2|fgco2|surface_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon|Surface Downward CO2 Flux|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||down||||
+fgo2|fgo2|surface_downward_mole_flux_of_molecular_oxygen|Surface Downward O2 Flux|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||down||||
+fgdms|fgdms|surface_upward_mole_flux_of_dimethyl_sulfide|Surface Upward DMS Flux|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||up||||
+fsc|fsc|tendency_of_ocean_mole_content_of_carbon_due_to_runoff_and_sediment_dissolution|Flux of Carbon Into Ocean Surface by Runoff and Sediment Dissolution|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+frc|frc|tendency_of_ocean_mole_content_of_carbon_due_to_sedimentation|Downward Carbon Flux at Ocean Bottom|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||down||||
+intpn2|intpn2|tendency_of_ocean_mole_content_of_elemental_nitrogen_due_to_fixation|Nitrogen Fixation Rate in Ocean|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+fsn|fsn|tendency_of_ocean_mole_content_of_elemental_nitrogen_due_to_deposition_and_fixation_and_runoff|Surface Downward Net Flux of Nitrogen|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||down||||
+frn|frn|tendency_of_ocean_mole_content_of_elemental_nitrogen_due_to_denitrification_and_sedimentation|Nitrogen Loss to Sediments and through Denitrification|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+fsfe|fsfe|tendency_of_ocean_mole_content_of_iron_due_to_deposition_and_runoff_and_sediment_dissolution|Surface Downward Net Flux of Iron|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||down||||
+frfe|frfe|tendency_of_ocean_mole_content_of_iron_due_to_sedimentation|Iron Loss to Sediments|longitude latitude time|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+o2min|o2min|mole_concentration_of_dissolved_molecular_oxygen_in_sea_water_at_shallowest_local_minimum_in_vertical_profile|Oxygen Minimum Concentration|longitude latitude time|real|mol m-3|area: areacello|time: mean area: where sea depth: minimum|ocnBgchem||||||||
+zo2min|zo2min|depth_at_shallowest_local_minimum_in_vertical_profile_of_mole_concentration_of_dissolved_molecular_oxygen_in_sea_water|Depth of Oxygen Minimum Concentration|longitude latitude time|real|m|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+zsatcalc|zsatcalc|minimum_depth_of_calcite_undersaturation_in_sea_water|Calcite Saturation Depth|longitude latitude time|real|m|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+zsatarag|zsatarag|minimum_depth_of_aragonite_undersaturation_in_sea_water|Aragonite Saturation Depth|longitude latitude time|real|m|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+fddtdic|fddtdic|tendency_of_ocean_mole_content_of_dissolved_inorganic_carbon|Rate of Change of Net Dissolved Inorganic Carbon|longitude latitude time olayer100m|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+fddtdin|fddtdin|tendency_of_ocean_mole_content_of_dissolved_inorganic_nitrogen|Rate of Change of Net Dissolved Inorganic Nitrogen|longitude latitude time olayer100m|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+fddtdip|fddtdip|tendency_of_ocean_mole_content_of_dissolved_inorganic_phosphorus|Rate of Change of Net Dissolved Inorganic Phosphate|longitude latitude time olayer100m|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+fddtdife|fddtdife|tendency_of_ocean_mole_content_of_dissolved_inorganic_iron|Rate of Change of Net Dissolved Inorganic Iron|longitude latitude time olayer100m|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+fddtdisi|fddtdisi|tendency_of_ocean_mole_content_of_dissolved_inorganic_silicon|Rate of Change of Net Dissolved Inorganic Silicate|longitude latitude time olayer100m|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+fddtalk|fddtalk|integral_wrt_depth_of_tendency_of_sea_water_alkalinity_expressed_as_mole_equivalent|Rate of Change of Alkalinity|longitude latitude time olayer100m|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+fbddtdic|fbddtdic|tendency_of_ocean_mole_content_of_dissolved_inorganic_carbon_due_to_biological_processes|Rate of Change of Dissolved Inorganic Carbon due to Biological Activity|longitude latitude time olayer100m|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+fbddtdin|fbddtdin|tendency_of_ocean_mole_content_of_dissolved_inorganic_nitrogen_due_to_biological_processes|Rate of Change of Dissolved Inorganic Nitrogen due to Biological Activity|longitude latitude time olayer100m|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+fbddtdip|fbddtdip|tendency_of_ocean_mole_content_of_dissolved_inorganic_phosphorus_due_to_biological_processes|Rate of Change of Dissolved Inorganic Phosphate due to Biological Activity|longitude latitude time olayer100m|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+fbddtdife|fbddtdife|tendency_of_ocean_mole_content_of_dissolved_inorganic_iron_due_to_biological_processes|Rate of Change of Dissolved Inorganic Iron due to Biological Activity|longitude latitude time olayer100m|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+fbddtdisi|fbddtdisi|tendency_of_ocean_mole_content_of_dissolved_inorganic_silicon_due_to_biological_processes|Rate of Change of Dissolved Inorganic Silicate due to Biological Activity|longitude latitude time olayer100m|real|mol m-2 s-1|area: areacello|time: mean area: where sea|ocnBgchem||||||||
+fbddtalk|fbddtalk|integral_wrt_depth_of_tendency_of_sea_water_alkalinity_expressed_as_mole_equivalent_due_to_biological_processes|Rate of Change of Biological Alkalinity due to Biological Activity|longitude latitude time olayer100m|real|mol m-2 s-1|area: areacello|time: mean area: mean where sea|ocnBgchem||||||||
+masso|masso|sea_water_mass|Sea Water Mass|time|real|kg||time: mean area: sum where sea|ocean||||||||
+pbo|pbo|sea_water_pressure_at_sea_floor|Sea Water Pressure at Sea floor|longitude latitude time|real|dbar|area: areacello|time: mean|ocean||||||||
+pso|pso|sea_water_pressure_at_sea_water_surface|Sea Water Pressure at Sea Water Surface|longitude latitude time|real|dbar|area: areacello|time: mean|ocean||||||||
+volo|volo|sea_water_volume|Sea Water Volume|time|real|m3||time: mean area: sum where sea|ocean||||||||
+zos|zos|sea_surface_height_above_geoid|Sea Surface Height Above Geoid|longitude latitude time|real|m|area: areacello|time: mean|ocean||1.572|0.008384|||9.575|-13.97|
+zossq|zossq|square_of_sea_surface_height_above_geoid|Square of Sea Surface Height Above Geoid|longitude latitude time|real|m2|area: areacello|time: mean|ocean||||||||
+zosga|zosga|global_average_sea_level_change|Global Average Sea Level Change|time|real|m||time: mean area: mean where sea|ocean||0.3304|-0.09124|||0.382|-0.1426|
+zossga|zossga|global_average_steric_sea_level_change|Global Average Steric Sea Level Change|time|real|m||time: mean area: mean where sea|ocean||||||||
+zostoga|zostoga|global_average_thermosteric_sea_level_change|Global Average Thermosteric Sea Level Change|time|real|m||time: mean area: mean where sea|ocean||0.2998|-0.0511|||0.3734|-0.1375|
+masscello|masscello|sea_water_mass_per_unit_area|Sea Water Mass Per Unit Area|longitude latitude olevel time|real|kg m-2|area: areacello volume: volcello|time: mean|ocean||||||||
+thkcello|thkcello|cell_thickness|Ocean Model Cell Thickness|longitude latitude olevel time|real|m|area: areacello volume: volcello|time: mean|ocean||||||||
+thetao|thetao|sea_water_potential_temperature|Sea Water Potential Temperature|longitude latitude olevel time|real|K|area: areacello volume: volcello|time: mean|ocean||1.05e+20|-9.37e+17|||1.05e+20|-9.37e+17|
+thetaoga|thetaoga|sea_water_potential_temperature|Global Average Sea Water Potential Temperature|time|real|K||time: mean area: mean where sea|ocean||||||||
+tos|tos|sea_surface_temperature|Sea Surface Temperature|longitude latitude time|real|K|area: areacello|time: mean|ocean||303.5|272|||325.2|257.4|
+tossq|tossq|square_of_sea_surface_temperature|Square of Sea Surface Temperature|longitude latitude time|real|K2|area: areacello|time: mean|ocean||||||||
+so|so|sea_water_salinity|Sea Water Salinity|longitude latitude olevel time|real|psu|area: areacello volume: volcello|time: mean|ocean||1.05e+20|-9.37e+17|||1.05e+20|-9.37e+17|
+soga|soga|sea_water_salinity|Global Mean Sea Water Salinity|time|real|psu||time: mean area: mean where sea|ocean||||||||
+sos|sos|sea_surface_salinity|Sea Surface Salinity|longitude latitude time|real|psu|area: areacello|time: mean|ocean||||||||
+rhopoto|rhopoto|sea_water_potential_density|Sea Water Potential Density|longitude latitude olevel time|real|kg m-3|area: areacello volume: volcello|time: mean|ocean||1079|10.38|||1094|-3.257|
+agessc|agessc|sea_water_age_since_surface_contact|Sea Water Age Since Surface Contact|longitude latitude olevel time|real|yr|area: areacello volume: volcello|time: mean|ocean||||||||
+cfc11|cfc11|moles_of_cfc11_per_unit_mass_in_sea_water|Moles Per Unit Mass of CFC-11 in Sea Water|longitude latitude olevel time|real|mol kg-1|area: areacello volume: volcello|time: mean|ocean||||||||
+msftbarot|msftbarot|ocean_barotropic_mass_streamfunction|Ocean Barotropic Mass Streamfunction|longitude latitude time|real|kg s-1|area: areacello|time: mean|ocean||||||||
+mlotst|mlotst|ocean_mixed_layer_thickness_defined_by_sigma_t|Ocean Mixed Layer Thickness Defined by Sigma T|longitude latitude time|real|m|area: areacello|time: mean|ocean||||||||
+mlotstsq|mlotstsq|square_of_ocean_mixed_layer_thickness_defined_by_sigma_t|Square of Ocean Mixed Layer Thickness Defined by Sigma T|longitude latitude time|real|m2|area: areacello|time: mean|ocean||||||||
+omldamax|omldamax|ocean_mixed_layer_thickness_defined_by_mixing_scheme|Mean Daily Maximum Ocean Mixed Layer Thickness Defined by Mixing Scheme|longitude latitude time|real|m|area: areacello|time: maximum within days time: mean over days|ocean||||||||
+omlmax|omlmax|ocean_mixed_layer_thickness_defined_by_mixing_scheme|Monthly Maximum Ocean Mixed Layer Thickness Defined by Mixing Scheme|longitude latitude time|real|m|area: areacello|time: maximum|ocean||||||||
+uo|uo|sea_water_x_velocity|Sea Water X Velocity|longitude latitude olevel time|real|m s-1||time: mean|ocean||1.05e+20|-1.041e+18|||1.05e+20|-1.041e+18|
+vo|vo|sea_water_y_velocity|Sea Water Y Velocity|longitude latitude olevel time|real|m s-1||time: mean|ocean||1.05e+20|-1.041e+18|||1.05e+20|-1.041e+18|
+wmo|wmo|upward_ocean_mass_transport|Upward Ocean Mass Transport|longitude latitude olevel time|real|kg s-1|area: areacello volume: volcello|time: mean|ocean||||||||
+wmosq|wmosq|square_of_upward_ocean_mass_transport|Square of Upward Ocean Mass Transport|longitude latitude olevel time|real|kg2 s-2|area: areacello volume: volcello|time: mean|ocean||||||||
+umo|umo|ocean_mass_x_transport|Ocean Mass X Transport|longitude latitude olevel time|real|kg s-1||time: mean|ocean||||||||
+vmo|vmo|ocean_mass_y_transport|Ocean Mass Y Transport|longitude latitude olevel time|real|kg s-1||time: mean|ocean||||||||
+msftmyz|msftmyz|ocean_meridional_overturning_mass_streamfunction|Ocean Meridional Overturning Mass Streamfunction|latitude olevel basin time|real|kg s-1||time: mean longitude: mean|ocean||||||||
+msftmrhoz|msftmrhoz|ocean_meridional_overturning_mass_streamfunction|Ocean Meridional Overturning Mass Streamfunction|latitude rho basin time|real|kg s-1||time: mean longitude: mean|ocean||||||||
+msftyyz|msftyyz|ocean_y_overturning_mass_streamfunction|Ocean Y Overturning Mass Streamfunction|latitude olevel basin time|real|kg s-1||time: mean longitude: mean|ocean||||||||
+msftyrhoz|msftyrhoz|ocean_y_overturning_mass_streamfunction|Ocean Y Overturning Mass Streamfunction|latitude rho basin time|real|kg s-1||time: mean longitude: mean|ocean||||||||
+msftmyzba|msftmyzba|ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection|Ocean Meridional Overturning Mass Streamfunction due to Bolus Advection|latitude olevel basin time|real|kg s-1||time: mean longitude: mean|ocean||||||||
+msftmrhozba|msftmrhozba|ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection|Ocean Meridional Overturning Mass Streamfunction due to Bolus Advection|latitude rho basin time|real|kg s-1||time: mean longitude: mean|ocean||||||||
+msftyyzba|msftyyzba|ocean_y_overturning_mass_streamfunction_due_to_bolus_advection|Ocean Y Overturning Mass Streamfunction due to Bolus Advection|latitude olevel basin time|real|kg s-1||time: mean longitude: mean|ocean||||||||
+msftyrhozba|msftyrhozba|ocean_y_overturning_mass_streamfunction_due_to_bolus_advection|Ocean Y Overturning Mass Streamfunction due to Bolus Advection|latitude rho basin time|real|kg s-1||time: mean longitude: mean|ocean||||||||
+hfnorth|hfnorth|northward_ocean_heat_transport|Northward Ocean Heat Transport|longitude latitude time|real|W||time: mean|ocean||||||||
+hfnorthba|hfnorthba|northward_ocean_heat_transport_due_to_bolus_advection|Northward Ocean Heat Transport due to Bolus Advection|longitude latitude time|real|W||time: mean|ocean||||||||
+hfnorthdiff|hfnorthdiff|northward_ocean_heat_transport_due_to_diffusion|Northward Ocean Heat Transport due to Diffusion|longitude latitude time|real|W||time: mean|ocean||||||||
+hfx|hfx|ocean_heat_x_transport|Ocean Heat X Transport|longitude latitude time|real|W||time: mean|ocean||||||||
+hfy|hfy|ocean_heat_y_transport|Ocean Heat Y Transport|longitude latitude time|real|W||time: mean|ocean||||||||
+hfyba|hfyba|ocean_heat_y_transport_due_to_bolus_advection|Ocean Heat Y Transport due to Bolus Advection|longitude latitude time|real|W||time: mean|ocean||||||||
+hfydiff|hfydiff|ocean_heat_y_transport_due_to_diffusion|Ocean Heat Y Transport due to Diffussion|longitude latitude time|real|W||time: mean|ocean||||||||
+hfxba|hfxba|ocean_heat_x_transport_due_to_bolus_advection|Ocean Heat X Transport due to Bolus Advection|longitude latitude time|real|W||time: mean|ocean||||||||
+hfxdiff|hfxdiff|ocean_heat_x_transport_due_to_diffusion|Ocean Heat X Transport due to Diffusion|longitude latitude time|real|W||time: mean|ocean||||||||
+hfbasin|hfbasin|northward_ocean_heat_transport|Northward Ocean Heat Transport|latitude basin time|real|W||time: mean longitude: mean|ocean||||||||
+hfbasinba|hfbasinba|northward_ocean_heat_transport_due_to_bolus_advection|Northward Ocean Heat Transport due to Bolus Advection|latitude basin time|real|W||time: mean longitude: mean|ocean||||||||
+hfbasindiff|hfbasindiff|northward_ocean_heat_transport_due_to_diffusion|Northward Ocean Heat Transport due to Diffussion|latitude basin time|real|W||time: mean longitude: mean|ocean||||||||
+htovgyre|htovgyre|northward_ocean_heat_transport_due_to_gyre|Northward Ocean Heat Transport due to Gyre|latitude basin time|real|W||time: mean longitude: mean|ocean||2.364e+14|5.91e+13|||2.691e+15|-1.772e+15|
+htovovrt|htovovrt|northward_ocean_heat_transport_due_to_overturning|Northward Ocean Heat Transport due to Overturning|latitude basin time|real|W||time: mean longitude: mean|ocean||8.156e+14|2.039e+14|||1.305e+16|-6.263e+15|
+sltovgyre|sltovgyre|northward_ocean_salt_transport_due_to_gyre|Northward Ocean Salt Transport due to Gyre|latitude basin time|real|kg s-1||time: mean longitude: mean|ocean||||||||
+sltovovrt|sltovovrt|northward_ocean_salt_transport_due_to_overturning|Northward Ocean Salt Transport due to Overturning|latitude basin time|real|kg s-1||time: mean longitude: mean|ocean||||||||
+mfo|mfo|sea_water_transport_across_line|Sea Water Transport|oline time|real|kg s-1||time: mean|ocean||||||||
+pr|pr|rainfall_flux|Rainfall Flux where Ice Free Ocean over Sea|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where ice_free_sea over sea|ocean||3.215e-05|2.156e-05|||0.001254|0|
+prsn|prsn|snowfall_flux|Snowfall Flux where Ice Free Ocean over Sea|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where ice_free_sea over sea|ocean||6.11e-06|1.449e-06|||0.0002987|0|
+evs|evs|water_evaporation_flux|Water Evaporation Flux Where Ice Free Ocean over Sea|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where ice_free_sea over sea|ocean||||||||
+friver|friver|water_flux_into_sea_water_from_rivers|Water Flux into Sea Water From Rivers|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|ocean||||||||
+ficeberg|ficeberg|water_flux_into_sea_water_from_icebergs|Water Flux into Sea Water From Icebergs|longitude latitude olevel time|real|kg m-2 s-1|area: areacello volume: volcello|time: mean area: mean where sea|ocean||||||||
+fsitherm|fsitherm|water_flux_into_sea_water_due_to_sea_ice_thermodynamics|Water Flux into Sea Water due to Sea Ice Thermodynamics|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|ocean seaIce||||||||
+wfo|wfo|water_flux_into_sea_water|Water Flux into Sea Water|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|ocean||6.051e-05|1.831e-05|||0.03952|-0.005411|
+wfonocorr|wfonocorr|water_flux_into_sea_water_without_flux_correction|Water Flux into Sea Water Without Flux Correction|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|ocean||||||||
+wfcorr|wfcorr|water_flux_correction|Water Flux Correction|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|ocean||||down||||
+vsfpr|vsfpr|virtual_salt_flux_into_sea_water_due_to_rainfall|Virtual Salt Flux into Sea Water due to Rainfall|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|ocean||||||||
+vsfevap|vsfevap|virtual_salt_flux_into_sea_water_due_to_evaporation|Virtual Salt Flux into Sea Water due to Evaporation|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|ocean||||||||
+vsfriver|vsfriver|virtual_salt_flux_into_sea_water_from_rivers|Virtual Salt Flux into Sea Water From Rivers|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|ocean||||||||
+vsfsit|vsfsit|virtual_salt_flux_into_sea_water_due_to_sea_ice_thermodynamics|Virtual Salt Flux into Sea Water due to Sea Ice Thermodynamics|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|ocean seaIce||||||||
+vsf|vsf|virtual_salt_flux_into_sea_water|Virtual Salt Flux into Sea Water|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|ocean||||||||
+vsfcorr|vsfcorr|virtual_salt_flux_correction|Virtual Salt Flux Correction|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|ocean||||||||
+sfdsi|sfdsi|downward_sea_ice_basal_salt_flux|Downward Sea Ice Basal Salt Flux|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|ocean seaIce||||||||
+sfriver|sfriver|salt_flux_into_sea_water_from_rivers|Salt Flux into Sea Water from Rivers|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|ocean||||||||
+hfgeou|hfgeou|upward_geothermal_heat_flux_at_sea_floor|Upward Geothermal Heat Flux at Sea Floor|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where sea|ocean||||up||||
+hfrainds|hfrainds|temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water|Temperature Flux due to Rainfall Expressed as Heat Flux into Sea Water|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where ice_free_sea over sea|ocean||||down||||
+hfevapds|hfevapds|temperature_flux_due_to_evaporation_expressed_as_heat_flux_out_of_sea_water|Temperature Flux due to Evaporation Expressed as Heat Flux Out of Sea Water|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where ice_free_sea over sea|ocean||||up||||
+hfrunoffds|hfrunoffds|temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water|Temperature Flux due to Runoff Expressed as Heat Flux into Sea Water|longitude latitude olevel time|real|W m-2|area: areacello volume: volcello|time: mean area: mean where sea|ocean||||||||
+hfsnthermds|hfsnthermds|heat_flux_into_sea_water_due_to_snow_thermodynamics|Heat Flux into Sea Water due to Snow Thermodynamics|longitude latitude olevel time|real|W m-2|area: areacello volume: volcello|time: mean area: mean where sea|ocean||||||||
+hfsifrazil|hfsifrazil|heat_flux_into_sea_water_due_to_freezing_of_frazil_ice|Heat Flux into Sea Water due to Frazil Ice Formation|longitude latitude olevel time|real|W m-2|area: areacello volume: volcello|time: mean area: mean where sea|ocean seaIce||||||||
+hfsithermds|hfsithermds|heat_flux_into_sea_water_due_to_sea_ice_thermodynamics|Heat Flux into Sea Water due to Sea Ice Thermodynamics|longitude latitude olevel time|real|W m-2|area: areacello volume: volcello|time: mean area: mean where sea|ocean seaIce||||||||
+hfibthermds|hfibthermds|heat_flux_into_sea_water_due_to_iceberg_thermodynamics|Heat Flux into Sea Water due to Iceberg Thermodynamics|longitude latitude olevel time|real|W m-2|area: areacello volume: volcello|time: mean area: mean where sea|ocean||||||||
+rlds|rlds|surface_net_downward_longwave_flux|Surface Net Downward Longwave Radiation|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where ice_free_sea over sea|ocean||323.6|271.2|down||520.5|30.71|
+hfls|hfls|surface_downward_latent_heat_flux|Surface Downward Latent Heat Flux|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where ice_free_sea over sea|ocean||73.2|50.39|down||790.7|-76.77|
+hfss|hfss|surface_downward_sensible_heat_flux|Surface Downward Sensible Heat Flux|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where ice_free_sea over sea|ocean||34.84|10.7|down||844.8|-264.5|
+rsntds|rsntds|net_downward_shortwave_flux_at_sea_water_surface|Net Downward Shortwave Radiation at Sea Water Surface|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where sea|ocean||||down||||
+rsds|rsds|downwelling_shortwave_flux_in_sea_water|Downwelling Shortwave Radiation in Sea Water|longitude latitude olevel time|real|W m-2|area: areacello volume: volcello|time: mean area: mean where sea|ocean||181.6|143.9|down||524.4|-0.002946|
+hfcorr|hfcorr|heat_flux_correction|Heat Flux Correction|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where sea|ocean||||down||||
+hfds|hfds|surface_downward_heat_flux_in_sea_water|Downward Heat Flux at Sea Water Surface|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where sea|ocean||||down||||
+tauuo|tauuo|surface_downward_x_stress|Surface Downward X Stress|longitude latitude time|real|N m-2||time: mean area: mean where sea|ocean||||down||||
+tauvo|tauvo|surface_downward_y_stress|Surface Downward Y Stress|longitude latitude time|real|N m-2||time: mean area: mean where sea|ocean||||down||||
+tauucorr|tauucorr|surface_downward_x_stress_correction|Surface Downward X Stress Correction|longitude latitude time|real|N m-2||time: mean area: mean where sea|ocean||||down||||
+tauvcorr|tauvcorr|surface_downward_y_stress_correction|Surface Downward Y Stress Correction|longitude latitude time|real|N m-2||time: mean area: mean where sea|ocean||||down||||
+ocnheat|ocnheat|ocean_heat_content|Ocean Heat Content in each grid box|longitude latitude olevel time|real|10^20 J||time: mean|ocean||||||||
+@

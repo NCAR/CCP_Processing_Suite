@@ -1,0 +1,235 @@
+head	1.4;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.4
+date	2011.12.14.20.13.41;	author strandwg;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2011.12.14.18.10.53;	author strandwg;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2011.12.14.18.08.18;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2011.12.14.18.07.39;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@#CMIP5 name        #
+decadalXXXX        1.1
+decadalXXXX        1.1-E
+decadalXXXX        1.1-I
+decadalXXXX        1.2
+decadalXXXX        1.2-E
+noVolcXXXX         1.3
+volcIn2010         1.4
+decadalXXXX        1.5
+piControl          3.1-S
+piControl          3.1
+historical         3.2-E
+historical         3.2
+amip               3.3
+amip               3.3-E
+midHolocene        3.4
+lgm                3.5
+past1000           3.6
+rcp45              4.1-L
+rcp45              4.1
+rcp85              4.2-L
+rcp85              4.2
+rcp26              4.3-L
+rcp26              4.3
+rcp60              4.4
+esmControl         5.1
+esmHistorical      5.2
+esmrcp85           5.3
+1pctCO2            6.1-S
+1pctCO2            6.1
+abrupt4xCO2        6.3-E
+abrupt4xCO2        6.3
+amip4xCO2          6.5
+amipFuture         6.6
+amip4K             6.8
+historicalNat      7.1
+historicalNat      7.1-E
+historicalGHG      7.2
+historicalGHG      7.2-E
+historicalMisc     7.3
+historicalMisc     7.3-E
+historicalExt      7.4
+sst2030            2.1
+sst2030            2.1-E
+esmFixClim1        5.4-1
+esmFixClim2        5.4-2
+esmFdbk1           5.5-1
+esmFdbk2           5.5-2
+sstClim            6.2a
+sstClim4xCO2       6.2b
+sstClimAerosol     6.4a
+sstClimSulfate     6.4b
+aquaControl        6.7a
+aqua4xCO2          6.7b
+aqua4K             6.7c
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d1 1
+a1 1
+CMIP5 name         #
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d1 55
+a55 55
+#         CMIP5 name
+1.1       decadalXXXX
+1.1-E     decadalXXXX
+1.1-I     decadalXXXX
+1.2       decadalXXXX
+1.2-E     decadalXXXX
+1.3       noVolcXXXX
+1.4       volcIn2010
+1.5       decadalXXXX
+3.1-S     piControl
+3.1       piControl
+3.2-E     historical
+3.2       historical
+3.3       amip
+3.3-E     amip
+3.4       midHolocene
+3.5       lgm
+3.6       past1000
+4.1-L     rcp45
+4.1       rcp45
+4.2-L     rcp85
+4.2       rcp85
+4.3-L     rcp26
+4.3       rcp26
+4.4       rcp60
+5.1       esmControl
+5.2       esmHistorical
+5.3       esmrcp85
+6.1-S     1pctCO2
+6.1       1pctCO2
+6.3-E     abrupt4xCO2
+6.3       abrupt4xCO2
+6.5       amip4xCO2
+6.6       amipFuture
+6.8       amip4K
+7.1       historicalNat
+7.1-E     historicalNat
+7.2       historicalGHG
+7.2-E     historicalGHG
+7.3       historicalMisc
+7.3-E     historicalMisc
+7.4       historicalExt
+2.1       sst2030
+2.1-E     sst2030
+5.4-1     esmFixClim1
+5.4-2     esmFixClim2
+5.5-1     esmFdbk1
+5.5-2     esmFdbk2
+6.2a      sstClim
+6.2b      sstClim4xCO2
+6.4a      sstClimAerosol
+6.4b      sstClimSulfate
+6.7a      aquaControl
+6.7b      aqua4xCO2
+6.7c      aqua4K
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 55
+a55 56
+#       CMIP5 name
+1.1     decadalXXXX
+1.1-E   decadalXXXX
+1.1-I   decadalXXXX
+1.2     decadalXXXX
+1.2-E   decadalXXXX
+1.3     noVolcXXXX
+1.4     volcIn2010
+1.5     decadalXXXX
+1.6     **
+3.1-S   piControl
+3.1     piControl
+3.2-E   historical
+3.2     historical
+3.3     amip
+3.3-E   amip
+3.4     midHolocene
+3.5     lgm
+3.6     past1000
+4.1-L   rcp45
+4.1     rcp45
+4.2-L   rcp85
+4.2     rcp85
+4.3-L   rcp26
+4.3     rcp26
+4.4     rcp60
+5.1     esmControl
+5.2     esmHistorical
+5.3     esmrcp85
+6.1-S   1pctCO2
+6.1     1pctCO2
+6.3-E   abrupt4xCO2
+6.3     abrupt4xCO2
+6.5     amip4xCO2
+6.6     amipFuture
+6.8     amip4K
+7.1     historicalNat
+7.1-E   historicalNat
+7.2     historicalGHG
+7.2-E   historicalGHG
+7.3     historicalMisc
+7.3-E   historicalMisc
+7.4     historicalExt
+2.1     sst2030
+2.1-E   sst2030
+5.4-1   esmFixClim1
+5.4-2   esmFixClim2
+5.5-1   esmFdbk1
+5.5-2   esmFdbk2
+6.2a    sstClim
+6.2b    sstClim4xCO2
+6.4a    sstClimAerosol
+6.4b    sstClimSulfate
+6.7a    aquaControl
+6.7b    aqua4xCO2
+6.7c    aqua4K
+@

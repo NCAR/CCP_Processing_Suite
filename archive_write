@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# Write file(s) to archival tape
+#
+# Arguments:
+# 1 directory on archival system to write file to
+#
+if [ $# = 1 ] ; then
+  ARCHIVE_D=$1
+else
+  echo "archive_write ERROR - missing argument ARCHIVE_D"
+  ../update_status error archive_write
+  exit 1
+fi
+#
+# If hsi command exists, use it.
+#
+HSI=`which hsi 2<&1`
+if [ $? -ne 0 ] ; then
+  echo "hsi command not found"
+  ../update_status error archive_write
+  exit 1
+fi
+#
+# Use HSI to write files to ARCHIVE_D but directory for each field
+#
+$HSI $HSIOPTS -q "umask 0 ; mkdir -m 7775 -p $ARCHIVE_D"
+#
+echo ${ARCHIVE_D}" created. Ready."
+echo "cd $ARCHIVE_D ; put -d -U *nc ; chmod 644 ${CASE}.${HIST}.*" > PUT
+$HSI $HSIOPTS in PUT
+if [ $? -eq 0 ] ; then
+  echo "Files written to "${ARCHIVE_D}" and erased."
+else
+  echo "Problem with HPSS on write to "${ARCHIVE_D}". Warning."
+  ../update_status error archive_write
+fi

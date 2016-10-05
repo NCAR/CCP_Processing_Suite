@@ -1,0 +1,157 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2016.10.05.17.49.30;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2016.05.03.21.25.36;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@#!/bin/sh
+#
+if [ $# -ne 3 ] ; then
+   echo "Usage: ./Process_Setup CASE HIST"
+   echo "First three arguments REQUIRED:"
+   echo "1: CASE name"
+   echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h rtm.h0 etc]"
+   echo "3: TPER time period of above HIST type - must be one of [ann mon d10 day hr6 hr3 hr1 m30]"
+   exit 1
+else
+   CASE=$1 ; export CASE
+   HIST=$2 ; export HIST
+   TPER=$3 ; export TPER
+fi
+#
+# Set up a bunch of stuff
+#
+case "$TPER" in
+  ann | mon | d10 | day | hr6 | hr3 | hr1 | m30 )
+    echo ${TPER}" is known time period. Proceeding." ;;
+  * ) 
+    echo "Unable to continue because "$TPER" is unknown. Stopping."
+    exit 1 ;;
+esac
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if ! [ -f $EXPFILE ] ; then
+  echo "Cannot find "$EXPFILE". EXIT"
+  exit 1
+else
+  TEMPLATE=process_asd_template
+  LOCATION=BW
+fi
+#
+# Deduce appropriate wallclock limits and task counts
+#
+case "$HIST" in
+  cam.h0 )
+    NODE=6
+    WALL="00:30:00" ;;
+  cam.h1 )
+    NODE=3
+    WALL="04:30:00" ;;
+  cam.h2 )
+    NODE=6
+    WALL="06:00:00" ;;
+  clm2.h0 )
+    NODE=13
+    WALL="00:20:00" ;;
+  clm2.h1 )
+    NODE=2
+    WALL="01:30:00" ;;
+  cice.h )
+    NODE=10
+    WALL="00:30:00" ;;
+  cice.h1 )
+    NODE=6
+    WALL="02:00:00" ;;
+  pop.h )
+    NODE=2
+    WALL="04:00:00" ;;
+  pop.h.nday1 )
+    NODE=1
+    WALL="00:30:00" ;;
+  pop.h.ecosys.nday1 )
+    NODE=1
+    WALL="00:30:00" ;;
+  pop.h.ecosys.nyear1 )
+    NODE=2
+    WALL="00:20:00" ;;
+  rtm.h0 )
+    NODE=1
+    WALL="00:20:00" ;;
+  rtm.h1 )
+    NODE=1
+    WALL="00:30:00" ;;
+  * )
+    echo "Unknown "${HIST}
+    exit 1 ;;
+esac
+#
+export NODE
+export WALL
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+# Build processing script
+#
+CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
+rm -f $CCPS_SCRIPT
+cat ./LSF_bwaters | sed -e "s/NAME/$CCPS_SCRIPT/g" \
+                  | sed -e "s/WALL/$WALL/g"        \
+                  | sed -e "s/USER/$USER/g"        \
+                  | sed -e "s/NODE/$NODE/g"        \
+                  > $CCPS_SCRIPT
+#
+cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
+                  | sed -e "s/xxxHISTxxx/$HIST/g" \
+                  | sed -e "s/xxxTPERxxx/$TPER/g" \
+                  | sed -e "s/xxxNODExxx/$NODE/g" \
+                  >> $CCPS_SCRIPT
+#
+chmod +x $CCPS_SCRIPT
+echo ""
+echo $CCPS_SCRIPT" ready to run"
+echo ""
+#
+echo "Run script now? (Y only, all else NO)"
+read DORUN
+#
+if [ "$DORUN" = "Y" ] ; then
+  echo "Running "${CCPS_SCRIPT}
+  qsub ${CCPS_SCRIPT}
+else
+  echo "Will not run "${CCPS_SCRIPT}
+fi
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d35 50
+d91 5
+a96 1
+cat ./LSF_bwaters | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
+d100 1
+@

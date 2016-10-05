@@ -1,0 +1,297 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.03.25.17.12.37;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@program copy_netcdf
+  ! copy a netCDF file with F90
+  implicit none
+  include 'netcdf.inc'
+  ! netCDF data types
+  !
+  ! NF_BYTE   = 1 (also NF_INT1)
+  ! NF_CHAR   = 2
+  ! NF_SHORT  = 3 (also NF_INT2)
+  ! NF_INT    = 4
+  ! NF_FLOAT  = 5 (also NF_REAL)
+  ! NF_DOUBLE = 6
+  !
+  integer,parameter::real8 = selected_real_kind(15,128)
+  !
+  integer::status,i,j,k,l,m,n,index_o,index_f,index_k,nmiss,nx,ny,nz,nt,ii,jj,kk
+  integer::i_id,i_ndims,i_nvars,i_ngatts,i_unlimdimid,i_attnum
+  integer::o_id,i_varxtype,i_varndims,i_varnatts,i_atttype
+  integer::i_gattlen,i_gattxtype,ratio_idx
+  real::missing_value
+  character(len=132)::input_file,output_file,text_var
+  character(len=132)::i_gattname,i_attname,i_gatttext,i_varname
+  !
+  integer,dimension(:),allocatable::o_dimid,i_vardimids,o_vardimids,i_dimlen,&
+       o_varid,i_start,i_count,o_start,o_count
+  !
+  integer,dimension(:),allocatable::integer_1d_data
+  integer,dimension(:,:),allocatable::integer_2d_data
+  !
+  real,dimension(:),allocatable::real_1d_data
+  real,dimension(:,:),allocatable::real_2d_data
+  real,dimension(:,:,:),allocatable::real_3d_data,swap_3d_data
+  !
+  character(len=132),dimension(:),allocatable::i_dimname
+  character(len=  1),dimension(6)::nc_types
+  nc_types = (/'B','C','S','I','F','D'/)
+  !
+  write(*,'('' Input netCDF file  : '',$)')
+  read (*,*) input_file
+  write(*,*) trim(input_file)
+  output_file = 'swap.'//trim(input_file)
+  write(*,*) '  Output netCDF file: ',trim(output_file)
+  !
+  status = nf_open(trim(input_file),NF_NOCLOBBER,i_id)
+  if (status /= NF_NOERR) call handle_err(status,'nf_open')
+  status = nf_create(trim(output_file),NF_CLOBBER,o_id)
+  if (status /= NF_NOERR) call handle_err(status,'nf_create')
+  !
+  status = nf_inq(i_id,i_ndims,i_nvars,i_ngatts,i_unlimdimid)
+  if (status /= NF_NOERR) call handle_err(status,'nf_inq')
+  !
+  allocate(o_dimid(i_ndims),i_vardimids(i_ndims),o_vardimids(i_ndims))
+  allocate(o_varid(i_nvars),i_dimname(i_ndims),i_dimlen(i_ndims))
+  allocate(i_start(i_ndims),i_count(i_ndims),o_start(i_ndims),o_count(i_ndims))
+  !
+  do i = 1,i_ngatts
+     status = nf_inq_attname(i_id,NF_GLOBAL,i,i_gattname)
+     if (status /= NF_NOERR) call handle_err(status,'nf_inq_attname')
+     status = nf_inq_attid(i_id,NF_GLOBAL,i_gattname,i_attnum)
+     if (status /= NF_NOERR) call handle_err(status,'nf_inq_attid')
+     status = nf_copy_att(i_id,NF_GLOBAL,i_gattname,o_id,NF_GLOBAL)
+     if (status /= NF_NOERR) call handle_err(status,'nf_copy_att')
+  enddo
+  do i = 1,i_ndims
+     status = nf_inq_dim(i_id,i,i_dimname(i),i_dimlen(i))
+     write(*,*) 'nf_inq_dim :',i_id,i,i_dimname(i)(1:10),i_dimlen(i)
+     if (status /= NF_NOERR) call handle_err(status,'nf_inq_dim')
+     if (i == i_unlimdimid) then
+        status = nf_def_dim(o_id,i_dimname(i),NF_UNLIMITED,o_dimid(i))
+        if (status /= NF_NOERR) call handle_err(status,'nf_def_dim')
+     else
+        status = nf_def_dim(o_id,i_dimname(i),i_dimlen(i),o_dimid(i))
+        if (status /= NF_NOERR) call handle_err(status,'nf_def_dim')
+     endif
+  enddo
+  do i = 1,i_nvars
+     status = nf_inq_var(i_id,i,i_varname,i_varxtype,i_varndims,i_vardimids,i_varnatts)
+     if (status /= NF_NOERR) call handle_err(status,'nf_inq_var')
+     o_vardimids = i_vardimids
+     ! Swap I and K axis dimension IDs
+     if (i_varndims == 3) then
+        o_vardimids(1) = i_vardimids(2)
+        o_vardimids(2) = i_vardimids(3)
+        o_vardimids(3) = i_vardimids(1)
+        write(*,*) i_vardimids
+        write(*,*) o_vardimids
+     endif
+     status = nf_def_var(o_id,i_varname,i_varxtype,i_varndims,&
+          o_vardimids,o_varid(i))
+     if (status /= NF_NOERR) call handle_err(status,'nf_def_var')
+     do j = 1,i_varnatts
+        status = nf_inq_attname(i_id,i,j,i_attname)
+        if (status /= NF_NOERR) call handle_err(status,'nf_inq_attname')
+        if (trim(i_attname) == 'missing_value') then
+           status = nf_inq_atttype(i_id,i,i_attname,i_atttype)
+           if (status /= NF_NOERR) call handle_err(status,'nf_inq_atttype')
+           if (i_atttype == nf_float) then
+              status = nf_get_att_real(i_id,i,i_attname,missing_value)
+              if (status /= NF_NOERR) call handle_err(status,'nf_get_att_real')
+           endif
+        endif
+        status = nf_inq_attid(i_id,i,i_attname,i_attnum)
+        if (status /= NF_NOERR) call handle_err(status,'nf_inq_attid')
+        status = nf_copy_att(i_id,i,i_attname,o_id,i)
+        if (status /= NF_NOERR) call handle_err(status,'nf_copy_att')
+     enddo
+  enddo
+  status = nf_enddef(o_id)
+  if (status /= NF_NOERR) call handle_err(status,'nf_enddef')
+  write(*,'(3x,''ncid  i name        # att type # dim id id id id'')')
+  write(*,'(3x,''---- -- ----------- ----- ---- ----- -- -- -- --'')')
+  do i = 1,i_nvars
+     status = nf_inq_var(i_id,i,i_varname,i_varxtype,i_varndims,i_vardimids,i_varnatts)
+     write(*,'(''V: '',i3,i4,1x,a10,i5,5x,a1,1x,i4,2x,8i3)') i_id,i,i_varname(1:10),&
+          i_varnatts,&
+          nc_types(i_varxtype),i_varndims,(i_vardimids(j),j=1,i_varndims)
+     if (status /= NF_NOERR) call handle_err(status,'nf_inq_var')
+     !
+     ! Integer data
+     !
+     if (i_varxtype == nf_int) then
+        if (i_varndims <= 1) then
+           nx = i_dimlen(i_vardimids(1))
+           allocate(integer_1d_data(nx))
+           i_start(1) =  1 ; i_count(1) = nx
+           status = nf_get_vara_int(i_id,i,i_start,i_count,integer_1d_data)
+           if (status /= NF_NOERR) call handle_err(status,'nf_get_vara_int')
+           o_start(1) =  1 ; o_count(1) = nx
+           status = nf_put_vara_int(o_id,i,o_start,o_count,integer_1d_data)
+           if (status /= NF_NOERR) call handle_err(status,'nf_put_vara_int')
+           deallocate(integer_1d_data)
+        elseif (i_varndims == 2) then
+           nx = i_dimlen(i_vardimids(1)) ; ny = i_dimlen(i_vardimids(2))
+           allocate(integer_2d_data(nx,ny))
+           i_start(1) =  1 ; i_start(2) =  1
+           i_count(1) = nx ; i_count(2) = ny
+           status = nf_get_vara_int(i_id,i,i_start,i_count,integer_2d_data)
+           if (status /= NF_NOERR) call handle_err(status,'nf_get_vara_int')
+           o_start(1) =  1 ; o_start(2) =  1
+           o_count(1) = nx ; o_count(2) = ny
+           status = nf_put_vara_int(o_id,i,o_start,o_count,integer_2d_data)
+           if (status /= NF_NOERR) call handle_err(status,'nf_put_vara_int')
+           deallocate(integer_2d_data)
+        elseif (i_varndims == 3) then
+           nx = i_dimlen(i_vardimids(1)) ; ny = i_dimlen(i_vardimids(2))
+           nz = i_dimlen(i_vardimids(3))
+           allocate(integer_2d_data(nx,ny))
+           do k = 1,nz
+              i_start(1) = 1  ; i_start(2) =  1 ; i_start(3) = k
+              i_count(1) = nx ; i_count(2) = ny ; i_count(3) = 1
+              status = nf_get_vara_int(i_id,i,i_start,i_count,integer_2d_data)
+              if (status /= NF_NOERR) call handle_err(status,'nf_get_vara_int')
+              o_start(1) = 1  ; o_start(2) =  1 ; o_start(3) = k
+              o_count(1) = nx ; o_count(2) = ny ; o_count(3) = 1
+              status = nf_put_vara_int(o_id,i,o_start,o_count,integer_2d_data)
+              if (status /= NF_NOERR) call handle_err(status,'nf_put_vara_int')
+           enddo
+           deallocate(integer_2d_data)
+        elseif (i_varndims == 4) then
+           nx = i_dimlen(i_vardimids(1)) ; ny = i_dimlen(i_vardimids(2))
+           nz = i_dimlen(i_vardimids(3)) ; nt = i_dimlen(i_vardimids(4))
+           allocate(integer_2d_data(nx,ny))
+           do l = 1,nt
+              do k = 1,nz
+                 i_start(1) = 1  ; i_start(2) =  1 ; i_start(3) =  1 ; i_start(4) = l
+                 i_count(1) = nx ; i_count(2) = ny ; i_count(3) = nz ; i_count(4) = 1
+                 status = nf_get_vara_int(i_id,i,i_start,i_count,integer_2d_data)
+                 if (status /= NF_NOERR) call handle_err(status,'nf_get_vara_int')
+                 o_start(1) = 1  ; o_start(2) =  1 ; o_start(3) =  1 ; o_start(4) = l
+                 o_count(1) = nx ; o_count(2) = ny ; o_count(3) = nz ; o_count(4) = 1
+                 status = nf_put_vara_int(o_id,i,o_start,o_count,integer_2d_data)
+                 if (status /= NF_NOERR) call handle_err(status,'nf_put_vara_int')
+              enddo
+           enddo
+           deallocate(integer_2d_data)
+        else
+        endif
+     endif
+     !
+     ! Float (32-bit, usually) data
+     !
+     if (i_varxtype == nf_float) then
+        if (i_varndims <= 1) then
+           nx = i_dimlen(i_vardimids(1))
+           allocate(real_1d_data(nx))
+           i_start(1) =  1 ; i_count(1) = nx
+           status = nf_get_vara_real(i_id,i,i_start,i_count,real_1d_data)
+           if (status /= NF_NOERR) call handle_err(status,'nf_get_vara_real')
+           o_start(1) =  1 ; o_count(1) = nx
+           status = nf_put_vara_real(o_id,i,o_start,o_count,real_1d_data)
+           if (status /= NF_NOERR) call handle_err(status,'nf_put_vara_real')
+           deallocate(real_1d_data)
+        elseif (i_varndims == 2) then
+           nx = i_dimlen(i_vardimids(1)) ; ny = i_dimlen(i_vardimids(2))
+           allocate(real_2d_data(nx,ny))
+           i_start(1) =  1 ; i_start(2) =  1
+           i_count(1) = nx ; i_count(2) = ny
+           status = nf_get_vara_real(i_id,i,i_start,i_count,real_2d_data)
+           if (status /= NF_NOERR) call handle_err(status,'nf_get_vara_real')
+           o_start(1) =  1 ; o_start(2) =  1
+           o_count(1) = nx ; o_count(2) = ny
+           status = nf_put_vara_real(o_id,i,o_start,o_count,real_2d_data)
+           if (status /= NF_NOERR) call handle_err(status,'nf_put_vara_real')
+           deallocate(real_2d_data)
+        elseif (i_varndims == 3) then
+           nx = i_dimlen(i_vardimids(1)) ; ny = i_dimlen(i_vardimids(2)) ; nz = i_dimlen(i_vardimids(3))
+           allocate(real_3d_data(nx,ny,nz),swap_3d_data(ny,nz,nx))
+           i_start(1) =  1 ; i_start(2) =  1 ; i_start(3) =  1
+           i_count(1) = nx ; i_count(2) = ny ; i_count(3) = nz
+           status = nf_get_vara_real(i_id,i,i_start,i_count,real_3d_data)
+           if (status /= NF_NOERR) call handle_err(status,'nf_get_vara_real')
+           do kk = 1,nz
+              do jj = 1,ny
+                 do ii = 1,nx
+                    swap_3d_data(jj,kk,ii) = real_3d_data(ii,jj,kk)
+                 enddo
+              enddo
+           enddo
+           o_start(1) =  1 ; o_start(2) =  1 ; o_start(3) =  1
+           o_count(1) = ny ; o_count(2) = nz ; o_count(3) = nx
+           status = nf_put_vara_real(o_id,i,o_start,o_count,swap_3d_data)
+           if (status /= NF_NOERR) call handle_err(status,'nf_put_vara_real')
+           deallocate(real_3d_data,swap_3d_data)
+        elseif (i_varndims == 4) then
+           nx = i_dimlen(i_vardimids(1)) ; ny = i_dimlen(i_vardimids(2))
+           nz = i_dimlen(i_vardimids(3)) ; nt = i_dimlen(i_vardimids(4))
+           allocate(real_2d_data(nx,ny))
+           do l = 1,nt
+              do k = 1,nz
+                 i_start(1) = 1  ; i_start(2) =  1 ; i_start(3) =  1 ; i_start(4) = l
+                 i_count(1) = nx ; i_count(2) = ny ; i_count(3) = nz ; i_count(4) = 1
+                 status = nf_get_vara_real(i_id,i,i_start,i_count,real_2d_data)
+                 if (status /= NF_NOERR) call handle_err(status,'nf_get_vara_real')
+                 o_start(1) = 1  ; o_start(2) =  1 ; o_start(3) =  1 ; o_start(4) = l
+                 o_count(1) = nx ; o_count(2) = ny ; o_count(3) = nz ; o_count(4) = 1
+                 status = nf_put_vara_real(o_id,i,o_start,o_count,real_2d_data)
+                 if (status /= NF_NOERR) call handle_err(status,'nf_put_vara_real')
+              enddo
+           enddo
+           deallocate(real_2d_data)
+        else
+           write(*,*) 'Too many dimensions: > 4 for ',i_varname
+        endif
+     endif
+     if (i_varxtype == nf_char) then
+        !
+        ! Character data
+        !
+        status = nf_get_var_text(i_id,i,text_var)
+        if (status /= NF_NOERR) call handle_err(status,'nf_get_var_text')
+        status = nf_put_var_text(o_id,i,text_var)
+        if (status /= NF_NOERR) call handle_err(status,'nf_put_var_text')
+     endif
+  enddo
+  status = nf_sync(i_id)
+  if (status /= NF_NOERR) write(*,*) nf_strerror(status)
+  status = nf_close(i_id)
+  if (status /= NF_NOERR) call handle_err(status,'nf_close')
+  status = nf_sync(o_id)
+  if (status /= NF_NOERR) write(*,*) nf_strerror(status)
+  status = nf_close(o_id)
+  if (status /= NF_NOERR) call handle_err(status,'nf_close')
+end program copy_netcdf
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+subroutine handle_err(status,string)
+  implicit none
+  include 'netcdf.inc'
+  integer::status
+  character(len=*)::string
+  !
+  write(*,*) trim(nf_strerror(status)),': ',trim(string)
+  stop
+  return
+end subroutine handle_err
+@

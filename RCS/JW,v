@@ -1,0 +1,65 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2016.10.05.19.18.17;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@b40.rcp2_6.1deg.001           CCSM4_rcp26_r1i1p1
+b40.rcp2_6.1deg.002           CCSM4_rcp26_r2i1p1
+b40.rcp2_6.1deg.003           CCSM4_rcp26_r3i1p1
+b40.rcp2_6.1deg.004           CCSM4_rcp26_r4i1p1
+b40.rcp2_6.1deg.005           CCSM4_rcp26_r5i1p1
+
+b40.rcp4_5.1deg.001           CCSM4_rcp45_r1i1p1
+b40.rcp4_5.1deg.002           CCSM4_rcp45_r2i1p1
+b40.rcp4_5.1deg.003           CCSM4_rcp45_r3i1p1
+b40.rcp4_5.1deg.004           CCSM4_rcp45_r4i1p1
+b40.rcp4_5.1deg.005           CCSM4_rcp45_r5i1p1
+b40.rcp4_5.1deg.006           CCSM4_rcp45_r6i1p1
+
+b40.rcp6_0.1deg.001           CCSM4_rcp60_r1i1p1
+b40.rcp6_0.1deg.002           CCSM4_rcp60_r2i1p1
+b40.rcp6_0.1deg.003           CCSM4_rcp60_r3i1p1
+b40.rcp6_0.1deg.004           CCSM4_rcp60_r4i1p1
+b40.rcp6_0.1deg.005           CCSM4_rcp60_r5i1p1
+b40.rcp6_0.1deg.006           CCSM4_rcp60_r6i1p1
+
+b40.rcp8_5.1deg.001           CCSM4_rcp85_r1i1p1
+b40.rcp8_5.1deg.002           CCSM4_rcp85_r2i1p1
+b40.rcp8_5.1deg.003           CCSM4_rcp85_r3i1p1
+b40.rcp8_5.1deg.004           CCSM4_rcp85_r4i1p1
+b40.rcp8_5.1deg.005           CCSM4_rcp85_r5i1p1
+b40.rcp8_5.1deg.007           CCSM4_rcp85_r6i1p1
+
+b.e11.BRCP26C5CN.f09_g16.001  CESM1-CAM5_rcp26_r1i1p1
+b.e11.BRCP26C5CN.f09_g16.002  CESM1-CAM5_rcp26_r2i1p1
+b.e11.BRCP26C5CN.f09_g16.004  CESM1-CAM5_rcp26_r3i1p1
+
+b.e11.BRCP45C5CN.f09_g16.001  CESM1-CAM5_rcp45_r1i1p1
+b.e11.BRCP45C5CN.f09_g16.002  CESM1-CAM5_rcp45_r2i1p1
+b.e11.BRCP45C5CN.f09_g16.004  CESM1-CAM5_rcp45_r3i1p1
+
+b.e11.BRCP60C5CN.f09_g16.001  CESM1-CAM5_rcp60_r1i1p1
+b.e11.BRCP60C5CN.f09_g16.002  CESM1-CAM5_rcp60_r2i1p1
+b.e11.BRCP60C5CN.f09_g16.004  CESM1-CAM5_rcp60_r3i1p1
+
+b.e11.BRCP85C5CN.f09_g16.001  CESM1-CAM5_rcp85_r1i1p1
+b.e11.BRCP85C5CN.f09_g16.002  CESM1-CAM5_rcp85_r2i1p1
+b.e11.BRCP85C5CN.f09_g16.004  CESM1-CAM5_rcp85_r3i1p1
+@

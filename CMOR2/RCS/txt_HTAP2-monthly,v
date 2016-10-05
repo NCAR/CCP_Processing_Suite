@@ -1,0 +1,399 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2015.01.15.16.44.48;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@|lon|longitude|longitude||double|degrees_east||||yes||||increasing|+180.0|-180.0|
+|lat|latitude|latitude||double|degrees_north||||yes||||increasing|90.0|-90.0|
+|time|time|time||double|days since  2001-01-01 00:00:00||||yes||||increasing|8000.|-8000.|
+|lev||lowest atmospheric model level||double|||||yes||||increasing|||
+|lev|atmosphere_sleve_coordinate|atmosphere smooth level vertical (SLEVE) coordinate|||m||||yes|||up|increasing|800000.|-200.|
+|lev|atmosphere_ln_pressure_coordinate|atmosphere natural log pressure coordinate|||||||yes|||down|decreasing|20.|-1.|
+|lev|atmosphere_sigma_coordinate|sigma coordinate|||||||yes|||down|decreasing|1.0|0.0|
+|lev|atmosphere_hybrid_sigma_pressure_coordinate|hybrid sigma pressure coordinate|||1||||yes|||down|decreasing|1.0|0.0|
+|lev|atmosphere_hybrid_sigma_pressure_coordinate|hybrid sigma pressure coordinate|||1||||yes|||down|decreasing|1.0|0.0|
+|lev|atmosphere_hybrid_height_coordinate|hybrid height coordinate|||m||||yes|||up|increasing|50000|-700|
+orog|orog|surface_altitude|Surface Altitude|longitude latitude|float|m|||||||||1.00E+04|-700|
+p0|p0|model_reference_air_pressure|vertical coordinate formula term: reference pressure||float|Pa|||||||||150000|20000|
+ptop||model_top_air_pressure|vertical coordinate formula term: pressure at model top||float|Pa|||||||||50000|1|
+a|||vertical coordinate formula term: a(k)|alevel|double||||||||||||
+b|||vertical coordinate formula term: b(k)|alevel|double||||||||||||
+a_bnds|||vertical coordinate formula term: a(k+1/2)|alevel|double||||||||||||
+b_bnds|||vertical coordinate formula term: b(k+1/2)|alevel|double||||||||||||
+ap|||alternate hybrid sigma vertical coordinate formula term: ap(k)|alevel|double|Pa|||||||||150000|1|
+ap_bnds|||alternate hybrid sigma vertical coordinate formula term: ap(k+1/2)|alevel|double|Pa|||||||||150000|1|
+ztop|||height of top of model|||m|||||||||||
+ps|ps|surface_air_pressure|Surface Air Pressure|longitude latitude time|float|Pa||time: mean|||||||150000|30000|
+lai|lai|leaf_area_index|Leaf Area Index|longitude latitude time||m2 m-2|||||||||1|0|
+ts|ts|surface_temperature|surface temperature|longitude latitude time||K|||||||||340|170|
+ps|ps|surface_air_pressure|surface air pressure|longitude latitude time||Pa|||||||||150000|30000|
+pr|pr|precipitation_flux|Precipitation|longitude latitude time||kg m-2 s-1|||||||||1|0|
+airmass|airmass|atmosphere_mass_of_air_per_unit_area|Mass content of air|longitude latitude time||kg m-2|||||||||10000|0|
+zmlay|zmlay|atmosphere_boundary_layer_thickness|Boundary layer thickness|longitude latitude time||m|||||||||5000|0|
+eminox|eminox|tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_emission|Total NOx emission|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emino|emino|tendency_of_atmosphere_mass_content_of_nitrogen_monoxide_due_to_emission|Total NO emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emino2|emino2|tendency_of_atmosphere_mass_content_of_nitrogen_dioxide_due_to_emission|Total NO2 emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+eminosoil|eminosoil|tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_monoxide_due_to_emission_from_soil|NO emissions from soil|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emico|emico|tendency_of_atmosphere_mass_content_of_carbon_monoxide_due_to_emission|Total emission of CO|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emivoc|emivoc|tendency_of_atmosphere_mass_content_of_nmvoc_expressed_as_carbon_due_to_emission|Total emission of NMVOC as C|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emivoct|emivoct|tendency_of_atmosphere_mass_content_of_nmvoc_due_to_emission|Total emission of NMVOC|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emic2h6|emic2h6|tendency_of_atmosphere_mass_content_of_ethane_due_to_emission|Total C2H6 emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emic3h8|emic3h8|tendency_of_atmosphere_mass_content_of_propane_due_to_emission|Total C3H8 emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emic2h2|emic2h2|tendency_of_atmosphere_mass_content_of_ethyne_due_to_emission|Total C2H2 emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emic2h4|emic2h4|tendency_of_atmosphere_mass_content_of_ethene_due_to_emission|Total C2H4 emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emic3h6|emic3h6|tendency_of_atmosphere_mass_content_of_propene_due_to_emission|Total C3H6 emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emialkanes|emialkanes|tendency_of_atmosphere_mass_content_of_alkanes_due_to_emission|Total lumped alkanes C4 and higher emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emialkenes|emialkenes|tendency_of_atmosphere_mass_content_of_alkenes_due_to_emission|Total lumped alkenes C4 and higher emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emihcho|emihcho|tendency_of_atmosphere_mass_content_of_formaldehyde_due_to_emission|Total formaldehyde emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emich3cho|emich3cho|tendency_of_atmosphere_mass_content_of_acetaldehydes_due_to_emission|Total acetaldehyde emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emiacetone|emiacetone|tendency_of_atmosphere_mass_content_of_acetone_due_to_emission|Total acetone emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emimethanol|emimethanol|tendency_of_atmosphere_mass_content_of_methanol_due_to_emission|Total methanol emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emitolu|emitolu|tendency_of_atmosphere_mass_content_of_toluene_due_to_emission|Total toluene emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emiaro|emiaro|tendency_of_atmosphere_mass_content_of_aromatic_compounds_due_to_emission|Total aromatics emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emiisop|emiisop|tendency_of_atmosphere_mass_content_of_isoprene_due_to_emission|Total isoprene emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emimntp|emimntp|tendency_of_atmosphere_mass_content_of_monoterpenes_due_to_emission|Total monoterpenes emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emisestp|emisestp|tendency_of_atmosphere_mass_content_of_sesquiterpenes_due_to_emission|Total sesquiterpenes emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emibvoc|emibvoc|tendency_of_atmosphere_mass_content_of_biogenic_nmvoc_expressed_as_carbon_due_to_emission|Biogenic NMVOC emissions|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+eminh3|eminh3|tendency_of_atmosphere_mass_content_of_ammonia_due_to_emission|Total emission of NH3|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emiso2|emiso2|tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_emission|Total emission of SO2|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emidms|emidms|tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission|Total emission of DMS|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emiso4|emiso4|tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_particles_due_to_emission|Total emission of particulate SO4|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emioa|emioa|tendency_of_atmosphere_mass_content_of_organic_matter_dry_aerosol_particles_due_to_emission|Total emission of OA|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emioc|emioc|tendency_of_atmosphere_mass_content_of_organic_matter_dry_aerosol_particles_expressed_as_carbon_due_to_emission|Total emission of OC|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emisoa|emisoa|tendency_of_atmosphere_mass_content_of_secondary_organic_matter_dry_aerosol_particles_due_to_emission|Total emission of SOA|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emibc|emibc|tendency_of_atmosphere_mass_content_of_elemental_carbon_dry_aerosol_particles_due_to_emission|Total emission of BC|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emiss|emiss|tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_particles_due_to_emission|Total emission of seasalt|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emidust|emidust|tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_particles_due_to_emission|Total emission of dust|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emipm10|emipm10|tendency_of_atmosphere_mass_content_of_pm10_dry_aerosol_particles_due_to_emission|Total emission of PM10|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emipm2p5|emipm2p5|tendency_of_atmosphere_mass_content_of_pm2p5_dry_aerosol_particles_due_to_emission|Total emission of PM2.5|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emipm10ss|emipm10ss|tendency_of_atmosphere_mass_content_of_pm10_seasalt_dry_aerosol_particles_due_to_emission|Total emission of PM10 seasalt|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emipm10dust|emipm10dust|tendency_of_atmosphere_mass_content_of_pm10_dust_dry_aerosol_particles_due_to_emission|Total emission of PM10 dust|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emipm2p5ss|emipm2p5ss|tendency_of_atmosphere_mass_content_of_pm2p5_seasalt_dry_aerosol_particles_due_to_emission|Total emission of PM2.5 seasalt|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emipm2p5dust|emipm2p5dust|tendency_of_atmosphere_mass_content_of_pm2p5_dust_dry_aerosol_particles_due_to_emission|Total emission of PM2.5 dust|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emipcb153|emipcb153|tendency_of_atmosphere_mass_content_of_hexachlorobiphenyl_due_to_emission|Total emission of PCB-153|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emiahch|emiahch|tendency_of_atmosphere_mass_content_of_alpha_hexachlorocyclohexane_due_to_emission|Total emission of a-HCH|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+reemipcb153|reemipcb153|tendency_of_atmosphere_mass_content_of_hexachlorobiphenyl_due_to_re_emission|Total re-emission of PCB-153|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+reemiahch|reemiahch|tendency_of_atmosphere_mass_content_of_alpha_hexachlorocyclohexane_due_to_re_emission|Total re-emission of a-HCH|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emihg0|emihg0|tendency_of_atmosphere_mass_content_of_gaseous_elemental_mercury_due_to_emission|Total emission of Hg0(g)|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emihg2|emihg2|tendency_of_atmosphere_mass_content_of_gaseous_divalent_mercury_due_to_emission|Total emission of HgII(g)|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emihgp|emihgp|tendency_of_atmosphere_mass_content_of_mercury_dry_aerosol_particles_due_to_emission|Total emission of mercury aerosol|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryo3|dryo3|tendency_of_atmosphere_mass_content_of_ozone_due_to_dry_deposition|Dry deposition of O3|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+stoo3|stoo3|tendency_of_atmosphere_mass_content_of_ozone_due_to_dry_deposition_into_stomata|Dry deposition of O3 into stomata|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryhno3|dryhno3|tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_dry_deposition|Dry deposition of HNO3|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryno3|dryno3|atmosphere_mass_content_of_nitrate_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of nitrate aerosol in total PM|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryno2|dryno2|tendency_of_atmosphere_mass_content_of_nitrogen_dioxide_due_to_dry_deposition|Dry deposition of NO2|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drypan|drypan|atmosphere_mass_content_of_peroxyacetyl_nitrate_due_to_dry_deposition|Dry deposition of peroxyacyl nitrates|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryorgn|dryorgn|tendency_of_atmosphere_mass_content_of_organic_nitrates_due_to_dry_deposition|Dry deposition of organic nitrates other than PAN|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryhono|dryhono|tendency_of_atmosphere_mass_content_of_nitrous_acid_due_to_dry_deposition|Dry deposition of nitrous acid|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drynoy|drynoy|tendency_of_atmosphere_mass_content_of_noy_expressed_as_nitrogen_due_to_dry_deposition|Dry deposition of NOy|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryhcho|dryhcho|tendency_of_atmosphere_mass_content_of_formaldehyde_due_to_dry_deposition|Dry deposition of formaldehyde|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drych3cho|drych3cho|tendendy_of_atmosphere_mass_content_of_acetaldehyde_due_to_dry_deposition|Dry deposition of acetaldehyde|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryalde|dryalde|tendency_of_atmosphere_mass_content_of_aldehydes_due_to_dry_deposition|Dry deposition of aldehydes higher than ch3cho|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryhcooh|dryhcooh|tendency_of_atmosphere_mass_content_of_formic_acid_due_to_dry_deposition|Dry deposition of formic acid|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drych3cooh|drych3cooh|tendency_of_atmosphere_mass_content_of_acetic_acid_due_to_dry_deposition|Dry deposition of acetic acid|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryh2o2|dryh2o2|tendency_of_atmosphere_mass_content_of_hydrogen_peroxide_due_to_dry_deposition|Dry deposition of h2o2|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryroor|dryroor|tendency_of_atmosphere_mass_content_of_organic_peroxides_due_to_dry_deposition|Dry deposition of organic peroxides|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drynh3|drynh3|tendency_of_atmosphere_mass_content_of_ammonia_due_to_dry_deposition|Dry deposition of NH3|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+excnh3|excnh3|surface_net_downward_mass_flux_of_ammonia_due_to_bidirectional_surface_exchange|surface exchange flux of NH3|longitude latitude time||kg m-2 s-1|||||||||10000|-10000|
+drynh4|drynh4|tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of NH4|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryso2|dryso2|tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_dry_deposition|Dry deposition of SO2|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryso4|dryso4|tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of SO4|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drymsa|drymsa|tendency_of_atmosphere_mass_content_of_methanesulfonic_acid_due_to_dry_deposition|Dry deposition of MSA|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drydms|drydms|tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_dry_deposition|Dry deposition of DMS|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drybc|drybc|tendency_of_atmosphere_mass_content_of_elemental_carbon_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of BC|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryss|dryss|tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of seasalt|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drydust|drydust|tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of dust|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drypm10|drypm10|tendency_of_atmosphere_mass_content_of_pm10_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of PM10|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drypm10ss|drypm10ss|tendency_of_atmosphere_mass_content_of_pm10_seasalt_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of PM 10 sea salt|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drypm10dust|drypm10dust|tendency_of_atmosphere_mass_content_of_pm10_dust_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of PM10 dust|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drypm2p5|drypm2p5|tendency_of_atmosphere_mass_content_of_pm2p5_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of PM2.5|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drypm2p5ss|drypm2p5ss|tendency_of_atmosphere_mass_content_of_pm2p5_seasalt_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of PM2.5 seasalt|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drypm2p5dust|drypm2p5dust|tendency_of_atmosphere_mass_content_of_pm2p5_dust_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of PM2.5 dust|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryoc|dryoc|tendency_of_atmosphere_mass_content_of_organic_matter_dry_aerosol_particles_expressed_as_carbon_due_to_dry_deposition|Dry deposition of particulate organic carbon in PM|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryoa|dryoa|tendency_of_atmosphere_mass_content_of_organic_matter_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of OA|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drysoa|drysoa|tendency_of_atmosphere_mass_content_of_secondary_organic_matter_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of SOA|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drypcb153|drypcb153|tendency_of_atmosphere_mass_content_of_hexachlorobiphenyl_due_to_dry_deposition|Dry deposition of PCB-153|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryahch|dryahch|tendency_of_atmosphere_mass_content_of_alpha_hexachlorocyclohexane_due_to_dry_deposition|Dry deposition of a-HCH|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryhg0|dryhg0|tendency_of_atmosphere_mass_content_of_gaseous_elemental_mercury_due_to_dry_deposition|Dry deposition of Hg0(g)|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryhg2|dryhg2|tendency_of_atmosphere_mass_content_of_gaseous_divalent_mercury_due_to_dry_deposition|Dry deposition of HgII(g)|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryhgp|dryhgp|tendency_of_atmosphere_mass_content_of_mercury_dry_aerosol_particles_due_to_dry_deposition|Dry deposition of mercury aerosol|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wethno3|wethno3|tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_wet_deposition|Wet deposition of HNO3|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetorgn|wetorgn|tendency_of_atmosphere_mass_content_of_organic_nitrates_due_to_wet_deposition|Wet deposition of organic nitrates other than PAN|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetno3|wetno3|tendency_of_atmosphere_mass_content_of_nitrate_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of nitrate ion in total PM|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wethono|wethono|tendency_of_atmosphere_mass_content_of_nitrous_acid_due_to_wet_deposition|Wet deposition of nitrous acid in total PM|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetnoy|wetnoy|tendency_of_atmosphere_mass_content_of_noy_expressed_as_nitrogen_due_to_wet_deposition|Wet deposition of NOy|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wethcho|wethcho|tendency_of_atmosphere_mass_content_of_formaldehyde_due_to_wet_deposition|Wet deposition of formaldehyde|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetch3cho|wetch3cho|tendency_of_atmosphere_mass_content_of_acetaldehyde_due_to_wet_deposition|Wet deposition of acetaldehyde|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetalde|wetalde|tendency_of_atmosphere_mass_content_of_aldehydes_due_to_wet_deposition|Wet deposition of aldehydes higher than ch3cho|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wethcooh|wethcooh|tendency_of_atmosphere_mass_content_of_formic_acid_due_to_wet_deposition|Wet deposition of formic acid|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetch3cooh|wetch3cooh|tendency_of_atmosphere_mass_content_of_acetic_acid_due_to_wet_deposition|Wet deposition of acetic acid|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+weth2o2|weth2o2|tendency_of_atmosphere_mass_content_of_hydrogen_peroxide_due_to_wet_deposition|Wet deposition of h2o2|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetroor|wetroor|tendency_of_atmosphere_mass_content_of_organic_peroxides_due_to_wet_deposition|Wet deposition of organic peroxides|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetnh3|wetnh3|tendency_of_atmosphere_mass_content_of_ammonia_due_to_wet_deposition|Wet deposition of NH3|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetnh4|wetnh4|tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of NH4|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetso2|wetso2|tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition|Wet deposition of SO2|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetso4|wetso4|tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of SO4|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetmsa|wetmsa|tendency_of_atmosphere_mass_content_of_methanesulfonic_acid_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of MSA|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetdms|wetdms|tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_wet_deposition|Wet deposition of DMS|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetbc|wetbc|tendency_of_atmosphere_mass_content_of_elemental_carbon_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of BC|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetss|wetss|tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of seasalt|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetdust|wetdust|tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of dust|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetpm10|wetpm10|tendency_of_atmosphere_mass_content_of_pm10_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of PM10 mass|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetpm10ss|wetpm10ss|tendency_of_atmosphere_mass_content_of_pm10_seasalt_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of  PM10 seasalt|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetpm10dust|wetpm10dust|tendency_of_atmosphere_mass_content_of_pm10_dust_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of PM10 dust|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetpm2p5|wetpm2p5|tendency_of_atmosphere_mass_content_of_pm2p5_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of PM2.5 mass|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetpm2p5ss|wetpm2p5ss|tendency_of_atmosphere_mass_content_of_pm2p5_seasalt_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of  PM2.5 seasalt|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetpm2p5dust|wetpm2p5dust|tendency_of_atmosphere_mass_content_of_pm2p5_dust_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of  PM2.5 dust|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetoa|wetoa|tendency_of_atmosphere_mass_content_of_organic_matter_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of OA|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetoc|wetoc|tendency_of_atmosphere_mass_content_of_organic_matter_dry_aerosol_particles_expressed_as_carbon_due_to_wet_deposition|Wet deposition of organic carbon in PM|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetsoa|wetsoa|tendency_of_atmosphere_mass_content_of_secondary_organic_matter_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of SOA|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetpcb153|wetpcb153|tendency_of_atmosphere_mass_content_of_hexachlorobiphenyl_due_to_wet_deposition|Wet deposition of PCB-153|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetahch|wetahch|tendency_of_atmosphere_mass_content_of_alpha_hexachlorocyclohexane_due_to_wet_deposition|Wet deposition of a-HCH|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wethg0|wethg0|tendency_of_atmosphere_mass_content_of_gaseous_elemental_mercury_due_to_wet_deposition|Wet deposition of Hg0(g)|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wethg2|wethg2|tendency_of_atmosphere_mass_content_of_gaseous_divalent_mercury_due_to_wet_deposition|Wet deposition of HgII(g)|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wethgp|wethgp|tendency_of_atmosphere_mass_content_of_mercury_dry_aerosol_particles_due_to_wet_deposition|Wet deposition of mercury aerosol|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+ta|ta|air_temperature|Air temperature|longitude latitude alevel time||K|||||||||340|170|
+rho|rho|air_density|Air density|longitude latitude alevel time||kg m-3|||||||||2|0|
+dh|dh|atmosphere_layer_thickness|Grid-cell height|longitude latitude alevel time||m|||||||||100000|0.1|
+hus|hus|specific_humidity|Specific humidity|longitude latitude alevel time||kg kg-1|||||||||1|0|
+mcu|mcu|atmosphere_upward_convective_mass_flux|Convective updraft|longitude latitude alevel time||kg m-2 s-1|||||||||1|0|
+emilnox|emilnox|tendency_of_atmosphere_mass_concentration_of_nox_expressed_as_nitrogen_due_to_emission_from_lightning|3D lightning NOx emissions|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+eminoaircraft|eminoaircraft|tendency_of_atmosphere_mass_concentration_of_nitrogen_monoxide_due_to_emission_from_aircraft|3D aircraft NO emissions|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+eminox|eminox|tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_emission|3D emission of NOx|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+emico|emico|tendency_of_atmosphere_mass_content_of_carbon_monoxide_due_to_emission|3D emission of CO|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+emivoc|emivoc|tendency_of_atmosphere_mass_content_of_nmvoc_expressed_as_carbon_due_to_emission|3D emission of NMVOC as C|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+emivoct|emivoct|tendency_of_atmosphere_mass_content_of_nmvoc_due_to_emission|3D emission of NMVOC|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+emiso2|emiso2|tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_emission|3D emission of SO2|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+emioa|emioa|tendency_of_atmosphere_mass_content_of_organic_matter_dry_aerosol_particles_due_to_emission|3D emission of OA|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+emibc|emibc|tendency_of_atmosphere_mass_content_of_elemental_carbon_dry_aerosol_particles_due_to_emission|3D emission of BC|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+emiss|emiss|tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_particles_due_to_emission|3D emission of seasalt|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+emidust|emidust|tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_particles_due_to_emission|3D emission of dust|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+emipm10|emipm10|tendency_of_atmosphere_mass_content_of_pm10_dry_aerosol_particles_due_to_emission|3D emission of PM10|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+emipm2p5|emipm2p5|tendency_of_atmosphere_mass_content_of_pm2p5_dry_aerosol_particles_due_to_emission|3D emission of PM2.5|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+emihg0|emihg0|tendency_of_atmosphere_mass_content_of_gaseous_elemental_mercury_due_to_emission|3D emission of Hg0(g)|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+emihg2|emihg2|tendency_of_atmosphere_mass_content_of_gaseous_divalent_mercury_due_to_emission|3D emission of HgII(g)|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+emihgp|emihgp|tendency_of_atmosphere_mass_content_of_mercury_dry_aerosol_particles_due_to_emission|3D emission of mercury aerosol|longitude latitude alevel time||kg m-2 s-1|||||||||10000|0|
+vmro3|vmro3|mole_fraction_of_ozone_in_air|O3 Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrco|vmrco|mole_fraction_of_carbon_monoxide_in_air|CO Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrno|vmrno|mole_fraction_of_nitrogen_monoxide_in_air|NO Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrno2|vmrno2|mole_fraction_of_nitrogen_dioxide_in_air|NO2 Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrhno3|vmrhno3|mole_fraction_of_nitric_acid_in_air|HNO3 Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrpan|vmrpan|mole_fraction_of_peroxyacetyl_nitrate_in_air|PAN Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrorgnit|vmrorgnit|mole_fraction_of_organic_nitrates_in_air|Organic nitrates (other than PAN) Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrhono|vmrhono|mole_fraction_of_nitrous_acid_in_air|HONO Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrnoy|vmrnoy|mole_fraction_of_noy_expressed_as_nitrogen_in_air|Noy Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmroh|vmroh|mole_fraction_of_hydroxyl_radical_in_air|OH Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrh2o2|vmrh2o2|mole_fraction_of_hydrogen_peroxide_in_air|H2O2 Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrho2|vmrho2|mole_fraction_of_hydroperoxyl_radical_in_air|HO2 Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrnh3|vmrnh3|mole_fraction_of_ammonia_in_air|NH3 Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrso2|vmrso2|mole_fraction_of_sulfur_dioxide_in_air|SO2 Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrdms|vmrdms|mole_fraction_of_dimethyl_sulfide_in_air|DMS Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrvoc|vmrvoc|mole_fraction_of_nmvoc_expressed_as_carbon_in_air|NMVOC Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrc2h6|vmrc2h6|mole_fraction_of_ethane_in_air|Ethane Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrc3h8|vmrc3h8|mole_fraction_of_propane_in_air|Propane Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrc2h4|vmrc2h4|mole_fraction_of_ethene_in_air|Ethene Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrc3h6|vmrc3h6|mole_fraction_of_propene_in_air|Proprene Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmralkanes|vmralkanes|mole_fraction_of_alkanes_in_air|C4 and higher alkanes Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmralkenes|vmralkenes|mole_fraction_of_alkenes_in_air|C4 and higher alkenes Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrhcho|vmrhcho|mole_fraction_of_formaldehyde_in_air|Formaldehyde Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrch3cho|vmrch3cho|mole_fraction_of_acetaldehyde_in_air|Acetaldehyde Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmracetone|vmracetone|mole_fraction_of_acetone_in_air|Acetone Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrglyoxal|vmrglyoxal|mole_fraction_of_glyoxal_in_air|Glyoxal Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrmethanol|vmrmethanol|mole_fraction_of_methanol_in_air|Methanol Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrtolu|vmrtolu|mole_fraction_of_toluene_in_air|Toluene Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmraro|vmraro|mole_fraction_of_aromatic_compounds_in_air|Aromatic compounds Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrisop|vmrisop|mole_fraction_of_isoprene_in_air|Isoprene Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrtp|vmrtp|mole_fraction_of_terpenes_in_air|Terpenes Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrc10h16|vmrc10h16|mole_fraction_of_alpha_pinene_in_air|Alpha-pinene Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrpcb153|vmrpcb153|mole_fraction_of_hexachlorobiphenyl_in_air|PCB-153 Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrahch|vmrahch|mole_fraction_of_alpha_hexachlorocyclohexane_in_air|a-HCH Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrhg0|vmrhg0|mole_fraction_of_gaseous_elemental_mercury_in_air|Hg0(g) Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrhg2|vmrhg2|mole_fraction_of_gaseous_divalent_mercury_in_air|HgII(g)|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+mmrhgp|mmrhgp|mass_fraction_of_mercury_dry_aerosol_particles_in_air|Particulate Hg Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+prodo3|prodo3|tendency_of_atmosphere_mole_concentration_of_ozone_due_to_chemical_production|Chemical gross production rate of O3|longitude latitude alevel time||mole m-3 s-1|||||||||1E-10|0E+00|
+losso3|losso3|tendency_of_atmosphere_mole_concentration_of_ozone_chemical_destruction|Chemical loss rate of O3|longitude latitude alevel time||mole m-3 s-1|||||||||1E-10|0E+00|
+lossch4|lossch4|tendency_of_atmosphere_of_mole_concentration_of_methane_chemical_destruction|Rate of CH4 oxidation|longitude latitude alevel time||mole m-3 s-1|||||||||1E-10|0E+00|
+lossco|lossco|tendency_of_atmosphere_of_mole_concentration_of_carbon_monoxide_chemical_destruction|Rate of CO oxidation|longitude latitude alevel time||mole m-3 s-1|||||||||1E-10|0E+00|
+reacvoc|reacvoc|rate_of_hydroxyl_radical_destruction_due_to_reaction_with_nmvoc|Photochemical Reactivity|longitude latitude alevel time||s-1|||||||||1E-10|0E+00|
+jno2|jno2|photolysis_rate_of_nitrogen_dioxide|JNO2|longitude latitude alevel time||s-1|||||||||1E-01|0E+00|
+jo3o1d|jo3o1d|photolysis_rate_of_ozone_to_1D_oxygen_atom|JO1D|longitude latitude alevel time||s-1|||||||||1E-03|0E+00|
+chepsoa|chepsoa|tendency_of_atmosphere_mass_content_of_secondary_organic_matter_dry_aerosol_particles_due_to_net_chemical_production|Production of SOA due to net chemical production|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|-1E-09|
+chepmsa|chepmsa|tendency_of_atmosphere_mass_content_of_methanesulfonic_acid_dry_aerosol_particles_due_to_net_chemical_production|Production of MSA due to net chemical production|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|0E+00|
+chegpso4|chegpso4|tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_particles_due_to_gaseous_phase_net_chemical_production|Gas phase production rate of particulate SO4|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|0E+00|
+cheaqpso4|cheaqpso4|tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_particles_due_to_aqueous_phase_net_chemical_production|Aqueous phase production rate of particulate SO4|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|0E+00|
+chepno3|chepno3|tendency_of_atmosphere_mass_content_of_nitrate_dry_aerosol_particles_due_to_net_chemical_production|Production Rate of particulate NO3 due to net chemical production|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|-1E-09|
+mmrpm10|mmrpm10|mass_fraction_of_pm10_dry_aerosol_particles_in_air|PM10 Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm2p5|mmrpm2p5|mass_fraction_of_pm2p5_dry_aerosol_particles_in_air|PM2.5 Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm1|mmrpm1|mass_fraction_of_pm1_dry_aerosol_particles_in_air|PM1.0 Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrno3|mmrno3|mass_fraction_ of_nitrate_dry_aerosol_particles_in_air|NO3 aerosol Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrso4|mmrso4|mass_fraction_of_sulfate_dry_aerosol_particles_in_air|SO4 Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrbc|mmrbc|mass_fraction_of_elemental_carbon_dry_aerosol_particles_in_air|elemental Carbon  Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmroc|mmroc|mass_fraction_of_organic_matter_dry_aerosol_particles_expressed_as_carbon_in_air|Particulate Organic Carbon Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmroa|mmroa|mass_fraction_of_organic_matter_dry_aerosol_particles_in_air|Particulate Organic Matter Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrss|mmrss|mass_fraction_ of_seasalt_dry_aerosol_particles_in_air|Seasalt  Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrdust|mmrdust|mass_fraction_ of_dust_dry_aerosol_particles_in_air|Dust  Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrnh4|mmrnh4|mass_fraction_of_ammonium_dry_aerosol_particles_in_air|NH4 Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrsoa|mmrsoa|mass_fraction_of_secondary_organic_matter_dry_aerosol_particles_in_air|SOA  Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmraerh2o|mmraerh2o|mass_fraction_of_water_in_ambient_aerosol_particles_in_air|Aerosol water Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm10no3|mmrpm10no3|mass_fraction_of_pm10_nitrate_dry_aerosol_particles_in_air|PM10 NO3 Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm10so4|mmrpm10so4|mass_fraction_of_pm10_sulfate_dry_aerosol_particles_in_air|PM10 SO4 Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm10bc|mmrpm10bc|mass_fraction_of_pm10_elemental_carbon_dry_aerosol_particles_in_air|PM10 BC Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm10oc|mmrpm10oc|mass_fraction_of_pm10_organic_matter_dry_aerosol_particles_expressed_as_carbon_in_air|PM10 Organic Carbon Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm10oa|mmrpm10oa|mass_fraction_of_pm10_organic_matter_dry_aerosol_particles_in_air|PM10 Organic Matter Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm10ss|mmrpm10ss|mass_fraction_of_pm10_sea_salt_dry_aerosol_particles_in_air|PM10 SS Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm10dust|mmrpm10dust|mass_fraction_of_pm10_dust_dry_aerosol_particles_in_air|PM10 DUST Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm10nh4|mmrpm10nh4|mass_fraction_of_pm10_ammonium_dry_aerosol_particles_in_air|PM 10  NH4 Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm10h2o|mmrpm10h2o|mass_fraction_of_water_in_pm10_ambient_aerosol_particles_in_air|PM10  H2O Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm2p5no3|mmrpm2p5no3|mass_fraction_of_pm2p5_nitrate_dry_aerosol_particles_in_air|PM2.5  NO3 Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm2p5so4|mmrpm2p5so4|mass_fraction_of_pm2p5_sulfate_dry_aerosol_particles_in_air|PM 2.5  SO4 Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm2p5bc|mmrpm2p5bc|mass_fraction_of_pm2p5_elemental_carbon_dry_aerosol_particles_in_air|PM2.5  elemental Carbon Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm2p5oc|mmrpm2p5oc|mass_fraction_of_pm2p5_organic_matter_dry_aerosol_particles_expressed_as_carbon_in_air|PM2.5  Organic Carbon Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm2p5oa|mmrpm2p5oa|mass_fraction_of_pm2p5_organic_matter_dry_aerosol_particles_in_air|PM2.5  Organic Matter Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm2p5ss|mmrpm2p5ss|mass_fraction_of_pm2p5_sea_salt_dry_aerosol_particles_in_air|PM2.5  Sea Salt Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm2p5dust|mmrpm2p5dust|mass_fraction_of_pm2p5_dust_dry_aerosol_particles_in_air|PM2.5  DUST Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm2p5nh4|mmrpm2p5nh4|mass_fraction_of_pm2p5_ammonium_dry_aerosol_particles_in_air|PM 2.5  NH4 Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+mmrpm2p5h2o|mmrpm2p5h2o|mass_fraction_of_water_in_pm2p5_ambient_aerosol_particles_in_air|PM2.5  H2O Mass Mixing Ratio|longitude latitude alevel time||kg kg-1|||||||||0.1|0|
+vmrhno4|vmrhno4|mole_fraction_of_peroxynitric_acid_in_air|HNO4 Volumn Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrn2o5|vmrn2o5|mole_fraction_of_dinotrogen_pentoxide_in_air|N2O5 Volumn Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+chegphno3|chegphno3|tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_gaseous_phase_chemical_production|Gas phase production rate of HNO3|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|0E+00|
+cheglhno3|cheglhno3|tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_gaseous_phase_chemical_loss|Gas phase loss rate of HNO3|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|0E+00|
+cheaphno3|cheaphno3|tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_chemical_production_on_aerosols|Production rate of HNO3 due to aerosols|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|0E+00|
+chealhno3|chealhno3|tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_chemical_loss_on_aerosols|Loss rate of HNO3 due to aerosols|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|0E+00|
+chedustpno3|chedustpno3|tendency_of_atmosphere_mass_content_of_nitrate_dry_aerosol_particles_due_to_net_chemical_production_on_dust|Production Rate of particulate NO3 due to dust|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|-1E-09|
+chesspno3|chesspno3|tendency_of_atmosphere_mass_content_of_nitrate_dry_aerosol_particles_due_to_net_chemical_production_on_sea_salt|Production Rate of particulate NO3 due to sea salt|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|-1E-09|
+cheppm10no3|cheppm10no3|tendency_of_atmosphere_mass_content_of_PM10_nitrate_dry_mass_aerosol_due_to_net_chemical_production|Production rate of PM10 NO3 due to net chemical|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|-1E-09|
+cheppm2p5no3|cheppm2p5no3|tendency_of_atmosphere_mass_content_of_PM2p5_nitrate_dry_mass_aerosol_due_to_net_chemical_production|Production rate of PM2.5 NO3 due to net chemical|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|-1E-09|
+chegpnh3|chegpnh3|tendency_of_atmosphere_mass_content_of_ammonia_du_to_chemical_production|Gas phase production rate of NH3|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|0E+00|
+chealnh3|chealnh3|tendency_of_atmosphere_mass_content_of_ammonia_du_to_chemical_loss|Loaa rate of NH3 to aerosol ammonium|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|0E+00|
+chepnh4|chepnh4|tendency_of_atmosphere_mass_content of_ammonium_due_to net_chemical_production|Production Rate of particulate NH4 due to net chemical|longitude latitude alevel time||kg m-2 s-1|||||||||1E-09|0E+00|
+od550aer|od550aer|atmosphere_optical_thickness_due_to_ambient_aerosol_particles|Optical thickness at 550 nm|longitude latitude time||1|||||||||10|0|
+od550pm10|od550pm10|atmosphere_optical_thickness_due_to_pm10_ambient_aerosol_particles|Optical thickness at 550 nm PM10|longitude latitude time||1|||||||||10|0|
+od550pm2p5|od550pm2p5|atmosphere_optical_thickness_due_to_pm2p5_ambient_aerosol_particles|Optical thickness at 550 nm PM2.5|longitude latitude time||1|||||||||10|0|
+od550pm1|od550pm1|atmosphere_optical_thickness_due_to_pm1_ambient_aerosol_particles|Optical thickness at 550 nm PM1.0|longitude latitude time||1|||||||||10|0|
+od550no3|od550no3|atmosphere_optical_thickness_due_to_nitrate_ambient_aerosol_particles|Optical thickness at 550 nm NO3|longitude latitude time||1|||||||||10|0|
+od550so4|od550so4|atmosphere_optical_thickness_due_to_sulfate_ambient_aerosol_particles|Optical thickness at 550 nm SO4|longitude latitude time||1|||||||||10|0|
+od550nh4|od550nh4|atmosphere_optical_thickness_due_to_ammonium_ambient_aerosol_particles|Optical thickness at 550 nm NH4|longitude latitude time||1|||||||||10|0|
+od550bc|od550bc|atmosphere_optical_thickness_due_to_elemental_carbon_ambient_aerosol_particles|Optical thickness at 550 nm elemental Carbon|longitude latitude time||1|||||||||10|0|
+od550oa|od550oa|atmosphere_optical_thickness_due_to_organic_matter_ambient_aerosol_particles|Optical thickness at 550 nm Organic Matter|longitude latitude time||1|||||||||10|0|
+od550ss|od550ss|atmosphere_optical_thickness_due_to_seasalt_ambient_aerosol_particles|Optical thickness at 550 nm seasalt|longitude latitude time||1|||||||||10|0|
+od550dust|od550dust|atmosphere_optical_thickness_due_to_dust_ambient_aerosol_particles|Optical thickness at 550 nm dust|longitude latitude time||1|||||||||10|0|
+od550aerh2o|od550aerh2o|atmosphere_optical_thickness_due_to_water_in_ambient_aerosol_particles|Optical thickness at 550 nm aerosol water|longitude latitude time||1|||||||||10|0|
+od500aer|od500aer|atmosphere_optical_thickness_due_to_ambient_aerosol_particles|Optical thickness at 500 nm|longitude latitude time||1|||||||||10|0|
+od500pm10|od500pm10|atmosphere_optical_thickness_due_to_pm10_ambient_aerosol_particles|Optical thickness at 500 nm PM10|longitude latitude time||1|||||||||10|0|
+od500pm2p5|od500pm2p5|atmosphere_optical_thickness_due_to_pm2p5_ambient_aerosol_particles|Optical thickness at 500 nm PM2.5|longitude latitude time||1|||||||||10|0|
+od440aer|od440aer|atmosphere_optical_thickness_due_to_ambient_aerosol_particles|Optical thickness at 440 nm|longitude latitude time||1|||||||||10|0|
+od870aer|od870aer|atmosphere_optical_thickness_due_to_ambient_aerosol_particles|Optical thickness at 870 nm|longitude latitude time||1|||||||||10|0|
+od388aer|od388aer|atmosphere_optical_thickness_due_to_ambient_aerosol_particles|Optical thickness at 388 nm|longitude latitude time||1|||||||||10|0|
+od388bc|od388bc|atmosphere_optical_thickness_due_to_elemental_carbon_ambient_aerosol_particles|Optical thickness at 388 nm elemental Carbon|longitude latitude time||1|||||||||10|0|
+od388oa|od388oa|atmosphere_optical_thickness_due_to_organic_matter_ambient_aerosol_particles|Optical thickness at 388 nm Organic Matter|longitude latitude time||1|||||||||10|0|
+od388dust|od388dust|atmosphere_optical_thickness_due_to_dust_ambient_aerosol_particles|Optical thickness at 388 nm dust|longitude latitude time||1|||||||||10|0|
+abs550aer|abs550aer|atmosphere_optical_thickness_due_to_ambient_aerosol_particles|Optical thickness at 550 nm|longitude latitude time||1|||||||||10|0|
+abs550pm10|abs550pm10|atmosphere_optical_thickness_due_to_pm10_ambient_aerosol_particles|Optical thickness at 550 nm PM10|longitude latitude time||1|||||||||10|0|
+abs550pm2p5|abs550pm2p5|atmosphere_optical_thickness_due_to_pm2p5_ambient_aerosol_particles|Optical thickness at 550 nm PM2.5|longitude latitude time||1|||||||||10|0|
+abs550pm1|abs550pm1|atmosphere_optical_thickness_due_to_pm1_ambient_aerosol_particles|Optical thickness at 550 nm PM1.0|longitude latitude time||1|||||||||10|0|
+abs550no3|abs550no3|atmosphere_optical_thickness_due_to_nitrate_ambient_aerosol_particles|Optical thickness at 550 nm NO3|longitude latitude time||1|||||||||10|0|
+abs550so4|abs550so4|atmosphere_optical_thickness_due_to_sulfate_ambient_aerosol_particles|Optical thickness at 550 nm SO4|longitude latitude time||1|||||||||10|0|
+abs550nh4|abs550nh4|atmosphere_optical_thickness_due_to_ammonium_ambient_aerosol_particles|Optical thickness at 550 nm NH4|longitude latitude time||1|||||||||10|0|
+abs550bc|abs550bc|atmosphere_optical_thickness_due_to_elemental_carbon_ambient_aerosol_particles|Optical thickness at 550 nm elemental Carbon|longitude latitude time||1|||||||||10|0|
+abs550oa|abs550oa|atmosphere_optical_thickness_due_to_organic_matter_ambient_aerosol_particles|Optical thickness at 550 nm Organic Matter|longitude latitude time||1|||||||||10|0|
+abs550ss|abs550ss|atmosphere_optical_thickness_due_to_seasalt_ambient_aerosol_particles|Optical thickness at 550 nm seasalt|longitude latitude time||1|||||||||10|0|
+abs550dust|abs550dust|atmosphere_optical_thickness_due_to_dust_ambient_aerosol_particles|Optical thickness at 550 nm dust|longitude latitude time||1|||||||||10|0|
+abs550aerh2o|abs550aerh2o|atmosphere_optical_thickness_due_to_water_in_ambient_aerosol_particles|Optical thickness at 550 nm aerosol water|longitude latitude time||1|||||||||10|0|
+abs440aer|abs440aer|atmosphere_optical_thickness_due_to_ambient_aerosol_particles|Optical thickness at 440 nm|longitude latitude time||1|||||||||10|0|
+abs870aer|abs870aer|atmosphere_optical_thickness_due_to_ambient_aerosol_particles|Optical thickness at 870 nm|longitude latitude time||1|||||||||10|0|
+abs388aer|abs388aer|atmosphere_optical_thickness_due_to_ambient_aerosol_particles|Optical thickness at 388 nm|longitude latitude time||1|||||||||10|0|
+abs388bc|abs388bc|atmosphere_optical_thickness_due_to_elemental_carbon_ambient_aerosol_particles|Optical thickness at 388 nm elemental Carbon|longitude latitude time||1|||||||||10|0|
+abs388oa|abs388oa|atmosphere_optical_thickness_due_to_organic_matter_ambient_aerosol_particles|Optical thickness at 388 nm Organic Matter|longitude latitude time||1|||||||||10|0|
+abs388dust|abs388dust|atmosphere_optical_thickness_due_to_dust_ambient_aerosol_particles|Optical thickness at 388 nm dust|longitude latitude time||1|||||||||10|0|
+loadno3|loadno3|atmosphere_mass_content_of_nitrate_dry_aerosol_particles|Column NO3 mass load|longitude latitude time||kg m-2|||||||||10000|0|
+loadso4|loadso4|atmosphere_mass_content_of_sulfate_dry_aerosol_particles|Column SO4 mass load|longitude latitude time||kg m-2|||||||||10000|0|
+loadbc|loadbc|atmosphere_mass_content_of_elemental_carbon_dry_aerosol_particles|Column BC mass load|longitude latitude time||kg m-2|||||||||10000|0|
+loadoc|loadoc|atmosphere_mass_content_of_organic_matter_dry_aerosol_particles_expressed_as_carbon|Column OC mass load|longitude latitude time||kg m-2|||||||||10000|0|
+loadoa|loadoa|atmosphere_mass_content_of_organic_matter_dry_aerosol_particles|Column OA mass load|longitude latitude time||kg m-2|||||||||10000|0|
+loadsoa|loadsoa|atmosphere_mass_content_of_secondary_organic_matter_dry_aerosol_particles|Column SOA mass load|longitude latitude time||kg m-2|||||||||10000|0|
+loadss|loadss|atmosphere_mass_content_of_seasalt_dry_aerosol_particles|Column sea salt mass load|longitude latitude time||kg m-2|||||||||10000|0|
+loaddust|loaddust|atmosphere_mass_content_of_dust_dry_aerosol_particles|Column dust mass load|longitude latitude time||kg m-2|||||||||10000|0|
+loadmsa|loadmsa|atmosphere_mass_content_of_methansulfonic_acid_dry_aerosol_particles|Column MSA mass load|longitude latitude time||kg m-2|||||||||10000|0|
+loadnh4|loadnh4|atmosphere_mass_content_of_ammonium_dry_aerosol_particles|Column NH4 mass load|longitude latitude time||kg m-2|||||||||10000|0|
+loadno|loadno|atmosphere_mass_content_of_nitrogen_monoxide|Column mass of NO|longitude latitude time||kg m-2|||||||||10000|0|
+loadno2|loadno2|atmosphere_mass_content_of_nitrogen_dioxide|Column mass of NO2|longitude latitude time||kg m-2|||||||||10000|0|
+loadn2o5|loadn2o5|atmosphere_mass_content_of_dinitrogen_pentaoxide|Column mass of N2O5|longitude latitude time||kg m-2|||||||||10000|0|
+loadpan|loadpan|atmosphere_mass_content_of_peroxyacetyl_nitrate|Column mass of PAN|longitude latitude time||kg m-2|||||||||10000|0|
+loadhono|loadhono|atmosphere_mass_content_of_nitrous_acid|Column mass of HONO|longitude latitude time||kg m-2|||||||||10000|0|
+loadhno3|loadhno3|atmosphere_mass_content_of_nitric_acid|Column mass of HNO3|longitude latitude time||kg m-2|||||||||10000|0|
+loadhno4|loadhno4|atmosphere_mass_content_of_peroxynitric_acid|Column mass of HNO4|longitude latitude time||kg m-2|||||||||10000|0|
+loadorgnit|loadorgnit|atmosphere_mass_content_of_organic_nitrate|Column mass of organic nitrate other|longitude latitude time||kg m-2|||||||||10000|0|
+loadnoy|loadnoy|atmosphere_mass_content_of_noy_expressed_as_nitrogen|Coumn mass of NOy|longitude latitude time||kg m-2|||||||||10000|0|
+loadnh3|loadnh3|atmosphere_mass_content_of_ammonia|Column mass of NH3|longitude latitude time||kg m-2|||||||||10000|0|
+loaddms|loaddms|atmosphere_mass_content_of_dimethyl_sulfide|Column mass of DMS|longitude latitude time||kg m-2|||||||||10000|0|
+loadso2|loadso2|atmosphere_mass_content_of_sulfur_dioxide|Column mass of SO2|longitude latitude time||kg m-2|||||||||10000|0|
+loadpm2p5no3|loadpm2p5no3|atmosphere_mass_content_of_pm2p5_nitrate_dry_aerosol_particles|Column mass of PM2p5 NO3|longitude latitude time||kg m-2|||||||||10000|0|
+loadpm10no3|loadpm10no3|atmosphere_mass_content_of_pm10_nitrate_dry_aerosol_particles|Column mass of PM10 NO3|longitude latitude time||kg m-2|||||||||10000|0|
+loadpm2p5ss|loadpm2p5ss|atmosphere_mass_content_of_pm2p5_seasalt_dry_aerosol_particles|Column mass of PM2.5 sea salt|longitude latitude time||kg m-2|||||||||10000|0|
+loadpm10ss|loadpm10ss|atmosphere_mass_content_of_pm10_seasalt_dry_aerosol_particles|Column mass of PM10 sea salt|longitude latitude time||kg m-2|||||||||10000|0|
+loadpm2p5dust|loadpm2p5dust|atmosphere_mass_content_of_pm2p5_dust_dry_aerosol_particles|Column mass of PM2.5 dust|longitude latitude time||kg m-2|||||||||10000|0|
+loadpm10dust|loadpm10dust|atmosphere_mass_content_of_pm10_dust_dry_aerosol_particles|Column mass of PM10 dust|longitude latitude time||kg m-2|||||||||10000|0|
+loadpm2p5|loadpm2p5|atmosphere_mass_content_of_pm2p5_dry_aerosol_particles|Column mass of PM2.5|longitude latitude time||kg m-2|||||||||10000|0|
+loadpm10|loadpm10|atmosphere_mass_content_of_pm10_dry_aerosol_particles|Column mass of PM10|longitude latitude time||kg m-2|||||||||10000|0|
+dryn2o5|dryn2o5|tendency_of_atmosphere_mass_content_of_dinitrogen_pentoxide|Dry deposition of N2O5|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+dryhno4|dryhno4|tendency_of_atmosphere_mass_content_of_peroxynitric_acid|Dry deposition of HNO4|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drypm10no3|drypm10no3|tendency_of_atmospehre_mass_content_of_pm10_nitrate_dry|Dry deposition of PM10 nitrate aerosol|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+drypm2p5no3|drypm2p5no3|tendency_of_atmosphere_mass_content_of_pm2p5_nitrate_dry|Dry deposition of PM2.5 nitrate aerosol|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetn2o5|wetn2o5|tendency_of_atmosphere_mass_content_of_dinitrogen_pentoxide|Wet deposition of N2O5|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wethno4|wethno4|tendency_of_atmosphere_mass_content_of_peroxynitric_acid|wet deposition of HNO4|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetpm10no3|wetpm10no3|tendency_of_atmosphere_mass_content_of_om10_nitrate_dry|Wet deposition of PM10 nitrate|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+wetpm2p5no3|wetpm2p5no3|tendency_of_atmosphere_mass_content_of_pm2p5_nitrate_dry|wet deposition of PM2.5 nitrate|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+rsdt|rsdt|short_wave_downwelling_solar_flux_at_the_top_of_atmosphere|SW downwelling solar flux at TOA|longitude latitude time||W m-2|||||||||1000|0|
+rsut|rsut|short_wave_upwelling_solar_flux_at_the_top_of_atmosphere|SW upwelling solar flux at TOA|longitude latitude time||W m-2|||||||||1000|0|
+rsutcs|rsutcs|short_wave_upwelling_solar_flux_at_the_top_of_atmosphere_in_clear_sky_regions|SW upwelling solar flux at TOA in clear sky regions|longitude latitude time||W m-2|||||||||1000|0|
+rsds|rsds|short_wave_downwelling_solar_flux_at_the_surface|SW downwelling solar flux at the surface|longitude latitude time||W m-2|||||||||1000|0|
+rsus|rsus|short_wave_upwelling_solar_flux_at_the_surface|SW upwelling solar flux at the surface|longitude latitude time||W m-2|||||||||1000|0|
+rsdsdir|rsdsdir|short_wave_downwelling_direct_solar_flux_at_the_surface|SW downwelling direct solar flux at the surface|longitude latitude time||W m-2|||||||||1000|0|
+rsdsdif|rsdsdif|short_wave_downwelling_diffuse_solar_flux_at_the_surface|SW downwelling diffuse solar flux at the surface|longitude latitude time||W m-2|||||||||1000|0|
+rsdscs|rsdscs|short_wave_downwelling_solar_flux_at_the_surface_in_clear_sky_regions|SW downwelling solar flux at the surface in clear sky regions|longitude latitude time||W m-2|||||||||1000|0|
+rsdscsdir|rsdscsdir|short_wave_downwelling_direct_solar_flux_at_the_surface_in_clear_sky_regions|SW downwelling dirrect solar flux at the surface in clear sky regions|longitude latitude time||W m-2|||||||||1000|0|
+rsdscsdif|rsdscsdif|short_wave_downwelling_diffuse_solar_flux_at_the_surface_in_clear_sky_regions|SW downwelling diffuse solar flux at surface in clear sky regions|longitude latitude time||W m-2|||||||||1000|0|
+rlut|rlut|long_wave_upwelling_terrestrial_flux_at_the_top_of_atmosphere|LW upwelling terrestrial flux at TOA|longitude latitude time||W m-2|||||||||1000|0|
+rlutcs|rlutcs|long_wave_upwelling_terrestrial_flux_at_the_top_of_atmosphere_in_clear_sky_regions|LW upwelling terrestrial flux at TOA in clear sky regions|longitude latitude time||W m-2|||||||||1000|0|
+rlds|rlds|long_wave_downwelling_terrestrial_flux_at_the_surface|LW downwelling terrestrial flux at the surface|longitude latitude time||W m-2|||||||||1000|0|
+rlus|rlus|long_wave_downwelling_terrestrial_flux_at_the_surface|LW upwelling terrestrial flux at the surface|longitude latitude time||W m-2|||||||||1000|0|
+rsut0|rsut0|short_wave_upwelling_solar_flux_at_the_top_of_atmosphere_without_aerosol|SW upwelling solar flux at TOA without aerosol|longitude latitude time||W m-2|||||||||1000|0|
+rsuscs0|rsuscs0|short_wave_upwelling_solar_flux_at_the_top_of_atmosphere_in_clear_sky_regions_without_aerosol|SW upwelling solar flux at the surface in clear sky regions without aerosol|longitude latitude time||W m-2|||||||||1000|0|
+rsds0|rsds0|short_wave_downwelling_solar_flux_at_the_surface_without_aerosol|SW downwelling solar flux at the surface without aerosol|longitude latitude time||W m-2|||||||||1000|0|
+rsus0|rsus0|short_wave_upwelling_solar_flux_at_the_surface_without_aerosol|SW upwelling solar flux at the surface without aerosol|longitude latitude time||W m-2|||||||||1000|0|
+rsdsdir0|rsdsdir0|short_wave_downwelling_direct_solar_flux_at_the_surface_without_aerosol|SW downwelling direct solar flux at the surface in clear sky regions without aerosol|longitude latitude time||W m-2|||||||||1000|0|
+rsdsdif0|rsdsdif0|short_wave_downwelling_diffuse_solar_flux_at_the_surface_without_aerosol|SW downwelling diffuse solar flux at the surface in clear sky regions without aerosol|longitude latitude time||W m-2|||||||||1000|0|
+rsdscs0|rsdscs0|short_wave_downwelling_solar_flux_at_the_surface_in_clear_sky_regions_without_aerosol|SW downwelling solar flux at the surface in clear sky regions without aerosol|longitude latitude time||W m-2|||||||||1000|0|
+rsdscsdir0|rsdscsdir0|short_wave_downwelling_direct_solar_flux_at_the_surface_in_clear_sky_regions_without_aerosol|SW downwelling direct solar flux at the surface in clear sky regions without aerosol|longitude latitude time||W m-2|||||||||1000|0|
+rsdscsdif0|rsdscsdif0|short_wave_downwelling_diffuse_solar_flux_at_the_surface_in_clear_sky_regions_without_aerosol|SW downwelling diffuse solar flux at the surface in clear sky regions without aerosol|longitude latitude time||W m-2|||||||||1000|0|
+rlut0|rlut0|long_wave_upwelling_terrestrial_flux_at_the_top_of_atmosphere_without_aerosol|LW upwelling terrestrial flux at TOA without aerosol|longitude latitude time||W m-2|||||||||1000|0|
+rlutcs0|rlutcs0|long_wave_upwelling_terrestrial_flux_at_the_top_of_atmosphere_in_clear_sky_regions_without_aerosol|LW upwelling terrestrial flux at TOA in clear sky regions without aerosol|longitude latitude time||W m-2|||||||||1000|0|
+rlds0|rlds0|long_wave_downwelling_terrestrial_flux_at_the_surface_without_aerosol|LW downwelling terrestrial flux at the surface without aerosol|longitude latitude time||W m-2|||||||||1000|0|
+rlus0|rlus0|long_wave_upwelling_terrestrial_flux_at_the_surface_without_aerosol|LW upwelling terrestrial flux at the surface without aerosol|longitude latitude time||W m-2|||||||||1000|0|
+od550pm2p5no3|od550pm2p5no3|atmosphere_optical_thickness_due_to_pm2p5_nitrate|Optical thickness at 550nm PM2.5 NO3|longitude latitude time||1|||||||||10|0|
+od550pm10no3|od550pm10no3|atmosphere_optical_thickness_due_to_pm10_nitrate|Optical thickness at 550nm PM10 NO3|longitude latitude time||1|||||||||10|0|
+emiahg0|emiahg0|tendency_of_atmosphere_mass_content_of_gaseous_elemental_mercury_due_to_anthropogenic_emission|Anthropogenic emission of Hg0(g)|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emiahg2|emiahg2|tendency_of_atmosphere_mass_content_of_gaseous_divalent_mercury_due_to_anthropogenic_emission|Anthropogenic emission of HgII(g)|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+emiahgp|emiahgp|tendency_of_atmosphere_mass_content_of_mercury_dry_aerosol_particles_due_to_anthropogenic_emission|Anthropogenic emission of particulate mercury|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+reemihg0|reemihg0|tendency_of_atmosphere_mass_content_of_gaseous_elemental_mercury_due_to_re_emission|Total re-emission of Hg|longitude latitude time||kg m-2 s-1|||||||||10000|0|
+vmrcl|vmrcl|mole_fraction_of_chlorine_in_air|Cl Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrbr|vmrbr|mole_fraction_of_bromine_in_air|Br Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+vmrbro|vmrbro|mole_fraction_of_bromine_monoxide_in_air|BrO Volume Mixing Ratio|longitude latitude alevel time||mole mole-1|||||||||0.1|0|
+@

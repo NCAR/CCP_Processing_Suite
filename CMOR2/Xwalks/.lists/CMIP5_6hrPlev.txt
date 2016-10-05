@@ -1,0 +1,4 @@
+ua|ua|eastward_wind|Eastward Wind|longitude latitude plev3 time1|real|m s-1|||atmos||||||145.0|-90.0|
+va|va|northward_wind|Northward Wind|longitude latitude plev3 time1|real|m s-1|||atmos||||||80.0|-80.0|
+ta|ta|air_temperature|Air Temperature|longitude latitude plev3 time1|real|K|area: areacella||atmos||||||330.0|144.0|
+psl|psl|air_pressure_at_sea_level|Sea Level Pressure|longitude latitude time1|real|Pa|area: areacella||atmos||||||113000.0|92500.0|

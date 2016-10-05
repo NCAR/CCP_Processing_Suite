@@ -1,0 +1,72 @@
+TAMIP_sites:tas:air_temperature:site time height2m:atmos:1:TREFHT:TREFHT no change
+TAMIP_sites:ts:surface_temperature:site time:atmos:1:TS:TS no change
+TAMIP_sites:psl:air_pressure_at_sea_level:site time:atmos:1:PSL:PSL no change
+TAMIP_sites:ps:surface_air_pressure:site time:atmos:1:PS:PS no change
+TAMIP_sites:uas:eastward_wind:site time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+TAMIP_sites:vas:northward_wind:site time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+TAMIP_sites:sfcWind:wind_speed:site time height10m:atmos:1:U10:U10
+TAMIP_sites:hurs:relative_humidity:site time height2m:atmos:1:RHREFHT:RHREFHT no change
+TAMIP_sites:huss:specific_humidity:site time height2m:atmos:1:QREFHT:QREFHT no change
+TAMIP_sites:pr:precipitation_flux:site time:atmos:1:PRECT:PRECT unit conversion
+TAMIP_sites:prsn:snowfall_flux:site time:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
+TAMIP_sites:prc:convective_precipitation_flux:site time:atmos:1:PRECC:PRECC unit conversion
+TAMIP_sites:evspsbl:water_evaporation_flux:site time:atmos:1:QFLX:QFLX no change
+TAMIP_sites:sbl:water_sublimation_flux:site time:atmos:0:UNAVAILABLE:UNAVAILABLE
+TAMIP_sites:tauu:surface_downward_eastward_stress:site time:atmos:1:TAUX:TAUX no change
+TAMIP_sites:tauv:surface_downward_northward_stress:site time:atmos:1:TAUY:TAUY no change
+TAMIP_sites:hfls:surface_upward_latent_heat_flux:site time:atmos:1:LHFLX:LHFLX no change
+TAMIP_sites:hfss:surface_upward_sensible_heat_flux:site time:atmos:1:SHFLX:SHFLX no change
+TAMIP_sites:rlds:surface_downwelling_longwave_flux_in_air:site time:atmos:1:FLDS:FLDS no change
+TAMIP_sites:rlus:surface_upwelling_longwave_flux_in_air:site time:atmos:2:FLDS FLNS:FLDS + FLNS
+TAMIP_sites:rsds:surface_downwelling_shortwave_flux_in_air:site time:atmos:1:FSDS:FSDS no change
+TAMIP_sites:rsus:surface_upwelling_shortwave_flux_in_air:site time:atmos:2:FSDS FSNS:FSDS - FSNS
+TAMIP_sites:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:site time:atmos:1:FSDSC:FSDSC no change
+TAMIP_sites:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:site time:atmos:2:FSDSC FSNSC:FSDSC - FSNSC
+TAMIP_sites:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:site time:atmos:1:FLDSC:FLDSC no change
+TAMIP_sites:rsdt:toa_incoming_shortwave_flux:site time:atmos:1:SOLIN:SOLIN no change
+TAMIP_sites:rsut:toa_outgoing_shortwave_flux:site time:atmos:2:SOLIN FSNTOA:SOLIN - FSNTOA
+TAMIP_sites:rlut:toa_outgoing_longwave_flux:site time:atmos:3:FSNTOA FSNT FLNT:FSNTOA-FSNT+FLNT
+TAMIP_sites:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:site time:atmos:1:FLUTC:FLUTC no change
+TAMIP_sites:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:site time:atmos:2:SOLIN FSNTOAC:SOLIN - FSNTOAC
+TAMIP_sites:prw:atmosphere_water_vapor_content:site time:atmos:1:TMQ:TMQ no change
+TAMIP_sites:clt:cloud_area_fraction:site time:atmos:1:CLDTOT:CLDTOT unit conversion
+TAMIP_sites:clwvi:atmosphere_cloud_condensed_water_content:site time:atmos:1:TGCLDLWP:TGCLDLWP no change
+TAMIP_sites:clivi:atmosphere_cloud_ice_content:site time:atmos:1:TGCLDIWP:TGCLDIWP no change
+TAMIP_sites:rtmt:net_downward_radiative_flux_at_top_of_atmosphere_model:site time:atmos:2:FSNT FLNT:FSNT - FLNT
+TAMIP_sites:ccb:air_pressure_at_convective_cloud_base:site time:atmos:1:PCLDBOT:PCLDBOT
+TAMIP_sites:cct:air_pressure_at_convective_cloud_top:site time:atmos:1:PCLDTOP:PCLDTOP
+TAMIP_sites:ci:convection_time_fraction:site time:atmos:1:FREQZM:FREQZM unit conversion
+TAMIP_sites:sci:shallow_convection_time_fraction:site time:atmos:1:FREQSH:FREQSH no change
+TAMIP_sites:cl:cloud_area_fraction_in_atmosphere_layer:alevel site time:atmos:2:CLOUD PS:CLOUD on model levels, no change
+TAMIP_sites:clw:mass_fraction_of_cloud_liquid_water_in_air:alevel site time:atmos:2:CLDLIQ PS:CLDLIQ on model levels, no change
+TAMIP_sites:cli:mass_fraction_of_cloud_ice_in_air:alevel site time:atmos:2:CLDICE PS:CLDICE on model levels, no change
+TAMIP_sites:mc:atmosphere_convective_mass_flux:alevhalf site time:atmos:3:CMFMC CMFMCDZM PS:CMFMC + CMFMCDZM on model levels, no change
+TAMIP_sites:ta:air_temperature:alevel site time:atmos:2:T PS:T no change
+TAMIP_sites:ua:eastward_wind:alevel site time:atmos:2:U PS:U no change
+TAMIP_sites:va:northward_wind:alevel site time:atmos:2:V PS:V no change
+TAMIP_sites:hus:specific_humidity:alevel site time:atmos:2:Q PS:Q no change
+TAMIP_sites:hur:relative_humidity:alevel site time:atmos:2:RELHUM PS:RELHUM no change
+TAMIP_sites:wap:lagrangian_tendency_of_air_pressure:alevel site time:atmos:2:OMEGA PS:OMEGA no change
+TAMIP_sites:zg:geopotential_height:alevel site time:atmos:2:Z3 PS:Z3 no change
+TAMIP_sites:rlu:upwelling_longwave_flux_in_air:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:rsu:upwelling_shortwave_flux_in_air:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:rld:downwelling_longwave_flux_in_air:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:rsd:downwelling_shortwave_flux_in_air:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:rlucs:upwelling_longwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:rsucs:upwelling_shortwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:rldcs:downwelling_longwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:rsdcs:downwelling_shortwave_flux_in_air_assuming_clear_sky:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnt:tendency_of_air_temperature:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnta:tendency_of_air_temperature_due_to_advection:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tntmp:tendency_of_air_temperature_due_to_model_physics:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tntscpbl:tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tntr:tendency_of_air_temperature_due_to_radiative_heating:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tntc:tendency_of_air_temperature_due_to_convection:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnhus:tendency_of_specific_humidity:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnhusa:tendency_of_specific_humidity_due_to_advection:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnhusc:tendency_of_specific_humidity_due_to_convection:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnhusd:tendency_of_specific_humidity_due_to_diffusion:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnhusscpbl:tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:tnhusmp:tendency_of_specific_humidity_due_to_model_physics:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:evu:atmosphere_momentum_diffusivity:alevel site time:atmos:1:UNKNOWN:UNKNOWN
+TAMIP_sites:edt:atmosphere_heat_diffusivity:alevel site time:atmos:1:UNKNOWN:UNKNOWN

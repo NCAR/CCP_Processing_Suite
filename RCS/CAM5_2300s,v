@@ -1,0 +1,63 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.05.01.15.51.50;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@b.e11.BRCP26C5CN.f09_g16.2300.001/env_case.xml:<entry id="CASE"   value="b.e11.BRCP26C5CN.f09_g16.2300.001"  />    
+b.e11.BRCP26C5CN.f09_g16.2300.001/env_case.xml:<entry id="GRID"   value="0.9x1.25_gx1v6"  />    
+b.e11.BRCP26C5CN.f09_g16.2300.001/env_case.xml:<entry id="MACH"   value="franklin"  />    
+b.e11.BRCP26C5CN.f09_g16.2300.001/env_case.xml:<entry id="CCSM_SCOMPSET"   value="BRCP26C5CN"  />    
+b.e11.BRCP26C5CN.f09_g16.2300.001/env_conf.xml:<entry id="RUN_REFCASE"   value="b.e11.BRCP26C5CN.f09_g16.001"  />    
+b.e11.BRCP26C5CN.f09_g16.2300.001/env_conf.xml:<entry id="RUN_REFDATE"   value="2100-01-01"  />    
+b.e11.BRCP26C5CN.f09_g16.2300.001/env_run.xml:<entry id="CCSM_REPOTAG"   value="cesm1_1_beta06"  />    
+b.e11.BRCP26C5CN.f09_g16.2300.001/env_run.xml:<entry id="DOUT_L_MSROOT"   value="/home/c/ccsm/csm/$CASE"  />    
+b.e11.BRCP45C5CN.f09_g16.2300.001/env_case.xml:<entry id="CASE"   value="b.e11.BRCP45C5CN.f09_g16.2300.001"  />    
+b.e11.BRCP45C5CN.f09_g16.2300.001/env_case.xml:<entry id="GRID"   value="0.9x1.25_gx1v6"  />    
+b.e11.BRCP45C5CN.f09_g16.2300.001/env_case.xml:<entry id="MACH"   value="franklin"  />    
+b.e11.BRCP45C5CN.f09_g16.2300.001/env_case.xml:<entry id="CCSM_SCOMPSET"   value="BRCP45C5CN"  />    
+b.e11.BRCP45C5CN.f09_g16.2300.001/env_conf.xml:<entry id="RUN_REFCASE"   value="b.e11.BRCP45C5CN.f09_g16.001"  />    
+b.e11.BRCP45C5CN.f09_g16.2300.001/env_conf.xml:<entry id="RUN_REFDATE"   value="2100-01-01"  />    
+b.e11.BRCP45C5CN.f09_g16.2300.001/env_run.xml:<entry id="CCSM_REPOTAG"   value="cesm1_1_beta06"  />    
+b.e11.BRCP45C5CN.f09_g16.2300.001/env_run.xml:<entry id="DOUT_L_MSROOT"   value="/home/c/ccsm/csm/$CASE"  />    
+b.e11.BRCP60C5CN.f09_g16.2300.001/env_case.xml:<entry id="CASE"   value="b.e11.BRCP60C5CN.f09_g16.2300.001"  />    
+b.e11.BRCP60C5CN.f09_g16.2300.001/env_case.xml:<entry id="GRID"   value="0.9x1.25_gx1v6"  />    
+b.e11.BRCP60C5CN.f09_g16.2300.001/env_case.xml:<entry id="MACH"   value="franklin"  />    
+b.e11.BRCP60C5CN.f09_g16.2300.001/env_case.xml:<entry id="CCSM_SCOMPSET"   value="BRCP60C5CN"  />    
+b.e11.BRCP60C5CN.f09_g16.2300.001/env_conf.xml:<entry id="RUN_REFCASE"   value="b.e11.BRCP60C5CN.f09_g16.001"  />    
+b.e11.BRCP60C5CN.f09_g16.2300.001/env_conf.xml:<entry id="RUN_REFDATE"   value="2100-01-01"  />    
+b.e11.BRCP60C5CN.f09_g16.2300.001/env_run.xml:<entry id="CCSM_REPOTAG"   value="cesm1_1_beta06"  />    
+b.e11.BRCP60C5CN.f09_g16.2300.001/env_run.xml:<entry id="DOUT_L_MSROOT"   value="/home/c/ccsm/csm/$CASE"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.franklin/env_case.xml:<entry id="CASE"   value="b.e11.BRCP85C5CN.f09_g16.2300.001"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.franklin/env_case.xml:<entry id="GRID"   value="0.9x1.25_gx1v6"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.franklin/env_case.xml:<entry id="MACH"   value="franklin"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.franklin/env_case.xml:<entry id="CCSM_SCOMPSET"   value="BRCP85C5CN"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.franklin/env_conf.xml:<entry id="RUN_REFCASE"   value="b.e11.BRCP85C5CN.f09_g16.001"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.franklin/env_conf.xml:<entry id="RUN_REFDATE"   value="2100-01-01"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.franklin/env_run.xml:<entry id="CCSM_REPOTAG"   value="cesm1_1_beta06"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.franklin/env_run.xml:<entry id="DOUT_L_MSROOT"   value="/home/c/ccsm/csm/$CASE"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.hopp2/env_case.xml:<entry id="CASE"   value="b.e11.BRCP85C5CN.f09_g16.2300.001"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.hopp2/env_case.xml:<entry id="GRID"   value="0.9x1.25_gx1v6"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.hopp2/env_case.xml:<entry id="MACH"   value="hopp2"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.hopp2/env_case.xml:<entry id="CCSM_SCOMPSET"   value="BRCP85C5CN"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.hopp2/env_conf.xml:<entry id="RUN_REFCASE"   value="b.e11.BRCP85C5CN.f09_g16.001"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.hopp2/env_conf.xml:<entry id="RUN_REFDATE"   value="2100-01-01"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.hopp2/env_run.xml:<entry id="CCSM_REPOTAG"   value="cesm1_1_beta06"  />    
+b.e11.BRCP85C5CN.f09_g16.2300.001.hopp2/env_run.xml:<entry id="DOUT_L_MSROOT"   value="csm/$CASE"  />    
+@

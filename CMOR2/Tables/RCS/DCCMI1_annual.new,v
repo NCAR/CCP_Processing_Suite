@@ -1,0 +1,891 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.10.17.15.43.18;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@1,5c1,5
+< cmor_version: 2.5.0    ! minimum version of CMOR that can read this table
+< cf_version:   1.4      ! version of CF that output conforms to
+< project_id:   CCMI1    ! project id
+< table_id:     annual   ! table id
+< table_date:   6 August 2014 ! date this table was constructed
+---
+> cmor_version: 2.5.0   ! minimum version of CMOR that can read this table
+> cf_version:   1.4     ! version of CF that output conforms to
+> project_id:   CCMI1   ! project id
+> table_id:     annual  ! table id
+> table_date:   8 November 2013 ! date this table was constructed  
+9,28c9,28
+< expt_id_ok:  'Hindcast' 'refC1'
+< expt_id_ok:  'Hindcast - Specified Dynamics' 'refC1SD'
+< expt_id_ok:  'Projection' 'refC2'
+< expt_id_ok:  'Hindcast Scenario - altEmis' 'senC1Emis'
+< expt_id_ok:  'HindcastSD Scenario - altEmis' 'senC1SDEmis'
+< expt_id_ok:  'Hindcast Scenario - fxdEmis' 'senC1fEmis'
+< expt_id_ok:  'HindcastSD Scenario - fxdEmis' 'senC1SDfEmis'
+< expt_id_ok:  'Hindcast Scenario - altSSI' 'senC1SSI'
+< expt_id_ok:  'Projection Scenario - RCP2.6' 'senC2rcp26'
+< expt_id_ok:  'Projection Scenario - RCP4.5' 'senC2rcp45'
+< expt_id_ok:  'Projection Scenario - RCP8.5' 'senC2rcp85'
+< expt_id_ok:  'Projection Scenario - fxdODS' 'senC2fODS'
+< expt_id_ok:  'Projection Scenario - fxdODS2000' 'senC2fODS2000'
+< expt_id_ok:  'Projection Scenario - fxdGHG' 'senC2fGHG'
+< expt_id_ok:  'Projection Scenario - fxdEmis' 'senC2fEmis'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G1' 'senC2GeoMIPG1'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G2' 'senC2GeoMIPG2'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G3' 'senC2GeoMIPG3'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G4' 'senC2GeoMIPG4'
+< expt_id_ok:  'Projection Scenario - SolarTrend' 'senC2SlrTrend'
+---
+> expt_id_ok:  'CCMI_Historical' 'refC1'
+> expt_id_ok:  'CCMI_HistoricalSD' 'refC1sd'
+> expt_id_ok:  'CCMI_Projection' 'refC2'
+> expt_id_ok:  'CCMI_HistorSc_Emis' 'senC1Emis'
+> expt_id_ok:  'CCMI_HistorSc_EmisSD' 'senC1SDEmis'
+> expt_id_ok:  'CCMI_HistorSc_fEmis' 'senC1fEmis'
+> expt_id_ok:  'CCMI_HistorSc_fEmisSD' 'senC1SDfEmis'
+> expt_id_ok:  'CCMI_HistorSc_SSI' 'senC1SSI'
+> expt_id_ok:  'CCMI_ProjecSC_RCP2.6' 'senC2rcp26'
+> expt_id_ok:  'CCMI_ProjecSC_RCP4.5' 'senC2rcp45'
+> expt_id_ok:  'CCMI_ProjecSC_RCP8.5' 'senC2rcp85'
+> expt_id_ok:  'CCMI_ProjecSC_fODS' 'senC2fODS'
+> expt_id_ok:  'CCMI_ProjecSC_fODS2000' 'senC2fODS2000'
+> expt_id_ok:  'CCMI_ProjecSC_fGHG' 'senC2fGHG'
+> expt_id_ok:  'CCMI_ProjecSC_fEMIS' 'senC2fEMIS'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G1' 'senC2GeoMIPG1'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G2' 'senC2GeoMIPG2'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G3' 'senC2GeoMIPG3'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G4' 'senC2GeoMIPG4'
+> expt_id_ok:  'CCMI_ProjecSC_SolarTrend' 'senC2slrtrend'
+168c168
+< !----------------------------------	
+---
+> !----------------------------------     
+172c172
+< positive:	      up
+---
+> positive:             up
+174c174
+< !----------------------------------	
+---
+> !----------------------------------     
+177c177
+< !----------------------------------	
+---
+> !----------------------------------     
+186c186
+< !----------------------------------	
+---
+> !----------------------------------     
+199c199
+< !----------------------------------	
+---
+> !----------------------------------     
+203,204c203,204
+< positive:	      down
+< !----------------------------------	
+---
+> positive:             down
+> !----------------------------------     
+207c207
+< !----------------------------------	
+---
+> !----------------------------------     
+216c216
+< !----------------------------------	
+---
+> !----------------------------------     
+229c229
+< !----------------------------------	
+---
+> !----------------------------------     
+234c234
+< !----------------------------------	
+---
+> !----------------------------------     
+237c237
+< !----------------------------------	
+---
+> !----------------------------------     
+246c246
+< !----------------------------------	
+---
+> !----------------------------------     
+259c259
+< !----------------------------------	
+---
+> !----------------------------------     
+267c267
+< !----------------------------------	
+---
+> !----------------------------------     
+276c276
+< !----------------------------------		
+---
+> !----------------------------------             
+290c290
+< !----------------------------------	
+---
+> !----------------------------------     
+296c296
+< !----------------------------------	
+---
+> !----------------------------------     
+299c299
+< !----------------------------------	
+---
+> !----------------------------------     
+308c308
+< !----------------------------------		
+---
+> !----------------------------------             
+322c322
+< !----------------------------------	
+---
+> !----------------------------------     
+328c328
+< !----------------------------------	
+---
+> !----------------------------------     
+331c331
+< !----------------------------------	
+---
+> !----------------------------------     
+339c339
+< !----------------------------------		
+---
+> !----------------------------------             
+376c376
+< !----------------------------------	
+---
+> !----------------------------------     
+379c379
+< !----------------------------------	
+---
+> !----------------------------------     
+389c389
+< !----------------------------------	
+---
+> !----------------------------------     
+392c392
+< !----------------------------------	
+---
+> !----------------------------------     
+402c402
+< !----------------------------------	
+---
+> !----------------------------------     
+405c405
+< !----------------------------------	
+---
+> !----------------------------------     
+408c408
+< !----------------------------------	
+---
+> !----------------------------------     
+411c411
+< !----------------------------------	
+---
+> !----------------------------------     
+420c420
+< !----------------------------------	
+---
+> !----------------------------------     
+423c423
+< !----------------------------------	
+---
+> !----------------------------------     
+426c426
+< !----------------------------------	
+---
+> !----------------------------------     
+429c429
+< !----------------------------------	
+---
+> !----------------------------------     
+439c439
+< !----------------------------------	
+---
+> !----------------------------------     
+442c442
+< !----------------------------------	
+---
+> !----------------------------------     
+445c445
+< !----------------------------------	
+---
+> !----------------------------------     
+448c448
+< !----------------------------------	
+---
+> !----------------------------------     
+458c458
+< !----------------------------------	
+---
+> !----------------------------------     
+461c461
+< !----------------------------------	
+---
+> !----------------------------------     
+464c464
+< !----------------------------------	
+---
+> !----------------------------------     
+475c475
+< !----------------------------------	
+---
+> !----------------------------------     
+478c478
+< !----------------------------------	
+---
+> !----------------------------------     
+481c481
+< !----------------------------------	
+---
+> !----------------------------------     
+484c484
+< !----------------------------------	
+---
+> !----------------------------------     
+492c492
+< !----------------------------------	
+---
+> !----------------------------------     
+495c495
+< !----------------------------------	
+---
+> !----------------------------------     
+498c498
+< !----------------------------------	
+---
+> !----------------------------------     
+501c501
+< !----------------------------------	
+---
+> !----------------------------------     
+511c511
+< !----------------------------------	
+---
+> !----------------------------------     
+514c514
+< !----------------------------------	
+---
+> !----------------------------------     
+595c595
+< variable_entry:    n2obrdn
+---
+> variable_entry:    burden_n2o
+603c603,604
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+617c618
+< variable_entry:    n2otbrdn
+---
+> variable_entry:    tburden_n2o
+625c626,627
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+639c641
+< variable_entry:    cfcl3brdn
+---
+> variable_entry:    burden_cfcl3
+647c649,650
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+661c664
+< variable_entry:    cfcl3tbrdn
+---
+> variable_entry:    tburden_cfcl3
+669c672,673
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+683c687
+< variable_entry:    cf2cl2brdn
+---
+> variable_entry:    burden_cf2cl2
+691c695,696
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+705c710
+< variable_entry:    cf2cl2tbrdn
+---
+> variable_entry:    tburden_cf2cl2
+713c718,719
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+727c733
+< variable_entry:    ccl2fcclf2brdn
+---
+> variable_entry:    burden_ccl2fcclf2
+735c741,742
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+749c756
+< variable_entry:    ccl2fcclf2tbrdn
+---
+> variable_entry:    tburden_ccl2fcclf2
+757c764,765
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+771c779
+< variable_entry:    cclf2cclf2brdn
+---
+> variable_entry:    burden_cclf2cclf2
+779c787,788
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+793c802
+< variable_entry:    cclf2cclf2tbrdn
+---
+> variable_entry:    tburden_cclf2cclf2
+801c810,811
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+815c825
+< variable_entry:    cclf2cf3brdn
+---
+> variable_entry:    burden_cclf2cf3
+823c833,834
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+837c848
+< variable_entry:    cclf2cf3tbrdn
+---
+> variable_entry:    tburden_cclf2cf3
+845c856,857
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+859c871
+< variable_entry:    ccl4brdn
+---
+> variable_entry:    burden_ccl4
+867c879,880
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+881c894
+< variable_entry:    ccl4tbrdn
+---
+> variable_entry:    tburden_ccl4
+889c902,903
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+903c917
+< variable_entry:    cbrf3brdn
+---
+> variable_entry:    burden_cbrf3
+911c925,926
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+925c940
+< variable_entry:    cbrf3tbrdn
+---
+> variable_entry:    tburden_cbrf3
+933c948,949
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+947c963
+< variable_entry:    cbrclf2brdn
+---
+> variable_entry:    burden_cbrclf2
+955c971,972
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+969c986
+< variable_entry:    cbrclf2tbrdn
+---
+> variable_entry:    tburden_cbrclf2
+977c994,995
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+991c1009
+< variable_entry:    c2br2f4brdn
+---
+> variable_entry:    burden_c2br2f4
+999c1017,1018
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1013c1032
+< variable_entry:    c2br2f4tbrdn
+---
+> variable_entry:    tburden_c2br2f4
+1021c1040,1041
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1035c1055
+< variable_entry:    cbr2f2brdn
+---
+> variable_entry:    burden_cbr2f2
+1043c1063,1064
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1057c1078
+< variable_entry:    cbr2f2tbrdn
+---
+> variable_entry:    tburden_cbr2f2
+1065c1086,1087
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1079c1101
+< variable_entry:    ch4brdn
+---
+> variable_entry:    burden_ch4
+1087c1109,1110
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1101c1124
+< variable_entry:    ch4tbrdn
+---
+> variable_entry:    tburden_ch4
+1109c1132,1133
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1123c1147
+< variable_entry:    ch4trtbrdn
+---
+> variable_entry:    tburden_ltr_ch4
+1131c1155,1156
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1145c1170
+< variable_entry:    ch4smtbrdn
+---
+> variable_entry:    tburden_lsm_ch4
+1153c1178,1179
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1167c1193
+< variable_entry:    cobrdn
+---
+> variable_entry:    burden_co
+1175c1201,1202
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1189c1216
+< variable_entry:    cotbrdn
+---
+> variable_entry:    tburden_co
+1197c1224,1225
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1211c1239
+< variable_entry:    cotrtbrdn
+---
+> variable_entry:    tburden_ltr_co
+1219c1247,1248
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1233c1262
+< variable_entry:    cosmtbrdn
+---
+> variable_entry:    tburden_lsm_co
+1241c1270,1271
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1255c1285
+< variable_entry:    h2brdn
+---
+> variable_entry:    burden_h2
+1263c1293,1294
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1277c1308
+< variable_entry:    h2tbrdn
+---
+> variable_entry:    tburden_h2
+1285c1316,1317
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1299c1331
+< variable_entry:    h2trtbrdn
+---
+> variable_entry:    tburden_ltr_h2
+1307c1339,1340
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1321c1354
+< variable_entry:    h2smtbrdn
+---
+> variable_entry:    tburden_lsm_h2
+1329c1362,1363
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1343c1377
+< variable_entry:    ch3clbrdn
+---
+> variable_entry:    burden_ch3cl
+1351c1385,1386
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1365c1400
+< variable_entry:    ch3cltbrdn
+---
+> variable_entry:    tburden_ch3cl
+1373c1408,1409
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1387c1423
+< variable_entry:    ch3cltrtbrdn
+---
+> variable_entry:    tburden_ltr_ch3cl
+1395c1431,1432
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1409c1446
+< variable_entry:    ch3clsmtbrdn
+---
+> variable_entry:    tburden_lsm_ch3cl
+1417c1454,1455
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1431c1469
+< variable_entry:    ch3brbrdn
+---
+> variable_entry:    burden_ch3br
+1439c1477,1478
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1453c1492
+< variable_entry:    ch3brtbrdn
+---
+> variable_entry:    tburden_ch3br
+1461c1500,1501
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1475c1515
+< variable_entry:    ch3brtrtbrdn
+---
+> variable_entry:    tburden_ltr_ch3br
+1483c1523,1524
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1497c1538
+< variable_entry:    ch3brsmtbrdn
+---
+> variable_entry:    tburden_lsm_ch3br
+1505c1546,1547
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1519c1561
+< variable_entry:    ch3ccl3brdn
+---
+> variable_entry:    burden_ch3ccl3
+1527c1569,1570
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1541c1584
+< variable_entry:    ch3ccl3tbrdn
+---
+> variable_entry:    tburden_ch3ccl3
+1549c1592,1593
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1563c1607
+< variable_entry:    ch3ccl3trtbrdn
+---
+> variable_entry:    tburden_ltr_ch3ccl3
+1571c1615,1616
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1585c1630
+< variable_entry:    ch3ccl3smtbrdn
+---
+> variable_entry:    tburden_lsm_ch3ccl3
+1593c1638,1639
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1607c1653
+< variable_entry:    chclf2brdn
+---
+> variable_entry:    burden_chclf2
+1615c1661,1662
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1629c1676
+< variable_entry:    chclf2tbrdn
+---
+> variable_entry:    tburden_chclf2
+1637c1684,1685
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1651c1699
+< variable_entry:    chclf2trtbrdn
+---
+> variable_entry:    tburden_ltr_chclf2
+1659c1707,1708
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1673c1722
+< variable_entry:    chclf2smtbrdn
+---
+> variable_entry:    tburden_lsm_chclf2
+1681c1730,1731
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1695c1745
+< variable_entry:    ch3ccl2fbrdn
+---
+> variable_entry:    burden_ch3ccl2f
+1703c1753,1754
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1717c1768
+< variable_entry:    ch3ccl2ftbrdn
+---
+> variable_entry:    tburden_ch3ccl2f
+1725c1776,1777
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1739c1791
+< variable_entry:    ch3ccl2ftrtbrdn
+---
+> variable_entry:    tburden_ltr_ch3ccl2f
+1747c1799,1800
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1761c1814
+< variable_entry:    ch3ccl2fsmtbrdn
+---
+> variable_entry:    tburden_lsm_ch3ccl2f
+1769c1822,1823
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1783c1837
+< variable_entry:    ch3cclf2brdn
+---
+> variable_entry:    burden_ch3cclf2
+1791c1845,1846
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1805c1860
+< variable_entry:    ch3cclf2tbrdn
+---
+> variable_entry:    tburden_ch3cclf2
+1813c1868,1869
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1827c1883
+< variable_entry:    ch3cclf2trtbrdn
+---
+> variable_entry:    tburden_ltr_ch3cclf2
+1835c1891,1892
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1849c1906
+< variable_entry:    ch3cclf2smtbrdn
+---
+> variable_entry:    tburden_lsm_ch3cclf2
+1857c1914,1915
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1871c1929
+< variable_entry:    ch2fcf3brdn
+---
+> variable_entry:    burden_ch2fcf3
+1879c1937,1938
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1893c1952
+< variable_entry:    ch2fcf3tbrdn
+---
+> variable_entry:    tburden_ch2fcf3
+1901c1960,1961
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1915c1975
+< variable_entry:    ch2fcf3trtbrdn
+---
+> variable_entry:    tburden_ltr_ch2fcf3
+1923c1983,1984
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1937c1998
+< variable_entry:    ch2fcf3smtbrdn
+---
+> variable_entry:    tburden_lsm_ch2fcf3
+1945c2006,2007
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1959c2021
+< variable_entry:    c2hf3cl2brdn
+---
+> variable_entry:    burden_c2hf3cl2
+1967c2029,2030
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+1981c2044
+< variable_entry:    c2hf3cl2tbrdn
+---
+> variable_entry:    tburden_c2hf3cl2
+1989c2052,2053
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+2003c2067
+< variable_entry:    c2hf3cl2trtbrdn
+---
+> variable_entry:    tburden_ltr_c2hf3cl2
+2011c2075,2076
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+2025c2090
+< variable_entry:    c2hf3cl2smtbrdn
+---
+> variable_entry:    tburden_lsm_c2hf3cl2
+2033c2098,2099
+< cell_methods:      time: mean area: sum
+---
+> cell_methods:      time: mean
+> cell_measures:     area: areacella
+2047c2113
+< variable_entry:    growseas
+---
+> variable_entry:    grow_seas
+2068a2135
+> 
+@

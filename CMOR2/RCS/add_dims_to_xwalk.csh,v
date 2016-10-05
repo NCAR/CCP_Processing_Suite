@@ -1,0 +1,37 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.09.29.17.16.20;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/csh -f
+#
+rm -f DIMS_ADDED
+foreach i (`cat xwalk_Amon.txt | sed -e 's/ /\|/g'`)
+  set a = `echo $i | cut -d":" -f1-2`
+  set b = `echo $i | cut -d":" -f4-`
+  set v = `echo $i | cut -d":" -f3`
+  set d = `egrep "^${v}:" INFO | cut -d":" -f2`
+  echo $d
+  set d = `egrep "^${v}:" INFO | cut -d":" -f2 | sed -e 's/ /,/g'`
+  echo ${a}":"${v}":"${d}":"${b} >> DIMS_ADDED
+end
+#
+exit
+@

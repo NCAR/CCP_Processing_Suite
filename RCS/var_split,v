@@ -1,0 +1,565 @@
+head	1.6;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.6
+date	2014.06.05.19.10.18;	author strandwg;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2014.01.07.18.26.45;	author strandwg;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2014.01.07.18.26.36;	author strandwg;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2013.08.20.22.05.06;	author strandwg;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2013.05.23.22.17.41;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.01.19.15.05.01;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@#!/bin/sh
+#
+# See http://www.cgd.ucar.edu/~njn01/ccsm/draft.html
+#
+# Input filenames of forms:
+# b30.030e.pop.h.1870-01.nc      (monthly average)
+# Output filenames of forms:
+# b30.030e.pop.h.TEMP.1870-01.nc (monthly average of TEMP, only)
+#
+if [ $# -eq 0 ] ; then
+   echo "Usage: var_split file [erase]"
+   echo "2 args means erase file after fields extracted."
+   ./update_status error var_split
+   exit 1
+elif [ $# -eq 1 ] ; then
+   FILE=$1
+elif [ $# -eq 2 ] ; then
+   FILE=$1
+else
+   echo "Usage: var_split file [erase]"
+   echo "2 args means erase file after fields extracted."
+   ./update_status error var_split
+   exit 1
+fi
+# 
+# Check for ncks
+#
+if [ ! $NCKS ] ; then
+  TEST4NCKS=`which ncks 2>&1`
+  if [ $? -eq 0 ] ; then
+    NCKS=`which ncks`
+  else
+    echo "NCKS not in PATH - UNDEFINED"
+    exit 1
+  fi
+fi
+#
+# Parse filename
+#
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DCAS=1
+DVAR=1
+DHT1=1
+DHT2=1
+DPFX=1
+DSFX=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 | cam | clm2 | pop | csim | cice | rtm )
+      DPFX=`expr '(' $IDOT ')' '+' '1'`
+      DSFX=`expr '(' $DPFX ')' '+' '1'`
+      DHT1=$IDOT ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+DCMP=$DHT1
+#
+COMP=`echo $FILE | cut -d"." -f${DCMP}`
+#
+# Check to see if $FILE is a POP daily tape denoted by 'pop.h.h2|nday1|pop.h.ecosys.year1' string
+#
+if [ "$COMP" = "pop" ] ; then
+  DYCK=`expr '(' $DCMP ')' '+' '2'`
+  ODAY=`echo $FILE | cut -d"." -f${DYCK}`
+  if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
+    DPFX=`expr '(' $DPFX ')' '+' '1'`
+    DSFX=`expr '(' $DSFX ')' '+' '1'`
+  fi
+  if [ "$ODAY" = "ecosys" ] ; then
+    DPFX=`expr '(' $DPFX ')' '+' '2'`
+    DSFX=`expr '(' $DSFX ')' '+' '2'`
+  fi
+fi
+#
+OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
+OUTSFX=`echo $FILE | cut -d"." -f${DSFX}-`
+#
+# Save "$NCKS -m" metadata output for this file
+#
+rm -f meta.${FILE} ; $NCKS -m $FILE > meta.${FILE}
+#
+# Scalar (i.e., single value) fields, to be put in all output files
+#
+SCALARS=`cat meta.${FILE} | egrep "( 0 dimension|# dim\. = 0)" | cut -d":" -f1`
+#
+# Time-variant fields, the fields we will be splitting upon
+#
+TIMEVAR=`cat meta.${FILE} | egrep "dimension 0: time" | cut -d" " -f1`
+#
+# Time-invariant fields, to be put in all output files
+#
+TIMEINV=`cat meta.${FILE} | egrep "dimension 0:" | egrep -v " dimension 0: time" | cut -d" " -f1`
+#
+#echo "SCALARS :"$SCALARS
+#echo
+#echo "TIMEVAR :"$TIMEVAR
+#echo
+#echo "TIMEINV :"$TIMEINV
+#
+# Find time-variant fields that are more than 1 dimension, i.e., not dimensioned just along time
+# Those that are 1-dimensional and along time only are not put into separate output files
+#
+for V in $TIMEVAR ; do
+  NDIMS=`cat meta.${FILE} | egrep "^${V}:" | cut -d"," -f2`
+#  echo "Checking "${V}" NDIMS: "${NDIMS}
+  case "$NDIMS" in 
+    " 1 dimension" )
+      HEADER=`echo ${HEADER}${V}" "` ;; 
+    " 2 dimensions" )
+      if [ "$V" = "time_bnds" ] || [ "$V" = "time_bound" ] || [ "$V" = "time_bounds" ] || [ "$V" = "date_written" ] || [ "$V" = "time_written" ] ; then
+        HEADER=`echo ${HEADER}${V}" "`
+      else
+        VARTIME=`echo ${VARTIME}${V}" "`
+      fi ;; 
+    " 3 dimensions" | " 4 dimensions" | " 5 dimensions" )
+      VARTIME=`echo ${VARTIME}${V}" "` ;; 
+  esac
+done
+if [ `echo $HEADER | wc -w` -ne 0 ] ; then
+  if [ `echo $TIMEINV | wc -w` -ne 0 ] ; then
+    if [ `echo $SCALAR | wc -w` -ne 0 ] ; then
+      HEADER=`echo ${SCALAR}${HEADER}${TIMEINV} | sed -e 's/ /,/g'`
+    fi
+    HEADER=`echo ${HEADER}${TIMEINV} | sed -e 's/ /,/g'`
+  fi
+fi
+#echo 
+#echo "VARTIME: "$VARTIME
+#
+# Add SCALARS (if present) to HEADER
+#
+if [ `echo $SCALARS | wc -w` -ne 0 ] ; then
+  SCALARS=`echo $SCALARS | sed -e 's/ /,/g'`
+  HEADER=`echo $HEADER","$SCALARS`
+fi
+#echo "HEADER: "$HEADER
+#
+# All time-dependent vars
+#
+if [ `echo $VARTIME | wc -w` -ne 0 ] ; then
+  for f in $VARTIME ; do
+    if [ ! -d ${f}.d ] ; then
+      mkdir ${f}.d
+    fi
+    if [ "$COMP" = "cice" ] ; then
+      OUT=${f}.d/${OUTPFX}.${f}_nh.${OUTSFX}
+      $NCKS -O -d nj,280,383 -v ${HEADER},${f} $FILE $OUT
+      OUT=${f}.d/${OUTPFX}.${f}_sh.${OUTSFX}
+      $NCKS -O -d nj,0,75 -v ${HEADER},${f} $FILE $OUT
+    else
+      OUT=${f}.d/${OUTPFX}.${f}.${OUTSFX}
+      $NCKS -O -v ${HEADER},${f} $FILE $OUT
+      if [ $? -ne 0 ] ; then
+        echo "NCKS -O -v "${HEADER}","${f}" on "${FILE} " failed"
+        ./update_status error var_split
+        exit 1
+      fi
+    fi
+ done
+fi
+#
+rm -f meta.${FILE}
+#
+if [ $# -gt 1 ] ; then
+  rm -f $FILE
+fi
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d147 1
+a147 5
+echo "HEADER: "$HEADER
+#
+if [ "$COMP" != "cice" ] ; then
+  $NCKS -v $HEADER $FILE ./.H.${FILE}
+fi
+d158 1
+a158 2
+      $NCKS -O -d nj,280,383 -v ${HEADER} $FILE ./.H.nh.${FILE}
+      $NCKS -O -d nj,280,383 -v ${f} $FILE $OUT
+d160 1
+a160 2
+      $NCKS -O -d nj,0,75 -v ${HEADER} $FILE ./.H.sh.${FILE}
+      $NCKS -O -d nj,0,75 -v ${HEADER},${f} $FILE $OUT 
+d163 1
+a163 1
+      $NCKS -O -v ${f} $FILE $OUT
+d165 1
+a165 1
+        echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d147 5
+a151 2
+#echo "HEADER: "$HEADER
+#echo 
+d162 2
+a163 1
+      $NCKS -O -d nj,280,383 -v ${HEADER},${f} $FILE $OUT
+d165 1
+d169 1
+a169 1
+      $NCKS -O -v ${HEADER},${f} $FILE $OUT
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d124 1
+a124 1
+        TIMEV2D=`echo ${TIMEV2D}${V}" "`
+d126 2
+a127 6
+    " 3 dimensions" )
+      TIMEV3D=`echo ${TIMEV3D}${V}" "` ;; 
+    " 4 dimensions" )
+      TIMEV4D=`echo ${TIMEV4D}${V}" "` ;; 
+    " 5 dimensions" )
+      TIMEV5D=`echo ${TIMEV5D}${V}" "` ;; 
+a137 9
+#echo "TIMEV1D: "$TIMEV1D
+#echo 
+#echo "TIMEV2D: "$TIMEV2D
+#echo 
+#echo "TIMEV3D: "$TIMEV3D
+#echo 
+#echo "TIMEV4D: "$TIMEV4D
+#echo 
+#echo "TIMEV5D: "$TIMEV5D
+d139 1
+d150 1
+a150 1
+# 2D time-dependent vars
+d152 4
+a155 21
+if [ `echo $TIMEV2D | wc -w` -ne 0 ] ; then
+  for f in $TIMEV2D ; do
+    if [ ! -d ${f}_2d.d ] ; then
+      mkdir ${f}_2d.d
+    fi
+    OUT=${f}_2d.d/${OUTPFX}.${f}.${OUTSFX}
+    $NCKS -O -v ${HEADER},${f} $FILE $OUT
+    if [ $? -ne 0 ] ; then
+      echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
+      ./update_status error var_split
+      exit 1
+    fi
+ done
+fi
+#
+# 3D time-dependent vars
+#
+if [ `echo $TIMEV3D | wc -w` -ne 0 ] ; then
+  for f in $TIMEV3D ; do
+    if [ ! -d ${f}_3d.d ] ; then
+      mkdir ${f}_3d.d
+d158 4
+a161 19
+      NJ=`$NCKS -m $FILE | egrep "nj" | head -1 | cut -d"," -f2 | cut -d"=" -f2 | sed -e 's/ //g'`
+      case "$NJ" in
+         384 ) # gx1 (~1 degree)
+          OUT=${f}_3d.d/${OUTPFX}.${f}_nh.${OUTSFX}
+          $NCKS -O -d nj,280,383 -v ${HEADER},${f} $FILE $OUT
+          OUT=${f}_3d.d/${OUTPFX}.${f}_sh.${OUTSFX}
+          $NCKS -O -d nj,0,75 -v ${HEADER},${f} $FILE $OUT 
+          ;;
+        2400 ) # 1/10th degree
+          OUT=${f}_3d.d/${OUTPFX}.${f}_nh.${OUTSFX}
+          $NCKS -O -d nj,1500,2399 -v ${HEADER},${f} $FILE $OUT
+          OUT=${f}_3d.d/${OUTPFX}.${f}_sh.${OUTSFX}
+          $NCKS -O -d nj,0,756 -v ${HEADER},${f} $FILE $OUT
+          ;;
+        * )    # Other resolutions
+          echo "Unable to split "${FILE}" into SH and NH. Unknown NJ: "${NJ} 
+          exit 1 
+          ;;
+      esac
+d163 1
+a163 1
+      OUT=${f}_3d.d/${OUTPFX}.${f}.${OUTSFX}
+a173 34
+# 4D time-dependent vars
+#
+if [ `echo $TIMEV4D | wc -w` -ne 0 ] ; then
+  for f in $TIMEV4D ; do
+    if [ ! -d ${f}_4d.d ] ; then
+      mkdir ${f}_4d.d
+    fi
+    OUT=${f}_4d.d/${OUTPFX}.${f}.${OUTSFX}
+    $NCKS -O -v ${HEADER},${f} $FILE $OUT
+    if [ $? -ne 0 ] ; then
+      echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
+      ./update_status error var_split
+      exit 1
+    fi
+ done
+fi
+#
+# 5D time-dependent vars
+#
+if [ `echo $TIMEV5D | wc -w` -ne 0 ] ; then
+  for f in $TIMEV5D ; do
+    if [ ! -d ${f}_5d.d ] ; then
+      mkdir ${f}_5d.d
+    fi
+    OUT=${f}_5d.d/${OUTPFX}.${f}.${OUTSFX}
+    $NCKS -O -v ${HEADER},${f} $FILE $OUT
+    if [ $? -ne 0 ] ; then
+      echo "NCKS -O -v ${HEADER},${f} $FILE $OUT failed"
+      ./update_status error var_split
+      exit 1
+    fi
+ done
+fi
+#
+a178 1
+
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d13 1
+a13 1
+   ./status_check error var_split
+d22 1
+a22 1
+   ./status_check error var_split
+d173 1
+a173 1
+      ./status_check error var_split
+d187 19
+a205 4
+      OUT=${f}_3d.d/${OUTPFX}.${f}_nh.${OUTSFX}
+      $NCKS -O -d nj,280,383 -v ${HEADER},${f} $FILE $OUT
+      OUT=${f}_3d.d/${OUTPFX}.${f}_sh.${OUTSFX}
+      $NCKS -O -d nj,0,75 -v ${HEADER},${f} $FILE $OUT
+d211 1
+a211 1
+        ./status_check error var_split
+d229 1
+a229 1
+      ./status_check error var_split
+d246 1
+a246 1
+      ./status_check error var_split
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d11 1
+a11 1
+   echo "Usage: ccsm_var_split file [erase]"
+d13 1
+a13 1
+   ./procstat.sh error var_split
+d20 1
+a20 1
+   echo "Usage: ccsm_var_split file [erase]"
+d22 1
+a22 7
+   ./procstat.sh error var_split
+   exit 1
+fi
+#
+if [ ! -f $FILE ] ; then
+   echo $file "not found. Exit."
+   ./procstat.sh error var_split
+a33 1
+    ./procstat.sh error var_split
+d60 1
+a60 1
+    cam2 | clm2 | pop | csim | cice )
+d71 1
+a71 1
+# Check to see if $FILE is a POP daily tape denoted by 'pop.h.h2|nday1' string
+d80 4
+d89 49
+a137 29
+D0VARS=`$NCKS -m $FILE | egrep "( 0 dimension|# dim\. = 0)" | cut -d":" -f1`
+D1VARS=`$NCKS -m $FILE | egrep "( 1 dimension|# dim\. = 1)" | cut -d":" -f1`
+D2VARS=`$NCKS -m $FILE | egrep "( 2 dimension|# dim\. = 2)" | cut -d":" -f1`
+D3VARS=`$NCKS -m $FILE | egrep "( 3 dimension|# dim\. = 3)" | cut -d":" -f1`
+D4VARS=`$NCKS -m $FILE | egrep "( 4 dimension|# dim\. = 4)" | cut -d":" -f1`
+D5VARS=`$NCKS -m $FILE | egrep "( 5 dimension|# dim\. = 5)" | cut -d":" -f1`
+#
+# Get auxiliary header fields
+#
+if [ `echo $D2VARS | wc -w` -ne 0 ] ; then
+  if [ `echo $D1VARS | wc -w` -ne 0 ] ; then
+    if [ `echo $D0VARS | wc -w` -ne 0 ] ; then
+      D0HEAD=`echo $D0VARS | sed -e 's/ /,/g'`
+      D1HEAD=`echo $D1VARS | sed -e 's/ /,/g'`
+      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D0HEAD","$D1HEAD","$D2HEAD | sed -e 's/^,//g'`
+    else
+      D1HEAD=`echo $D1VARS | sed -e 's/ /,/g'`
+      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D1HEAD","$D2HEAD | sed -e 's/^,//g'`
+    fi
+  else
+    if [ `echo $D0VARS | wc -w` -ne 0 ] ; then
+      D0HEAD=`echo $D0VARS | sed -e 's/ /,/g'`
+      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D0HEAD","$D2HEAD | sed -e 's/^,//g'`
+    else
+      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D2HEAD | sed -e 's/^,//g'`
+d139 1
+d141 27
+a167 9
+else
+  if [ `echo $D1VARS | wc -w` -ne 0 ] ; then
+    if [ `echo $D0VARS | wc -w` -ne 0 ] ; then
+      D0HEAD=`echo $D0VARS | sed -e 's/ /,/g'`
+      D1HEAD=`echo $D1VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D0HEAD","$D1HEAD | sed -e 's/^,//g'`
+    else
+      D1HEAD=`echo $D1VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D1HEAD | sed -e 's/^,//g'`
+d169 6
+a174 7
+  else
+    if [ `echo $D0VARS | wc -w` -ne 0 ] ; then
+      D0HEAD=`echo $D0VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D0HEAD | sed -e 's/^,//g'`
+    else
+      D2HEAD=`echo $D2VARS | sed -e 's/ /,/g'`
+      HEADER=`echo $D2HEAD | sed -e 's/^,//g'`
+d176 1
+a176 1
+  fi
+d179 1
+a179 1
+# Get variable fields
+d181 2
+a182 14
+if [ `echo $D3VARS | wc -w` -ne 0 ] ; then
+  FIELDS3D=`echo $D3VARS`
+fi
+if [ `echo $D4VARS | wc -w` -ne 0 ] ; then
+  FIELDS4D=`echo $D4VARS`
+fi
+if [ `echo $D5VARS | wc -w` -ne 0 ] ; then
+  FIELDS5D=`echo $D5VARS`
+fi
+#
+# 3D vars
+#
+if [ `echo $FIELDS3D | wc -w` -ne 0 ] ; then
+  for f in $FIELDS3D ; do
+d196 1
+a196 1
+	./procstat.sh error var_split
+d200 1
+a200 1
+  done
+d203 1
+a203 1
+# 4D vars
+d205 2
+a206 2
+if [ `echo $FIELDS4D | wc -w` -ne 0 ] ; then
+  for f in $FIELDS4D ; do
+d214 1
+a214 1
+      ./procstat.sh error var_split
+d217 1
+a217 1
+  done
+d220 1
+a220 1
+# 5D vars
+d222 2
+a223 2
+if [ `echo $FIELDS5D | wc -w` -ne 0 ] ; then
+  for f in $FIELDS5D ; do
+d231 1
+a231 1
+      ./procstat.sh error var_split
+d234 1
+a234 1
+  done
+d237 2
+d242 1
+@

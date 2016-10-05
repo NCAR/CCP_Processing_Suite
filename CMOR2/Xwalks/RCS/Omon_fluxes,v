@@ -1,0 +1,152 @@
+head	1.3;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.3
+date	2015.01.30.16.26.28;	author strandwg;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2014.04.17.16.51.17;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2014.04.17.16.34.18;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@Y/N  entry         units "positive"   standard_name/comment
+---  ------------- ----- ----------   ----------------------------------------------------------------------------
+ N   hfds          W m-2 down         surface_downward_heat_flux_in_sea_water
+                                      This is the net flux of heat entering the liquid water column through its 
+                                      upper surface (excluding any 'flux adjustment').
+
+ N   hfls          W m-2 down         surface_downward_latent_heat_flux
+                                      This is defined as "where ice_free_sea over sea"
+
+
+ Y   hfss          W m-2 down         surface_downward_sensible_heat_flux
+     SENH_F                           This is defined as 'where ice_free_sea over sea'"
+
+ Y   rlds          W m-2 down         surface_net_downward_longwave_flux
+     LWDN_F + LWUP_F where IFRAC = 0  This is defined as 'where ice_free_sea over sea'"
+     
+
+ N   rsds          W m-2 down         downwelling_shortwave_flux_in_sea_water
+
+ Y   rsntds        W m-2 down         net_downward_shortwave_flux_at_sea_water_surface
+     QSW_HTP                          This is the flux into the surface of liquid sea water only. This excludes 
+                                      shortwave flux absorbed by sea ice, but includes any light that passes
+                                      through the ice and is absorbed by the ocean.
+
+ N   hfevapds      W m-2 up           temperature_flux_due_to_evaporation_expressed_as_heat_flux_out_of_sea_water
+                                      This is defined as 'where ice_free_sea over sea'"
+
+ N   hfrainds      W m-2 down         temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water
+                                      This is defined as "where ice_free_sea over sea"; i.e., the total flux 
+                                      (considered here) entering the ice-free portion of the grid cell
+                                      divided by the area of the ocean portion of the grid cell.
+
+ N   hfibthermds   W m-2              heat_flux_into_sea_water_due_to_iceberg_thermodynamics
+     hfibthermds2d
+
+ N   hfrunoffds    W m-2              temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water
+     hfrunoffds2d
+
+ N   hfsifrazil    W m-2              heat_flux_into_sea_water_due_to_freezing_of_frazil_ice
+     hfsifrazil2d
+
+ N   hfsithermds   W m-2              heat_flux_into_sea_water_due_to_sea_ice_thermodynamics
+     hfsithermds2d
+
+ N   hfsnthermds   W m-2              heat_flux_into_sea_water_due_to_snow_thermodynamics
+     hfsnthermds2d
+
+ N   hfgeou        W m-2 up           upward_geothermal_heat_flux_at_sea_floor
+
+ N   hfcorr        W m-2 down         heat_flux_correction
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@a27 7
+ N   hfgeou        W m-2 up           upward_geothermal_heat_flux_at_sea_floor
+
+ N   hfcorr        W m-2 down         heat_flux_correction
+
+ N   hfibthermds   W m-2              heat_flux_into_sea_water_due_to_iceberg_thermodynamics
+     hfibthermds2d
+
+d33 3
+d47 4
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@a2 2
+ N   hfcorr        W m-2 down         heat_flux_correction
+
+d7 18
+d30 1
+a30 1
+ N   hfibthermds2d W m-2              heat_flux_into_sea_water_due_to_iceberg_thermodynamics
+d33 1
+a33 3
+
+ N   hfls          W m-2 down         surface_downward_latent_heat_flux
+                                      This is defined as "where ice_free_sea over sea"
+a39 2
+ N   hfrunoffds2d  W m-2              temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water
+
+d41 1
+a41 2
+
+ N   hfsifrazil2d  W m-2              heat_flux_into_sea_water_due_to_freezing_of_frazil_ice
+d44 1
+a44 2
+
+ N   hfsithermds2d W m-2              heat_flux_into_sea_water_due_to_sea_ice_thermodynamics
+d47 1
+a47 2
+
+ N   hfsnthermds2d W m-2              heat_flux_into_sea_water_due_to_snow_thermodynamics
+d50 1
+a50 14
+
+ Y   hfss          W m-2 down         surface_downward_sensible_heat_flux
+     SENH_F                           This is defined as 'where ice_free_sea over sea'"
+
+ Y   rlds          W m-2 down         surface_net_downward_longwave_flux
+     LWDN_F + LWUP_F where IFRAC = 0  This is defined as 'where ice_free_sea over sea'"
+     
+
+ N   rsds          W m-2 down         downwelling_shortwave_flux_in_sea_water
+
+ Y   rsntds        W m-2 down         net_downward_shortwave_flux_at_sea_water_surface
+     QSW_HTP                          This is the flux into the surface of liquid sea water only. This excludes 
+                                      shortwave flux absorbed by sea ice, but includes any light that passes
+                                      through the ice and is absorbed by the ocean.
+@

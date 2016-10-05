@@ -1,0 +1,31 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.07.18.15.27.16;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@Wed Jul 17 08:42:29 MDT 2013
+Wed Jul 17 12:06:51 MDT 2013   0.142d   3.41h   204.37m    12262s
+Thu Jul 18 00:51:08 MDT 2013   0.673d  16.14h   968.48m    58109s
+Thu Jul 18 01:03:56 MDT 2013   0.677d  16.24h   974.68m    58481s
+Wed Jul 17 19:06:37 MDT 2013   0.433d  10.39h   623.63m    37418s
+Wed Jul 17 12:44:19 MDT 2013   0.167d   4.02h   241.17m    14470s
+Wed Jul 17 12:42:50 MDT 2013   0.166d   3.99h   239.52m    14371s
+                               0.167d   4.01h   240.35m    14421s
+@

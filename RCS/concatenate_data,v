@@ -1,0 +1,192 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2014.01.22.17.39.18;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2013.04.01.15.25.56;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@#!/bin/sh
+#
+# Concatenate data as needed by argument
+#
+if [ $# -ne 0 ] ; then
+  echo "Usage: concatenate_data"
+  ./update_status error concatenate_data
+  exit 1
+fi
+#
+# Check for CACHEDIR
+#
+if [ ! $CACHEDIR ] ; then
+  echo "No CACHEDIR defined. CAT files stay in subdirs"
+else
+  echo "CACHEDIR: "${CACHEDIR}
+fi
+#
+# Check for ncks
+#
+if [ ! $NCKS ] ; then
+  TEST4NCKS=`which ncrcat 2>&1`
+  if [ $? -eq 0 ] ; then
+    NCKS=`which ncks`
+  else
+    echo "NCKS not in PATH - UNDEFINED"
+    ./update_status error concatenate_data
+    exit 1
+  fi
+fi
+#
+cd $LOCAL_PROC
+#
+# Process time-variant fields 
+#
+if [ `/bin/ls -d *.d | wc -l` -ne 0 ] ; then
+  for IDIR in `/bin/ls -d *.d` ; do
+    cd ${LOCAL_PROC}/${IDIR}
+    ../var_year_to_all
+    if [ $? = 0 ] ; then
+      if [ `/bin/ls | egrep "^CAT\." | egrep '\.nc$' | wc -l` -ne 0 ] ; then
+        for CATFILE in `/bin/ls | egrep "^CAT\." | egrep '\.nc$'` ; do
+          mv $CATFILE $CACHEDIR
+        done
+      fi
+    else
+      echo "Error from var_year_to_all"
+      echo $CASE" "${HIST}" "${IDIR}
+      ./update_status error concatenate_data
+      exit 1
+    fi
+  done
+fi
+#
+cd ${LOCAL_PROC}
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d5 3
+a7 8
+if [ $# -eq 0 ] ; then
+  echo "Usage: concatenate_data [HMY|M2Y|Y2D|Y2A|D2C] (required)"
+  echo " HMY: concatenate hist months to hist years"
+  echo " M2Y: concatenate months to years"
+  echo " Y2D: concatenate years to decades"
+  echo " Y2A: concatenate years to all years"
+  echo " D2C: concatenate decades to centuries"
+  ./procstat.sh error concatenate_data
+d10 7
+a16 18
+if [ $# -eq 1 ] ; then
+  TCAT=$1
+  if [ "$TCAT" != "M2Y" ] ; then
+    if [ "$TCAT" != "Y2D" ] ; then
+      if [ "$TCAT" != "Y2A" ] ; then
+        if [ "$TCAT" != "D2C" ] ; then
+          if [ "$TCAT" != "HMY" ] ; then
+            echo "Usage: concatenate_data [HMY|M2Y|Y2D|Y2A|D2C] (required)"
+            echo " HMY: concatenate hist months to hist years"
+            echo " M2Y: concatenate months to years"
+            echo " Y2D: concatenate years to decades"
+            echo " Y2A: concatenate years to all years"
+            echo " D2C: concatenate decades to centuries"
+          fi
+        fi
+      fi
+    fi
+  fi
+d19 1
+a19 1
+cd $LOCAL_PROC
+d21 7
+a27 6
+if [ "$TCAT" = "HMY" ] ; then
+  cd ${LOCAL_PROC}
+  ./hist_mon_to_year
+  if [ $? -ne 0 ] ; then
+    echo "Error from hist_mon_to_year"
+    ./procstat.sh error concatenate_data
+d32 14
+a45 20
+if [ "$TCAT" = "M2Y" ] ; then
+  for e in `ls -d *d.d` ; do
+    cd ${LOCAL_PROC}/${e}
+    ../var_mon_to_year
+    if [ $? -ne 0 ] ; then
+      echo "Error from var_mon_to_year"
+	  ./procstat.sh error concatenate_data
+      exit 1
+    fi
+  done
+fi
+if [ "$TCAT" = "Y2D" ] ; then
+  for e in `ls -d *4d.d` ; do
+    cd ${LOCAL_PROC}/${e}
+    ../var_year_to_dec
+    if [ $? -ne 0 ] ; then
+      echo "Error from var_year_to_dec"
+      echo $CASE" "${HIST}" "${e}
+	  ./procstat.sh error concatenate_data
+      exit 1
+a46 11
+      if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
+        mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
+      fi
+    fi
+  done
+fi
+if [ "$TCAT" = "Y2A" ] ; then
+  for e in `ls -d *d.d` ; do
+    cd ${LOCAL_PROC}/${e}
+    ../var_year_to_all
+    if [ $? -ne 0 ] ; then
+d48 2
+a49 2
+      echo $CASE" "${HIST}" "${e}
+	  ./procstat.sh error concatenate_data
+a50 20
+    else
+      if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
+        mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
+      fi
+    fi
+  done
+fi
+if [ "$TCAT" = "D2C" ] ; then
+  for e in `ls -d *d.d` ; do
+    cd ${LOCAL_PROC}/${e}
+    ../var_dec_to_cen
+    if [ $? -ne 0 ] ; then
+      echo "Error from var_dec_to_cen"
+      echo $CASE" "${HIST}" "${e}
+	  ./procstat.sh error concatenate_data
+      exit 1
+    else
+      if [ `ls | egrep "^CAT.${CASE}.${HIST}" | egrep '\.nc$' | wc -l` -ne 0 ] ; then
+        mv CAT.${CASE}.${HIST}.*.nc $CACHEDIR
+      fi
+d54 1
+@

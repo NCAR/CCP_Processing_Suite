@@ -1,0 +1,48 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.03.06.22.22.21;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@chegpso4,SO4_CHMP
+chegpsoa,SOA*_PROD molec/molec/s  (for all 5 SOA*)
+mcu,ZMMU
+mmrbc,CB1+CB2
+mmrdu,DST01+02+03+04
+mmrnh4,NH4
+mmrno3,NH4NO3
+mmrpoa,OC1+OC2
+mmrso4,SO4
+mmrsoa,SOAM+SOAI+SOAT+SOAB+SOAX
+mmrss,SSLT01+02+03+04
+vmrdms,DMS
+vmrhno3,HNO3
+vmrno2,NO2
+vmrno,NO
+vmrpan,PAN
+vmrso2,SO2
+wet3Dbc,CB2WET
+wet3Ddms,DMSSFWET
+wet3Ddu,a2x_DSTWET1+2+3+4
+wet3Dhno3,HNO3
+wet3Doa,OC2WET
+wet3Dso2,SO2SFWET
+wet3Dso4,SO4SFWET
+wet3Dss,SSLT01PP+02+03+04
+@

@@ -1,0 +1,31 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.11.14.16.57.39;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh
+#
+#PBS -l mem=24gb,ncpus=1,walltime=8:00:00
+#PBS -m abe
+#PBS -j eo
+#PBS -S /bin/sh
+#PBS -V
+#
+@

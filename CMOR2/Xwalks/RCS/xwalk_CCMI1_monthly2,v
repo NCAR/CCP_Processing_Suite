@@ -1,0 +1,82 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2015.04.06.21.56.23;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@CCMI1_monthly:wetnh4:tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+CCMI1_monthly:wetnoy:tendency_of_atmosphere_mass_content_of_all_nitrogen_oxides_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+CCMI1_monthly:wetso4:tendency_of_atmosphere_mass_content_of_sulfate_expressed_as_sulfur_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:1:SO4SFWET:SO4SFWET
+CCMI1_monthly:wetss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:1:SSTSFWET:SSTSFWET
+CCMI1_monthly:zg:geopotential_height:longitude latitude alevel time:atmos:2:Z3 PS:Z3 on model levels
+CCMI1_monthly:zmbrcl:mole_fraction_of_bromine_chloride_in_air:longitude latitude plevs time:atmos:2:BRCL PS:BRCL
+CCMI1_monthly:zmbr:mole_fraction_of_atomic_bromine_in_air:longitude latitude plevs time:atmos:2:BR PS:BR
+CCMI1_monthly:zmbro:mole_fraction_of_bromine_monoxide_in_air:longitude latitude plevs time:atmos:2:BRO PS:BRO
+CCMI1_monthly:zmbrono2:mole_fraction_of_bromine_nitrate_in_air:longitude latitude plevs time:atmos:2:BRONO2 PS:BRONO2 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmbry:mole_fraction_of_total_inorganic_bromine_in_air:longitude latitude plevs time:atmos:2:BRY PS:BRY interpolated to pressure levels and zonal average
+CCMI1_monthly:zmc2br2f4:mole_fraction_of_halon2402_in_air:longitude latitude plevs time:atmos:2:H2402 PS:H2402 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmcbrclf2:mole_fraction_of_halon1211_in_air:longitude latitude plevs time:atmos:2:CF2CLBR PS:CF2CLBR interpolated to pressure levels and zonal average
+CCMI1_monthly:zmcbrf3:mole_fraction_of_halon1301_in_air:longitude latitude plevs time:atmos:2:CF3BR PS:CF3BR interpolated to pressure levels and zonal average
+CCMI1_monthly:zmccl4:mole_fraction_of_carbon_tetrachloride_in_air:longitude latitude plevs time:atmos:2:CCL4 PS:CCL4 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmcf2cl2:mole_fraction_of_cfc12_in_air:longitude latitude plevs time:atmos:2:CF2CL2 PS:CF2CL2 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmcfcl3:mole_fraction_of_cfc11_in_air:longitude latitude plevs time:atmos:2:CFC11 PS:CFC11 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmch2br2:mole_fraction_of_methylene_bromide_in_air:longitude latitude plevs time:atmos:2:CH2BR2 PS:CH2BR2 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmch2o:mole_fraction_of_formaldehyde_in_air:longitude latitude plevs time:atmos:2:CH2O PS:CH2O interpolated to pressure levels and zonal average
+CCMI1_monthly:zmch3br:mole_fraction_of_methyl_bromide_in_air:longitude latitude plevs time:atmos:2:CH3BR PS:CH3BR interpolated to pressure levels and zonal average
+CCMI1_monthly:zmch3ccl2f:mole_fraction_of_hcfc141b_in_air:longitude latitude plevs time:atmos:2:HCFC141B PS:HCFC141B interpolated to pressure levels and zonal average
+CCMI1_monthly:zmch3ccl3:mole_fraction_of_hcc140a_in_air:longitude latitude plevs time:atmos:2:CH3CCL3 PS:CH3CCL3 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmch3cclf2:mole_fraction_of_hcfc142b_in_air:longitude latitude plevs time:atmos:2:HCFC142B PS:HCFC142B interpolated to pressure levels and zonal average
+CCMI1_monthly:zmch3cl:mole_fraction_of_methyl_chloride_in_air:longitude latitude plevs time:atmos:2:CH3CL PS:CH3CL interpolated to pressure levels and zonal average
+CCMI1_monthly:zmch3ooh:mole_fraction_of_methyl_hydroperoxide_in_air:longitude latitude plevs time:atmos:2:CH3OOH PS:CH3OOH interpolated to pressure levels and zonal average
+CCMI1_monthly:zmch4:mole_fraction_of_methane_in_air:longitude latitude plevs time:atmos:2:CH4 PS:CH4 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmchbr3:mole_fraction_of_bromoform_in_air:longitude latitude plevs time:atmos:2:CHBR3 PS:CHBR3 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmchclf2:mole_fraction_of_hcfc22_in_air:longitude latitude plevs time:atmos:2:HCFC22 PS:HCFC22 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmcl2o2:mole_fraction_of_dichlorine_peroxide_in_air:longitude latitude plevs time:atmos:2:CL2O2 PS:CL2O2 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmcl:mole_fraction_of_atomic_chlorine_in_air:longitude latitude plevs time:atmos:2:CL PS:CL interpolated to pressure levels and zonal average
+CCMI1_monthly:zmclo:mole_fraction_of_chlorine_monoxide_in_air:longitude latitude plevs time:atmos:2:CLO PS:CLO interpolated to pressure levels and zonal average
+CCMI1_monthly:zmclono2:mole_fraction_of_chlorine_nitrate_in_air:longitude latitude plevs time:atmos:2:CLONO2 PS:CLONO2 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmcly:mole_fraction_of_inorganic_chlorine_in_air:longitude latitude plevs time:atmos:2:CLY PS:CLY interpolated to pressure levels and zonal average
+CCMI1_monthly:zmco:mole_fraction_of_carbon_monoxide_in_air:longitude latitude plevs time:atmos:2:CO PS:CO interpolated to pressure levels and zonal average
+CCMI1_monthly:zmh2:mole_fraction_of_molecular_hydrogen_in_air:longitude latitude plevs time:atmos:2:H2 PS:H2 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmh2o2:mole_fraction_of_hydrogen_peroxide_in_air:longitude latitude plevs time:atmos:2:H2O2 PS:H2O2 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmh2o:mole_fraction_of_water_vapor_in_air:longitude latitude plevs time:atmos:2:H2O PS:H2O interpolated to pressure levels and zonal average
+CCMI1_monthly:zmhbr:mole_fraction_of_hydrogen_bromide_in_air:longitude latitude plevs time:atmos:2:HBR PS:HBR interpolated to pressure levels and zonal average
+CCMI1_monthly:zmhcl:mole_fraction_of_hydrogen_chloride_in_air:longitude latitude plevs time:atmos:2:HCL PS:HCL interpolated to pressure levels and zonal average
+CCMI1_monthly:zmhno3:mole_fraction_of_nitric_acid_in_air:longitude latitude plevs time:atmos:2:HNO3 PS:HNO3 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmhno4:mole_fraction_of_peroxynitric_acid_in_air:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
+CCMI1_monthly:zmho2:mole_fraction_of_hydroperoxyl_radical_in_air:longitude latitude plevs time:atmos:2:HO2 PS:HO2 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmhobr:mole_fraction_of_hypobromous_acid_in_air:longitude latitude plevs time:atmos:2:HOBR PS:HOBR interpolated to pressure levels and zonal average
+CCMI1_monthly:zmhocl:mole_fraction_of_hypochlorous_acid_in_air:longitude latitude plevs time:atmos:2:HOCL PS:HOCL interpolated to pressure levels and zonal average
+CCMI1_monthly:zmmnstrage:age_of_stratospheric_air:longitude latitude plevs time:atmos:0:UNKNOWN:UNKNOWN
+CCMI1_monthly:zmn2o5:mole_fraction_of_dinitrogen_pentoxide_in_air:longitude latitude plevs time:atmos:2:N2O5 PS:N2O5 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmn2o:mole_fraction_of_nitrous_oxide_in_air:longitude latitude plevs time:atmos:2:N2O PS:N2O interpolated to pressure levels and zonal average
+CCMI1_monthly:zmn:mole_fraction_of_atomic_nitrogen_in_air:longitude latitude plevs time:atmos:2:N PS:N interpolated to pressure levels and zonal average
+CCMI1_monthly:zmno2:mole_fraction_of_nitrogen_dioxide_in_air:longitude latitude plevs time:atmos:2:NO2 PS:NO2 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmno:mole_fraction_of_nitrogen_monoxide_in_air:longitude latitude plevs time:atmos:2:NO PS:NO interpolated to pressure levels and zonal average
+CCMI1_monthly:zmnoy:mole_fraction_of_total_reactive_nitrogen_in_air:longitude latitude plevs time:atmos:2:NOY PS:NOY interpolated to pressure levels and zonal average
+CCMI1_monthly:zmo3:mole_fraction_of_ozone_in_air:longitude latitude plevs time:atmos:2:O3 PS:O3 interpolated to pressure levels and zonal average
+CCMI1_monthly:zmoclo:mole_fraction_of_chlorine_dioxide_in_air:longitude latitude plevs time:atmos:2:OCLO PS:OCLO interpolated to pressure levels and zonal average
+CCMI1_monthly:zmoh:mole_fraction_of_hydroxyl_radical_in_air:longitude latitude plevs time:atmos:2:OH PS:OH interpolated to pressure levels and zonal average
+CCMI1_monthly:zmta:air_temperature:longitude latitude plevs time:atmos:2:T PS:T interpolated to pressure levels and zonal average
+CCMI1_monthly:zmtnt:tendency_of_air_temperature_due_to_diabatic_processes:longitude latitude plevs time:atmos:2:PTTEND PS:PTTEND PS
+CCMI1_monthly:zmua:eastward_wind:longitude latitude plevs time:atmos:2:U PS:U interpolated to pressure levels and zonal average
+CCMI1_monthly:zmva:northward_wind:longitude latitude plevs time:atmos:2:V PS:V interpolated to pressure levels and zonal average
+CCMI1_monthly:zmzg:geopotential_height:longitude latitude plevs time:atmos:2:Z3 PS:Z3 interpolated to pressure levels and zonal average
+CCMI1_monthly:ztp:tropopause_altitude:longitude latitude time:atmos:1:TROP_Z:TROP_Z
+@

@@ -1,0 +1,33 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.10.11.18.54.20;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@AEROCOM-ACC_2D-M:wetbc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:wetdms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:wetdust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:4:a2x_DSTWET1 a2x_DSTWET2 a2x_DSTWET3 a2x_DSTWET4:a2x_DSTWET+a2x_DSTWET2+a2x_DSTWET3+a2x_DSTWET4
+AEROCOM-ACC_2D-M:wethno3:tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:wetnh4:tendency_of_atmosphere_mass_content_of_ammonium_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:wetnoy:tendency_of_atmosphere_mass_content_of_all_nitrogen_oxides_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+AEROCOM-ACC_2D-M:wetoa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:7:OC1SFWET OC2SFWET SOABSFWET SOAISFWET SOAMSFWET SOATSFWET SOAXSFWET:(OC1SFWET+OC2SFWET)*1.4+SOABSFWET+SOAISFWET+SOAMSFWET+SOATSFWET+SOAXSFWET
+AEROCOM-ACC_2D-M:wetso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition:longitude latitude time:atmos:1:SO2SFWET:SO2SFWET
+AEROCOM-ACC_2D-M:wetso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:1:SO4SFWET:SO4SFWET
+AEROCOM-ACC_2D-M:wetss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:6:SSLT01PP SSLT02PP SSLT03PP SSLT04PP PS TS:SSLT01PP+SSLT02PP+SSLT03PP+SSLT04PP integrated over Z
+@

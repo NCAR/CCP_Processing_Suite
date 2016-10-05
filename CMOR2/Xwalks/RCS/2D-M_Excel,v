@@ -1,0 +1,69 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.03.06.22.41.44;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@area,AREA (inst)
+chepsoa,SOA*_PROD (total
+clt,CLOUD
+drybc,TOTAL(DF_CB1_DF_CB2)
+drydms ,DF_DMS
+drydust,DST01DD
+drypoa,DF_OC1+DF_OC2
+dryso2,DF_SO2
+dryso4,DF_SO4
+drysoa,TOTAL(DF_SOA*)
+dryss,SSLT01DD
+emibc,SFCB1+2
+emidms,SFDMS
+emioa,SFOC1+2
+emipoa,SFOC1+2 (total)
+emiso2,SFSO2
+emiso4,SFSO4
+emiss,SFSSLT01+02+03+04
+landf,LANDFRAC (inst)
+loadbc,CB1 + CB2
+loaddust,DST01+02+03+04
+loadoa,OC1 + OC2
+loadso4,SO4
+loadss,SSLT01+02+03+04
+od550aer,AEROD_v
+od550bc,ODV_BC1
+od550dust,ODV_DST01+-2
+od550oa,ODV_OC1
+od550so4,ODV_SO4
+od550ss,SSLT01OD+01+02+03+04
+precip,PRECT 
+ps,PS
+rsdt,FSDS
+rsutcs,FNDSC-FSDSC
+rsut,FNDS-FSDS
+sconcbc,BC1_SRF
+sconcdust,DST01_SRF (02
+sconcoa,OC1_SRF
+sconcso4,SO4_SRF (kg/kg)
+sconcss,SSLT01_SRF-4 (kg/kg)
+wetbc,BC1SFWET+BC2SFWET
+wetdms,DMSSFWET
+wetoa,OC1SFWET+OC2SFWET
+wetso2,SO2SFWET
+wetso4,SO4SFWET
+wetss,SSLT01PP+02+03+04
+@

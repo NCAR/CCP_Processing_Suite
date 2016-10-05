@@ -1,0 +1,122 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2012.01.31.00.03.19;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.01.19.16.19.08;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@ variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min
+variable|sic|sic|sea_ice_area_fraction|Sea Ice Area Fraction|longitude latitude time|real|%|area: areacello|time: mean|seaIce ocean||36.65|-13.33|||166.1|-0.000225|
+variable|sit|sit|sea_ice_thickness|Sea Ice Thickness|longitude latitude time|real|m|area: areacello|time: mean area: mean where sea|seaIce ocean||2.582|-0.9217|||104.4|-0.006698|
+variable|sim|sim|sea_ice_and_surface_snow_amount|Sea Ice Plus Surface Snow Amount|longitude latitude time|real|kg m-2|area: areacello|time: mean area: mean where sea|seaIce ocean||||||||
+variable|evap|evap|water_evaporation_flux|Water Evaporation Flux from Sea Ice|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea_ice over sea|seaIce||||up||||
+variable|snd|snd|surface_snow_thickness|Snow Depth|longitude latitude time|real|m|area: areacello|time: mean area: mean where sea|seaIce||||||||
+variable|snc|snc|surface_snow_area_fraction|Surface Snow Area Fraction|longitude latitude time|real|%|area: areacello|time: mean|seaIce||||||||
+variable|ialb|ialb|sea_ice_albedo|Sea Ice Albedo|longitude latitude time|real|1|area: areacello|time: mean area: mean where sea_ice|seaIce||||||||
+variable|ssi|ssi|sea_ice_salinity|Sea Ice Salinity|longitude latitude time|real|psu|area: areacello|time: mean (weighted by mass of sea ice)|seaIce||||||||
+variable|tsice|tsice|surface_temperature|Surface Temperature of Sea Ice|longitude latitude time|real|K|area: areacello|time: mean (weighted by area of sea ice)|seaIce||||||||
+variable|tsnint|tsnint|sea_ice_surface_temperature|Temperature at Interface Between Sea Ice and Snow|longitude latitude time|real|K|area: areacello|time: mean (weighted by area of snow-covered sea ice)|seaIce||||||||
+variable|pr|pr|rainfall_flux|Surface Rainfall Rate into the Sea Ice Portion of the Grid Cell|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea_ice over sea|seaIce||||||||
+variable|prsn|prsn|snowfall_flux|Surface Snowfall Rate into the Sea Ice Portion of the Grid Cell|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea_ice over sea|seaIce||||||||
+variable|ageice|ageice|age_of_sea_ice|Age of Sea Ice|longitude latitude time|real|years|area: areacello|time: mean (weighted b mass of sea ice)|seaIce||||||||
+variable|grFrazil|grFrazil|tendency_of_sea_ice_amount_due_to_frazil_ice_accumulation_in_leads|Frazil Sea Ice Growth (Leads) Rate|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|seaIce||||||||
+variable|grCongel|grCongel|tendency_of_sea_ice_amount_due_to_congelation_ice_accumulation|Congelation Sea Ice Growth Rate|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|seaIce||||||||
+variable|grLateral|grLateral|tendency_of_sea_ice_amount_due_to_lateral_growth_of_ice_floes|Lateral Sea Ice Growth Rate|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|seaIce||||||||
+variable|snoToIce|snoToIce|tendency_of_sea_ice_amount_due_to_snow_conversion|Snow-Ice Formation Rate|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|seaIce||||||||
+variable|snomelt|snomelt|surface_snow_melt_flux|Snow Melt Rate|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|seaIce||||||||
+variable|tmelt|tmelt|tendency_of_sea_ice_amount_due_to_surface_melting|Rate of Melt at Upper Surface of Sea Ice|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|seaIce||||||||
+variable|bmelt|bmelt|tendency_of_sea_ice_amount_due_to_basal_melting|Rate of Melt at Sea Ice Base|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea|seaIce||||||||
+variable|hcice|hcice|integral_of_sea_ice_temperature_wrt_depth_expressed_as_heat_content|Sea Ice Heat Content|longitude latitude time|real|J m-2|area: areacello|time: mean (weighted by mass of sea ice)|seaIce||||||||
+variable|rsdssi|rsdssi|surface_downwelling_shortwave_flux_in_air|Downwelling Shortwave over Sea Ice|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where sea_ice over sea|seaIce||||down||||
+variable|rsussi|rsussi|surface_upwelling_shortwave_flux_in_air|Upward Shortwave over Sea Ice|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where sea_ice over sea|seaIce||||up||||
+variable|rldssi|rldssi|surface_downwelling_longwave_flux_in_air|Downwelling Long Wave over Sea Ice|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where sea_ice over sea|seaIce||||down||||
+variable|rlussi|rlussi|surface_upwelling_longwave_flux_in_air|Upward Long Wave over Sea Ice|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where sea_ice over sea|seaIce||||up||||
+variable|hfssi|hfssi|surface_upward_sensible_heat_flux|Surface Upward Sensible Heat Flux over Sea Ice|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where sea_ice over sea|seaIce||||up||||
+variable|hflssi|hflssi|surface_upward_latent_heat_flux|Surface Upward Latent Heat Flux over Sea Ice|longitude latitude time|real|W m-2|area: areacello|time: mean area: mean where sea_ice over sea|seaIce||||up||||
+variable|sblsi|sblsi|surface_snow_and_ice_sublimation_flux|Sublimation over Sea Ice|longitude latitude time|real|kg m-2 s-1|area: areacello|time: mean area: mean where sea_ice over sea|seaIce||||up||||
+variable|transix|transix|sea_ice_x_transport|X-Component of Sea Ice Mass Transport|longitude latitude time|real|kg s-1||time: mean|seaIce||||||||
+variable|transiy|transiy|sea_ice_y_transport|Y-Component of Sea Ice Mass Transport|longitude latitude time|real|kg s-1||time: mean|seaIce||||||||
+variable|transifs|transifs|sea_ice_transport_across_line|Sea Ice Mass Transport Through Fram Strait|time|real|kg s-1||time: mean|seaIce||||||||
+variable|strairx|strairx|surface_downward_x_stress|X-Component of Atmospheric Stress On Sea Ice|longitude latitude time|real|N m-2||time: mean (weighted by area of sea ice)|seaIce||||down||||
+variable|strairy|strairy|surface_downward_y_stress|Y-Component of Atmospheric Stress On Sea Ice|longitude latitude time|real|N m-2||time: mean (weighted by area of sea ice)|seaIce||||down||||
+variable|strocnx|strocnx|upward_x_stress_at_sea_ice_base|X-Component of Ocean Stress On Sea Ice|longitude latitude time|real|N m-2||time: mean (weighted by area of sea ice)|seaIce ocean||||||||
+variable|strocny|strocny|upward_y_stress_at_sea_ice_base|Y-Component of Ocean Stress On Sea Ice|longitude latitude time|real|N m-2||time: mean (weighted by area of sea ice)|seaIce ocean||||||||
+variable|streng|streng|compressive_strength_of_sea_ice|Compressive Sea Ice Strength|longitude latitude time|real|N m-1|area: areacello|time: mean (weighted by area of sea ice)|seaIce||||||||
+variable|divice|divice|divergence_of_sea_ice velocity|Strain Rate Divergence of Sea Ice|longitude latitude time|real|s-1|area: areacello|time: mean (weighted by area of sea ice)|seaIce||||||||
+variable|eshrice|eshrice|eastward_derivative_of_northward_sea_ice_velocity|Eastward Derivative of Northward Sea Ice Velocity|longitude latitude time|real|s-1|area: areacello|time: mean (weighted by area of sea ice)|seaIce||||||||
+variable|nshrice|nshrice|northward_derivative_of_eastward_sea_ice_velocity|Northward Derivative of Eastward Sea Ice Velocity|longitude latitude time|real|s-1|area: areacello|time: mean (weighted by area of sea ice)|seaIce||||||||
+variable|ridgice|ridgice|tendency_of_sea_ice_area_fraction_due_to_ridging|Sea Ice Ridging Rate|longitude latitude time|real|s-1|area: areacello|time: mean (weighted by area of sea ice)|seaIce||||||||
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 40
+a41 43
+axis:longitude:lon:longitude:longitude::double:degrees_east::::yes::::increasing:360.0:0.0:
+axis:latitude:lat:latitude:latitude::double:degrees_north::::yes::::increasing:90.0:-90.0:
+axis:time:time:time:time::double:days since ?::::yes::::increasing:::
+variable:sic:sic:sea_ice_area_fraction:Sea Ice Area Fraction:longitude latitude time:real:%:area: areacello:time: mean:seaIce ocean::36.65:-13.33:::166.1:-0.000225:
+variable:sit:sit:sea_ice_thickness:Sea Ice Thickness:longitude latitude time:real:m:area: areacello:time: mean area: mean where sea:seaIce ocean::2.582:-0.9217:::104.4:-0.006698:
+variable:sim:sim:sea_ice_and_surface_snow_amount:Sea Ice Plus Surface Snow Amount:longitude latitude time:real:kg m-2:area: areacello:time: mean area: mean where sea:seaIce ocean::::::::
+variable:evap:evap:water_evaporation_flux:Water Evaporation Flux from Sea Ice:longitude latitude time:real:kg m-2 s-1:area: areacello:time: mean area: mean where sea_ice over sea:seaIce::::up::::
+variable:snd:snd:surface_snow_thickness:Snow Depth:longitude latitude time:real:m:area: areacello:time: mean area: mean where sea:seaIce::::::::
+variable:snc:snc:surface_snow_area_fraction:Surface Snow Area Fraction:longitude latitude time:real:%:area: areacello:time: mean:seaIce::::::::
+variable:ialb:ialb:sea_ice_albedo:Sea Ice Albedo:longitude latitude time:real:1:area: areacello:time: mean area: mean where sea_ice:seaIce::::::::
+variable:ssi:ssi:sea_ice_salinity:Sea Ice Salinity:longitude latitude time:real:psu:area: areacello:time: mean (weighted by mass of sea ice):seaIce::::::::
+variable:tsice:tsice:surface_temperature:Surface Temperature of Sea Ice:longitude latitude time:real:K:area: areacello:time: mean (weighted by area of sea ice):seaIce::::::::
+variable:tsnint:tsnint:sea_ice_surface_temperature:Temperature at Interface Between Sea Ice and Snow:longitude latitude time:real:K:area: areacello:time: mean (weighted by area of snow-covered sea ice):seaIce::::::::
+variable:pr:pr:rainfall_flux:Surface Rainfall Rate into the Sea Ice Portion of the Grid Cell:longitude latitude time:real:kg m-2 s-1:area: areacello:time: mean area: mean where sea_ice over sea:seaIce::::::::
+variable:prsn:prsn:snowfall_flux:Surface Snowfall Rate into the Sea Ice Portion of the Grid Cell:longitude latitude time:real:kg m-2 s-1:area: areacello:time: mean area: mean where sea_ice over sea:seaIce::::::::
+variable:ageice:ageice:age_of_sea_ice:Age of Sea Ice:longitude latitude time:real:years:area: areacello:time: mean (weighted b mass of sea ice):seaIce::::::::
+variable:grFrazil:grFrazil:tendency_of_sea_ice_amount_due_to_frazil_ice_accumulation_in_leads:Frazil Sea Ice Growth (Leads) Rate:longitude latitude time:real:kg m-2 s-1:area: areacello:time: mean area: mean where sea:seaIce::::::::
+variable:grCongel:grCongel:tendency_of_sea_ice_amount_due_to_congelation_ice_accumulation:Congelation Sea Ice Growth Rate:longitude latitude time:real:kg m-2 s-1:area: areacello:time: mean area: mean where sea:seaIce::::::::
+variable:grLateral:grLateral:tendency_of_sea_ice_amount_due_to_lateral_growth_of_ice_floes:Lateral Sea Ice Growth Rate:longitude latitude time:real:kg m-2 s-1:area: areacello:time: mean area: mean where sea:seaIce::::::::
+variable:snoToIce:snoToIce:tendency_of_sea_ice_amount_due_to_snow_conversion:Snow-Ice Formation Rate:longitude latitude time:real:kg m-2 s-1:area: areacello:time: mean area: mean where sea:seaIce::::::::
+variable:snomelt:snomelt:surface_snow_melt_flux:Snow Melt Rate:longitude latitude time:real:kg m-2 s-1:area: areacello:time: mean area: mean where sea:seaIce::::::::
+variable:tmelt:tmelt:tendency_of_sea_ice_amount_due_to_surface_melting:Rate of Melt at Upper Surface of Sea Ice:longitude latitude time:real:kg m-2 s-1:area: areacello:time: mean area: mean where sea:seaIce::::::::
+variable:bmelt:bmelt:tendency_of_sea_ice_amount_due_to_basal_melting:Rate of Melt at Sea Ice Base:longitude latitude time:real:kg m-2 s-1:area: areacello:time: mean area: mean where sea:seaIce::::::::
+variable:hcice:hcice:integral_of_sea_ice_temperature_wrt_depth_expressed_as_heat_content:Sea Ice Heat Content:longitude latitude time:real:J m-2:area: areacello:time: mean (weighted by mass of sea ice):seaIce::::::::
+variable:rsdssi:rsdssi:surface_downwelling_shortwave_flux_in_air:Downwelling Shortwave over Sea Ice:longitude latitude time:real:W m-2:area: areacello:time: mean area: mean where sea_ice over sea:seaIce::::down::::
+variable:rsussi:rsussi:surface_upwelling_shortwave_flux_in_air:Upward Shortwave over Sea Ice:longitude latitude time:real:W m-2:area: areacello:time: mean area: mean where sea_ice over sea:seaIce::::up::::
+variable:rldssi:rldssi:surface_downwelling_longwave_flux_in_air:Downwelling Long Wave over Sea Ice:longitude latitude time:real:W m-2:area: areacello:time: mean area: mean where sea_ice over sea:seaIce::::down::::
+variable:rlussi:rlussi:surface_upwelling_longwave_flux_in_air:Upward Long Wave over Sea Ice:longitude latitude time:real:W m-2:area: areacello:time: mean area: mean where sea_ice over sea:seaIce::::up::::
+variable:hfssi:hfssi:surface_upward_sensible_heat_flux:Surface Upward Sensible Heat Flux over Sea Ice:longitude latitude time:real:W m-2:area: areacello:time: mean area: mean where sea_ice over sea:seaIce::::up::::
+variable:hflssi:hflssi:surface_upward_latent_heat_flux:Surface Upward Latent Heat Flux over Sea Ice:longitude latitude time:real:W m-2:area: areacello:time: mean area: mean where sea_ice over sea:seaIce::::up::::
+variable:sblsi:sblsi:surface_snow_and_ice_sublimation_flux:Sublimation over Sea Ice:longitude latitude time:real:kg m-2 s-1:area: areacello:time: mean area: mean where sea_ice over sea:seaIce::::up::::
+variable:transix:transix:sea_ice_x_transport:X-Component of Sea Ice Mass Transport:longitude latitude time:real:kg s-1::time: mean:seaIce::::::::
+variable:transiy:transiy:sea_ice_y_transport:Y-Component of Sea Ice Mass Transport:longitude latitude time:real:kg s-1::time: mean:seaIce::::::::
+variable:transifs:transifs:sea_ice_transport_across_line:Sea Ice Mass Transport Through Fram Strait:time:real:kg s-1::time: mean:seaIce::::::::
+variable:strairx:strairx:surface_downward_x_stress:X-Component of Atmospheric Stress On Sea Ice:longitude latitude time:real:N m-2::time: mean (weighted by area of sea ice):seaIce::::down::::
+variable:strairy:strairy:surface_downward_y_stress:Y-Component of Atmospheric Stress On Sea Ice:longitude latitude time:real:N m-2::time: mean (weighted by area of sea ice):seaIce::::down::::
+variable:strocnx:strocnx:upward_x_stress_at_sea_ice_base:X-Component of Ocean Stress On Sea Ice:longitude latitude time:real:N m-2::time: mean (weighted by area of sea ice):seaIce ocean::::::::
+variable:strocny:strocny:upward_y_stress_at_sea_ice_base:Y-Component of Ocean Stress On Sea Ice:longitude latitude time:real:N m-2::time: mean (weighted by area of sea ice):seaIce ocean::::::::
+variable:streng:streng:compressive_strength_of_sea_ice:Compressive Sea Ice Strength:longitude latitude time:real:N m-1:area: areacello:time: mean (weighted by area of sea ice):seaIce::::::::
+variable:divice:divice:divergence_of_sea_ice velocity:Strain Rate Divergence of Sea Ice:longitude latitude time:real:s-1:area: areacello:time: mean (weighted by area of sea ice):seaIce::::::::
+variable:eshrice:eshrice:eastward_derivative_of_northward_sea_ice_velocity:Eastward Derivative of Northward Sea Ice Velocity:longitude latitude time:real:s-1:area: areacello:time: mean (weighted by area of sea ice):seaIce::::::::
+variable:nshrice:nshrice:northward_derivative_of_eastward_sea_ice_velocity:Northward Derivative of Eastward Sea Ice Velocity:longitude latitude time:real:s-1:area: areacello:time: mean (weighted by area of sea ice):seaIce::::::::
+variable:ridgice:ridgice:tendency_of_sea_ice_area_fraction_due_to_ridging:Sea Ice Ridging Rate:longitude latitude time:real:s-1:area: areacello:time: mean (weighted by area of sea ice):seaIce::::::::
+@

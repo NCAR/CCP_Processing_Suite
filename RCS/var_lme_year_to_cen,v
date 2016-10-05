@@ -1,0 +1,206 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2014.02.13.17.02.23;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2014.01.09.00.03.56;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@#!/bin/sh
+#
+# Concatenate years of by-field CCSM netCDF from LME pop.h into 100-year-long segments
+#
+if [ $# -ne 0 ] ; then
+  echo "Usage: var_lme_year_to_cen"
+  ./update_status error var_lme_year_to_cen
+  exit 1
+fi
+# 
+# Check for ncrcat
+#
+if [ ! $NCRCAT ] ; then
+  TEST4NCRCAT=`which ncrcat 2>&1`
+  if [ $? -eq 0 ] ; then
+    NCRCAT=`which ncrcat`
+  else
+    echo "NCRCAT not in PATH - UNDEFINED"
+    ./update_status error var_lme_year_to_cen
+    exit 1
+  fi
+fi
+# 
+# Check for TPER
+#
+if [ ! $TPER ] ; then
+  echo "TPER undefined. Assume monthly"
+  TPER="mon" ; export TPER
+fi
+#
+# Parse first filename
+#
+FILE=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | head -n 1`
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DCAS=1
+DVAR=1
+DHT1=1
+DHT2=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 | cam | clm2 | pop | csim | cice | rtm )
+      DCAS=`expr '(' $IDOT ')' '-' '1'`
+      DVAR=`expr '(' $IDOT ')' '+' '1'`
+      DHT1=$IDOT ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+#
+DCMP=$DHT1
+COMP=`echo $FILE | cut -d"." -f${DCMP}`
+#
+DHT2=`expr '(' $DHT1 ')' '+' '1'`
+DVAR=`expr '(' $DVAR ')' '+' '1'`
+DTIM=`expr '(' $DVAR ')' '+' '1'`
+#
+CASES=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
+ VARS=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+ HIST=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+ COMP=`/bin/ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
+#
+for ICASE in $CASES ; do
+  for IVAR in $VARS ; do
+    CENS=`/bin/ls | egrep "${ICASE}\.${HIST}\.${IVAR}\.[0-9][0-9][0-9][0-9]\.nc" | cut -d"." -f${DTIM} | cut -c1-2 | sort | uniq`
+    for ICEN in $CENS ; do
+      case "$ICEN" in
+        08 ) 
+        GOOD=50 ; IYR1=50 ; IYR2=99 ;;
+        18 ) 
+        GOOD=50 ; IYR1=00 ; IYR2=49 ;;
+        * ) 
+        GOOD=100 ; IYR1=00 ; IYR2=99 ;;
+      esac
+      NUM=`/bin/ls ${ICASE}.${HIST}.${IVAR}.${ICEN}??.nc | wc -l`
+      if [ $NUM -eq $GOOD ] ; then
+        Y0=${ICEN}${IYR1}
+        Y1=${ICEN}${IYR2}
+        case "$TPER" in
+          ann )
+           DF=CAT.${ICASE}.${HIST}.${IVAR}.${Y0}-${Y1}.nc ;;
+          mon )
+            DF=CAT.${ICASE}.${HIST}.${IVAR}.${Y0}01-${Y1}12.nc ;;
+          day ) 
+            DF=CAT.${ICASE}.${HIST}.${IVAR}.${Y0}0101-${Y1}1231.nc ;;
+        esac
+        echo -n "TS var_lme_year_to_cen of "${DF}" start: " ; date
+        $NCRCAT -O ${ICASE}.${HIST}.${IVAR}.${ICEN}??.nc $DF
+        if [ $? = 0 ] ; then
+          rm -f ${ICASE}.${HIST}.${IVAR}.${ICEN}??.nc
+          echo "Concatenated "$DF" and checked year count: "${GOOD}
+          echo -n "TS var_lme_year_to_cen of "${DF}"   end: " ; date
+        else
+          echo "Failure on concat of "${ICASE}"."${HIST}"."${IVAR}" files"
+          ./update_status error var_lme_year_to_cen
+          exit 1
+        fi
+      fi
+    done
+  done
+done
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d24 1
+a24 1
+# Check for ncrcat
+d33 1
+a33 1
+FILE=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | head -n 1`
+d67 18
+a84 15
+CASES=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
+ VARS=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DVAR} | sort | uniq`
+ HIST=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+ COMP=`ls | egrep '\.[0-9][0-9][0-9][0-9]\.nc$' | cut -d"." -f${DCMP} | sort | uniq`
+#
+for c in $CASES ; do
+  for v in $VARS ; do
+    CENS=`ls | egrep "${c}\.${HIST}\.${v}\.[0-9][0-9][0-9][0-9]\.nc" | cut -d"." -f${DTIM} | cut -c1-2 | sort | uniq`
+    for d in $CENS ; do
+      if [ "$d" = "08" ] || [ "$d" = "18" ] ; then
+        GOOD=50
+      else
+        GOOD=100
+      fi
+      NUM=`ls ${c}.${HIST}.${v}.${d}??.nc | wc -l`
+d86 2
+a87 12
+        if [ "$d" = "08" ] ; then
+          Y0=0850
+          Y1=0899
+        else
+          if [ "$d" = "18" ] ; then
+            Y0=1800
+            Y1=1849
+          else
+            Y0=${d}00
+            Y1=${d}99
+          fi
+        fi
+d90 1
+a90 1
+           DF=CAT.${c}.${HIST}.${v}.${Y0}-${Y1}.nc ;;
+d92 1
+a92 1
+            DF=CAT.${c}.${HIST}.${v}.${Y0}01-${Y1}12.nc ;;
+d94 1
+a94 1
+            DF=CAT.${c}.${HIST}.${v}.${Y0}0101-${Y1}1231.nc ;;
+d97 1
+a97 1
+        $NCRCAT -4 -L 1 -O ${c}.${HIST}.${v}.${d}??.nc $DF
+d99 1
+a99 1
+          rm -f ${c}.${HIST}.${v}.${d}??.nc
+d103 1
+a103 1
+          echo "Failure on concat of "${c}"."${HIST}"."${v}" files"
+a106 4
+      else
+        echo "Missing year(s) from "${c}"."${HIST}"."${v}"."${d}"??.nc files"
+        echo "Count is "$NUM" should be "${GOOD}
+        exit 1
+@

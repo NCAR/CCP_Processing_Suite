@@ -1,0 +1,28 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2015.02.12.20.36.29;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@,lon,longitude,longitude,,double,degrees_east,,,,yes,,,,increasing,360.0,0.0,
+,lat,latitude,latitude,,double,degrees_north,,,,yes,,,,increasing,90.0,-90.0,
+areacella,areacella,cell_area,Atmosphere Grid-Cell Area,longitude latitude,real,m2,,,atmos land,,1e+12,100000.0,,,1e+12,100000.0,
+orog,orog,surface_altitude,Surface Altitude,longitude latitude,real,m,area: areacella,,atmos,,431.3,327.9,,,10000.0,-700.0,
+sftlf,sftlf,land_area_fraction,Land Area Fraction,longitude latitude,real,%,area: areacella,,atmos,,37.07,30.58,,,100.0,0.0,
+@

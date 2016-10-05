@@ -1,0 +1,33 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.01.31.18.11.29;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@CESM model configuration     CAM resolution    CMIP5 equivalent    institute_id
+------------------------     --------------    ----------------    ------------
+CCSM4                        f09               CCSM4               NCAR
+CCSM4 @@ fv 2 deg             f19               CCSM4-FV2           NCAR
+CCSM4 @@ T31                  T31               CCSM4-T31           NCAR
+CESM1 (BGC)                  f09               CESM1-BGC           DOE-NSF-NCAR
+CESM1 (CAM5)                 f09               CESM1-CAM5          DOE-NSF-NCAR
+CESM1 (CAM5) @@ fv 2 deg      f19               CESM1-CAM5-FV2      DOE-NSF-NCAR
+CESM1 (FASTCHEM)             f09               CESM1-FASTCHEM      DOE-NSF-NCAR
+CESM1 (WACCM)                f19               CESM1-WACCM         DOE-NSF-NCAR
+@

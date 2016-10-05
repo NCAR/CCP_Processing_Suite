@@ -1,0 +1,24 @@
+axis:Tables/CMIP5_6hrLev:longitude:lon:longitude:longitude
+axis:Tables/CMIP5_6hrLev:latitude:lat:latitude:latitude
+axis:Tables/CMIP5_6hrLev:time1:time:time:time
+axis:Tables/CMIP5_6hrLev:smooth_level:lev:atmosphere_sleve_coordinate:atmosphere smooth level vertical (SLEVE) coordinate
+axis:Tables/CMIP5_6hrLev:natural_log_pressure:lev:atmosphere_ln_pressure_coordinate:atmosphere natural log pressure coordinate
+axis:Tables/CMIP5_6hrLev:standard_sigma:lev:atmosphere_sigma_coordinate:sigma coordinate
+axis:Tables/CMIP5_6hrLev:standard_hybrid_sigma:lev:atmosphere_hybrid_sigma_pressure_coordinate:hybrid sigma pressure coordinate
+axis:Tables/CMIP5_6hrLev:alternate_hybrid_sigma:lev:atmosphere_hybrid_sigma_pressure_coordinate:hybrid sigma pressure coordinate
+axis:Tables/CMIP5_6hrLev:hybrid_height:lev:atmosphere_hybrid_height_coordinate:hybrid height coordinate
+variable:Tables/CMIP5_6hrLev:1.0:orog:atmos:1
+variable:Tables/CMIP5_6hrLev:1.0:p0::1
+variable:Tables/CMIP5_6hrLev:1.0:ptop::1
+variable:Tables/CMIP5_6hrLev:1.0:a::1
+variable:Tables/CMIP5_6hrLev:1.0:b::1
+variable:Tables/CMIP5_6hrLev:1.0:a_bnds::1
+variable:Tables/CMIP5_6hrLev:1.0:b_bnds::1
+variable:Tables/CMIP5_6hrLev:1.0:ap::1
+variable:Tables/CMIP5_6hrLev:1.0:ap_bnds::1
+variable:Tables/CMIP5_6hrLev:1.0:ztop::1
+variable:Tables/CMIP5_6hrLev:1.0:ta:atmos:1
+variable:Tables/CMIP5_6hrLev:1.0:ua:atmos:1
+variable:Tables/CMIP5_6hrLev:1.0:va:atmos:1
+variable:Tables/CMIP5_6hrLev:1.0:hus:atmos:1
+variable:Tables/CMIP5_6hrLev:1.0:ps:atmos:1

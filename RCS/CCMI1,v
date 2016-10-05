@@ -1,0 +1,29 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.01.31.20.40.29;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@b_1950_2100_refc2_CCSM4_chem_no_sp.001                CESM1-CAM4Chem      NC   refC2          r1i1p1    ccm  N/A  N/A                                1950-01-01     1950-2100 1950-2100 f19_g16   B1850C5CN           cesm1_0_beta08      12/13-01/14    yellow    /home/tilmes/csm
+b_1950_2100_refc2_CCSM4_chem_no_sp.002                CESM1-CAM4Chem      NC   refC2          r2i1p1    ccm  N/A  N/A                                1950-01-01     1950-2100 1950-2100 f19_g16   B1850C5CN           cesm1_0_beta08      12/13-01/14    yellow    /home/tilmes/csm
+b_1950_2100_refc2_CCSM4_chem_no_sp.003                CESM1-CAM4Chem      NC   refC2          r3i1p1    ccm  N/A  N/A                                1950-01-01     1950-2100 1950-2100 f19_g16   B1850C5CN           cesm1_0_beta08      12/13-01/14    yellow    /home/tilmes/csm
+f_1950_2010_refc1_CESM1_CAM4chem_no_sp.001            CESM1-CAM4Chem      NC   refC1          r1i1p1    ccm  N/A  N/A                                1950-01-01     1950-2010 1950-2010 f19_g16   B1850C5CN           cesm1_0_beta08      12/13-01/14    yellow    /home/tilmes/csm
+f_1950_2010_refc1_CESM1_CAM4chem_no_sp.002            CESM1-CAM4Chem      NC   refC1          r2i1p1    ccm  N/A  N/A                                1950-01-01     1950-2010 1950-2010 f19_g16   B1850C5CN           cesm1_0_beta08      12/13-01/14    yellow    /home/tilmes/csm
+f_1975_2010_refc1sd_CESM1_CAM4chem_no_sp.001          CESM1-CAM4Chem      NC   refC1sd        r1i1p1    ccm  N/A  N/A                                1975-01-01     1975-2010 1975-2010 f19_g16   B1850C5CN           cesm1_0_beta08      12/13-01/14    yellow    /home/tilmes/csm
+@

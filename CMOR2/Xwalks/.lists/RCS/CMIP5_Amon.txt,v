@@ -1,0 +1,227 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2012.01.31.00.03.19;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.01.19.16.19.08;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@ variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min
+variable|p0|||vertical coordinate formula term: reference pressure|||Pa|||||||||||
+variable|ptop|||pressure at top of model|||Pa|||||||||||
+variable|a|||vertical coordinate formula term: a(k)|alevel|double||||||||||||
+variable|b|||vertical coordinate formula term: b(k)|alevel|double||||||||||||
+variable|a_bnds|||vertical coordinate formula term: a(k+1/2)|alevel|double||||||||||||
+variable|b_bnds|||vertical coordinate formula term: b(k+1/2)|alevel|double||||||||||||
+variable|ap|||vertical coordinate formula term: ap(k)|alevel|double|Pa|||||||||||
+variable|ap_bnds|||vertical coordinate formula term: ap(k+1/2)|alevel|double|Pa|||||||||||
+variable|ztop|||height of top of model|||m|||||||||||
+variable|tas|tas|air_temperature|Near-Surface Air Temperature|longitude latitude time height2m|real|K|area: areacella|time: mean|atmos||293|262.4|||335.1|180.6|
+variable|ts|ts|surface_temperature|Surface Temperature|longitude latitude time|real|K|area: areacella|time: mean|atmos||293.3|262.8|||339.6|176.8|
+variable|tasmin|tasmin|air_temperature|Daily Minimum Near-Surface Air Temperature|longitude latitude time height2m|real|K|area: areacella|time: minimum within days time: mean over days|atmos||290.6|260.9|||323|182.8|
+variable|tasmax|tasmax|air_temperature|Daily Maximum Near-Surface Air Temperature|longitude latitude time height2m|real|K|area: areacella|time: maximum within days time: mean over days|atmos||294|264.9|||341.9|181.9|
+variable|psl|psl|air_pressure_at_sea_level|Sea Level Pressure|longitude latitude time|real|Pa|area: areacella|time: mean|atmos||1.063e+05|9.57e+04|||1.137e+05|9.122e+04|
+variable|ps|ps|surface_air_pressure|Surface Air Pressure|longitude latitude time|real|Pa|area: areacella|time: mean|atmos||1.019e+05|9.165e+04|||1.119e+05|4.791e+04|
+variable|uas|uas|eastward_wind|Eastward Near-Surface Wind|longitude latitude time height10m|real|m s-1||time: mean|atmos||4.106|1.668|||18.68|-19.01|
+variable|vas|vas|northward_wind|Northward Near-Surface Wind|longitude latitude time height10m|real|m s-1||time: mean|atmos||2.678|1.065|||22.84|-18.04|
+variable|sfcWind|sfcWind|wind_speed|Near-Surface Wind Speed|longitude latitude time height10m|real|m s-1||time: mean|atmos||||||||
+variable|hurs|hurs|relative_humidity|Near-Surface Relative Humidity|longitude latitude time height2m|real|%|area: areacella|time: mean|atmos||||||||
+variable|huss|huss|specific_humidity|Near-Surface Specific Humidity|longitude latitude time height2m|real|1|area: areacella|time: mean|atmos||0.008749|0.006391|||0.02992|-7.21e-06|
+variable|pr|pr|precipitation_flux|Precipitation|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|atmos||3.215e-05|2.156e-05|||0.001254|0|
+variable|prsn|prsn|snowfall_flux|Snowfall Flux|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|atmos||6.11e-06|1.449e-06|||0.0002987|0|
+variable|prc|prc|convective_precipitation_flux|Convective Precipitation|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|atmos||3.209e-05|-2.528e-06|||0.0006323|0|
+variable|evspsbl|evspsbl|water_evaporation_flux|Evaporation|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|atmos||||||||
+variable|sbl|sbl|surface_snow_and_ice_sublimation_flux|Surface Snow and Ice Sublimation Flux|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|atmos||9.61e-05|-5.521e-05|||0.0009936|-0.004959|
+variable|tauu|tauu|surface_downward_eastward_stress|Surface Downward Eastward Wind Stress|longitude latitude time|real|Pa||time: mean|atmos||0.1065|0.03979|down||2.934|-2.729|
+variable|tauv|tauv|surface_downward_northward_stress|Surface Downward Northward Wind Stress|longitude latitude time|real|Pa||time: mean|atmos||0.08134|0.01447|down||2.527|-2.472|
+variable|hfls|hfls|surface_upward_latent_heat_flux|Surface Upward Latent Heat Flux|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||73.2|50.39|up||790.7|-76.77|
+variable|hfss|hfss|surface_upward_sensible_heat_flux|Surface Upward Sensible Heat Flux|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||34.84|10.7|up||844.8|-264.5|
+variable|rlds|rlds|surface_downwelling_longwave_flux_in_air|Surface Downwelling Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||323.6|271.2|down||520.5|30.71|
+variable|rlus|rlus|surface_upwelling_longwave_flux_in_air|Surface Upwelling Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||376.3|325.6|up||658|43.75|
+variable|rsds|rsds|surface_downwelling_shortwave_flux_in_air|Surface Downwelling Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||181.6|143.9|down||524.4|-0.002946|
+variable|rsus|rsus|surface_upwelling_shortwave_flux_in_air|Surface Upwelling Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||43.77|26.22|up||422.2|-0.006589|
+variable|rsdscs|rsdscs|surface_downwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||239|206.9|down||522.4|-1.748e+30|
+variable|rsuscs|rsuscs|surface_upwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Upwelling Clear-Sky Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||61.59|31.65|up||462.2|-0.01446|
+variable|rldscs|rldscs|surface_downwelling_longwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||293.8|238.6|down||543.6|33.55|
+variable|rsdt|rsdt|toa_incoming_shortwave_flux|TOA Incident Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||315.8|282.6|down||580.4|0|
+variable|rsut|rsut|toa_outgoing_shortwave_flux|TOA Outgoing Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||114.1|96.72|up||421.9|-0.02689|
+variable|rlut|rlut|toa_outgoing_longwave_flux|TOA Outgoing Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||234.4|207.4|up||383.2|67.48|
+variable|rlutcs|rlutcs|toa_outgoing_longwave_flux_assuming_clear_sky|TOA Outgoing Clear-Sky Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||260.4|228.9|up||377.5|70.59|
+variable|rsutcs|rsutcs|toa_outgoing_shortwave_flux_assuming_clear_sky|TOA Outgoing Clear-Sky Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||73.36|54.7|up||444|0|
+variable|prw|prw|atmosphere_water_vapor_content|Water Vapor Path|longitude latitude time|real|kg m-2|area: areacella|time: mean|atmos||23.09|12.75|||78.04|-0.0006775|
+variable|clt|clt|cloud_area_fraction|Total Cloud Fraction|longitude latitude time|real|%|area: areacella|time: mean|atmos||84.98|39.37|||105|-0.0001822|
+variable|clwvi|clwvi|atmosphere_cloud_condensed_water_content|Condensed Water Path|longitude latitude time|real|kg m-2|area: areacella|time: mean|atmos||0.2846|-0.03549|||3.364|-3.827e-06|
+variable|clivi|clivi|atmosphere_cloud_ice_content|Ice Water Path|longitude latitude time|real|kg m-2|area: areacella|time: mean|atmos||0.1187|-0.0348|||1.535|-1.872e-06|
+variable|rtmt|rtmt|net_downward_radiative_flux_at_top_of_atmosphere_model|Net Downward Flux at Top of Model|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||89.25|76.91|down||218.7|-232.8|
+variable|ccb|ccb|air_pressure_at_convective_cloud_base|Air Pressure at Convective Cloud Base|longitude latitude time|real|Pa|area: areacella|time: mean|atmos||||||||
+variable|cct|cct|air_pressure_at_convective_cloud_top|Air Pressure at Convective Cloud Top|longitude latitude time|real|Pa|area: areacella|time: mean|atmos||||||||
+variable|ci|ci|convection_time_fraction|Fraction of Time Convection Occurs|longitude latitude time|real|1|area: areacella|time: mean|atmos||||||||
+variable|sci|sci|shallow_convection_time_fraction|Fraction of Time Shallow Convection Occurs|longitude latitude time|real|1|area: areacella|time: mean|atmos||||||||
+variable|fco2antt|fco2antt|tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission|Carbon Mass Flux into Atmosphere Due to All Anthropogenic Emissions of CO2|longitude latitude time|real|kg  m-2 s-1|area: areacella|time: mean|atmos||||up||||
+variable|fco2fos|fco2fos|tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fossil_fuel_combustion|Carbon Mass Flux into Atmosphere Due to Fossil Fuel Emissions of CO2|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|atmos||||up||||
+variable|fco2nat|fco2nat|surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources|Surface Carbon Mass Flux into the Atmosphere Due to Natural Sources|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|atmos||||up||||
+variable|cl|cl|cloud_area_fraction_in_atmosphere_layer|Cloud Area Fraction|longitude latitude alevel time|real|%|area: areacella|time: mean|atmos||26.07|-0.04479|||105|0|
+variable|clw|clw|mass_fraction_of_cloud_liquid_water_in_air|Mass Fraction of Cloud Liquid Water|longitude latitude alevel time|real|1|area: areacella|time: mean|atmos||||||||
+variable|cli|cli|mass_fraction_of_cloud_ice_in_air|Mass Fraction of Cloud Ice|longitude latitude alevel time|real|1|area: areacella|time: mean|atmos||||||||
+variable|mc|mc|atmosphere_net_upward_convective_mass_flux|Convective Mass Flux|longitude latitude alevhalf time|real|kg m-2 s-1|area: areacella|time: mean|atmos||||up||||
+variable|ta|ta|air_temperature|Air Temperature|longitude latitude plevs time|real|K|area: areacella|time: mean|atmos||299.8|194.3|||336.3|157.1|
+variable|ua|ua|eastward_wind|Eastward Wind|longitude latitude plevs time|real|m s-1||time: mean|atmos||22.42|1.101|||136.6|-68.65|
+variable|va|va|northward_wind|Northward Wind|longitude latitude plevs time|real|m s-1||time: mean|atmos||4.679|0.9886|||69.93|-71.1|
+variable|hus|hus|specific_humidity|Specific Humidity|longitude latitude plevs time|real|1|area: areacella|time: mean|atmos||0.01041|-0.0003539|||0.02841|-0.000299|
+variable|hur|hur|relative_humidity|Relative Humidity|longitude latitude plevs time|real|%|area: areacella|time: mean|atmos||97|-10.31|||135.7|-2.642|
+variable|wap|wap|lagrangian_tendency_of_air_pressure|omega (=dp/dt)|longitude latitude plevs time|real|Pa s-1|area: areacella|time: mean|atmos||0.04256|-0.005083|||2.319|-1.126|
+variable|zg|zg|geopotential_height|Geopotential Height|longitude latitude plevs time|real|m|area: areacella|time: mean|atmos||3.299e+04|-113.4|||3.437e+04|-719.7|
+variable|tro3|tro3|mole_fraction_of_ozone_in_air|Mole Fraction of O3|longitude latitude plevs time|real|1e-9|area: areacella|time: mean|atmos atmosChem||7558|-149.1|||1.162e+04|-419.2|
+variable|tro3Clim|tro3|mole_fraction_of_ozone_in_air|Mole Fraction of O3|longitude latitude plevs time2|real|1e-9|area: areacella|time: mean within years time: mean over years|atmos atmosChem||||||||
+variable|co2|co2|mole_fraction_of_carbon_dioxide_in_air|Mole Fraction of CO2|longitude latitude plevs time|real|1e-6|area: areacella|time: mean|atmos||||||||
+variable|co2Clim|co2|mole_fraction_of_carbon_dioxide_in_air|Mole Fraction of CO2|longitude latitude plevs time2|real|1e-6|area: areacella|time: mean within years time: mean over years|atmos||||||||
+variable|co2mass|co2mass|atmosphere_mass_of_carbon_dioxide|Total Atmospheric Mass of CO2|time|real|kg||time: mean|atmos||||||||
+variable|co2massClim|co2mass|atmosphere_mass_of_carbon_dioxide|Total Atmospheric Mass of CO2|time2|real|kg||time: mean within years time: mean over years|atmos||||||||
+variable|ch4|ch4|mole_fraction_of_methane_in_air|Mole Fraction of CH4|longitude latitude plevs time|real|1e-9|area: areacella|time: mean|atmos atmosChem||||||||
+variable|ch4Clim|ch4|mole_fraction_of_methane_in_air|Mole Fraction of CH4|longitude latitude plevs time2|real|1e-9|area: areacella|time: mean within years time: mean over years|atmos atmosChem||||||||
+variable|ch4global|ch4global|mole_fraction_of_methane_in_air|Global Mean Mole Fraction of CH4|time|real|1e-9||time: mean|atmos atmosChem||||||||
+variable|ch4globalClim|ch4global|mole_fraction_of_methane_in_air|Global Mean Mole Fraction of CH4|time2|real|1e-9||time: mean within years time: mean over years|atmos atmosChem||||||||
+variable|n2o|n2o|mole_fraction_of_nitrous_oxide_in_air|Mole Fraction of N2O|longitude latitude plevs time|real|1e-9|area: areacella|time: mean|atmos atmosChem||||||||
+variable|n2oClim|n2o|mole_fraction_of_nitrous_oxide_in_air|Mole Fraction of N2O|longitude latitude plevs time2|real|1e-9|area: areacella|time: mean within years time: mean over years|atmos atmosChem||||||||
+variable|n2oglobal|n2oglobal|mole_fraction_of_nitrous_oxide_in_air|Global Mean Mole Fraction of N2O|time|real|1e-9||time: mean|atmos atmosChem||||||||
+variable|n2oglobalClim|n2oglobal|mole_fraction_of_nitrous_oxide_in_air|Global Mean Mole Fraction of N2O|time2|real|1e-9||time: mean within years time: mean over years|atmos atmosChem||||||||
+variable|cfc11global|cfc11global|mole_fraction_of_cfc11_in_air|Global Mean Mole Fraction of CFC11|time|real|1e-12||time: mean|atmos atmosChem||||||||
+variable|cfc12global|cfc12global|mole_fraction_of_cfc12_in_air|Global Mean Mole Fraction of CFC12|time|real|1e-12||time: mean|atmos atmosChem||||||||
+variable|hcfc22global|hcfc22global|mole_fraction_of_hcfc22_in_air|Global Mean Mole Fraction of HCFC22|time|real|1e-12||time: mean|atmos atmosChem||||||||
+variable|cfc113global|cfc113global|mole_fraction_of_cfc113_in_air|Global Mean Mole Fraction of CFC113|time|real|1e-12||time: mean|atmos atmosChem||||||||
+variable|tasAdjust|tasAdjust|air_temperature|Bias-Corrected Near-Surface Air Temperature|longitude latitude time height2m|real|K|area: areacella|time: mean|atmos||||||||
+variable|tsAdjust|tsAdjust|surface_temperature|Bias-Corrected Surface Temperature|longitude latitude time|real|K|area: areacella|time: mean|atmos||||||||
+variable|pslAdjust|pslAdjust|air_pressure_at_sea_level|Bias-Corrected Sea Level Pressure|longitude latitude time|real|Pa|area: areacella|time: mean|atmos||||||||
+variable|prAdjust|prAdjust|precipitation_flux|Bias-Corrected Precipitation|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|atmos||||||||
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 86
+a87 102
+axis:longitude:lon:longitude:longitude::double:degrees_east::::yes::::increasing:360.0:0.0:
+axis:latitude:lat:latitude:latitude::double:degrees_north::::yes::::increasing:90.0:-90.0:
+axis:plevs:plev:air_pressure:pressure::double:Pa::::no:::down:decreasing:::
+axis:time:time:time:time::double:days since ?::::yes::::increasing:::
+axis:time2:time:time:time::double:days since ?::::yes::::increasing:::
+axis:height2m:height:height:height::double:m::::no:::up:increasing:10.0:1.0:
+axis:height10m:height:height:height::double:m::::no:::up:increasing:30.0:1.0:
+axis:smooth_level:lev:atmosphere_sleve_coordinate:atmosphere smooth level vertical (SLEVE) coordinate:::m::::yes:::	      up:increasing:800000.:-200.:
+axis:natural_log_pressure:lev:atmosphere_ln_pressure_coordinate:atmosphere natural log pressure coordinate:::::::yes:::	      down:decreasing:20.:-1.:
+axis:standard_sigma:lev:atmosphere_sigma_coordinate:sigma coordinate:::::::yes:::down:decreasing:1.0:0.0:
+axis:standard_hybrid_sigma:lev:atmosphere_hybrid_sigma_pressure_coordinate:hybrid sigma pressure coordinate:::1::::yes:::down:decreasing:1.0:0.0:
+axis:alternate_hybrid_sigma:lev:atmosphere_hybrid_sigma_pressure_coordinate:hybrid sigma pressure coordinate:::1::::yes:::down:decreasing:1.0:0.0:
+axis:hybrid_height:lev:atmosphere_hybrid_height_coordinate:hybrid height coordinate:::m::::yes:::up:increasing::0.0:
+variable:orog:orog:surface_altitude:Surface Altitude:longitude latitude:real:m:::atmos::::::1.00E+04:-700:
+variable:p0:::vertical coordinate formula term: reference pressure:::Pa:::::::::::
+variable:ptop:::pressure at top of model:::Pa:::::::::::
+variable:a:::vertical coordinate formula term: a(k):alevel:double::::::::::::
+variable:b:::vertical coordinate formula term: b(k):alevel:double::::::::::::
+variable:a_bnds:::vertical coordinate formula term: a(k+1/2):alevel:double::::::::::::
+variable:b_bnds:::vertical coordinate formula term: b(k+1/2):alevel:double::::::::::::
+variable:ap:::vertical coordinate formula term: ap(k):alevel:double:Pa:::::::::::
+variable:ap_bnds:::vertical coordinate formula term: ap(k+1/2):alevel:double:Pa:::::::::::
+variable:ztop:::height of top of model:::m:::::::::::
+variable:tas:tas:air_temperature:Near-Surface Air Temperature:longitude latitude time height2m:real:K:area: areacella:time: mean:atmos::293:262.4:::335.1:180.6:
+variable:ts:ts:surface_temperature:Surface Temperature:longitude latitude time:real:K:area: areacella:time: mean:atmos::293.3:262.8:::339.6:176.8:
+variable:tasmin:tasmin:air_temperature:Daily Minimum Near-Surface Air Temperature:longitude latitude time height2m:real:K:area: areacella:time: minimum within days time: mean over days:atmos::290.6:260.9:::323:182.8:
+variable:tasmax:tasmax:air_temperature:Daily Maximum Near-Surface Air Temperature:longitude latitude time height2m:real:K:area: areacella:time: maximum within days time: mean over days:atmos::294:264.9:::341.9:181.9:
+variable:psl:psl:air_pressure_at_sea_level:Sea Level Pressure:longitude latitude time:real:Pa:area: areacella:time: mean:atmos::1.063e+05:9.57e+04:::1.137e+05:9.122e+04:
+variable:ps:ps:surface_air_pressure:Surface Air Pressure:longitude latitude time:real:Pa:area: areacella:time: mean:atmos::1.019e+05:9.165e+04:::1.119e+05:4.791e+04:
+variable:uas:uas:eastward_wind:Eastward Near-Surface Wind:longitude latitude time height10m:real:m s-1::time: mean:atmos::4.106:1.668:::18.68:-19.01:
+variable:vas:vas:northward_wind:Northward Near-Surface Wind:longitude latitude time height10m:real:m s-1::time: mean:atmos::2.678:1.065:::22.84:-18.04:
+variable:sfcWind:sfcWind:wind_speed:Near-Surface Wind Speed:longitude latitude time height10m:real:m s-1::time: mean:atmos::::::::
+variable:hurs:hurs:relative_humidity:Near-Surface Relative Humidity:longitude latitude time height2m:real:%:area: areacella:time: mean:atmos::::::::
+variable:huss:huss:specific_humidity:Near-Surface Specific Humidity:longitude latitude time height2m:real:1:area: areacella:time: mean:atmos::0.008749:0.006391:::0.02992:-7.21e-06:
+variable:pr:pr:precipitation_flux:Precipitation:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:atmos::3.215e-05:2.156e-05:::0.001254:0:
+variable:prsn:prsn:snowfall_flux:Snowfall Flux:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:atmos::6.11e-06:1.449e-06:::0.0002987:0:
+variable:prc:prc:convective_precipitation_flux:Convective Precipitation:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:atmos::3.209e-05:-2.528e-06:::0.0006323:0:
+variable:evspsbl:evspsbl:water_evaporation_flux:Evaporation:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:atmos::::::::
+variable:sbl:sbl:surface_snow_and_ice_sublimation_flux:Surface Snow and Ice Sublimation Flux:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:atmos::9.61e-05:-5.521e-05:::0.0009936:-0.004959:
+variable:tauu:tauu:surface_downward_eastward_stress:Surface Downward Eastward Wind Stress:longitude latitude time:real:Pa::time: mean:atmos::0.1065:0.03979:down::2.934:-2.729:
+variable:tauv:tauv:surface_downward_northward_stress:Surface Downward Northward Wind Stress:longitude latitude time:real:Pa::time: mean:atmos::0.08134:0.01447:down::2.527:-2.472:
+variable:hfls:hfls:surface_upward_latent_heat_flux:Surface Upward Latent Heat Flux:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::73.2:50.39:up::790.7:-76.77:
+variable:hfss:hfss:surface_upward_sensible_heat_flux:Surface Upward Sensible Heat Flux:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::34.84:10.7:up::844.8:-264.5:
+variable:rlds:rlds:surface_downwelling_longwave_flux_in_air:Surface Downwelling Longwave Radiation:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::323.6:271.2:down::520.5:30.71:
+variable:rlus:rlus:surface_upwelling_longwave_flux_in_air:Surface Upwelling Longwave Radiation:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::376.3:325.6:up::658:43.75:
+variable:rsds:rsds:surface_downwelling_shortwave_flux_in_air:Surface Downwelling Shortwave Radiation:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::181.6:143.9:down::524.4:-0.002946:
+variable:rsus:rsus:surface_upwelling_shortwave_flux_in_air:Surface Upwelling Shortwave Radiation:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::43.77:26.22:up::422.2:-0.006589:
+variable:rsdscs:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:Surface Downwelling Clear-Sky Shortwave Radiation:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::239:206.9:down::522.4:-1.748e+30:
+variable:rsuscs:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:Surface Upwelling Clear-Sky Shortwave Radiation:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::61.59:31.65:up::462.2:-0.01446:
+variable:rldscs:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:Surface Downwelling Clear-Sky Longwave Radiation:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::293.8:238.6:down::543.6:33.55:
+variable:rsdt:rsdt:toa_incoming_shortwave_flux:TOA Incident Shortwave Radiation:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::315.8:282.6:down::580.4:0:
+variable:rsut:rsut:toa_outgoing_shortwave_flux:TOA Outgoing Shortwave Radiation:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::114.1:96.72:up::421.9:-0.02689:
+variable:rlut:rlut:toa_outgoing_longwave_flux:TOA Outgoing Longwave Radiation:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::234.4:207.4:up::383.2:67.48:
+variable:rlutcs:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:TOA Outgoing Clear-Sky Longwave Radiation:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::260.4:228.9:up::377.5:70.59:
+variable:rsutcs:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:TOA Outgoing Clear-Sky Shortwave Radiation:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::73.36:54.7:up::444:0:
+variable:prw:prw:atmosphere_water_vapor_content:Water Vapor Path:longitude latitude time:real:kg m-2:area: areacella:time: mean:atmos::23.09:12.75:::78.04:-0.0006775:
+variable:clt:clt:cloud_area_fraction:Total Cloud Fraction:longitude latitude time:real:%:area: areacella:time: mean:atmos::84.98:39.37:::105:-0.0001822:
+variable:clwvi:clwvi:atmosphere_cloud_condensed_water_content:Condensed Water Path:longitude latitude time:real:kg m-2:area: areacella:time: mean:atmos::0.2846:-0.03549:::3.364:-3.827e-06:
+variable:clivi:clivi:atmosphere_cloud_ice_content:Ice Water Path:longitude latitude time:real:kg m-2:area: areacella:time: mean:atmos::0.1187:-0.0348:::1.535:-1.872e-06:
+variable:rtmt:rtmt:net_downward_radiative_flux_at_top_of_atmosphere_model:Net Downward Flux at Top of Model:longitude latitude time:real:W m-2:area: areacella:time: mean:atmos::89.25:76.91:down::218.7:-232.8:
+variable:ccb:ccb:air_pressure_at_convective_cloud_base:Air Pressure at Convective Cloud Base:longitude latitude time:real:Pa:area: areacella:time: mean:atmos::::::::
+variable:cct:cct:air_pressure_at_convective_cloud_top:Air Pressure at Convective Cloud Top:longitude latitude time:real:Pa:area: areacella:time: mean:atmos::::::::
+variable:ci:ci:convection_time_fraction:Fraction of Time Convection Occurs:longitude latitude time:real:1:area: areacella:time: mean:atmos::::::::
+variable:sci:sci:shallow_convection_time_fraction:Fraction of Time Shallow Convection Occurs:longitude latitude time:real:1:area: areacella:time: mean:atmos::::::::
+variable:fco2antt:fco2antt:tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission:Carbon Mass Flux into Atmosphere Due to All Anthropogenic Emissions of CO2:longitude latitude time:real:kg  m-2 s-1:area: areacella:time: mean:atmos::::up::::
+variable:fco2fos:fco2fos:tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fossil_fuel_combustion:Carbon Mass Flux into Atmosphere Due to Fossil Fuel Emissions of CO2:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:atmos::::up::::
+variable:fco2nat:fco2nat:surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources:Surface Carbon Mass Flux into the Atmosphere Due to Natural Sources:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:atmos::::up::::
+variable:cl:cl:cloud_area_fraction_in_atmosphere_layer:Cloud Area Fraction:longitude latitude alevel time:real:%:area: areacella:time: mean:atmos::26.07:-0.04479:::105:0:
+variable:clw:clw:mass_fraction_of_cloud_liquid_water_in_air:Mass Fraction of Cloud Liquid Water:longitude latitude alevel time:real:1:area: areacella:time: mean:atmos::::::::
+variable:cli:cli:mass_fraction_of_cloud_ice_in_air:Mass Fraction of Cloud Ice:longitude latitude alevel time:real:1:area: areacella:time: mean:atmos::::::::
+variable:mc:mc:atmosphere_net_upward_convective_mass_flux:Convective Mass Flux:longitude latitude alevhalf time:real:kg m-2 s-1:area: areacella:time: mean:atmos::::up::::
+variable:ta:ta:air_temperature:Air Temperature:longitude latitude plevs time:real:K:area: areacella:time: mean:atmos::299.8:194.3:::336.3:157.1:
+variable:ua:ua:eastward_wind:Eastward Wind:longitude latitude plevs time:real:m s-1::time: mean:atmos::22.42:1.101:::136.6:-68.65:
+variable:va:va:northward_wind:Northward Wind:longitude latitude plevs time:real:m s-1::time: mean:atmos::4.679:0.9886:::69.93:-71.1:
+variable:hus:hus:specific_humidity:Specific Humidity:longitude latitude plevs time:real:1:area: areacella:time: mean:atmos::0.01041:-0.0003539:::0.02841:-0.000299:
+variable:hur:hur:relative_humidity:Relative Humidity:longitude latitude plevs time:real:%:area: areacella:time: mean:atmos::97:-10.31:::135.7:-2.642:
+variable:wap:wap:lagrangian_tendency_of_air_pressure:omega (=dp/dt):longitude latitude plevs time:real:Pa s-1:area: areacella:time: mean:atmos::0.04256:-0.005083:::2.319:-1.126:
+variable:zg:zg:geopotential_height:Geopotential Height:longitude latitude plevs time:real:m:area: areacella:time: mean:atmos::3.299e+04:-113.4:::3.437e+04:-719.7:
+variable:tro3:tro3:mole_fraction_of_ozone_in_air:Mole Fraction of O3:longitude latitude plevs time:real:1e-9:area: areacella:time: mean:atmos atmosChem::7558:-149.1:::1.162e+04:-419.2:
+variable:tro3Clim:tro3:mole_fraction_of_ozone_in_air:Mole Fraction of O3:longitude latitude plevs time2:real:1e-9:area: areacella:time: mean within years time: mean over years:atmos atmosChem::::::::
+variable:co2:co2:mole_fraction_of_carbon_dioxide_in_air:Mole Fraction of CO2:longitude latitude plevs time:real:1e-6:area: areacella:time: mean:atmos::::::::
+variable:co2Clim:co2:mole_fraction_of_carbon_dioxide_in_air:Mole Fraction of CO2:longitude latitude plevs time2:real:1e-6:area: areacella:time: mean within years time: mean over years:atmos::::::::
+variable:co2mass:co2mass:atmosphere_mass_of_carbon_dioxide:Total Atmospheric Mass of CO2:time:real:kg::time: mean:atmos::::::::
+variable:co2massClim:co2mass:atmosphere_mass_of_carbon_dioxide:Total Atmospheric Mass of CO2:time2:real:kg::time: mean within years time: mean over years:atmos::::::::
+variable:ch4:ch4:mole_fraction_of_methane_in_air:Mole Fraction of CH4:longitude latitude plevs time:real:1e-9:area: areacella:time: mean:atmos atmosChem::::::::
+variable:ch4Clim:ch4:mole_fraction_of_methane_in_air:Mole Fraction of CH4:longitude latitude plevs time2:real:1e-9:area: areacella:time: mean within years time: mean over years:atmos atmosChem::::::::
+variable:ch4global:ch4global:mole_fraction_of_methane_in_air:Global Mean Mole Fraction of CH4:time:real:1e-9::time: mean:atmos atmosChem::::::::
+variable:ch4globalClim:ch4global:mole_fraction_of_methane_in_air:Global Mean Mole Fraction of CH4:time2:real:1e-9::time: mean within years time: mean over years:atmos atmosChem::::::::
+variable:n2o:n2o:mole_fraction_of_nitrous_oxide_in_air:Mole Fraction of N2O:longitude latitude plevs time:real:1e-9:area: areacella:time: mean:atmos atmosChem::::::::
+variable:n2oClim:n2o:mole_fraction_of_nitrous_oxide_in_air:Mole Fraction of N2O:longitude latitude plevs time2:real:1e-9:area: areacella:time: mean within years time: mean over years:atmos atmosChem::::::::
+variable:n2oglobal:n2oglobal:mole_fraction_of_nitrous_oxide_in_air:Global Mean Mole Fraction of N2O:time:real:1e-9::time: mean:atmos atmosChem::::::::
+variable:n2oglobalClim:n2oglobal:mole_fraction_of_nitrous_oxide_in_air:Global Mean Mole Fraction of N2O:time2:real:1e-9::time: mean within years time: mean over years:atmos atmosChem::::::::
+variable:cfc11global:cfc11global:mole_fraction_of_cfc11_in_air:Global Mean Mole Fraction of CFC11:time:real:1e-12::time: mean:atmos atmosChem::::::::
+variable:cfc12global:cfc12global:mole_fraction_of_cfc12_in_air:Global Mean Mole Fraction of CFC12:time:real:1e-12::time: mean:atmos atmosChem::::::::
+variable:hcfc22global:hcfc22global:mole_fraction_of_hcfc22_in_air:Global Mean Mole Fraction of HCFC22:time:real:1e-12::time: mean:atmos atmosChem::::::::
+variable:cfc113global:cfc113global:mole_fraction_of_cfc113_in_air:Global Mean Mole Fraction of CFC113:time:real:1e-12::time: mean:atmos atmosChem::::::::
+variable:pfull:pfull:air_pressure:Pressure on Model Levels:longitude latitude alevel time2:real:Pa:area: areacella:time: mean within years time: mean over years:atmos::::::::
+variable:phalf:phalf:air_pressure:Pressure on Model Half-Levels:longitude latitude alevhalf time2:real:Pa:area: areacella:time: mean within years time: mean over years:atmos::::::::
+variable:tasAdjust:tasAdjust:air_temperature:Bias-Corrected Near-Surface Air Temperature:longitude latitude time height2m:real:K:area: areacella:time: mean:atmos::::::::
+variable:tsAdjust:tsAdjust:surface_temperature:Bias-Corrected Surface Temperature:longitude latitude time:real:K:area: areacella:time: mean:atmos::::::::
+variable:pslAdjust:pslAdjust:air_pressure_at_sea_level:Bias-Corrected Sea Level Pressure:longitude latitude time:real:Pa:area: areacella:time: mean:atmos::::::::
+variable:prAdjust:prAdjust:precipitation_flux:Bias-Corrected Precipitation:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:atmos::::::::
+@

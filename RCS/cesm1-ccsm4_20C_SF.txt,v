@@ -1,0 +1,102 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2015.03.17.16.57.29;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@casname                          CMIP5 model/experiment/realization
+------------------------------   -------------------------------------
+b40.20th.ghg.1deg.008            CCSM4_historicalGHG_r1i1p1    
+b40.20th.ghg.1deg.006            CCSM4_historicalGHG_r4i1p1    
+b40.20th.ghg.1deg.012            CCSM4_historicalGHG_r6i1p1    
+b40.20th.aero.1deg.008           CCSM4_historicalMisc_r1i1p10   
+b40.20th.anthro.1deg.008         CCSM4_historicalMisc_r1i1p11   
+b40.20th.bcarb.1deg.008          CCSM4_historicalMisc_r1i1p12   
+b40.20th.land.1deg.008           CCSM4_historicalMisc_r1i1p13   
+b40.20th.oz.1deg.008             CCSM4_historicalMisc_r1i1p14   
+b40.20th.so4.1deg.008            CCSM4_historicalMisc_r1i1p15   
+b40.20th.solar.1deg.008          CCSM4_historicalMisc_r1i1p16   
+b40.20th.volc.1deg.008           CCSM4_historicalMisc_r1i1p17   
+b40.20th.anthro.1deg.009         CCSM4_historicalMisc_r2i1p11   
+b40.20th_SFland.1deg.001         CCSM4_historicalMisc_r3i1p13   
+b40.20th.aero.1deg.006           CCSM4_historicalMisc_r4i1p10   
+b40.20th.anthro.1deg.006         CCSM4_historicalMisc_r4i1p11   
+b40.20th.bcarb.1deg.006          CCSM4_historicalMisc_r4i1p12   
+b40.20th.oz.1deg.006             CCSM4_historicalMisc_r4i1p14   
+b40.20th.so4.1deg.006            CCSM4_historicalMisc_r4i1p15   
+b40.20th.solar.1deg.006          CCSM4_historicalMisc_r4i1p16   
+b40.20th.volc.1deg.006           CCSM4_historicalMisc_r4i1p17   
+b40.20th.aero.1deg.012           CCSM4_historicalMisc_r6i1p10   
+b40.20th.anthro.1deg.012         CCSM4_historicalMisc_r6i1p11   
+b40.20th.bcarb.1deg.012          CCSM4_historicalMisc_r6i1p12   
+b40.20th.land.1deg.012           CCSM4_historicalMisc_r6i1p13   
+b40.20th.oz.1deg.012             CCSM4_historicalMisc_r6i1p14   
+b40.20th.so4.1deg.012            CCSM4_historicalMisc_r6i1p15   
+b40.20th.solar.1deg.012          CCSM4_historicalMisc_r6i1p16   
+b40.20th.volc.1deg.012           CCSM4_historicalMisc_r6i1p17   
+b40.20th.nat.1deg.008            CCSM4_historicalNat_r1i1p1    
+b40.20th.nat.1deg.009            CCSM4_historicalNat_r2i1p1    
+b40.20th.nat.1deg.006            CCSM4_historicalNat_r4i1p1    
+b40.20th.nat.1deg.012            CCSM4_historicalNat_r6i1p1    
+b40.20th.track1.1deg.008         CCSM4_historical_r1i1p1    
+b40.20th.track1.1deg.009         CCSM4_historical_r2i1p1    
+b40.20th.track1.1deg.005         CCSM4_historical_r3i1p1    
+b40.20th.track1.1deg.006         CCSM4_historical_r4i1p1    
+b40.20th.track1.1deg.007         CCSM4_historical_r5i1p1    
+b40.20th.track1.1deg.012         CCSM4_historical_r6i1p1    
+b.e10.B20GHGC5CN.f09_g16.001     CESM1-CAM5_historicalGHG_r1i1p1    
+b.e10.B20GHGC5CN.f09_g16.002     CESM1-CAM5_historicalGHG_r2i1p1    
+b.e10.B20GHGC5CN.f09_g16.004     CESM1-CAM5_historicalGHG_r3i1p1    
+b.e10.B20GHGC5CN.f09_g16.003     CESM1-CAM5_historicalGHG_r4i1p1    
+b.e10.B20GHGC5CN.f09_g16.005     CESM1-CAM5_historicalGHG_r5i1p1    
+b.e10.B20AEROC5CN.f09_g16.001    CESM1-CAM5_historicalMisc_r1i1p10   
+b.e10.B20ANTHROC5CN.f09_g16.001  CESM1-CAM5_historicalMisc_r1i1p11   
+b.e10.B20BCARBC5CN.f09_g16.001   CESM1-CAM5_historicalMisc_r1i1p12   
+b.e10.B20LNDC5CN.f09_g16.001     CESM1-CAM5_historicalMisc_r1i1p13   
+b.e10.B20OZC5CN.f09_g16.001      CESM1-CAM5_historicalMisc_r1i1p14   
+b.e10.B20SO4C5CN.f09_g16.001     CESM1-CAM5_historicalMisc_r1i1p15   
+b.e10.B20SOLARC5CN.f09_g16.001   CESM1-CAM5_historicalMisc_r1i1p16   
+b.e10.B20VOLCC5CN.f09_g16.001    CESM1-CAM5_historicalMisc_r1i1p17   
+b.e10.B20AEROC5CN.f09_g16.002    CESM1-CAM5_historicalMisc_r2i1p10   
+b.e10.B20ANTHROC5CN.f09_g16.002  CESM1-CAM5_historicalMisc_r2i1p11   
+b.e10.B20BCARBC5CN.f09_g16.002   CESM1-CAM5_historicalMisc_r2i1p12   
+b.e10.B20LNDC5CN.f09_g16.002     CESM1-CAM5_historicalMisc_r2i1p13   
+b.e10.B20OZC5CN.f09_g16.002      CESM1-CAM5_historicalMisc_r2i1p14   
+b.e10.B20SO4C5CN.f09_g16.002     CESM1-CAM5_historicalMisc_r2i1p15   
+b.e10.B20SOLARC5CN.f09_g16.002   CESM1-CAM5_historicalMisc_r2i1p16   
+b.e10.B20VOLCC5CN.f09_g16.002    CESM1-CAM5_historicalMisc_r2i1p17   
+b.e10.B20AEROC5CN.f09_g16.004    CESM1-CAM5_historicalMisc_r3i1p10   
+b.e10.B20ANTHROC5CN.f09_g16.004  CESM1-CAM5_historicalMisc_r3i1p11   
+b.e10.B20BCARBC5CN.f09_g16.004   CESM1-CAM5_historicalMisc_r3i1p12   
+b.e10.B20LNDC5CN.f09_g16.004     CESM1-CAM5_historicalMisc_r3i1p13   
+b.e10.B20OZC5CN.f09_g16.004      CESM1-CAM5_historicalMisc_r3i1p14   
+b.e10.B20SO4C5CN.f09_g16.004     CESM1-CAM5_historicalMisc_r3i1p15   
+b.e10.B20SOLARC5CN.f09_g16.004   CESM1-CAM5_historicalMisc_r3i1p16   
+b.e10.B20VOLCC5CN.f09_g16.004    CESM1-CAM5_historicalMisc_r3i1p17   
+b.e10.B20VOLCC5CN.f09_g16.003    CESM1-CAM5_historicalMisc_r4i1p17   
+b.e10.B20VOLCC5CN.f09_g16.005    CESM1-CAM5_historicalMisc_r5i1p17   
+b.e10.B20NATC5CN.f09_g16.001     CESM1-CAM5_historicalNat_r1i1p1    
+b.e10.B20NATC5CN.f09_g16.002     CESM1-CAM5_historicalNat_r2i1p1    
+b.e10.B20NATC5CN.f09_g16.004     CESM1-CAM5_historicalNat_r3i1p1    
+b.e10.B20TRC5CN.f09_g16.001      CESM1-CAM5_historical_r1i1p1    
+b40_20th_1d_b08c5cn_138j         CESM1-CAM5_historical_r2i1p1    
+b40_20th_1d_b08c5cn_139jp        CESM1-CAM5_historical_r3i1p1    
+b.e10.B20TRC5CN.f09_g16.003      CESM1-CAM5_historical_r4i1p1    
+b.e10.B20TRC5CN.f09_g16.005      CESM1-CAM5_historical_r5i1p1    
+@

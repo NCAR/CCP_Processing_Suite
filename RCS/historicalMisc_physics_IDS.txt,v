@@ -1,0 +1,31 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.01.26.17.43.57;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@10 b40.20th.aero
+11 b40.20th.anthro
+12 b40.20th.bcarb
+13 b40.20th.land,b40.20th_SFland.1deg
+14 b40.20th.oz
+15 b40.20th.so4
+16 b40.20th.solar
+17 b40.20th.volc
+@

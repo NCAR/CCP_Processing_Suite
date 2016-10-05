@@ -1,0 +1,2672 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2015.01.12.15.20.50;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@cmor_version: 2.6.0 ! minimum version of CMOR that can read this table
+cf_version:   1.6    ! version of CF that output conforms to
+project_id:   HTAP2    ! project id
+table_id:     HTAP2-hourly-station      ! table id
+table_date:   17 September 2014 ! date this table was constructed or updated
+comment:        Model documentation available via http://iek8wikis.iek.fz-juelich.de/HTAPWiki/modeldocumentation ! mandatory in the global attribute
+
+frequency: 1 hr
+
+approx_interval:  0.041666667    ! approximate spacing between successive time
+                          !   samples (in units: of the output time
+                          !   coordinate)
+
+baseURL: http://iek8wikis.iek.fz-juelich.de/HTAPWiki/WP2.2 http://iek8wikis.iek.fz-juelich.de/HTAPWiki/HTAP-2-data-submission http://iek8wikis.iek.fz-juelich.de/HTAPWiki/modeldocumentation
+
+required_global_attributes: creation_date cmor_version comment table_id project_id contact parent_experiment forcing experiment_id model_id source institute_id institution Conventions realization title
+
+expt_id_ok: 'BASE'
+
+generic_levels:   alevel alev1
+
+!============
+axis_entry: station
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:      station
+axis:             X,Y             ! X, Y, Z, T (default: undeclared)
+long_name:          station
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:            station
+type:             double
+must_have_bounds: no
+
+
+
+!============
+axis_entry: time
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:      time
+units:              days since  2001-01-01 00:00:00
+axis:             T             ! X, Y, Z, T (default: undeclared)
+long_name:          time
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:            time
+valid_min:        -8000.
+valid_max:        8000.
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+!============
+axis_entry: alev1
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+axis:             Z             ! X, Y, Z, T (default: undeclared)
+long_name:          lowest atmospheric model level
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:            lev
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+index_only:       ok
+!----------------------------------
+!
+
+!============
+axis_entry: smooth_level
+!============
+!
+! This coordinate is a hybrid height coordinate with units: of meters (m).
+!  It increases upward.
+!  The values of a(k)*ztop, which appear in the formula below, should be stored as smooth_level.
+!  Note that in the netCDF file the variable will be named "lev", not smooth_level.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------
+standard_name:      atmosphere_sleve_coordinate
+units:              m
+axis:             Z
+positive:             up
+long_name:          atmosphere smooth level vertical (SLEVE) coordinate
+!----------------------------------
+!
+! Additional axis information:
+!----------------------------------
+out_name:            lev
+must_have_bounds: yes
+stored_direction: increasing
+valid_min:        -200.
+valid_max:        800000.
+formula:          z = a*ztop + b1*zsurf1 + b2*zsurf2
+z_factors:        a: a b1: b1 b2: b2 ztop: ztop zsurf1: zsurf1 zsurf2: zsurf2
+z_bounds_factors: a: a_bnds b1: b1_bnds b2: b2_bnds ztop: ztop zsurf1: zsurf1 zsurf2: zsurf2
+!----------------------------------
+!
+
+!============
+axis_entry: natural_log_pressure
+!============
+!
+!This coordinate is dimensionless and varies from near 0 at the surface and increases upward.
+!  The values of lev(k), which appears in the formula below, should be stored as natural_log_pressure.
+!  Note that in the netCDF file the variable will be named "lev", not natural_log_pressure.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------
+standard_name:      atmosphere_ln_pressure_coordinate
+axis:             Z
+long_name:          atmosphere natural log pressure coordinate
+positive:             down
+!----------------------------------
+!
+! Additional axis information:
+!----------------------------------
+out_name:            lev
+must_have_bounds: yes
+stored_direction: decreasing
+valid_min:        -1.
+valid_max:        20.
+formula:          p = p0 * exp(-lev)
+z_factors:        p0: p0 lev: lev
+z_bounds_factors: p0: p0 lev: lev_bnds
+!----------------------------------
+!
+
+!============
+axis_entry: standard_sigma
+!============
+!
+! This coordinate is dimensionless and varies from 0 at the model top to 1.0 at the surface.
+!  The values of sigma(k), which appears in the formula below, should be stored as standard_sigma.
+!  Note that in the netCDF file the variable will be named "lev", not standard_sigma.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------
+standard_name:      atmosphere_sigma_coordinate
+axis:             Z
+positive:         down
+long_name:          sigma coordinate
+!----------------------------------
+!
+! Additional axis information:
+!----------------------------------
+out_name:            lev
+must_have_bounds: yes
+stored_direction: decreasing
+valid_min:        0.0
+valid_max:        1.0
+formula:          p(n,k,j,i) = ptop + sigma(k)*(ps(n,j,i) - ptop)
+z_factors:        ptop: ptop sigma: lev ps: ps
+z_bounds_factors: ptop: ptop sigma: lev_bnds ps: ps
+!----------------------------------
+!
+!
+
+!============
+axis_entry:  standard_hybrid_sigma
+!============
+!
+! This coordinate is dimensionless and varies from a small value at the model top to 1.0 at the surface.
+!  The values of a+ b, which appear in the formula below, should be stored as standard_hybrid_sigma.
+!  Note that in the netCDF file the variable will be named "lev", not standard_hybrid_sigma.
+!
+!---------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:      atmosphere_hybrid_sigma_pressure_coordinate
+units:              1
+axis:             Z
+positive:         down
+long_name:          hybrid sigma pressure coordinate
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:            lev
+must_have_bounds: yes
+stored_direction: decreasing
+valid_min:        0.0
+valid_max:        1.0
+formula:          p(n,k,j,i) = a(k)*p0 + b(k)*ps(n,j,i)
+z_factors:        p0: p0 a: a b: b ps: ps
+z_bounds_factors: p0: p0 a: a_bnds b: b_bnds ps: ps
+!----------------------------------
+!
+!
+
+!============
+axis_entry:  alternate_hybrid_sigma
+!============
+!
+! This coordinate is dimensionless and varies from a small value at the model top to 1.0 at the surface.
+!  The values of ap/p0 + b, which appear in the formula below, should be stored as alternate_hybrid_sigma.
+!  Note that in the netCDF file the variable will be named "lev", not alternate_hybrid_sigma.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------
+standard_name:      atmosphere_hybrid_sigma_pressure_coordinate
+units:              1
+axis:             Z
+positive:         down
+long_name:          hybrid sigma pressure coordinate
+!----------------------------------
+!
+! Additional axis information:
+!----------------------------------
+out_name:            lev
+must_have_bounds: yes
+stored_direction: decreasing
+valid_min:        0.0
+valid_max:        1.0
+formula:          p(n,k,j,i) = ap(k) + b(k)*ps(n,j,i)
+z_factors:        ap: ap b: b ps: ps
+z_bounds_factors: ap: ap_bnds b: b_bnds ps: ps
+!----------------------------------
+!
+!
+
+!============
+axis_entry:  hybrid_height
+!============
+!
+! This coordinate has dimension of meters (m) and increases upward.
+!  The values of a which appear in the formula below, should be stored as hybrid_height.
+!  Note that in the netCDF file the variable will be named "lev", not hybrid_height.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------
+standard_name:      atmosphere_hybrid_height_coordinate
+units:              m
+axis:             Z
+positive:         up
+long_name:          hybrid height coordinate
+!----------------------------------
+!
+! Additional axis information:
+!----------------------------------
+out_name:            lev
+must_have_bounds: yes
+stored_direction: increasing
+valid_min:        -700
+valid_max:        50000
+formula:          z(k,j,i) = a(k) + b(k)*orog(j,i)
+z_factors:        a: lev b: b orog: orog
+z_bounds_factors: a: lev_bnds b: b_bnds orog: orog
+!----------------------------------
+!
+! ***************************************************************
+!
+!Station Additional information (TO BE CHECKED ) as provided under http://iek8wikis.iek.fz-juelich.de/HTAPWiki/WP2.2
+!
+! ***************************************************************
+!
+!============
+variable_entry: longitude
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:      longitude
+units:              degrees_east
+axis:             X             ! X, Y, Z, T (default: undeclared)
+long_name:          station longitude
+comment: Priority = 1.
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:            lon
+valid_min:        -180.0
+valid_max:        +180.0
+stored_direction: increasing
+type:             float
+!----------------------------------
+!
+!============
+variable_entry: latitude
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:      latitude
+units:              degrees_north
+axis:             Y             ! X, Y, Z, T (default: undeclared)
+long_name:          station latitude
+comment: Priority = 1.
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:            lat
+valid_min:        -90.0
+valid_max:        +90.0
+type:             float
+!----------------------------------
+
+!============
+variable_entry:    stationid
+!============
+! Station ID as defined and provided in HTAP2 stations files
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:       platform_id
+long_name:           HTAP2 station ID
+comment:           comment: charlen1 = 6; // max length of stationed. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        station, charlen1
+out_name:          stationid
+type:              char
+
+!============
+variable_entry:    network_stationid
+!============
+! Original station ID as provided in HTAP2_stations files.
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:       platform_id
+long_name:           Original Station ID
+comment:           charlen2 = 35; // max length of network_stationid. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        station, charlen2
+out_name:          network_stationid
+type:             char
+
+
+!============
+variable_entry:    networkid
+!============
+! Station Netwok ID as provided in HTAP2_stations files.
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:       platform_id
+long_name:           Station Network ID
+comment:           charlen3 =10; // max length of networked. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        station, charlen3
+out_name:          networkid
+type:             char
+
+
+!============
+variable_entry:    station_elevation
+!============
+! Station elevation as provided in HTAP2 stations files.
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:       surface_altitude
+units:               m
+long_name:           Station elevation
+comment:           _FillValue to be specified for missing data. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        station
+out_name:          station_elevation
+type:              float
+valid_min:         -700
+valid_max:         1.00E+04
+_FillValue:                 9.96921e+36f
+!----------------------------------
+!
+
+
+! ***************************************************************
+!
+! Vertical coordinate formula terms:
+!
+! ***************************************************************
+!
+!
+!============
+variable_entry:    orog
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:       surface_altitude
+units:               m
+long_name:           Surface Altitude
+comment:           height above the geoid; as defined here, "the geoid" is a surface of constant geopotential that, if the ocean were at rest, would coincide with mean sea level. Under this definition, the geoid changes as the mean volume of the ocean changes (e.g., due to glacial melt, or global warming of the ocean).  Report here the height above the present-day geoid.  Over ocean, report as 0.0
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude
+out_name:          orog
+type:              float
+valid_min:         -700
+valid_max:         1.00E+04
+!----------------------------------
+!
+!
+!============
+variable_entry: p0
+!============
+!------------
+!
+! Variable attributes:
+!----------------------------------
+standard_name:       model_reference_air_pressure
+long_name:         vertical coordinate formula term: reference pressure
+units:             Pa
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+out_name:          p0
+type:              float
+valid_min:         20000
+valid_max:         150000
+!----------------------------------
+!
+!
+!============
+variable_entry: ptop
+!============
+!
+!------------
+!
+! Variable attributes:
+!----------------------------------
+standard_name:       model_top_air_pressure
+long_name:         vertical coordinate formula term: pressure at model top
+units:             Pa
+type:              float
+valid_min:         1
+valid_max:         50000
+!----------------------------------
+!
+!
+!
+!============
+variable_entry: a
+!============
+!------------
+!
+! Variable attributes:
+!----------------------------------
+long_name:     vertical coordinate formula term: a(k)
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:         alevel
+type:               double
+!----------------------------------
+!
+!
+!============
+variable_entry: b
+!============
+!------------
+!
+! Variable attributes:
+!----------------------------------
+long_name:    vertical coordinate formula term: b(k)
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:         alevel
+type:               double
+!----------------------------------
+!
+!
+!============
+variable_entry: a_bnds
+!============
+!
+!------------
+!
+! Variable attributes:
+!----------------------------------
+long_name:    vertical coordinate formula term: a(k+1/2)
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:         alevel
+type:               double
+!----------------------------------
+!
+!
+!============
+variable_entry: b_bnds
+!============
+!
+!------------
+!
+! Variable attributes:
+!----------------------------------
+long_name:    vertical coordinate formula term: b(k+1/2)
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:         alevel
+type:               double
+!----------------------------------
+!
+!
+!============
+variable_entry: ap
+!============
+!
+! Variable attributes:
+!----------------------------------
+long_name:   alternate hybrid sigma vertical coordinate formula term: ap(k)
+units:             Pa
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:         alevel
+type:               double
+valid_min:         1
+valid_max:         150000
+!----------------------------------
+!
+!
+!============
+variable_entry: ap_bnds
+!============
+!
+! Variable attributes:
+!----------------------------------
+long_name:   alternate hybrid sigma vertical coordinate formula term: ap(k+1/2)
+units:             Pa
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:         alevel
+type:               double
+valid_min:         1
+valid_max:         150000
+!----------------------------------
+!
+!
+!============
+variable_entry: ztop
+!============
+!
+!------------
+!
+! Variable attributes:
+!----------------------------------
+long_name:         height of top of model
+units:             m
+!----------------------------------
+!
+!
+!============
+variable_entry: ps
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:    surface_air_pressure
+units:           Pa
+cell_methods:     time: mean
+long_name:          Surface Air Pressure
+comment:      not, in general, the same as mean sea-level pressure
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:    longitude latitude time
+out_name:     ps
+type:      float
+valid_min:   30000
+valid_max:   150000
+!----------------------------------
+!
+!
+!************************************************************************
+!
+!                       HTAP Hourly Station Table
+!
+!************************************************************************
+
+!============
+variable_entry: rho
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  air_density
+units:  kg m-3
+long_name:      Near Surface Air density
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: rho
+valid_min:      0
+valid_max:      2
+!----------------------------------
+!
+!
+!============
+variable_entry: ta
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  air_temperature
+units:  K
+long_name:      Near Surface Temperature
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: ta
+valid_min:      170
+valid_max:      340
+!----------------------------------
+!
+!
+!============
+variable_entry: zmlay
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  atmosphere_boundary_layer_thickness
+units:  m
+long_name:      Boundary layer thickness
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: zmlay
+valid_min:      0.1
+valid_max:      5000
+!----------------------------------
+!
+!
+!============
+variable_entry: ps
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  surface_air_pressure
+units:  Pa
+long_name:      Surface pressure at station
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: ps
+valid_min:      20000
+valid_max:      150000
+!----------------------------------
+!
+!
+!============
+variable_entry: td
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  dew_point_temperature
+units:  K
+long_name:      Dew point  temperature
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: td
+valid_min:      170
+valid_max:      340
+!----------------------------------
+!
+!
+!============
+variable_entry: uas
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  eastward_wind
+units:  m s-1
+long_name:      Horizontal wind speed ? 10m
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: uas
+valid_min:      -150
+valid_max:      150
+!----------------------------------
+!
+!
+!============
+variable_entry: vas
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  northward_wind
+units:  m s-1
+long_name:      Horizontal wind speed ? 10m
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vas
+valid_min:      -150
+valid_max:      150
+!----------------------------------
+!
+!
+!============
+variable_entry: hurs
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  relative_humidity
+units:  %
+long_name:      Near Surface Relative humidity
+comment:        Near Surface refers to the 2 m height. Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: hurs
+valid_min:      0
+valid_max:      100
+!----------------------------------
+!
+!
+!============
+variable_entry: huss
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  specific_humidity
+units:  kg/kg
+long_name:      Near Surface Specific humidity
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: huss
+valid_min:      0
+valid_max:      1
+!----------------------------------
+!
+!
+!============
+variable_entry: pr
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  precipitation_flux
+units:  kg m-2 s-1
+long_name:      Precipitation
+comment:        at surface; includes both liquid and solid phases from all types of clouds (both large-scale and convective). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: pr
+valid_min:      0
+valid_max:      1
+!----------------------------------
+!
+!
+!============
+variable_entry: rsds
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  surface_downwelling_shortwave_flux_in_air
+units:  W m-2
+long_name:      Downward Short Radiation at ground
+comment:         Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: rsds
+valid_min:      0
+valid_max:      1000
+!----------------------------------
+!
+!
+!============
+variable_entry: rsus
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  surface_upwelling_shortwave_flux_in_air
+units:  W m-2
+long_name:      Upward Short radiation at ground
+comment:         Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: rsus
+valid_min:      0
+valid_max:      1000
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm10no3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm10_nitrate_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM10 NO3 Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm10no3
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm10so4
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm10_sulfate_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM10 SO4 Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm10so4
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm10oc
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm10_organic_matter_dry_aerosol_particles_expressed_as_carbon_in_air
+units:  kg kg-1
+long_name:      Near surface PM10 Organic Carbon Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm10oc
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm10bc
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm10_elemental_carbon_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM10  elemental Carbon Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm10bc
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm10oa
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm10_organic_matter_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM10  Organic Matter Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm10oa
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm10ss
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm10_sea_salt_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM10  SS Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm10ss
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm10dust
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm10_dust_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM10  Dust Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm10dust
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm10nh4
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm10_ammonium_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM10  NH4 Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm10nh4
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm10poa
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm10_primary_organic_matter_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM10  Primary Organic Aerosol Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm10poa
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm2p5no3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm2p5_nitrate_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM2.5  NO3 Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm2p5no3
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm2p5so4
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm2p5_sulfate_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM2.5  SO4 Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm2p5so4
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm2p5oc
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm2p5_organic_matter_dry_aerosol_particles_expressed_as_carbon_in_air
+units:  kg kg-1
+long_name:      Near surface PM2.5  Organic Carbon Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm2p5oc
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm2p5bc
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm2p5_elemental_carbon_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM2.5  BC Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm2p5bc
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm2p5oa
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm2p5_organic_matter_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM2.5  OA  Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm2p5oa
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm2p5ss
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm2p5_sea_salt_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM2.5  SS Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm2p5ss
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm2p5dust
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm2p5_dust_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM2.5  Dust Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm2p5dust
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm2p5nh4
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm2p5_ammonium_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM2.5  NH4 Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm2p5nh4
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm2p5poa
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm2p5_primary_organic_matter_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM2.5  POA  Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm2p5poa
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm1
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm1_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM1 Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm1
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm2p5
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm2p5_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM2.5 Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm2p5
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm10
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm10_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      Near surface PM10 Mass Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: mmrpm10
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: od550aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  atmosphere_optical_thickness_due_to_ambient_aerosol_particles
+units:  1
+long_name:      optical thickness at 550 nm
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: od550aer
+valid_min:      0
+valid_max:      10
+!----------------------------------
+!
+!
+!============
+variable_entry: od550pm1
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  atmosphere_optical_thickness_due_to_pm1_ambient_aerosol_particles
+units:  1
+long_name:      optical thickness at 550 nm PM1
+comment:         Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: od550pm1
+valid_min:      0
+valid_max:      10
+!----------------------------------
+!
+!
+!============
+variable_entry: od550pm2p5
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  atmosphere_optical_thickness_due_to_pm2p5_ambient_aerosol_particles
+units:  1
+long_name:      optical thickness at 550 nm PM2.5
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: od550pm2p5
+valid_min:      0
+valid_max:      10
+!----------------------------------
+!
+!
+!============
+variable_entry: od550pm10
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  atmosphere_optical_thickness_due_to_pm10_ambient_aerosol_particles
+units:  1
+long_name:      optical thickness at 550 nm PM10
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: od550pm10
+valid_min:      0
+valid_max:      10
+!----------------------------------
+!
+!
+!============
+variable_entry: rho
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  air_density
+units:  kg m-3
+long_name:      Near Surface Air density
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: rho
+valid_min:      0
+valid_max:      2
+!----------------------------------
+!
+!
+!============
+variable_entry: ta
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  air_temperature
+units:  K
+long_name:      Near Surface Temperature
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: ta
+valid_min:      170
+valid_max:      340
+!----------------------------------
+!
+!
+!============
+variable_entry: zmlay
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  atmosphere_boundary_layer_thickness
+units:  m
+long_name:      boundary layer thickness
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: zmlay
+valid_min:      0.1
+valid_max:      5000
+!----------------------------------
+!
+!
+!============
+variable_entry: ps
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  surface_air_pressure
+units:  Pa
+long_name:      surface pressure at station
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: ps
+valid_min:      20000
+valid_max:      150000
+!----------------------------------
+!
+!
+!============
+variable_entry: td
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  dew_point_temperature
+units:  K
+long_name:      Dew point  temperature
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: td
+valid_min:      170
+valid_max:      340
+!----------------------------------
+!
+!
+!============
+variable_entry: uas
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  eastward_wind
+units:  m s-1
+long_name:      Horizontal wind speed ? 10m
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: uas
+valid_min:      -150
+valid_max:      150
+!----------------------------------
+!
+!
+!============
+variable_entry: vas
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  northward_wind
+units:  m s-1
+long_name:      Horizontal wind speed ? 10m
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vas
+valid_min:      -150
+valid_max:      150
+!----------------------------------
+!
+!
+!============
+variable_entry: hurs
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  relative_humidity
+units:  %
+long_name:      Near Surface Relative humidity
+comment:        Near Surface refers to the 2 m height. Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: hurs
+valid_min:      0
+valid_max:      100
+!----------------------------------
+!
+!
+!============
+variable_entry: huss
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  specific_humidity
+units:  kg/kg
+long_name:      Near Surface Specific humidity
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: huss
+valid_min:      0
+valid_max:      1
+!----------------------------------
+!
+!
+!============
+variable_entry: pr
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  precipitation_flux
+units:  kg m-2 s-1
+long_name:      Precipitation
+comment:        at surface; includes both liquid and solid phases from all types of clouds (both large-scale and convective). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: pr
+valid_min:      0
+valid_max:      1
+!----------------------------------
+!
+!
+!============
+variable_entry: rsds
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  surface_downwelling_shortwave_flux_in_air
+units:  W m-2
+long_name:      Downward Short Radiation at ground
+comment:         Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: rsds
+valid_min:      0
+valid_max:      1000
+!----------------------------------
+!
+!
+!============
+variable_entry: rsus
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  surface_upwelling_shortwave_flux_in_air
+units:  W m-2
+long_name:      Upward Short radiation at ground
+comment:         Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: rsus
+valid_min:      0
+valid_max:      1000
+!----------------------------------
+!
+!
+!============
+variable_entry: vmro3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_ozone_in_air
+units:  mole mole-1
+long_name:      Near Surface O3 Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmro3
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrso2
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_sulfur_dioxide_in_air
+units:  mole mole-1
+long_name:      Near Surface SO2 Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrso2
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrno
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_nitrogen_monoxide_in_air
+units:  mole mole-1
+long_name:      Near Surface NO Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrno
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrno2
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_nitrogen_dioxide_in_air
+units:  mole mole-1
+long_name:      Near Surface NO2 Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrno2
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrnoy
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_noy_expressed_as_nitrogen_in_air
+units:  mole mole-1
+long_name:      Near Surface NOy Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. NOy is the sum of all simulated oxidized nitrogen species (expressed as nitrogen): NO, NO2, HNO3, HNO4, NO3aerosol, NO3(radical), N2O5, PAN, other organic nitrates other than PAN, but not N2O. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrnoy
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrhno3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_nitric_acid_in_air
+units:  mole mole-1
+long_name:      Near Surface HNO3 Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrhno3
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrpan
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_peroxyacetyl_nitrate_in_air
+units:  mole mole-1
+long_name:      Near Surface PAN Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrpan
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrnh3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_ammonia_in_air
+units:  mole mole-1
+long_name:      Near Surface ammonia Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrnh3
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrco
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_carbon_monoxide_in_air
+units:  mole mole-1
+long_name:      Near Surface CO Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrco
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrvoc
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_nmvoc_expressed_as_carbon_in_air
+units:  mole mole-1
+long_name:      Near Surface VOC Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrvoc
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrc2h6
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_ethane_in_air
+units:  mole mole-1
+long_name:      Near Surface Ethane Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrc2h6
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrc3h8
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_propane_in_air
+units:  mole mole-1
+long_name:      Near Surface Propane Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrc3h8
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrc2h4
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_ethene_in_air
+units:  mole mole-1
+long_name:      Near Surface Ethene Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrc2h4
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrhcho
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_formaldehyde_in_air
+units:  mole mole-1
+long_name:      Near Surface Formaldehyde Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrhcho
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrch3cho
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_acetaldehyde_in_air
+units:  mole mole-1
+long_name:      Near Surface Acetaldehyde Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrch3cho
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmracetone
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_acetone_in_air
+units:  mole mole-1
+long_name:      Near Surface Acetone Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmracetone
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrmethanol
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_methanol_in_air
+units:  mole mole-1
+long_name:      Near Surface Methanol Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrmethanol
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrtolu
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_toluene_in_air
+units:  mole mole-1
+long_name:      Near Surface Toluene Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrtolu
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrisop
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_isoprene_in_air
+units:  mole mole-1
+long_name:      Near Surface Isoprene Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrisop
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrc10h16
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_alpha_pinene_in_air
+units:  mole mole-1
+long_name:      Near Surface alpha-pinene Volume Mixing Ratio
+comment:        Near Surface refers to the 2 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmrc10h16
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmr5mo3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_ozone_in_air
+units:  mole mole-1
+long_name:      O3 Volume Mixing Ratio at 5 m height.
+comment:        At 5 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmr5mo3
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmr10mo3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_ozone_in_air
+units:  mole mole-1
+long_name:      O3 Volume Mixing Ratio at 10 m height.
+comment:        At 10 m height. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: vmr10mo3
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: tcwv
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  atmosphere_mass_content_of_water_vapor
+units:  kg m-2
+long_name:      Water vapor column
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: tcwv
+valid_min:      0
+valid_max:      1000
+!----------------------------------
+!
+!
+!============
+variable_entry: tcno2
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  atmosphere_mass_content_of_nitrogen_dioxide
+units:  kg m-2
+long_name:       NO2 column
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station time
+out_name: tcno2
+valid_min:      0
+valid_max:      1.00E-06
+!----------------------------------
+!
+!
+!============
+variable_entry: ta
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  air_temperature
+units:  K
+long_name:      Air temperature
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: ta
+valid_min:      170
+valid_max:      340
+!----------------------------------
+!
+!
+!============
+variable_entry: pres
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  air_pressure
+units:  Pa
+long_name:      Air pressure
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: pres
+valid_min:      1
+valid_max:      150000
+!----------------------------------
+!
+!
+!============
+variable_entry: hur
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  relative_humidity
+units:  %
+long_name:      Relative humidity
+comment:         Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: hur
+valid_min:      0
+valid_max:      100
+!----------------------------------
+!
+!
+!============
+variable_entry: hus
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  specific_humidity
+units:  kg/kg
+long_name:      Specific humidity
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: hus
+valid_min:      0
+valid_max:      1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmro3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_ozone_in_air
+units:  mole mole-1
+long_name:      O3 Volume Mixing Ratio
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: vmro3
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrco
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_carbon_monoxide_in_air
+units:  mole mole-1
+long_name:      CO Volume Mixing Ratio
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: vmrco
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrno
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_nitrogen_monoxide_in_air
+units:  mole mole-1
+long_name:      NO Volume Mixing Ratio
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: vmrno
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrno2
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_nitrogen_dioxide_in_air
+units:  mole mole-1
+long_name:      NO2 Volume Mixing Ratio
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: vmrno2
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrnoy
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_noy_expressed_as_nitrogen_in_air
+units:  mole mole-1
+long_name:      Noy Volume Mixing Ratio
+comment:        NOy is the sum of all simulated oxidized nitrogen species (expressed as nitrogen): NO, NO2, HNO3, HNO4, NO3aerosol, NO3(radical), N2O5, PAN, other organic nitrates other than PAN, but not N2O. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: vmrnoy
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrhno3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_nitric_acid_in_air
+units:  mole mole-1
+long_name:      HNO3 Volume Mixing Ratio
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: vmrhno3
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrpan
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_peroxyacetyl_nitrate_in_air
+units:  mole mole-1
+long_name:      PAN Volume Mixing Ratio
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: vmrpan
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrnh3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_ammonia_in_air
+units:  mole mole-1
+long_name:      NH3 Volume Mixing Ratio
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: vmrnh3
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrso2
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_sulfur_dioxide_in_air
+units:  mole mole-1
+long_name:      SO2 Volume Mixing Ratio
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: vmrso2
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrvoc
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mole_fraction_of_nmvoc_expressed_as_carbon_in_air
+units:  mole mole-1
+long_name:      VOC Volume Mixing Ratio
+comment:        Expressed as carbon. Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: vmrvoc
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: ec550aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  volume_extinction_coefficient_in_air_due_to_ambient_aerosol_particles
+units:  m-1
+long_name:      Aerosol Extinction at 550nm
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: ec550aer
+valid_min:      0
+valid_max:      0.001
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm10
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm10_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      PM10 Mass Mixing Ratio
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: mmrpm10
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrpm2p5
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:  mass_fraction_of_pm2p5_dry_aerosol_particles_in_air
+units:  kg kg-1
+long_name:      PM2.5 Mass Mixing Ratio
+comment:         Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     station alevel time
+out_name: mmrpm2p5
+valid_min:      0
+valid_max:      0.1
+!----------------------------------
+!  !tlkmod
+!
+!============
+variable_entry: mmrhgp
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_mercury_dry_aerosol_particles_in_air
+units: kg kg-1
+long_name: Near Surface Particulate Hg Mass Mixing Ratio
+comment:    Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: station time
+out_name: mmrhgp
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: dryhgp
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: tendency_of_atmosphere_mass_content_of_mercury_dry_aerosol_particles_due_to_dry_deposition
+units: kg m-2 s-1
+long_name: Dry deposition of particulate mercury
+comment:    Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: station time
+out_name: dryhgp
+valid_min: 0
+valid_max: 10000
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrhg0
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mole_fraction_of_gaseous_elemental_mercury_in_air
+units: mole mole-1
+long_name: Near Surface Hg0(g) Volume Mixing Ratio
+comment:    Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: station time
+out_name: vmrhg0
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrhg2
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mole_fraction_of_gaseous_divalent_mercury_in_air
+units: mole mole-1
+long_name: Near Surface HgII(g) Volume Mixing Ratio
+comment:    Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: station time
+out_name: vmrhg2
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmroh
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mole_fraction_of_hydroxyl_radical_in_air
+units: mole mole-1
+long_name: Near Surface OH Volume Mixing Ratio
+comment:    Priority = 2
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: station time
+out_name: vmroh
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrh2o2
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mole_fraction_of_hydrogen_peroxide_in_air
+units: mole mole-1
+long_name: Near Surface H2O2 Volume Mixing Ratio
+comment:    Priority = 2
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: station time
+out_name: vmrh2o2
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrcl
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mole_fraction_of_chlorine_in_air
+units: mole mole-1
+long_name: Near Surface Cl Volume Mixing Ratio
+comment:    Priority = 2
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: station time
+out_name: vmrcl
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrbr
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mole_fraction_of_bromine_in_air
+units: mole mole-1
+long_name: Near Surface Br Volume Mixing Ratio
+comment:    Priority = 2
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: station time
+out_name: vmrbr
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: vmrbro
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mole_fraction_of_bromine_monoxide_in_air
+units: mole mole-1
+long_name: Near Surface BrO Volume Mixing Ratio
+comment:    Priority = 2
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: station time
+out_name: vmrbro
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: wethg
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: tendency_of_atmosphere_mass_content_of_total_mercury_due_to_wet_deposition
+units: kg m-2 s-1
+long_name: Total wet deposition of Hg
+comment:    Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: station time
+out_name: wethg
+valid_min: 0
+valid_max: 10000
+!----------------------------------
+!
+!
+!============
+variable_entry: dryhg0
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: tendency_of_atmosphere_mass_content_of_gaseous_elemental_mercury_due_to_dry_deposition
+units: kg m-2 s-1
+long_name: Dry deposition of Hg0(g)
+comment:    Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: station time
+out_name: dryhg0
+valid_min: 0
+valid_max: 10000
+!----------------------------------
+!
+!
+!============
+variable_entry: dryhg2
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: tendency_of_atmosphere_mass_content_of_gaseous_divalent_mercury_due_to_dry_deposition
+units: kg m-2 s-1
+long_name: Dry deposition of HgII(g)
+comment:    Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: station time
+out_name: dryhg2
+valid_min: 0
+valid_max: 10000
+!----------------------------------
+!
+@

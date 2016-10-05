@@ -1,0 +1,68 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.10.11.18.54.46;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@_AEROCOM-ACC_2D-M:chepsoa:tendency_of_atmosphere_mass_content_of_secondary_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+_AEROCOM-ACC_2D-M:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT unit conversion
+_AEROCOM-ACC_2D-M:drybc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+_AEROCOM-ACC_2D-M:drydms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_dry_deposition:longitude latitude time:atmos:1:DF_DMS:DF_DMS
+_AEROCOM-ACC_2D-M:drydust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:1:DST01DD:DST01DD
+_AEROCOM-ACC_2D-M:drypoa:tendency_of_atmosphere_mass_content_of_primary_organic_matter_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:2:DF_OC1 DF_OC2:DF_OC1+DF_OC2
+_AEROCOM-ACC_2D-M:dryso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_dry_deposition:longitude latitude time:atmos:1:DF_SO2:DF_SO2
+_AEROCOM-ACC_2D-M:dryso4:tendency_of_atmosphere_mass_content_of_sulfate_due_to_dry_deposition:longitude latitude time:atmos:1:DF_SO4:DF_SO4
+_AEROCOM-ACC_2D-M:drysoa:tendency_of_atmosphere_mass_content_of_secondary_organic_matter_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:5:DF_SOAB DF_SOAI DF_SOAM DF_SOAT DF_SOAX:DF_SOAB+DF_SOAI+DF_SOAM+DF_SOAT+DF_SOAX
+_AEROCOM-ACC_2D-M:dryss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_dry_deposition:longitude latitude time:atmos:1:SSLT01DD:SSLT01DD
+_AEROCOM-ACC_2D-M:emibc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_emission:longitude latitude time:atmos:2:SFCB1 SFCB2:SFCB1+SFCB2
+_AEROCOM-ACC_2D-M:emidms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission:longitude latitude time:atmos:1:SFDMS:SFDMS
+_AEROCOM-ACC_2D-M:emioa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude time:atmos:2:SFOC1 SFOC2:SFOC1+SFOC2
+_AEROCOM-ACC_2D-M:emipoa:tendency_of_atmosphere_mass_content_of_primary_organic_matter_dry_aerosol_due_to_emission:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+_AEROCOM-ACC_2D-M:emiso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_emission:longitude latitude time:atmos:1:SFSO2:SFSO2
+_AEROCOM-ACC_2D-M:emiso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_emission:longitude latitude time:atmos:1:SFSO4:SFSO4
+_AEROCOM-ACC_2D-M:emiss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_emission:longitude latitude time:atmos:4:SFSSLT01 SFSSLT02 SFSSLT03 SFSSLT04:SFSSLT01+SFSSLT02+SFSSLT03+SFSSLT04
+_AEROCOM-ACC_2D-M:loadbc:atmosphere_mass_content_of_black_carbon_dry_aerosol:longitude latitude time:atmos:2:CB1 CB2:CB1+CB2 integrated over Z
+_AEROCOM-ACC_2D-M:loaddust:atmosphere_mass_content_of_dust_dry_aerosol:longitude latitude time:atmos:4:DST01 DST02 DST03 DST04:DST01+DST02+DST03+DST04 integrated over Z
+_AEROCOM-ACC_2D-M:loadoa:atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol:longitude latitude time:atmos:2:OC1 OC2:OC1+OC2 integrated over Z
+_AEROCOM-ACC_2D-M:loadso4:atmosphere_mass_content_of_sulfate_dry_aerosol:longitude latitude time:atmos:1:SO4:SO4 integrated over Z
+_AEROCOM-ACC_2D-M:loadss:atmosphere_mass_content_of_seasalt_dry_aerosol:longitude latitude time:atmos:4:SSLT01 SSLT02 SSLT03 SSLT04:SSLT01+SSLT02+SSLT03+SSLT04 integrated over Z
+_AEROCOM-ACC_2D-M:od550aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time:atmos:1:_AEROD_v:_AEROD_v
+_AEROCOM-ACC_2D-M:od550bc:atmosphere_optical_thickness_due_to_black_carbon_ambient_aerosol:longitude latitude time:atmos:1:ODV_BC1:ODV_BC1
+_AEROCOM-ACC_2D-M:od550dust:atmosphere_optical_thickness_due_to_dust_ambient_aerosol:longitude latitude time:atmos:4:ODV_DST01 ODV_DST02 ODV_DST03 ODV_DST04:ODV_DST01+ODV_DST02+ODV_DST03+ODV_DST04
+_AEROCOM-ACC_2D-M:od550oa:atmosphere_optical_thickness_due_to_particulate_organic_matter_ambient_aerosol:longitude latitude time:atmos:1:ODV_OC1:ODV_OC1
+_AEROCOM-ACC_2D-M:od550so4:atmosphere_optical_thickness_due_to_sulfate_ambient_aerosol:longitude latitude time:atmos:1:ODV_SO4:ODV_SO4
+_AEROCOM-ACC_2D-M:od550ss:atmosphere_optical_thickness_due_to_seasalt_ambient_aerosol:longitude latitude time:atmos:4:SSLT01OD SSLT02OD SSLT03OD SSLT04OD:SSLT01OD+SSLT02OD+SSLT03OD+SSLT04OD:
+_AEROCOM-ACC_2D-M:precip:precipitation_amount:longitude latitude time:atmos:1:PRECT:PRECT no change
+_AEROCOM-ACC_2D-M:ps:surface_air_pressure:longitude latitude time:atmos:1:PS:PS no change
+_AEROCOM-ACC_2D-M:rsdt:toa_incoming_shortwave_flux:longitude latitude time:atmos:1:SOLIN:SOLIN no change
+_AEROCOM-ACC_2D-M:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude latitude time:atmos:2:SOLIN FSNTOAC:SOLIN - FSNTOAC
+_AEROCOM-ACC_2D-M:rsut:toa_outgoing_shortwave_flux:longitude latitude time:atmos:2:SOLIN FSNTOA:SOLIN - FSNTOA
+_AEROCOM-ACC_2D-M:sconcbc:mass_concentration_of_black_carbon_dry_aerosol_in_air:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+_AEROCOM-ACC_2D-M:sconcdust:mass_concentration_of_dust_dry_aerosol_in_air:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+_AEROCOM-ACC_2D-M:sconcoa:mass_concentration_of_particulate_organic_matter_dry_aerosol_in_air:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+_AEROCOM-ACC_2D-M:sconcso4:mass_concentration_of_sulfate_dry_aerosol_in_air:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+_AEROCOM-ACC_2D-M:sconcss:mass_concentration_of_seasalt_dry_aerosol_in_air:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+_AEROCOM-ACC_2D-M:wetbc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+_AEROCOM-ACC_2D-M:wetdms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+_AEROCOM-ACC_2D-M:wetoa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+_AEROCOM-ACC_2D-M:wetso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+_AEROCOM-ACC_2D-M:wetso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+_AEROCOM-ACC_2D-M:wetss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition:longitude latitude time:atmos:4:SSLT01PP SSLT02PP SSLT03PP SSLT04PP:SSLT01PP+SSLT02PP+SSLT03PP+SSLT04PP integrated over Z
+
+@

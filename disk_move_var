@@ -1,0 +1,133 @@
+#!/bin/sh
+#
+# Move files on disk, directories for each field
+#
+# No arguments.
+# 
+# Check for CACHEDIR
+#
+if [ ! $CACHEDIR ] ; then
+  echo "CACHEDIR not defined. Exiting."
+  ../update_status error disk_move_var
+  exit 1
+fi
+# 
+# Check for DISK_PROC
+#
+if [ ! $DISK_PROC ] ; then
+  echo "DISK_PROC not defined. Exiting."
+  ../update_status error disk_move_var
+  exit 1
+fi
+# 
+# Check for OUTTIME
+#
+if [ ! $OUTTIME ] ; then
+  echo "OUTTIME not defined. Exiting."
+  ../update_status error disk_move_var
+  exit 1
+fi
+#
+cd $CACHEDIR
+#
+# Parse first filename
+#
+FILE=`/bin/ls *.${OUTTIME}.nc | head -n 1`
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DCAS=1
+DVAR=1
+DHT1=1
+DHT2=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 | cam | clm2 | pop | csim | cice | rtm )
+      DCAS=`expr '(' $IDOT ')' '-' '1'`
+      DVAR=`expr '(' $IDOT ')' '+' '1'`
+      DHT1=$IDOT ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+#
+DCMP=$DHT1
+DHT2=`expr '(' $DHT1 ')' '+' '1'`
+DVAR=`expr '(' $DVAR ')' '+' '1'`
+#
+CASE=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f1-${DCAS} | sort | uniq`
+HIST=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+COMP=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DCMP} | sort | uniq`
+VARS=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DVAR} | sort | uniq`
+#
+# Check for pop.h.nday1/h2/ecosys
+#
+if [ "$HIST" = "pop.h" ] ; then
+  DYCK=`expr '(' $DHT2 ')' '+' '1'`
+  ODAY=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DYCK} | sort | uniq`
+  if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
+    DHT2=$DYCK
+    DVAR=`expr '(' $DVAR ')' '+' '1'`
+  fi
+  if [ "$ODAY" = "ecosys" ] ; then
+    DHT2=$DYCK
+    DHT2=`expr '(' $DHT2 ')' '+' '1'`
+    DVAR=`expr '(' $DVAR ')' '+' '2'`
+  fi
+fi
+#
+CASE=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f1-${DCAS} | sort | uniq`
+HIST=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+COMP=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DCMP} | sort | uniq`
+VARS=`/bin/ls *.${OUTTIME}.nc | cut -d"." -f${DVAR} | sort | uniq`
+#
+# Check for cice data, remove _nh and _sh from VARS
+#
+if [ "$COMP" == "cice" ] ; then
+  rm -f .IVAR
+  for IVAR in $VARS ; do
+    echo $IVAR | sed -e 's/_nh//g' | sed -e 's/_sh//g' >> .IVAR
+  done
+  VARS=`cat .IVAR | sort | uniq`
+  rm -f .IVAR
+fi
+#
+rm -f MKDIR
+for IVAR in $VARS ; do
+  mkdir -p ${DISK_PROC}/${IVAR}
+  if [ $? -ne 0 ] ; then
+    echo "Warning: cannot mkdir " ${DISK_PROC}"/"${IVAR}
+  else
+    chmod 775 ${DISK_PROC}/${IVAR}
+  fi
+done
+echo ${DISK_PROC}" and subdirs created. Ready."
+#
+if [ "$COMP" == "cice" ] ; then
+  for IVAR in $VARS ; do
+    mv ${CASE}.${HIST}.${IVAR}_?h.${OUTTIME}.nc ${DISK_PROC}/${IVAR}
+    if [ $? -ne 0 ] ; then
+      echo "Problem moving "${CASE}"."${HIST}"."${IVAR}"._?h."${OUTTIME}.nc" to "${DISK_PROC}"/"${IVAR}
+    else
+      echo "Moved "${CASE}"."${HIST}"."${IVAR}"._?h."${OUTTIME}.nc" to "${DISK_PROC}"/"${IVAR}
+    fi
+  done
+else
+  for IVAR in $VARS ; do
+    mv ${CASE}.${HIST}.${IVAR}.${OUTTIME}.nc ${DISK_PROC}/${IVAR}
+    if [ $? -ne 0 ] ; then
+      echo "Problem moving "${CASE}"."${HIST}"."${IVAR}"."${OUTTIME}.nc" to "${DISK_PROC}"/"${IVAR}
+    else
+      echo "Moved "${CASE}"."${HIST}"."${IVAR}"."${OUTTIME}.nc" to "${DISK_PROC}"/"${IVAR}
+    fi
+  done
+fi
+#

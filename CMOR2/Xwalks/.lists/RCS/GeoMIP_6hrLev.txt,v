@@ -1,0 +1,37 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.03.19.18.10.24;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@p0|||vertical coordinate formula term: reference pressure|||Pa|||||||||||
+ptop|||pressure at top of model|||Pa|||||||||||
+a|||vertical coordinate formula term: a(k)|alevel|double||||||||||||
+b|||vertical coordinate formula term: b(k)|alevel|double||||||||||||
+a_bnds|||vertical coordinate formula term: a(k+1/2)|alevel|double||||||||||||
+b_bnds|||vertical coordinate formula term: b(k+1/2)|alevel|double||||||||||||
+ap|||vertical coordinate formula term: ap(k)|alevel|double|Pa|||||||||||
+ap_bnds|||vertical coordinate formula term: ap(k+1/2)|alevel|double|Pa|||||||||||
+ztop|||height of top of model|||m|||||||||||
+ta|ta|air_temperature|Air Temperature|longitude latitude alevel time1|real|K|area: areacella||atmos||||||||
+ua|ua|eastward_wind|Eastward Wind|longitude latitude alevel time1|real|m s-1|||atmos||||||||
+va|va|northward_wind|Northward Wind|longitude latitude alevel time1|real|m s-1|||atmos||||||||
+hus|hus|specific_humidity|Specific Humidity|longitude latitude alevel time1|real|1|area: areacella||atmos||||||||
+ps|ps|surface_air_pressure|Surface Air Pressure|longitude latitude time1|real|Pa|area: areacella||atmos||||||||
+@

@@ -1,0 +1,3 @@
+CCMI1_fixed:areacella:cell_area:longitude latitude:atmos land:1:AREA:AREA
+CCMI1_fixed:orog:surface_altitude:longitude latitude:atmos:1:PHIS:Divide PHIS by g where LANDFRAC ne zero
+CCMI1_fixed:sftlf:land_area_fraction:longitude latitude:atmos:1:LANDFRAC:LANDFRAC no change

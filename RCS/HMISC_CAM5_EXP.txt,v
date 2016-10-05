@@ -1,0 +1,27 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.03.07.15.35.19;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@b.e10.B20LNDC5CN.f09_g16.001                          CESM1-CAM5          NE   historicalMisc rMMiMMpMM cm5  unknown                                 MMMM-01-01     1850-2005 1850-2005 f09_g16   B_1850_CAM5_CN      MMMM                13/03-13/03    hopper    /home/c/ccsm/csm
+b.e10.B20LNDC5CN.f09_g16.002                          CESM1-CAM5          NE   historicalMisc rMMiMMpMM cm5  unknown                                 MMMM-01-01     1850-2005 1850-2005 f09_g16   B_1850_CAM5_CN      MMMM                13/03-13/03    hopper    /home/c/ccsm/csm
+b.e10.B20SOLARC5CN.f09_g16.001                        CESM1-CAM5          NE   historicalMisc rMMiMMpMM cm5  unknown                                 MMMM-01-01     1850-2005 1850-2005 f09_g16   B_1850_CAM5_CN      MMMM                13/03-13/03    hopper    /home/c/ccsm/csm
+b.e10.B20SOLARC5CN.f09_g16.002                        CESM1-CAM5          NE   historicalMisc rMMiMMpMM cm5  unknown                                 MMMM-01-01     1850-2005 1850-2005 f09_g16   B_1850_CAM5_CN      MMMM                13/03-13/03    hopper    /home/c/ccsm/csm
+@

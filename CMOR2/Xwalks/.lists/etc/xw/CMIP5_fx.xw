@@ -1,0 +1,35 @@
+axis:Tables/CMIP5_fx:longitude:lon:longitude:longitude
+axis:Tables/CMIP5_fx:latitude:lat:latitude:latitude
+axis:Tables/CMIP5_fx:depth_coord:lev:depth:ocean depth coordinate
+axis:Tables/CMIP5_fx:olev:lev::generic ocean level
+axis:Tables/CMIP5_fx:ocean_double_sigma:lev:ocean_double_sigma:ocean double sigma coordinate
+axis:Tables/CMIP5_fx:ocean_sigma_z:lev:ocean_sigma_z:ocean sigma over z coordinate
+axis:Tables/CMIP5_fx:ocean_s:lev:ocean_s_coordinate:ocean s-coordinate
+axis:Tables/CMIP5_fx:ocean_sigma:lev:ocean_sigma_coordinate:ocean sigma coordinate
+variable:Tables/CMIP5_fx:1.0:eta::1
+variable:Tables/CMIP5_fx:1.0:depth::1
+variable:Tables/CMIP5_fx:1.0:sigma::1
+variable:Tables/CMIP5_fx:1.0:sigma_bnds::1
+variable:Tables/CMIP5_fx:1.0:zlev::1
+variable:Tables/CMIP5_fx:1.0:zlev_bnds::1
+variable:Tables/CMIP5_fx:1.0:depth_c::1
+variable:Tables/CMIP5_fx:1.0:a::1
+variable:Tables/CMIP5_fx:1.0:b::1
+variable:Tables/CMIP5_fx:1.0:nsigma::1
+variable:Tables/CMIP5_fx:1.0:z1::1
+variable:Tables/CMIP5_fx:1.0:z2::1
+variable:Tables/CMIP5_fx:1.0:href::1
+variable:Tables/CMIP5_fx:1.0:k_c::1
+variable:Tables/CMIP5_fx:1.0:areacella:atmos land:1
+variable:Tables/CMIP5_fx:1.0:orog:atmos:1
+variable:Tables/CMIP5_fx:1.0:sftlf:atmos:1
+variable:Tables/CMIP5_fx:1.0:sftgif:land:1
+variable:Tables/CMIP5_fx:1.0:mrsofc:land:1
+variable:Tables/CMIP5_fx:1.0:rootd:land:1
+variable:Tables/CMIP5_fx:1.0:deptho:ocean:1
+variable:Tables/CMIP5_fx:1.0:volcello:ocean:1
+variable:Tables/CMIP5_fx:1.0:areacello:ocean:1
+variable:Tables/CMIP5_fx:1.0:sftof:ocean:1
+variable:Tables/CMIP5_fx:1.0:basin:ocean:1
+variable:Tables/CMIP5_fx:1.0:hfgeou:ocean:1
+variable:Tables/CMIP5_fx:1.0:thkcello:ocean:1

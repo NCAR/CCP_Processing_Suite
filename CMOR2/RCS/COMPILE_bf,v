@@ -1,0 +1,29 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.11.11.18.44.12;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/csh -f
+#
+pgf95 -c mymods.f90
+pgf95 -o ~/bin/DRIVE_build_filenames DRIVE_build_filenames.f90 mymods.o
+#
+exit
+@

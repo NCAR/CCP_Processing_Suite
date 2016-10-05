@@ -1,0 +1,125 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.02.28.18.35.30;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@AEROCOM-ACC_2D-D::longitude:::
+AEROCOM-ACC_2D-D::latitude:::
+AEROCOM-ACC_2D-D::time:::
+AEROCOM-ACC_2D-D:ps:surface_air_pressure:longitude latitude time::
+AEROCOM-ACC_2D-D:od550aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:od440aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:od870aer:atmosphere_optical_thickness_due_to_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:od550lt1aer:atmosphere_optical_thickness_due_to_pm1_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:abs550aer:atmosphere_absorption_optical_thickness_due_to_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:asyaer:atmosphere_aerosol_asymmetry_parameter:longitude latitude time::
+AEROCOM-ACC_2D-D:sconcoa:mass_concentration_of_particulate_organic_matter_dry_aerosol_in_air:longitude latitude time::
+AEROCOM-ACC_2D-D:sconcbc:mass_concentration_of_black_carbon_dry_aerosol_in_air:longitude latitude time::
+AEROCOM-ACC_2D-D:sconcso4:mass_concentration_of_sulfate_dry_aerosol_in_air:longitude latitude time::
+AEROCOM-ACC_2D-D:sconcdust:mass_concentration_of_dust_dry_aerosol_in_air:longitude latitude time::
+AEROCOM-ACC_2D-D:sconcss:mass_concentration_of_seasalt_dry_aerosol_in_air:longitude latitude time::
+AEROCOM-ACC_2D-D:sconcno3:mass_concentration_of_nitrate_dry_aerosol_in_air:longitude latitude time::
+AEROCOM-ACC_2D-D:ec550dryaer:atmosphere_extinction_due_to_dry_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:abs550dryaer:atmosphere_absorption_due_to_dry_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:ec550aer:atmosphere_extinction_due_to_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:precip:precipitation_amount:longitude latitude time::
+AEROCOM-ACC_2D-D:emioa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude time::
+AEROCOM-ACC_2D-D:emibc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_emission:longitude latitude time::
+AEROCOM-ACC_2D-D:wetoa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_wet_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:wetbc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_wet_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:emiso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_emission:longitude latitude time::
+AEROCOM-ACC_2D-D:emiso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_emission:longitude latitude time::
+AEROCOM-ACC_2D-D:emidms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission:longitude latitude time::
+AEROCOM-ACC_2D-D:wetso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_wet_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:emiss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_emission:longitude latitude time::
+AEROCOM-ACC_2D-D:wetss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:emidust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_emission:longitude latitude time::
+AEROCOM-ACC_2D-D:wetdust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_wet_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:loadoa:atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:loadbc:atmosphere_mass_content_of_black_carbon_dry_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:loadso4:atmosphere_mass_content_of_sulfate_dry_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:loaddust:atmosphere_mass_content_of_dust_dry_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:loadss:atmosphere_mass_content_of_seasalt_dry_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:loadno3:atmosphere_mass_content_of_nitrate_dry_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:od550so4:atmosphere_optical_thickness_due_to_sulfate_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:od550bc:atmosphere_optical_thickness_due_to_black_carbon_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:od550oa:atmosphere_optical_thickness_due_to_particulate_organic_matter_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:od550soa:atmosphere_optical_thickness_due_to_secondary_particulate_organic_matter_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:od550bb:atmosphere_optical_thickness_due_to_biomass_burning_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:od550no3:atmosphere_optical_thickness_due_to_nitrate_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:od550ss:atmosphere_optical_thickness_due_to_seasalt_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:od550dust:atmosphere_optical_thickness_due_to_dust_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:dryso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_dry_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:dryso4:tendency_of_atmosphere_mass_content_of_sulfate_due_to_dry_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:drydms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_dry_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:wetso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:wetdms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_wet_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:dryss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_dry_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:drydust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_dry_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:od550aerh2o:atmosphere_optical_thickness_due_to_water_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:gf90aer:aerosol_growth_factor_at_90_percent_relative_humidity:longitude latitude time::
+AEROCOM-ACC_2D-D:od550lt1dust:atmosphere_optical_thickness_due_to_dust_pm1_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:abs550bc:atmosphere_absorption_optical_thickness_due_to_black_carbon_ambient_aerosol:longitude latitude time::
+AEROCOM-ACC_2D-D:emibb:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_emission:longitude latitude time::
+AEROCOM-ACC_2D-D:emipoa:tendency_of_atmosphere_mass_content_of_primary_organic_matter_dry_aerosol_due_to_emission:longitude latitude time::
+AEROCOM-ACC_2D-D:chepsoa:tendency_of_atmosphere_mass_content_of_secondary_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude time::
+AEROCOM-ACC_2D-D:chepmsa:tendency_of_atmosphere_mass_content_of_methane_sulfonic_acid_dry_aerosol_due_to_net_chemical_production:longitude latitude time::
+AEROCOM-ACC_2D-D:dryoa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_dry_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:drypoa:tendency_of_atmosphere_mass_content_of_primary_organic_matter_dry_aerosol_due_to_dry_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:drysoa:tendency_of_atmosphere_mass_content_of_secondary_organic_matter_dry_aerosol_due_to_dry_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:drybc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_dry_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:clt:cloud_area_fraction:longitude latitude time::
+AEROCOM-ACC_2D-D:rsdt:toa_incoming_shortwave_flux:longitude latitude time::
+AEROCOM-ACC_2D-D:rsut:toa_outgoing_shortwave_flux:longitude latitude time::
+AEROCOM-ACC_2D-D:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude latitude time::
+AEROCOM-ACC_2D-D:rsutcl:toa_outgoing_shortwave_flux_assuming_cloudy_sky:longitude latitude time::
+AEROCOM-ACC_2D-D:rlut:toa_outgoing_longwave_flux:longitude latitude time::
+AEROCOM-ACC_2D-D:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:longitude latitude time::
+AEROCOM-ACC_2D-D:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time::
+AEROCOM-ACC_2D-D:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time::
+AEROCOM-ACC_2D-D:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time::
+AEROCOM-ACC_2D-D:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time::
+AEROCOM-ACC_2D-D:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time::
+AEROCOM-ACC_2D-D:rsdscsvis:surface_downwelling_shortwave_visible_flux_in_air_assuming_clear_sky:longitude latitude time::
+AEROCOM-ACC_2D-D:rsdscsdif:surface_downwelling_shortwave_visible_diffuse_flux_in_air_assuming_clear_sky:longitude latitude time::
+AEROCOM-ACC_2D-D:ta_min:air_temperature:longitude latitude time::
+AEROCOM-ACC_2D-D:ta_max:air_temperature:longitude latitude time::
+AEROCOM-ACC_2D-D:swtoaasso4ant:net_downward_shortwave_flux_at_top_of_atmosphere_model:longitude latitude time::
+AEROCOM-ACC_2D-D:swtoaasbcffant:net_downward_shortwave_flux_at_top_of_atmosphere_model:longitude latitude time::
+AEROCOM-ACC_2D-D:swtoaasoaffant:net_downward_shortwave_flux_at_top_of_atmosphere_model:longitude latitude time::
+AEROCOM-ACC_2D-D:swtoaasbbant:net_downward_shortwave_flux_at_top_of_atmosphere_model:longitude latitude time::
+AEROCOM-ACC_2D-D:swtoaassoaant:net_downward_shortwave_flux_at_top_of_atmosphere_model:longitude latitude time::
+AEROCOM-ACC_2D-D:swtoaasno3ant:net_downward_shortwave_flux_at_top_of_atmosphere_model:longitude latitude time::
+AEROCOM-ACC_2D-D:swtoaasss:net_downward_shortwave_flux_at_top_of_atmosphere_model:longitude latitude time::
+AEROCOM-ACC_2D-D:swtoaasdust:net_downward_shortwave_flux_at_top_of_atmosphere_model:longitude latitude time::
+AEROCOM-ACC_2D-D:swtoaasso4nat:net_downward_shortwave_flux_at_top_of_atmosphere_model:longitude latitude time::
+AEROCOM-ACC_2D-D:swtoaasbbnat:net_downward_shortwave_flux_at_top_of_atmosphere_model:longitude latitude time::
+AEROCOM-ACC_2D-D:swtoaassoanat:net_downward_shortwave_flux_at_top_of_atmosphere_model:longitude latitude time::
+AEROCOM-ACC_2D-D:eminh3:tendency_of_atmosphere_mass_content_of_ammonia_due_to_emission:longitude latitude time::
+AEROCOM-ACC_2D-D:drynh3:tendency_of_atmosphere_mass_content_of_ammonia_due_to_dry_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:drynh4:tendency_of_atmosphere_mass_content_of_ammonium_due_to_dry_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:wetnh4:tendency_of_atmosphere_mass_content_of_ammonium_due_to_wet_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:eminox:tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_emission:longitude latitude time::
+AEROCOM-ACC_2D-D:dryhno3:tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_dry_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:dryno2:tendency_of_atmosphere_mass_content_of_nitrogen_dioxide_due_to_dry_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:drynoy:tendency_of_atmosphere_mass_content_of_noy_due_to_dry_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:wethno3:tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_wet_deposition:longitude latitude time::
+AEROCOM-ACC_2D-D:wetnoy:tendency_of_atmosphere_mass_content_of_all_nitrogen_oxides_due_to_wet_deposition:longitude latitude time::
+@

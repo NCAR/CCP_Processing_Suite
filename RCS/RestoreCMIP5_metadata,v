@@ -1,0 +1,42 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.02.07.18.49.50;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@from lost+found and silver crash
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/csh -f
+#
+rm -f restore_filenames
+#foreach f ( I000105.RCN )
+foreach f ( I* )
+  set v  = `ncdump -h $f | egrep "\(time, " | egrep float | expand | cut -d"(" -f1 | sed -e 's/float//g'`
+  set e  = `ncdump -h $f | egrep ":experiment_id" | cut -d'"' -f2`
+  set r  = `ncdump -h $f | egrep ":realization" | cut -d"=" -f2 | cut -d";" -f1`
+  set i  = `ncdump -h $f | egrep ":initialization_method" | cut -d"=" -f2 | cut -d";" -f1`
+  set p  = `ncdump -h $f | egrep ":physics_version" | cut -d"=" -f2 | cut -d";" -f1`
+  set t  = `ncdump -h $f | egrep ":table_id" | expand | cut -d'"' -f2 | sed -e 's/Table //g' | cut -d"(" -f1`
+  print_nc_time $f 1 > T.${f}
+  set t0 = `tail -5 T.${f} | egrep "dd=" | head -1 | cut -d"=" -f3 | cut -d":" -f1 | cut -c2- | sed -e 's/\///g'`
+  set t1 = `tail -5 T.${f} | egrep "dd=" | tail -1 | cut -d"=" -f3 | cut -d":" -f1 | cut -c2- | sed -e 's/\///g'`
+  echo "mv "${f}" "${v}"_"${t}"_CCSM4_"${e}"_r"${r}"i"${i}"p"${p}"_"${t0}"-"${t1}".nc" >> restore_filenames
+  echo $f
+end
+
+@

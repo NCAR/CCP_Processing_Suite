@@ -1,0 +1,77 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.01.31.00.03.19;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@ variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min
+variable|p0|||vertical coordinate formula term: reference pressure|||Pa|||||||||||
+variable|ptop|||pressure at top of model|||Pa|||||||||||
+variable|a|||vertical coordinate formula term: a(k)|alevel|double||||||||||||
+variable|b|||vertical coordinate formula term: b(k)|alevel|double||||||||||||
+variable|a_bnds|||vertical coordinate formula term: a(k+1/2)|alevel|double||||||||||||
+variable|b_bnds|||vertical coordinate formula term: b(k+1/2)|alevel|double||||||||||||
+variable|ap|||vertical coordinate formula term: ap(k)|alevel|double|Pa|||||||||||
+variable|ap_bnds|||vertical coordinate formula term: ap(k+1/2)|alevel|double|Pa|||||||||||
+variable|ztop|||height of top of model|||m|||||||||||
+variable|ps|ps|surface_air_pressure|Surface Air Pressure|longitude latitude time|real|Pa|area: areacella|time: mean|atmos||||||||
+variable|rsdt|rsdt|toa_incoming_shortwave_flux|TOA Incident Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+variable|rsut|rsut|toa_outgoing_shortwave_flux|TOA Outgoing Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+variable|rsdscs|rsdscs|surface_downwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+variable|rsuscs|rsuscs|surface_upwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Upwelling Clear-Sky Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+variable|rldscs|rldscs|surface_downwelling_longwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+variable|rlutcs|rlutcs|toa_outgoing_longwave_flux_assuming_clear_sky|TOA Outgoing Clear-Sky Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+variable|rsutcs|rsutcs|toa_outgoing_shortwave_flux_assuming_clear_sky|TOA Outgoing Clear-Sky Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+variable|clt|clt|cloud_area_fraction|Total Cloud Fraction|longitude latitude time|real|%|area: areacella|time: mean|atmos||||||||
+variable|clwvi|clwvi|atmosphere_cloud_condensed_water_content|Condensed Water Path|longitude latitude time|real|kg m-2|area: areacella|time: mean|atmos||||||||
+variable|clivi|clivi|atmosphere_cloud_ice_content|Ice Water Path|longitude latitude time|real|kg m-2|area: areacella|time: mean|atmos||||||||
+variable|wap500|wap500|lagrangian_tendency_of_air_pressure|omega (=dp/dt)|longitude latitude time p500|real|Pa s-1|area: areacella|time: mean|atmos||||||||
+variable|ta700|ta700|air_temperature|Air Temperature|longitude latitude time p700|real|K|area: areacella|time: mean|atmos||||||||
+variable|ccb|ccb|air_pressure_at_convective_cloud_base|Air Pressure at Convective Cloud Base|longitude latitude time|real|Pa|area: areacella|time: mean|atmos||||||||
+variable|cct|cct|air_pressure_at_convective_cloud_top|Air Pressure at Convective Cloud Top|longitude latitude time|real|Pa|area: areacella|time: mean|atmos||||||||
+variable|prc|prc|convective_precipitation_flux|Convective Precipitation|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|atmos||||||||
+variable|hfls|hfls|surface_upward_latent_heat_flux|Surface Upward Latent Heat Flux|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+variable|hfss|hfss|surface_upward_sensible_heat_flux|Surface Upward Sensible Heat Flux|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+variable|rlds|rlds|surface_downwelling_longwave_flux_in_air|Surface Downwelling Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+variable|rlus|rlus|surface_upwelling_longwave_flux_in_air|Surface Upwelling Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+variable|rsds|rsds|surface_downwelling_shortwave_flux_in_air|Surface Downwelling Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+variable|rsus|rsus|surface_upwelling_shortwave_flux_in_air|Surface Upwelling Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+variable|rlut|rlut|toa_outgoing_longwave_flux|TOA Outgoing Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+variable|cltisccp|cltisccp|cloud_area_fraction|ISCCP Total Total Cloud Fraction|longitude latitude time|real|%|area: areacella|time: mean|atmos||||||||
+variable|albisccp|albisccp|cloud_albedo|ISCCP Mean Cloud Albedo|longitude latitude time|real|1|area: areacella|time: mean|atmos||||||||
+variable|pctisccp|pctisccp|air_pressure_at_cloud_top|ISCCP Mean Cloud Top Pressure|longitude latitude time|real|Pa|area: areacella|time: mean|atmos||||||||
+variable|parasolRefl|parasolRefl|toa_bidirectional_reflectance|PARASOL Reflectance|longitude latitude sza5 time|real|1|area: areacella|time: mean|atmos||||||||
+variable|cltcalipso|cltcalipso|cloud_area_fraction|CALIPSO Total Cloud Fraction|longitude latitude time|real|%|area: areacella|time: mean|atmos||||||||
+variable|cllcalipso|cllcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Low Level Cloud Fraction|longitude latitude time|real|%|area: areacella|time: mean|atmos||||||||
+variable|clmcalipso|clmcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Mid Level Cloud Fraction|longitude latitude time|real|%|area: areacella|time: mean|atmos||||||||
+variable|clhcalipso|clhcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO High Level Cloud Fraction|longitude latitude time|real|%|area: areacella|time: mean|atmos||||||||
+variable|ua|ua|eastward_wind|Eastward Wind|longitude latitude alevel time|real|m s-1||time: mean|atmos||||||||
+variable|va|va|northward_wind|Northward Wind|longitude latitude alevel time|real|m s-1||time: mean|atmos||||||||
+variable|ta|ta|air_temperature|Air Temperature|longitude latitude alevel time|real|K|area: areacella|time: mean|atmos||||||||
+variable|hus|hus|specific_humidity|Specific Humidity|longitude latitude alevel time|real|1|area: areacella|time: mean|atmos||||||||
+variable|wap|wap|lagrangian_tendency_of_air_pressure|omega (=dp/dt)|longitude latitude alevel time|real|Pa s-1|area: areacella|time: mean|atmos||||||||
+variable|zg|zg|geopotential_height|Geopotential Height|longitude latitude alevel time|real|m|area: areacella|time: mean|atmos||||||||
+variable|hur|hur|relative_humidity|Relative Humidity|longitude latitude alevel time|real|%|area: areacella|time: mean|atmos||||||||
+variable|cl|cl|cloud_area_fraction_in_atmosphere_layer|Cloud Area Fraction in Atmosphere Layer|longitude latitude alevel time|real|%|area: areacella|time: mean|atmos||||||||
+variable|clw|clw|mass_fraction_of_cloud_liquid_water_in_air|Mass Fraction of Cloud Liquid Water|longitude latitude alevel time|real|1|area: areacella|time: mean|atmos||||||||
+variable|cli|cli|mass_fraction_of_cloud_ice_in_air|Mass Fraction of Cloud Ice|longitude latitude alevel time|real|1|area: areacella|time: mean|atmos||||||||
+variable|mc|mc|atmosphere_net_upward_convective_mass_flux|Convective Mass Flux|longitude latitude alevhalf time|real|kg m-2 s-1|area: areacella|time: mean|atmos||||up||||
+variable|clcalipso|clcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Cloud Fraction|longitude latitude alt40 time|real|%|area: areacella|time: mean|atmos||||||||
+variable|clisccp|clisccp|cloud_area_fraction_in_atmosphere_layer|ISCCP Cloud Area Fraction|longitude latitude plev7 tau time|real|%|area: areacella|time: mean|atmos||||||||
+@

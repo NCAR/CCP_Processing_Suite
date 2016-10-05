@@ -1,0 +1,108 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2015.04.08.17.37.20;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh
+#
+# Concatenate daily/subdaily data to years
+# 
+# Check for ncrcat
+#
+if [ ! $NCRCAT ] ; then
+  TEST4NCRCAT=`which ncrcat 2>&1`
+  if [ $? -eq 0 ] ; then
+    NCRCAT=`which ncrcat`
+  else
+    echo "NCRCAT not in PATH - UNDEFINED"
+    exit 1
+  fi
+fi
+# 
+# Check for TPER
+#
+if [ ! $TPER ] ; then
+  echo "TPER undefined. Assume daily"
+  TPER="day" ; export TPER
+fi
+# 
+# Check for HIST
+#
+if [ ! $HIST ] ; then
+  echo "HIST undefined. Assume cam2.h1"
+  HIST="cam2.h1" ; export HIST
+fi
+#
+# Parse first filename
+#
+#                                         Y    Y    Y    Y      M    M    D    D    S    S    S    S    S
+FILE=`/bin/ls | egrep "*.${HIST}.*" | egrep '\.[0-9][0-9][0-9][0-9]\-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]\.nc$' | head -n 1`
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DPFX=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 | cam | clm2 | pop | csim | cice | rtm )
+      DPFX=`expr '(' $IDOT ')' '+' '1'` ;;
+  esac
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+OUTPFX=`echo $FILE | cut -d"." -f1-${DPFX}`
+FT=`expr '(' $DPFX ')' '+' '1'`
+#
+#                   Y    Y    Y    Y     M    M    D    D    S    S    S    S    S
+YEARS=`/bin/ls ${OUTPFX}.[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].nc | cut -d"." -f${FT} | cut -c1-4 | sort | uniq`
+for y in $YEARS ; do
+  case "$TPER" in
+     day )
+       NDAY=365   ;;
+     hr6 )
+       NDAY=1460  ;;
+     hr3 )
+       NDAY=2920  ;;
+     hr1 )
+       NDAY=8760  ;;
+     m30 )
+       NDAY=17520 ;;
+  esac
+  MDAY=`/bin/ls ${OUTPFX}.${y}-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].nc | wc -l`
+  if [ $MDAY -eq $NDAY ] ; then
+    YRFILE=${OUTPFX}.${y}.nc
+    echo "Creating "$YRFILE
+    $NCRCAT -O ${OUTPFX}.${y}-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].nc $YRFILE
+    if [ $? -eq 0 ] ; then
+      if [ $# -eq 1 ] ; then
+         rm -f ${OUTPFX}.${y}-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].nc
+      fi
+      echo "Created "$YRFILE
+    fi
+  fi
+done
+@

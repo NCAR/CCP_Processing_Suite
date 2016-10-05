@@ -1,0 +1,51 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.02.27.16.34.33;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@value  region
+-----  ------------------------------
+ -14   Caspian Sea
+ -13   Black Sea
+ -12   Baltic Sea
+ -11   unused?
+ -10   unused?
+  -9   unused?
+  -8   unused?
+  -7   unused?
+  -6   unused?
+  -5   Red Sea
+  -4   unused?
+  -3   unused?
+  -2   unused?
+  -1   unused?
+   0   Global
+   1   Southern Ocean
+   2   Pacific Ocean
+   3   Indian Ocean
+   4   Persian Gulf
+   5
+   6   Atlantic Ocean
+   7   Mediterranean Sea
+   8   Labrador Sea  
+   9   GIN Sea
+  10   Arctic Ocean
+  11   Hudson Bay
+@

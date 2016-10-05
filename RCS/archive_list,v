@@ -1,0 +1,60 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2015.04.08.17.36.13;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh
+# List a directory on an archival system
+# Arguments:
+# 1 local file that has list
+#
+if [ $# -ne 1 ] ; then
+  echo "Usage: archive_list local_list - REQUIRED"
+  ./update_status error archive_list
+  exit 1
+else
+  ARCHIVE_L=$1
+fi
+#
+# If hsi command exists, use it.
+#
+TEST4HSI=`which hsi 2<&1`
+if [ $? -eq 0 ] ; then
+  PROCHOST=`hostname`;export PROCHOST
+  case "$PROCHOST" in 
+    modeling1* )  # Funny bash implementation of hsi 
+      HSI="hsi -s nocache" ;;
+    * )           # Everywhere else
+      HSI="hsi -q" ;;
+  esac
+  echo "HSI command: "${HSI}
+#
+  $HSI "ls -Fl $ARCHIVE_HIST" 2>&1 | egrep "\.${HIST}\." | cut -c60- > $ARCHIVE_L 2>&1 
+  if [ $? -ne 0 ] ; then
+    echo "Error on archive_list from "$ARCHIVE_HIST
+    ./update_status error archive_list
+    exit 1
+  fi
+else
+  echo "Cannot find hsi command."
+  ./update_status error archive_list
+  exit 1
+fi
+@

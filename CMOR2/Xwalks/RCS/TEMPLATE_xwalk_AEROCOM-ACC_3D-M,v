@@ -1,0 +1,180 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.02.28.18.35.30;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@AEROCOM-ACC_3D-M:ps:surface_air_pressure:longitude latitude time::
+AEROCOM-ACC_3D-M:temp:air_temperature:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:hus:specific_humidity:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:airmass:atmosphere_mass_content_of_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:pressure:atmospheric_pressure:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:ec5503Daer:atmosphere_extinction_due_to_ambient_aerosol:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:ec3553Daer:atmosphere_extinction_due_to_ambient_aerosol:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:ec10643Daer:atmosphere_extinction_due_to_ambient_aerosol:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:abs5503Daer:atmosphere_absorption_due_to_ambient_aerosol:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:clt3D:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:bs5503Daer:atmosphere_attenuated_backscatter_due_to_ambient_aerosol:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:asy3Daer:atmosphere_aerosol_asymmetry_parameter:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:cod3D:atmosphere_optical_thickness_due_to_cloud:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmraerh2o:mass_fraction_of_water_in_ambient_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:nucpn:tendency_of_atmosphere_number_content_of_aerosol_due_to_nucleation:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:chegpsoa:tendency_of_atmosphere_mass_content_of_secondary_organic_matter_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmroa:mass_fraction_of_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrpoa:mass_fraction_of_primary_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrsoa:mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrbb:mass_fraction_of_biomass_burning_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrbc:mass_fraction_ of_black_carbon_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:wet3Doa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosols_due_to_wet_deposition:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:wet3Dbc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_wet_deposition:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mcu:updraught_convective_mass_flux:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrso4:mass_fraction_of_sulfate_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:vmrso2:mole_fraction_of_sulfur_dioxide_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:vmrdms:mole_fraction_of_dimethyl_sulfide_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:chegpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:cheaqpso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:cheaqpH2O2so4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:cheaqpO3so4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production_and_emission:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:wet3Dso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_wet_deposition:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:wet3Dso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:wet3Ddms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_wet_deposition:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrno3:mass_fraction_ of_nitrate_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrnh4:mass_fraction_of_ammonium_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:vmrno:mole_fraction_of_nitrogen_monoxide_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:vmrno2:mole_fraction_of_nitrogen_dioxide_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:vmrhno3:mole_fraction_of_nitrogen_acid_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:vmrpan:mole_fraction_of_peroxyacetyl_nitrate_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:wet3Dhno3:tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_wet_deposition:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:wet3Dnoy:tendency_of_atmosphere_mass_content_of_all_nitrogen_oxides_due_to_wet_deposition:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:wet3Dnh4:tendency_of_atmosphere_mass_content_of_ammonium_due_to_wet_deposition:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrss:mass_fraction_ of_seasalt_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:wet3Dss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrdu:mass_fraction_ of_dust_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:wet3Ddu:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_wet_deposition:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr01:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr02:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr03:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr04:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr05:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr06:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr07:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr08:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr09:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr10:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr11:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr12:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr13:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr14:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr15:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr16:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr17:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr18:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr19:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr20:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr21:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr22:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr23:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr24:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr25:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr26:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr27:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr28:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr29:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr30:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr31:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr32:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr33:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr34:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr35:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr36:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr37:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr38:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr39:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr40:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr41:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr42:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr43:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr44:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr45:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr46:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr47:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr48:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr49:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr50:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr51:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr52:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr53:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr54:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr55:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr56:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr57:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr58:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr59:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr60:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr61:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr62:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr63:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr64:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr65:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr66:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr67:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr68:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr69:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr70:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr71:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr72:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr73:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr74:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr75:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr76:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr77:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr78:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr79:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr80:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr81:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr82:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr83:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr84:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr85:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr86:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr87:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr88:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr89:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr90:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr91:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr92:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr93:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr94:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr95:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr96:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr97:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr98:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr99:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:mmrtr100:mass_fraction_of_tracer_dry_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:conccnmode01:number_concentration_of_ambient_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:conccnmode02:number_concentration_of_ambient_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:conccnmode03:number_concentration_of_ambient_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:conccnmode04:number_concentration_of_ambient_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:conccnmode05:number_concentration_of_ambient_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:conccnmode06:number_concentration_of_ambient_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:conccnmode07:number_concentration_of_ambient_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:conccnmode08:number_concentration_of_ambient_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:conccnmode09:number_concentration_of_ambient_aerosol_in_air:longitude latitude alevel time::
+AEROCOM-ACC_3D-M:conccnmode10:number_concentration_of_ambient_aerosol_in_air:longitude latitude alevel time::
+@

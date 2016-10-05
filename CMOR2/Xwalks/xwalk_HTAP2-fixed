@@ -1,0 +1,19 @@
+HTAP2-fixed:areacella:cell_area:longitude latitude:atmos land:1:AREA:AREA
+HTAP2-fixed:landf:land_area_fraction:longitude latitude:atmos:1:LANDFRAC:LANDFRAC no change
+HTAP2-fixed:orog:surface_altitude:longitude latitude:atmos land:1:PHIS:Divide PHIS by g where LANDFRAC ne zero
+HTAP2-fixed:growvegbnds:time:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcBF:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcNF:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcCP:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcSa:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcGS:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcST:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcBS:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcW:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcO:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcCPC3:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcCPC4:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcSaC3:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcSaC4:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcGSC3:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN
+HTAP2-fixed:landcGSC4:area_type:longitude latitude:land:0:UNKNOWN:UNKNOWN

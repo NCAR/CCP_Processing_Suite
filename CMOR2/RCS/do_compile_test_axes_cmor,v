@@ -1,0 +1,25 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.10.24.16.46.31;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@/usr/local/pgi/linux86/bin/pgf95 test_axes_cmor.f90 -Wl,-rpath=/datalocal/ccpa/strandwg/software/udunits-2.1.21/lib -Wl,-rpath=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib -module /datalocal/ccpa/strandwg/CMIP5/CMOR2/current -I/usr/local/netcdf-4.1.1-pgi-hpf-cc-7.5-2/include -I./include -I/usr/local/hdf5/include -I/datalocal/ccpa/strandwg/software/udunits-2.1.21/include -I/datalocal/ccpa/strandwg/software/uuid-1.6.2/include -L/datalocal/ccpa/strandwg/software/udunits-2.1.21/lib -ludunits2 -lexpat -L/usr/local/netcdf-4.1.1-pgi-hpf-cc-7.5-2/lib -lnetcdf -L/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib -luuid -L/datalocal/ccpa/strandwg/CMIP5/CMOR2/current/lib -lcmor -L/usr/local/hdf5/lib -lhdf5_hl -lhdf5 -lz -lm -L/usr/kerberos/lib64/lib -lcurl -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lidn -lssl -lcrypto -lz -L/datalocal/ccpa/strandwg/software/udunits-2.1.21/lib -ludunits2 -lexpat
+
+@

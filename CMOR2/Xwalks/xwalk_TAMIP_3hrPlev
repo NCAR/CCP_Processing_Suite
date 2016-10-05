@@ -1,0 +1,8 @@
+TAMIP_3hrPlev:ua:eastward_wind:longitude latitude plev8 time:atmos:2:U PS:U interpolated to standard plev8
+TAMIP_3hrPlev:va:northward_wind:longitude latitude plev8 time:atmos:2:V PS:V interpolated to standard plev8
+TAMIP_3hrPlev:ta:air_temperature:longitude latitude plev8 time:atmos:2:T PS:T interpolated to standard plev8
+TAMIP_3hrPlev:hus:specific_humidity:longitude latitude plev8 time:atmos:2:Q PS:Q interpolated to standard plev8
+TAMIP_3hrPlev:wap:lagrangian_tendency_of_air_pressure:longitude latitude plev8 time:atmos:2:OMEGA PS:OMEGA interpolated to standard plev8
+TAMIP_3hrPlev:zg:geopotential_height:longitude latitude plev8 time:atmos:2:Z3 PS:Z3 interpolated to standard plev8
+TAMIP_3hrPlev:hur:relative_humidity:longitude latitude plev8 time:atmos:2:RELHUM PS:RELHUM interpolated to standard plev8
+TAMIP_3hrPlev:clisccp:cloud_area_fraction_in_atmosphere_layer:longitude latitude tau plev7 time:atmos:1:FISCCP1_COSP:FISCCP1_COSP

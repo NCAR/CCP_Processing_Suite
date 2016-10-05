@@ -1,0 +1,65 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.07.30.15.05.04;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@John's email: rtmt = rsdt - rsut - rlut
+
+rtmt : net_downward_radiative_flux_at_top_of_atmosphere_model : FSNT - FLNT
+
+rsdt : toa_incoming_shortwave_flux                            : SOLIN
+
+rsut : toa_outgoing_shortwave_flux                            : SOLIN - FSNTOA
+
+rlut : toa_outgoing_longwave_flux                             : FLUT                 (old, wrong)
+rlut : toa_outgoing_longwave_flux                             : FSNTOA - FSNT + FLNT (new)
+
+Correct rtmt:
+ rtmt = SOLIN - (SOLIN - FSNTOA) - (FSNTOA - FSNT + FLNT)
+      = SOLIN - SOLIN + FSNTOA - FSNTOA + FSNT - FLNT
+      = FSNT - FLNT
+
+Incorrect rtmt:
+ rtmt = SOLIN - (SOLIN - FSNTOA) - (FLUT)
+      = SOLIN - SOLIN + FSNTOA - FLUT
+      = FSNTOA - FLUT
+
+Data used by Forster et.al.:
+
+Area-weighted global-mean time-mean values for 800-1300, all published on 2012-02-03:
+
+rsdt_Amon_CCSM4_piControl_r1i1p1_080001-130012.nc:  340.268
+rsut_Amon_CCSM4_piControl_r1i1p1_080001-130012.nc:   97.747
+rlut_Amon_CCSM4_piControl_r1i1p1_080001-130012.nc:  240.570
+
+rtmt = 340.268 - 97.747 - 240.570
+     = 1.951
+
+'rlut' formulation corrected in March 2013 and 'rlut' republished on 2013-03-25:
+
+rlut_Amon_CCSM4_piControl_r1i1p1_080001-130012.nc:  242.670
+
+rtmt = 340.268 - 97.747 - 242.670
+     = -0.149
+
+The 'rtmt' data suppled starting on 2012-02-03, no changes in derivation:
+
+rtmt_Amon_CCSM4_piControl_r1i1p1_080001-130012.nc:   -0.148
+@

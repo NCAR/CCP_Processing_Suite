@@ -1,0 +1,41 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.11.28.18.12.33;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@program check_pi_times
+  implicit none
+  integer::ntimes,ic
+  integer,dimension(20)::nchunks,tidx1,tidx2
+  !
+  ntimes = 6012
+  if (ntimes == 6012) then  ! pre-industrial control, 50 year chunks
+     nchunks(1) = 10
+     tidx1(1) =   1
+     tidx2(1) = 600
+     do ic = 2,nchunks(1)
+        tidx1(ic) = tidx2(ic-1) + 1
+        tidx2(ic) = tidx1(ic) + 599
+     enddo
+     tidx2(nchunks(1)) = ntimes
+  endif
+  write(*,'(''# chunks '',i3,'':'',10((i4,''-'',i4),'',''))') nchunks(1),(tidx1(ic),tidx2(ic),ic=1,nchunks(1))
+end program check_pi_times
+@

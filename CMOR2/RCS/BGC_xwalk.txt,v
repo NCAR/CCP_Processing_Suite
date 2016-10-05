@@ -1,0 +1,209 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2012.01.28.23.22.15;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.01.28.23.21.48;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@Omon:arag:ocean:1:UNKNOWN:UNKNOWN
+Omon:bacc:ocean:1:UNKNOWN:UNKNOWN
+Omon:bfe:ocean:1:UNKNOWN:UNKNOWN
+Omon:bsi:ocean:1:UNKNOWN:UNKNOWN
+Omon:calc:ocean:1:UNKNOWN:UNKNOWN
+Omon:chlcalc:ocean:1:UNKNOWN:UNKNOWN
+Omon:chldiat:ocean:1:UNKNOWN:UNKNOWN
+Omon:chldiaz:ocean:1:diazChl:diazChl
+Omon:chlmisc:ocean:1:UNKNOWN:UNKNOWN
+Omon:chl:ocean:1:UNKNOWN:UNKNOWN
+Omon:chlpico:ocean:1:UNKNOWN:UNKNOWN
+Omon:co3:ocean:1:CO3:CO3
+Omon:co3satarag:ocean:1:co3_sat_arag:co3_sat_arag
+Omon:co3satcalc:ocean:1:co3_sat_calc:co3_sat_calc
+Omon:detoc:ocean:1:UNKNOWN:UNKNOWN
+Omon:dfe:ocean:2:DOFe Fe:DOFe + Fe
+Omon:dissic:ocean:1:DIC:DIC
+Omon:dissoc:ocean:1:DOC:DOC
+Omon:dms:ocean:1:UNKNOWN:UNKNOWN
+Omon:dpco2:ocean:1:UNKNOWN:UNKNOWN
+Omon:dpo2:ocean:1:UNKNOWN:UNKNOWN
+Omon:eparag100:ocean:1:UNKNOWN:UNKNOWN
+Omon:epc100:ocean:1:UNKNOWN:UNKNOWN
+Omon:epcalc100:ocean:1:UNKNOWN:UNKNOWN
+Omon:epfe100:ocean:1:UNKNOWN:UNKNOWN
+Omon:epsi100:ocean:1:UNKNOWN:UNKNOWN
+Omon:fbddtalk:ocean:1:UNKNOWN:UNKNOWN
+Omon:fbddtdic:ocean:1:UNKNOWN:UNKNOWN
+Omon:fbddtdife:ocean:1:UNKNOWN:UNKNOWN
+Omon:fbddtdin:ocean:1:UNKNOWN:UNKNOWN
+Omon:fbddtdip:ocean:1:UNKNOWN:UNKNOWN
+Omon:fbddtdisi:ocean:1:UNKNOWN:UNKNOWN
+Omon:fddtalk:ocean:1:tend_zint_100m_ALK:tend_zint_100m_ALK
+Omon:fddtdic:ocean:1:tend_zint_100m_DIC:tend_zint_100m_DIC
+Omon:fddtdife:ocean:1:tend_zint_100m_Fe:tend_zint_100m_Fe
+Omon:fddtdin:ocean:1:tend_zint_100m_NO3:tend_zint_100m_NO3
+Omon:fddtdip:ocean:1:tend_zint_100m_PO4:tend_zint_100m_PO4
+Omon:fddtdisi:ocean:1:tend_zint_100m_SiO3:tend_zint_100m_SiO3
+Omon:fgco2:ocean:1:UNKNOWN:UNKNOWN
+Omon:fgdms:ocean:1:UNKNOWN:UNKNOWN
+Omon:fgo2:ocean:1:UNKNOWN:UNKNOWN
+Omon:frc:ocean:1:UNKNOWN:UNKNOWN
+Omon:frfe:ocean:1:UNKNOWN:UNKNOWN
+Omon:frn:ocean:1:UNKNOWN:UNKNOWN
+Omon:fsc:ocean:1:UNKNOWN:UNKNOWN
+Omon:fsfe:ocean:1:UNKNOWN:UNKNOWN
+Omon:fsn:ocean:1:UNKNOWN:UNKNOWN
+Omon:intdic:ocean:1:DIC:Integrate DIC over depth
+Omon:intparag:ocean:1:UNKNOWN:UNKNOWN
+Omon:intpbfe:ocean:1:UNKNOWN:UNKNOWN
+Omon:intpbsi:ocean:1:UNKNOWN:UNKNOWN
+Omon:intpcalcite:ocean:1:UNKNOWN:UNKNOWN
+Omon:intpcalc:ocean:1:UNKNOWN:UNKNOWN
+Omon:intpdiat:ocean:1:UNKNOWN:UNKNOWN
+Omon:intpdiaz:ocean:1:UNKNOWN:UNKNOWN
+Omon:intpmisc:ocean:1:UNKNOWN:UNKNOWN
+Omon:intpn2:ocean:1:UNKNOWN:UNKNOWN
+Omon:intpnitrate:ocean:1:UNKNOWN:UNKNOWN
+Omon:intppico:ocean:1:UNKNOWN:UNKNOWN
+Omon:intpp:ocean:1:UNKNOWN:UNKNOWN
+Omon:nh4:ocean:1:NH4:NH4
+Omon:no3:ocean:1:NO3:NO3
+Omon:o2min:ocean:1:tend_zint_100m_O2:tend_zint_100m_O2
+Omon:o2:ocean:1:O2:O2
+Omon:ph:ocean:1:pH_3D:Integrate pH_3D over depth
+Omon:phycalc:ocean:1:UNKNOWN:UNKNOWN
+Omon:phyc:ocean:1:spC:spC
+Omon:phydiat:ocean:1:UNKNOWN:UNKNOWN
+Omon:phydiaz:ocean:1:diazC:diazC
+Omon:phyfe:ocean:1:spFe:spFe
+Omon:phymisc:ocean:1:UNKNOWN:UNKNOWN
+Omon:phyn:ocean:1:UNKNOWN:UNKNOWN
+Omon:phypico:ocean:1:UNKNOWN:UNKNOWN
+Omon:phyp:ocean:1:UNKNOWN:UNKNOWN
+Omon:physi:ocean:1:UNKNOWN:UNKNOWN
+Omon:po4:ocean:1:PO4:PO4
+Omon:pon:ocean:1:UNKNOWN:UNKNOWN
+Omon:pop:ocean:1:UNKNOWN:UNKNOWN
+Omon:si:ocean:1:SiO3:SiO3
+Omon:spco2:ocean:1:UNKNOWN:UNKNOWN
+Omon:talk:ocean:1:ALK:Integrate ALK over depth
+Omon:zmeso:ocean:1:UNKNOWN:UNKNOWN
+Omon:zmicro:ocean:1:UNKNOWN:UNKNOWN
+Omon:zo2min:ocean:1:O2_ZMIN_DEPTH:O2_ZMIN_DEPTH
+Omon:zoocmisc:ocean:1:UNKNOWN:UNKNOWN
+Omon:zooc:ocean:1:zooC:zooC
+Omon:zsatarag:ocean:1:zsatarag:zsatarag
+Omon:zsatcalc:ocean:1:zsatcalc:zsatcalc
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 7
+a7 7
+Omon:arag:ocean:1:
+Omon:bacc:ocean:1:
+Omon:bfe:ocean:1:
+Omon:bsi:ocean:1:
+Omon:calc:ocean:1:
+Omon:chlcalc:ocean:1:
+Omon:chldiat:ocean:1:
+d9 3
+a11 3
+Omon:chlmisc:ocean:1:
+Omon:chl:ocean:1:
+Omon:chlpico:ocean:1:
+d15 1
+a15 1
+Omon:detoc:ocean:1:
+d19 14
+a32 14
+Omon:dms:ocean:1:
+Omon:dpco2:ocean:1:
+Omon:dpo2:ocean:1:
+Omon:eparag100:ocean:1:
+Omon:epc100:ocean:1:
+Omon:epcalc100:ocean:1:
+Omon:epfe100:ocean:1:
+Omon:epsi100:ocean:1:
+Omon:fbddtalk:ocean:1:
+Omon:fbddtdic:ocean:1:
+Omon:fbddtdife:ocean:1:
+Omon:fbddtdin:ocean:1:
+Omon:fbddtdip:ocean:1:
+Omon:fbddtdisi:ocean:1:
+d39 9
+a47 9
+Omon:fgco2:ocean:1:
+Omon:fgdms:ocean:1:
+Omon:fgo2:ocean:1:
+Omon:frc:ocean:1:
+Omon:frfe:ocean:1:
+Omon:frn:ocean:1:
+Omon:fsc:ocean:1:
+Omon:fsfe:ocean:1:
+Omon:fsn:ocean:1:
+d49 12
+a60 12
+Omon:intparag:ocean:1:
+Omon:intpbfe:ocean:1:
+Omon:intpbsi:ocean:1:
+Omon:intpcalcite:ocean:1:
+Omon:intpcalc:ocean:1:
+Omon:intpdiat:ocean:1:
+Omon:intpdiaz:ocean:1:
+Omon:intpmisc:ocean:1:
+Omon:intpn2:ocean:1:
+Omon:intpnitrate:ocean:1:
+Omon:intppico:ocean:1:
+Omon:intpp:ocean:1:
+d66 1
+a66 1
+Omon:phycalc:ocean:1:
+d68 1
+a68 1
+Omon:phydiat:ocean:1:
+d71 5
+a75 5
+Omon:phymisc:ocean:1:
+Omon:phyn:ocean:1:
+Omon:phypico:ocean:1:
+Omon:phyp:ocean:1:
+Omon:physi:ocean:1:
+d77 2
+a78 2
+Omon:pon:ocean:1:
+Omon:pop:ocean:1:
+d80 1
+a80 1
+Omon:spco2:ocean:1:
+d82 2
+a83 2
+Omon:zmeso:ocean:1:
+Omon:zmicro:ocean:1:
+d85 1
+a85 1
+Omon:zoocmisc:ocean:1:
+@

@@ -1,0 +1,44 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.12.02.17.07.44;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@SHF       TLONG TLAT time
+SSH       TLONG TLAT time
+SFWF      TLONG TLAT time
+QFLUX     TLONG TLAT time
+LWDN_F    TLONG TLAT time
+LWUP_F    TLONG TLAT time
+PREC_F    TLONG TLAT time
+SENH_F    TLONG TLAT time
+SNOW_F    TLONG TLAT time
+QSW_HTP   TLONG TLAT time
+SHF_QSW   TLONG TLAT time
+PD        TLONG TLAT z_t time
+RHO       TLONG TLAT z_t time
+IAGE      TLONG TLAT z_t time
+SALT      TLONG TLAT z_t time
+TEMP      TLONG TLAT z_t time
+BSF       ULONG ULAT time
+TAUX      ULONG ULAT time
+TAUY      ULONG ULAT time
+UVEL      ULONG ULAT z_t time
+VVEL      ULONG ULAT z_t time
+@

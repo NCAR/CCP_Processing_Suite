@@ -1,0 +1,79 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+subroutine vertint(dati,dato,plevi,plevo,psfc,spvl,nlon,nlat,nlevi,nlevip1,nlevo)
+  use grid_info
+  implicit none
+!
+!****     this routine interploates ccm2/3 hybrid coordinate data
+!****     to pressure coordinates using pressure surfaces as the
+!****     coordinate surface where the interpolation is done.
+!
+  real                       ::spvl
+  integer                    ::nlon,nlat,nlevi,nlevip1,nlevo
+  real   ,dimension(nlevip1)  ::plevi
+  real   ,dimension(nlevo  )  ::plevo
+  real   ,dimension(nlon,nlat)::psfc
+  real   ,dimension(nlon,nlat,nlevi)::dati
+  real   ,dimension(nlon,nlat,nlevo)::dato
+  !
+  integer::i,j,k,kp,kpi
+!****
+!
+  do j = 1,nlat
+     do i = 1,nlon
+        do k = 1,nlevi
+           kpi = k
+           plevi(k) = (a_coeff(kpi)*p0mb) + b_coeff(kpi)* (psfc(i,j))
+        enddo
+!
+!****     call p2hbd to perform vertical interp. then transfer data to
+!****     the output array
+!
+        do k = 1,nlevo
+!
+!****     check for bracketing level kp will be the input level that
+!****     is the upper portion of 2 input bracketing levels.
+!
+!****     if branch for model top
+!
+           if (plevo(k).le.plevi(1)) then
+              kp = 1
+              go to 30
+!
+!****     if branch for level below lowest hybrid level
+!
+           else if (plevo(k).gt.plevi(nlevi)) then
+              dato(i,j,k) = spvl
+              go to 40
+!
+!****     if branch for to check if output level in between
+!****     2 lowest hybrid levels
+!
+           else if (plevo(k).ge.plevi(nlevi-1)) then
+              kp = nlevi - 1
+              go to 30
+!
+!****     if branch for model interior
+!****     loop through input levels till you are bracketing
+!****     output level
+!
+           else
+              kp = 0
+20            continue
+              kp = kp + 1
+              if (plevo(k).le.plevi(kp+1)) go to 30
+              go to 20
+           end if
+30         continue
+!
+!****     level bracketed pick type of interp.
+!
+!
+!****     linear interp.
+!
+           dato(i,j,k) = dati(i,j,kp) + (dati(i,j,kp+1)-dati(i,j,kp))*(plevo(k)-plevi(kp))/(plevi(kp+1)-plevi(kp))
+40         continue
+        enddo
+     enddo
+  enddo
+  return
+end subroutine vertint

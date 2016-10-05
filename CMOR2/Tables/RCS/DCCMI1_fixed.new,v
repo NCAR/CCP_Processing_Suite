@@ -1,0 +1,71 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.10.17.15.43.18;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@5c5
+< table_date:   6 August 2014 ! date this table was constructed
+---
+> table_date:   8 November 2013 ! date this table was constructed
+9,28c9,28
+< expt_id_ok:  'Hindcast' 'refC1'
+< expt_id_ok:  'Hindcast - Specified Dynamics' 'refC1SD'
+< expt_id_ok:  'Projection' 'refC2'
+< expt_id_ok:  'Hindcast Scenario - altEmis' 'senC1Emis'
+< expt_id_ok:  'HindcastSD Scenario - altEmis' 'senC1SDEmis'
+< expt_id_ok:  'Hindcast Scenario - fxdEmis' 'senC1fEmis'
+< expt_id_ok:  'HindcastSD Scenario - fxdEmis' 'senC1SDfEmis'
+< expt_id_ok:  'Hindcast Scenario - altSSI' 'senC1SSI'
+< expt_id_ok:  'Projection Scenario - RCP2.6' 'senC2rcp26'
+< expt_id_ok:  'Projection Scenario - RCP4.5' 'senC2rcp45'
+< expt_id_ok:  'Projection Scenario - RCP8.5' 'senC2rcp85'
+< expt_id_ok:  'Projection Scenario - fxdODS' 'senC2fODS'
+< expt_id_ok:  'Projection Scenario - fxdODS2000' 'senC2fODS2000'
+< expt_id_ok:  'Projection Scenario - fxdGHG' 'senC2fGHG'
+< expt_id_ok:  'Projection Scenario - fxdEmis' 'senC2fEmis'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G1' 'senC2GeoMIPG1'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G2' 'senC2GeoMIPG2'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G3' 'senC2GeoMIPG3'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G4' 'senC2GeoMIPG4'
+< expt_id_ok:  'Projection Scenario - SolarTrend' 'senC2SlrTrend'
+---
+> expt_id_ok:  'CCMI_Historical' 'refC1'
+> expt_id_ok:  'CCMI_HistoricalSD' 'refC1sd'
+> expt_id_ok:  'CCMI_Projection' 'refC2'
+> expt_id_ok:  'CCMI_HistorSc_Emis' 'senC1Emis'
+> expt_id_ok:  'CCMI_HistorSc_EmisSD' 'senC1SDEmis'
+> expt_id_ok:  'CCMI_HistorSc_fEmis' 'senC1fEmis'
+> expt_id_ok:  'CCMI_HistorSc_fEmisSD' 'senC1SDfEmis'
+> expt_id_ok:  'CCMI_HistorSc_SSI' 'senC1SSI'
+> expt_id_ok:  'CCMI_ProjecSC_RCP2.6' 'senC2rcp26'
+> expt_id_ok:  'CCMI_ProjecSC_RCP4.5' 'senC2rcp45'
+> expt_id_ok:  'CCMI_ProjecSC_RCP8.5' 'senC2rcp85'
+> expt_id_ok:  'CCMI_ProjecSC_fODS' 'senC2fODS'
+> expt_id_ok:  'CCMI_ProjecSC_fODS2000' 'senC2fODS2000'
+> expt_id_ok:  'CCMI_ProjecSC_fGHG' 'senC2fGHG'
+> expt_id_ok:  'CCMI_ProjecSC_fEMIS' 'senC2fEMIS'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G1' 'senC2GeoMIPG1'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G2' 'senC2GeoMIPG2'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G3' 'senC2GeoMIPG3'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G4' 'senC2GeoMIPG4'
+> expt_id_ok:  'CCMI_ProjecSC_SolarTrend' 'senC2slrtrend'
+161a162
+> 
+@

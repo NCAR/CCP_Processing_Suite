@@ -1,0 +1,37 @@
+ variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min
+orog|orog|surface_altitude|Surface Altitude|longitude latitude|real|m|||atmos||||||1.00E+04|-700|
+p0|||vertical coordinate formula term: reference pressure|||Pa|||||||||||
+ptop|||pressure at top of model|||Pa|||||||||||
+a|||vertical coordinate formula term: a(k)|alevel|double||||||||||||
+b|||vertical coordinate formula term: b(k)|alevel|double||||||||||||
+a_bnds|||vertical coordinate formula term: a(k+1/2)|alevel|double||||||||||||
+b_bnds|||vertical coordinate formula term: b(k+1/2)|alevel|double||||||||||||
+ap|||vertical coordinate formula term: ap(k)|alevel|double|Pa|||||||||||
+ap_bnds|||vertical coordinate formula term: ap(k+1/2)|alevel|double|Pa|||||||||||
+ztop|||height of top of model|||m|||||||||||
+ps|ps|surface_air_pressure|Surface Air Pressure|longitude latitude time|real|Pa||time: mean|atmos||||||||
+ua|ua|eastward_wind|Eastward Wind|longitude latitude alevel time|real|m s-1||time: mean|atmos||||||||
+va|va|northward_wind|Northward Wind|longitude latitude alevel time|real|m s-1||time: mean|atmos||||||||
+ta|ta|air_temperature|Air Temperature|longitude latitude alevel time|real|K||time: mean|atmos||||||||
+hus|hus|specific_humidity|Specific Humidity|longitude latitude alevel time|real|1||time: mean|atmos||||||||
+wap|wap|lagrangian_tendency_of_air_pressure|omega (=dp/dt)|longitude latitude alevel time|real|Pa s-1||time: mean|atmos||||||||
+zg|zg|geopotential_height|Geopotential Height|longitude latitude alevel time|real|m||time: mean|atmos||||||||
+hur|hur|relative_humidity|Relative Humidity|longitude latitude alevel time|real|%||time: mean|atmos||||||||
+cl|cl|cloud_area_fraction_in_atmosphere_layer|Cloud Area Fraction in Atmosphere Layer|longitude latitude alevel time|real|%||time: mean|atmos||||||||
+clw|clw|mass_fraction_of_cloud_liquid_water_in_air|Mass Fraction of Cloud Liquid Water|longitude latitude alevel time|real|1||time: mean|atmos||||||||
+cli|cli|mass_fraction_of_cloud_ice_in_air|Mass Fraction of Cloud Ice|longitude latitude alevel time|real|1||time: mean|atmos||||||||
+mc|mc|atmosphere_convective_mass_flux|Convective Mass Flux|longitude latitude alevhalf time|real|kg m-2 s-1||time: mean|atmos||||up||||
+tnt|tnt|tendency_of_air_temperature|Tendency of Air Temperature|longitude latitude alevel time|real|K s-1||time: mean|atmos||||||||
+tnta|tnta|tendency_of_air_temperature_due_to_advection|Tendency of Air Temperature due to Advection|longitude latitude alevel time|real|K s-1||time: mean|atmos||||||||
+tntmp|tntmp|tendency_of_air_temperature_due_to_model_physics|Tendency of Air Temperature due to Diabatic Processes|longitude latitude alevel time|real|K s-1||time: mean|atmos||||||||
+tntscpbl|tntscpbl|tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing|Tendency of Air Temperature Due to Stratiform Cloud and Precipitation and Boundary Layer Mixing|longitude latitude alevel time|real|K s-1||time: mean|atmos||||||||
+tntr|tntr|tendency_of_air_temperature_due_to_radiative_heating|Tendency of Air Temperature due to Radiative Heating|longitude latitude alevel time|real|K s-1||time: mean|atmos||||||||
+tntc|tntc|tendency_of_air_temperature_due_to_convection|Tendency of Air Temperature due to Moist Convection|longitude latitude alevel time|real|K s-1||time: mean|atmos||||||||
+tnhus|tnhus|tendency_of_specific_humidity|Tendency of Specific Humidity|longitude latitude alevel time|real|s-1||time: mean|atmos||||||||
+tnhusa|tnhusa|tendency_of_specific_humidity_due_to_advection|Tendency of Specific Humidity due to Advection|longitude latitude alevel time|real|s-1||time: mean|atmos||||||||
+tnhusc|tnhusc|tendency_of_specific_humidity_due_to_convection|Tendency of Specific Humidity due to Convection|longitude latitude alevel time|real|s-1||time: mean|atmos||||||||
+tnhusd|tnhusd|tendency_of_specific_humidity_due_to_diffusion|Tendency of Specific Humidity due to Diffusion|longitude latitude alevel time|real|s-1||time: mean|atmos||||||||
+tnhusscpbl|tnhusscpbl|tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing|Tendency of Specific Humidity due to Stratiform Cloud Condensation and Evaporation|longitude latitude alevel time|real|s-1||time: mean|atmos||||||||
+tnhusmp|tnhusmp|tendency_of_specific_humidity_due_to_model_physics|Tendency of Specific Humidity due to Model Physics|longitude latitude alevel time|real|s-1||time: mean|atmos||||||||
+pfull|pfull|air_pressure|Pressure on Model Levels|longitude latitude alevel time|real|Pa||time: mean|atmos||||||||
+phalf|phalf|air_pressure|Pressure on Model Half-Levels|longitude latitude alevhalf time|real|Pa||time: mean|atmos||||||||

@@ -1,0 +1,413 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.11.03.17.05.17;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+program drive_vinth2p
+  implicit none
+  !
+  integer,parameter::imax = 288,nlat = 192,nlevi = 26,nlevip1 = nlevi+1,nlevo = 17
+  real,dimension(imax,nlat,nlevi)::dati
+  real,dimension(imax,nlat,nlevo)::dato
+  real,dimension(nlevi)::plevi
+  real,dimension(nlevi)::hbcofa,hbcofb
+  real,dimension(nlevo)::plevo
+  real,dimension(imax,nlat)::psfc,tbot,phis
+  !
+  real::p0,spvl
+  integer::intyp,ilev,kxtrp,varflg
+  !
+  plevi = (/3.54463800000001, 7.38881350000001, 13.967214, 23.944625, &
+    37.2302900000001, 53.1146050000002, 70.0591500000003, 85.4391150000003, &
+    100.514695, 118.250335, 139.115395, 163.66207, 192.539935, 226.513265, &
+    266.481155, 313.501265000001, 368.817980000002, 433.895225000001, &
+    510.455255000002, 600.524200000003, 696.796290000003, 787.702060000003, &
+    867.160760000001, 929.648875000002, 970.554830000001, 992.5561/)
+  !
+  plevo = (/1000., 925., 850., 700.,600., 500., 400., 300., 250., &
+       200., 150., 100.,  70., 50.,  30.,  20.,  10./)
+  !
+  hbcofa = (/0.00354463800000001, 0.00738881350000001, 0.013967214, 0.023944625, &
+    0.0372302900000001, 0.0531146050000002, 0.0700591500000003, &
+    0.0779125700000003, 0.0766070100000003, 0.0750710850000003, &
+    0.0732641500000002, 0.071138385, 0.0686375349999999, 0.065695415, &
+    0.0622341550000001, 0.0581621650000002, 0.0533716800000001, &
+    0.0477359250000001, 0.041105755, 0.0333057, 0.02496844, 0.01709591, &
+    0.01021471, 0.00480317500000001, 0.00126068, 0 /)
+  !
+  hbcofb = (/0, 0, 0, 0, 0, 0, 0, 0.00752654500000002, 0.023907685, 0.04317925, &
+    0.0658512450000003, 0.0925236850000004, 0.1239024, 0.16081785, 0.204247, &
+    0.2553391, 0.315446300000001, 0.386159300000001, 0.469349500000002, &
+    0.567218500000003, 0.671827850000003, 0.770606150000003, &
+    0.856946050000001, 0.924845700000002, 0.969294150000001, 0.9925561 /)
+  !
+  p0 = 1000.0
+  !
+  open (10,file='T.bin',form='unformatted',access='direct',recl=imax*nlat*nlevi*4)
+  read (10,rec=1) dati
+  close(10)
+  write(*,*) minval(dati),maxval(dati)
+  tbot = dati(:,:,nlevi)
+  write(*,*) minval(tbot),maxval(tbot)
+  open (10,file='PHIS.bin',form='unformatted',access='direct',recl=imax*nlat*4)
+  read (10,rec=1) phis
+  close(10)
+  write(*,*) minval(phis),maxval(phis)
+  open (10,file='PS.bin',form='unformatted',access='direct',recl=imax*nlat*4)
+  read (10,rec=1) psfc
+  psfc = psfc / 100.
+  close(10)
+  write(*,*) minval(psfc),maxval(psfc)
+  !
+  intyp = 1
+  ilev  = 1
+  spvl  = 1.e30
+  kxtrp = 0
+  varflg = 1
+  !
+  call VINTH2PECMWF(DATI,DATO,HBCOFA,HBCOFB,P0,PLEVI,PLEVO,&
+       INTYP,ILEV,PSFC,SPVL,KXTRP,IMAX,NLAT,&
+       NLEVI,NLEVIP1,NLEVO,VARFLG,TBOT,PHIS)
+  write(*,*) minval(dato,mask=dato/=spvl),maxval(dato,mask=dato/=spvl)
+end program drive_vinth2p
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! NCLFORTSTART
+      SUBROUTINE VINTH2PECMWF(DATI,DATO,HBCOFA,HBCOFB,P0,PLEVI,PLEVO,&
+                               INTYP,ILEV,PSFC,SPVL,KXTRP,IMAX,NLAT,&
+                               NLEVI,NLEVIP1,NLEVO,VARFLG,TBOT,PHIS)
+!
+!****     THIS ROUTINE INTERPLOATES CCM2/3 HYBRID COORDINATE DATA
+!****     TO PRESSURE COORDINATES USING PRESSURE SURFACES AS THE
+!****     COORDINATE SURFACE WHERE THE INTERPOLATION IS DONE.  THE
+!****     TYPE OF INTERPOLATION IS CURRENTLY A VARIANT OF TRANSFORMED
+!****     PRESSURE COORDINATES WITH THE  INTERPOLATION TYPE
+!****     SPECIFIED BY INTYP.  ALL HYBRID COORDINATE VALUES ARE
+!****     TRANSFORMED TO PRESSURE VALUES. WHERE THE
+!****     FORMULA FOR THE PRESSURE OF A HYBRID SURFACE IS;
+!****          P(K) = HBCOFA(LEVH,K)*P0 + HBCOFB(LEVH,K)*PSFC
+!****     WHERE,
+!****          HBCOFA - IS THE "A" OR PRESSURE HYBRID COEF
+!****          LEVH   - IS THE LAYER SURFACE (INTERFACE=1 MIDPOINT=2)
+!****          P0     - IS THE BASE PRESSURE IN MB
+!****          K      - THE LEVEL INDEX (RUNNING FROM TOP TO BOTTOM)
+!****          HBCOFB - IS THE "B" OR SIGMA COEFICIENT
+!****          P(K)   - IS THE PRESSURE OF A HYBRID SURFACE IN MB.
+!****          PSFC   - IS THE SURFACE PRESSURE IN PASCALS
+!****                   (MB = .01*PASCALS
+!
+!****     FOR HYBRID DATA AT LEVEL INTERFACES SINCE THERE IS ONE
+!****     MORE VERTICAL LEVEL FOR INTERFACES THAN FOR LEVEL MIDPOINTS
+!****     IT IS ASSUNMED THAT THE FIRST INTERFACE LEVEL WITH A DATA
+!****     VALUE IS THE SECOND LEVEL FROM THE TOP.
+!
+!****     ON INPUT-
+!****        DATI    - 3 DIMENSIONAL ARRAY (I,J,KI) CONTAINING DATA
+!****                  ON HYBRID SURFACES  WHERE I IS LONGTIUDE, J
+!****                  IS LATITUDE AND K IS THE VERTICAL HYBRID
+!****                  COORDINATE.  THE VERTICAL DATA RUN TOP TO BOTTOM.
+!****                  SIGMA DATA WITH THE DATA ORDERED TOP TO BOTTOM.
+!****        HBCOFA  - 2 DIMENSIONAL ARRAY CONTAINING "A" OR PRESSURE
+!****                  COEFICIENTS FOR COMPUTING PRESSURE AT A LEVEL.
+!****                  ARRAY IS 2XNLEVIP1.  THE 1ST INDEX TAKES ON
+!****                  THE VALUE OF EITHER
+!****                   1 - FOR LEVEL INTERFACES (OR 1/2 LEVELS) OR;
+!****                   2 - FOR LEVEL MIDPOINTS  (OR FULL LEVELS WHERE
+!****                       VIRTUALLY ALL VARIABLES ARE LOCATED)
+!****                  NOTE THAT COEFICIENTS ARE SCALED TO YIELD A
+!****                  PRESSURE IN MB.  THEY ARE ORDERED FROM TOP
+!****                  OF THE MODEL TO THE BOTTOM.
+!****        HBCOFB  - SAME AS HCOFA BUT FOR THE "B" OR SIGMA COEFICIENT
+!****        P0      - BASE PRESSURE IN MB FOR COMPUTING PRESSURE
+!****                  OF A HYBRID COORDINATE LEVEL
+!****        PLEVI -  1 DIMENSIONAL ARRAY TO HOLD PRESSURE VALUES
+!****                  OF HYBRID SURFACES FOR A VERTICAL COLUMN
+!****                  SLICE
+!****        PLEVO   - LIST OF OUTPUT PRESSURE SURFACES IN MB
+!****                  LOW TO HIGH PRESSURE
+!****        INTYP   - A FLAG INDICATING INTERPOLATION FOR EACH
+!****                  FIELD (1 - LINEAR,2 - LOG ,3 - LOG LOG)
+!****                  WHERE EACH INTERPOLATION IS DONE IN TRANSFORMED
+!****                  PRESSURE COORDINATES.
+!****        ILEV    - FLAG TO SHOW WHETHER FIELD IS ON LEVEL INTERFACE
+!****                  1/2 LEVEL WHICH HAS A VALUE OF 1 OR A LEVEL
+!****                  MIDPOINT A FULL LEVEL (WHERE ALMOST ALL VARIABLES
+!****                  ARE LOCATED
+!****        PSFC    - MODEL SFC PRESSURE IN PASCALS (WILL BE CONVERTED
+!****                  TO MB)
+!****        VCOLI   - ARRAY TO STORE A LONGITUDINAL VERTICAL SLICE OF
+!****                  INPUT DATA (IMAX BY NLEVI).
+!****        VCOLO   - SAME BUT FOR OUTPUT DATA (IMAX BY NLEVO)
+!****        IMAX    - LONGITUDINAL DIMENSION OF THE DATA.
+!****        NLAT    - LATITUDINAL DIMENSION OF THE DATA.
+!****        NLEVI   - NO. OF LEVELS FOR THE HYBRID DATA
+!****        NLEVIP1 - NLEVI + 1
+!****        NLEVO   - NUMBER OF OUTPUT LEVELS FOR PRESSURE DATA
+!****        KXTRP   - FLAG WHICH INDICATES WHETHER OR NOT
+!****                  EXTRAPOLATION WILL BE USED WHEN THE OUTPUT
+!****                  PRESSURE SURFACE IS BELOW THE LOWEST LEVEL
+!****                  OF THE MODEL.
+!****                     0 - DON'T EXTRAPOLATE USE SPECIAL VALUE SPVL
+!****                     1 - EXTRAPOLATE DATA using ECMWF formulation
+!****                         below PSFC
+!****        SPVL    - SPECIAL VALUE TO USE WHEN DATA IS NOT
+!****                  EXTRAPOLATED
+!****        varflg  - flag which indicates the name of the variable
+!****                  -1 means geopotential (Z)
+!****                  +1 means geopotential (T)
+!****                   0 any other variable
+!****        tbot    - temperature at level closest to ground
+!****        phis    - surface geopotential
+!
+!****     ON OUTPUT-
+!****        DATO  - 3 DIMENSIONAL ARRAY TO HOLD DATA INTERPOLATED
+!****                TO PRESSURE SURFACES.
+!
+      IMPLICIT NONE
+      REAL SPVL,DATI,DATO,HBCOFA,HBCOFB,PLEVI,PLEVO,PSFC,P0
+      REAL A2LN,A1
+      INTEGER INTYP,ILEV,IMAX,NLAT,NLEVI,NLEVIP1,NLEVO,KXTRP
+      INTEGER I,J,K,KP,KPI,IPRINT
+!
+      DIMENSION DATI(IMAX,NLAT,NLEVI),DATO(IMAX,NLAT,NLEVO),&
+                HBCOFA(NLEVIP1),HBCOFB(NLEVIP1),PLEVI(NLEVI),&
+                PLEVO(NLEVO),PSFC(IMAX,NLAT)
+
+      INTEGER VARFLG
+      REAL TBOT,PHIS,TSTAR,HGT,ALNP,T0,TPLAT,TPRIME0,ALPHA,&
+                       ALPH,PSFCMB
+      DIMENSION TBOT(IMAX,NLAT),PHIS(IMAX,NLAT)
+! NCLEND
+
+! for ecmwf extrapolation
+      REAL RD,GINV
+      PARAMETER (RD=287.040)
+      PARAMETER (GINV=1.0/9.806160)
+      PARAMETER (ALPHA=0.00650*RD*GINV)
+!
+!
+!
+!****     STATEMENT FCN. FOR DOUBLE LOG. INTERP ON PRESSURE SURFACES
+!****     PRESUMES PRESSURE IS IN MB
+!
+      A2LN(A1) = LOG(LOG(A1+2.720))
+!
+!****     STATEMENT FCN. FOR DOUBLE LOG. INTERP ON SIGMA SURFACES.
+!****     SETS UP ROUGH UPPER BPOUND SIMILAR TO STATEMENT FCN FOR
+!****     PRESSURE. I.E.    FIXED VALUE LN(LN(P) = LN(LN(FIXED VAL)
+!****     AT .001 SIGMA OR ABOUT 1 MB
+!
+!     A2LN(A1)=LOG(LOG(A1+1.001))
+
+!****
+!
+      DO 70 J = 1,NLAT
+          DO 60 I = 1,IMAX
+! =======================================DJS special case===
+              IF (PSFC(I,J).EQ.SPVL) THEN
+                  DO K = 1,NLEVO
+                      DATO(I,J,K) = SPVL
+                  END DO
+                  GO TO 60
+              END IF
+! =========================================================
+
+!
+!****     GET PRESSURE VALUES FOR HYBRID SURFACES FOR THIS POINT
+!****     AND FOR THE TYPE OF MODEL SURFACE THE DATA IS ON.
+!****     INTERFACE DATA STARTS AT THE SECOND INTERFACE LEVEL SO
+!****     IF THE DATA IS ON THOSE LEVELS START THE
+!
+              DO K = 1,NLEVI
+                  KPI = K
+                  PLEVI(K) = (HBCOFA(KPI)*P0) +&
+                             HBCOFB(KPI)* (PSFC(I,J)*.010)
+              END DO
+!
+!****     CALL P2HBD TO PERFORM VERTICAL INTERP. THEN TRANSFER DATA TO
+!****     THE OUTPUT ARRAY
+!
+              DO 50 K = 1,NLEVO
+!
+!****     CHECK FOR BRACKETING LEVEL KP WILL BE THE INPUT LEVEL THAT
+!****     IS THE UPPER PORTION OF 2 INPUT BRACKETING LEVELS.
+!
+!****     IF BRANCH FOR MODEL TOP
+!
+                  IF (PLEVO(K).LE.PLEVI(1)) THEN
+                      KP = 1
+                      GO TO 30
+!
+!****     IF BRANCH FOR LEVEL BELOW LOWEST HYBRID LEVEL
+!
+                  ELSE IF (PLEVO(K).GT.PLEVI(NLEVI)) THEN
+                      IF (KXTRP.EQ.0) THEN
+                          DATO(I,J,K) = SPVL
+                          GO TO 40
+                      ELSE IF (VARFLG.GT.0) THEN
+! Variable is "T" and ECMWF extrapolation is desired
+                          PSFCMB = PSFC(I,J)*0.010
+                          TSTAR = DATI(I,J,NLEVI)*&
+                                  (1.0+ALPHA* (PSFCMB/PLEVI(NLEVI)-1))
+                          HGT = PHIS(I,J)*GINV
+                          IF (HGT.LT.2000.0) THEN
+                              ALNP = ALPHA*LOG(PLEVO(K)/PSFCMB)
+                          ELSE
+                              T0 = TSTAR + 0.00650*HGT
+                              TPLAT = MIN(T0,298.0)
+                              IF (HGT.LE.2500.0) THEN
+                                  TPRIME0 = 0.0020*&
+                                            ((2500.0-HGT)*T0+ (HGT-&
+                                            2000.0)*TPLAT)
+                              ELSE
+                                  TPRIME0 = TPLAT
+                              END IF
+                              IF (TPRIME0.LT.TSTAR) THEN
+                                  ALNP = 0.0
+                              ELSE
+                                  ALNP = RD* (TPRIME0-TSTAR)/PHIS(I,J)*&
+                                         LOG(PLEVO(K)/PSFCMB)
+                              END IF
+                          END IF
+                          DATO(I,J,K) = TSTAR* (1.0+ALNP+.50*ALNP**2+&
+                                        1.0/6.0*ALNP**3)
+                          GO TO 40
+
+                      ELSE IF (VARFLG.LT.0) THEN
+! Variable is "Z" and ECMWF extrapolation is desired
+                          PSFCMB = PSFC(I,J)*0.010
+                          HGT = PHIS(I,J)*GINV
+                          TSTAR = TBOT(I,J)* (1.0+&
+                                  ALPHA* (PSFCMB/PLEVI(NLEVI)-1.0))
+                          T0 = TSTAR + 0.00650*HGT
+
+                          IF (TSTAR.LE.290.50 .AND. T0.GT.290.50) THEN
+                              ALPH = RD/PHIS(I,J)* (290.50-TSTAR)
+                          ELSE IF (TSTAR.GT.290.50 .AND.&
+                                   T0.GT.290.50) THEN
+                              ALPH = 0
+                              TSTAR = 0.50* (290.50+TSTAR)
+                          ELSE
+                              ALPH = ALPHA
+                          END IF
+
+                          IF (TSTAR.LT.255.0) THEN
+                              TSTAR = 0.50* (TSTAR+255.0)
+                          END IF
+                          ALNP = ALPH*LOG(PLEVO(K)/PSFCMB)
+                          DATO(I,J,K) = HGT - RD*TSTAR*GINV*&
+                                        LOG(PLEVO(K)/PSFCMB)*&
+                                        (1.0+.50*ALNP+&
+                                        1.0/6.0*ALNP**2)
+                          GO TO 40
+                      ELSE
+! Use lowest sigma layer
+                          DATO(I,J,K) = DATI(I,J,NLEVI)
+                          GO TO 40
+                      END IF
+!
+!****     IF BRANCH FOR TO CHECK IF OUTPUT LEVEL IN BETWEEN
+!****     2 LOWEST HYBRID LEVELS
+!
+                  ELSE IF (PLEVO(K).GE.PLEVI(NLEVI-1)) THEN
+                      KP = NLEVI - 1
+                      GO TO 30
+!
+!****     IF BRANCH FOR MODEL INTERIOR
+!****     LOOP THROUGH INPUT LEVELS TILL YOU ARE BRACKETING
+!****     OUTPUT LEVEL
+!
+                  ELSE
+                      KP = 1
+   20                 CONTINUE
+                      KP = KP + 1
+                      IF (PLEVO(K).LE.PLEVI(KP+1)) GO TO 30
+                      IF (KP.GT.NLEVI) THEN
+                          WRITE (6,FMT=25) KP,NLEVI
+   25                     FORMAT (' KP.GT.KLEVI IN P2HBD.  KP,KLEVI= ',&
+                                 2I5)
+            CALL DPRNT(' PLEVI',PLEVI,NLEVIP1,1,1,1)
+            CALL DPRNT(' PLEVO',PLEVO,NLEVO,1,1,1)
+!            CALL ABORT(' KP.GT.NLEVI IN P2HBD')
+                      END IF
+                      GO TO 20
+                  END IF
+   30             CONTINUE
+!
+!****     LEVEL BRACKETED PICK TYPE OF INTERP.
+!
+!
+!****     LINEAR INTERP.
+!
+                  IF (INTYP.EQ.1) THEN
+                      DATO(I,J,K) = DATI(I,J,KP) +&
+                                    (DATI(I,J,KP+1)-DATI(I,J,KP))*&
+                                    (PLEVO(K)-PLEVI(KP))/&
+                                    (PLEVI(KP+1)-PLEVI(KP))
+!
+!****     LOG INTERPOLATION.
+!
+                  ELSE IF (INTYP.EQ.2) THEN
+                      IPRINT = 1
+!      IF (I.EQ.1.AND.IPRINT.EQ.1) THEN
+!         PRINT 101,I,J,K,KP,ILEV
+!  101    FORMAT('  IN S2HBD I,J,K,KP,ILEV ',5I3)
+!         PRINT 102,DATI(I,J,KP),DATI(I,J,KP+1),PLEVO(K),
+!     *             PLEVI(KP),PLEVI(KP+1)
+!  102    FORMAT(' DATI(KP),DATI(KP+1),PLEVO(K),',
+!     *          'PLEVI(KP),PLEVI(KP+1) ',
+!     *          /,1X,1P5E12.5)
+!      ENDIF
+                      DATO(I,J,K) = DATI(I,J,KP) +&
+                                    (DATI(I,J,KP+1)-DATI(I,J,KP))*&
+                                    LOG(PLEVO(K)/PLEVI(KP))/&
+                                    LOG(PLEVI(KP+1)/PLEVI(KP))
+!
+!****     FOR LOG LOG INTERP. NOTE A2LN IS A STATEMENT FCN.
+!
+                  ELSE IF (INTYP.EQ.3) THEN
+                      DATO(I,J,K) = DATI(I,J,KP) +&
+                                    (DATI(I,J,KP+1)-DATI(I,J,KP))*&
+                                    (A2LN(PLEVO(K))-A2LN(PLEVI(KP)))/&
+                                    (A2LN(PLEVI(KP+1))-A2LN(PLEVI(KP)))
+                  END IF
+   40             CONTINUE
+!
+   50         CONTINUE
+   60     CONTINUE
+   70 CONTINUE
+      RETURN
+      END
+      SUBROUTINE DPRNT(IFLD,A,IM,JM,IS,JS)
+      REAL A
+      CHARACTER*(*) IFLD
+      DIMENSION A(IM,JM)
+
+      PRINT 10,IFLD
+   10 FORMAT (1X,/,' FIELD ',A)
+      DO 20 J = 1,JM,JS
+          PRINT 13,J
+   13     FORMAT (' J=',I4)
+          PRINT 15, (A(I,J),I=1,IM,IS)
+   15     FORMAT (1X,1P,10D12.5)
+   20 CONTINUE
+      RETURN
+      END
+@

@@ -1,0 +1,42 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2015.02.13.21.57.47;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2014.01.31.19.43.19;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@CCMI1_fixed:areacella:cell_area:longitude latitude:atmos land:
+CCMI1_fixed:orog:surface_altitude:longitude latitude:atmos:
+CCMI1_fixed:sftlf:land_area_fraction:longitude latitude:atmos:
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@a0 2
+CCMI1_fixed::longitude:::
+CCMI1_fixed::latitude:::
+@

@@ -1,0 +1,242 @@
+head	1.5;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.5
+date	2015.04.08.17.36.07;	author strandwg;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2012.09.06.15.53.20;	author strandwg;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2012.09.06.15.53.13;	author strandwg;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2012.08.08.17.33.37;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.07.27.21.28.00;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@#!/bin/sh
+# Read file(s) from a archival system
+#
+if [ $# -ne 2 ] ; then
+  echo "Usage: archive_read ARCHIVE_LIST YEARNOW"
+  echo "Requires ARCHIVE_LIST and YEARNOW"
+  echo "CASE HIST ARCHIVE_HIST must be defined"
+  ./update_status error archive_read
+  exit 1
+else
+  ARCHIVE_LIST=$1
+  YEARNOW=$2
+fi
+#
+if ! [ -f $ARCHIVE_LIST ] ; then
+  echo "archive_read: No "$ARCHIVE_LIST" file found. Exit."
+  ./update_status error archive_read
+  exit 1
+fi
+if [ ! $CASE ] ; then
+  echo "archive_read: CASE undefined. Exit."
+fi
+if [ ! $HIST ] ; then
+  echo "archive_read: HIST undefined. Exit."
+fi
+if [ ! $ARCHIVE_HIST ] ; then
+  echo "archive_read: ARCHIVE_HIST undefined. Exit."
+fi
+#
+# If hsi command exists, use it.
+#
+TEST4HSI=`which hsi 2<&1`
+if [ $? -eq 0 ] ; then
+  PROCHOST=`hostname`;export PROCHOST
+  case "$PROCHOST" in 
+    modeling1* )  # Funny bash implementation of hsi 
+      HSI="hsi -s nocache" ;;
+    * )           # Everywhere else
+      HSI="hsi -q" ;;
+  esac
+  echo "HSI command: "${HSI}
+#
+  $HSI "cget -u ${ARCHIVE_HIST}/${CASE}.${HIST}.${YEARNOW}*"
+  if [ $? -ne 0 ] ; then
+    echo "Error on hsi get of "$ARCHIVE_HIST"/"$ARCHIVE_FILES
+    ./update_status error archive_read
+    exit 1
+  fi
+else
+  echo "Cannot find hsi command."
+  ./update_status error archive_read
+  exit 1
+fi
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d8 1
+a8 1
+  ./procstat.sh error archive_read
+d17 1
+a17 1
+  ./procstat.sh error archive_read
+d46 1
+a46 1
+    ./procstat.sh error archive_read
+d51 1
+a51 1
+  ./procstat.sh error archive_read
+@
+
+
+1.3
+log
+@FUCKED
+@
+text
+@d4 4
+a7 4
+if [ $# -ne 3 ] ; then
+  echo "Usage: archive_read $CASE $HIST $LOCAL_HIST"
+  echo "Requires $CASE $HIST and $LOCAL_HIST"
+  echo "CASE HIST LOCAL_HIST must be defined"
+d11 8
+a18 3
+  CASE=$1
+  HIST=$2
+  LOCL=$3
+d26 2
+a27 2
+if [ ! $LOCL ] ; then
+  echo "archive_read: LOCAL_HIST undefined. Exit."
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d5 4
+a8 3
+  echo "Usage: archive_read CASE HIST LOCAL_HIST"
+  echo "Requires CASE HIST LOCAL_HIST"
+  if [ -f ./procstat.sh ] ; then ./procstat.sh error archive_read ; fi
+a14 5
+if [ ! $ARCHIVE_HIST ] ; then
+  echo "archive_read: ARCHIVE_HIST undefined. Exit."
+  if [ -f ./procstat.sh ] ; then ./procstat.sh error archive_read ; fi
+  exit 1
+fi
+a16 2
+  if [ -f ./procstat.sh ] ; then ./procstat.sh error archive_read ; fi
+  exit 1
+a19 2
+  if [ -f ./procstat.sh ] ; then ./procstat.sh error archive_read ; fi
+  exit 1
+a22 2
+  if [ -f ./procstat.sh ] ; then ./procstat.sh error archive_read ; fi
+  exit 1
+a24 14
+# Determine last slash position
+#
+RDIR=`echo $ARCHIVE_HIST | cut -d "/" -f2`
+case "$RDIR" in
+  CCSM | FVITT | HANNAY | KLINDSAY | OLSON | SHIELDS | TILMES )
+    LSLASH=7 ;;
+  f2 | home )
+    LSLASH=8 ;;
+  * ) 
+    echo "Unable to continue because "$ARCHIVE_HIST" not known."
+    if [ -f ./procstat.sh ] ; then ./procstat.sh error archive_read ; fi
+    exit 1 ;;
+esac
+#
+d36 1
+d38 1
+a38 3
+  mkdir -p ${LOCL}
+  cd ${LOCL}
+  $HSI "cd ${ARCHIVE_HIST} ; ls -P ${CASE}.${HIST}*" >& .info.${CASE}.${HIST}
+d40 2
+a41 2
+    echo "Error on hsi ls -P of "$ARCHIVE_HIST
+    if [ -f ./procstat.sh ] ; then ./procstat.sh error archive_read ; fi
+a42 14
+  else
+    cat ./.info.${CASE}.${HIST} | cut -f4 | sort | uniq > ./.size.${CASE}.${HIST}
+    awk '{print $6,$5,$2}' ./.info.${CASE}.${HIST} | sort --key=1,2 | cut --delim ' ' --fields 1,3 > ./.tape.${CASE}.${HIST}
+    for I in `cat ./.tape.${CASE}.${HIST} | cut -d" " -f1 | sort | uniq` ; do
+      egrep "^${I}" ./.tape.${CASE}.${HIST} | cut -d" " -f2 | cut -d"/" -f${LSLASH} > ./.T.${I}.${CASE}.${HIST}
+    done
+    for TPLIST in `/bin/ls ./.T.*.${CASE}.${HIST}` ; do
+      split -l 20 $TPLIST $TPLIST
+      rm $TPLIST
+    done
+    for TPLIST in `/bin/ls ./.T.*.${CASE}.${HIST}*` ; do
+      FILES=`cat $TPLIST | sed -e 's/ /,/g'`
+      $HSI "cd ${ARCHIVE_HIST} ; cget -u $FILES" >> ./.lget.${CASE}.${HIST} 2>&1
+    done
+d46 1
+a46 1
+  if [ -f ./procstat.sh ] ; then ./procstat.sh error archive_read ; fi
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d5 3
+a7 4
+  echo "Usage: archive_read $CASE $HIST $LOCAL_HIST"
+  echo "Requires $CASE $HIST and $LOCAL_HIST"
+  echo "CASE HIST LOCAL_HIST must be defined"
+  ./procstat.sh error archive_read
+d14 5
+d21 2
+d26 2
+d31 2
+d35 14
+d60 4
+a63 3
+  echo "HSI command: "${HSI}
+u#
+  $HSI "cget -u ${ARCHIVE_HIST}/${CASE}.${HIST}.${YEARNOW}*"
+d65 2
+a66 2
+    echo "Error on hsi get of "$ARCHIVE_HIST"/"$ARCHIVE_FILES
+    ./procstat.sh error archive_read
+d68 14
+d85 1
+a85 1
+  ./procstat.sh error archive_read
+@

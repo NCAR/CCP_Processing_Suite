@@ -1,0 +1,27 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.12.02.17.26.00;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@fx:sftlf:atmos:1:LANDFRAC:LANDFRAC no change
+fx:deptho:ocean:1:HT:HT convert cm to m
+fx:volcello:ocean:1:TAREA:TAREA times dz, convert cm3 to m3
+fx:areacello:ocean:1:TAREA:TAREA convert cm2 to m2
+@

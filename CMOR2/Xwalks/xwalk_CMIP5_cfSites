@@ -1,0 +1,75 @@
+CMIP5_cfSites:ccb:air_pressure_at_convective_cloud_base:site time1:atmos:1:PCLDBOT:PCLDBOT
+CMIP5_cfSites:cct:air_pressure_at_convective_cloud_top:site time1:atmos:1:PCLDTOP:PCLDTOP
+CMIP5_cfSites:ci:convection_time_fraction:site time1:atmos:1:FREQZM:FREQZM unit conversion
+CMIP5_cfSites:cl:cloud_area_fraction_in_atmosphere_layer:alevel site time1:atmos:2:CLOUD PS:CLOUD on model levels, no change
+CMIP5_cfSites:cli:mass_fraction_of_cloud_ice_in_air:alevel site time1:atmos:2:CLDICE PS:CLDICE on model levels, no change
+CMIP5_cfSites:clivi:atmosphere_cloud_ice_content:site time1:atmos:1:TGCLDIWP:TGCLDIWP no change
+CMIP5_cfSites:clt:cloud_area_fraction:site time1:atmos:1:CLDTOT:CLDTOT unit conversion
+CMIP5_cfSites:clw:mass_fraction_of_cloud_liquid_water_in_air:alevel site time1:atmos:2:CLDLIQ PS:CLDLIQ on model levels, no change
+CMIP5_cfSites:clwvi:atmosphere_cloud_condensed_water_content:site time1:atmos:1:TGCLDLWP:TGCLDLWP no change
+CMIP5_cfSites:edt:atmosphere_heat_diffusivity:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:evspsbl:water_evaporation_flux:site time1:atmos:1:QFLX:QFLX no change
+CMIP5_cfSites:evu:atmosphere_momentum_diffusivity:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:fco2antt:tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission:site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:fco2fos:tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fossil_fuel_combustion:site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:fco2nat:surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources:site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:hfls:surface_upward_latent_heat_flux:site time1:atmos:1:LHFLX:LHFLX no change
+CMIP5_cfSites:hfss:surface_upward_sensible_heat_flux:site time1:atmos:1:SHFLX:SHFLX no change
+CMIP5_cfSites:hur:relative_humidity:alevel site time1:atmos:2:RELHUM PS:RELHUM on model levels
+CMIP5_cfSites:hurs:relative_humidity:site time1 height2m:atmos:1:RHREFHT:RHREFHT no change
+CMIP5_cfSites:hus:specific_humidity:alevel site time1:atmos:2:Q PS:Q on model levels
+CMIP5_cfSites:huss:specific_humidity:site time1 height2m:atmos:1:QREFHT:QREFHT no change
+CMIP5_cfSites:mc:atmosphere_net_upward_convective_mass_flux:alevhalf site time1:atmos:3:CMFMC CMFMCDZM PS:CMFMC + CMFMCDZM on model levels, no change
+CMIP5_cfSites:prc:convective_precipitation_flux:site time1:atmos:1:PRECC:PRECC unit conversion
+CMIP5_cfSites:pr:precipitation_flux:site time1:atmos:1:PRECT:PRECT unit conversion
+CMIP5_cfSites:prsn:snowfall_flux:site time1:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
+CMIP5_cfSites:prw:atmosphere_water_vapor_content:site time1:atmos:1:TMQ:TMQ no change
+CMIP5_cfSites:psl:air_pressure_at_sea_level:site time1:atmos:1:PSL:PSL no change
+CMIP5_cfSites:ps:surface_air_pressure:site time1:atmos:1:PS:PS no change
+CMIP5_cfSites:rldcs:downwelling_longwave_flux_in_air_assuming_clear_sky:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:rld:downwelling_longwave_flux_in_air:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:site time1:atmos:1:FLDSC:FLDSC no change
+CMIP5_cfSites:rlds:surface_downwelling_longwave_flux_in_air:site time1:atmos:1:FLDS:FLDS no change
+CMIP5_cfSites:rlucs:upwelling_longwave_flux_in_air_assuming_clear_sky:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:rlus:surface_upwelling_longwave_flux_in_air:site time1:atmos:2:FLDS FLNS:FLDS + FLNS
+CMIP5_cfSites:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:site time1:atmos:1:FLUTC:FLUTC no change
+CMIP5_cfSites:rlut:toa_outgoing_longwave_flux:site time1:atmos:3:FSNTOA FSNT FLNT:FSNTOA-FSNT+FLNT
+CMIP5_cfSites:rlu:upwelling_longwave_flux_in_air:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:rsdcs:downwelling_shortwave_flux_in_air_assuming_clear_sky:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:rsd:downwelling_shortwave_flux_in_air:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:site time1:atmos:1:FSDSC:FSDSC no change
+CMIP5_cfSites:rsds:surface_downwelling_shortwave_flux_in_air:site time1:atmos:1:FSDS:FSDS no change
+CMIP5_cfSites:rsdt:toa_incoming_shortwave_flux:site time1:atmos:1:SOLIN:SOLIN no change
+CMIP5_cfSites:rsucs:upwelling_shortwave_flux_in_air_assuming_clear_sky:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:site time1:atmos:2:FSDSC FSNSC:FSDSC - FSNSC
+CMIP5_cfSites:rsus:surface_upwelling_shortwave_flux_in_air:site time1:atmos:2:FSDS FSNS:FSDS - FSNS
+CMIP5_cfSites:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:site time1:atmos:2:SOLIN FSNTOAC:SOLIN - FSNTOAC
+CMIP5_cfSites:rsut:toa_outgoing_shortwave_flux:site time1:atmos:2:SOLIN FSNTOA:SOLIN - FSNTOA
+CMIP5_cfSites:rsu:upwelling_shortwave_flux_in_air:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:rtmt:net_downward_radiative_flux_at_top_of_atmosphere_model:site time1:atmos:2:FSNT FLNT:FSNT - FLNT
+CMIP5_cfSites:sbl:surface_snow_and_ice_sublimation_flux:site time1:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_cfSites:sci:shallow_convection_time_fraction:site time1:atmos:1:FREQSH:FREQSH no change
+CMIP5_cfSites:sfcWind:wind_speed:site time1 height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_cfSites:ta:air_temperature:alevel site time1:atmos:2:T PS:T no change
+CMIP5_cfSites:tas:air_temperature:site time1 height2m:atmos:1:TREFHT:TREFHT no change
+CMIP5_cfSites:tauu:surface_downward_eastward_stress:site time1:atmos:1:TAUX:TAUX no change
+CMIP5_cfSites:tauv:surface_downward_northward_stress:site time1:atmos:1:TAUY:TAUY no change
+CMIP5_cfSites:tnhusa:tendency_of_specific_humidity_due_to_advection:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:tnhusc:tendency_of_specific_humidity_due_to_convection:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:tnhusd:tendency_of_specific_humidity_due_to_diffusion:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:tnhusmp:tendency_of_specific_humidity_due_to_model_physics:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:tnhusscpbl:tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:tnhus:tendency_of_specific_humidity:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:tnta:tendency_of_air_temperature_due_to_advection:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:tntc:tendency_of_air_temperature_due_to_convection:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:tntmp:tendency_of_air_temperature_due_to_model_physics:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:tntr:tendency_of_air_temperature_due_to_radiative_heating:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:tntscpbl:tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing:alevel site time1:atmos:0:UNKNOWN:UNKNOWN
+CMIP5_cfSites:tnt:tendency_of_air_temperature:alevel site time1:atmos:2:TTEND_TOT PS:TTEND_TOT on model levels, no change
+CMIP5_cfSites:ts:surface_temperature:site time1:atmos:1:TS:TS no change
+CMIP5_cfSites:ua:eastward_wind:alevel site time1:atmos:2:U PS:U on model levels
+CMIP5_cfSites:uas:eastward_wind:site time1 height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_cfSites:va:northward_wind:alevel site time1:atmos:2:V PS:V on model levels
+CMIP5_cfSites:vas:northward_wind:site time1 height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_cfSites:wap:lagrangian_tendency_of_air_pressure:alevel site time1:atmos:2:OMEGA PS:OMEGA on model levels
+CMIP5_cfSites:zg:geopotential_height:alevel site time1:atmos:2:Z3 PS:Z3 on model levels

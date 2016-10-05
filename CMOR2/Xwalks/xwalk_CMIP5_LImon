@@ -1,0 +1,12 @@
+CMIP5_LImon:agesno:age_of_surface_snow:longitude latitude time:landIce land:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_LImon:hfdsn:surface_downward_heat_flux_in_snow:longitude latitude time:landIce land:1:FGR:FGR
+CMIP5_LImon:lwsnl:liquid_water_content_of_snow_layer:longitude latitude time:landIce land:1:SNOWLIQ:SNOWLIQ no change
+CMIP5_LImon:pflw:liquid_water_content_of_permafrost_layer:longitude latitude time:landIce land:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_LImon:sbl:surface_snow_and_ice_sublimation_flux:longitude latitude time:landIce land:0:UNAVAILABLE:would be QFLX_SUB_SNOW
+CMIP5_LImon:snc:surface_snow_area_fraction:longitude latitude time:landIce land:1:FSNO:FSNO
+CMIP5_LImon:snd:surface_snow_thickness:longitude latitude time:landIce land:1:SNOWDP:SNOWDP unchanged
+CMIP5_LImon:snm:surface_snow_melt_flux:longitude latitude time:landIce land:1:QMELT:QMELT, unit change from mm s-1 to kg m-2 s-1, same numerical value
+CMIP5_LImon:snw:surface_snow_amount:longitude latitude time:landIce land:1:H2OSNO:H2OSNO, unit change from mm to kg m-2, same numerical value
+CMIP5_LImon:sootsn:soot_content_of_surface_snow:longitude latitude time:landIce land:3:SNOBCMSL SNODSTMSL SNOOCMSL:SNOBCMSL + SNODSTMSL + SNOOCMSL
+CMIP5_LImon:tpf:permafrost_layer_thickness:longitude latitude time:landIce land:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_LImon:tsn:temperature_in_surface_snow:longitude latitude time:landIce land:0:UNAVAILABLE:would be SNOTTOPL

@@ -1,0 +1,23 @@
+pr|pr|precipitation_flux|Precipitation|longitude latitude time|real|kg m-2 s-1|area: areacella|time:mean|atmos||||||||
+tas|tas|air_temperature|Air Temperature|longitude latitude time1 height2m|real|K|area: areacella|time: point|atmos||||||||
+hfls|hfls|surface_upward_latent_heat_flux|Surface Upward Latent Heat Flux|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+hfss|hfss|surface_upward_sensible_heat_flux|Surface Upward Sensible Heat Flux|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rlds|rlds|surface_downwelling_longwave_flux_in_air|Surface Downwelling Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+rlus|rlus|surface_upwelling_longwave_flux_in_air|Surface Upwelling Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+rsds|rsds|surface_downwelling_shortwave_flux_in_air|Surface Downwelling Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+rsus|rsus|surface_upwelling_shortwave_flux_in_air|Surface Upwelling Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+uas|uas|eastward_wind|Eastward Near-Surface Wind Speed|longitude latitude time1 height10m|real|m s-1||time: point|atmos||||||||
+vas|vas|northward_wind|Northward Near-Surface Wind Speed|longitude latitude time1 height10m|real|m s-1||time: point|atmos||||||||
+huss|huss|specific_humidity|Near-Surface Specific Humidity|longitude latitude time1 height2m|real|1|area: areacella|time: point|atmos||||||||
+mrsos|mrsos|moisture_content_of_soil_layer|Moisture in Upper Portion of Soil Column|longitude latitude time1 sdepth1|real|kg m-2|area: areacella|time: point area: mean where land|land||||||||
+tslsi|tslsi|surface_temperature|Surface Temperature Where Land or Sea Ice|longitude latitude time1|real|K|area: areacella|time: point|land||||||||
+tso|tso|sea_surface_temperature|Sea Surface Temperature|longitude latitude time1|real|K|area: areacella|time: point area: mean where sea|ocean||||||||
+prc|prc|convective_precipitation_flux|Convective Precipitation|longitude latitude time|real|kg m-2 s-1|area: areacella|time:mean|atmos||||||||
+prsn|prsn|snowfall_flux|Snowfall Flux|longitude latitude time|real|kg m-2 s-1|area: areacella|time:mean|atmos||||||||
+mrro|mrro|runoff_flux|Total Runoff|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||||||
+rldscs|rldscs|downwelling_longwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+rsdscs|rsdscs|surface_downwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||down||||
+rsuscs|rsuscs|surface_upwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Upwelling Clear-Sky Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||up||||
+ps|ps|surface_air_pressure|Surface Pressure|longitude latitude time1|real|Pa|area: areacella|time: point|atmos||||||||
+clt|clt|cloud_area_fraction|Total Cloud Fraction|longitude latitude time|real|%|area: areacella|time: mean|atmos||||||||
+rsdsdiff|rsdsdiff|surface_diffuse_downwelling_shortwave_flux_in_air|Surface Diffuse Downwelling Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|atmos||||||||

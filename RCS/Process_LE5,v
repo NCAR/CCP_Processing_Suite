@@ -1,0 +1,119 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2016.10.05.17.49.39;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh
+#
+if [ $# -ne 3 ] && [ $# -ne 4 ] ; then
+   echo "Usage: ./Process_LE5 CASE HIST TPER [CENT]"
+   echo "Three arguments REQUIRED:"
+   echo "1: CASE name"
+   echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h rtm.h0 etc]"
+   echo "3: TPER time period of above HIST type - must be one of [ann mon day hr6 hr3 hr1 m30]"
+   echo ""
+   echo "One optional argument if CASE is an 1850 control-type run:"
+   echo "4: CENT time period to process (1850 control only), e.g., 16 17 18 19 etc."
+   echo ""
+   exit 1
+else
+   CASE=$1 ; export CASE
+   HIST=$2 ; export HIST
+   TPER=$3 ; export TPER
+   if [ `echo $CASE | egrep "1850" | wc -c` -ne 0 ] ; then
+     if [ $# -ne 4 ] ; then
+       echo "Usage: ./Process_LE5 CASE HIST TPER CENT"
+       echo "Four arguments REQUIRED:"
+       echo "1: CASE name"
+       echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h rtm.h0 etc]"
+       echo "3: TPER time period of above HIST type - must be one of [ann mon day hr6 hr3 hr1 m30]"
+       echo "4: CENT time period to process (1850 control only), e.g., 16 17 18 19 etc."
+       echo ""
+       exit 1
+     else
+       CENT=$4 ; export CENT
+     fi
+   else
+     CENT="[0-9]" ; export CENT
+   fi
+fi
+#
+# Set up a bunch of stuff
+#
+case "$TPER" in
+  ann | mon | day | hr6 )
+    echo ${TPER}" is known time period. Proceeding." ;;
+  * ) 
+    echo "Unable to continue because "$TPER" is unknown. Stopping."
+    exit 1 ;;
+esac
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if ! [ -f $EXPFILE ] ; then
+  echo "Cannot find "$EXPFILE". EXIT"
+  exit 1
+else
+  TEMPLATE=process_le5_template
+fi
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+# Build processing script
+#
+CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
+rm -f $CCPS_SCRIPT
+#
+case "$PROCHOST" in 
+  yslogin* | geyser* )                     # yellowstone/geyser @@ NCAR
+    cat ./LSF_geyser  | sed -e "s/NAME/$CCPS_SCRIPT/g" \
+                      | sed -e "s/USER/$USER/g"        \
+                      | sed -e "s/PROJNO/P93300014/g"  \
+                      > $CCPS_SCRIPT
+    cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
+                      | sed -e "s/xxxHISTxxx/$HIST/g" \
+                      | sed -e "s/xxxTPERxxx/$TPER/g" \
+                      | sed -e "s/xxxCENTxxx/$CENT/g" \
+                      >> $CCPS_SCRIPT ;;
+  * )
+    echo "Unable to build script because "$PROCHOST" unknown."
+    exit 1 ;;
+esac
+#
+chmod +x $CCPS_SCRIPT
+echo ""
+echo $CCPS_SCRIPT" ready to run"
+echo ""
+#
+echo "Run script now? (Y only, all else NO)"
+read DORUN
+#
+if [ "$DORUN" = "Y" ] ; then
+  echo "Running "${CCPS_SCRIPT}
+  case "$PROCHOST" in
+    yslogin* | geyser* )
+      ( bsub < ./${CCPS_SCRIPT} ) ;;
+    * )
+      echo "Not on right machine"
+      exit 1 ;;
+  esac
+else
+  echo "Will not run "${CCPS_SCRIPT}
+fi
+@

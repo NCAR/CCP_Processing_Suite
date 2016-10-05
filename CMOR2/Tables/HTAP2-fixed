@@ -1,0 +1,528 @@
+cmor_version: 2.6.0 ! minimum version of CMOR that can read this table
+cf_version:   1.6    ! version of CF that output conforms to
+project_id:   HTAP2
+table_id:     HTAP2-fixed
+table_date:   16 May 2014 ! date this table was constructed or updated
+comment:	Model documentation available via http://iek8wikis.iek.fz-juelich.de/HTAPWiki/modeldocumentation ! mandatory in the global attribute
+ 
+frequency: fx
+
+baseURL: http://iek8wikis.iek.fz-juelich.de/HTAPWiki/WP2.2 http://iek8wikis.iek.fz-juelich.de/HTAPWiki/HTAP-2-data-submission http://iek8wikis.iek.fz-juelich.de/HTAPWiki/modeldocumentation
+
+required_global_attributes: creation_date cmor_version comment table_id project_id contact parent_experiment forcing experiment_id model_id source institute_id institution Conventions realization title
+
+expt_id_ok: 'BASE'
+expt_id_ok: 'CH4INC'
+expt_id_ok: 'CH4DEC'
+expt_id_ok: 'GLOALL'
+expt_id_ok: 'NAMALL'
+expt_id_ok: 'EURALL'
+expt_id_ok: 'EASALL'
+expt_id_ok: 'SASALL'
+expt_id_ok: 'RBUALL'
+expt_id_ok: 'MDEALL'
+expt_id_ok: 'SEAALL'
+expt_id_ok: 'CASALL'
+expt_id_ok: 'NAFALL'
+expt_id_ok: 'MCAALL'
+expt_id_ok: 'SAFALL'
+expt_id_ok: 'SAMALL'
+expt_id_ok: 'PANALL'
+expt_id_ok: 'OCNALL'
+expt_id_ok: 'GLONOX'
+expt_id_ok: 'NAMNOX'
+expt_id_ok: 'EURNOX'
+expt_id_ok: 'EASNOX'
+expt_id_ok: 'SASNOX'
+expt_id_ok: 'RBUNOX'
+expt_id_ok: 'MDENOX'
+expt_id_ok: 'GLOCO'
+expt_id_ok: 'NAMCO'
+expt_id_ok: 'EURCO'
+expt_id_ok: 'EASCO'
+expt_id_ok: 'SASCO'
+expt_id_ok: 'RBUCO'
+expt_id_ok: 'MDECO'
+expt_id_ok: 'GLOVOC'
+expt_id_ok: 'NAMVOC'
+expt_id_ok: 'EURVOC'
+expt_id_ok: 'EASVOC'
+expt_id_ok: 'SASVOC'
+expt_id_ok: 'RBUVOC'
+expt_id_ok: 'MDEVOC'
+expt_id_ok: 'GLOSO2'
+expt_id_ok: 'NAMSO2'
+expt_id_ok: 'EURSO2'
+expt_id_ok: 'EASSO2'
+expt_id_ok: 'SASSO2'
+expt_id_ok: 'RBUSO2'
+expt_id_ok: 'MDESO2'
+expt_id_ok: 'GLONH3'
+expt_id_ok: 'NAMNH3'
+expt_id_ok: 'EURNH3'
+expt_id_ok: 'EASNH3'
+expt_id_ok: 'SASNH3'
+expt_id_ok: 'RBUNH3'
+expt_id_ok: 'MDENH3'
+expt_id_ok: 'GLOTRN'
+expt_id_ok: 'NAMTRN'
+expt_id_ok: 'EURTRN'
+expt_id_ok: 'EASTRN'
+expt_id_ok: 'SASTRN'
+expt_id_ok: 'RBUTRN'
+expt_id_ok: 'MDETRN'
+expt_id_ok: 'GLOPIN'
+expt_id_ok: 'NAMPIN'
+expt_id_ok: 'EURPIN'
+expt_id_ok: 'EASPIN'
+expt_id_ok: 'SASPIN'
+expt_id_ok: 'RBUPIN'
+expt_id_ok: 'MDEPIN'
+expt_id_ok: 'GLORES'
+expt_id_ok: 'NAMRES'
+expt_id_ok: 'EURRES'
+expt_id_ok: 'EASRES'
+expt_id_ok: 'SASRES'
+expt_id_ok: 'RBURES'
+expt_id_ok: 'MDERES'
+expt_id_ok: 'GLOFIR'
+expt_id_ok: 'NAMFIR'
+expt_id_ok: 'RBUFIR'
+expt_id_ok: 'SEAFIR'
+expt_id_ok: 'SAFFIR'
+expt_id_ok: 'SAMFIR'
+expt_id_ok: 'GLODST'
+expt_id_ok: 'EASDST'
+expt_id_ok: 'MDEDST'
+expt_id_ok: 'CASDST'
+expt_id_ok: 'NAFDST'
+
+
+!============
+axis_entry: longitude
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:     longitude
+units:             degrees_east
+axis:             X             ! X, Y, Z, T (default: undeclared)
+long_name:         longitude
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:          lon
+valid_min:        -180.0         
+valid_max:        +180.0 
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+!============
+axis_entry: latitude
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:     latitude
+units:             degrees_north
+axis:             Y             ! X, Y, Z, T (default: undeclared)
+long_name:         latitude
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:          lat
+valid_min:        -90.0         
+valid_max:        90.0 
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+!***********************************************************************
+!
+!  HTAP2 Time Invariant Variables
+!
+!************************************************************************ 
+!
+!============
+variable_entry:	growvegbnds								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	time
+units:	days since  2001-01-01 00:00:00		
+long_name:	Growing season start and end date		
+comment: Priority =  1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: growvegbnds 
+valid_min:	-8000								
+valid_max:	8000								
+!----------------------------------
+!
+!
+!============
+variable_entry:	areacella								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	cell_area
+units:	m2								
+long_name:	Grid-cell  area 								
+comment: Priority =  1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: areacella 
+valid_min:	100000								
+valid_max:	1E+12								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landf								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	land_area_fraction
+units:	m2 m-2								
+long_name:	Land fraction								
+comment: Priority =  1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landf 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	orog								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	surface_altitude
+units:	m								
+long_name:	Surface altitude								
+comment:	Height above the geoid; as defined here, "the geoid" is a surface of constant geopotential that, if the ocean were at rest, would coincide with mean sea level. Under this definition, the geoid changes as the mean volume of the ocean changes (e.g., due to glacial melt, or global warming of the ocean).  Report here the height above the present-day geoid.  Over ocean, report as 0.0". Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: orog 
+valid_min:	-700								
+valid_max:	10000								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcBF								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type	
+units:	m2 m-2								
+long_name:	Land Cover: Broadleaf Forest
+comment:	HTAP2 Land Cover definition includes 9 classes: 'landcBF'=Broadleaf Forest, , 'landcNF'=Needleleaf Forest,  'landCP'=Crops/Patures, ', 'landS'=Savanna,  'landGS'=Grasslands/Steppes, 'landST'=Shrub/Tundra, 'landBS'=bare_ground (desert, rock, ice), 'landW'=water (including rivers), and 'landcO'=other (e.g. built areas). The generic "area_type" CF name is used because the classifciation does not fit with the existing CF area types (http://cf-pcmdi.llnl.gov/documents/cf-standard-names/area-type-table/2/area-type-table.html). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcBF 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcNF								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type						
+units:	m2 m-2								
+long_name:	Land Cover: Needleleaf Forest		
+comment:	"HTAP2 Land Cover definition includes 9 classes: 'landcBF'=Broadleaf Forest, , 'landcNF'=Needleleaf Forest,  'landCP'=Crops/Patures, ', 'landS'=Savanna,  'landGS'=Grasslands/Steppes, 'landST'=Shrub/Tundra, 'landBS'=bare_ground (desert, rock, ice), 'landW'=water (including rivers), and 'landcO'=other (e.g. built areas). The generic "area_type" CF name is used because the classifciation does not fit with the existing CF area types (http://cf-pcmdi.llnl.gov/documents/cf-standard-names/area-type-table/2/area-type-table.html). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcNF 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcCP								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type			
+units:	m2 m-2								
+long_name:	Land Cover: Crops and Pasture					
+comment:	HTAP2 Land Cover definition includes 9 classes: 'landcBF'=Broadleaf Forest, , 'landcNF'=Needleleaf Forest,  'landCP'=Crops/Patures, ', 'landS'=Savanna,  'landGS'=Grasslands/Steppes, 'landST'=Shrub/Tundra, 'landBS'=bare_ground (desert, rock, ice), 'landW'=water (including rivers), and 'landcO'=other (e.g. built areas). The generic "area_type" CF name is used because the classifciation does not fit with the existing CF area types (http://cf-pcmdi.llnl.gov/documents/cf-standard-names/area-type-table/2/area-type-table.html). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcCP 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcSa								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type
+units:	m2 m-2								
+long_name:	Land Cover: Savanna
+comment: HTAP2 Land Cover definition includes 9 classes: 'landcBF'=Broadleaf Forest, , 'landcNF'=Needleleaf Forest,  'landCP'=Crops/Patures, ', 'landS'=Savanna,  'landGS'=Grasslands/Steppes, 'landST'=Shrub/Tundra, 'landBS'=bare_ground (desert, rock, ice), 'landW'=water (including rivers), and 'landcO'=other (e.g. built areas). The generic "area_type" CF name is used because the classifciation does not fit with the existing CF area types (http://cf-pcmdi.llnl.gov/documents/cf-standard-names/area-type-table/2/area-type-table.html). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcSa 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcGS								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type
+units:	m2 m-2								
+long_name:	Land Cover: Grasslands Steppes
+comment: HTAP2 Land Cover definition includes 9 classes: 'landcBF'=Broadleaf Forest, , 'landcNF'=Needleleaf Forest,  'landCP'=Crops/Patures, ', 'landS'=Savanna,  'landGS'=Grasslands/Steppes, 'landST'=Shrub/Tundra, 'landBS'=bare_ground (desert, rock, ice), 'landW'=water (including rivers), and 'landcO'=other (e.g. built areas). The generic "area_type" CF name is used because the classifciation does not fit with the existing CF area types (http://cf-pcmdi.llnl.gov/documents/cf-standard-names/area-type-table/2/area-type-table.html). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcGS 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcST								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type
+units:	m2 m-2								
+long_name:	Land Cover: Shrub Tundra
+comment: HTAP2 Land Cover definition includes 9 classes: 'landcBF'=Broadleaf Forest, , 'landcNF'=Needleleaf Forest,  'landCP'=Crops/Patures, ', 'landS'=Savanna,  'landGS'=Grasslands/Steppes, 'landST'=Shrub/Tundra, 'landBS'=bare_ground (desert, rock, ice), 'landW'=water (including rivers), and 'landcO'=other (e.g. built areas). The generic "area_type" CF name is used because the classifciation does not fit with the existing CF area types (http://cf-pcmdi.llnl.gov/documents/cf-standard-names/area-type-table/2/area-type-table.html). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcST 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcBS								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type
+units:	m2 m-2								
+long_name:	Land Cover: Bare Soils
+comment: HTAP2 Land Cover definition includes 9 classes: 'landcBF'=Broadleaf Forest, , 'landcNF'=Needleleaf Forest,  'landCP'=Crops/Patures, ', 'landS'=Savanna,  'landGS'=Grasslands/Steppes, 'landST'=Shrub/Tundra, 'landBS'=bare_ground (desert, rock, ice), 'landW'=water (including rivers), and 'landcO'=other (e.g. built areas). The generic "area_type" CF name is used because the classifciation does not fit with the existing CF area types (http://cf-pcmdi.llnl.gov/documents/cf-standard-names/area-type-table/2/area-type-table.html). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcBS 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcW								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type
+units:	m2 m-2								
+long_name:	Land Cover: Water								
+comment: HTAP2 Land Cover definition includes 9 classes: 'landcBF'=Broadleaf Forest, , 'landcNF'=Needleleaf Forest,  'landCP'=Crops/Patures, ', 'landS'=Savanna,  'landGS'=Grasslands/Steppes, 'landST'=Shrub/Tundra, 'landBS'=bare_ground (desert, rock, ice), 'landW'=water (including rivers), and 'landcO'=other (e.g. built areas). The generic "area_type" CF name is used because the classifciation does not fit with the existing CF area types (http://cf-pcmdi.llnl.gov/documents/cf-standard-names/area-type-table/2/area-type-table.html). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcW 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcO								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type
+units:	m2 m-2								
+long_name:	Land Cover: Other								
+comment: : HTAP2 Land Cover definition includes 9 classes: 'landcBF'=Broadleaf Forest, , 'landcNF'=Needleleaf Forest,  'landCP'=Crops/Patures, ', 'landS'=Savanna,  'landGS'=Grasslands/Steppes, 'landST'=Shrub/Tundra, 'landBS'=bare_ground (desert, rock, ice), 'landW'=water (including rivers), and 'landcO'=other (e.g. built areas). The generic "area_type" CF name is used because the classifciation does not fit with the existing CF area types (http://cf-pcmdi.llnl.gov/documents/cf-standard-names/area-type-table/2/area-type-table.html). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcO 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcCPC3								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type
+units:	m2 m-2								
+long_name:	Land Cover: Crops and Pasture C3
+comment:	C3 plants. This is additional information to HTAP2 land cover classses relevant for savanna, grassland, crops, pastures, and steppes. Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcCPC3 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcCPC4								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type
+units:	m2 m-2								
+long_name:	Land Cover: Crops and Pasture C4
+comment:	C4 plants. This is additional information to HTAP2 land cover classses relevant for savanna, grassland, crops, pastures, and steppes. Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcCPC4 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcSaC3								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type
+units:	m2 m-2								
+long_name:	Land Cover: Savanna C3
+comment:	C3 plants. This is additional information to HTAP2 land cover classses relevant for savanna, grassland, crops, pastures, and steppes. Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcSaC3 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcSaC4								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type
+units:	m2 m-2								
+long_name:	Land Cover: Savanna C4
+comment:	C4 plants. This is additional information to HTAP2 land cover classses relevant for savanna, grassland, crops, pastures, and steppes Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcSaC4 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcGSC3								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type
+units:	m2 m-2								
+long_name:	Land Cover: Grasslands Steppes C3
+comment:	C3 plants. This is additional information to HTAP2 land cover classses relevant for savanna, grassland, crops, pastures, and steppes. Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcGSC3 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+!
+!============
+variable_entry:	landcGSC4								
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	area_type
+units:	m2 m-2								
+long_name:	Land Cover: Grasslands Steppes C4
+comment:	C4 plants. This is additional information to HTAP2 land cover classses relevant for savanna, grassland, crops, pastures, and steppes. Priority = 2.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude
+out_name: landcGSC4 
+valid_min:	0								
+valid_max:	1								
+!----------------------------------
+!
+

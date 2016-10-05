@@ -1,0 +1,136 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2011.11.09.21.25.00;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2011.11.03.17.32.40;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
+load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
+load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
+load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/shea_util.ncl"
+
+begin
+   cases = (/"b40.20th.track1.1deg.008"/)
+;  cases = (/"b40.rcp2_6.1deg.001","b40.rcp2_6.1deg.002","b40.rcp2_6.1deg.003","b40.rcp2_6.1deg.004","b40.rcp2_6.1deg.005",\
+;            "b40.rcp4_5.1deg.001","b40.rcp4_5.1deg.002","b40.rcp4_5.1deg.003","b40.rcp4_5.1deg.004","b40.rcp4_5.1deg.005",\
+;            "b40.rcp6_0.1deg.001","b40.rcp6_0.1deg.002","b40.rcp6_0.1deg.003","b40.rcp6_0.1deg.004","b40.rcp6_0.1deg.005",\
+;            "b40.rcp8_5.1deg.001","b40.rcp8_5.1deg.002","b40.rcp8_5.1deg.003","b40.rcp8_5.1deg.004","b40.rcp8_5.1deg.005"/)
+;  cases = (/"b40.rcp4_5.1deg.004","b40.rcp4_5.1deg.005",\
+;            "b40.rcp6_0.1deg.001","b40.rcp6_0.1deg.002","b40.rcp6_0.1deg.003","b40.rcp6_0.1deg.004","b40.rcp6_0.1deg.005",\
+;            "b40.rcp8_5.1deg.001","b40.rcp8_5.1deg.002","b40.rcp8_5.1deg.003","b40.rcp8_5.1deg.004","b40.rcp8_5.1deg.005"/)
+;  cases = (/"b40.rcp8_5.1deg.002","b40.rcp8_5.1deg.003","b40.rcp8_5.1deg.004","b40.rcp8_5.1deg.005"/)
+;  cases = (/"b40.rcp8_5.1deg.003","b40.rcp8_5.1deg.004","b40.rcp8_5.1deg.005"/)
+  vars      = (/"CLDICE","CLDLIQ","OMEGA","Q","RELHUM","T","U","V","Z3"/)
+  vint_flag = (/      0 ,      0 ,     0,  0 ,      0,  1 , 0 , 0 , -1 /)
+
+  h = addfile("atm_grid_f09.nc","r")
+  hyam = h->hyam
+  hybm = h->hybm
+  nlev = dimsizes(hyam)
+  plev = (/1000.,925.,850.,700.,600.,500.,400.,300.,250.,200.,150.,100.,70.,50.,30.,20.,10./)
+  plev!0 = "plev"
+  plev&plev = plev
+  plev@@long_name = "pressure"
+  plev@@units = "hPa"
+  plev@@positive = "down"
+  plevPa = plev
+  plevPa = plev*100.
+  plevPa&plev = plev*100.
+  plevPa@@units = "Pa"
+  nlat = 192
+  nlon = 288
+  P0mb = 1000.
+  ;
+  do r = 0,dimsizes(cases)-1
+    times = systemfunc("ls "+cases(r)+".cam2.h0.*.*.nc | cut -d'.' -f9 | sort | uniq")
+    do t = 0,dimsizes(times)-1
+      files = systemfunc("ls "+cases(r)+".cam2.h0.PS."+times(t)+".nc")
+      p = addfiles(files,"r")
+      delete(files)
+      files = systemfunc("ls "+cases(r)+".cam2.h0.PHIS."+times(t)+".nc")
+      ph = addfiles(files,"r")
+      delete(files)
+      files = systemfunc("ls "+cases(r)+".cam2.h0.T."+times(t)+".nc")
+      tb = addfiles(files,"r")
+      delete(files)
+      do v = 0,dimsizes(vars)-1
+        print(systemfunc("date"))
+        files = systemfunc("ls "+cases(r)+".cam2.h0."+vars(v)+"."+times(t)+".nc")
+        if (.not.all(ismissing(files))) then
+          f        = addfiles(files,"r")
+          orig_var = f[0]->$vars(v)$(0,:,:,:)
+          nlev = dimsizes(orig_var&lev)
+          time = f[:]->time
+          lat  = orig_var&lat
+          lon  = orig_var&lon
+          time = f[:]->time
+          intyp = 1              ; 1=linear, 2=log, 3=log-log
+          kxtrp = False          ; True=extrapolate
+          varflg = vint_flag(v)  ; geopotential,temperature etc
+          delete(orig_var)
+          orig_var  = f[:]->$vars(v)$(:,:,:,:)
+          tbot = tb[:]->T(:,nlev-1,:,:)
+          ps   = p[:]->PS(:,:,:)
+          phis = ph[:]->PHIS(:,:,:)
+          vintd = vinth2p_ecmwf(orig_var,hyam,hybm,plev,ps,intyp,P0mb,1,kxtrp,varflg,tbot,phis)
+          vintd!0 = "time"
+          vintd!1 = "plev"
+          vintd!2 = "lat"
+          vintd!3 = "lon"
+          vintd&time = time
+          vintd&plev = plevPa
+          vintd&lat  = lat
+          vintd&lon  = lon
+          vintd@@long_name = orig_var@@long_name
+          vintd@@units = orig_var@@units
+          vifile = cases(r)+".cam2.h0.v"+vars(v)+"."+times(t)+".nc"
+          system("csh -c 'rm -f "+vifile+"'")
+          x = addfile(vifile,"c")
+          filedimdef(x,(/"time","plev","lat","lon"/),(/-1,dimsizes(plev),dimsizes(lat),dimsizes(lon)/),(/True,False,False,False/) )
+          x->$vars(v)$ = vintd
+          delete(orig_var)
+          delete(ps)
+          delete(phis)
+          delete(tbot)
+          delete(vintd)
+          delete(time)
+          delete(files)
+        end if
+      end do ; END TIMES
+    end do ; END CASE
+  end do ; END VARIABLE
+end
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@a57 1
+          tbnd = f[:]->time_bnds
+a74 1
+          vintd&tbnd = tbnd
+@

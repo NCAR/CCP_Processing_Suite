@@ -1,0 +1,974 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.12.08.18.16.04;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@CMIP5_3hr,clt,cloud_area_fraction,longitude latitude time,atmos,1,CLDTOT,CLDTOT unit conversion
+CMIP5_3hr,hfls,surface_upward_latent_heat_flux,longitude latitude time,atmos,1,LHFLX,LHFLX no change
+CMIP5_3hr,hfss,surface_upward_sensible_heat_flux,longitude latitude time,atmos,1,SHFLX,SHFLX no change
+CMIP5_3hr,huss,specific_humidity,longitude latitude time1 height2m,atmos,1,QREFHT,QREFHT no change
+CMIP5_3hr,mrro,runoff_flux,longitude latitude time,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_3hr,mrsos,moisture_content_of_soil_layer,longitude latitude time1 sdepth1,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_3hr,pr,precipitation_flux,longitude latitude time,atmos,2,PRECC PRECL,PRECC + PRECL and unit conversion
+CMIP5_3hr,prc,convective_precipitation_flux,longitude latitude time,atmos,1,PRECC,PRECC unit conversion
+CMIP5_3hr,prsn,snowfall_flux,longitude latitude time,atmos,2,PRECSC PRECSL,PRECSC + PRECSL and unit conversion
+CMIP5_3hr,ps,surface_air_pressure,longitude latitude time1,atmos,1,PS,PS no change
+CMIP5_3hr,rlds,surface_downwelling_longwave_flux_in_air,longitude latitude time,atmos,1,FLDS,FLDS no change
+CMIP5_3hr,rldscs,downwelling_longwave_flux_in_air_assuming_clear_sky,longitude latitude time,atmos,1,FLDSC,FLDSC no change
+CMIP5_3hr,rlus,surface_upwelling_longwave_flux_in_air,longitude latitude time,atmos,2,FLDS FLNS,FLDS + FLNS
+CMIP5_3hr,rsds,surface_downwelling_shortwave_flux_in_air,longitude latitude time,atmos,1,FSDS,FSDS no change
+CMIP5_3hr,rsdsdiff,surface_diffuse_downwelling_shortwave_flux_in_air,longitude latitude time,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_3hr,rsdscs,surface_downwelling_shortwave_flux_in_air_assuming_clear_sky,longitude latitude time,atmos,1,FSDSC,FSDSC no change
+CMIP5_3hr,rsus,surface_upwelling_shortwave_flux_in_air,longitude latitude time,atmos,2,FSDS FSNS,FSDS - FSNS
+CMIP5_3hr,rsuscs,surface_upwelling_shortwave_flux_in_air_assuming_clear_sky,longitude latitude time,atmos,0,UNAVAILABLE,Would be FSDSC - FSNSC
+CMIP5_3hr,tslsi,surface_temperature,longitude latitude time1,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_3hr,tso,sea_surface_temperature,longitude latitude time1,ocean,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_3hr,tas,air_temperature,longitude latitude time1 height2m,atmos,1,TREFHT,TREFHT no change
+CMIP5_3hr,uas,eastward_wind,longitude latitude time1 height10m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_3hr,vas,northward_wind,longitude latitude time1 height10m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_6HrLev,hus,specific_humidity,longitude latitude alevel time1,atmos,2,Q PS,Q no change
+CMIP5_6HrLev,ps,surface_air_pressure,longitude latitude time1,atmos,1,PS,PS no change
+CMIP5_6HrLev,ta,air_temperature,longitude latitude alevel time1,atmos,2,T PS,T no change
+CMIP5_6HrLev,ua,eastward_wind,longitude latitude alevel time1,atmos,2,U PS,U no change
+CMIP5_6HrLev,va,northward_wind,longitude latitude alevel time1,atmos,2,V PS,V no change
+CMIP5_6HrPlev,psl,air_pressure_at_sea_level,longitude latitude time1,atmos,1,PSL,PSL no change
+CMIP5_6HrPlev,ta,air_temperature,longitude latitude plev3 time1,atmos,2,T PS,T interpolated to standard plev3
+CMIP5_6HrPlev,ua,eastward_wind,longitude latitude plev3 time1,atmos,2,U PS,U interpolated to standard plev3
+CMIP5_6HrPlev,va,northward_wind,longitude latitude plev3 time1,atmos,2,V PS,V interpolated to standard plev3
+CMIP5_aero,abs550aer,atmosphere_absorption_optical_thickness_due_to_ambient_aerosol,longitude latitude time,aerosol,1,AODABS,AODABS
+CMIP5_aero,cdnc,number_concentration_of_cloud_liquid_water_particles_in_air,longitude latitude alevel time,aerosol,2,CDNUMC PS,CDNUMC on model levels
+CMIP5_aero,chepsoa,tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,cldnci,number_concentration_of_ice_crystals_in_air_at_ice_cloud_top,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,cldncl,number_concentration_of_cloud_liquid_water_particles_in_air_at_liquid_water_cloud_top,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,cldnvi,atmosphere_number_content_of_cloud_droplets,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,concaerh2o,mass_concentration_of_water_in_ambient_aerosol_in_air,longitude latitude alevel time,aerosol,4,wat_a1 wat_a2 wat_a3 PS,wat_a1+wat_a2+wat_a3 on model levels
+CMIP5_aero,concbb,mass_concentration_of_biomass_burning_dry_aerosol_in_air,longitude latitude alevel time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,concbc,mass_concentration_of_black_carbon_dry_aerosol_in_air,longitude latitude alevel time,aerosol,2,bc_a1 PS,bc_a1 on model levels
+CMIP5_aero,conccmcn,number_concentration_of_coarse_mode_ambient_aerosol_in_air,longitude latitude alevel time,aerosol,2,num_a3 PS,num_a3 on model levels
+CMIP5_aero,conccn,number_concentration_of_ambient_aerosol_in_air,longitude latitude alevel time,aerosol,4,num_a1 num_a2 num_a3 PS,num_a1+num_a2+num_a3 on model levels
+CMIP5_aero,concdms,mole_fraction_of_dimethyl_sulfide_in_air,longitude latitude alevel time,aerosol,2,DMS PS,DMS on model levels
+CMIP5_aero,concdust,mass_concentration_of_dust_dry_aerosol_in_air,longitude latitude alevel time,aerosol,3,dst_a1 dst_a3 PS,dst_a1+dst_a3 on model levels
+CMIP5_aero,concnh4,mass_concentration_of_ammonium_dry_aerosol_in_air,longitude latitude alevel time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,concnmcn,number_concentration_of_nucleation_mode_ambient_aerosol_in_air,longitude latitude alevel time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,concno3,mass_concentration_of_nitrate_dry_aerosol_in_air,longitude latitude alevel time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,concoa,mass_concentration_of_particulate_organic_matter_dry_aerosol_in_air,longitude latitude alevel time,aerosol,4,soa_a1 soa_a2 pom_a1 PS,soa_a1+soa_a2+pom_a1 on model levels
+CMIP5_aero,concpoa,mass_concentration_of_primary_particulate_organic_matter_dry_aerosol_in_air,longitude latitude alevel time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,concso2,mole_fraction_of_sulfur_dioxide_in_air,longitude latitude alevel time,aerosol,2,SO2 PS,SO2 on model levels
+CMIP5_aero,concso4,mass_concentration_of_sulfate_dry_aerosol_in_air,longitude latitude alevel time,aerosol,4,so4_a1 so4_a2 so4_a3 PS,so4_a1+so4_a2+so4_a3 on model levels
+CMIP5_aero,concsoa,mass_concentration_of_secondary_particulate_organic_matter_dry_aerosol_in_air,longitude latitude alevel time,aerosol,3,soa_a1 soa_a2 PS,soa_a1+soa_a2 on model levels
+CMIP5_aero,concss,mass_concentration_of_seasalt_dry_aerosol_in_air,longitude latitude alevel time,aerosol,4,ncl_a1 ncl_a2 ncl_a3 PS,ncl_a1+ncl_a2+ncl_a3 on model levels
+CMIP5_aero,drybc,tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_dry_deposition,longitude latitude time,aerosol,1,bc_a1DDF,bc_a1DDF
+CMIP5_aero,drydms,tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_dry_deposition,longitude latitude time,aerosol,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_aero,drydust,tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_dry_deposition,longitude latitude time,aerosol,1,DSTSFDRY,DSTSFDRY
+CMIP5_aero,drynh3,tendency_of_atmosphere_mass_content_of_ammonia_due_to_dry_deposition,longitude latitude time,aerosol,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_aero,drynh4,tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_dry_deposition,longitude latitude time,aerosol,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_aero,dryoa,tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_dry_deposition,longitude latitude time,aerosol,3,pomff_a1DDF soa_a1DDF soa_a2DDF,pomff_a1DDF+soa_a1DDF+soa_a2DDF
+CMIP5_aero,drypoa,tendency_of_atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol_due_to_dry_deposition,longitude latitude time,aerosol,1,pom_a1DDF,pom_a1DDF
+CMIP5_aero,dryso2,tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_dry_deposition,longitude latitude time,aerosol,1,DF_SO2,DF_SO2
+CMIP5_aero,dryso4,tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_dry_deposition,longitude latitude time,aerosol,3,so4_a1DDF so4_a2DDF so4_a3DDF,so4_a1DDF+so4_a2DDF+so4_a3DDF
+CMIP5_aero,drysoa,tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_dry_deposition,longitude latitude time,aerosol,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_aero,dryss,tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_dry_deposition,longitude latitude time,aerosol,3,ncl_a1DDF ncl_a2DDF ncl_a3DDF,ncl_a1DDF+ncl_a2DDF+ncl_a3DDF
+CMIP5_aero,ec550aer,volume_extinction_coefficient_in_air_due_to_ambient_aerosol,longitude latitude alevel time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,emibb,tendency_of_atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol_due_to_emission,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,emibc,tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_emission,longitude latitude time,aerosol,2,SFbc_a1 bc_a1_CLXF,SFbc_a1+bc_a1_CLXF
+CMIP5_aero,emidms,tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission,longitude latitude time,aerosol,1,SFDMS,SFDMS
+CMIP5_aero,emidust,tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_emission,longitude latitude time,aerosol,2,SFdst_a1 SFdst_a3,SFdst_a1+SFdst_a3
+CMIP5_aero,eminh3,tendency_of_atmosphere_mass_content_of_ammonia_due_to_emission,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,emioa,tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,emipoa,tendency_of_atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol_due_to_emission,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,emiso2,tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_emission,longitude latitude time,aerosol,2,SFSO2 SO2_CLXF,SFSO2+SO2_CLXF
+CMIP5_aero,emiso4,tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_emission,longitude latitude time,aerosol,1,so4_a1_CLXF,so4_a1_CLXF
+CMIP5_aero,emiss,tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_emission,longitude latitude time,aerosol,3,SFncl_a1 SFncl_a2 SFncl_a3,SFncl_a1+SFncl_a2+SFncl_a3
+CMIP5_aero,inc,number_concentration_of_ice_crystals_in_air,longitude latitude alevel time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,loadbc,atmosphere_mass_content_of_black_carbon_dry_aerosol,longitude latitude time,aerosol,1,bc_a1,bc_a1
+CMIP5_aero,loaddust,atmosphere_mass_content_of_dust_dry_aerosol,longitude latitude time,aerosol,2,dst_a1 dst_a3,dst_a1+dst_a3
+CMIP5_aero,loadnh4,atmosphere_mass_content_of_ammonium_dry_aerosol,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,loadno3,atmosphere_mass_content_of_nitrate_dry_aerosol,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,loadoa,atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,loadpoa,atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol,longitude latitude time,aerosol,1,pom_a1,pom_a1
+CMIP5_aero,loadso4,atmosphere_mass_content_of_sulfate_dry_aerosol,longitude latitude time,aerosol,3,so4_a1 so4_a2 so4_a3,so4_a1+so4_a2+so4_a3
+CMIP5_aero,loadsoa,atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol,longitude latitude time,aerosol,2,soa_a1 soa_a2,soa_a1+soa_a2
+CMIP5_aero,loadss,atmosphere_mass_content_of_seasalt_dry_aerosol,longitude latitude time,aerosol,3,ncl_a1 ncl_a2 ncl_a3,ncl_a1+ncl_a2+ncl_a3
+CMIP5_aero,od550aer,atmosphere_optical_thickness_due_to_ambient_aerosol,longitude latitude time,aerosol,1,AODVIS,AODVIS
+CMIP5_aero,od550lt1aer,atmosphere_optical_thickness_due_to_pm1_ambient_aerosol,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,od870aer,atmosphere_optical_thickness_due_to_ambient_aerosol,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,ps,surface_air_pressure,longitude latitude time,atmos,1,PS,PS
+CMIP5_aero,reffclwc,effective_radius_of_convective_cloud_liquid_water_particle,longitude latitude alevel time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,reffclws,effective_radius_of_stratiform_cloud_liquid_water_particle,longitude latitude alevel time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,reffclwtop,effective_radius_of_cloud_liquid_water_particle_at_liquid_water_cloud_top,longitude latitude time,aerosol,1,AREL,AREL
+CMIP5_aero,rsdscsdiff,surface_diffuse_downwelling_shortwave_flux_in_air_assuming_clear_sky,longitude latitude time,aerosol land,0,UNKNOWN,UNKNOWN
+CMIP5_aero,rsdsdiff,surface_diffuse_downwelling_shortwave_flux_in_air,longitude latitude time,aerosol land,0,UNKNOWN,UNKNOWN
+CMIP5_aero,sconcbc,mass_concentration_of_black_carbon_dry_aerosol_in_air,longitude latitude alev1 time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,sconcdust,mass_concentration_of_dust_dry_aerosol_in_air,longitude latitude alev1 time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,sconcnh4,mass_concentration_of_ammonium_dry_aerosol_in_air,longitude latitude alev1 time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,sconcno3,mass_concentration_of_nitrate_dry_aerosol_in_air,longitude latitude alev1 time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,sconcoa,mass_concentration_of_particulate_organic_matter_dry_aerosol_in_air,longitude latitude alev1 time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,sconcpoa,mass_concentration_of_primary_particulate_organic_matter_dry_aerosol_in_air,longitude latitude alev1 time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,sconcso4,mass_concentration_of_sulfate_dry_aerosol_in_air,longitude latitude alev1 time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,sconcsoa,mass_concentration_of_secondary_particulate_organic_matter_dry_aerosol_in_air,longitude latitude alev1 time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,sconcss,mass_concentration_of_seasalt_dry_aerosol_in_air,longitude latitude alev1 time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,wetbc,tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_wet_deposition,longitude latitude time,aerosol,2,bc_a1SFWET bc_c1SFWET,bc_a1SFWET+bc_c1SFWET
+CMIP5_aero,wetdms,tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_wet_deposition,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,wetdust,tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_wet_deposition,longitude latitude time,aerosol,4,dst_a1SFWET dst_a3SFWET dst_c1SFWET dst_c3SFWET,dst_a1SFWET+dst_a3SFWET+dst_c1SFWET+dst_c3SFWET
+CMIP5_aero,wetnh4,tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_wet_deposition,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,wetoa,tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_wet_deposition,longitude latitude time,aerosol,6,pom_a1SFWET pom_c1SFWET soa_a1SFWET soa_a2SFWET soa_c1SFWET soa_c2SFWET,pom_a1SFWET+pom_c1SFWET+soa_a1SFWET+soa_a2SFWET+soa_c1SFWET+soa_c2SFWET
+CMIP5_aero,wetpoa,tendency_of_atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol_due_to_wet_deposition,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,wetso2,tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition,longitude latitude time,aerosol,1,WD_SO2,WD_SO2
+CMIP5_aero,wetso4,tendency_of_atmosphere_mass_content_of_sulfate_expressed_as_sulfur_dry_aerosol_due_to_wet_deposition,longitude latitude time,aerosol,6,so4_a1SFWET so4_a2SFWET so4_a3SFWET so4_c1SFWET so4_c2SFWET so4_c3SFWET,so4_a1SFWET+so4_a2SFWET+so4_a3SFWET+so4_c1SFWET+so4_c2SFWET+so4_c3SFWET
+CMIP5_aero,wetsoa,tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_wet_deposition,longitude latitude time,aerosol,0,UNKNOWN,UNKNOWN
+CMIP5_aero,wetss,tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition,longitude latitude time,aerosol,6,ncl_a1SFWET ncl_a2SFWET ncl_a2SFWET ncl_c1SFWET ncl_c2SFWET ncl_c3SFWET,ncl_a1SFWET+ncl_a2SFWET+ncl_a2SFWET+ncl_c1SFWET+ncl_c2SFWET+ncl_c3SFWET
+CMIP5_Amon,ccb,air_pressure_at_convective_cloud_base,longitude latitude time,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Amon,cct,air_pressure_at_convective_cloud_top,longitude latitude time,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Amon,cfc113global,mole_fraction_of_cfc113_in_air,time,atmos atmosChem,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,cfc11global,mole_fraction_of_cfc11_in_air,time,atmos atmosChem,1,f11vmr,f11vmr convert to mass
+CMIP5_Amon,cfc12global,mole_fraction_of_cfc12_in_air,time,atmos atmosChem,1,f12vmr,f12vmr convert to mass
+CMIP5_Amon,ch4,mole_fraction_of_methane_in_air,longitude latitude plevs time,atmos atmosChem,2,CH4 PS,CH4 interpolated to standard plevs
+CMIP5_Amon,ch4Clim,mole_fraction_of_methane_in_air,longitude latitude plevs time2,atmos atmosChem,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,ch4global,mole_fraction_of_methane_in_air,time2,atmos atmosChem,1,ch4vmr,ch4vmr convert to mass
+CMIP5_Amon,ch4globalClim,mole_fraction_of_methane_in_air,time2,atmos atmosChem,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,ci,convection_time_fraction,longitude latitude time,atmos,1,FREQZM,FREQZM unit conversion
+CMIP5_Amon,cl,cloud_area_fraction_in_atmosphere_layer,longitude latitude alevel time,atmos,2,CLOUD PS,CLOUD on model levels  no change
+CMIP5_Amon,cli,mass_fraction_of_cloud_ice_in_air,longitude latitude alevel time,atmos,2,CLDICE PS,CLDICE on model levels  no change
+CMIP5_Amon,clivi,atmosphere_cloud_ice_content,longitude latitude time,atmos,1,TGCLDIWP,TGCLDIWP no change
+CMIP5_Amon,clt,cloud_area_fraction,longitude latitude time,atmos,1,CLDTOT,CLDTOT unit conversion
+CMIP5_Amon,clw,mass_fraction_of_cloud_liquid_water_in_air,longitude latitude alevel time,atmos,2,CLDLIQ PS,CLDLIQ on model levels  no change
+CMIP5_Amon,clwvi,atmosphere_cloud_condensed_water_content,longitude latitude time,atmos,1,TGCLDLWP,TGCLDLWP no change
+CMIP5_Amon,co2,mole_fraction_of_carbon_dioxide_in_air,longitude latitude plevs time,atmos,2,CO2 PS,CO2 interpolated to standard plevs  scaled by 28.966/44 
+CMIP5_Amon,co2Clim,mole_fraction_of_carbon_dioxide_in_air,longitude latitude plevs time2,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,co2mass,atmosphere_mass_of_carbon_dioxide,time2,atmos,1,co2vmr,co2vmr convert to mass
+CMIP5_Amon,co2massClim,atmosphere_mass_of_carbon_dioxide,time2,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,evspsbl,water_evaporation_flux,longitude latitude time,atmos,1,QFLX,QFLX no change
+CMIP5_Amon,fco2antt,tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission,longitude latitude time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,fco2fos,tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fossil_fuel_combustion,longitude latitude time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,fco2nat,surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources,longitude latitude time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,hcfc22global,mole_fraction_of_hcfc22_in_air,time,atmos atmosChem,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,hfls,surface_upward_latent_heat_flux,longitude latitude time,atmos,1,LHFLX,LHFLX no change
+CMIP5_Amon,hfss,surface_upward_sensible_heat_flux,longitude latitude time,atmos,1,SHFLX,SHFLX no change
+CMIP5_Amon,hur,relative_humidity,longitude latitude plevs time,atmos,2,RELHUM PS,RELHUM interpolated to standard plevs
+CMIP5_Amon,hurs,relative_humidity,longitude latitude time height2m,atmos,1,RHREFHT,RHREFHT no change
+CMIP5_Amon,hus,specific_humidity,longitude latitude plevs time,atmos,2,Q PS,Q interpolated to standard plevs
+CMIP5_Amon,huss,specific_humidity,longitude latitude time height2m,atmos,1,QREFHT,QREFHT no change
+CMIP5_Amon,mc,atmosphere_net_upward_convective_mass_flux,longitude latitude alevhalf time,atmos,3,CMFMC CMFMCDZM PS,CMFMC + CMFMCDZM on model levels  no change
+CMIP5_Amon,n2o,mole_fraction_of_nitrous_oxide_in_air,longitude latitude plevs time,atmos atmosChem,2,N2O PS,N2O interpolated to standard plevs
+CMIP5_Amon,n2oClim,mole_fraction_of_nitrous_oxide_in_air,longitude latitude plevs time2,atmos atmosChem,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,n2oglobal,mole_fraction_of_nitrous_oxide_in_air,time2,atmos atmosChem,1,n2ovmr,n2ovmr convert to mass
+CMIP5_Amon,n2oglobalClim,mole_fraction_of_nitrous_oxide_in_air,time2,atmos atmosChem,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,prAdjust,precipitation_flux,longitude latitude time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,pr,precipitation_flux,longitude latitude time,atmos,2,PRECC PRECL,PRECC + PRECL and unit conversion
+CMIP5_Amon,prc,convective_precipitation_flux,longitude latitude time,atmos,1,PRECC,PRECC unit conversion
+CMIP5_Amon,prsn,snowfall_flux,longitude latitude time,atmos,2,PRECSC PRECSL,PRECSC + PRECSL and unit conversion
+CMIP5_Amon,prw,atmosphere_water_vapor_content,longitude latitude time,atmos,1,TMQ,TMQ no change
+CMIP5_Amon,ps,surface_air_pressure,longitude latitude time,atmos,1,PS,PS no change
+CMIP5_Amon,pslAdjust,air_pressure_at_sea_level,longitude latitude time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,psl,air_pressure_at_sea_level,longitude latitude time,atmos,1,PSL,PSL no change
+CMIP5_Amon,rlds,surface_downwelling_longwave_flux_in_air,longitude latitude time,atmos,1,FLDS,FLDS no change
+CMIP5_Amon,rldscs,surface_downwelling_longwave_flux_in_air_assuming_clear_sky,longitude latitude time,atmos,1,FLDSC,FLDSC no change
+CMIP5_Amon,rlus,surface_upwelling_longwave_flux_in_air,longitude latitude time,atmos,2,FLDS FLNS,FLDS + FLNS
+CMIP5_Amon,rlut,toa_outgoing_longwave_flux,longitude latitude time,atmos,3,FSNTOA FSNT FLNT,FSNTOA-FSNT+FLNT
+CMIP5_Amon,rlutcs,toa_outgoing_longwave_flux_assuming_clear_sky,longitude latitude time,atmos,1,FLUTC,FLUTC no change
+CMIP5_Amon,rsds,surface_downwelling_shortwave_flux_in_air,longitude latitude time,atmos,1,FSDS,FSDS no change
+CMIP5_Amon,rsdscs,surface_downwelling_shortwave_flux_in_air_assuming_clear_sky,longitude latitude time,atmos,1,FSDSC,FSDSC no change
+CMIP5_Amon,rsdt,toa_incoming_shortwave_flux,longitude latitude time,atmos,1,SOLIN,SOLIN no change
+CMIP5_Amon,rsus,surface_upwelling_shortwave_flux_in_air,longitude latitude time,atmos,2,FSDS FSNS,FSDS - FSNS
+CMIP5_Amon,rsuscs,surface_upwelling_shortwave_flux_in_air_assuming_clear_sky,longitude latitude time,atmos,2,FSDSC FSNSC,FSDSC - FSNSC
+CMIP5_Amon,rsut,toa_outgoing_shortwave_flux,longitude latitude time,atmos,2,SOLIN FSNTOA,SOLIN - FSNTOA
+CMIP5_Amon,rsutcs,toa_outgoing_shortwave_flux_assuming_clear_sky,longitude latitude time,atmos,2,SOLIN FSNTOAC,SOLIN - FSNTOAC
+CMIP5_Amon,rtmt,net_downward_radiative_flux_at_top_of_atmosphere_model,longitude latitude time,atmos,2,FSNT FLNT,FSNT - FLNT
+CMIP5_Amon,sbl,surface_snow_and_ice_sublimation_flux,longitude latitude time,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Amon,sci,shallow_convection_time_fraction,longitude latitude time,atmos,1,FREQSH,FREQSH no change
+CMIP5_Amon,sfcWind,wind_speed,longitude latitude time height10m,atmos,1,U10,U10 no change
+CMIP5_Amon,ta,air_temperature,longitude latitude plevs time,atmos,2,T PS,T interpolated to standard plevs
+CMIP5_Amon,tasAdjust,air_temperature,longitude latitude time height2m,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,tas,air_temperature,longitude latitude time height2m,atmos,1,TREFHT,TREFHT no change
+CMIP5_Amon,tasmax,air_temperature,longitude latitude time height2m,atmos,1,TREFMXAV,TREFMXAV no change
+CMIP5_Amon,tasmin,air_temperature,longitude latitude time height2m,atmos,1,TREFMNAV,TREFMNAV no change
+CMIP5_Amon,tauu,surface_downward_eastward_stress,longitude latitude time,atmos,1,TAUX,TAUX no change
+CMIP5_Amon,tauv,surface_downward_northward_stress,longitude latitude time,atmos,1,TAUY,TAUY no change
+CMIP5_Amon,tro3,mole_fraction_of_ozone_in_air,longitude latitude plevs time,atmos atmosChem,2,O3 PS,O3 interpolated to standard plevs
+CMIP5_Amon,tro3Clim,mole_fraction_of_ozone_in_air,longitude latitude plevs time2,atmos atmosChem,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,tsAdjust,surface_temperature,longitude latitude time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_Amon,ts,surface_temperature,longitude latitude time,atmos,1,TS,TS no change
+CMIP5_Amon,ua,eastward_wind,longitude latitude plevs time,atmos,2,U PS,U interpolated to standard plevs
+CMIP5_Amon,uas,eastward_wind,longitude latitude time height10m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Amon,va,northward_wind,longitude latitude plevs time,atmos,2,V PS,V interpolated to standard plevs
+CMIP5_Amon,vas,northward_wind,longitude latitude time height10m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Amon,wap,lagrangian_tendency_of_air_pressure,longitude latitude plevs time,atmos,2,OMEGA PS,OMEGA interpolated to standard plevs
+CMIP5_Amon,zg,geopotential_height,longitude latitude plevs time,atmos,2,Z3 PS,Z3 interpolated to standard plevs
+CMIP5_cf3hr,ccb,air_pressure_at_convective_cloud_base,longitude latitude time1,atmos,0,PCLDBOT,PCLDBOT
+CMIP5_cf3hr,cct,air_pressure_at_convective_cloud_top,longitude latitude time1,atmos,0,PCLDTOP,PCLDTOP
+CMIP5_cf3hr,cfadDbze94,histogram_of_equivalent_reflectivity_factor_over_height_above_reference_ellipsoid,location alt40 dbze time1,atmos,0,CFAD_DBZE94_CS,CFAD_DBZE94_CS no change
+CMIP5_cf3hr,cfadLidarsr532,histogram_of_backscattering_ratio_over_height_above_reference_ellipsoid,location alt40 scatratio time1,atmos,0,CFAD_SR532_CAL,CFAD_SR532_CAL no change
+CMIP5_cf3hr,ci,convection_time_fraction,longitude latitude time1,atmos,0,FREQZM,FREQZM unit conversion
+CMIP5_cf3hr,clcalipso2,cloud_area_fraction_in_atmosphere_layer,location alt40 time1,atmos,0,CLD_CAL_NOTCS,CLD_CAL_NOTCS,no change
+CMIP5_cf3hr,clcalipso,cloud_area_fraction_in_atmosphere_layer,location alt40 time1,atmos,0,CLD_CAL,CLD_CAL no change
+CMIP5_cf3hr,clc,convective_cloud_area_fraction_in_atmosphere_layer,longitude latitude alevel time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cf3hr,clhcalipso,cloud_area_fraction_in_atmosphere_layer,location time1 p220,atmos,0,CLDHGH_CAL,CLDHGH_CAL no change
+CMIP5_cf3hr,clic,mass_fraction_of_convective_cloud_ice_in_air,longitude latitude alevel time1,atmos,2,CLDICECON PS,CLDICECON on model levels
+CMIP5_cf3hr,clis,mass_fraction_of_stratiform_cloud_ice_in_air,longitude latitude alevel time1,atmos,2,CLDICESTR PS,CLDICESTR on model levels
+CMIP5_cf3hr,clivi,atmosphere_cloud_ice_content,longitude latitude time1,atmos,0,TGCLDIWP,TGCLDIWP no change
+CMIP5_cf3hr,cllcalipso,cloud_area_fraction_in_atmosphere_layer,location time1 p840,atmos,0,CLDLOW_CAL,CLDLOW_CAL no change
+CMIP5_cf3hr,clmcalipso,cloud_area_fraction_in_atmosphere_layer,location time1 p560,atmos,0,CLDMED_CAL,CLDMED_CAL no change
+CMIP5_cf3hr,cls,stratiform_cloud_area_fraction_in_atmosphere_layer,longitude latitude alevel time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cf3hr,cltcalipso,cloud_area_fraction,location time1,atmos,0,CLDTOT_CAL,CLDTOT_CAL no change
+CMIP5_cf3hr,cltc,convective_cloud_area_fraction,longitude latitude time1,atmos,0,CONCLD,CONCLD
+CMIP5_cf3hr,clt,cloud_area_fraction,longitude latitude time1,atmos,0,CLDTOT,CLDTOT unit conversion
+CMIP5_cf3hr,clwc,mass_fraction_of_convective_cloud_liquid_water_in_air,longitude latitude alevel time1,atmos,2,CLDLIQCON PS,CLDLIQCON on model levels
+CMIP5_cf3hr,clws,mass_fraction_of_stratiform_cloud_liquid_water_in_air,longitude latitude alevel time1,atmos,2,CLDLIQSTR PS,CLDLIQSTR on model levels
+CMIP5_cf3hr,clwvi,atmosphere_cloud_condensed_water_content,longitude latitude time1,atmos,0,TGCLDLWP,TGCLDLWP no change
+CMIP5_cf3hr,demc,convective_cloud_longwave_emissivity,longitude latitude alevel time1,atmos,0,EMIS PS,EMIS on model levels
+CMIP5_cf3hr,dems,stratiform_cloud_longwave_emissivity,longitude latitude alevel time1,atmos,0,EMIS PS,EMIS on model levels
+CMIP5_cf3hr,dtauc,atmosphere_optical_thickness_due_to_convective_cloud,longitude latitude alevel time1,atmos,0,TOT_ICLD_VISTAU PS,TOT_ICLD_VISTAU on model levels
+CMIP5_cf3hr,dtaus,atmosphere_optical_thickness_due_to_stratiform_cloud,longitude latitude alevel time1,atmos,0,TOT_ICLD_VISTAU PS,TOT_ICLD_VISTAU on model levels
+CMIP5_cf3hr,evspsbl,water_evaporation_flux,longitude latitude time1,atmos,0,QFLX,QFLX no change
+CMIP5_cf3hr,fco2antt,tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission,longitude latitude time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cf3hr,fco2fos,tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fossil_fuel_combustion,longitude latitude time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cf3hr,fco2nat,surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources,longitude latitude time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cf3hr,grpllsprof,large_scale_graupel_flux,longitude latitude alevel time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cf3hr,h2o,mass_fraction_of_water_in_air,longitude latitude alevel time1,atmos,4,Q CLDICE CLDLIQ PS,Q+CLDICE+CLDLIQ on model levels
+CMIP5_cf3hr,hfls,surface_upward_latent_heat_flux,longitude latitude time1,atmos,0,LHFLX,LHFLX no change
+CMIP5_cf3hr,hfss,surface_upward_sensible_heat_flux,longitude latitude time1,atmos,0,SHFLX,SHFLX no change
+CMIP5_cf3hr,hurs,relative_humidity,longitude latitude time1 height2m,atmos,0,RHREFHT,RHREFHT no change
+CMIP5_cf3hr,huss,specific_humidity,longitude latitude time1 height2m,atmos,0,QREFHT,QREFHT no change
+CMIP5_cf3hr,parasolRefl,toa_bidirectional_reflectance,location sza5 time1,atmos,0,RFL_PARASOL,RFL_PARASOL no change
+CMIP5_cf3hr,prc,convective_precipitation_flux,longitude latitude time1,atmos,0,PRECC,PRECC unit conversion
+CMIP5_cf3hr,prcprof,convective_rainfall_flux,longitude latitude alevel time1,atmos,0,ZMFLXPRC ZMFLXSNW HKFLXPRC HKFLXSNW PS,ZMFLXPRC-ZMFLXSNW + RKFLXPRC-RKFLXSNW on model levels
+CMIP5_cf3hr,prlsns,large_scale_snowfall_flux,longitude latitude alevel time1,atmos,0,LS_FLXSNW PS,LS_FLXSNW on model levels
+CMIP5_cf3hr,prlsprof,large_scale_rainfall_flux,longitude latitude alevel time1,atmos,0,LS_FLXPRC LS_FLXSNW PS,LS_FLXPRC-LS_FLXSNW on model levels
+CMIP5_cf3hr,pr,precipitation_flux,longitude latitude time1,atmos,0,PRECT,PRECT unit conversion
+CMIP5_cf3hr,prsnc,convective_snowfall_flux,longitude latitude alevel time1,atmos,0,ZMFLXSNW HKFLXSNW PS,ZMFLXSNW+HKFLXSNW on model levels
+CMIP5_cf3hr,prsn,snowfall_flux,longitude latitude time1,atmos,0,PRECSC PRECSL,PRECSC + PRECSL and unit conversion
+CMIP5_cf3hr,prw,atmosphere_water_vapor_content,longitude latitude time1,atmos,0,TMQ,TMQ no change
+CMIP5_cf3hr,psl,air_pressure_at_sea_level,longitude latitude time1,atmos,0,PSL,PSL no change
+CMIP5_cf3hr,ps,surface_air_pressure,longitude latitude time1,atmos,1,PS,PS no change
+CMIP5_cf3hr,reffclic,effective_radius_of_convective_cloud_ice_particle,longitude latitude alevel time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cf3hr,reffclis,effective_radius_of_stratiform_cloud_ice_particle,longitude latitude alevel time1,atmos,2,REI PS,REI on model levels
+CMIP5_cf3hr,reffclwc,effective_radius_of_convective_cloud_liquid_water_particle,longitude latitude alevel time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cf3hr,reffclws,effective_radius_of_stratiform_cloud_liquid_water_particle,longitude latitude alevel time1,atmos,2,REL PS,REL on model levels
+CMIP5_cf3hr,reffgrpls,effective_radius_of_stratiform_cloud_graupel_particle,longitude latitude alevel time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cf3hr,reffrainc,effective_radius_of_convective_cloud_rain_particle,longitude latitude alevel time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cf3hr,reffrains,effective_radius_of_stratiform_cloud_rain_particle,longitude latitude alevel time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cf3hr,reffsnowc,effective_radius_of_convective_cloud_snow_particle,longitude latitude alevel time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cf3hr,reffsnows,effective_radius_of_stratiform_cloud_snow_particle,longitude latitude alevel time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cf3hr,rldscs,surface_downwelling_longwave_flux_in_air_assuming_clear_sky,longitude latitude time1,atmos,0,FLDSC,FLDSC no change
+CMIP5_cf3hr,rlds,surface_downwelling_longwave_flux_in_air,longitude latitude time1,atmos,0,FLDS,FLDS no change
+CMIP5_cf3hr,rlus,surface_upwelling_longwave_flux_in_air,longitude latitude time1,atmos,0,FLDS FLNS,FLDS + FLNS
+CMIP5_cf3hr,rlutcs,toa_outgoing_longwave_flux_assuming_clear_sky,longitude latitude time1,atmos,0,FLUTC,FLUTC no change
+CMIP5_cf3hr,rlut,toa_outgoing_longwave_flux,longitude latitude time1,atmos,0,FSNTOA FSNT FLNT,FSNTOA-FSNT+FLNT
+CMIP5_cf3hr,rsdscs,surface_downwelling_shortwave_flux_in_air_assuming_clear_sky,longitude latitude time1,atmos,0,FSDSC,FSDSC no change
+CMIP5_cf3hr,rsds,surface_downwelling_shortwave_flux_in_air,longitude latitude time1,atmos,0,FSDS,FSDS no change
+CMIP5_cf3hr,rsdt,toa_incoming_shortwave_flux,longitude latitude time1,atmos,0,SOLIN,SOLIN no change
+CMIP5_cf3hr,rsuscs,surface_upwelling_shortwave_flux_in_air_assuming_clear_sky,longitude latitude time1,atmos,0,FSDSC FSNSC,FSDSC - FSNSC
+CMIP5_cf3hr,rsus,surface_upwelling_shortwave_flux_in_air,longitude latitude time1,atmos,0,FSDS FSNS,FSDS - FSNS
+CMIP5_cf3hr,rsutcs,toa_outgoing_shortwave_flux_assuming_clear_sky,longitude latitude time1,atmos,0,SOLIN FSNTOAC,SOLIN - FSNTOAC
+CMIP5_cf3hr,rsut,toa_outgoing_shortwave_flux,longitude latitude time1,atmos,0,SOLIN FSNTOA,SOLIN - FSNTOA
+CMIP5_cf3hr,rtmt,net_downward_radiative_flux_at_top_of_atmosphere_model,longitude latitude time1,atmos,0,FSNT FLNT,FSNT - FLNT
+CMIP5_cf3hr,sbl,surface_snow_and_ice_sublimation_flux,longitude latitude time1,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_cf3hr,sci,shallow_convection_time_fraction,longitude latitude time1,atmos,0,FREQSH,FREQSH no change
+CMIP5_cf3hr,sfcWind,wind_speed,longitude latitude time1 height10m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_cf3hr,ta,air_temperature,longitude latitude alevel time1,atmos,2,T PS,T on model levels
+CMIP5_cf3hr,tas,air_temperature,longitude latitude time1 height2m,atmos,0,TREFHT,TREFHT no change
+CMIP5_cf3hr,tauu,surface_downward_eastward_stress,longitude latitude time1,atmos,0,TAUX,TAUX no change
+CMIP5_cf3hr,tauv,surface_downward_northward_stress,longitude latitude time1,atmos,0,TAUY,TAUY no change
+CMIP5_cf3hr,ts,surface_temperature,longitude latitude time1,atmos,0,TS,TS no change
+CMIP5_cf3hr,uas,eastward_wind,longitude latitude time1 height10m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_cf3hr,vas,northward_wind,longitude latitude time1 height10m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_cfDay,albisccp,cloud_albedo,longitude latitude time,atmos,1,MEANCLDALB_ISCCP,MEANCLDALB_ISCCP
+CMIP5_cfDay,ccb,air_pressure_at_convective_cloud_base,longitude latitude time,atmos,1,PCLDBOT,PCLDBOT
+CMIP5_cfDay,cct,air_pressure_at_convective_cloud_top,longitude latitude time,atmos,1,PCLDTOP,PCLDTOP
+CMIP5_cfDay,clcalipso,cloud_area_fraction_in_atmosphere_layer,longitude latitude alt40 time,atmos,1,CLD_CAL,CLD_CAL no change
+CMIP5_cfDay,cl,cloud_area_fraction_in_atmosphere_layer,longitude latitude alevel time,atmos,2,CLOUD PS,CLOUD on model levels  no change
+CMIP5_cfDay,clhcalipso,cloud_area_fraction_in_atmosphere_layer,longitude latitude time,atmos,1,CLDHGH_CAL,CLDHGH_CAL no change
+CMIP5_cfDay,cli,mass_fraction_of_cloud_ice_in_air,longitude latitude alevel time,atmos,2,CLDICE PS,CLDICE on model levels  no change
+CMIP5_cfDay,clisccp,cloud_area_fraction_in_atmosphere_layer,longitude latitude plev7 tau time,atmos,1,FISCCP1_COSP,FISCCP1_COSP
+CMIP5_cfDay,clivi,atmosphere_cloud_ice_content,longitude latitude time,atmos,1,TGCLDIWP,TGCLDIWP no change
+CMIP5_cfDay,cllcalipso,cloud_area_fraction_in_atmosphere_layer,longitude latitude time,atmos,1,CLDLOW_CAL,CLDLOW_CAL no change
+CMIP5_cfDay,clmcalipso,cloud_area_fraction_in_atmosphere_layer,longitude latitude time,atmos,1,CLDMED_CAL,CLDMED_CAL no change
+CMIP5_cfDay,cltcalipso,cloud_area_fraction,longitude latitude time,atmos,1,CLDTOT_CAL,CLDTOT_CAL no change
+CMIP5_cfDay,clt,cloud_area_fraction,longitude latitude time,atmos,1,CLDTOT,CLDTOT unit conversion
+CMIP5_cfDay,cltisccp,cloud_area_fraction,longitude latitude time,atmos,1,CLDTOT_ISCCP,CLDTOT_ISCCP
+CMIP5_cfDay,clw,mass_fraction_of_cloud_liquid_water_in_air,longitude latitude alevel time,atmos,2,CLDLIQ PS,CLDLIQ on model levels  no change
+CMIP5_cfDay,clwvi,atmosphere_cloud_condensed_water_content,longitude latitude time,atmos,1,TGCLDLWP,TGCLDLWP no change
+CMIP5_cfDay,hfls,surface_upward_latent_heat_flux,longitude latitude time,atmos,1,LHFLX,LHFLX no change
+CMIP5_cfDay,hfss,surface_upward_sensible_heat_flux,longitude latitude time,atmos,1,SHFLX,SHFLX no change
+CMIP5_cfDay,hur,relative_humidity,longitude latitude alevel time,atmos,2,RHCFMIP PS,RHCFMIP on model levels
+CMIP5_cfDay,hus,specific_humidity,longitude latitude alevel time,atmos,2,Q PS,Q on model levels
+CMIP5_cfDay,mc,atmosphere_net_upward_convective_mass_flux,longitude latitude alevhalf time,atmos,3,CMFMC CMFMCDZM PS,CMFMC + CMFMCDZM on model levels  no change
+CMIP5_cfDay,parasolRefl,toa_bidirectional_reflectance,longitude latitude sza5 time,atmos,1,RFL_PARASOL,RFL_PARASOL no change
+CMIP5_cfDay,pctisccp,air_pressure_at_cloud_top,longitude latitude time,atmos,1,MEANPTOP_ISCCP,MEANPTOP_ISCCP
+CMIP5_cfDay,prc,convective_precipitation_flux,longitude latitude time,atmos,1,PRECC,PRECC unit conversion
+CMIP5_cfDay,ps,surface_air_pressure,longitude latitude time,atmos,1,PS,PS no change
+CMIP5_cfDay,rldscs,surface_downwelling_longwave_flux_in_air_assuming_clear_sky,longitude latitude time,atmos,1,FLDSC,FLDSC no change
+CMIP5_cfDay,rlds,surface_downwelling_longwave_flux_in_air,longitude latitude time,atmos,1,FLDS,FLDS no change
+CMIP5_cfDay,rlus,surface_upwelling_longwave_flux_in_air,longitude latitude time,atmos,2,FLDS FLNS,FLDS + FLNS
+CMIP5_cfDay,rlutcs,toa_outgoing_longwave_flux_assuming_clear_sky,longitude latitude time,atmos,1,FLUTC,FLUTC no change
+CMIP5_cfDay,rlut,toa_outgoing_longwave_flux,longitude latitude time,atmos,3,FSNTOA FSNT FLNT,FSNTOA-FSNT+FLNT
+CMIP5_cfDay,rsdscs,surface_downwelling_shortwave_flux_in_air_assuming_clear_sky,longitude latitude time,atmos,1,FSDSC,FSDSC no change
+CMIP5_cfDay,rsds,surface_downwelling_shortwave_flux_in_air,longitude latitude time,atmos,1,FSDS,FSDS no change
+CMIP5_cfDay,rsdt,toa_incoming_shortwave_flux,longitude latitude time,atmos,1,SOLIN,SOLIN no change
+CMIP5_cfDay,rsuscs,surface_upwelling_shortwave_flux_in_air_assuming_clear_sky,longitude latitude time,atmos,2,FSDSC FSNSC,FSDSC - FSNSC
+CMIP5_cfDay,rsus,surface_upwelling_shortwave_flux_in_air,longitude latitude time,atmos,2,FSDS FSNS,FSDS - FSNS
+CMIP5_cfDay,rsutcs,toa_outgoing_shortwave_flux_assuming_clear_sky,longitude latitude time,atmos,2,SOLIN FSNTOAC,SOLIN - FSNTOAC
+CMIP5_cfDay,rsut,toa_outgoing_shortwave_flux,longitude latitude time,atmos,1,FSUTOA,FSUTOA
+CMIP5_cfDay,ta700,air_temperature,longitude latitude time p700,atmos,1,T700,T700
+CMIP5_cfDay,ta,air_temperature,longitude latitude alevel time,atmos,2,T PS,T on model levels
+CMIP5_cfDay,ua,eastward_wind,longitude latitude alevel time,atmos,2,U PS,U on model levels
+CMIP5_cfDay,va,northward_wind,longitude latitude alevel time,atmos,2,V PS,V on model levels
+CMIP5_cfDay,wap500,lagrangian_tendency_of_air_pressure,longitude latitude time p500,atmos,1,OMEGA500,OMEGA500
+CMIP5_cfDay,wap,lagrangian_tendency_of_air_pressure,longitude latitude alevel time,atmos,2,OMEGA PS,OMEGA on model levels
+CMIP5_cfDay,zg,geopotential_height,longitude latitude alevel time,atmos,2,Z3 PS,Z3 on model levels
+CMIP5_cfMon,albisccp,cloud_albedo,longitude latitude time,atmos,1,MEANCLDALB_ISCCP,MEANCLDALB_ISCCP
+CMIP5_cfMon,clcalipso,cloud_area_fraction_in_atmosphere_layer,longitude latitude alt40 time,atmos,1,CLD_CAL,CLD_CAL no change
+CMIP5_cfMon,clc,convective_cloud_area_fraction_in_atmosphere_layer,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,clhcalipso,cloud_area_fraction_in_atmosphere_layer,longitude latitude time p220,atmos,1,CLDHGH_CAL,CLDHGH_CAL no change
+CMIP5_cfMon,clic,mass_fraction_of_convective_cloud_ice_in_air,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,clisccp,isccp_cloud_area_fraction,longitude latitude plev7 tau time,atmos,1,FISCCP1_COSP,FISCCP1_COSP
+CMIP5_cfMon,clis,mass_fraction_of_stratiform_cloud_ice_in_air,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,cllcalipso,cloud_area_fraction_in_atmosphere_layer,longitude latitude time p840,atmos,1,CLDLOW_CAL,CLDLOW_CAL no change
+CMIP5_cfMon,clmcalipso,cloud_area_fraction_in_atmosphere_layer,longitude latitude time p560,atmos,1,CLDMED_CAL,CLDMED_CAL no change
+CMIP5_cfMon,cls,stratiform_cloud_area_fraction_in_atmosphere_layer,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,cltcalipso,cloud_area_fraction,longitude latitude time,atmos,1,CLDTOT_CAL,CLDTOT_CAL no change
+CMIP5_cfMon,cltisccp,cloud_area_fraction,longitude latitude time,atmos,1,CLDTOT_ISCCP,CLDTOT_ISCCP
+CMIP5_cfMon,clwc,mass_fraction_of_convective_cloud_liquid_water_in_air,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,clws,mass_fraction_of_stratiform_cloud_liquid_water_in_air,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,dmc,atmosphere_net_upward_deep_convective_mass_flux,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,evisct,atmosphere_heat_diffusivity,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,eviscu,atmosphere_momentum_diffusivity,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,hur,relative_humidity,longitude latitude alevel time,atmos,2,RELHUM PS,RELHUM on model levels
+CMIP5_cfMon,hus,specific_humidity,longitude latitude alevel time,atmos,2,Q PS,Q on model levels
+CMIP5_cfMon,mcd,atmosphere_downdraft_convective_mass_flux,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,mcu,atmosphere_updraft_convective_mass_flux,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,parasolRefl,toa_bidirectional_reflectance,longitude latitude sza5 time,atmos,1,RFL_PARASOL,RFL_PARASOL no change
+CMIP5_cfMon,pctisccp,air_pressure_at_cloud_top,longitude latitude time,atmos,1,MEANPTOP_ISCCP,MEANPTOP_ISCCP
+CMIP5_cfMon,ps,surface_air_pressure,longitude latitude time,atmos,1,PS,PS no change
+CMIP5_cfMon,rld4co2,downwelling_longwave_flux_in_air,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rldcs4co2,downwelling_longwave_flux_in_air_assuming_clear_sky,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rldcs,downwelling_longwave_flux_in_air_assuming_clear_sky,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rld,downwelling_longwave_flux_in_air,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rlu4co2,upwelling_longwave_flux_in_air,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rlucs4co2,upwelling_longwave_flux_in_air_assuming_clear_sky,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rlucs,upwelling_longwave_flux_in_air_assuming_clear_sky,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rlut4co2,toa_outgoing_longwave_flux,longitude latitude time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rlutcs4co2,toa_outgoing_longwave_flux_assuming_clear_sky,longitude latitude time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rlu,upwelling_longwave_flux_in_air,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rsd4co2,downwelling_shortwave_flux_in_air,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rsdcs4co2,downwelling_shortwave_flux_in_air_assuming_clear_sky,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rsdcs,downwelling_shortwave_flux_in_air_assuming_clear_sky,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rsd,downwelling_shortwave_flux_in_air,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rsu4co2,upwelling_shortwave_flux_in_air,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rsucs4co2,upwelling_shortwave_flux_in_air_assuming_clear_sky,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rsucs,upwelling_shortwave_flux_in_air_assuming_clear_sky,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rsut4co2,toa_outgoing_shortwave_flux,longitude latitude time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rsutcs4co2,toa_outgoing_shortwave_flux_assuming_clear_sky,longitude latitude time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,rsu,upwelling_shortwave_flux_in_air,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,smc,atmosphere_net_upward_shallow_convective_mass_flux,longitude latitude alevhalf time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,ta,air_temperature,longitude latitude alevel time,atmos,2,T PS,T no change
+CMIP5_cfMon,tnhusa,tendency_of_specific_humidity_due_to_advection,longitude latitude alevel time,atmos,2,TAQ PS,TAQ on model levels  no change
+CMIP5_cfMon,tnhusc,tendency_of_specific_humidity_due_to_convection,longitude latitude alevel time,atmos,4,ZMDQ EVAPQZM CMFDQ PS,ZMDQ+EVAPQZM+CMFDQ
+CMIP5_cfMon,tnhusd,tendency_of_specific_humidity_due_to_diffusion,longitude latitude alevel time,atmos,2,VD01 PS,VD01
+CMIP5_cfMon,tnhusmp,tendency_of_specific_humidity_due_to_model_physics,longitude latitude alevel time,atmos,2,PTEQ PS,PTEQ
+CMIP5_cfMon,tnhusscpbl,tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing,longitude latitude alevel time,atmos,4,EVAPPREC DQSED CME PS,EVAPPREC+DQSED-CME
+CMIP5_cfMon,tnhus,tendency_of_specific_humidity,longitude latitude alevel time,atmos,3,TAQ PTEQ PS,TAQ+PTEQ
+CMIP5_cfMon,tnsccwacr,tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_autoconversion_to_rain,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsccwacs,tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_autoconversion_to_snow,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsccwa,tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_advection,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsccwbl,tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_boundary_layer_mixing,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsccwce,tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_condensation_and_evaporation,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsccwcm,tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_cloud_microphysics,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsccwif,tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air_due_to_icefall,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsccw,tendency_of_mass_fraction_of_stratiform_cloud_condensed_water_in_air,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnscliag,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_aggregation,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclias,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_accretion_to_snow,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclia,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_advection,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclibfpcl,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_bergeron_findeisen_process_from_cloud_liquid,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclibl,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_boundary_layer_mixing,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclicd,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_convective_detrainment,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclicm,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_cloud_microphysics,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclids,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_deposition_and_sublimation,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnscliemi,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_evaporation_of_melting_ice,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclihencl,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_heterogeneous_nucleation_from_cloud_liquid_water,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclihenv,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_heterogeneous_nucleation_from_water_vapor,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclihon,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_homogeneous_nucleation,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnscliif,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_icefall,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclimcl,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_melting_to_cloud_liquid_water,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclimr,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_melting_to_rain,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnscliricl,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_riming_from_cloud_liquid_water,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclirir,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air_due_to_riming_from_rain,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnscli,tendency_of_mass_fraction_of_stratiform_cloud_ice_in_air,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclwac,tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_autoconversion,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclwar,tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_accretion_to_rain,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclwas,tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_accretion_to_snow,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclwa,tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_advection,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclwbfpcli,tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_bergeron_findeisen_process_to_cloud_ice,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclwbl,tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_boundary_layer_mixing,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclwcd,tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_convective_detrainment,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclwce,tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_condensation_and_evaporation,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclwcm,tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_cloud_microphysics,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclwhen,tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_heterogeneous_nucleation,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclwhon,tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_homogeneous_nucleation,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclwmi,tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_melting_from_cloud_ice,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclwri,tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air_due_to_riming,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnsclw,tendency_of_mass_fraction_of_stratiform_cloud_liquid_water_in_air,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tnta,tendency_of_air_temperature_due_to_advection,longitude latitude alevel time,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfMon,tntc,tendency_of_air_temperature_due_to_convection,longitude latitude alevel time,atmos,5,ZMDT EVAPTZM ZMMTT CMFDT PS,ZMDT+EVAPTZM+ZMMTT+CMFDT
+CMIP5_cfMon,tntmp,tendency_of_air_temperature_due_to_model_physics,longitude latitude alevel time,atmos,2,PTTEND PS,PTTEND on model levels  no change
+CMIP5_cfMon,tntr,tendency_of_air_temperature_due_to_radiative_heating,longitude latitude alevel time,atmos,3,QRL QRS PS,QRL+QRS
+CMIP5_cfMon,tntscpbl,tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing,longitude latitude alevel time,atmos,3,HPROGCLD HSED PS,HPROGCLD/CPAIR+HSED/CPAIR (CPAIR = 1004.64)
+CMIP5_cfMon,tnt,tendency_of_air_temperature,longitude latitude alevel time,atmos,2,TTEND_TOT PS,TTEND_TOT on model levels  no change
+CMIP5_cfOff,cfadDbze94,histogram_of_equivalent_reflectivity_factor_over_height_above_reference_ellipsoid,longitude latitude alt40 dbze time,atmos,1,CFAD_DBZE94_CS,CFAD_DBZE94_CS no change
+CMIP5_cfOff,cfadLidarsr532,histogram_of_backscattering_ratio_over_height_above_reference_ellipsoid,longitude latitude alt40 scatratio time,atmos,1,CFAD_SR532_CAL,CFAD_SR532_CAL no change
+CMIP5_cfOff,clcalipso2,cloud_area_fraction_in_atmosphere_layer,longitude latitude alt40 time,atmos,1,CLD_CAL_NOTCS,CLD_CAL_NOTCS,no change
+CMIP5_cfOff,clcalipso,cloud_area_fraction_in_atmosphere_layer,longitude latitude alt40 time,atmos,1,CLD_CAL,CLD_CAL no change
+CMIP5_cfOff,clhcalipso,cloud_area_fraction_in_atmosphere_layer,longitude latitude time p220,atmos,1,CLDHGH_CAL,CLDHGH_CAL no change
+CMIP5_cfOff,cllcalipso,cloud_area_fraction_in_atmosphere_layer,longitude latitude time p840,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfOff,clmcalipso,cloud_area_fraction_in_atmosphere_layer,longitude latitude time p560,atmos,1,CLDMED_CAL,CLDMED_CAL no change
+CMIP5_cfOff,cltcalipso,cloud_area_fraction,longitude latitude time,atmos,1,CLDTOT_CAL,CLDTOT_CAL no change
+CMIP5_cfOff,parasolRefl,toa_bidirectional_reflectance,longitude latitude sza5 time,atmos,1,RFL_PARASOL,RFL_PARASOL no change
+CMIP5_cfSites,ccb,air_pressure_at_convective_cloud_base,site time1,atmos,1,PCLDBOT,PCLDBOT
+CMIP5_cfSites,cct,air_pressure_at_convective_cloud_top,site time1,atmos,1,PCLDTOP,PCLDTOP
+CMIP5_cfSites,ci,convection_time_fraction,site time1,atmos,1,FREQZM,FREQZM unit conversion
+CMIP5_cfSites,cl,cloud_area_fraction_in_atmosphere_layer,alevel site time1,atmos,2,CLOUD PS,CLOUD on model levels  no change
+CMIP5_cfSites,cli,mass_fraction_of_cloud_ice_in_air,alevel site time1,atmos,2,CLDICE PS,CLDICE on model levels  no change
+CMIP5_cfSites,clivi,atmosphere_cloud_ice_content,site time1,atmos,1,TGCLDIWP,TGCLDIWP no change
+CMIP5_cfSites,clt,cloud_area_fraction,site time1,atmos,1,CLDTOT,CLDTOT unit conversion
+CMIP5_cfSites,clw,mass_fraction_of_cloud_liquid_water_in_air,alevel site time1,atmos,2,CLDLIQ PS,CLDLIQ on model levels  no change
+CMIP5_cfSites,clwvi,atmosphere_cloud_condensed_water_content,site time1,atmos,1,TGCLDLWP,TGCLDLWP no change
+CMIP5_cfSites,edt,atmosphere_heat_diffusivity,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,evspsbl,water_evaporation_flux,site time1,atmos,1,QFLX,QFLX no change
+CMIP5_cfSites,evu,atmosphere_momentum_diffusivity,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,fco2antt,tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission,site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,fco2fos,tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fossil_fuel_combustion,site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,fco2nat,surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources,site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,hfls,surface_upward_latent_heat_flux,site time1,atmos,1,LHFLX,LHFLX no change
+CMIP5_cfSites,hfss,surface_upward_sensible_heat_flux,site time1,atmos,1,SHFLX,SHFLX no change
+CMIP5_cfSites,hur,relative_humidity,alevel site time1,atmos,2,RELHUM PS,RELHUM on model levels
+CMIP5_cfSites,hurs,relative_humidity,site time1 height2m,atmos,1,RHREFHT,RHREFHT no change
+CMIP5_cfSites,hus,specific_humidity,alevel site time1,atmos,2,Q PS,Q on model levels
+CMIP5_cfSites,huss,specific_humidity,site time1 height2m,atmos,1,QREFHT,QREFHT no change
+CMIP5_cfSites,mc,atmosphere_net_upward_convective_mass_flux,alevhalf site time1,atmos,3,CMFMC CMFMCDZM PS,CMFMC + CMFMCDZM on model levels  no change
+CMIP5_cfSites,prc,convective_precipitation_flux,site time1,atmos,1,PRECC,PRECC unit conversion
+CMIP5_cfSites,pr,precipitation_flux,site time1,atmos,1,PRECT,PRECT unit conversion
+CMIP5_cfSites,prsn,snowfall_flux,site time1,atmos,2,PRECSC PRECSL,PRECSC + PRECSL and unit conversion
+CMIP5_cfSites,prw,atmosphere_water_vapor_content,site time1,atmos,1,TMQ,TMQ no change
+CMIP5_cfSites,psl,air_pressure_at_sea_level,site time1,atmos,1,PSL,PSL no change
+CMIP5_cfSites,ps,surface_air_pressure,site time1,atmos,1,PS,PS no change
+CMIP5_cfSites,rldcs,downwelling_longwave_flux_in_air_assuming_clear_sky,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,rld,downwelling_longwave_flux_in_air,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,rldscs,surface_downwelling_longwave_flux_in_air_assuming_clear_sky,site time1,atmos,1,FLDSC,FLDSC no change
+CMIP5_cfSites,rlds,surface_downwelling_longwave_flux_in_air,site time1,atmos,1,FLDS,FLDS no change
+CMIP5_cfSites,rlucs,upwelling_longwave_flux_in_air_assuming_clear_sky,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,rlus,surface_upwelling_longwave_flux_in_air,site time1,atmos,2,FLDS FLNS,FLDS + FLNS
+CMIP5_cfSites,rlutcs,toa_outgoing_longwave_flux_assuming_clear_sky,site time1,atmos,1,FLUTC,FLUTC no change
+CMIP5_cfSites,rlut,toa_outgoing_longwave_flux,site time1,atmos,3,FSNTOA FSNT FLNT,FSNTOA-FSNT+FLNT
+CMIP5_cfSites,rlu,upwelling_longwave_flux_in_air,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,rsdcs,downwelling_shortwave_flux_in_air_assuming_clear_sky,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,rsd,downwelling_shortwave_flux_in_air,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,rsdscs,surface_downwelling_shortwave_flux_in_air_assuming_clear_sky,site time1,atmos,1,FSDSC,FSDSC no change
+CMIP5_cfSites,rsds,surface_downwelling_shortwave_flux_in_air,site time1,atmos,1,FSDS,FSDS no change
+CMIP5_cfSites,rsdt,toa_incoming_shortwave_flux,site time1,atmos,1,SOLIN,SOLIN no change
+CMIP5_cfSites,rsucs,upwelling_shortwave_flux_in_air_assuming_clear_sky,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,rsuscs,surface_upwelling_shortwave_flux_in_air_assuming_clear_sky,site time1,atmos,2,FSDSC FSNSC,FSDSC - FSNSC
+CMIP5_cfSites,rsus,surface_upwelling_shortwave_flux_in_air,site time1,atmos,2,FSDS FSNS,FSDS - FSNS
+CMIP5_cfSites,rsutcs,toa_outgoing_shortwave_flux_assuming_clear_sky,site time1,atmos,2,SOLIN FSNTOAC,SOLIN - FSNTOAC
+CMIP5_cfSites,rsut,toa_outgoing_shortwave_flux,site time1,atmos,2,SOLIN FSNTOA,SOLIN - FSNTOA
+CMIP5_cfSites,rsu,upwelling_shortwave_flux_in_air,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,rtmt,net_downward_radiative_flux_at_top_of_atmosphere_model,site time1,atmos,2,FSNT FLNT,FSNT - FLNT
+CMIP5_cfSites,sbl,surface_snow_and_ice_sublimation_flux,site time1,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_cfSites,sci,shallow_convection_time_fraction,site time1,atmos,1,FREQSH,FREQSH no change
+CMIP5_cfSites,sfcWind,wind_speed,site time1 height10m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_cfSites,ta,air_temperature,alevel site time1,atmos,2,T PS,T no change
+CMIP5_cfSites,tas,air_temperature,site time1 height2m,atmos,1,TREFHT,TREFHT no change
+CMIP5_cfSites,tauu,surface_downward_eastward_stress,site time1,atmos,1,TAUX,TAUX no change
+CMIP5_cfSites,tauv,surface_downward_northward_stress,site time1,atmos,1,TAUY,TAUY no change
+CMIP5_cfSites,tnhusa,tendency_of_specific_humidity_due_to_advection,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,tnhusc,tendency_of_specific_humidity_due_to_convection,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,tnhusd,tendency_of_specific_humidity_due_to_diffusion,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,tnhusmp,tendency_of_specific_humidity_due_to_model_physics,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,tnhusscpbl,tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,tnhus,tendency_of_specific_humidity,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,tnta,tendency_of_air_temperature_due_to_advection,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,tntc,tendency_of_air_temperature_due_to_convection,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,tntmp,tendency_of_air_temperature_due_to_model_physics,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,tntr,tendency_of_air_temperature_due_to_radiative_heating,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,tntscpbl,tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing,alevel site time1,atmos,0,UNKNOWN,UNKNOWN
+CMIP5_cfSites,tnt,tendency_of_air_temperature,alevel site time1,atmos,2,TTEND_TOT PS,TTEND_TOT on model levels  no change
+CMIP5_cfSites,ts,surface_temperature,site time1,atmos,1,TS,TS no change
+CMIP5_cfSites,ua,eastward_wind,alevel site time1,atmos,2,U PS,U on model levels
+CMIP5_cfSites,uas,eastward_wind,site time1 height10m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_cfSites,va,northward_wind,alevel site time1,atmos,2,V PS,V on model levels
+CMIP5_cfSites,vas,northward_wind,site time1 height10m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_cfSites,wap,lagrangian_tendency_of_air_pressure,alevel site time1,atmos,2,OMEGA PS,OMEGA on model levels
+CMIP5_cfSites,zg,geopotential_height,alevel site time1,atmos,2,Z3 PS,Z3 on model levels
+CMIP5_day,clt,cloud_area_fraction,longitude latitude time,atmos,1,CLDTOT,CLDTOT unit conversion
+CMIP5_day,hfls,surface_upward_latent_heat_flux,longitude latitude time,atmos,1,LHFLX,LHFLX no change
+CMIP5_day,hfss,surface_upward_sensible_heat_flux,longitude latitude time,atmos,1,SHFLX,SHFLX no change
+CMIP5_day,hur,relative_humidity,longitude latitude plev8 time,atmos,2,RELHUM PS,RELHUM interpolated to standard plevs
+CMIP5_day,hus,specific_humidity,longitude latitude plev8 time,atmos,2,Q PS,Q interpolated to standard plevs
+CMIP5_day,huss,specific_humidity,longitude latitude time height2m,atmos,1,QREFHT,QREFHT no change
+CMIP5_day,mrro,runoff_flux,longitude latitude time,land,1,QRUNOFF,QRUNOFF
+CMIP5_day,mrsos,moisture_content_of_soil_layer,longitude latitude time sdepth1,land,1,SOILWATER_10CM,SOILWATER_10CM
+CMIP5_day,omldamax,ocean_mixed_layer_thickness_defined_by_mixing_scheme,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_day,pr,precipitation_flux,longitude latitude time,atmos,2,PRECC PRECL,PRECC + PRECL and unit conversion
+CMIP5_day,prc,convective_precipitation_flux,longitude latitude time,atmos,1,PRECC,PRECC unit conversion
+CMIP5_day,prsn,snowfall_flux,longitude latitude time,atmos,2,PRECSC PRECSL,PRECSC + PRECSL and unit conversion
+CMIP5_day,psl,air_pressure_at_sea_level,longitude latitude time,atmos,1,PSL,PSL no change
+CMIP5_day,rhs,relative_humidity,longitude latitude time height2m,atmos,1,RHREFHT,RHREFHT
+CMIP5_day,rhsmax,relative_humidity,longitude latitude time height2m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_day,rhsmin,relative_humidity,longitude latitude time height2m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_day,rlds,surface_downwelling_longwave_flux_in_air,longitude latitude time,atmos,1,FLDS,FLDS no change
+CMIP5_day,rlus,surface_upwelling_longwave_flux_in_air,longitude latitude time,atmos,2,FLDS FLNS,FLDS + FLNS
+CMIP5_day,rlut,toa_outgoing_longwave_flux,longitude latitude time,atmos,3,FSNTOA FSNT FLNT,FSNTOA-FSNT+FLNT
+CMIP5_day,rsds,surface_downwelling_shortwave_flux_in_air,longitude latitude time,atmos,1,FSDS,FSDS no change
+CMIP5_day,rsus,surface_upwelling_shortwave_flux_in_air,longitude latitude time,atmos,2,FSDS FSNS,FSDS - FSNS
+CMIP5_day,sfcWind,wind_speed,longitude latitude time height10m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_day,sfcWindmax,wind_speed,longitude latitude time height10m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_day,sic,sea_ice_area_fraction,longitude latitude time,seaIce ocean,1,aice_d,aice_d no change
+CMIP5_day,sit,sea_ice_thickness,longitude latitude time,seaIce ocean,1,hi_d,hi_d no change
+CMIP5_day,snc,surface_snow_area_fraction,longitude latitude time,landIce land,1,FSNO,FSNO
+CMIP5_day,snw,surface_snow_amount,longitude latitude time,landIce land,1,SNOWDP,SNOWDP
+CMIP5_day,ta,air_temperature,longitude latitude plev8 time,atmos,2,T PS,T interpolated to standard plevs
+CMIP5_day,tas,air_temperature,longitude latitude time height2m,atmos,1,TREFHT,TREFHT no change
+CMIP5_day,tasmax,air_temperature,longitude latitude time height2m,atmos,1,TREFHTMX,TREFHTMX no change
+CMIP5_day,tasmin,air_temperature,longitude latitude time height2m,atmos,1,TREFHTMN,TREFHTMN no change
+CMIP5_day,tos,surface_temperature,longitude latitude time,ocean,1,SST,SST  units from C to K
+CMIP5_day,tossq,square_of_sea_surface_temperature,longitude latitude time,ocean,1,SST2,SST2  units from C to K
+CMIP5_day,tslsi,surface_temperature,longitude latitude time,land,0,UNKNOWN,UNKNOWN
+CMIP5_day,ua,eastward_wind,longitude latitude plev8 time,atmos,2,U PS,U interpolated to standard plevs
+CMIP5_day,uas,eastward_wind,longitude latitude time height10m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_day,usi,sea_ice_x_velocity,longitude latitude time,seaIce ocean,1,uvel_d,uvel_d no change
+CMIP5_day,va,northward_wind,longitude latitude plev8 time,atmos,2,V PS,V interpolated to standard plevs
+CMIP5_day,vas,northward_wind,longitude latitude time height10m,atmos,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_day,vsi,sea_ice_y_velocity,longitude latitude time,seaIce ocean,1,vvel_d,vvel_d no change
+CMIP5_day,wap,lagrangian_tendency_of_air_pressure,longitude latitude plev8 time,atmos,2,OMEGA PS,OMEGA interpolated to standard plevs
+CMIP5_day,zg,geopotential_height,longitude latitude plev8 time,atmos,2,Z3 PS,Z3 interpolated to standard plevs
+CMIP5_fx,areacella,cell_area,longitude latitude,atmos land,1,AREA,AREA
+CMIP5_fx,areacello,cell_area,longitude latitude,ocean,1,TAREA,TAREA convert cm2 to m2
+CMIP5_fx,basin,region,longitude latitude,ocean,1,REGION_MASK,REGION_MASK
+CMIP5_fx,deptho,sea_floor_depth_below_geoid,longitude latitude,ocean,1,HT,HT convert cm to m
+CMIP5_fx,hfgeou,upward_geothermal_heat_flux_at_sea_floor,longitude latitude,ocean,0,UNAVAILABLE,Always set to zero in POP namelist
+CMIP5_fx,mrsofc,soil_moisture_content_at_field_capacity,longitude latitude,land,1,WATSAT,WATSAT
+CMIP5_fx,orog,surface_altitude,longitude latitude,atmos,1,PHIS,Divide PHIS by g where LANDFRAC ne zero
+CMIP5_fx,rootd,root_depth,longitude latitude,land,0,UNKNOWN,UNKNOWN
+CMIP5_fx,sftgif,land_ice_area_fraction,longitude latitude,land,1,PCT_GLACIER,PCT_GLACIER
+CMIP5_fx,sftlf,land_area_fraction,longitude latitude,atmos,1,LANDFRAC,LANDFRAC no change
+CMIP5_fx,sftof,sea_area_fraction,longitude latitude,ocean,1,KMT,,KMT,0 where KMT = 0  100 elsewhere
+CMIP5_fx,thkcello,cell_thickness,longitude latitude olevel,ocean,1,dz,dz at each gridcell
+CMIP5_fx,volcello,ocean_volume,longitude latitude olevel,ocean,1,TAREA,TAREA times dz  convert cm3 to m3
+CMIP5_LImon,agesno,age_of_surface_snow,longitude latitude time,landIce land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_LImon,hfdsn,surface_downward_heat_flux_in_snow,longitude latitude time,landIce land,1,FGR,FGR
+CMIP5_LImon,lwsnl,liquid_water_content_of_snow_layer,longitude latitude time,landIce land,1,SNOWLIQ,SNOWLIQ no change
+CMIP5_LImon,pflw,liquid_water_content_of_permafrost_layer,longitude latitude time,landIce land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_LImon,sbl,surface_snow_and_ice_sublimation_flux,longitude latitude time,landIce land,0,UNAVAILABLE,would be QFLX_SUB_SNOW
+CMIP5_LImon,snc,surface_snow_area_fraction,longitude latitude time,landIce land,1,FSNO,FSNO
+CMIP5_LImon,snd,surface_snow_thickness,longitude latitude time,landIce land,1,SNOWDP,SNOWDP unchanged
+CMIP5_LImon,snm,surface_snow_melt_flux,longitude latitude time,landIce land,1,QMELT,QMELT  unit change from mm s-1 to kg m-2 s-1  same numerical value
+CMIP5_LImon,snw,surface_snow_amount,longitude latitude time,landIce land,1,H2OSNO,H2OSNO  unit change from mm to kg m-2  same numerical value
+CMIP5_LImon,sootsn,soot_content_of_surface_snow,longitude latitude time,landIce land,3,SNOBCMSL SNODSTMSL SNOOCMSL,SNOBCMSL + SNODSTMSL + SNOOCMSL
+CMIP5_LImon,tpf,permafrost_layer_thickness,longitude latitude time,landIce land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_LImon,tsn,temperature_in_surface_snow,longitude latitude time,landIce land,0,UNAVAILABLE,would be SNOTTOPL
+CMIP5_Lmon,baresoilFrac,area_fraction,longitude latitude time typebare,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,burntArea,area_fraction,longitude latitude time,land,1,ANN_FAREA_BURNED,ANN_FAREA_BURNED
+CMIP5_Lmon,c3PftFrac,area_fraction,longitude latitude time typec3pft,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,c4PftFrac,area_fraction,longitude latitude time typec4pft,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,cCwd,wood_debris_carbon_content,longitude latitude time,land,1,CWDC,CWDC
+CMIP5_Lmon,cLeaf,leaf_carbon_content,longitude latitude time,land,1,LEAFC,LEAFC
+CMIP5_Lmon,cLitterAbove,surface_litter_carbon_content,longitude latitude time,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,cLitterBelow,subsurface_litter_carbon_content,longitude latitude time,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,cLitter,litter_carbon_content,longitude latitude time,land,1,TOTLITC,TOTLITC
+CMIP5_Lmon,cMisc,miscellaneous_living_matter_carbon_content,longitude latitude time,land,1,STORVEGC,STORVEGC
+CMIP5_Lmon,cProduct,carbon_content_of_products_of_anthropogenic_land_use_change,longitude latitude time,land,1,TOTPRODC,TOTPRODC
+CMIP5_Lmon,cRoot,root_carbon_content,longitude latitude time,land,3,FROOTC LIVECROOTC DEADCROOTC,FROOTC+LIVECROOTC+DEADCROOTC
+CMIP5_Lmon,cropFrac,area_fraction,longitude latitude time,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,cSoilFast,fast_soil_pool_carbon_content,longitude latitude time,land,2,SOIL1C SOIL2C,SOIL1C SOIL2C
+CMIP5_Lmon,cSoil,soil_carbon_content,longitude latitude time,land,1,TOTSOMC,TOTSOMC
+CMIP5_Lmon,cSoilMedium,medium_soil_pool_carbon_content,longitude latitude time,land,1,SOIL3C,SOIL3C
+CMIP5_Lmon,cSoilSlow,slow_soil_pool_carbon_content,longitude latitude time,land,1,SOIL4C,SOIL4C
+CMIP5_Lmon,cVeg,vegetation_carbon_content,longitude latitude time,land,1,TOTVEGC,TOTVEGC
+CMIP5_Lmon,cWood,wood_carbon_content,longitude latitude time,land,1,WOODC,WOODC
+CMIP5_Lmon,evspsblsoi,water_evaporation_flux_from_soil,longitude latitude time,land,1,QSOIL,QSOIL
+CMIP5_Lmon,evspsblveg,water_evaporation_flux_from_canopy,longitude latitude time,land,1,QVEGE,QVEGE
+CMIP5_Lmon,fFire,surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fires_excluding_anthropogenic_land_use_change,longitude latitude time,land,1,COL_FIRE_CLOSS,COL_FIRE_CLOSS
+CMIP5_Lmon,fGrazing,surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_grazing,longitude latitude time,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,fHarvest,surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_crop_harvesting,longitude latitude time,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,fLitterSoil,carbon_mass_flux_into_soil_from_litter,longitude latitude time,land,3,LITR1C_TO_SOIL1C LITR2C_TO_SOIL2C LITR3C_TO_SOIL3C,LITR1C_TO_SOIL1C LITR2C_TO_SOIL2C LITR3C_TO_SOIL3C
+CMIP5_Lmon,fLuc,surface_net_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_anthropogenic_land_use_change,longitude latitude time,land,2,DWT_CLOSS PRODUCT_CLOSS,DWT_CLOSS PRODUCT_CLOSS
+CMIP5_Lmon,fVegLitter,litter_carbon_flux,longitude latitude time,land,1,LITFALL,LITFALL
+CMIP5_Lmon,fVegSoil,carbon_mass_flux_into_soil_from_vegetation_excluding_litter,longitude latitude time,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,gpp,gross_primary_productivity_of_carbon,longitude latitude time,land,1,GPP,GPP
+CMIP5_Lmon,grassFrac,area_fraction,longitude latitude time,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,lai,leaf_area_index,longitude latitude time,land,1,TLAI,TLAI
+CMIP5_Lmon,landCoverFrac,area_fraction,longitude latitude vegtype time,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,mrfso,soil_frozen_water_content,longitude latitude time,land landIce,1,SOILICE,SOILICE integrated over all layers
+CMIP5_Lmon,mrlsl,moisture_content_of_soil_layer,longitude latitude sdepth time,land,2,SOILLIQ SOILICE,SOILLIQ + SOILICE at each soil depth
+CMIP5_Lmon,mrro,runoff_flux,longitude latitude time,land,1,QRUNOFF,QRUNOFF
+CMIP5_Lmon,mrros,surface_runoff_flux,longitude latitude time,land,1,QOVER,QOVER 
+CMIP5_Lmon,mrso,soil_moisture_content,longitude latitude time,land,2,SOILICE SOILLIQ,SOILICE+SOILLIQ  capped over ice-covered regions at 5000 kg m-2
+CMIP5_Lmon,mrsos,moisture_content_of_soil_layer,longitude latitude time sdepth1,land,1,SOILWATER_10CM,SOILWATER_10CM
+CMIP5_Lmon,nbp,surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes,longitude latitude time,land,1,NBP,NBP
+CMIP5_Lmon,nep,surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes_excluding_anthropogenic_land_use_change,longitude latitude time,land,0,UNKNOWN,UNKNOWN
+CMIP5_Lmon,npp,net_primary_productivity_of_carbon,longitude latitude time,land,1,NPP,NPP
+CMIP5_Lmon,nppLeaf,net_primary_productivity_of_carbon_accumulated_in_leaves,longitude latitude time,land,1,LEAFC_ALLOC,LEAFC_ALLOC
+CMIP5_Lmon,nppRoot,net_primary_productivity_of_carbon_accumulated_in_roots,longitude latitude time,land,1,FROOTC_ALLOC,FROOTC_ALLOC
+CMIP5_Lmon,nppWood,net_primary_productivity_of_carbon_accumulated_in_wood,longitude latitude time,land,1,WOODC_ALLOC,WOODC_ALLOC
+CMIP5_Lmon,pastureFrac,area_fraction,longitude latitude time,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,prveg,precipitation_flux_onto_canopy,longitude latitude time,land,1,QINTR,QINTR
+CMIP5_Lmon,ra,plant_respiration_carbon_flux,longitude latitude time,land,1,AR,AR
+CMIP5_Lmon,residualFrac,area_fraction,longitude latitude time,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,rGrowth,surface_upward_carbon_mass_flux_due_to_plant_respiration_for_biomass_growth,longitude latitude time,land,1,GR,GR
+CMIP5_Lmon,rh,heterotrophic_respiration_carbon_flux,longitude latitude time,land,1,HR,HR
+CMIP5_Lmon,rMaint,surface_upward_carbon_mass_flux_due_to_plant_respiration_for_biomass_maintenance,longitude latitude time,land,1,MR,MR
+CMIP5_Lmon,shrubFrac,area_fraction,longitude latitude time,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,tran,transpiration_flux,longitude latitude time,land,2,QSOIL QVEGT,QSOIL + QVEGT
+CMIP5_Lmon,treeFrac,area_fraction,longitude latitude time,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,treeFracPrimDec,area_fraction,longitude latitude time typepdec,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,treeFracPrimEver,area_fraction,longitude latitude time typepever,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,treeFracSecDec,area_fraction,longitude latitude time typesdec,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,treeFracSecEver,area_fraction,longitude latitude time typesever,land,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Lmon,tsl,soil_temperature,longitude latitude sdepth time,land,1,TSOI,TSOI
+CMIP5_Oclim,difmxybo2d,ocean_momentum_xy_biharmonic_diffusivity,longitude latitude time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,difmxybo,ocean_momentum_xy_biharmonic_diffusivity,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,difmxylo2d,ocean_momentum_xy_laplacian_diffusivity,longitude latitude time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,difmxylo,ocean_momentum_xy_laplacian_diffusivity,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,diftrbbo2d,ocean_tracer_bolus_biharmonic_diffusivity,longitude latitude time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,diftrbbo,ocean_tracer_bolus_biharmonic_diffusivity,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,diftrblo2d,ocean_tracer_bolus_laplacian_diffusivity,longitude latitude time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,diftrblo,ocean_tracer_bolus_laplacian_diffusivity,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,diftrebo2d,ocean_tracer_epineutral_biharmonic_diffusivity,longitude latitude time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,diftrebo,ocean_tracer_epineutral_biharmonic_diffusivity,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,diftrelo2d,ocean_tracer_epineutral_laplacian_diffusivity,longitude latitude time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,diftrelo,ocean_tracer_epineutral_laplacian_diffusivity,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,diftrxybo2d,ocean_tracer_xy_biharmonic_diffusivity,longitude latitude time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,diftrxybo,ocean_tracer_xy_biharmonic_diffusivity,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,diftrxylo2d,ocean_tracer_xy_laplacian_diffusivity,longitude latitude time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,diftrxylo,ocean_tracer_xy_laplacian_diffusivity,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,difvho,ocean_vertical_heat_diffusivity,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,difvmbo,ocean_vertical_momentum_diffusivity_due_to_background,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,difvmfdo,ocean_vertical_momentum_diffusivity_due_to_form_drag,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,difvmo,ocean_vertical_momentum_diffusivity,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,difvmto,ocean_vertical_momentum_diffusivity_due_to_tides,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,difvso,ocean_vertical_salt_diffusivity,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,difvtrbo,ocean_vertical_tracer_diffusivity_due_to_background,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,difvtrto,ocean_vertical_tracer_diffusivity_due_to_tides,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,dispkevfo,ocean_kinetic_energy_dissipation_per_unit_area_due_to_vertical_friction,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,dispkexyfo2d,ocean_kinetic_energy_dissipation_per_unit_area_due_to_xy_friction,longitude latitude time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,dispkexyfo,ocean_kinetic_energy_dissipation_per_unit_area_due_to_xy_friction,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,tnkebto2d,tendency_of_ocean_eddy_kinetic_energy_content_due_to_bolus_transport,longitude latitude time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,tnkebto,tendency_of_ocean_eddy_kinetic_energy_content_due_to_bolus_transport,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,tnpeo,tendency_of_ocean_potential_energy_content,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,tnpeotb,tendency_of_ocean_potential_energy_content_due_to_background,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Oclim,tnpeot,tendency_of_ocean_potential_energy_content_due_to_tides,longitude latitude olevel time2,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_OImon,ageice,age_of_sea_ice,longitude latitude time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,bmelt,tendency_of_sea_ice_amount_due_to_basal_melting,longitude latitude time,seaIce,1,meltb,meltb
+CMIP5_OImon,divice,divergence_of_sea_ice_velocity,longitude latitude time,seaIce,1,divu,divu
+CMIP5_OImon,eshrice,eastward_derivative_of_northward_sea_ice_velocity,longitude latitude time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,evap,water_evaporation_flux,longitude latitude time,seaIce,1,evap_ai,evap_ai
+CMIP5_OImon,grCongel,tendency_of_sea_ice_amount_due_to_congelation_ice_accumulation,longitude latitude time,seaIce,1,congel,congel
+CMIP5_OImon,grFrazil,tendency_of_sea_ice_amount_due_to_frazil_ice_accumulation_in_leads,longitude latitude time,seaIce,1,frazil,frazil
+CMIP5_OImon,grLateral,tendency_of_sea_ice_amount_due_to_lateral_growth_of_ice_floes,longitude latitude time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,hcice,integral_of_sea_ice_temperature_wrt_depth_expressed_as_heat_content,longitude latitude time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,hflssi,surface_upward_latent_heat_flux,longitude latitude time,seaIce,1,flat_ai,flat_ai
+CMIP5_OImon,hfssi,surface_upward_sensible_heat_flux,longitude latitude time,seaIce,1,fsens_ai,fsens_ai
+CMIP5_OImon,ialb,sea_ice_albedo,longitude latitude time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,nshrice,northward_derivative_of_eastward_sea_ice_velocity,longitude latitude time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,pr,rainfall_flux,longitude latitude time,seaIce,1,rain_ai,rain_ai
+CMIP5_OImon,prsn,snowfall_flux,longitude latitude time,seaIce,1,snow_ai,snow_ai
+CMIP5_OImon,ridgice,tendency_of_sea_ice_area_fraction_due_to_ridging,longitude latitude time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,rldssi,surface_downwelling_longwave_flux_in_air,longitude latitude time,seaIce,1,flwdn,flwdn
+CMIP5_OImon,rlussi,surface_upwelling_longwave_flux_in_air,longitude latitude time,seaIce,1,flwup_ai,flwup
+CMIP5_OImon,rsdssi,surface_downwelling_shortwave_flux_in_air,longitude latitude time,seaIce,1,fswdn,fswdn
+CMIP5_OImon,rsussi,surface_upwelling_shortwave_flux_in_air,longitude latitude time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,sblsi,surface_snow_and_ice_sublimation_flux,longitude latitude time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,sic,sea_ice_area_fraction,longitude latitude time,seaIce ocean,1,aice,aice
+CMIP5_OImon,sim,sea_ice_and_surface_snow_amount,longitude latitude time,seaIce ocean,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,sit,sea_ice_thickness,longitude latitude time,seaIce ocean,1,hi,hi unchanged
+CMIP5_OImon,snc,surface_snow_area_fraction,longitude latitude time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,snd,surface_snow_thickness,longitude latitude time,seaIce,1,hs,hs
+CMIP5_OImon,snomelt,surface_snow_melt_flux,longitude latitude time,seaIce,1,melts,melts
+CMIP5_OImon,snoToIce,tendency_of_sea_ice_amount_due_to_snow_conversion,longitude latitude time,seaIce,1,snoice,snoice
+CMIP5_OImon,ssi,sea_ice_salinity,longitude latitude time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,strairx,surface_downward_x_stress,longitude latitude time,seaIce,1,strairx,strairx
+CMIP5_OImon,strairy,surface_downward_y_stress,longitude latitude time,seaIce,1,strairy,strairy
+CMIP5_OImon,streng,compressive_strength_of_sea_ice,longitude latitude time,seaIce,1,strength,strength
+CMIP5_OImon,strocnx,upward_x_stress_at_sea_ice_base,longitude latitude time,seaIce ocean,1,strocnx,strocnx
+CMIP5_OImon,strocny,upward_y_stress_at_sea_ice_base,longitude latitude time,seaIce ocean,1,strocny,strocny
+CMIP5_OImon,tmelt,tendency_of_sea_ice_amount_due_to_surface_melting,longitude latitude time,seaIce,1,meltt,meltt
+CMIP5_OImon,transifs,sea_ice_transport_across_line,time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,transix,sea_ice_x_transport,longitude latitude time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,transiy,sea_ice_y_transport,longitude latitude time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_OImon,tsice,surface_temperature,longitude latitude time,seaIce,1,Tsfc,Tsfc
+CMIP5_OImon,tsnint,sea_ice_surface_temperature,longitude latitude time,seaIce,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,arag,mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,bacc,mole_concentration_of_bacteria_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,bfe,mole_concentration_of_particulate_organic_matter_expressed_as_iron_in_sea_water,longitude latitude time depth0m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,bsi,mole_concentration_of_particulate_matter_expressed_as_silicon_in_sea_water,longitude latitude time depth0m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,calc,mole_concentration_of_calcite_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,chlcalc,mass_concentration_of_calcareous_phytoplankton_expressed_as_chlorophyll_in_sea_water,longitude latitude time depth0m,ocnBgchem,3,spChl spCaCO3 spC,spChl*(spCaCO3/spC)
+CMIP5_Omon,chldiat,mass_concentration_of_diatoms_expressed_as_chlorophyll_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,diatChl,diatChl
+CMIP5_Omon,chldiaz,mass_concentration_of_diazotrophs_expressed_as_chlorophyll_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,diazChl,diazChl
+CMIP5_Omon,chl,mass_concentration_of_phytoplankton_expressed_as_chlorophyll_in_sea_water,longitude latitude time depth0m,ocnBgchem,3,diatChl spChl diazChl,diatChl+spChl+diazChl
+CMIP5_Omon,chlmisc,mass_concentration_of_miscellaneous_phytoplankton_expressed_as_chlorophyll_in_sea_water,longitude latitude time depth0m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,chlpico,mass_concentration_of_picophytoplankton_expressed_as_chlorophyll_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,spChl,spChl
+CMIP5_Omon,co3,mole_concentration_of_carbonate_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,CO3,CO3
+CMIP5_Omon,co3satarag,mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water_at_saturation,longitude latitude time depth0m,ocnBgchem,1,co3_sat_arag,co3_sat_arag
+CMIP5_Omon,co3satcalc,mole_concentration_of_calcite_expressed_as_carbon_in_sea_water_at_saturation,longitude latitude time depth0m,ocnBgchem,1,co3_sat_calc,co3_sat_calc
+CMIP5_Omon,detoc,mole_concentration_of_organic_detritus_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,dfe,mole_concentration_of_dissolved_iron_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,Fe,Fe
+CMIP5_Omon,dissic,mole_concentration_of_dissolved_inorganic_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,DIC,DIC
+CMIP5_Omon,dissoc,mole_concentration_of_dissolved_organic_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,DOC,DOC
+CMIP5_Omon,dms,mole_concentration_of_dimethyl_sulfide_in_sea_water,longitude latitude time depth0m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,dpco2,surface_carbon_dioxide_partial_pressure_difference_between_sea_water_and_air,longitude latitude time,ocnBgchem,1,DpCO2,DpCO2
+CMIP5_Omon,dpo2,surface_molecular_oxygen_partial_pressure_difference_between_sea_water_and_air,longitude latitude time,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,eparag100,sinking_mole_flux_of_aragonite_expressed_as_carbon_in_sea_water,longitude latitude time depth100m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,epc100,sinking_mole_flux_of_particulate_organic_matter_expressed_as_carbon_in_sea_water,longitude latitude time depth100m,ocnBgchem,1,POC_FLUX_IN,POC_FLUX_IN
+CMIP5_Omon,epcalc100,sinking_mole_flux_of_calcite_expressed_as_carbon_in_sea_water,longitude latitude time depth100m,ocnBgchem,1,CaCO3_FLUX_IN,CaCO3_FLUX_IN
+CMIP5_Omon,epfe100,sinking_mole_flux_of_particulate_iron_in_sea_water,longitude latitude time depth100m,ocnBgchem,1,P_iron_FLUX_IN,P_iron_FLUX_IN
+CMIP5_Omon,epsi100,sinking_mole_flux_of_particulate_silicon_in_sea_water,longitude latitude time depth100m,ocnBgchem,1,SiO2_FLUX_IN,SiO2_FLUX_IN
+CMIP5_Omon,fbddtalk,integral_wrt_depth_of_tendency_of_sea_water_alkalinity_expressed_as_mole_equivalent_due_to_biological_processes,longitude latitude time olayer100m,ocnBgchem,1,Jint_100m_ALK,Jint_100m_ALK
+CMIP5_Omon,fbddtdic,tendency_of_ocean_mole_content_of_dissolved_inorganic_carbon_due_to_biological_processes,longitude latitude time olayer100m,ocnBgchem,1,Jint_100m_DIC,Jint_100m_DIC
+CMIP5_Omon,fbddtdife,tendency_of_ocean_mole_content_of_dissolved_inorganic_iron_due_to_biological_processes,longitude latitude time olayer100m,ocnBgchem,1,Jint_100m_Fe,Jint_100m_Fe
+CMIP5_Omon,fbddtdin,tendency_of_ocean_mole_content_of_dissolved_inorganic_nitrogen_due_to_biological_processes,longitude latitude time olayer100m,ocnBgchem,2,Jint_100m_NO3 Jint_100m_NH4,Jint_100m_NO3+Jint_100m_NH4
+CMIP5_Omon,fbddtdip,tendency_of_ocean_mole_content_of_dissolved_inorganic_phosphorus_due_to_biological_processes,longitude latitude time olayer100m,ocnBgchem,1,Jint_100m_PO4,Jint_100m_PO4
+CMIP5_Omon,fbddtdisi,tendency_of_ocean_mole_content_of_dissolved_inorganic_silicon_due_to_biological_processes,longitude latitude time olayer100m,ocnBgchem,1,Jint_100m_SiO3,Jint_100m_SiO3
+CMIP5_Omon,fddtalk,integral_wrt_depth_of_tendency_of_sea_water_alkalinity_expressed_as_mole_equivalent,longitude latitude time olayer100m,ocnBgchem,1,tend_zint_100m_ALK,tend_zint_100m_ALK
+CMIP5_Omon,fddtdic,tendency_of_ocean_mole_content_of_dissolved_inorganic_carbon,longitude latitude time olayer100m,ocnBgchem,1,tend_zint_100m_DIC,tend_zint_100m_DIC
+CMIP5_Omon,fddtdife,tendency_of_ocean_mole_content_of_dissolved_inorganic_iron,longitude latitude time olayer100m,ocnBgchem,1,tend_zint_100m_Fe,tend_zint_100m_Fe
+CMIP5_Omon,fddtdin,tendency_of_ocean_mole_content_of_dissolved_inorganic_nitrogen,longitude latitude time olayer100m,ocnBgchem,2,tend_zint_100m_NO3 tend_zint_100m_NH4,tend_zint_100m_NO3+tend_zint_100m_NH4
+CMIP5_Omon,fddtdip,tendency_of_ocean_mole_content_of_dissolved_inorganic_phosphorus,longitude latitude time olayer100m,ocnBgchem,1,tend_zint_100m_PO4,tend_zint_100m_PO4
+CMIP5_Omon,fddtdisi,tendency_of_ocean_mole_content_of_dissolved_inorganic_silicon,longitude latitude time olayer100m,ocnBgchem,1,tend_zint_100m_SiO3,tend_zint_100m_SiO3
+CMIP5_Omon,fgco2,surface_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon,longitude latitude time,ocnBgchem,1,FG_CO2,FG_CO2
+CMIP5_Omon,fgdms,surface_upward_mole_flux_of_dimethyl_sulfide,longitude latitude time,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,fgo2,surface_downward_mole_flux_of_molecular_oxygen,longitude latitude time,ocnBgchem,1,STF_O2,STF_O2
+CMIP5_Omon,frc,tendency_of_ocean_mole_content_of_carbon_due_to_sedimentation,longitude latitude time,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,frfe,tendency_of_ocean_mole_content_of_iron_due_to_sedimentation,longitude latitude time,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,frn,tendency_of_ocean_mole_content_of_elemental_nitrogen_due_to_denitrification_and_sedimentation,longitude latitude time,ocnBgchem,1,DENITRIF,Integrate -DENITRIF over z_t
+CMIP5_Omon,fsc,tendency_of_ocean_mole_content_of_carbon_due_to_runoff_and_sediment_dissolution,longitude latitude time,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,fsfe,tendency_of_ocean_mole_content_of_iron_due_to_deposition_and_runoff_and_sediment_dissolution,longitude latitude time,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,fsn,tendency_of_ocean_mole_content_of_elemental_nitrogen_due_to_deposition_and_fixation_and_runoff,longitude latitude time,ocnBgchem,3,NOx_FLUX NHy_FLUX diaz_Nfix,NOx_FLUX+NHy_FLUX+(integrate diaz_Nfix over z_t)
+CMIP5_Omon,intdic,ocean_mass_content_of_dissolved_inorganic_carbon,longitude latitude time,ocnBgchem,1,DIC,Integrate DIC over z_t
+CMIP5_Omon,intparag,tendency_of_ocean_mole_content_of_aragonite_expressed_as_carbon_due_to_biological_production,longitude latitude time,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,intpbfe,tendency_of_ocean_mole_content_of_iron_due_to_biological_production,longitude latitude time,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,intpbsi,tendency_of_ocean_mole_content_of_silicon_due_to_biological_production,longitude latitude time,ocnBgchem,1,bSi_form,Integrate (-bSi_form) over z_t_150m
+CMIP5_Omon,intpcalcite,tendency_of_ocean_mole_content_of_calcite_expressed_as_carbon_due_to_biological_production,longitude latitude time,ocnBgchem,1,CaCO3_form,Integrate -1*CaCO3_form over z_t_150m
+CMIP5_Omon,intpcalc,net_primary_mole_productivity_of_carbon_by_calcareous_phytoplankton,longitude latitude time,ocnBgchem,1,CaCO3_form,Integrate CaCO3_form over z_t_150m
+CMIP5_Omon,intpdiat,net_primary_mole_productivity_of_carbon_by_diatoms,longitude latitude time,ocnBgchem,1,photoC_diat,Integrate photoC_diat over z_t_150m
+CMIP5_Omon,intpdiaz,net_primary_mole_productivity_of_carbon_by_diazotrophs,longitude latitude time,ocnBgchem,1,photoC_diaz,Integrate photoC_diaz over z_t_150m
+CMIP5_Omon,intpmisc,net_primary_mole_productivity_of_carbon_by_miscellaneous_phytoplankton,longitude latitude time,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,intpn2,tendency_of_ocean_mole_content_of_elemental_nitrogen_due_to_fixation,longitude latitude time,ocnBgchem,1,diaz_Nfix,Integrate diaz_Nfix over z_t_150m
+CMIP5_Omon,intpnitrate,net_primary_mole_productivity_of_carbon_due_to_nitrate_utilization,longitude latitude time,ocnBgchem,3,photoC_NO3_diat_zint photoC_NO3_sp_zint photoC_NO3_diaz_zint,photoC_NO3_diat_zint+photoC_NO3_sp_zint+photoC_NO3_diaz_zint
+CMIP5_Omon,intppico,net_primary_mole_productivity_of_carbon_by_picophytoplankton,longitude latitude time,ocnBgchem,1,photoC_sp,Integrate photoC_sp over z_t_150m
+CMIP5_Omon,intpp,net_primary_mole_productivity_of_carbon_by_phytoplankton,longitude latitude time,ocnBgchem,3,photoC_diat photoC_sp photoC_diaz,Integrate (photoC_diat+photoC_sp+photoC_diaz) over z_t_150m
+CMIP5_Omon,nh4,mole_concentration_of_ammonium_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,NH4,NH4
+CMIP5_Omon,no3,mole_concentration_of_nitrate_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,NO3,NO3
+CMIP5_Omon,o2min,mole_concentration_of_dissolved_molecular_oxygen_in_sea_water_at_shallowest_local_minimum_in_vertical_profile,longitude latitude time,ocnBgchem,1,O2_ZMIN,O2_ZMIN
+CMIP5_Omon,o2,mole_concentration_of_molecular_oxygen_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,O2,O2
+CMIP5_Omon,ph,sea_water_ph_reported_on_total_scale,longitude latitude time depth0m,ocnBgchem,1,pH_3D,pH_3D at k=1
+CMIP5_Omon,phycalc,mole_concentration_of_calcareous_phytoplankton_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,spC,spC
+CMIP5_Omon,phyc,mole_concentration_of_phytoplankton_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,3,spC diatC diazC,spC+diatC+diazC
+CMIP5_Omon,phydiat,mole_concentration_of_diatoms_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,diatC,diatC
+CMIP5_Omon,phydiaz,mole_concentration_of_diazotrophs_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,diazC,diazC
+CMIP5_Omon,phyfe,mole_concentration_of_phytoplankton_expressed_as_iron_in_sea_water,longitude latitude time depth0m,ocnBgchem,3,diatFe spFe diazFe,diatFe+spFe+diazFe
+CMIP5_Omon,phymisc,mole_concentration_of_miscellaneous_phytoplankton_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,phyn,mole_concentration_of_phytoplankton_expressed_as_nitrogen_in_sea_water,longitude latitude time depth0m,ocnBgchem,3,diatC spC diazC,(diatC+spC+diazC)*.137
+CMIP5_Omon,phypico,mole_concentration_of_picophytoplankton_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,spC,spC
+CMIP5_Omon,phyp,mole_concentration_of_phytoplankton_expressed_as_phosphorus_in_sea_water,longitude latitude time depth0m,ocnBgchem,3,diatC spC diazC,(diatC+spC)*.00855+diazC*.002735
+CMIP5_Omon,physi,mole_concentration_of_phytoplankton_expressed_as_silicon_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,diatSi,diatSi
+CMIP5_Omon,po4,mole_concentration_of_phosphate_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,PO4,PO4
+CMIP5_Omon,pon,mole_concentration_of_particulate_organic_matter_expressed_as_nitrogen_in_sea_water,longitude latitude time depth0m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,pop,mole_concentration_of_particulate_organic_matter_expressed_as_phosphorus_in_sea_water,longitude latitude time depth0m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,si,mole_concentration_of_silicate_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,SiO3,SiO3
+CMIP5_Omon,spco2,surface_partial_pressure_of_carbon_dioxide_in_sea_water,longitude latitude time,ocnBgchem,1,pCO2SURF,pCO2SURF
+CMIP5_Omon,talk,sea_water_alkalinity_expressed_as_mole_equivalent,longitude latitude time depth0m,ocnBgchem,1,ALK,ALK at k=1
+CMIP5_Omon,zmeso,mole_concentration_of_mesozooplankton_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,zmicro,mole_concentration_of_microzooplankton_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,zo2min,depth_at_shallowest_local_minimum_in_vertical_profile_of_mole_concentration_of_dissolved_molecular_oxygen_in_sea_water,longitude latitude time,ocnBgchem,1,O2_ZMIN_DEPTH,O2_ZMIN_DEPTH
+CMIP5_Omon,zoocmisc,mole_concentration_of_miscellaneous_zooplankton_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,zooc,mole_concentration_of_zooplankton_expressed_as_carbon_in_sea_water,longitude latitude time depth0m,ocnBgchem,1,zooC,zooC
+CMIP5_Omon,zsatarag,minimum_depth_of_aragonite_undersaturation_in_sea_water,longitude latitude time,ocnBgchem,1,zsatarag,zsatarag
+CMIP5_Omon,zsatcalc,minimum_depth_of_calcite_undersaturation_in_sea_water,longitude latitude time,ocnBgchem,1,zsatcalc,zsatcalc
+CMIP5_Omon,agessc,sea_water_age_since_surface_contact,longitude latitude olevel time,ocean,1,IAGE,IAGE
+CMIP5_Omon,cfc11,moles_of_cfc11_per_unit_mass_in_sea_water,longitude latitude olevel time,ocean,1,CFC11,Divide CFC11 by 1.e12 to convert to approximate mol kg-1
+CMIP5_Omon,evs,water_evaporation_flux,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,ficeberg2d,water_flux_into_sea_water_from_icebergs,longitude latitude time,ocean,0,UNAVAILABLE,Not applicable
+CMIP5_Omon,ficeberg,water_flux_into_sea_water_from_icebergs,longitude latitude olevel time,ocean,0,UNAVAILABLE,Not applicable
+CMIP5_Omon,friver,water_flux_into_sea_water_from_rivers,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,fsitherm,water_flux_into_sea_water_due_to_sea_ice_thermodynamics,longitude latitude time,ocean seaIce,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfbasinba,northward_ocean_heat_transport_due_to_bolus_advection,latitude basin time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfbasindiff,northward_ocean_heat_transport_due_to_diffusion,latitude basin time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfbasin,northward_ocean_heat_transport,latitude basin time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfcorr,heat_flux_correction,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfds,surface_downward_heat_flux_in_sea_water,longitude latitude time,ocean,2,SHF QFLUX,SHF (surface heat flux) + QFLUX (heat flux from sea ice formation/melting)
+CMIP5_Omon,hfevapds,temperature_flux_due_to_evaporation_expressed_as_heat_flux_out_of_sea_water,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfgeou,upward_geothermal_heat_flux_at_sea_floor,longitude latitude time,ocean,0,UNAVAILABLE,Not applicable
+CMIP5_Omon,hfibthermds2d,heat_flux_into_sea_water_due_to_iceberg_thermodynamics,longitude latitude time,ocean,0,UNAVAILABLE,Not applicable
+CMIP5_Omon,hfibthermds,heat_flux_into_sea_water_due_to_iceberg_thermodynamics,longitude latitude olevel time,ocean,0,UNAVAILABLE,Not applicable
+CMIP5_Omon,hfls,surface_downward_latent_heat_flux,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfnorthba,northward_ocean_heat_transport_due_to_bolus_advection,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfnorthdiff,northward_ocean_heat_transport_due_to_diffusion,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfnorth,northward_ocean_heat_transport,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfrainds,temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfrunoffds2d,temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfrunoffds,temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water,longitude latitude olevel time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfsifrazil2d,heat_flux_into_sea_water_due_to_freezing_of_frazil_ice,longitude latitude time,ocean seaIce,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfsifrazil,heat_flux_into_sea_water_due_to_freezing_of_frazil_ice,longitude latitude olevel time,ocean seaIce,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfsithermds2d,heat_flux_into_sea_water_due_to_sea_ice_thermodynamics,longitude latitude time,ocean seaIce,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfsithermds,heat_flux_into_sea_water_due_to_sea_ice_thermodynamics,longitude latitude olevel time,ocean seaIce,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfsnthermds2d,heat_flux_into_sea_water_due_to_snow_thermodynamics,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfsnthermds,heat_flux_into_sea_water_due_to_snow_thermodynamics,longitude latitude olevel time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfss,surface_downward_sensible_heat_flux,longitude latitude time,ocean,1,SENH_F,SENH_F
+CMIP5_Omon,hfxba,ocean_heat_x_transport_due_to_bolus_advection,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfxdiff,ocean_heat_x_transport_due_to_diffusion,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfx,ocean_heat_x_transport,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfyba,ocean_heat_y_transport_due_to_bolus_advection,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfydiff,ocean_heat_y_transport_due_to_diffusion,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,hfy,ocean_heat_y_transport,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,htovgyre,northward_ocean_heat_transport_due_to_gyre,latitude basin time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,htovovrt,northward_ocean_heat_transport_due_to_overturning,latitude basin time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,masscello,sea_water_mass_per_unit_area,longitude latitude olevel time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,masso,sea_water_mass,time,ocean,1,PD,Integrate PD over ocean volume
+CMIP5_Omon,mfo,sea_water_transport_across_line,oline time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,mlotst,ocean_mixed_layer_thickness_defined_by_sigma_t,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,mlotstsq,square_of_ocean_mixed_layer_thickness_defined_by_sigma_t,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,msftbarot,ocean_barotropic_mass_streamfunction,longitude latitude time,ocean,1,BSF,BSF
+CMIP5_Omon,msftmrhozba,ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection,latitude rho basin time,ocean,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,msftmrhoz,ocean_meridional_overturning_mass_streamfunction,latitude rho basin time,ocean,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,msftmyzba,ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection,latitude olevel basin time,ocean,1,MOC,MOC converted from Sv to kg s-1
+CMIP5_Omon,msftmyz,ocean_meridional_overturning_mass_streamfunction,latitude olevel basin time,ocean,1,MOC,MOC converted from Sv to kg s-1
+CMIP5_Omon,msftyrhozba,ocean_y_overturning_mass_streamfunction_due_to_bolus_advection,latitude rho basin time,ocean,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,msftyrhoz,ocean_y_overturning_mass_streamfunction,latitude rho basin time,ocean,0,UNAVAILABLE,UNAVAILABLE
+CMIP5_Omon,msftyyzba,ocean_y_overturning_mass_streamfunction_due_to_bolus_advection,latitude olevel basin time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,msftyyz,ocean_y_overturning_mass_streamfunction,latitude olevel basin time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,omldamax,ocean_mixed_layer_thickness_defined_by_mixing_scheme,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,omlmax,ocean_mixed_layer_thickness_defined_by_mixing_scheme,longitude latitude time,ocean,1,XMXL,XMXL
+CMIP5_Omon,pbo,sea_water_pressure_at_sea_floor,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,pr,rainfall_flux,longitude latitude time,ocean,1,PREC_F,PREC_F
+CMIP5_Omon,prsn,snowfall_flux,longitude latitude time,ocean,1,SNOW_F,SNOW_F
+CMIP5_Omon,pso,sea_water_pressure_at_sea_water_surface,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,rhopoto,sea_water_potential_density,longitude latitude olevel time,ocean,1,PD,PD
+CMIP5_Omon,rlds,surface_net_downward_longwave_flux,longitude latitude time,ocean,3,LWDN_F LWUP_F IFRAC,LWDN_F + LWUP_F where IFRAC = 0
+CMIP5_Omon,rsds,downwelling_shortwave_flux_in_sea_water,longitude latitude olevel time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,rsntds,net_downward_shortwave_flux_at_sea_water_surface,longitude latitude time,ocean,1,QSW_HTP,QSW_HTP
+CMIP5_Omon,sfdsi,downward_sea_ice_basal_salt_flux,longitude latitude time,ocean seaIce,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,sfriver,salt_flux_into_sea_water_from_rivers,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,sltovgyre,northward_ocean_salt_transport_due_to_gyre,latitude basin time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,sltovovrt,northward_ocean_salt_transport_due_to_overturning,latitude basin time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,soga,sea_water_salinity,time,ocean,1,SALT,SALT weighted global average
+CMIP5_Omon,so,sea_water_salinity,longitude latitude olevel time,ocean,1,SALT,SALT
+CMIP5_Omon,sos,sea_surface_salinity,longitude latitude time,ocean,1,SALT,SALT at topmost level
+CMIP5_Omon,tauucorr,surface_downward_x_stress_correction,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,tauuo,surface_downward_x_stress,longitude latitude time,ocean,1,TAUX,TAUX
+CMIP5_Omon,tauvcorr,surface_downward_y_stress_correction,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,tauvo,surface_downward_y_stress,longitude latitude time,ocean,1,TAUY,TAUY
+CMIP5_Omon,thetaoga,sea_water_potential_temperature,time,ocean,1,TEMP,TEMP weighted global average  units C to K
+CMIP5_Omon,thetao,sea_water_potential_temperature,longitude latitude olevel time,ocean,1,TEMP,TEMP no change  units from C to K
+CMIP5_Omon,thkcello,cell_thickness,longitude latitude olevel time,ocean,0,UNAVAILABLE,Inapplicable as cell thickness is fixed (dz)
+CMIP5_Omon,tos,sea_surface_temperature,longitude latitude time,ocean,1,TEMP,TEMP at topmost level  units from C to K
+CMIP5_Omon,tossq,square_of_sea_surface_temperature,longitude latitude time,ocean,0,TEMP2,TEMP2
+CMIP5_Omon,umo,ocean_mass_x_transport,longitude latitude olevel time,ocean,1,UVEL,0.5*(UVEL(i j)+UVEL(i j-1))*HTE*dz*rho_0
+CMIP5_Omon,uo,sea_water_x_velocity,longitude latitude olevel time,ocean,1,UVEL,UVEL units from cm s-1 to m s-1
+CMIP5_Omon,vmo,ocean_mass_y_transport,longitude latitude olevel time,ocean,1,VVEL,0.5*(VVEL(i j)+VVEL(i-1 j))*HTN*dz*rho_0
+CMIP5_Omon,volo,sea_water_volume,time,ocean,0,PD,PD
+CMIP5_Omon,vo,sea_water_y_velocity,longitude latitude olevel time,ocean,1,VVEL,VVEL units from cm s-1 to m s-1
+CMIP5_Omon,vsfcorr,virtual_salt_flux_correction,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,vsfevap,virtual_salt_flux_into_sea_water_due_to_evaporation,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,vsf,virtual_salt_flux_into_sea_water,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,vsfpr,virtual_salt_flux_into_sea_water_due_to_rainfall,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,vsfriver,virtual_salt_flux_into_sea_water_from_rivers,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,vsfsit,virtual_salt_flux_into_sea_water_due_to_sea_ice_thermodynamics,longitude latitude time,ocean seaIce,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,wfcorr,water_flux_correction,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,wfonocorr,water_flux_into_sea_water_without_flux_correction,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,wfo,water_flux_into_sea_water,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+CMIP5_Omon,wmo,upward_ocean_mass_transport,longitude latitude olevel time,ocean,1,WVEL,0.5*(WVEL(i j k)+WVEL(i j k+1))*TAREA*rho_0
+CMIP5_Omon,wmosq,square_of_upward_ocean_mass_transport,longitude latitude olevel time,ocean,1,WVEL2,0.5*(WVEL2(i j k)+WVEL2(i j k+1))*TAREA*rho_0
+CMIP5_Omon,zosga,global_average_sea_level_change,time,ocean,1,ave_slc,ave_slc from Aixue's SLC code; derived from SSH PD TEMP SALT
+CMIP5_Omon,zos,sea_surface_height_above_geoid,longitude latitude time,ocean,1,SSH,SSH units from cm to m
+CMIP5_Omon,zossga,global_average_steric_sea_level_change,time,ocean,1,ave_delta_steric,ave_delta_steric from Aixue's SLC code; derived from SSH PD TEMP SALT
+CMIP5_Omon,zossq,square_of_sea_surface_height_above_geoid,longitude latitude time,ocean,1,SSH2,SSH2 units from cm2 to m2
+CMIP5_Omon,zostoga,global_average_thermosteric_sea_level_change,time,ocean,1,ave_slc_t,ave_slc_t from Aixue's SLC code; derived from SSH PD TEMP SALT
+CMIP5_Oyr,arag,mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,bacc,mole_concentration_of_bacteria_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,bddtalk,tendency_of_sea_water_alkalinity_expressed_as_mole_equivalent_due_to_biological_processes,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,bddtdic,tendency_of_mole_concentration_of_dissolved_inorganic_carbon_in_sea_water_due_to_biological_processes,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,bddtdife,tendency_of_mole_concentration_of_dissolved_inorganic_iron_in_sea_water_due_to_biological_processes,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,bddtdin,tendency_of_mole_concentration_of_dissolved_inorganic_nitrogen_in_sea_water_due_to_biological_processes,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,bddtdip,tendency_of_mole_concentration_of_dissolved_inorganic_phosphate_in_sea_water_due_to_biological_processes,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,bddtdisi,tendency_of_mole_concentration_of_dissolved_inorganic_silicate_in_sea_water_due_to_biological_processes,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,bfe,mole_concentration_of_particulate_organic_matter_expressed_as_iron_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,bsi,mole_concentration_of_particulate_matter_expressed_as_silicon_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,calc,mole_concentration_of_calcite_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,chlcalc,mass_concentration_of_calcareous_phytoplankton_expressed_as_chlorophyll_in_sea_water,longitude latitude olevel time,ocnBgchem,3,spChl spCaCO3 spC,spChl*(spCaCO3/spC)
+CMIP5_Oyr,chldiat,mass_concentration_of_diatoms_expressed_as_chlorophyll_in_sea_water,longitude latitude olevel time,ocnBgchem,1,diatChl,diatChl
+CMIP5_Oyr,chldiaz,mass_concentration_of_diazotrophs_expressed_as_chlorophyll_in_sea_water,longitude latitude olevel time,ocnBgchem,1,diazChl,diazChl
+CMIP5_Oyr,chl,mass_concentration_of_phytoplankton_expressed_as_chlorophyll_in_sea_water,longitude latitude olevel time,ocnBgchem,3,diatChl spChl diazChl,diatChl+spChl+diazChl
+CMIP5_Oyr,chlmisc,mass_concentration_of_miscellaneous_phytoplankton_expressed_as_chlorophyll_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,chlpico,mass_concentration_of_picophytoplankton_expressed_as_chlorophyll_in_sea_water,longitude latitude olevel time,ocnBgchem,1,spChl,spChl
+CMIP5_Oyr,co3,mole_concentration_of_carbonate_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,1,CO3,CO3
+CMIP5_Oyr,co3satarag,mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water_at_saturation,longitude latitude olevel time,ocnBgchem,1,co3_sat_arag,co3_sat_arag
+CMIP5_Oyr,co3satcalc,mole_concentration_of_calcite_expressed_as_carbon_in_sea_water_at_saturation,longitude latitude olevel time,ocnBgchem,1,co3_sat_calc,co3_sat_calc
+CMIP5_Oyr,darag,tendency_of_mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water_due_to_dissolution,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,dcalc,tendency_of_mole_concentration_of_calcite_expressed_as_carbon_in_sea_water_due_to_dissolution,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,detoc,mole_concentration_of_organic_detritus_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,dfe,mole_concentration_of_dissolved_iron_in_sea_water,longitude latitude olevel time,ocnBgchem,1,Fe,Fe
+CMIP5_Oyr,dissic,mole_concentration_of_dissolved_inorganic_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,1,DIC,DIC
+CMIP5_Oyr,dissoc,mole_concentration_of_dissolved_organic_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,1,DOC,DOC
+CMIP5_Oyr,dms,mole_concentration_of_dimethyl_sulfide_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,dpocdtcalc,tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_calcareous_phytoplankton,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,dpocdtdiaz,tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_diazotrophs,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,dpocdtpico,tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_picophytoplankton,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,exparag,sinking_mole_flux_of_aragonite_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,expcalc,sinking_mole_flux_of_calcite_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,1,CaCO3_FLUX_IN,CaCO3_FLUX_IN
+CMIP5_Oyr,expcfe,sinking_mole_flux_of_particulate_iron_in_sea_water,longitude latitude olevel time,ocnBgchem,1,P_iron_FLUX_IN,P_iron_FLUX_IN
+CMIP5_Oyr,expc,sinking_mole_flux_of_particulate_organic_matter_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,1,POC_FLUX_IN,POC_FLUX_IN
+CMIP5_Oyr,expn,sinking_mole_flux_of_particulate_organic_nitrogen_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,expp,sinking_mole_flux_of_particulate_organic_phosphorus_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,expsi,sinking_mole_flux_of_particulate_silicon_in_sea_water,longitude latitude olevel time,ocnBgchem,1,SiO2_FLUX_IN,SiO2_FLUX_IN
+CMIP5_Oyr,fediss,tendency_of_mole_concentration_of_dissolved_iron_in_sea_water_due_to_dissolution_from_inorganic_particles,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,fescav,tendency_of_mole_concentration_of_dissolved_iron_in_sea_water_due_to_scavenging_by_inorganic_particles,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,graz,tendency_of_mole_concentration_of_dissolved_iron_in_sea_water_due_to_grazing_of_phytoplankton,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,nh4,mole_concentration_of_ammonium_in_sea_water,longitude latitude olevel time,ocnBgchem,1,NH4,NH4
+CMIP5_Oyr,no3,mole_concentration_of_nitrate_in_sea_water,longitude latitude olevel time,ocnBgchem,1,NO3,NO3
+CMIP5_Oyr,o2,mole_concentration_of_molecular_oxygen_in_sea_water,longitude latitude olevel time,ocnBgchem,1,O2,O2
+CMIP5_Oyr,parag,tendency_of_mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water_due_to_biological_production,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,pbfe,tendency_of_mole_concentration_of_iron_in_sea_water_due_to_biological_production,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,pbsi,tendency_of_mole_concentration_of_silicon_in_sea_water_due_to_biological_production,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,pcalc,tendency_of_mole_concentration_of_calcite_expressed_as_carbon_in_sea_water_due_to_biological_production,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,pdi,tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_diatoms,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,ph,sea_water_ph_reported_on_total_scale,longitude latitude olevel time,ocnBgchem,1,pH_3D,pH_3D
+CMIP5_Oyr,phycalc,mole_concentration_of_calcareous_phytoplankton_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,1,spC,spC
+CMIP5_Oyr,phyc,mole_concentration_of_phytoplankton_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,3,spC diatC diazC,spC+diatC+diazC
+CMIP5_Oyr,phydiat,mole_concentration_of_diatoms_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,1,diatC,diatC
+CMIP5_Oyr,phydiaz,mole_concentration_of_diazotrophs_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,1,diazC,diazC
+CMIP5_Oyr,phyfe,mole_concentration_of_phytoplankton_expressed_as_iron_in_sea_water,longitude latitude olevel time,ocnBgchem,1,spFe,spFe
+CMIP5_Oyr,phymisc,mole_concentration_of_miscellaneous_phytoplankton_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,3,diatFe spFe diazFe,diatFe+spFe+diazFe
+CMIP5_Oyr,phyn,mole_concentration_of_phytoplankton_expressed_as_nitrogen_in_sea_water,longitude latitude olevel time,ocnBgchem,3,diatC spC diazC,(diatC+spC+diazC)*.137
+CMIP5_Oyr,phypico,mole_concentration_of_picophytoplankton_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,1,spC,spC
+CMIP5_Oyr,phypmisc,tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_miscellaneous_phytoplankton,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,phyp,mole_concentration_of_phytoplankton_expressed_as_phosphorus_in_sea_water,longitude latitude olevel time,ocnBgchem,3,diatC spC diazC,(diatC+spC)*.00855+diazC*.002735
+CMIP5_Oyr,physi,mole_concentration_of_phytoplankton_expressed_as_silicon_in_sea_water,longitude latitude olevel time,ocnBgchem,1,diatSi,diatSi
+CMIP5_Oyr,pnitrate,tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_nitrate_utilization,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,po4,mole_concentration_of_phosphate_in_sea_water,longitude latitude olevel time,ocnBgchem,1,PO4,PO4
+CMIP5_Oyr,pon,mole_concentration_of_particulate_organic_matter_expressed_as_nitrogen_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,pop,mole_concentration_of_particulate_organic_matter_expressed_as_phosphorus_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,pp,tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,si,mole_concentration_of_silicate_in_sea_water,longitude latitude olevel time,ocnBgchem,1,SiO3,SiO3
+CMIP5_Oyr,talk,sea_water_alkalinity_expressed_as_mole_equivalent,longitude latitude olevel time,ocnBgchem,1,ALK,ALK
+CMIP5_Oyr,zmeso,mole_concentration_of_mesozooplankton_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,zmicro,mole_concentration_of_microzooplankton_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,zoocmisc,mole_concentration_of_miscellaneous_zooplankton_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,0,UNKNOWN,UNKNOWN
+CMIP5_Oyr,zooc,mole_concentration_of_zooplankton_expressed_as_carbon_in_sea_water,longitude latitude olevel time,ocnBgchem,1,zooC,zooC
+@

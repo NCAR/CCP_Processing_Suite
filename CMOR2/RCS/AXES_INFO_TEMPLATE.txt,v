@@ -1,0 +1,252 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.09.30.19.14.22;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@!!$program driver
+!!$  implicit none
+!!$  integer::i
+!!$  character(len=256)::dims
+!!$  !
+!!$  open(10,file='DIMS',form='formatted')
+!!$  do i = 1,73
+!!$     read(10,'(a)') dims
+!!$     call define_axes(dims)
+!!$  enddo
+!!$end program driver
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+subroutine define_axes(dimensions)
+  !
+  ! Define all axes that will be needed, as defined by the table entry
+  !
+  ! 'time' must be last
+  !
+  use cmor_users_functions
+  use table_info
+  use grid_info
+  use mycmor_info
+  !
+  implicit none
+  character(len=256),intent(in)::dimensions
+  !
+  integer::i,j
+  integer,dimension(0:10)::idxb
+  !
+  character(len=256),dimension(10)::dimnames,dimunits
+  !
+  ! Parse "dimensions" to find names and how many
+  !
+  naxes = 1 ; idxb = 1 ; dimnames(:)(1:) = ' '
+  do i = 1,len_trim(adjustl(dimensions))
+     if (dimensions(i:i) == ' ') then
+        idxb(naxes) = i
+        naxes = naxes + 1
+     endif
+  enddo
+  !
+  idxb(naxes) = len_trim(dimensions)+1
+  do i = 1,naxes
+     dimnames(i)(1:) = dimensions(idxb(i-1):idxb(i)-1)
+     do j = 1,num_tab
+        if (dimnames(i) == table(j)%axis_entry) dimunits(i) = table(j)%units
+     enddo
+  enddo
+  !
+  do i = 1,naxes
+     select case(dimnames(i))
+!!$        case ('alev1')
+!!$           dimids(i) = cmor_axis(             &
+!!$                table=mycmor%table_file,      &
+!!$                table_entry=dimnames(i),      &
+!!$                units=dimunits(i),            &
+!!$                length=SIZE(alev1),           &
+!!$                coord_vals=alev1,             &
+!!$                cell_bounds=bnds_lat)
+!!$        case ('alevel')
+!!$           dimids(i) = cmor_axis(             &
+!!$                table=mycmor%table_file,      &
+!!$                table_entry=dimnames(i),      &
+!!$                units=dimunits(i),            &
+!!$                length=SIZE(alevel),          &
+!!$                coord_vals=alevel,            &
+!!$                cell_bounds=bnds_lat)
+!!$        case ('alevhalf')
+!!$           dimids(i) = cmor_axis(             &
+!!$                table=mycmor%table_file,      &
+!!$                table_entry=dimnames(i),      &
+!!$                units=dimunits(i),            &
+!!$                length=SIZE(alev1),           &
+!!$                coord_vals=alev1,             &
+!!$                cell_bounds=bnds_lat)
+!!$        case ('alt40')
+!!$        case ('basin')
+!!$        case ('dbze')
+!!$        case ('depth0m')
+!!$        case ('depth100m')
+!!$        case ('height10m')
+!!$        case ('height2m')
+        case ('latitude')
+           ilat = cmor_axis(                  &
+                table=mycmor%table_file,      &
+                table_entry='latitude',       &
+                units='degrees_north',        &
+                length=SIZE(alats),           &
+                coord_vals=alats,             &
+                cell_bounds=bnds_lat)
+        case ('longitude')
+           ilon = cmor_axis(  &
+                table=mycmor%table_file,      &
+                table_entry='longitude',      &
+                length=SIZE(alons),           &
+                units='degrees_east',         &
+                coord_vals=alons,             &
+                cell_bounds=bnds_lon)
+!!$        case ('location')
+!!$        case ('olayer100m')
+!!$        case ('olevel')
+!!$        case ('oline')
+!!$        case ('p220')
+!!$        case ('p500')
+!!$        case ('p560')
+!!$        case ('p700')
+!!$        case ('p840')
+!!$        case ('plev3')
+!!$        case ('plev7')
+!!$        case ('plev8')
+!!$        case ('plevs')
+!!$        case ('rho')
+!!$        case ('scatratio')
+!!$        case ('sdepth')
+!!$        case ('sdepth1')
+!!$        case ('site')
+!!$        case ('sza5')
+!!$        case ('tau')
+        case ('time')
+           itim = cmor_axis(  &
+                table=mycmor%table_file,      &
+                table_entry='time',           &
+                units=time_units,             &
+                length=ntimes,                &
+                interval='30 days')
+!!$        case ('time1')
+!!$        case ('time2')
+!!$        case ('typebare')
+!!$        case ('typec3pft')
+!!$        case ('typec4pft')
+!!$        case ('typepdec')
+!!$        case ('typepever')
+!!$        case ('typesdec')
+!!$        case ('typesever')
+!!$        case ('vegtype')
+!!$        case ('vertices')
+!!$  !
+!!$  select case (trim(dimensions(1:)))
+!!$  case ('longitude latitude alevel time')
+!!$  case ('longitude latitude alevel time2')
+!!$  case ('longitude latitude alevhalf time')
+!!$  case ('longitude latitude alevhalf time2')
+!!$  case ('longitude latitude plevs time')
+!!$     ilon = cmor_axis(  &
+!!$          table=mycmor%table_file,      &
+!!$          table_entry='longitude',      &
+!!$          length=SIZE(alons),           &
+!!$          units='degrees_east',         &
+!!$          coord_vals=alons,             &
+!!$          cell_bounds=bnds_lon)
+!!$     ipres = cmor_axis(              &
+!!$          table='Tables/CMIP5_Amon', &
+!!$          table_entry='plevs',       &
+!!$          units='Pa',                &
+!!$          length=SIZE(plevs),        &
+!!$          coord_vals=plevs)      
+!!$     itim = cmor_axis(  &
+!!$          table=mycmor%table_file,      &
+!!$          table_entry='time',           &
+!!$          units=time_units,             &
+!!$          length=ntimes,                &
+!!$          interval='30 days')
+!!$  case ('longitude latitude plevs time2')
+!!$     ilat = cmor_axis(                  &
+!!$          table=mycmor%table_file,      &
+!!$          table_entry='latitude',       &
+!!$          units='degrees_north',        &
+!!$          length=SIZE(alats),           &
+!!$          coord_vals=alats,             &
+!!$          cell_bounds=bnds_lat)
+!!$     ilon = cmor_axis(  &
+!!$          table=mycmor%table_file,      &
+!!$          table_entry='longitude',      &
+!!$          length=SIZE(alons),           &
+!!$          units='degrees_east',         &
+!!$          coord_vals=alons,             &
+!!$          cell_bounds=bnds_lon)
+!!$     ipres = cmor_axis(              &
+!!$          table='Tables/CMIP5_Amon', &
+!!$          table_entry='plevs',       &
+!!$          units='Pa',                &
+!!$          length=SIZE(plevs),        &
+!!$          coord_vals=plevs)      
+!!$     itim = cmor_axis(  &
+!!$          table=mycmor%table_file,      &
+!!$          table_entry='time',           &
+!!$          units=time_units,             &
+!!$          length=ntimes,                &
+!!$          interval='30 days')
+!!$  case ('longitude latitude time','longitude latitude time height10m','longitude latitude time height2m')
+!!$     write(*,*) "DEFINING AXES"
+!!$     ilat = cmor_axis(                  &
+!!$          table=mycmor%table_file,      &
+!!$          table_entry='latitude',       &
+!!$          units='degrees_north',        &
+!!$          length=SIZE(alats),           &
+!!$          coord_vals=alats,             &
+!!$          cell_bounds=bnds_lat)
+!!$     ilon = cmor_axis(  &
+!!$          table=mycmor%table_file,      &
+!!$          table_entry='longitude',      &
+!!$          length=SIZE(alons),           &
+!!$          units='degrees_east',         &
+!!$          coord_vals=alons,             &
+!!$          cell_bounds=bnds_lon)
+!!$     itim = cmor_axis(  &
+!!$          table=mycmor%table_file,      &
+!!$          table_entry='time',           &
+!!$          units=time_units,             &
+!!$          length=ntimes,                &
+!!$          interval='30 days')
+!!$  case ('time')
+!!$     itim = cmor_axis(  &
+!!$          table=mycmor%table_file,      &
+!!$          table_entry='time',           &
+!!$          units=time_units,             &
+!!$          length=ntimes,                &
+!!$          interval='30 days')
+!!$  case ('time2')
+!!$     itim = cmor_axis(  &
+!!$          table=mycmor%table_file,      &
+!!$          table_entry='time',           &
+!!$          units=time_units,             &
+!!$          length=ntimes,                &
+!!$          interval='30 days')
+        end select
+     enddo
+     write(*,*) 'CMOR axes defined: ilon, ilat, itim: ',ilon,ilat,itim
+end subroutine define_axes
+@

@@ -1,0 +1,35 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.07.30.16.50.20;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/csh -f
+#
+set tvals = $1
+#
+set y1 = `echo $tvals | cut -d"-" -f1`
+set y2 = `echo $tvals | cut -d"-" -f2`
+@@ dt = $y2 - $y1 + 1
+#
+echo ${tvals}" "${dt}
+#
+exit
+
+@

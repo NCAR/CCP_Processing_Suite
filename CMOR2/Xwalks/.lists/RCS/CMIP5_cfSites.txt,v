@@ -1,0 +1,110 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.01.31.00.03.19;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@ variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min
+variable|p0|||vertical coordinate formula term: reference pressure|||Pa|||||||||||
+variable|ptop|||pressure at top of model|||Pa|||||||||||
+variable|a|||vertical coordinate formula term: a(k)|alevel|double||||||||||||
+variable|b|||vertical coordinate formula term: b(k)|alevel|double||||||||||||
+variable|a_bnds|||vertical coordinate formula term: a(k+1/2)|alevel|double||||||||||||
+variable|b_bnds|||vertical coordinate formula term: b(k+1/2)|alevel|double||||||||||||
+variable|ap|||vertical coordinate formula term: ap(k)|alevel|double|Pa|||||||||||
+variable|ap_bnds|||vertical coordinate formula term: ap(k+1/2)|alevel|double|Pa|||||||||||
+variable|ztop|||height of top of model|||m|||||||||||
+variable|tas|tas|air_temperature|Near-Surface Air Temperature|site time1 height2m|real|K|area: areacella|time: point|atmos||||||||
+variable|ts|ts|surface_temperature|Surface Temperature|site time1|real|K|area: areacella|time: point|atmos||||||||
+variable|psl|psl|air_pressure_at_sea_level|Sea Level Pressure|site time1|real|Pa|area: areacella|time: point|atmos||||||||
+variable|ps|ps|surface_air_pressure|Surface Air Pressure|site time1|real|Pa|area: areacella|time: point|atmos||||||||
+variable|uas|uas|eastward_wind|Eastward Near-Surface Wind|site time1 height10m|real|m s-1||time: point|atmos||||||||
+variable|vas|vas|northward_wind|Northward Near-Surface Wind|site time1 height10m|real|m s-1||time: point|atmos||||||||
+variable|sfcWind|sfcWind|wind_speed|Near-Surface Wind Speed|site time1 height10m|real|m s-1||time: point|atmos||||||||
+variable|hurs|hurs|relative_humidity|Near-Surface Relative Humidity|site time1 height2m|real|%|area: areacella|time: point|atmos||||||||
+variable|huss|huss|specific_humidity|Near-Surface Specific Humidity|site time1 height2m|real|1|area: areacella|time: point|atmos||||||||
+variable|pr|pr|precipitation_flux|Precipitation|site time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+variable|prsn|prsn|snowfall_flux|Snowfall Flux|site time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+variable|prc|prc|convective_precipitation_flux|Convective Precipitation|site time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+variable|evspsbl|evspsbl|water_evaporation_flux|Evaporation|site time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+variable|sbl|sbl|surface_snow_and_ice_sublimation_flux|Surface Snow and Ice Sublimation Flux|site time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||||||
+variable|tauu|tauu|surface_downward_eastward_stress|Surface Downward Eastward Wind Stress|site time1|real|Pa||time: point|atmos||||down||||
+variable|tauv|tauv|surface_downward_northward_stress|Surface Downward Northward Wind Stress|site time1|real|Pa||time: point|atmos||||down||||
+variable|hfls|hfls|surface_upward_latent_heat_flux|Surface Upward Latent Heat Flux|site time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+variable|hfss|hfss|surface_upward_sensible_heat_flux|Surface Upward Sensible Heat Flux|site time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+variable|rlds|rlds|surface_downwelling_longwave_flux_in_air|Surface Downwelling Longwave Radiation|site time1|real|W m-2|area: areacella|time: point|atmos||||down||||
+variable|rlus|rlus|surface_upwelling_longwave_flux_in_air|Surface Upwelling Longwave Radiation|site time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+variable|rsds|rsds|surface_downwelling_shortwave_flux_in_air|Surface Downwelling Shortwave Radiation|site time1|real|W m-2|area: areacella|time: point|atmos||||down||||
+variable|rsus|rsus|surface_upwelling_shortwave_flux_in_air|Surface Upwelling Shortwave Radiation|site time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+variable|rsdscs|rsdscs|surface_downwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Shortwave Radiation|site time1|real|W m-2|area: areacella|time: point|atmos||||down||||
+variable|rsuscs|rsuscs|surface_upwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Upwelling Clear-Sky Shortwave Radiation|site time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+variable|rldscs|rldscs|surface_downwelling_longwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Longwave Radiation|site time1|real|W m-2|area: areacella|time: point|atmos||||down||||
+variable|rsdt|rsdt|toa_incoming_shortwave_flux|TOA Incident Shortwave Radiation|site time1|real|W m-2|area: areacella|time: point|atmos||||down||||
+variable|rsut|rsut|toa_outgoing_shortwave_flux|TOA Outgoing Shortwave Radiation|site time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+variable|rlut|rlut|toa_outgoing_longwave_flux|TOA Outgoing Longwave Radiation|site time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+variable|rlutcs|rlutcs|toa_outgoing_longwave_flux_assuming_clear_sky|TOA Outgoing Clear-Sky Longwave Radiation|site time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+variable|rsutcs|rsutcs|toa_outgoing_shortwave_flux_assuming_clear_sky|TOA Outgoing Clear-Sky Shortwave Radiation|site time1|real|W m-2|area: areacella|time: point|atmos||||up||||
+variable|prw|prw|atmosphere_water_vapor_content|Water Vapor Path|site time1|real|kg m-2|area: areacella|time: point|atmos||||||||
+variable|clt|clt|cloud_area_fraction|Total Cloud Fraction|site time1|real|%|area: areacella|time: point|atmos||||||||
+variable|clwvi|clwvi|atmosphere_cloud_condensed_water_content|Condensed Water Path|site time1|real|kg m-2|area: areacella|time: point|atmos||||||||
+variable|clivi|clivi|atmosphere_cloud_ice_content|Ice Water Path|site time1|real|kg m-2|area: areacella|time: point|atmos||||||||
+variable|rtmt|rtmt|net_downward_radiative_flux_at_top_of_atmosphere_model|Net Downward Flux at Top of Model|site time1|real|W m-2|area: areacella|time: point|atmos||||down||||
+variable|ccb|ccb|air_pressure_at_convective_cloud_base|Air Pressure at Convective Cloud Base|site time1|real|Pa|area: areacella|time: point|atmos||||||||
+variable|cct|cct|air_pressure_at_convective_cloud_top|Air Pressure at Convective Cloud Top|site time1|real|Pa|area: areacella|time: point|atmos||||||||
+variable|ci|ci|convection_time_fraction|Fraction of Time Convection Occurs|site time1|real|1|area: areacella|time: point|atmos||||||||
+variable|sci|sci|shallow_convection_time_fraction|Fraction of Time Shallow Convection Occurs|site time1|real|1|area: areacella|time: point|atmos||||||||
+variable|fco2antt|fco2antt|tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission|Carbon Mass Flux into Atmosphere Due to All Anthropogenic Emissions of CO2|site time1|real|kg  m-2 s-1|area: areacella|time: point|atmos||||up||||
+variable|fco2fos|fco2fos|tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fossil_fuel_combustion|Carbon Mass Flux into Atmosphere Due to Fossil Fuel Emissions of CO2|site time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||up||||
+variable|fco2nat|fco2nat|surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources|Surface Carbon Mass Flux into the Atmosphere Due to Natural Sources|site time1|real|kg m-2 s-1|area: areacella|time: point|atmos||||up||||
+variable|cl|cl|cloud_area_fraction_in_atmosphere_layer|Cloud Area Fraction|alevel site time1|real|%||time: point|atmos||||||||
+variable|clw|clw|mass_fraction_of_cloud_liquid_water_in_air|Mass Fraction of Cloud Liquid Water|alevel site time1|real|1||time: point|atmos||||||||
+variable|cli|cli|mass_fraction_of_cloud_ice_in_air|Mass Fraction of Cloud Ice|alevel site time1|real|1||time: point|atmos||||||||
+variable|mc|mc|atmosphere_net_upward_convective_mass_flux|Convective Mass Flux|alevhalf site time1|real|kg m-2 s-1||time: point|atmos||||up||||
+variable|ta|ta|air_temperature|Air Temperature|alevel site time1|real|K||time: point|atmos||||||||
+variable|ua|ua|eastward_wind|Eastward Wind|alevel site time1|real|m s-1||time: point|atmos||||||||
+variable|va|va|northward_wind|Northward Wind|alevel site time1|real|m s-1||time: point|atmos||||||||
+variable|hus|hus|specific_humidity|Specific Humidity|alevel site time1|real|1||time: point|atmos||||||||
+variable|hur|hur|relative_humidity|Relative Humidity|alevel site time1|real|%||time: point|atmos||||||||
+variable|wap|wap|lagrangian_tendency_of_air_pressure|omega (=dp/dt)|alevel site time1|real|Pa s-1||time: point|atmos||||||||
+variable|zg|zg|geopotential_height|Geopotential Height|alevel site time1|real|m||time: point|atmos||||||||
+variable|rlu|rlu|upwelling_longwave_flux_in_air|Upwelling Longwave Radiation|alevel site time1|real|W m-2||time: point|atmos||||up||||
+variable|rsu|rsu|upwelling_shortwave_flux_in_air|Upwelling Shortwave Radiation|alevel site time1|real|W m-2||time: point|atmos||||up||||
+variable|rld|rld|downwelling_longwave_flux_in_air|Downwelling Longwave Radiation|alevel site time1|real|W m-2||time: point|atmos||||down||||
+variable|rsd|rsd|downwelling_shortwave_flux_in_air|Downwelling Shortwave Radiation|alevel site time1|real|W m-2||time: point|atmos||||down||||
+variable|rlucs|rlucs|upwelling_longwave_flux_in_air_assuming_clear_sky|Upwelling Clear-Sky Longwave Radiation|alevel site time1|real|W m-2||time: point|atmos||||up||||
+variable|rsucs|rsucs|upwelling_shortwave_flux_in_air_assuming_clear_sky|Upwelling Clear-Sky Shortwave Radiation|alevel site time1|real|W m-2||time: point|atmos||||up||||
+variable|rldcs|rldcs|downwelling_longwave_flux_in_air_assuming_clear_sky|Downwelling Clear-Sky Longwave Radiation|alevel site time1|real|W m-2||time: point|atmos||||down||||
+variable|rsdcs|rsdcs|downwelling_shortwave_flux_in_air_assuming_clear_sky|Downwelling Clear-Sky Shortwave Radiation|alevel site time1|real|W m-2||time: point|atmos||||down||||
+variable|tnt|tnt|tendency_of_air_temperature|Tendency of Air Temperature|alevel site time1|real|K s-1||time: point|atmos||||||||
+variable|tnta|tnta|tendency_of_air_temperature_due_to_advection|Tendency of Air Temperature due to Advection|alevel site time1|real|K s-1||time: point|atmos||||||||
+variable|tntmp|tntmp|tendency_of_air_temperature_due_to_model_physics|Tendency of Air Temperature due to Diabatic Processes|alevel site time1|real|K s-1||time: point|atmos||||||||
+variable|tntscpbl|tntscpbl|tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing|Tendency of Air Temperature due to Stratiform Cloud Condensation and Evaporation|alevel site time1|real|K s-1||time: point|atmos||||||||
+variable|tntr|tntr|tendency_of_air_temperature_due_to_radiative_heating|Tendency of Air Temperature due to Radiative Heating|alevel site time1|real|K s-1||time: point|atmos||||||||
+variable|tntc|tntc|tendency_of_air_temperature_due_to_convection|Tendency of Air Temperature due to Moist Convection|alevel site time1|real|K s-1||time: point|atmos||||||||
+variable|tnhus|tnhus|tendency_of_specific_humidity|Tendency of Specific Humidity|alevel site time1|real|s-1||time: point|atmos||||||||
+variable|tnhusa|tnhusa|tendency_of_specific_humidity_due_to_advection|Tendency of Specific Humidity due to Advection|alevel site time1|real|s-1||time: point|atmos||||||||
+variable|tnhusc|tnhusc|tendency_of_specific_humidity_due_to_convection|Tendency of Specific Humidity due to Convection|alevel site time1|real|s-1||time: point|atmos||||||||
+variable|tnhusd|tnhusd|tendency_of_specific_humidity_due_to_diffusion|Tendency of Specific Humidity due to Diffusion|alevel site time1|real|s-1||time: point|atmos||||||||
+variable|tnhusscpbl|tnhusscpbl|tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing|Tendency of Specific Humidity due to Stratiform Cloud Condensation and Evaporation|alevel site time1|real|s-1||time: point|atmos||||||||
+variable|tnhusmp|tnhusmp|tendency_of_specific_humidity_due_to_model_physics|Tendency of Specific Humidity due to Model Physics|alevel site time1|real|s-1||time: point|atmos||||||||
+variable|evu|evu|atmosphere_momentum_diffusivity|Eddy Viscosity Coefficient for Momentum Variables|alevel site time1|real|m2 s-1||time: point|atmos||||||||
+variable|edt|edt|atmosphere_heat_diffusivity|Eddy Diffusivity Coefficient for Temperature Variable|alevel site time1|real|m2 s-1||time: point|atmos||||||||
+variable|longitude|lon|longitude|Longitude|site|real|degrees_east|||atmos||||||360.0|0.0|
+variable|latitude|lat|latitude|Latitude|site|real|degrees_north|||atmos||||||90.0|-90.0|
+@

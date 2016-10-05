@@ -1,0 +1,44 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.07.23.22.58.28;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@b40.20th.track1.2deg.wcm.007                          CESM1-WACCM         NC   historical     r1i1p1    cm5  b40.1850.track1.2deg.wcm.007            0156-01-01     1850-2005 1850-2005 f19_g16   BW20TRCN            ccsm4_0_beta52      10/05-10/06    bluefire  /CCSM/csm
+b40.1955-2005.2deg.wcm.002                            CESM1-WACCM         NC   historical     r2i1p1    cm5  b40.1850.track1.2deg.wcm.007            1955-01-01     1955-2005 1955-2005 f19_g16   B20TRWCN            cesm1_0_beta05      10/08-10/08    bluefire  /CCSM/csm
+b40.1955-2005.2deg.wcm.003                            CESM1-WACCM         NC   historical     r3i1p1    cm5  b40.1850.track1.2deg.wcm.007            1955-01-01     1955-2005 1955-2005 f19_g16   B55TRWCN            cesm1_0_beta06      10/09-10/09    bluefire  /CCSM/csm
+b40.1955-2005.2deg.wcm.004                            CESM1-WACCM         NC   historical     r4i1p1    cm5  b40.1850.track1.2deg.wcm.007            1955-01-01     1955-2005 1955-2005 f19_g16   B55TRWCN            cesm1_0_beta08      10/10-10/10    bluefire  /CCSM/csm
+b40.1955-2005.2deg.wcm.005                            CESM1-WACCM         NC   historical     r5i1p1    cm5  b40.1850.track1.2deg.wcm.007            1955-01-01     1955-2005 1955-2005 f19_g16   B55TRWCN            cesm1_0_beta08      14/03-14/03    yellow    /CCSM/csm
+b40.1955-2005.2deg.wcm.006                            CESM1-WACCM         NC   historical     r6i1p1    cm5  b40.1850.track1.2deg.wcm.007            1956-01-01     1955-2005 1955-2005 f19_g16   B55TRWCN            cesm1_0_beta08      14/03-14/03    yellow    /CCSM/csm
+b40.1955-2005.2deg.wcm.007                            CESM1-WACCM         NC   historical     r7i1p1    cm5  b40.1850.track1.2deg.wcm.007            1957-01-01     1955-2005 1955-2005 f19_g16   B55TRWCN            cesm1_0_beta08      14/03-14/03    yellow    /CCSM/csm
+b40.1850.track1.2deg.wcm.007                          CESM1-WACCM         NC   piControl      r1i1p1    cm5  N/A                                     0096-01-01     0096-0295 0096-0295 f19_g16   BW1850CN            ccsm4_0_beta50      10/04-11/03    bluefire  /CCSM/csm
+b40.rcp2_6.2deg.wcm.002                               CESM1-WACCM         NC   rcp26          r2i1p1    cm5  b40.1955-2005.2deg.wcm.002              2005-01-01     2005-2099 2005-2099 f19_g16   BRCP26WCN           cesm1_0_rel07       10/08-10/11    bluefire  /CCSM/csm
+b40.rcp2_6.2deg.wcm.003                               CESM1-WACCM         NC   rcp26          r3i1p1    cm5  b40.1955-2005.2deg.wcm.003              2005-01-01     2005-2054 2005-2054 f19_g16   BRCP26WCN           cesm1_0_rel07       10/08-10/11    bluefire  /CCSM/csm
+b40.rcp2_6.2deg.wcm.004                               CESM1-WACCM         NC   rcp26          r4i1p1    cm5  b40.1955-2005.2deg.wcm.004              2005-01-01     2005-2050 2005-2050 f19_g16   BRCP26WCN           cesm1_0_rel07       10/08-10/11    bluefire  /CCSM/csm
+b40.rcp4_5.2deg.wcm.001                               CESM1-WACCM         NC   rcp45          r2i1p1    cm5  b40.1955-2005.2deg.wcm.002              2005-01-01     2005-2099 2005-2099 f19_g16   BRCP45WCN           cesm1_0_beta06      10/08-10/11    bluefire  /CCSM/csm
+b40.rcp4_5.2deg.wcm.002                               CESM1-WACCM         NC   rcp45          r3i1p1    cm5  b40.1955-2005.2deg.wcm.003              2005-01-01     2005-2065 2005-2065 f19_g16   BRCP45WCN           cesm1_0_beta07      10/09-10/10    bluefire  /CCSM/csm
+b.e10.BRCP45WCN.f19_g16.002                           CESM1-WACCM         NC   rcp45          r3i1p1    cm5  b40.1955-2005.2deg.wcm.003              2005-01-01     2066-2099 2066-2099 f19_g16   BRCP45WCN           cesm1_0_beta07      10/09-10/10    bluefire  /CCSM/csm
+b40.rcp4_5.2deg.wcm.003                               CESM1-WACCM         NC   rcp45          r4i1p1    cm5  b40.1955-2005.2deg.wcm.004              2005-01-01     2005-2065 2005-2065 f19_g16   BRCP45WCN           cesm1_0_beta09      10/11-10/11    bluefire  /CCSM/csm
+b.e10.BRCP45WCN.f19_g16.003                           CESM1-WACCM         NC   rcp45          r4i1p1    cm5  b40.1955-2005.2deg.wcm.004              2005-01-01     2066-2099 2066-2099 f19_g16   BRCP45WCN           cesm1_0_beta09      10/11-10/11    bluefire  /CCSM/csm
+b40.rcp8_5.2deg.wcm.003                               CESM1-WACCM         NC   rcp85          r2i1p1    cm5  b40.1955-2005.2deg.wcm.002              2005-01-01     2005-2099 2005-2099 f19_g16   BRCP85WCN           cesm1_0_rel07       10/12-11/02    bluefire  /CCSM/csm
+b40.rcp8_5.2deg.wcm.004                               CESM1-WACCM         NC   rcp85          r3i1p1    cm5  b40.1955-2005.2deg.wcm.003              2005-01-01     2005-2055 2005-2055 f19_g16   BRCP85WCN           cesm1_0_rel07       10/12-11/02    bluefire  /CCSM/csm
+b.e10.BRCP85WCN.f19_g16.004                           CESM1-WACCM         NC   rcp85          r3i1p1    cm5  b40.1955-2005.2deg.wcm.003              2005-01-01     2056-2099 2056-2099 f19_g16   BRCP85WCN           cesm1_0_rel07       10/12-11/02    bluefire  /CCSM/csm
+b40.rcp8_5.2deg.wcm.005                               CESM1-WACCM         NC   rcp85          r4i1p1    cm5  b40.1955-2005.2deg.wcm.004              2005-01-01     2005-2050 2005-2050 f19_g16   BRCP85WCN           cesm1_0_rel07       10/12-11/02    bluefire  /CCSM/csm
+b.e10.BRCP85WCN.f19_g16.005                           CESM1-WACCM         NC   rcp85          r4i1p1    cm5  b40.1955-2005.2deg.wcm.004              2005-01-01     2051-2099 2051-2099 f19_g16   BRCP85WCN           cesm1_0_rel07       10/12-11/02    bluefire  /CCSM/csm
+@

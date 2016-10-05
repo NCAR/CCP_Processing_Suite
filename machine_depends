@@ -1,0 +1,100 @@
+#!/bin/sh
+#
+# Acquire PROCHOST
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+# resolve machine/site dependencies
+#
+case "$PROCHOST" in 
+  silver* )                                # silver @ CGD/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/usr/local/bin/ncks             ; export NCKS
+    NCRA=/usr/local/bin/ncra             ; export NCRA
+    NCRCAT=/usr/local/bin/ncrcat         ; export NCRCAT
+    PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/datalocal/proc/$CASE       ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
+    HSIOPTS=""                           ; export HSIOPTS
+    ;;
+
+  cooleylog* | login1* | vs[0-9]* | cc[0-9]* ) # tukey/cooley @ ANL
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/usr/bin/ncks                   ; export NCKS
+    NCRA=/usr/bin/ncra                   ; export NCRA
+    NCRCAT=/usr/bin/ncrcat               ; export NCRCAT
+    PROCBASE=/gpfs/mira-fs0/projects/CESM_Atmos/proc/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/gpfs/mira-fs0/projects/CESM_Atmos/archive/$CASE    ; export LOCALDSK
+    ARCHIVE_BASE=/home/adrianne/csm      ; export ARCHIVE_BASE
+    HSIOPTS=""                           ; export HSIOPTS
+    ;;
+
+  tramhill* | hurricane* )                 # tramhill/hurricane @ CGD/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/usr/local/bin/ncks              ; export NCKS
+    NCRA=/usr/local/bin/ncra              ; export NCRA
+    NCRCAT=/usr/local/bin/ncrcat          ; export NCRCAT
+    PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
+    ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
+    HSIOPTS=""                            ; export HSIOPTS
+    ;;
+
+  modeling1* )                             # modeling1 in ACD
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/usr/local/bin/ncks              ; export NCKS
+    NCRA=/usr/local/bin/ncra              ; export NCRA
+    NCRCAT=/usr/local/bin/ncrcat          ; export NCRCAT
+    PROCBASE=/data6/$USER/$CASE           ; export PROCBASE
+    ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
+    HSIOPTS=""                            ; export HSIOPTS
+    ;;
+
+  yslogin* | geyser* )                      # Yellowstone (geyser) @ CISL/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCODIR=/glade/apps/opt/nco/4.4.2/gnu/4.8.2/bin ; export NCODIR
+    NCKS=${NCODIR}/ncks      ; export NCKS
+    NCRA=${NCODIR}/ncra      ; export NCRA
+    NCRCAT=${NCODIR}/ncrcat  ; export NCRCAT
+    PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
+    LOCALDSK=/glade/scratch/adrianne/archive/$CASE ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm                         ; export ARCHIVE_BASE
+    HSIOPTS=""                                     ; export HSIOPTS
+    ;;
+
+  hopper* )                              # hopper @ NERSC
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCODIR=/usr/common/usg/nco/4.4.8/gnu_pic/bin   ; export NCODIR
+    NCKS=${NCODIR}/ncks     ; export NCKS
+    NCRA=${NCODIR}/ncra     ; export NCRA
+    NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
+#    PROCBASE=/global/scratch2/sd/$USER/$CASE ; export PROCBASE
+#    LOCALDSK=/global/scratch2/sd/adrianne/archive/$CASE ; export LOCALDSK
+    PROCBASE=/scratch/scratchdirs/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/scratch/scratchdirs/ahu/archive/$CASE ; export LOCALDSK
+    ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
+    HSIOPTS=""                              ; export HSIOPTS
+    ;;
+
+  nid* | ed* )                                         # edison @ NERSC
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    PROCBASE=/scratch/scratchdirs/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/scratch/scratchdirs/ahu/archive/$CASE ; export LOCALDSK
+    ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
+    HSIOPTS=""                              ; export HSIOPTS
+    ;;
+
+  rhea* )                                # rhea @ ORNL
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/ccs/home/wgstrand/bin/ncks                   ; export NCKS
+    NCRA=/ccs/home/wgstrand/bin/ncks                   ; export NCRA
+    NCRCAT=/ccs/home/wgstrand/bin/ncrcat               ; export NCRCAT
+    PROCBASE=/lustre/atlas1/cli017/scratch/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/lustre/atlas1/cli017/scratch/$USER/$CASE ; export LOCALDSK
+    ARCHIVE_BASE=/f2/ccsm/csm                          ; export ARCHIVE_BASE
+    HSIOPTS=""                                         ; export HSIOPTS
+    ;;
+  * ) 
+    echo "Unable to continue because "$PROCHOST" not known."
+    exit 1 ;;
+esac
+#

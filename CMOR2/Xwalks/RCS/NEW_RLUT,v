@@ -1,0 +1,100 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.06.03.12.45.21;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@CMIP5_Amon:ccb:air_pressure_at_convective_cloud_base:longitude latitude time:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_Amon:cct:air_pressure_at_convective_cloud_top:longitude latitude time:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_Amon:cfc113global:mole_fraction_of_cfc113_in_air:time:atmos atmosChem:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:cfc11global:mole_fraction_of_cfc11_in_air:time:atmos atmosChem:1:f11vmr:f11vmr convert to mass
+CMIP5_Amon:cfc12global:mole_fraction_of_cfc12_in_air:time:atmos atmosChem:1:f12vmr:f12vmr convert to mass
+CMIP5_Amon:ch4:mole_fraction_of_methane_in_air:longitude latitude plevs time:atmos atmosChem:2:CH4 PS:CH4 interpolated to standard plevs
+CMIP5_Amon:ch4Clim:mole_fraction_of_methane_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:ch4global:mole_fraction_of_methane_in_air:time2:atmos atmosChem:1:ch4vmr:ch4vmr convert to mass
+CMIP5_Amon:ch4globalClim:mole_fraction_of_methane_in_air:time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:ci:convection_time_fraction:longitude latitude time:atmos:1:FREQZM:FREQZM unit conversion
+CMIP5_Amon:cl:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:2:CLOUD PS:CLOUD on model levels, no change
+CMIP5_Amon:cli:mass_fraction_of_cloud_ice_in_air:longitude latitude alevel time:atmos:2:CLDICE PS:CLDICE on model levels, no change
+CMIP5_Amon:clivi:atmosphere_cloud_ice_content:longitude latitude time:atmos:1:TGCLDIWP:TGCLDIWP no change
+CMIP5_Amon:clt:cloud_area_fraction:longitude latitude time:atmos:1:CLDTOT:CLDTOT unit conversion
+CMIP5_Amon:clw:mass_fraction_of_cloud_liquid_water_in_air:longitude latitude alevel time:atmos:2:CLDLIQ PS:CLDLIQ on model levels, no change
+CMIP5_Amon:clwvi:atmosphere_cloud_condensed_water_content:longitude latitude time:atmos:1:TGCLDLWP:TGCLDLWP no change
+CMIP5_Amon:co2:mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time:atmos:2:CO2 PS:CO2 interpolated to standard plevs
+CMIP5_Amon:co2Clim:mole_fraction_of_carbon_dioxide_in_air:longitude latitude plevs time2:atmos:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:co2mass:atmosphere_mass_of_carbon_dioxide:time2:atmos:1:co2vmr:co2vmr convert to mass
+CMIP5_Amon:co2massClim:atmosphere_mass_of_carbon_dioxide:time2:atmos:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:evspsbl:water_evaporation_flux:longitude latitude time:atmos:1:QFLX:QFLX no change
+CMIP5_Amon:fco2antt:tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:fco2fos:tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fossil_fuel_combustion:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:fco2nat:surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:hcfc22global:mole_fraction_of_hcfc22_in_air:time:atmos atmosChem:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:LHFLX:LHFLX no change
+CMIP5_Amon:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:SHFLX:SHFLX no change
+CMIP5_Amon:hur:relative_humidity:longitude latitude plevs time:atmos:2:RELHUM PS:RELHUM interpolated to standard plevs
+CMIP5_Amon:hurs:relative_humidity:longitude latitude time height2m:atmos:1:RHREFHT:RHREFHT no change
+CMIP5_Amon:hus:specific_humidity:longitude latitude plevs time:atmos:2:Q PS:Q interpolated to standard plevs
+CMIP5_Amon:huss:specific_humidity:longitude latitude time height2m:atmos:1:QREFHT:QREFHT no change
+CMIP5_Amon:mc:atmosphere_net_upward_convective_mass_flux:longitude latitude alevhalf time:atmos:3:CMFMC CMFMCDZM PS:CMFMC + CMFMCDZM on model levels, no change
+CMIP5_Amon:n2o:mole_fraction_of_nitrous_oxide_in_air:longitude latitude plevs time:atmos atmosChem:2:N2O PS:N2O interpolated to standard plevs
+CMIP5_Amon:n2oClim:mole_fraction_of_nitrous_oxide_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:n2oglobal:mole_fraction_of_nitrous_oxide_in_air:time2:atmos atmosChem:1:n2ovmr:n2ovmr convert to mass
+CMIP5_Amon:n2oglobalClim:mole_fraction_of_nitrous_oxide_in_air:time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:prAdjust:precipitation_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:pr:precipitation_flux:longitude latitude time:atmos:2:PRECC PRECL:PRECC + PRECL and unit conversion
+CMIP5_Amon:prc:convective_precipitation_flux:longitude latitude time:atmos:1:PRECC:PRECC unit conversion
+CMIP5_Amon:prsn:snowfall_flux:longitude latitude time:atmos:2:PRECSC PRECSL:PRECSC + PRECSL and unit conversion
+CMIP5_Amon:prw:atmosphere_water_vapor_content:longitude latitude time:atmos:1:TMQ:TMQ no change
+CMIP5_Amon:ps:surface_air_pressure:longitude latitude time:atmos:1:PS:PS no change
+CMIP5_Amon:pslAdjust:air_pressure_at_sea_level:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:psl:air_pressure_at_sea_level:longitude latitude time:atmos:1:PSL:PSL no change
+CMIP5_Amon:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:1:FLDS:FLDS no change
+CMIP5_Amon:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FLDSC:FLDSC no change
+CMIP5_Amon:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:2:FLDS FLNS:FLDS + FLNS
+CMIP5_Amon:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:3:FSNTOA FSNT FLNT:FSNTOA-FSNT+FLNT
+CMIP5_Amon:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:longitude latitude time:atmos:1:FLUTC:FLUTC no change
+CMIP5_Amon:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:FSDS:FSDS no change
+CMIP5_Amon:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:FSDSC:FSDSC no change
+CMIP5_Amon:rsdt:toa_incoming_shortwave_flux:longitude latitude time:atmos:1:SOLIN:SOLIN no change
+CMIP5_Amon:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:2:FSDS FSNS:FSDS - FSNS
+CMIP5_Amon:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:2:FSDSC FSNSC:FSDSC - FSNSC
+CMIP5_Amon:rsut:toa_outgoing_shortwave_flux:longitude latitude time:atmos:2:SOLIN FSNTOA:SOLIN - FSNTOA
+CMIP5_Amon:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude latitude time:atmos:2:SOLIN FSNTOAC:SOLIN - FSNTOAC
+CMIP5_Amon:rtmt:net_downward_radiative_flux_at_top_of_atmosphere_model:longitude latitude time:atmos:2:FSNT FLNT:FSNT - FLNT
+CMIP5_Amon:sbl:surface_snow_and_ice_sublimation_flux:longitude latitude time:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_Amon:sci:shallow_convection_time_fraction:longitude latitude time:atmos:1:FREQSH:FREQSH no change
+CMIP5_Amon:sfcWind:wind_speed:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_Amon:ta:air_temperature:longitude latitude plevs time:atmos:2:T PS:T interpolated to standard plevs
+CMIP5_Amon:tasAdjust:air_temperature:longitude latitude time height2m:atmos:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:tas:air_temperature:longitude latitude time height2m:atmos:1:TREFHT:TREFHT no change
+CMIP5_Amon:tasmax:air_temperature:longitude latitude time height2m:atmos:1:TREFMXAV:TREFMXAV no change
+CMIP5_Amon:tasmin:air_temperature:longitude latitude time height2m:atmos:1:TREFMNAV:TREFMNAV no change
+CMIP5_Amon:tauu:surface_downward_eastward_stress:longitude latitude time:atmos:1:TAUX:TAUX no change
+CMIP5_Amon:tauv:surface_downward_northward_stress:longitude latitude time:atmos:1:TAUY:TAUY no change
+CMIP5_Amon:tro3:mole_fraction_of_ozone_in_air:longitude latitude plevs time:atmos atmosChem:2:O3 PS:O3 interpolated to standard plevs
+CMIP5_Amon:tro3Clim:mole_fraction_of_ozone_in_air:longitude latitude plevs time2:atmos atmosChem:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:tsAdjust:surface_temperature:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+CMIP5_Amon:ts:surface_temperature:longitude latitude time:atmos:1:TS:TS no change
+CMIP5_Amon:ua:eastward_wind:longitude latitude plevs time:atmos:2:U PS:U interpolated to standard plevs
+CMIP5_Amon:uas:eastward_wind:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_Amon:va:northward_wind:longitude latitude plevs time:atmos:2:V PS:V interpolated to standard plevs
+CMIP5_Amon:vas:northward_wind:longitude latitude time height10m:atmos:0:UNAVAILABLE:UNAVAILABLE
+CMIP5_Amon:wap:lagrangian_tendency_of_air_pressure:longitude latitude plevs time:atmos:2:OMEGA PS:OMEGA interpolated to standard plevs
+CMIP5_Amon:zg:geopotential_height:longitude latitude plevs time:atmos:2:Z3 PS:Z3 interpolated to standard plevs
+@

@@ -1,0 +1,546 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2012.08.15.14.52.45;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2011.11.14.16.56.18;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@CASE=xxxCASExxx ; export CASE
+HIST=xxxHISTxxx ; export HIST
+TPER=xxxTPERxxx ; export TPER
+#
+# Template for processing CCSM history netCDF files into single-field format 
+#
+# Extract information from "experiments.txt"
+#
+#  Columns   Field
+#   1 -  54  CCSM case name
+#  55 -  74  model_id (CCSM4, CESM-CAM5, CESM-BGC, CESM-CHEM, CESM-WACCM, CESM1-CAM5.1-FV2, etc)
+#  75 -  76  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  80 -  94  Official MIP name, or very brief description (N/A if not applicable)
+#  95 - 104  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+# 105 - 109  MIP (cm3 or cm5) experiment (N/A if not applicable)
+# 110 - 149  RUN_REFCASE (parent case)
+# 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 165 - 174  years of experiment (YYYY if unknown)
+# 175 - 184  GRID (resolution)
+# 185 - 204  COMPSET (N/A if not applicable)
+# 205 - 224  REPOTAG (N/A if not applicable)
+# 225 - 244  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 245 - 254  MACH (hardware)
+# 255 - end  DOUT_L_MSROOT (history file location on archive)
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if [ -f $EXPFILE ] ; then
+  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c75-  | cut -d" " -f1`
+   DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c80-  | cut -d" " -f1`
+   REALIZN=`egrep "^$CASE " $EXPFILE | cut -c95-  | cut -d" " -f1`
+   MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c105-  | cut -d" " -f1`
+    PARENT=`egrep "^$CASE " $EXPFILE | cut -c110- | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c165-168`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c170-173`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c175- | cut -d" " -f1`
+   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c185- | cut -d" " -f1`
+   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c205- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c245- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c255- | cut -d" " -f1`
+else
+  echo "Cannot find $EXPFILE. EXIT"
+  ./procstat.sh error process_template
+  exit 1
+fi
+#
+if ! [ $LOCATION ] ; then
+  echo "Unable to set variables because "$CASE" not found in $EXPFILE"
+  ./procstat.sh error process_template
+  exit 1
+fi
+#
+# Acquire PROCHOST
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+# resolve machine/site dependencies
+#
+case "$PROCHOST" in 
+  silver* )                                # silver @@ CGD/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/usr/local/bin/ncks             ; export NCKS
+    NCRCAT=/usr/local/bin/ncrcat         ; export NCRCAT
+    NCARG_ROOT=/contrib/ncarg            ; export NCARG_ROOT
+    PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/datalocal/proc/$CASE       ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
+    ;;
+
+  tramhill* | hurricane* )                                # tramhill/hurricane @@ CGD/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/usr/local/bin/ncks              ; export NCKS
+    NCRCAT=/usr/local/bin/ncrcat          ; export NCRCAT
+    NCARG_ROOT=/contrib/ncarg             ; export NCARG_ROOT
+    PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
+    ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
+    ;;
+
+  mirage* )                                # DASG @@ CISL/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/contrib/nco-4.1.0/bin/ncks              ; export NCKS
+#    NCKS=/fs/local/bin/ncks                       ; export NCKS
+    NCRCAT=/fs/local/bin/ncrcat                   ; export NCRCAT
+    NCARG_ROOT=/fs/local/apps/ncl-5.2.0           ; export NCARG_ROOT
+    PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/glade/data01/CMIP5/CCSM/csm/$CASE   ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
+    ;;
+
+  euclid* )                                # euclid @@ NERSC
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/global/u2/s/strandwg/bin/ncks     ; export NCKS
+    NCRCAT=/global/u2/s/strandwg/bin/ncrcat ; export NCRCAT
+    NCARG_ROOT=/usr/common/usg/ncar/5.2.0   ; export NCARG_ROOT
+    PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/global/scratch/sd/$USER/$CASE ; export LOCALDSK
+    ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
+    ;;
+
+  lens* )                                # lens @@ ORNL
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCKS=/ccs/home/wgstrand/bin/ncks                   ; export NCKS
+    NCRCAT=/ccs/home/wgstrand/bin/ncrcat               ; export NCRCAT
+    NCARG_ROOT=/sw/analysis-x64/ncl/5.0.0/sl5.0_binary ; export NCARG_ROOT
+    PROCBASE=/tmp/work/$USER/$CASE                     ; export PROCBASE
+    LOCALDSK=/tmp/work/$USER/$CASE                     ; export LOCALDSK
+    ARCHIVE_BASE=/f2/ccsm/csm                          ; export ARCHIVE_BASE
+    ;;
+  * ) 
+    echo "Unable to continue because "$PROCHOST" not known."
+    ./procstat.sh error process_template
+    exit 1 ;;
+esac
+#
+# Strip off first part of $HIST
+#
+HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
+#
+# Convert history type to component name
+#
+case "$HTYP" in
+  cam2 | cam )
+    COMP_NAME=atm ;;
+  clm2 ) 
+    COMP_NAME=lnd ;;
+  pop  ) 
+    COMP_NAME=ocn ;;
+  csim | cice ) 
+    COMP_NAME=ice ;;
+  * ) 
+    echo "Unable to continue because "$HIST" not known."
+    ./procstat.sh error process_template
+    exit 1 ;;
+esac
+#
+# Set up local names and archival names
+#
+LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
+LOCAL_PROC=$PROCBASE/$COMP_NAME
+ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
+ARCHIVE_PROC=$ARCHIVE_BASE/$CASE/$COMP_NAME/proc/tseries
+#
+case "$TPER" in
+  mon )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly  ;;
+  day )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/daily    ;;
+  hr6 )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6  ;;
+  hr3 )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly3  ;;
+  * ) 
+    echo "Unable to continue because "$TPER" not known."
+    ./procstat.sh error process_template
+    exit 1 ;;
+esac
+#
+LOCAL_PROC=${LOCAL_PROC}/${TPER}
+CACHEDIR=${LOCAL_PROC}/to_archive
+#
+YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
+MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
+#
+# Print out values
+#
+echo "           Case name : "$CASE ; export CASE
+echo "   History file type : "$HIST ; export HIST
+echo "         Time period : "$TPER ; export TPER
+echo "   by var processing : YES"
+echo "     Processed files : "$ARCHIVE_PROC  ; export ARCHIVE_PROC
+if [ "$LOCATION" = "NC" ] ; then
+  HARDWARE=${HARDWARE}".ucar.edu"
+fi
+if [ "$LOCATION" = "NE" ] ; then
+  HARDWARE=${HARDWARE}".nersc.gov"
+fi
+if [ "$LOCATION" = "OR" ] ; then
+  HARDWARE=${HARDWARE}".ccs.ornl.gov"
+fi
+echo "            Location : "$LOCATION ; export LOCATION
+echo "         Description : "$DESCRIP  ; export DESCRIP
+echo "     Realization/RIP : "$REALIZN  ; export REALIZN
+echo "         Parent case : "$PARENT   ; export PARENT
+echo "         Branch date : "$BRANCH   ; export BRANCH
+echo "          Resolution : "$RES      ; export RES
+echo "            Hardware : "$HARDWARE ; export HARDWARE
+echo "             Compset : "$COMPSET  ; export COMPSET
+echo "      Repository tag : "$REPOTAG  ; export REPOTAG
+echo "          Begin year : "$YEARBEG  ; export YEARBEG
+echo "            End year : "$YEAREND  ; export YEAREND
+echo "          Year count : "$YRCOUNT  ; export YRCOUNT
+echo "        Months count : "$MNCOUNT  ; export MNCOUNT
+echo ""
+echo "   Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo "       History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
+echo "       History names : "$HIST          ; export HIST
+echo ""
+echo "     Processing host : "$PROCHOST      ; export PROCHOST
+echo " Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
+echo "      Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
+echo "   Archive cache dir : "$CACHEDIR      ; export CACHEDIR
+echo " Processing code dir : "$BASEDIR       ; export BASEDIR
+#  
+if [ ! -d $LOCAL_PROC ] ; then 
+  mkdir -p $LOCAL_PROC 
+fi
+if [ ! -d $CACHEDIR ] ; then 
+  mkdir -p $CACHEDIR 
+fi
+cd $LOCAL_PROC
+#
+if [ "$TPER" != "mon" ] ; then
+  ln -s -f $BASEDIR/time_split     .
+  ln -s -f $BASEDIR/days_to_month  .
+fi
+ln -s -f $BASEDIR/archive_list         .
+ln -s -f $BASEDIR/archive_read         .
+ln -s -f $BASEDIR/archive_write_dp     .
+ln -s -f $BASEDIR/var_split        .
+ln -s -f $BASEDIR/var_mon_to_year  .
+ln -s -f $BASEDIR/var_year_to_dec  .
+ln -s -f $BASEDIR/var_year_to_all  .
+ln -s -f $BASEDIR/var_dec_to_cen   .
+ln -s -f $BASEDIR/add_year         .
+ln -s -f $BASEDIR/concatenate_data .
+ln -s -f $BASEDIR/store_to_archive_dp .
+ln -s -f $BASEDIR/procstat.sh      .
+#
+cd $LOCAL_PROC
+#
+# Start actual processing, one year at a time
+#
+YEARNOW=$YEAREND;export YEARNOW
+echo "BEGIN : procstat"
+./procstat.sh start
+#
+# Get archive listing
+#
+ARCHIVE_LIST=archive.$CASE.$HIST
+if [ ! -f $ARCHIVE_LIST ] ; then
+  echo "Getting archival list of "$CASE" "$HIST
+  ./archive_list $ARCHIVE_LIST
+fi
+#
+while [ $YEARNOW -ge $YEARBEG ] ; do
+  ./procstat.sh
+  YRCHECK=.comp.$CASE.$HIST.$YEARNOW
+  if [ ! -f $YRCHECK ] ; then
+    echo "Processing "$CASE"."$HIST"."$YEARNOW" at "`date`
+    if [ -d $LOCAL_HIST ] ; then
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* | wc -l`
+      if [ $NHISTF -ne 0 ] ; then
+        echo ${CASE}"."${HIST}"."${YEARNOW}" files on disk, softlinking."
+        ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${YEARNOW}* .
+      fi
+    else
+      ./archive_read $ARCHIVE_LIST $YEARNOW
+      if [ $? -ne 0 ] ; then
+        echo "Error from archive_read"
+       ./procstat.sh error process_template
+       exit 1
+      fi
+    fi
+    if [ -f $CASE.$HIST.$YEARNOW*.tar ] ; then
+      NTARFL=`/bin/ls $CASE.$HIST.$YEARNOW*.tar | wc -l`
+      if [ $NTARFL -ne 0 ] ; then
+        for TARFILE in `/bin/ls $CASE.$HIST.$YEARNOW*.tar` ; do
+          tar xf $TARFILE
+          if [ $? -ne 0 ] ; then
+            echo "Error untarring "$TARFILE
+          else
+            rm -f $TARFILE
+          fi
+        done
+      fi
+    fi
+#
+# Check on data type to see if it needs time splitting and reconcatenating first
+#
+    case "$HIST" in
+      cam2.h1 | cam2.h2 | cam2.h3 | cam2.h4 | cam2.h5 | cam.h1 | cam.h2 | cam.h3 | cam.h4 | cam.h5 )
+        for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??-?????.nc` ; do
+#
+# Check for exactly 365 samples from the same year
+#
+          NTIMES=`$NCKS -s "%8.8i\n" -F -H -C -v date $FILE | egrep "^[0-9]" | wc -l`
+          NYEARS=`$NCKS -s "%8.8i\n" -F -H -C -v date $FILE | egrep "^[0-9]" | cut -c1-4 | uniq | wc -l`
+          if [ $NTIMES -eq 365 ] && [ $NYEARS -eq 1 ] ; then
+            echo "time_split not required on "$FILE" 1 year length already from same year. Renaming."
+            TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
+            mv $FILE $TRIMD
+          else
+            echo "time_split-ting on "$FILE
+            ./time_split $FILE erase
+            ./days_to_month erase
+          fi
+        done ;;
+      clm2.h1 | clm2.h2 )
+        for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??-00000.nc` ; do
+          NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
+          if [ $NTIMES -eq 365 ] ; then
+            TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
+            mv $FILE $TRIMD
+            echo "time_split not required on "$FILE" 1 year length already."
+          else
+            echo "time_split-ting on "$FILE
+            ./time_split $FILE erase
+            ./days_to_month erase
+          fi
+        done ;;
+      cice.h1 )
+        for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??.nc` ; do
+          echo "time_split-ting on "$FILE
+          ./time_split $FILE erase
+          ./days_to_month erase
+        done ;;
+      pop.h2 | pop.h.nday1 )
+        for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-01.nc` ; do
+          TRIMD=`echo $FILE | sed -e 's/\-01\.nc/\.nc/g'`
+          mv $FILE $TRIMD
+          echo "time_split not required on "$FILE" 1 month already."
+        done ;;
+    esac
+    if [ "$TPER" != "mon" ] ; then
+      ./days_to_month erase
+    fi
+#
+# All time splitting should be done now, ready for var_splitting
+#
+    NFNC=`echo $CASE.$HIST.????-??.nc | wc -w`
+    if [ ${NFNC} -ne 1 ] ; then
+      for FILE in `/bin/ls $CASE.$HIST.????-??.nc` ; do
+        ./var_split $FILE erase
+        if [ $? -ne 0 ] ; then
+          echo "Error from var_split on file "$FILE
+          ./procstat.sh error process_template
+          exit 1
+        else
+          touch .proc.$FILE
+        fi
+        if [ -f .proc.$FILE ] ; then
+          touch .comp.$FILE
+          rm -f .proc.$FILE
+        fi
+      done
+    fi
+#
+    NFNC=`echo $CASE.$HIST.????.nc | wc -w`
+    if [ ${NFNC} -ne 1 ] ; then
+      for FILE in `/bin/ls $CASE.$HIST.????.nc` ; do
+        ./var_split $FILE erase
+        if [ $? -ne 0 ] ; then
+          echo "Error from var_split on file "$FILE
+          ./procstat.sh error process_template
+          exit 1
+        else
+          touch .proc.$FILE
+        fi
+        if [ -f .proc.$FILE ] ; then
+          touch .comp.$FILE
+          rm -f .proc.$FILE
+        fi
+      done
+    fi
+#
+    if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 1 ] ; then
+      touch $YRCHECK
+      rm .????.$CASE.$HIST.${YEARNOW}*.nc
+    else
+      if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 12 ] ; then
+        touch $YRCHECK
+        rm .????.$CASE.$HIST.${YEARNOW}*.nc
+      fi
+    fi
+#
+# Concatenate all months into respective years, at every year done 
+#
+    echo "Concatenating years at "${YEARNOW}" at "`date`
+    ./concatenate_data M2Y
+  fi
+#
+  YEARNOW=`expr $YEARNOW - 1`
+  if [ $YEARNOW -lt 1000 ] ; then
+    YEARNOW=0${YEARNOW}
+  fi
+  if [ $YEARNOW -lt 100 ] ; then
+    YEARNOW=0${YEARNOW}
+  fi
+  if [ $YEARNOW -lt 10 ] ; then
+    YEARNOW=0${YEARNOW}
+  fi
+  export YEARNOW
+done
+#
+# Concatenate months -> years, years -> all (if possible)
+#
+echo "Final concatenating of "$CASE"."$HIST" at "`date`
+./concatenate_data M2Y
+./concatenate_data Y2A
+#
+# Store completed data on archival system
+#
+./store_to_archive_dp
+if [ $? -ne 0 ] ; then
+  echo "store_to_archive failed"
+  ./procstat.sh error process_template
+  exit 1
+fi
+echo "COMPLETE : procstat"
+./procstat.sh complete
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d10 15
+a24 15
+#   1 -  40  CCSM case name
+#  45 -  59  model_id (CCSM4, CESM1, CCSM4-BGC, CCSM4-FSCHEM, CCSM4-WACCM, etc)
+#  60 -  61  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  65 -  79  Official MIP name, or very brief description (N/A if not applicable)
+#  80 -  89  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+#  90 -  94  MIP (cm3 or cm5) experiment (N/A if not applicable)
+#  95 - 134  RUN_REFCASE (parent case)
+# 135 - 149  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 150 - 159  years of experiment (YYYY if unknown)
+# 160 - 169  GRID (resolution)
+# 170 - 199  COMPSET (N/A if not applicable)
+# 190 - 209  REPOTAG (N/A if not applicable)
+# 210 - 229  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 230 - 239  MACH (hardware)
+# 240 - end  DOUT_L_MSROOT (history file location on archive)
+d28 13
+a40 12
+  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c60-  | cut -d" " -f1`
+   DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c65-  | cut -d" " -f1`
+   REALIZN=`egrep "^$CASE " $EXPFILE | cut -c80-  | cut -d" " -f1`
+    PARENT=`egrep "^$CASE " $EXPFILE | cut -c95-  | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c135- | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c150-153`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c155-158`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c160- | cut -d" " -f1`
+   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c170- | cut -d" " -f1`
+   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c190- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c230- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c240- | cut -d" " -f1`
+d60 1
+a60 1
+  copper* )                                # copper @@ CGD/NCAR
+d81 2
+a82 1
+    NCKS=/fs/local/bin/ncks                       ; export NCKS
+d122 1
+a122 1
+  cam2 )
+d216 3
+a218 3
+ln -s -f $BASEDIR/mss_list         .
+ln -s -f $BASEDIR/mss_read         .
+ln -s -f $BASEDIR/mss_write        .
+d226 1
+a226 1
+ln -s -f $BASEDIR/store_to_archive .
+d242 1
+a242 1
+  ./mss_list $ARCHIVE_LIST
+d257 1
+a257 1
+      ./mss_read $ARCHIVE_LIST $YEARNOW
+d259 1
+a259 1
+        echo "Error from mss_read"
+d264 12
+a275 10
+    NTARFL=`/bin/ls $CASE.$HIST.$YEARNOW*.tar | wc -l`
+    if [ $NTARFL -ne 0 ] ; then
+      for TARFILE in `/bin/ls $CASE.$HIST.$YEARNOW*.tar` ; do
+        tar xf $TARFILE
+        if [ $? -ne 0 ] ; then
+          echo "Error untarring "$TARFILE
+        else
+          rm -f $TARFILE
+        fi
+      done
+d281 1
+a281 1
+      cam2.h1 | cam2.h2 | cam2.h3 | cam2.h4 | cam2.h5 )
+d283 7
+a289 2
+          NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
+          if [ $NTIMES -eq 365 ] ; then
+a291 1
+            echo "time_split not required on "$FILE" 1 year length already."
+d319 1
+a319 1
+          TRIMD=`echo $FILE | sed -e 's/\-01\.nc/\.nc/g'| sed -e 's/\-02\.nc/\.nc/g'`
+d330 35
+a364 14
+    for FILE in `/bin/ls $CASE.$HIST.????-??.nc $CASE.$HIST.????.nc` ; do
+      ./var_split $FILE erase
+      if [ $? -ne 0 ] ; then
+        echo "Error from var_split on file "$FILE
+        ./procstat.sh error process_template
+        exit 1
+      else
+        touch .proc.$FILE
+      fi
+      if [ -f .proc.$FILE ] ; then
+        touch .comp.$FILE
+        rm -f .proc.$FILE
+      fi
+    done
+d403 1
+a403 1
+./store_to_archive
+@

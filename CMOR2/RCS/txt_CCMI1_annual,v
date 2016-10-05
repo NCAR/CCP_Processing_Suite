@@ -1,0 +1,116 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.01.31.15.23.47;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@|lon|longitude|longitude||double|degrees_east||||yes||||increasing|360.0|0.0|
+|lat|latitude|latitude||double|degrees_north||||yes||||increasing|90.0|-90.0|
+|plev|air_pressure|pressure||double|Pa||||no|||down|decreasing|||
+|plev|air_pressure|pressure||double|Pa||||no|||down|decreasing|||
+|time|time|time||double|days since ?||||yes||||increasing|||
+|lev|atmosphere_sleve_coordinate|atmosphere smooth level vertical (SLEVE) coordinate|||m||||yes|||up|increasing|800000.|-200.|
+|lev|atmosphere_ln_pressure_coordinate|atmosphere natural log pressure coordinate|||||||yes|||down|decreasing|20.|-1.|
+|lev|atmosphere_sigma_coordinate|sigma coordinate|||||||yes|||down|decreasing|1.0|0.0|
+|lev|atmosphere_hybrid_sigma_pressure_coordinate|hybrid sigma pressure coordinate|||1||||yes|||down|decreasing|1.0|0.0|
+|lev|atmosphere_hybrid_sigma_pressure_coordinate|hybrid sigma pressure coordinate|||1||||yes|||down|decreasing|1.0|0.0|
+|lev|atmosphere_hybrid_height_coordinate|hybrid height coordinate|||m||||yes|||up|increasing||0.0|
+orog|orog|surface_altitude|Surface Altitude|longitude latitude|real|m|||atmos||||||1.00E+04|-700|
+p0|||vertical coordinate formula term: reference pressure|||Pa|||||||||||
+ptop|||pressure at top of model|||Pa|||||||||||
+a|||vertical coordinate formula term: a(k)|alevel|double|1|||||||||||
+b|||vertical coordinate formula term: b(k)|alevel|double|1|||||||||||
+a_bnds|||vertical coordinate formula term: a(k+1/2)|alevel|double|1|||||||||||
+b_bnds|||vertical coordinate formula term: b(k+1/2)|alevel|double|1|||||||||||
+ap|||vertical coordinate formula term: ap(k)|alevel|double|Pa|||||||||||
+ap_bnds|||vertical coordinate formula term: ap(k+1/2)|alevel|double|Pa|||||||||||
+ztop|||height of top of model|||m|||||||||||
+ccmi_year|||CCMI Year|time|integer|year|||||||||||
+ccmi_month|||CCMI Month|time|integer|month|||||||||||
+ccmi_day|||CCMI Day|time|integer|day|||||||||||
+ccmi_hour|||CCMI Hour|time|integer|hour|||||||||||
+ccmi_minute|||CCMI Minute|time|integer|minute|||||||||||
+burden_n2o||atmosphere_moles_of_nitrous_oxide|Atmospheric Burden of Nitrous Oxide|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_n2o||tendency_of_atmosphere_moles_of_nitrous_oxide|Tendency of Atmospheric Burden of Nitrous Oxide|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_cfcl3||atmosphere_moles_of_cfc11|Atmospheric Burden of CFC-11|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_cfcl3||tendency_of_atmosphere_moles_of_cfc11|Tendency of Atmospheric Burden of CFC-11|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_cf2cl2||atmosphere_moles_of_cfc12|Atmospheric Burden of CFC-12|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_cf2cl2||tendency_of_atmosphere_moles_of_cfc12|Tendency of Atmospheric Burden of CFC-12|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_ccl2fcclf2||atmosphere_moles_of_cfc113|Atmospheric Burden of CFC-113|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ccl2fcclf2||tendency_of_atmosphere_moles_of_cfc113|Tendency of Atmospheric Burden of CFC-113|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_cclf2cclf2||atmosphere_moles_of_cfc114|Atmospheric Burden of CFC-114|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_cclf2cclf2||tendency_of_atmosphere_moles_of_cfc114|Tendency of Atmospheric Burden of CFC-114|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_cclf2cf3||atmosphere_moles_of_cfc115|Atmospheric Burden of CFC-115|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_cclf2cf3||tendency_of_atmosphere_moles_of_cfc115|Tendency of Atmospheric Burden of CFC-115|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_ccl4||atmosphere_moles_of_carbon_tetrachloride|Atmospheric Burden of CCl4|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ccl4||tendency_of_atmosphere_moles_of_carbon_tetrachloride|Tendency of Atmospheric Burden of CCl4|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_cbrf3||atmosphere_moles_of_halon1301|Atmospheric Burden of Halon 1301|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_cbrf3||tendency_of_atmosphere_moles_of_halon1301|Tendency of Atmospheric Burden of Halon 1301|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_cbrclf2||atmosphere_moles_of_halon1211|Atmospheric Burden of Halon 1211|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_cbrclf2||tendency_of_atmosphere_moles_of_halon1211|Tendency of Atmospheric Burden of Halon 1211|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_c2br2f4||atmosphere_moles_of_halon2402|Atmospheric Burden of Halon 2402|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_c2br2f4||tendency_of_atmosphere_moles_of_halon2402|Tendency of Atmospheric Burden of Halon 2402|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_cbr2f2||atmosphere_moles_of_halon1202|Atmospheric Burden of Halon 1202|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_cbr2f2||tendency_of_atmosphere_moles_of_halon1202|Tendency of Atmospheric Burden of Halon 1202|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_ch4||atmosphere_moles_of_methane|Atmospheric Burden of CH4|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ch4||tendency_of_atmosphere_moles_of_methane|Tendency of Atmospheric Burden of CH4|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ltr_ch4||tendency_of_troposphere_moles_of_methane|Tendency of Tropospheric Burden of CH4|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_lsm_ch4||tendency_of_middle_atmosphere_moles_of_methane|Tendency of Middle Atmosphere Burden of CH4|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_co||atmosphere_moles_of_carbon_monoxide|Atmospheric Burden of CO|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_co||tendency_of_atmosphere_moles_of_carbon_monoxide|Tendency of Atmospheric Burden of CO|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ltr_co||tendency_of_troposphere_moles_of_carbon_monoxide|Tendency of Tropospheric Burden of CO|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_lsm_co||tendency_of_middle_atmosphere_moles_of_carbon_monoxide|Tendency of Middle Atmosphere Burden of CO|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_h2||atmosphere_moles_of_molecular_hydrogen|Atmospheric Burden of H2|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_h2||tendency_of_atmosphere_moles_of_molecular_hydrogen|Tendency of Atmospheric Burden of H2|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ltr_h2||tendency_of_troposphere_moles_of_molecular_hydrogen|Tendency of Tropospheric Burden of H2|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_lsm_h2||tendency_of_middle_atmosphere_moles_of_molecular_hydrogen|Tendency of Middle Atmosphere Burden of H2|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_ch3cl||atmosphere_moles_of_methyl_chloride|Atmospheric Burden of CH3Cl|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ch3cl||tendency_of_atmosphere_moles_of_methyl_chloride|Tendency of Atmospheric Burden of CH3Cl|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ltr_ch3cl||tendency_of_troposphere_moles_of_methyl_chloride|Tendency of Tropospheric Burden of CH3Cl|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_lsm_ch3cl||tendency_of_middle_atmosphere_moles_of_methyl_chloride|Tendency of Middle Atmosphere Burden of CH3Cl|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_ch3br||atmosphere_moles_of_methyl_bromide|Atmospheric Burden of CH3Br|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ch3br||tendency_of_atmosphere_moles_of_methyl_bromide|Tendency of Atmospheric Burden of CH3Br|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ltr_ch3br||tendency_of_troposphere_moles_of_methyl_bromide|Tendency of Tropospheric Burden of CH3Br|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_lsm_ch3br||tendency_of_middle_atmosphere_moles_of_methyl_bromide|Tendency of Middle Atmosphere Burden of CH3Br|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_ch3ccl3||atmosphere_moles_of_hcc140a|Atmospheric Burden of CH3CCl3|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ch3ccl3||tendency_of_atmosphere_moles_of_hcc140a|Tendency of Atmospheric Burden of CH3CCl3|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ltr_ch3ccl3||tendency_of_troposphere_moles_of_hcc140a|Tendency of Tropospheric Burden of CH3CCl3|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_lsm_ch3ccl3||tendency_of_middle_atmosphere_moles_of_hcc140a|Tendency of Middle Atmosphere Burden of CH3CCl3|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_chclf2||atmosphere_moles_of_hcfc22|Atmospheric Burden of CHClF2|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_chclf2||tendency_of_atmosphere_moles_of_hcfc22|Tendency of Atmospheric Burden of CHClF2|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ltr_chclf2||tendency_of_troposphere_moles_of_hcfc22|Tendency of Tropospheric Burden of CHClF2|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_lsm_chclf2|||Tendency of Middle Atmosphere Burden of CHClF2|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_ch3ccl2f||atmosphere_moles_of_hcfc141b|Atmospheric Burden of CH3CCl2F|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ch3ccl2f||tendency_of_atmosphere_moles_of_hcfc141b|Tendency of Atmospheric Burden of CH3CCl2F|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ltr_ch3ccl2f|||Tendency of Tropospheric Burden of CH3CCl2F|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_lsm_ch3ccl2f|||Tendency of Middle Atmosphere Burden of CH3CCl2F|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_ch3cclf2||atmosphere_moles_of_hcfc142b|Atmospheric Burden of CH3CClF2|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ch3cclf2||tendency_of_atmosphere_moles_of_hcfc142b|Tendency of Atmospheric Burden of CH3CClF2|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ltr_ch3cclf2|||Tendency of Tropospheric Burden of CH3CClF2|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_lsm_ch3cclf2|||Tendency of Middle Atmosphere Burden of CH3CClF2|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_ch2fcf3|||Atmospheric Burden of CH2FCF3|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ch2fcf3|||Tendency of Atmospheric Burden of CH2FCF3|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ltr_ch2fcf3|||Tendency of Tropospheric Burden of CH2FCF3|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_lsm_ch2fcf3|||Tendency of Middle Atmosphere Burden of CH2FCF3|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+burden_c2hf3cl2|||Atmospheric Burden of C2HF3Cl2|time|real|moles|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_c2hf3cl2|||Tendency of Atmospheric Burden of C2HF3Cl2|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_ltr_c2hf3cl2|||Tendency of Tropospheric Burden of C2HF3Cl2|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+tburden_lsm_c2hf3cl2|||Tendency of Middle Atmosphere Burden of C2HF3Cl2|time|real|moles yr-1|area: areacella|time: mean|atmos||||||1.00E+16|0.0|
+grow_seas|||Growing Season|longitude latitude time|real|days|area: areacella|time: sum|atmos||||||400.0|0.0|
+@

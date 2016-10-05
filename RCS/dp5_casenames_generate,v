@@ -1,0 +1,58 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2015.10.26.23.00.46;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2015.09.22.15.47.27;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@#!/bin/csh -f
+#
+set y0 = 1958
+while ($y0 <= 1969)
+  @@ y1 = $y0 + 10
+  foreach i ( 001 002 003 004 005 006 007 008 009 010 )
+     echo "b.e11.BDP.f09_g16."${y0}"-11."${i}"                         CESM1-CAM5          NE   N/A            N/A       dp5  N/A                                     N/A            "${y0}"-"${y1}" "${y0}"-"${y1}" f09_g16   N/A                 N/A                 15/10-15/10    edison    /home/c/ccsm/csm"
+#    echo "b.e11.BDP.f09_g16."${y0}"-11."${i}
+#    echo ${y0}"-"${y1}" "${y0}"-"${y1}
+  end
+  @@ y0 = $y0 + 1
+end
+#
+exit
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d3 2
+a4 2
+set y0 = 1970
+while ($y0 <= 2035)
+d7 1
+d9 1
+a9 1
+    echo ${y0}"-"${y1}" "${y0}"-"${y1}
+@

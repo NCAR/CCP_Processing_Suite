@@ -1,0 +1,335 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.04.26.15.30.40;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@!!$program driver
+!!$  use exp_info
+!!$  implicit none
+!!$  integer::i
+!!$  character(len=256)::exp_file
+!!$  !
+!!$  exp(:)%case(1:)          = ' '
+!!$  exp(:)%model_id(1:)      = ' '
+!!$  exp(:)%loc(1:)           = ' '
+!!$  exp(:)%expt_id(1:)       = ' '
+!!$  exp(:)%rip_code(1:)      = ' '
+!!$  exp(:)%cmip(1:)          = ' '
+!!$  exp(:)%run_refcase(1:)   = ' '
+!!$  exp(:)%run_refdate(1:)   = ' '
+!!$  exp(:)%begin_end(1:)     = ' '
+!!$  exp(:)%grid(1:)          = ' '
+!!$  exp(:)%compset(1:)       = ' '
+!!$  exp(:)%repotag(1:)       = ' '
+!!$  exp(:)%start_fin(1:)     = ' '
+!!$  exp(:)%mach(1:)          = ' '
+!!$  exp(:)%dout(1:)          = ' '
+!!$  exp(:)%forcing(1:)       = ' '
+!!$  exp_file = 'experiments.txt'
+!!$  !
+!!$  call load_exp(exp_file)
+!!$  !
+!!$  do i = 1,num_exp
+!!$!     write(*,'(a,$)') '<tr>'
+!!$!     write(*,'(20(''<td>'',a,''</td>''),$)') &
+!!$     write(*,'(20(a,'',''))') &
+!!$          trim(adjustl(exp(i)%case)),&
+!!$          trim(adjustl(exp(i)%model_id)),&
+!!$          trim(adjustl(exp(i)%loc)),&
+!!$          trim(adjustl(exp(i)%expt_id)),&
+!!$          trim(adjustl(exp(i)%rip_code)),&
+!!$          trim(adjustl(exp(i)%cmip)),&
+!!$          trim(adjustl(exp(i)%run_refcase)),&
+!!$          trim(adjustl(exp(i)%run_refdate)),&
+!!$          trim(adjustl(exp(i)%begin_end)),&
+!!$          trim(adjustl(exp(i)%grid)),&
+!!$          trim(adjustl(exp(i)%compset)),&
+!!$          trim(adjustl(exp(i)%repotag)),&
+!!$          trim(adjustl(exp(i)%start_fin)),&
+!!$          trim(adjustl(exp(i)%mach)),&
+!!$          trim(adjustl(exp(i)%dout)),&
+!!$          trim(adjustl(exp(i)%forcing)),&
+!!$!     write(*,*) '</tr>'
+!!$  enddo
+!!$end program driver
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+subroutine load_exp(exp_file)
+  use exp_info
+  implicit none
+  !
+  integer::iostat,i,j,iexp
+  character(len=256)::instring,exp_file
+  logical::does_exist
+  !
+  ! Get experiment information
+  !
+  ! Master CCSM experiment list
+  !
+  !  Columns   Field
+! JHYoon our runs are w/ longer name
+  !   1 -  80  CCSM case name
+  !   1 -  40  CCSM case name
+! JHYoon
+  !  45 -  64  model_id (CCSM4, CESM-CAM5, CESM-BGC, CESM-CHEM, CESM-WACCM, CESM1-CAM5.1-FV2, etc)
+  !  65 -  66  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+  !  70 -  84  Official MIP name, or very brief description (N/A if not applicable)
+  !  85 -  94  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+  !  95 -  99  MIP (cm3 or cm5) experiment (N/A if not applicable)
+  ! 100 - 139  RUN_REFCASE (parent case)
+  ! 140 - 154  RUN_REFDATE (branch date, yyyy-mm-dd)
+  ! 155 - 164  years of experiment (YYYY if unknown)
+  ! 165 - 174  GRID (resolution)
+  ! 175 - 194  COMPSET (N/A if not applicable)
+  ! 195 - 214  REPOTAG (N/A if not applicable)
+  ! 215 - 234  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+  ! 235 - 244  MACH (hardware)
+  ! 245 - end  DOUT_L_MSROOT (history file location on archive)
+  !
+  inquire(file=trim(exp_file),exist=does_exist)
+  if (.not.(does_exist)) then
+     write(*,*) 'Cannot find ',trim(exp_file),'. Dying.'
+     stop
+  endif
+  !
+  exp(:)%case(1:)          = ' '
+  exp(:)%model_id(1:)      = ' '
+  exp(:)%loc(1:)           = ' '
+  exp(:)%expt_id(1:)       = ' '
+  exp(:)%rip_code(1:)      = ' '
+  exp(:)%cmip(1:)          = ' '
+  exp(:)%run_refcase(1:)   = ' '
+  exp(:)%run_refdate(1:)   = ' '
+  exp(:)%begin_end(1:)     = ' '
+  exp(:)%grid(1:)          = ' '
+  exp(:)%compset(1:)       = ' '
+  exp(:)%repotag(1:)       = ' '
+  exp(:)%start_fin(1:)     = ' '
+  exp(:)%mach(1:)          = ' '
+  exp(:)%dout(1:)          = ' '
+  exp(:)%forcing(1:)       = 'unknown forcings'
+  !
+  open(20,file=trim(adjustl(exp_file)),form='formatted')
+  iostat = 0 ; iexp = 1
+  do while (iostat == 0)
+     instring(1:)  = ' '
+     read(20,'(a)',iostat=iostat) instring
+     if (iostat == 0) then
+        if (instring(1:1) /= '#') then
+! JHYoon
+           exp(iexp)%case(1:)        = adjustl(instring(  1: 80))
+           exp(iexp)%model_id(1:)    = adjustl(instring( 85:104))
+           exp(iexp)%loc(1:)         = adjustl(instring(105:116))
+           exp(iexp)%expt_id(1:)     = adjustl(instring(110:124))
+           exp(iexp)%rip_code(1:)    = adjustl(instring(125:134))
+           if (instring(135:139) == 'cm5') exp(iexp)%cmip(1:) = 'CMIP5'
+           if (instring(135:139) == 'gmp') exp(iexp)%cmip(1:) = 'GeoMIP'
+           exp(iexp)%run_refcase(1:) = adjustl(instring(140:179))
+           exp(iexp)%run_refdate(1:) = adjustl(instring(180:194))
+           exp(iexp)%begin_end(1:)   = adjustl(instring(195:204))
+           exp(iexp)%grid(1:)        = adjustl(instring(205:214))
+           exp(iexp)%compset(1:)     = adjustl(instring(215:234))
+           exp(iexp)%repotag(1:)     = adjustl(instring(235:254))
+           exp(iexp)%start_fin(1:)   = adjustl(instring(255:274))
+           exp(iexp)%mach(1:)        = adjustl(instring(275:284))
+           exp(iexp)%dout(1:)        = adjustl(instring(285:len_trim(instring)))
+
+!          exp(iexp)%case(1:)        = adjustl(instring(  1: 40))
+!          exp(iexp)%model_id(1:)    = adjustl(instring( 45: 64))
+!          exp(iexp)%loc(1:)         = adjustl(instring( 65: 66))
+!          exp(iexp)%expt_id(1:)     = adjustl(instring( 70: 84))
+!          exp(iexp)%rip_code(1:)    = adjustl(instring( 85: 94))
+!          if (instring(95:99) == 'cm5') exp(iexp)%cmip(1:) = 'CMIP5'
+!          if (instring(95:99) == 'gmp') exp(iexp)%cmip(1:) = 'GeoMIP'
+!          exp(iexp)%run_refcase(1:) = adjustl(instring(100:139))
+!          exp(iexp)%run_refdate(1:) = adjustl(instring(140:154))
+!          exp(iexp)%begin_end(1:)   = adjustl(instring(155:164))
+!          exp(iexp)%grid(1:)        = adjustl(instring(165:174))
+!          exp(iexp)%compset(1:)     = adjustl(instring(175:194))
+!          exp(iexp)%repotag(1:)     = adjustl(instring(195:214))
+!          exp(iexp)%start_fin(1:)   = adjustl(instring(215:234))
+!          exp(iexp)%mach(1:)        = adjustl(instring(235:244))
+!          exp(iexp)%dout(1:)        = adjustl(instring(245:len_trim(instring)))
+! JHYoon
+           iexp = iexp + 1
+        endif
+     endif
+  enddo
+  close(20)
+  num_exp = iexp - 1
+  !
+  ! Parse out beginning/ending years
+  do iexp = 1,num_exp
+     if (exp(iexp)%begin_end /= 'YYYY-YYYY') then
+        read(exp(iexp)%begin_end(1:4),'(i4.4)') exp(iexp)%begyr
+        read(exp(iexp)%begin_end(6:9),'(i4.4)') exp(iexp)%endyr
+        exp(iexp)%length = (exp(iexp)%endyr-exp(iexp)%begyr)+1
+     endif
+  enddo
+  ! Possible forcings:
+  ! N/A Nat Ant GHG SD SI SA TO SO Oz LU Sl Vl SS Ds BC MD OC AA
+  !     Description 
+  ! AA  anthropogenic aerosols (a mixture of aerosols, not explicitly defined here) 
+  ! Ant anthropogenic forcing  (a mixture, not explicitly defined here)
+  ! BC  black carbon 
+  ! Ds  Dust 
+  ! GHG well-mixed greenhouse gases (a mixture, not explicitly defined here) 
+  ! LU  land-use change 
+  ! MD  mineral dust 
+  ! Nat natural forcing (a combination, not explicitly defined here)
+  ! OC  organic carbon 
+  ! Oz  (= TO + SO) ozone (= tropospheric and stratospheric ozone) 
+  ! SA  (= SD + SI) anthropogenic sulfate aerosol direct and indirect effects 
+  ! SD  anthropogenic sulfate aerosol, accounting only for direct effects 
+  ! SI  anthropogenic sulfate aerosol, accounting only for indirect effects 
+  ! Sl  solar irradiance
+  ! SO  stratospheric ozone
+  ! SS  sea salt 
+  ! TO  tropospheric ozone 
+  ! Vl  volcanic aerosol
+  !
+  do i = 1,num_exp
+     select case (exp(i)%expt_id)
+     case ('1pctCO2')
+        exp(i)%forcing(1:)      = 'GHG (CO2 only)'
+     case ('abrupt4xCO2')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('amip')
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SA BC MD OC Oz AA'
+     case ('amip4K')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('amip4xCO2')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('amipFuture')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('aqua4K')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('aqua4xCO2')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('aquaControl')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('decadal1961','decadal1966','decadal1971','decadal1975','decadal1976','decadal1980',&
+           'decadal1981','decadal1985','decadal1986','decadal1990','decadal1991','decadal1995','decadal1996')
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU'
+     case ('decadal2000','decadal2001','decadal2002','decadal2003','decadal2004','decadal2005','decadal2006')
+        exp(i)%forcing(1:)      = 'Sl GHG SS Ds SD BC MD OC Oz AA LU'
+     case ('esmControl')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('esmFdbk1')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('esmFdbk2')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('esmFixClim1')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('esmFixClim2')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('esmHistorical')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('esmrcp85')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('historical')
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU'
+     case ('historicalExt')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('historicalGHG')
+        exp(i)%forcing(1:)      = 'GHG (time-varying over course of simulation), Sl Vl LU SS Ds SD BC MD OC Oz AA (all fixed at or cycled over 1850 values)'
+     case ('historicalMisc')
+        select case (trim(adjustl(exp(i)%case)))
+        case ('b40.20th.aero.1deg.006','b40.20th.aero.1deg.008','b40.20th.aero.1deg.012')
+           exp(i)%forcing(1:) = 'SS Ds SD BC MD OC AA (time-varying over course of simulation), Sl GHG Vl LU Oz (all fixed at or cycled over 1850 values)'
+        case ('b40.20th.anthro.1deg.006','b40.20th.anthro.1deg.008','b40.20th.anthro.1deg.009','b40.20th.anthro.1deg.012')
+           exp(i)%forcing(1:) = 'GHG Oz SS Ds SD BC MD OC AA LU (time-varying over course of simulation), Sl Vl (all fixed at or cycled over 1850 values)'
+        case ('b40.20th.bcarb.1deg.008')
+           exp(i)%forcing(1:) = 'BC OC (time-varying over course of simulation), GHG MD AA LU Oz SS Ds SD Sl Vl (all fixed at or cycled over 1850 values)'
+        case ('b40.20th_SFland.1deg.001','b40.20th.land.1deg.008','b40.20th.land.1deg.012')
+           exp(i)%forcing(1:) = 'LU (time-varying over course of simulation), GHG Oz SS Ds SD BC MD OC AA LU Sl Vl (all fixed at or cycled over 1850 values)'
+        case ('b40.20th.oz.1deg.006','b40.20th.oz.1deg.008','b40.20th.oz.1deg.012')
+           exp(i)%forcing(1:) = 'Oz (time-varying over course of simulation), GHG LU SS Ds SD BC MD OC AA LU Sl Vl (all fixed at or cycled over 1850 values)'
+        case ('b40.20th.so4.1deg.008')
+           exp(i)%forcing(1:) = 'SD (time-varying over course of simulation), GHG LU SS Ds Oz BC MD OC AA LU Sl Vl (all fixed at or cycled over 1850 values)'
+        case ('b40.20th.solar.1deg.006','b40.20th.solar.1deg.008','b40.20th.solar.1deg.012')
+           exp(i)%forcing(1:) = 'Sl (time-varying over course of simulation), Vl GHG LU SS Ds SD BC MD OC Oz AA (all fixed at or cycled over 1850 values)'
+        case ('b40.20th.volc.1deg.008','b40.20th.volc.1deg.006','b40.20th.volc.1deg.012')
+           exp(i)%forcing(1:) = 'Vl (time-varying over course of simulation), Sl GHG LU SS Ds SD BC MD OC Oz AA (all fixed at or cycled over 1850 values)'
+        case default
+           write(*,*) 'Unknown historicalMisc case: ',trim(adjustl(exp(i)%case))
+           stop
+        end select
+     case ('historicalNat')
+        exp(i)%forcing(1:)      = 'Sl Vl (time-varying over course of simulation), GHG LU SS Ds SD BC MD OC Oz AA (all fixed at or cycled over 1850 values)'
+     case ('lgm')
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
+     case ('midHolocene')
+        exp(i)%forcing(1:)      = 'Sl GHG Vl SS Ds SD BC MD OC Oz AA LU (all fixed at or cycled over 1850 values)'
+     case ('noVolcXXXX')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('past1000')
+        exp(i)%forcing(1:)      = 'Sl GHG Vl LU (time-varying over course of simulation), SS Ds SD BC MD OC Oz AA (all fixed at or cycled over 1850 values)'
+     case ('piControl')
+        exp(i)%forcing(1:)      = 'Sl GHG SS Ds SD BC MD OC Oz AA (all fixed at 1850 values)'
+     case ('rcp26')
+        exp(i)%forcing(1:)      = 'Sl GHG SS Ds SA BC MD OC Oz AA'
+     case ('rcp45')
+        exp(i)%forcing(1:)      = 'Sl GHG SS Ds SA BC MD OC Oz AA'
+     case ('rcp60')
+        exp(i)%forcing(1:)      = 'Sl GHG SS Ds SA BC MD OC Oz AA'
+     case ('rcp85')
+        exp(i)%forcing(1:)      = 'Sl GHG SS Ds SA BC MD OC Oz AA'
+     case ('sst2030')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('sstClim')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('sstClim4xCO2')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('sstClimAerosol')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('sstClimSulfate')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('volcIn2010')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('G1')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('G2')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     case ('G3S')
+        exp(i)%forcing(1:)      = 'unknown forcings'
+     end select
+  enddo
+  !
+  ! Add grid long name to grid info
+  !
+  do i = 1,num_exp
+     select case (trim(adjustl(exp(i)%grid)))
+     case ('f09_f09')
+        exp(i)%grid(1:) = trim(adjustl(exp(i)%grid))//' (0.9x1.25_0.9x1.25)'
+     case ('f09_g16')
+        exp(i)%grid(1:) = trim(adjustl(exp(i)%grid))//' (0.9x1.25_gx1v6)'
+     case ('f19_f19')
+        exp(i)%grid(1:) = trim(adjustl(exp(i)%grid))//' (1.9x2.5_1.9x2.5)'
+     case ('f19_g16')
+        exp(i)%grid(1:) = trim(adjustl(exp(i)%grid))//' (1.9x2.5_gx1v6)'
+     case ('T31_g37')
+        exp(i)%grid(1:) = trim(adjustl(exp(i)%grid))//' (T31_gx3v7)'
+     case default
+        exp(i)%grid(1:) = 'unknown resolution'
+     end select
+  enddo
+  write(*,'(''Experiments loaded: '',i5,'' entries.'')') num_exp
+end subroutine load_exp
+@

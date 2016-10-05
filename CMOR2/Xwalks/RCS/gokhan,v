@@ -1,0 +1,43 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.09.24.14.57.33;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@CF standard name,CMOR name,sponsor, CMIP5/CMIP6, units, time, shape, grid, level, expt
+ocean_vertical_heat_diffusivity difvho MIX (month # annual) and (hist # all) m2/s annual XYZ native, z/p 3 all
+ocean_vertical_salt_diffusivity difvso MIX (month # annual) and (hist # all) m2/s annual XYZ native, z/p 3 all
+ocean_vertical_tracer_diffusivity_due_to_background difvtrbo MIX (month # annual) and (hist # all) m2/s annual XYZ native, z/p 3 all
+ocean_vertical_tracer_diffusivity_due_to_tides difvtrto MIX (month # annual) and (hist # all) m2/s annual XYZ native, z/p 3 all 
+tendency_of_ocean_potential_energy_content tnpeo MIX (month # annual) and (hist # all) W/ m2 annual XYZ native, z/p 3 all
+tendency_of_ocean_potential_energy_content_due_to_tides tnpeot MIX (month # annual) and (hist # all) W/ m2 annual XYZ native, z/p 3 all
+tendency_of_ocean_potential_energy_content_due_to_background tnpeotb MIX (month # annual) and (hist # all) W/ m2 annual XYZ native, z/p 3 all
+
+CF standard name CMOR name sponsor CMIP5/CMIP6 units time shape grid level expt 
+ocean_tracer_bolus_laplacian_diffusivity diftrblo FAFMIP/SO (month # annual) and (hist # all) m2/s annual XYZ native, z/p 3 all
+ocean_tracer_bolus_biharmonic_diffusivity diftrbbo FAFMIP/SO (month # annual) and (hist # all) m4/s annual XYZ native, z/p 3 all
+ocean_tracer_epineutral_laplacian_diffusivity diftrelo FAFMIP/SO (month # annual) and (hist # all) m2/s annual XYZ native, z/p 3 all
+ocean_tracer_epineutral_biharmonic_diffusivity diftrebo FAFMIP/SO (month # annual) and (hist # all) m4/s annual XYZ native, z/p 3 all
+ocean_tracer_xy_laplacian_diffusivity diftrxylo FAFMIP/SO (month # annual) and (hist # all) m2/s annual XYZ native, z/p 3 all 
+ocean_tracer_xy_biharmonic_diffusivity diftrxybo FAFMIP/SO (month # annual) and (hist # all) m4/s annual XYZ native, z/p 3 all
+tendency_of_ocean_eddy_kinetic_energy_content_due_to_bolus_transport tnkebto FAFMIP/SO (month # annual) and (hist # all) W/ m2 annual XYZ native, z/p 3 all
+ocean_momentum_xy_laplacian_diffusivity difmxylo FAFMIP/SO (month # annual) and (hist # all) m2/s annual XYZ native, z/p 3 all
+ocean_momentum_xy_biharmonic_diffusivity difmxybo FAFMIP/SO (month # annual) and (hist # all) m4/s annual XYZ native, z/p 3 all
+ocean_kinetic_energy_dissipation_per_unit_area_due_to_xy_friction dispkexyfo FAFMIP/SO (month # annual) and (hist # all) W/ m2 annual XYZ native, z/p 3 all
+@

@@ -1,0 +1,194 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2012.04.05.15.17.33;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.04.05.15.16.34;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@program time_coordinate
+  !
+  use counters_netcdf_jfl
+  use interfaces_netcdf_jfl
+  use definitions_netcdf_jfl
+  use files_info
+  use netcdf
+  implicit none
+  !
+  real::var1,var2
+  integer::ivar,begyr,endyr
+  integer::length,n,i,j,k,idx,nt1,nt2,filen,file1,file2
+  character(len=256)::case,comp,table
+  character(len=256),dimension(2)::cesm_var
+  !
+  case = 'b40_1850_1d_b08c5cn_138j'
+  comp = 'cam2.h0'
+  cesm_var(1) = 'QS'
+  cesm_var(2) = 'T'
+  begyr = 1
+  endyr = 319
+  table = 'Tables/CMIP5_Amon'
+  !
+  do ivar = 1,2
+     call build_filenames(case,comp,cesm_var(ivar),ivar,begyr,endyr,table)
+  enddo
+  write(*,'(''nfiles: '',5i10)') (nc_nfiles(ivar),ivar=1,2)
+  !
+  do ivar = 1,2
+     do filen = 1,nc_nfiles(ivar)
+        call open_cdf(myncid(filen,ivar),ncfile(filen,ivar),.true.)
+        call get_dims(myncid(filen,ivar))
+        call get_vars(myncid(filen,ivar))
+        do n = 1,dim_counter
+           length = len_trim(dim_info(n)%name)
+           if(dim_info(n)%name(:length).eq.'time') then
+              ntimes(filen,ivar) = dim_info(n)%length
+           endif
+        enddo
+        do n = 1,ntimes(filen,ivar)
+           time_counter = n
+           call read_var(myncid(filen,ivar),'time',timevals(filen,ivar,n))
+        enddo
+     enddo
+  enddo
+  do ivar = 1,2
+     do filen = 1,nc_nfiles(ivar)
+        write(*,'(a60,5x,2i10,2f15.3)') trim(ncfile(filen,ivar)),myncid(filen,ivar)/65536,ntimes(filen,ivar),timevals(filen,ivar,1),timevals(filen,ivar,ntimes(filen,ivar))
+     enddo
+  enddo
+  write(*,'(''    ntimes 1: '',32i4)') (ntimes(j,1),j=1,nc_nfiles(1))
+  write(*,'(''SUM ntimes 1: '',i4)')    sum(ntimes(:,1))
+  write(*,*)
+  write(*,'(''    ntimes 2: '',32i4)') (ntimes(j,2),j=1,nc_nfiles(2))
+  write(*,'(''SUM ntimes 2: '',i4)')    sum(ntimes(:,2))
+  !
+  do file1 = 1,nc_nfiles(1)
+     do nt1 = 1,ntimes(file1,1)
+        do file2 = 1,nc_nfiles(2)
+           do nt2 = 1,ntimes(file2,2)
+              if (timevals(file1,1,nt1) == timevals(file2,2,nt2)) then
+                 time_counter = nt1 ; call read_var(myncid(file1,1),cesm_var(1),var1)
+                 time_counter = nt2 ; call read_var(myncid(file2,2),cesm_var(2),var2)
+                 write(*,'(''MATCH: '',4f12.3)')  timevals(file1,1,nt1),var1,timevals(file2,2,nt2),var2
+              endif
+           enddo
+        enddo
+     enddo
+  enddo
+end program time_coordinate
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d6 1
+d10 34
+a43 59
+  integer,dimension(:)  ,allocatable::match_time
+  real   ,dimension(:)  ,allocatable::time_ps,ps
+  real   ,dimension(:,:),allocatable::time_t,temp
+  real::ps1,temp1
+  integer::ncid_ps,nt_ps
+  integer::length,n,i,j,k,idx
+  integer,dimension(32)::ncid_t,nt_t
+  character(len=132)::psfile,prefix_t
+  character(len=132),dimension(32)::tfile
+  character(len= 17),dimension(32)::suffix_t
+  !
+  psfile   = 'b40_1850_1d_b08c5cn_138j.cam2.h0.PS.000101-031912.nc'
+  prefix_t = 'b40_1850_1d_b08c5cn_138j.cam2.h0.T.'
+  suffix_t = (/'000101-000912.nc','001001-001912.nc','002001-002912.nc','003001-003912.nc','004001-004912.nc','005001-005912.nc','006001-006912.nc','007001-007912.nc',&
+               '008001-008912.nc','009001-009912.nc','010001-010912.nc','011001-011912.nc','012001-012912.nc','013001-013912.nc','014001-014912.nc','015001-015912.nc',&
+               '016001-016912.nc','017001-017912.nc','018001-018912.nc','019001-019912.nc','020001-020912.nc','021001-021912.nc','022001-022912.nc','023001-023912.nc',&
+               '024001-024912.nc','025001-025912.nc','026001-026912.nc','027001-027912.nc','028001-028912.nc','029001-029912.nc','030001-030912.nc','031001-031912.nc'/)
+  !
+  call open_cdf(ncid_ps,psfile,.true.)
+  call get_dims(ncid_ps)
+  call get_vars(ncid_ps)
+  !
+!!$  do n = 1,var_counter
+!!$     write(*,'(i5,5x,a,5x,i5,5x,a,5x,a,5x,a,5x,a)') &
+!!$          n,trim(var_info(n)%name),var_info(n)%id,trim(var_info(n)%format),trim(var_info(n)%type),trim(var_info(n)%file_name),trim(var_info(n)%units)
+!!$  enddo
+  do n = 1,dim_counter
+     length = len_trim(dim_info(n)%name)
+     if(dim_info(n)%name(:length).eq.'time') then
+        nt_ps = dim_info(n)%length
+     endif
+  enddo
+  allocate(time_ps(nt_ps),match_time(nt_ps),ps(nt_ps))
+  do n=1,nt_ps
+     time_counter = n
+     call read_var(ncid_ps,'time',time_ps(n))
+     call read_var(ncid_ps,'PS',ps(n))
+  enddo
+  idx = ncid_ps/65536
+  write(*,'(i5,2x,i10,2x,a,5x,a,i8,2x,2f12.4)')  idx,ncid_ps,trim(psfile),trim(nc_filename(idx)),nt_ps,time_ps(1),time_ps(nt_ps)
+  do n=1,nt_ps
+     write(*,'(i5,2x,i10,2x,a,5x,a,i8,2x,2f12.4)')  n,ncid_ps,trim(psfile),trim(nc_filename(idx)),nt_ps,time_ps(n),ps(n)
+  enddo
+  !
+  allocate(time_t(32,120),temp(32,120))
+  do i = 1,32
+     call open_cdf(ncid_t(i),trim(prefix_t)//trim(suffix_t(i)),.true.)
+     call get_dims(ncid_t(i))
+     call get_vars(ncid_t(i))
+     do n = 1,dim_counter
+        length = len_trim(dim_info(n)%name)
+        if(dim_info(n)%name(:length).eq.'time') then
+           nt_t(i) = dim_info(n)%length
+        endif
+     enddo
+     do n = 1,nt_t(i)
+        time_counter = n
+        call read_var(ncid_t(i),'time',time_t(i,n))
+        call read_var(ncid_t(i),'T',temp(i,n))
+a44 3
+     idx = ncid_t(i)/65536
+     write(*,'(i5,2x,i10,2x,a,5x,a,i8,2x,2f12.3)')  &
+          idx,ncid_t(i),trim(prefix_t)//trim(suffix_t(i)),trim(nc_filename(idx)),nt_t(i),time_t(i,1),time_t(i,nt_t(i))
+d46 3
+a48 4
+  do i = 1,32
+     do n = 1,nt_t(i)
+        write(*,'(i5,2x,i10,2x,a,5x,a,i8,2x,2f12.3)')  &
+             n,ncid_t(i),trim(prefix_t)//trim(suffix_t(i)),trim(nc_filename(idx)),nt_t(i),time_t(i,n),temp(i,n)
+d51 16
+a66 12
+  !
+  do j = 1,nt_ps
+     do i = 1,32
+        do n = 1,nt_t(i)
+           if (time_ps(j) == time_t(i,n)) then
+              match_time(j) = j
+              time_counter = j
+              call read_var(ncid_ps,'PS',ps1)
+              time_counter = n
+              call read_var(ncid_t(i),'T',temp1)
+              write(*,'(''MATCH: '',i10,3f12.3,2i10,3f12.3)')  match_time(j),time_ps(j),ps(j),ps1,i,n,time_t(i,n),temp(i,n),temp1
+           endif
+a69 1
+  !
+@

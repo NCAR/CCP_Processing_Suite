@@ -1,0 +1,77 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2012.01.31.00.03.19;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.01.19.16.19.08;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@ variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min
+variable|p0|||vertical coordinate formula term: reference pressure|||Pa|||||||||||
+variable|ptop|||pressure at top of model|||Pa|||||||||||
+variable|a|||vertical coordinate formula term: a(k)|alevel|double||||||||||||
+variable|b|||vertical coordinate formula term: b(k)|alevel|double||||||||||||
+variable|a_bnds|||vertical coordinate formula term: a(k+1/2)|alevel|double||||||||||||
+variable|b_bnds|||vertical coordinate formula term: b(k+1/2)|alevel|double||||||||||||
+variable|ap|||vertical coordinate formula term: ap(k)|alevel|double|Pa|||||||||||
+variable|ap_bnds|||vertical coordinate formula term: ap(k+1/2)|alevel|double|Pa|||||||||||
+variable|ztop|||height of top of model|||m|||||||||||
+variable|ta|ta|air_temperature|Air Temperature|longitude latitude alevel time1|real|K|area: areacella||atmos||||||||
+variable|ua|ua|eastward_wind|Eastward Wind|longitude latitude alevel time1|real|m s-1|||atmos||||||||
+variable|va|va|northward_wind|Northward Wind|longitude latitude alevel time1|real|m s-1|||atmos||||||||
+variable|hus|hus|specific_humidity|Specific Humidity|longitude latitude alevel time1|real|1|area: areacella||atmos||||||||
+variable|ps|ps|surface_air_pressure|Surface Air Pressure|longitude latitude time1|real|Pa|area: areacella||atmos||||||||
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 14
+a15 24
+axis:longitude:lon:longitude:longitude::double:degrees_east::::yes::::increasing:360.0:0.0:
+axis:latitude:lat:latitude:latitude::double:degrees_north::::yes::::increasing:90.0:-90.0:
+axis:time1:time:time:time::double:days since ?::::no::::increasing:::
+axis:smooth_level:lev:atmosphere_sleve_coordinate:atmosphere smooth level vertical (SLEVE) coordinate:::m::::yes:::	      up:increasing:800000.:-200.:
+axis:natural_log_pressure:lev:atmosphere_ln_pressure_coordinate:atmosphere natural log pressure coordinate:::::::yes:::	      down:decreasing:20.:-1.:
+axis:standard_sigma:lev:atmosphere_sigma_coordinate:sigma coordinate:::::::yes:::down:decreasing:1.0:0.0:
+axis:standard_hybrid_sigma:lev:atmosphere_hybrid_sigma_pressure_coordinate:hybrid sigma pressure coordinate:::1::::yes:::down:decreasing:1.0:0.0:
+axis:alternate_hybrid_sigma:lev:atmosphere_hybrid_sigma_pressure_coordinate:hybrid sigma pressure coordinate:::1::::yes:::down:decreasing:1.0:0.0:
+axis:hybrid_height:lev:atmosphere_hybrid_height_coordinate:hybrid height coordinate:::m::::yes:::up:increasing::0.0:
+variable:orog:orog:surface_altitude:Surface Altitude:longitude latitude:real:m:::atmos::::::1.00E+04:-700:
+variable:p0:::vertical coordinate formula term: reference pressure:::Pa:::::::::::
+variable:ptop:::pressure at top of model:::Pa:::::::::::
+variable:a:::vertical coordinate formula term: a(k):alevel:double::::::::::::
+variable:b:::vertical coordinate formula term: b(k):alevel:double::::::::::::
+variable:a_bnds:::vertical coordinate formula term: a(k+1/2):alevel:double::::::::::::
+variable:b_bnds:::vertical coordinate formula term: b(k+1/2):alevel:double::::::::::::
+variable:ap:::vertical coordinate formula term: ap(k):alevel:double:Pa:::::::::::
+variable:ap_bnds:::vertical coordinate formula term: ap(k+1/2):alevel:double:Pa:::::::::::
+variable:ztop:::height of top of model:::m:::::::::::
+variable:ta:ta:air_temperature:Air Temperature:longitude latitude alevel time1:real:K:area: areacella::atmos::::::::
+variable:ua:ua:eastward_wind:Eastward Wind:longitude latitude alevel time1:real:m s-1:::atmos::::::::
+variable:va:va:northward_wind:Northward Wind:longitude latitude alevel time1:real:m s-1:::atmos::::::::
+variable:hus:hus:specific_humidity:Specific Humidity:longitude latitude alevel time1:real:1:area: areacella::atmos::::::::
+variable:ps:ps:surface_air_pressure:Surface Air Pressure:longitude latitude time1:real:Pa:area: areacella::atmos::::::::
+@

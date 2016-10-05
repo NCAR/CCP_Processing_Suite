@@ -1,0 +1,201 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.01.31.15.23.47;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@|lon|longitude|longitude||double|degrees_east||||yes||||increasing|360.0|0.0|
+|lat|latitude|latitude||double|degrees_north||||yes||||increasing|90.0|-90.0|
+|plev|air_pressure|pressure||double|Pa||||no|||down|decreasing|||
+|plev|air_pressure|pressure||double|Pa||||no|||down|decreasing|||
+|plev|air_pressure|pressure||double|Pa||||no|||down|decreasing|||
+|plev|air_pressure|pressure||double|Pa||||no|||down|decreasing|||
+|plev|air_pressure|pressure||double|Pa||||no|||down|decreasing|||
+|plev|air_pressure|pressure||double|Pa||||no|||down|decreasing|||
+|plev|air_pressure|pressure||double|Pa||||no|||down|decreasing|||
+|plev|air_pressure|pressure||double|Pa||||no|||down|decreasing|||
+|plev|air_pressure|pressure||double|Pa||||no|||down|decreasing|||
+|plev|air_pressure|pressure||double|Pa||||no|||down|decreasing|||
+|plev|air_pressure|pressure||double|Pa||||no|||down|decreasing|||
+|plev|air_pressure|pressure||double|Pa||||no|||down|decreasing|||
+|height|height|height||double|m||||no|||up|increasing|10.0|1.0|
+|potemp|air_potential_temperature|Potential Temperature||double|K||||no|||up|increasing|880.0|800.0|
+|potemp|air_potential_temperature|Potential Temperature||double|K||||no|||up|increasing|520.0|440.0|
+|time|time|time||double|days since ?||||yes||||increasing|||
+|lev|atmosphere_sleve_coordinate|atmosphere smooth level vertical (SLEVE) coordinate|||m||||yes|||up|increasing|800000.|-200.|
+|lev|atmosphere_ln_pressure_coordinate|atmosphere natural log pressure coordinate|||||||yes|||down|decreasing|20.|-1.|
+|lev|atmosphere_sigma_coordinate|sigma coordinate|||||||yes|||down|decreasing|1.0|0.0|
+|lev|atmosphere_hybrid_sigma_pressure_coordinate|hybrid sigma pressure coordinate|||1||||yes|||down|decreasing|1.0|0.0|
+|lev|atmosphere_hybrid_sigma_pressure_coordinate|hybrid sigma pressure coordinate|||1||||yes|||down|decreasing|1.0|0.0|
+|lev|atmosphere_hybrid_height_coordinate|hybrid height coordinate|||m||||yes|||up|increasing||0.0|
+orog|orog|surface_altitude|Surface Altitude|longitude latitude|real|m|||atmos||||||1.00E+04|-700|
+p0|||vertical coordinate formula term: reference pressure|||Pa|||||||||||
+ptop|||pressure at top of model|||Pa|||||||||||
+a|||vertical coordinate formula term: a(k)|alevel|double|1|||||||||||
+b|||vertical coordinate formula term: b(k)|alevel|double|1|||||||||||
+a_bnds|||vertical coordinate formula term: a(k+1/2)|alevel|double|1|||||||||||
+b_bnds|||vertical coordinate formula term: b(k+1/2)|alevel|double|1|||||||||||
+ap|||vertical coordinate formula term: ap(k)|alevel|double|Pa|||||||||||
+ap_bnds|||vertical coordinate formula term: ap(k+1/2)|alevel|double|Pa|||||||||||
+ztop|||height of top of model|||m|||||||||||
+ccmi_year|||CCMI Year|time|integer|year|||||||||||
+ccmi_month|||CCMI Month|time|integer|month|||||||||||
+ccmi_day|||CCMI Day|time|integer|day|||||||||||
+ccmi_hour|||CCMI Hour|time|integer|hour|||||||||||
+ccmi_minute|||CCMI Minute|time|integer|minute|||||||||||
+ps||surface_air_pressure|Surface Air Pressure|longitude latitude time|real|Pa|area: areacella|time: point|atmos||||||1000000.0|0.0|
+ua10||eastward_wind|Eastward Wind at 10 hPa|longitude latitude time pr10|real|m s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+ua100||eastward_wind|Eastward Wind at 100 hPa|longitude latitude time pr100|real|m s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+ua500||eastward_wind|Eastward Wind at 500 hPa|longitude latitude time pr500|real|m s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+ua850||eastward_wind|Eastward Wind at 850 hPa|longitude latitude time pr850|real|m s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+ua1000||eastward_wind|Eastward Wind at 1000 hPa|longitude latitude time pr1000|real|m s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+va10||northward_wind|Northward Wind at 10 hPa|longitude latitude time pr10|real|m s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+va50||northward_wind|Northward Wind at 50 hPa|longitude latitude time pr50|real|m s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+va100||northward_wind|Northward Wind at 100 hPa|longitude latitude time pr100|real|m s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+va500||northward_wind|Northward Wind at 500 hPa|longitude latitude time pr500|real|m s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+va1000||northward_wind|Northward Wind at 1000 hPa|longitude latitude time pr1000|real|m s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+wa50||upward_air_velocity|Upward Wind at 50 hPa|longitude latitude time pr50|real|m s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+ta5||air_temperature|Air Temperature at 5 hPa|longitude latitude time pr5|real|K|area: areacella|time: point|atmos||||||1000.0|0.0|
+ta10||air_temperature|Air Temperature at 10 hPa|longitude latitude time pr10|real|K|area: areacella|time: point|atmos||||||1000.0|0.0|
+ta30||air_temperature|Air Temperature at 30 hPa|longitude latitude time pr30|real|K|area: areacella|time: point|atmos||||||1000.0|0.0|
+ta40||air_temperature|Air Temperature at 40 hPa|longitude latitude time pr40|real|K|area: areacella|time: point|atmos||||||1000.0|0.0|
+ta50||air_temperature|Air Temperature at 50 hPa|longitude latitude time pr50|real|K|area: areacella|time: point|atmos||||||1000.0|0.0|
+ta70||air_temperature|Air Temperature at 70 hPa|longitude latitude time pr70|real|K|area: areacella|time: point|atmos||||||1000.0|0.0|
+ta100||air_temperature|Air Temperature at 100 hPa|longitude latitude time pr100|real|K|area: areacella|time: point|atmos||||||1000.0|0.0|
+ta1000||air_temperature|Air Temperature at 1000 hPa|longitude latitude time pr1000|real|K|area: areacella|time: point|atmos||||||1000.0|0.0|
+tas||air_temperature|Near-Surface Air Temperature|longitude latitude time height2m|real|K|area: areacella|time: point|atmos||||||1000.0|0.0|
+sfta||surface_temperature|Surface Temperature|longitude latitude time|real|K|area: areacella|time: point|atmos||||||1000.0|0.0|
+zg10||geopotential_height|Geopotential Height at 10 hPa|longitude latitude time pr10|real|m|area: areacella|time: point|atmos||||||50000.0|10000.0|
+zg100||geopotential_height|Geopotential Height at 100 hPa|longitude latitude time pr100|real|m|area: areacella|time: point|atmos||||||40000.0|0.0|
+zg500||geopotential_height|Geopotential Height at 500 hPa|longitude latitude time pr500|real|m|area: areacella|time: point|atmos||||||20000.0|0.0|
+zg1000||geopotential_height|Geopotential Height at 1000 hPa|longitude latitude time pr1000|real|m|area: areacella|time: point|atmos||||||10000.0|-1000.0|
+vorpot840||ertel_potential_vorticity|Potential Vorticity on 840K|longitude latitude time pot840|real|K m2 kg-1 s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+vorpot480||ertel_potential_vorticity|Potential Vorticity on 480K|longitude latitude time pot480|real|K m2 kg-1 s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+dytoz||equivalent_thickness_at_stp_of_atmosphere_ozone_content|Total Column Ozone|longitude latitude time|real|DU|area: areacella|time: point|atmos||||||5000.0|0.0|
+dyrsds||surface_downwelling_shortwave_flux_in_air|Surface Downwelling Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: point|atmos||||down||10000.0|-0.1|
+dyrsdscs||surface_downwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Downwelling Clear-Sky Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: point|atmos||||down||10000.0|-0.1|
+dyrlut||toa_outgoing_longwave_flux|TOA Outgoing Longwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: point|atmos||||up||10000.0|-0.1|
+snd||surface_snow_thickness|Snow Depth|longitude latitude time|real|m|area: areacella|time: point|atmos||||||1000.0|0.0|
+snw||surface_snow_amount|Surface Snow Amount|longitude latitude time|real|kg m-2|area: areacella|time: point|atmos||||||10000.0|0.0|
+tasmin||air_temperature|Daily Minimum Near-Surface Air Temperature|longitude latitude time height2m|real|K|area: areacella|time: minimum|atmos||||||1000.0|0.0|
+tasmax||air_temperature|Daily Maximum Near-Surface Air Temperature|longitude latitude time height2m|real|K|area: areacella|time: maximum|atmos||||||1000.0|0.0|
+tpp|||Tropopause Pressure|longitude latitude time|real|Pa|area: areacella|time: point|atmos||||||1000000.0|100.0|
+sfvmrco_25|||co_25 Mass Mixing Ratio in Surface Layer|longitude latitude time|real|kg kg-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sfmmrso2t|||so2t Mass Mixing Ratio in Surface Layer|longitude latitude time|real|kg kg-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sfmmraerno3||mass_fraction_of_nitrate_dry_aerosol_in_air|Aerosol Nitrate Mass Mixing Ratio in the Lowest Model Layer|longitude latitude time|real|kg kg-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sfmmraerso4||mass_fraction_of_sulfate_dry_aerosol_in_air|Aerosol Sulfate Mass Mixing Ratio in the Lowest Model Layer|longitude latitude time|real|kg kg-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sfmmraernh4||mass_fraction_of_ammonium_dry_aerosol_in_air|Aerosol Ammonium Mass Mixing Ratio in the Lowest Model Layer|longitude latitude time|real|kg kg-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sfmmrbc||mass_fraction_of_black_carbon_dry_aerosol_in_air|BC Mass Mixing Ratio in the Lowest Model Layer|longitude latitude time|real|kg kg-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sfmmrpom||mass_fraction_of_particulate_organic_matter_dry_aerosol_in_air|POM Mass Mixing Ratio in the Lowest Model Layer|longitude latitude time|real|kg kg-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sfmmrsoa||mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_in_air|SOA Mass Mixing Ratio in the Lowest Model Layer|longitude latitude time|real|kg kg-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sfmmrss||mass_fraction_of_seasalt_dry_aerosol_in_air|Sea Salt Mass Mixing Ratio in Lowest Model Layer|longitude latitude time|real|kg kg-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sfmmrdust||mass_fraction_of_dust_dry_aerosol_in_air|Dust Aerosol Mass Mixing Ratio in Lowest Model Layer|longitude latitude time|real|kg kg-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sfmmraerh2o||mass_fraction_of_water_in_ambient_aerosol_in_air|Aerosol Water Mass Mixing Ratio in Lowest Model Layer|longitude latitude time|real|kg kg-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sfvmro3||mole_fraction_of_ozone_in_air|Ozone Volume Mixing Ratio in Lowest Model Layer|longitude latitude time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+pr||precipitation_flux|Precipitation|longitude latitude time|real|kg m-2 s-1|area: areacella|time: point|atmos||||||1000.0|0.0|
+maxpblz||atmosphere_boundary_layer_thickness|Daily Maximum PBL Height|longitude latitude time|real|m|area: areacella|time: maximum|atmos||||||20000.0|0.0|
+minpblz||atmosphere_boundary_layer_thickness|Daily Minimum PBL Height|longitude latitude time|real|m|area: areacella|time: minimum|atmos||||||20000.0|0.0|
+cod||atmosphere_optical_thickness_due_to_cloud|Cloud Optical Depth|longitude latitude time|real|1|area: areacella|time: point|atmos||||||100000.0|0.0|
+clt||cloud_area_fraction|Total Cloud Fraction|longitude latitude time|real|%|area: areacella|time: point|atmos||||||101.0|0.0|
+vmrco_50ea700|||co_50_ea Volume Mixing Ratio at 700 hPa|longitude latitude time pr700|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrco_50na700|||co_50_na Volume Mixing Ratio at 700 hPa|longitude latitude time pr700|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrco_50eu700|||co_50_eu Volume Mixing Ratio at 700 hPa|longitude latitude time pr700|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrco_50sa700|||co_50_sa Volume Mixing Ratio at 700 hPa|longitude latitude time pr700|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sic||sea_ice_area_fraction|Sea Ice Area Fraction|longitude latitude time|real|%|area: areacella|time: point|atmos||||||101.0|0.0|
+pmlev||air_pressure|Air Pressure|longitude latitude alevel time|real|Pa|area: areacella|time: point|atmos||||||1000000.0|0.0|
+pilev|||Air Pressure at Interfaces|longitude latitude alevel time|real|Pa|area: areacella|time: point|atmos||||||1000000.0|0.0|
+ta||air_temperature|Air Temperature|longitude latitude alevel time|real|K|area: areacella|time: point|atmos||||||1000.0|0.0|
+ua||eastward_wind|Eastward Wind|longitude latitude alevel time|real|m s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+va||northward_wind|Northward Wind|longitude latitude alevel time|real|m s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+wap||lagrangian_tendency_of_air_pressure|omega (=dp/dt)|longitude latitude alevel time|real|Pa s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+zg||geopotential_height|Geopotential Height|longitude latitude alevel time|real|m|area: areacella|time: point|atmos||||||500000.0|-1000.0|
+vmro3||mole_fraction_of_ozone_in_air|O3 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrn2o||mole_fraction_of_nitrous_oxide_in_air|N2O Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrch4||mole_fraction_of_methane_in_air|CH4 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrhcl||mole_fraction_of_hydrogen_chloride_in_air|HCl Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrh2o||mole_fraction_of_water_vapor_in_air|H2O Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmro3psv|||Passive O3 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sad_sulf|||Surface Area Density of Sulfate Aerosol|longitude latitude alevel time|real|m-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sad_nat|||Surface Area Density of NAT PSC Particles|longitude latitude alevel time|real|m-1|area: areacella|time: point|atmos||||||1.0|0.0|
+sad_ice|||Surface Area Density of Water Ice PSC Particles|longitude latitude alevel time|real|m-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrcfcl3||mole_fraction_of_cfc11_in_air|CFCl3 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrcf2cl2||mole_fraction_of_cfc12_in_air|CF2Cl2 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrch3cl||mole_fraction_of_methyl_chloride_in_air|CH3Cl Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrch3br||mole_fraction_of_methyl_bromide_in_air|CH3Br Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrcl||mole_fraction_of_atomic_chlorine_in_air|Atomic Cl Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrclo||mole_fraction_of_chlorine_monoxide_in_air|ClO Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrcl2o2||mole_fraction_of_dichlorine_peroxide_in_air|ClOOCl Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrhocl||mole_fraction_of_hypochlorous_acid_in_air|HOCl Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrclono2||mole_fraction_of_chlorine_nitrate_in_air|ClONO2 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmroclo||mole_fraction_of_chlorine_dioxide_in_air|OClO Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrcly||mole_fraction_of_inorganic_chlorine_in_air|Total Inorganic Chlorine (Cly) Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmroh||mole_fraction_of_hydroxyl_radical_in_air|OH Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrho2||mole_fraction_of_hydroperoxyl_radical_in_air|HO2 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrh2o2||mole_fraction_of_hydrogen_peroxide_in_air|H2O2 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrh2||mole_fraction_of_molecular_hydrogen_in_air|H2 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrn||mole_fraction_of_atomic_nitrogen_in_air|Atomic N Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrno||mole_fraction_of_nitrogen_monoxide_in_air|NO Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrno2||mole_fraction_of_nitrogen_dioxide_in_air|NO2 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrhno3||mole_fraction_of_nitric_acid_in_air|HNO3 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrn2o5||mole_fraction_of_dinitrogen_pentoxide_in_air|N2O5 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrhno4||mole_fraction_of_peroxynitric_acid_in_air|HNO4 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrnoy||mole_fraction_of_total_reactive_nitrogen_in_air|Total Reactive Nitrogen (NOy) Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrbr||mole_fraction_of_atomic_bromine_in_air|Atomic Br Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrbro||mole_fraction_of_bromine_monoxide_in_air|BrO Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrbrcl||mole_fraction_of_bromine_chloride_in_air|BrCl Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrhbr||mole_fraction_of_hydrogen_bromide_in_air|HBr Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrhobr||mole_fraction_of_hypobromous_acid_in_air|HOBr Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrbrono2||mole_fraction_of_bromine_nitrate_in_air|BrONO2 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrbry||mole_fraction_of_total_inorganic_bromine_in_air|Total Inorganic Bromine (Bry) Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrch2o||mole_fraction_of_formaldehyde_in_air|CH2O Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrch3ooh||mole_fraction_of_methyl_hydroperoxide_in_air|CH3OOH Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrco||mole_fraction_of_carbon_monoxide_in_air|CO Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrco2||mole_fraction_of_carbon_dioxide_in_air|CO2 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+mean_age||age_of_stratospheric_air|Mean Age of Stratospheric Air|longitude latitude alevel time|real|years|area: areacella|time: point|atmos||||||20.0|0.0|
+vmrc2h6||mole_fraction_of_ethane_in_air|C2H6 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrc2h2||mole_fraction_of_ethyne_in_air|C2H2 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmrhcn||mole_fraction_of_hydrogen_cyanide_in_air|HCN Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+tntsw||tendency_of_air_temperature_due_to_shortwave_heating|Shortwave Heating Rate|longitude latitude alevel time|real|K s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+tntlw||tendency_of_air_temperature_due_to_longwave_heating|Longwave Heating Rate|longitude latitude alevel time|real|K s-1|area: areacella|time: point|atmos||||||1000.0|-1000.0|
+cl||cloud_area_fraction_in_atmosphere_layer|Cloud Area Fraction|longitude latitude alevel time|real|%|area: areacella|time: point|atmos||||||101.0|0.0|
+clc||convective_cloud_area_fraction_in_atmosphere_layer|Convective Cloud Area Fraction|longitude latitude alevel time|real|%|area: areacella|time: point|atmos||||||101.0|0.0|
+vmro3ste|||O3ste Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmre90|||e90 Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmre90n|||e90n Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+vmre90s|||e90s Volume Mixing Ratio|longitude latitude alevel time|real|mole mole-1|area: areacella|time: point|atmos||||||1.0|0.0|
+zmta||air_temperature|Air Temperature|longitude latitude plevs time|real|K|area: areacella|time: mean longitude: mean|atmos||||||1000000.0|0.0|
+zmzg||geopotential_height|Geopotential Height|longitude latitude plevs time|real|m|area: areacella|time: mean longitude: mean|atmos||||||500000.0|-1000.0|
+zmua||eastward_wind|Eastward Wind|longitude latitude plevs time|real|m s-1|area: areacella|time: mean longitude: mean|atmos||||||500.0|-500.0|
+vstar||northward_transformed_eulerian_mean_air_velocity|Northward TEM air velocity|longitude latitude plevs time|real|m s-1|area: areacella|time: mean longitude: mean|atmos||||||500.0|-500.0|
+wstar|||Upward TEM air velocity|longitude latitude plevs time|real|m s-1|area: areacella|time: mean longitude: mean|atmos||||||500.0|-500.0|
+fy||northward_eliassen_palm_flux_in_air|Northward EPF|longitude latitude plevs time|real|kg s-2|area: areacella|time: mean longitude: mean|atmos||||||10000.0|-10000.0|
+fz||upward_eliassen_palm_flux_in_air|Upward EPF|longitude latitude plevs time|real|kg s-2|area: areacella|time: mean longitude: mean|atmos||||||10000.0|-10000.0|
+accel_divf||tendency_of_eastward_wind_due_to_eliassen_palm_flux_divergence|Tendency of Eastward Wind from EPF Divergence|longitude latitude plevs time|real|m s-2|area: areacella|time: mean longitude: mean|atmos||||||1000.0|-1000.0|
+zmo3||mole_fraction_of_ozone_in_air|Ozone Volume Mixing Ratio|longitude latitude plevs time|real|mole mole-1|area: areacella|time: mean longitude: mean|atmos||||||1.0|0.0|
+zmh2o||mole_fraction_of_water_vapor_in_air|Water Vapour Volume Mixing Ratio|longitude latitude plevs time|real|mole mole-1|area: areacella|time: mean longitude: mean|atmos||||||1.0|0.0|
+zmnoy||mole_fraction_of_total_reactive_nitrogen_in_air|Total Reactive Nitrogen Volume Mixing Ratio|longitude latitude plevs time|real|mole mole-1|area: areacella|time: mean longitude: mean|atmos||||||1.0|0.0|
+zmclo||mole_fraction_of_chlorine_monoxide_in_air|ClO volume mixing ratio|longitude latitude plevs time|real|mole mole-1|area: areacella|time: mean longitude: mean|atmos||||||1.0|0.0|
+zmbro||mole_fraction_of_bromine_monoxide_in_air|BrO volume mixing ratio|longitude latitude plevs time|real|mole mole-1|area: areacella|time: mean longitude: mean|atmos||||||1.0|0.0|
+psca_nh50|||Area of PSC at 50 hPa over the Arctic|time pr50|real|m2|area: areacella|area|atmos||||||5.0E+14|0.0|
+psca_sh50|||Area of PSCs at 50 hPa over the Antarctic|time pr50|real|m2|area: areacella|area|atmos||||||5.0E+14|0.0|
+area188k_nh50|||Area over the Arctic at 50 hPa with Air Temperature Less than 188K|time pr50|real|m2|area: areacella|area|atmos||||||5.0E+14|0.0|
+area195k_nh50|||Area over the Arctic at 50 hPa with Air Temperature Less than 195K|time pr50|real|m2|area: areacella|area|atmos||||||5.0E+14|0.0|
+area188k_sh50|||Area over the Antarctic at 50 hPa with Air Temperature Less and 188K|time pr50|real|m2|area: areacella|area|atmos||||||5.0E+14|0.0|
+area195k_sh50|||Area over the Antarctic at 50 hPa with Air Temperature Less and 195K|time pr50|real|m2|area: areacella|area|atmos||||||5.0E+14|0.0|
+@

@@ -1,0 +1,558 @@
+head	1.4;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.4
+date	2012.05.25.15.36.28;	author strandwg;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2011.11.29.16.26.51;	author strandwg;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2011.11.11.16.32.29;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2011.10.28.15.11.23;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@program DRIVE_build_filenames
+  use exp_info
+  use xwalk_info
+  use files_info
+  use mycmor_info
+  implicit none
+  integer::i,ivar,ixw
+  !
+  case_read = 'b40.lm850-1850.1deg.001'
+  comp_read = 'pop.h'
+  mycmor%table_file = 'Tables/CMIP5_Omon'
+  xw_found  = 1
+  exp_found = 1
+  ixw       = 1
+  xw(ixw)%cesm_vars(1) = 'PD'
+  xw(ixw)%ncesm_vars   = 1
+  exp(exp_found)%begyr =  850
+  exp(exp_found)%endyr = 1850
+  !
+  ncfile(:,:)(1:) = ' '
+  nc_nfiles(:)    = 0
+  !
+  all_continue = .true.
+  do ivar = 1,xw(ixw)%ncesm_vars
+     call build_filenames(case_read,comp_read,xw(ixw)%cesm_vars(ivar),ivar,exp(exp_found)%begyr,exp(exp_found)%endyr,mycmor%table_file)
+  enddo
+  if (all_continue) then
+     do ivar = 1,xw(ixw)%ncesm_vars
+        do i = 1,nc_nfiles(ivar)
+           write(*,'(2i8,5x,a)') i,ivar,trim(ncfile(i,ivar))
+        enddo
+     enddo
+  endif
+end program DRIVE_build_filenames
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+subroutine build_filenames(case,comp,cesm_var,ivar,begyr,endyr,table)
+  use files_info
+  !
+  implicit none
+  character(len=256),intent(in)::case,comp,cesm_var,table
+  integer,intent(in)::ivar,begyr,endyr
+  integer::i,j,year1,year2,ndt,idt
+  character(len=256)::checkname
+  character(len=256),dimension(2)::dtbeg,dtend
+  logical::exists
+  !
+  write(*,*) 'Entering build_filenames: ',trim(case),' ',trim(comp),' ',trim(cesm_var),ivar,begyr,endyr,trim(table)
+  !
+  select case (table)
+  case ('Tables/CMIP5_Amon','Tables/CMIP5_Lmon','Tables/CMIP5_LImon','Tables/CMIP5_Omon','Tables/CMIP5_OImon','Tables/CMIP5_aero','Tables/CMIP5_cfMon',&
+        'Tables/GeoMIP_Amon','Tables/GeoMIP_Lmon','Tables/GeoMIP_LImon','Tables/GeoMIP_Omon','Tables/GeoMIP_OImon','Tables/GeoMIP_aero','Tables/GeoMIP_cfMon')
+     ndt = 1 ; dtbeg(1) = '01' ; dtend(1) = '12'
+  case ('Tables/CMIP5_day','Tables/CMIP5_cfDay','Tables/GeoMIP_day','Tables/GeoMIP_cfDay')
+     ndt = 2
+     dtbeg(1) = '0101' ; dtend(1) = '1231'
+     dtbeg(2) = '0102' ; dtend(2) = '1231'
+  case ('Tables/CMIP5_6hrLev','Tables/CMIP5_6hrPlev','Tables/GeoMIP_6hrLev','Tables/GeoMIP_6hrPlev')
+     ndt = 2
+     dtbeg(1) = '010100Z' ; dtend(1) = '123118Z'
+     dtbeg(2) = '010106Z' ; dtend(2) = '123118Z'
+  case ('Tables/CMIP5_3hr','Tables/CMIP5_cf3hr','Tables/GeoMIP_3hr','Tables/GeoMIP_cf3hr')
+     ndt = 1 ; dtbeg(1) = '010100Z' ; dtend(1) = '123121Z'
+  end select
+  !
+  select case (table)
+  case ('Tables/CMIP5_OImon','Tables/GeoMIP_OImon')
+     exists = .false.
+     do year1 = begyr,endyr
+        do year2 = endyr,begyr,-1
+           do idt = 1,ndt
+              write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
+                   trim(case),&
+                   trim(comp),&
+                   trim(cesm_var)//'_nh',&
+                   year1,trim(dtbeg(idt)),&
+                   year2,trim(dtend(idt))
+              inquire(file=checkname,exist=exists)
+              if (exists) then
+                 nc_nfiles_nh(ivar) = nc_nfiles_nh(ivar) + 1
+                 ncfile_nh(nc_nfiles_nh(ivar),ivar) = checkname
+              endif
+              write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
+                   trim(case),&
+                   trim(comp),&
+                   trim(cesm_var)//'_sh',&
+                   year1,trim(dtbeg(idt)),&
+                   year2,trim(dtend(idt))
+              inquire(file=checkname,exist=exists)
+              if (exists) then
+                 nc_nfiles_sh(ivar) = nc_nfiles_sh(ivar) + 1
+                 ncfile_sh(nc_nfiles_sh(ivar),ivar) = checkname
+              endif
+           enddo
+        enddo
+     enddo
+     !
+     all_continue = all_continue.and.(nc_nfiles_nh(ivar) /= 0)
+     all_continue = all_continue.and.(nc_nfiles_sh(ivar) /= 0)
+     write(*,*) 'build_filenames all_continue: ',all_continue
+     if (all_continue) write(*,'(''nfiles NH: '',20i5)') nc_nfiles_nh(1:ivar)
+     if (all_continue) write(*,'(''nfiles SH: '',20i5)') nc_nfiles_sh(1:ivar)
+     if (all_continue) write(*,'(''NH  files: '',10(a))') (trim(ncfile_nh(i,ivar)),i=1,nc_nfiles_nh(ivar))
+     if (all_continue) write(*,'(''SH  files: '',10(a))') (trim(ncfile_sh(i,ivar)),i=1,nc_nfiles_sh(ivar))
+  case ('Tables/TAMIP_3hrCurt','Tables/TAMIP_3hrMlev','Tables/TAMIP_3hrPlev','Tables/TAMIP_3hrSlev','Tables/TAMIP_sites')
+     exists = .false.
+     write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''.nc'')') &
+          trim(case),&
+          trim(comp),&
+          trim(cesm_var),&
+          begyr
+     inquire(file=checkname,exist=exists)
+!     write(*,'(''build_filenames: '',a,5x,i4,5x)') trim(checkname),year1
+     if (exists) then
+        nc_nfiles(ivar) = nc_nfiles(ivar) + 1
+        ncfile(nc_nfiles(ivar),ivar) = checkname
+     endif
+     !
+     all_continue = all_continue.and.(nc_nfiles(ivar) /= 0)
+     write(*,*) 'build_filenames all_continue: ',all_continue
+     if (all_continue) write(*,'(''nfiles: '',100i5)') nc_nfiles(1:ivar)
+!     if (all_continue) write(*,'('' files: '',100(a))') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
+  case default
+     exists = .false.
+     do year1 = begyr,endyr
+        do year2 = endyr,year1,-1
+           do idt = 1,ndt
+!              write(*,'(''dtbeg, dtend: '',i4,5x,a,10x,a)') idt,trim(dtbeg(idt)),trim(dtend(idt))
+              write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,a,''-'',i4.4,a,''.nc'')') &
+                   trim(case),&
+                   trim(comp),&
+                   trim(cesm_var),&
+                   year1,trim(dtbeg(idt)),&
+                   year2,trim(dtend(idt))
+              inquire(file=checkname,exist=exists)
+              if (exists) then
+!                 write(*,'(''build_filenames: '',a)') trim(checkname)
+                 nc_nfiles(ivar) = nc_nfiles(ivar) + 1
+                 ncfile(nc_nfiles(ivar),ivar) = checkname
+              endif
+           enddo
+        enddo
+     enddo
+     !
+     all_continue = all_continue.and.(nc_nfiles(ivar) /= 0)
+     write(*,*) 'build_filenames all_continue: ',all_continue
+!     if (all_continue) write(*,'(''nfiles: '',100i5)') nc_nfiles(1:ivar)
+!     if (all_continue) write(*,'('' files: '',100(a))') (trim(ncfile(i,ivar)),i=1,nc_nfiles(ivar))
+  end select
+end subroutine build_filenames
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! define module with maximum dims
+!
+module max_parms
+  !
+  integer,parameter::max_entries   = 100000
+  integer,parameter::max_exprmnt   =  10000
+  integer,parameter::max_cesm_vars =      6
+  integer,parameter::max_ncfiles   =    110
+  integer,parameter::max_nchunks   =   1000
+!  integer,parameter::max_ntimes    = 400000
+  !
+end module max_parms
+!
+! CMOR "table" information
+!
+module table_info
+  use max_parms
+  type TableInfo
+     character(len=256)::approx_interval,axis,axis_entry,baseURL,bounds_values,cell_measures,cell_methods,cf_version,climatology,cmor_version
+     character(len=256)::comment,coords_attrib,dimensions,expt_id_ok,forcings,formula,frequency,generic_levels,index_only,long_name,missing_value
+     character(len=256)::modeling_realm,must_call_cmor_grid,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,out_name,positive,product,project_id
+     character(len=256)::required_global_attributes,standard_name,stored_direction,table_date,table_id,tolerance,type,units,valid_max,valid_min,value
+     character(len=256)::requested,requested_bounds,variable_entry,z_bounds_factors,z_factors
+  end type TableInfo
+  integer::num_tab,tab_found
+  !
+  ! table_ids(1) = Amon, day, OImon, Omon, etc.' table_ids(2) = CMIP5_grids. Always.
+  !
+  integer,dimension(20)::table_ids
+  type(TableInfo),dimension(0:max_entries)::table
+end module table_info
+!
+! CESM experiment information
+!
+module exp_info
+  !
+  use max_parms
+  !
+  type SimInfo
+     character(len=256)::case,loc,model_id,expt_id,rip_code,cmip,run_refcase,run_refdate
+     character(len=256)::begin_end,grid,compset,repotag,start_fin,mach,dout,forcing
+     integer::begyr,endyr,length,ncase,ens
+     character(len=256),dimension(10)::icase
+  end type SimInfo
+  integer::num_exp,exp_found,parent_found
+  character(len=256)::case_read,comp_read
+  !
+  type(SimInfo),dimension(max_entries)::exp
+  !
+end module exp_info
+!
+! CMOR arguments information
+!
+module mycmor_info
+  !
+  use max_parms
+  !
+  type CMORInfo
+     character(len=256)::table_file,outpath,experiment_id,institution,source,calendar,contact,history
+     character(len=256)::references,model_id,forcing,institute_id
+     character(len=256)::parent_experiment_id,parent_experiment_rip,positive
+     character(len=256)::forcing_note
+     character(len=512)::ack_NC,ack_OR,ack_NE
+     character(len=1024)::comment
+     integer::realization,initialization_method,physics_version
+     double precision::branch_time
+  end type CMORInfo
+  !
+  type(CMORInfo)::mycmor
+  !
+end module mycmor_info
+!
+! Crosswalk (xwalk) information
+!
+module xwalk_info
+  !
+  use max_parms
+  !
+  type XWInfo
+     character(len=256)::table,entry,realm,sname,dims,comment
+     character(len=256),dimension(10)::cesm_vars
+     integer::ncesm_vars
+  end type XWInfo
+  integer::num_xw,xw_found
+  !
+  type(XWInfo),dimension(max_entries)::xw
+  !
+end module xwalk_info
+!
+! Input netCDF files information
+!
+module files_info
+  use max_parms
+  !
+  character(len=256),dimension(max_ncfiles,max_cesm_vars)::ncfile
+  character(len=256),dimension(max_ncfiles,max_cesm_vars)::ncfile_nh,ncfile_sh ! For OImon processing
+  integer,dimension(max_cesm_vars)::nc_nfiles
+  integer,dimension(max_cesm_vars)::nc_nfiles_nh,nc_nfiles_sh ! For OImon processing
+  integer,dimension(max_ncfiles,max_cesm_vars)::myncid,var_found,ntimes
+  integer,dimension(max_ncfiles,max_cesm_vars)::myncid_nh,myncid_sh ! For OImon processing
+!  real   ,dimension(max_ncfiles,max_cesm_vars,max_ntimes)::timevals
+  integer::ifile
+  logical::all_continue
+  !
+end module files_info
+!
+! Grid information
+!
+module grid_info
+  real,dimension(:),    allocatable::atm_lats,atm_lons,atm_levs,atm_levs_bnds,atm_ilevs,atm_ilevs_bnds
+  real,dimension(:),    allocatable::cosp_tau,cosp_prs,cosp_ht,cosp_dbze
+  real,dimension(:),    allocatable::atm_plev23,atm_plev17,atm_plev8,atm_plev7,atm_plev7_bnds,atm_plev3
+  real,dimension(:,:),  allocatable::atm_lats_bnds,atm_lons_bnds,landfrac,phis
+  real,dimension(:,:),  allocatable::cosp_tau_bnds,cosp_prs_bnds,cosp_ht_bnds,cosp_dbze_bnds
+  real,dimension(:),    allocatable::a_coeff,b_coeff,a_coeff_bnds,b_coeff_bnds
+  real,dimension(:,:),  allocatable::ice_t_lats,ice_t_lons,ice_u_lats,ice_u_lons
+  real,dimension(:,:,:),allocatable::ice_t_lats_bnds,ice_t_lons_bnds,ice_u_lats_bnds,ice_u_lons_bnds
+  real,dimension(:),    allocatable::ocn_t_levs,ocn_trans_lats,ocn_trans_levs,ocn_t_dz
+  real,dimension(:,:),  allocatable::ocn_t_levs_bnds,ocn_trans_lats_bnds,ocn_trans_levs_bnds
+  real,dimension(:,:),  allocatable::ocn_t_lats,ocn_t_lons,ocn_t_area,ocn_t_hte,ocn_t_htn
+  real,dimension(:,:,:),allocatable::ocn_t_lats_bnds,ocn_t_lons_bnds
+  real,dimension(:,:),  allocatable::ocn_u_lats,ocn_u_lons
+  real,dimension(:,:,:),allocatable::ocn_u_lats_bnds,ocn_u_lons_bnds
+  integer,dimension(:,:),allocatable::kmt
+  real,dimension(:),    allocatable::lnd_lats,lnd_lons,lnd_levs,lnd_levs_bnds,atm_sites
+  real,dimension(:,:,:),allocatable::lnd_zsoi,lnd_dzsoi  ! CLM soil depth (m), CLM soil layer thickness (m)
+  real,dimension(:,:),  allocatable::lnd_lats_bnds,lnd_lons_bnds
+  real::p0
+  integer::nlons,nlats,nlevs,nilevs,nplev23,nplev17,nplev8,nplev7,nplev3
+  integer::ncosp_tau,ncosp_prs,ncosp_ht,ncosp_dbze,nsites
+  integer::naxes,zfactor_id
+  integer::nlats_trans,nmoc_z,ntrans_reg,nmoc_comp,ntrans_comp
+  integer,dimension(1)::grid_id
+  integer,dimension(10)::axis_ids
+  character(len=256),dimension(10)::dimnames,dimunits
+  character(len=256)::time_units
+end module grid_info
+!
+! Output time chunks information
+!
+module output_times_info
+  use max_parms
+  integer,dimension(max_nchunks)::nchunks,tidx1,tidx2
+end module output_times_info
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d1 1
+a1 38
+!!$program DRIVE_build_filenames
+!!$  use exp_info
+!!$  use xwalk_info
+!!$  use files_info
+!!$  implicit none
+!!$  integer::i,j,ixw
+!!$  !
+!!$  case_read = 'b40.1850.track1.1deg.006'
+!!$  comp_read = 'pop.h'
+!!$  xw_found  = 1
+!!$  exp_found = 1
+!!$  ixw       = 1
+!!$  xw(ixw)%cesm_vars(1) = 'SALT'
+!!$  xw(ixw)%cesm_vars(2) = 'TEMP'
+!!$  xw(ixw)%ncesm_vars   = 2
+!!$  exp(exp_found)%begyr =  800
+!!$  exp(exp_found)%endyr = 1300
+!!$  !
+!!$  ncfile(:,:)(1:) = ' '
+!!$  nc_nfiles(:)    = 0
+!!$  !
+!!$  do j = 1,xw(ixw)%ncesm_vars
+!!$     do i = 1,1
+!!$        call build_filenames(i,j,exp(exp_found)%begyr,exp(exp_found)%endyr)
+!!$     enddo
+!!$     do i = 1,nc_nfiles(j)
+!!$        write(*,'(''I: '',2i8,5x,a)') i,j,trim(ncfile(i,j))
+!!$     enddo
+!!$  enddo
+!!$  write(*,*) nc_nfiles(1:10)
+!!$  do j = 1,xw(ixw)%ncesm_vars
+!!$     do i = 1,nc_nfiles(j)
+!!$        write(*,'(''O: '',2i8,5x,a)') i,j,trim(ncfile(i,j))
+!!$     enddo
+!!$  enddo
+!!$end program DRIVE_build_filenames
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+subroutine build_filenames(ixw,ivar,year1,year2)
+d5 33
+d40 5
+a44 3
+  integer,intent(in)::ivar,ixw,year1,year2
+  integer::i,j,ifile
+  character(len=512)::checkname
+d47 95
+a141 14
+  ifile = 1
+  do j = year1,year2
+     do i = year1,year2
+        exists = .false.
+        write(checkname,'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
+             trim(case_read),&
+             trim(comp_read),&
+             trim(xw(ixw)%cesm_vars(ivar)),i,j
+        inquire(file=checkname,exist=exists)
+        if (exists) then
+           ncfile(ifile,ivar) = checkname
+           nc_nfiles(ivar) = ifile
+           ifile = ifile + 1
+        endif
+d143 6
+a148 1
+  enddo
+d150 146
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d1 36
+a36 28
+program DRIVE_build_filenames
+  use exp_info
+  use xwalk_info
+  use files_info
+  implicit none
+  integer::i,j,ixw,ifile
+  !
+  case_read = 'b40.20th.track1.1deg.008'
+  comp_read = 'pop.h'
+  xw_found  = 1
+  exp_found = 1
+  ixw       = 1
+  xw(ixw)%cesm_vars(1) = 'TEMP'
+  xw(ixw)%ncesm_vars   = 1
+  exp(exp_found)%begyr = 1850
+  exp(exp_found)%endyr = 2005
+  !
+  do j = 1,1
+     do i = 1,1
+        call build_filenames(i,j)
+     enddo
+  enddo
+  do i = 1,xw(ixw)%ncesm_vars
+     do ifile = 1,nc_nfiles(i)
+        if (exists(ifile,i)) write(*,'(a,'' GOOD'')') trim(ncfile(ifile,i))
+     enddo
+  enddo
+end program DRIVE_build_filenames
+d38 1
+a38 1
+subroutine build_filenames(ivar,ixw)
+d44 4
+a47 6
+  integer,intent(in)::ivar,ixw
+  integer::dec_b,dec_e,idec,ifile,year1,year2
+  !
+  ncfile(:,:)(1:) = ' '
+  exists(:,:)     = .false.
+  nc_nfiles(:)    = 0
+d49 5
+a53 15
+  write(ncfile(1,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
+       trim(case_read),&
+       trim(comp_read),&
+       trim(xw(ixw)%cesm_vars(ivar)),&
+       exp(exp_found)%begyr,&
+       exp(exp_found)%endyr
+  inquire(file=trim(ncfile(1,ivar)),exist=exists(1,ivar))
+  if (.not.(exists(1,ivar))) then
+     dec_b = exp(exp_found)%begyr/10
+     dec_e = exp(exp_found)%endyr/10
+     ifile = 1
+     do idec = dec_b,dec_e
+        year1 = idec*10
+        year2 = (idec*10) + 9
+        write(ncfile(ifile,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
+d56 7
+a62 5
+             trim(xw(ixw)%cesm_vars(ivar)),&
+             year1,year2
+        inquire(file=trim(ncfile(ifile,ivar)),exist=exists(ifile,ivar))
+        nc_nfiles(ivar) = ifile
+        ifile = ifile + 1
+d64 1
+a64 11
+  endif
+  if (exp(exp_found)%endyr == 2005) then
+     ifile = ifile + 1
+     write(ncfile(ifile,ivar),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''01-'',i4.4,''12.nc'')') &
+          trim(case_read),&
+          trim(comp_read),&
+          trim(xw(ixw)%cesm_vars(ivar)),&
+          year1,exp(exp_found)%endyr
+     inquire(file=trim(ncfile(ifile,ivar)),exist=exists(ifile,ivar))
+     nc_nfiles(ivar) = ifile
+  endif
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 28
+a28 16
+!!$program DRIVE_build_filenames
+!!$  implicit none
+!!$  character(len=256)::case_read,comp_read
+!!$  character(len=256),dimension(10)::cesm_vars
+!!$  integer::begin,end,ivar,nvars
+!!$  !
+!!$  case_read = 'b40.rcp8_5.1deg.005'
+!!$  comp_read = 'cam2.h1'
+!!$  cesm_vars(1) = 'PRECC'
+!!$  cesm_vars(2) = 'PRECL'
+!!$  begin = 2006
+!!$  end   = 2100
+!!$  nvars = 2
+!!$  !
+!!$  call build_filenames(case_read,comp_read,cesm_vars,nvars,begin,end)
+!!$end program DRIVE_build_filenames
+d30 1
+a30 1
+subroutine build_filenames
+d36 2
+a37 1
+  integer::ivar,dec_b,dec_e,idec,ifile,year1,year2
+d40 2
+d43 1
+a43 1
+  write(ncfile(ivar,1),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''0101-'',i4.4,''1231.nc'')') &
+d46 7
+a52 7
+       xw(ixw)%cesm_vars(ivar)),&
+       exp(iexp)%begyr,&
+       exp(iexp)%endyr
+  inquire(file=trim(ncfile(ivar,1)),exist=exists(ivar,1))
+  if (.not.(exists(ivar,1))) then
+     dec_b = begin/10
+     dec_e = end/10
+d57 1
+a57 3
+        if (year1 == 2000) year1 = 2006
+        if ((year1 == 2090).and.(year2 == 2099)) year2 = 2100
+        write(ncfile(ivar,ifile),'(''data/'',a,''.'',a,''.'',a,''.'',i4.4,''0101-'',i4.4,''1231.nc'')') &
+d60 1
+a60 1
+             xw(ixw)%cesm_vars(ivar)),&
+d62 1
+a62 3
+!           write(*,*) idec,idec*10,(idec*10)+9
+!           write(*,'('' ncfile : '',a)') trim(ncfile(ivar,ifile))
+        inquire(file=trim(ncfile(ivar,ifile)),exist=exists(ivar,ifile))
+d67 10
+a76 5
+  do ivar = 1,xw(ixw)%ncesm_vars
+     do ifile = 1,nc_nfiles(ivar)
+        if (exists(ivar,ifile)) write(*,'(a,'' GOOD'')') trim(ncfile(ivar,ifile))
+     enddo
+  enddo
+@

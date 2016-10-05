@@ -1,0 +1,95 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.03.07.16.36.43;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@convert SOA*_PROD molec/molec/s to SOA formation (kg/m2/s)
+====================================================================================================
+mw_dryair = 28.97e-3  ;kg/mole
+
+varsoa = (/"SOAI","SOAT","SOAB","SOAX","SOAM"/)
+mwsoa_c = (/60.0550,    84.077,    72.0660,    96.0880,   120.1100/)
+
+chmp_i = chmp * mwsoa_c(i)/mw_dryair  ; for each of the SOA's  transform to kg/kg/s
+
+chmp_i = chmp_i*delp/grav  (kg/m2/s)
+
+; I am not sure about the area weighting at this point, but lets do it as well, over all altitudes
+
+do ii=0, nlat-1
+   coo(ii) = gw(ii)*(2.*pi/nlon)*re^2.
+   chmp_i(:,:,ii,:)=chmp_1(:,:,ii,:)*coo(ii)
+end do
+
+For gas phase production so4:
+
+mw_so4 = 96.06
+
+chmp = chmp * (mw_so4*1.e-3/6.022e23 )  ; convert to kg/kg/s
+chmp = chmp*delp/grav  (kg/m2/s)
+
+; I am not sure about the area weighting at this point, but lets do it as well, over all altitudes
+
+do ii=0, nlat-1
+   coo(ii) = gw(ii)*(2.*pi/nlon)*re^2.
+   chmp(:,:,ii,:)=chmp(:,:,ii,:)*coo(ii)
+end do
+
+More 2D fields:
+total production of SOA
+I suppose this is chmp_i, but totaled over all altitudes, and the total of all SOA* components.
+
+2D fields:
+-surface concentration for all listed variables, transform from kg/kg to kg/m3:
+====================================================================================================
+
+rho = ps/(287.04*ts)  ; ps surface pressure, ts = surface temperture
+var_surf = var_surf* rho
+
+- Load: variable (kg/kg) to load (kg/m2)
+
+; calculate delta pressure (from my ncl program)
+ha=doubletofloat(inptr1->hyai)
+hb=doubletofloat(inptr1->hybi)
+p0 = 1.e+05
+ps = inptr1->PS
+p1 = pres_hybrid_ccm(ps,p0,ha,hb)
+
+do k=0,nlev-1
+  delp(:,k,:,:)=p1(:,k+1,:,:)-p1(:,k,:,:)
+end do
+grav = 9.81
+var = var*delp/grav
+bvar =dim_sum_n_Wrap(chmp,1) ; sum up over all pressure levels
+
+; area weight
+coo=new(/nlat/),float)
+pi = 3.14159265
+do ii=0, nlat-1
+    coo(ii) = gw(ii)*(2.*pi/nlon)*re^2.
+    bvar(:,ii,:)=bvar(:,ii,:)*coo(ii)
+end do
+
+-> bvar = Load area weighed
+
+3D field (not sure on those yet) just leave the units for now.
+convert SOA*_PROD molec/molec/s to SOA formation (kg/m2/s)
+convert SO4_CHMP (/cm3/s) to kg/m2/s.
+@

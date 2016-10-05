@@ -1,0 +1,94 @@
+GeoMIP_Omon:masso:sea_water_mass:time:ocean:1:PD:Integrate PD over ocean volume
+GeoMIP_Omon:pbo:sea_water_pressure_at_sea_floor:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:pso:sea_water_pressure_at_sea_water_surface:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:volo:sea_water_volume:time:ocean:0:PD:PD
+GeoMIP_Omon:zos:sea_surface_height_above_geoid:longitude latitude time:ocean:1:SSH:SSH units from cm to m
+GeoMIP_Omon:zossq:square_of_sea_surface_height_above_geoid:longitude latitude time:ocean:1:SSH2:SSH2 units from cm2 to m2
+GeoMIP_Omon:zosga:global_average_sea_level_change:time:ocean:1:ave_slc:ave_slc from Aixue's SLC code; derived from SSH PD TEMP SALT
+GeoMIP_Omon:zossga:global_average_steric_sea_level_change:time:ocean:1:ave_delta_steric:ave_delta_steric from Aixue's SLC code; derived from SSH PD TEMP SALT
+GeoMIP_Omon:zostoga:global_average_thermosteric_sea_level_change:time:ocean:1:ave_slc_t:ave_slc_t from Aixue's SLC code; derived from SSH PD TEMP SALT
+GeoMIP_Omon:masscello:sea_water_mass_per_unit_area:longitude latitude olevel time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:thkcello:cell_thickness:longitude latitude olevel time:ocean:0:N/A:Inapplicable as cell thickness is fixed (dz)
+GeoMIP_Omon:thetao:sea_water_potential_temperature:longitude latitude olevel time:ocean:1:TEMP:TEMP no change, units from C to K
+GeoMIP_Omon:thetaoga:sea_water_potential_temperature:time:ocean:1:TEMP:TEMP weighted global average, units C to K
+GeoMIP_Omon:tos:sea_surface_temperature:longitude latitude time:ocean:1:TEMP:TEMP at topmost level, units from C to K
+GeoMIP_Omon:tossq:square_of_sea_surface_temperature:longitude latitude time:ocean:1:TEMP2:TEMP2
+GeoMIP_Omon:so:sea_water_salinity:longitude latitude olevel time:ocean:1:SALT:SALT
+GeoMIP_Omon:soga:sea_water_salinity:time:ocean:1:SALT:SALT weighted global average
+GeoMIP_Omon:sos:sea_surface_salinity:longitude latitude time:ocean:1:SALT:SALT at topmost level
+GeoMIP_Omon:rhopoto:sea_water_potential_density:longitude latitude olevel time:ocean:1:PD:PD
+GeoMIP_Omon:agessc:sea_water_age_since_surface_contact:longitude latitude olevel time:ocean:1:IAGE:IAGE
+GeoMIP_Omon:cfc11:moles_of_cfc11_per_unit_mass_in_sea_water:longitude latitude olevel time:ocean:1:CFC11:Divide CFC11 by 1.e12 to convert to approximate mol kg-1
+GeoMIP_Omon:msftbarot:ocean_barotropic_mass_streamfunction:longitude latitude time:ocean:1:BSF:BSF
+GeoMIP_Omon:mlotst:ocean_mixed_layer_thickness_defined_by_sigma_t:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:mlotstsq:square_of_ocean_mixed_layer_thickness_defined_by_sigma_t:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:omldamax:ocean_mixed_layer_thickness_defined_by_mixing_scheme:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:omlmax:ocean_mixed_layer_thickness_defined_by_mixing_scheme:longitude latitude time:ocean:1:XMXL:XMXL
+GeoMIP_Omon:uo:sea_water_x_velocity:longitude latitude olevel time:ocean:1:UVEL:UVEL units from cm s-1 to m s-1
+GeoMIP_Omon:vo:sea_water_y_velocity:longitude latitude olevel time:ocean:1:VVEL:VVEL units from cm s-1 to m s-1
+GeoMIP_Omon:wmo:upward_ocean_mass_transport:longitude latitude olevel time:ocean:1:WVEL:0.5*(WVEL(i,j,k)+WVEL(i,j,k+1))*TAREA*rho_0
+GeoMIP_Omon:wmosq:square_of_upward_ocean_mass_transport:longitude latitude olevel time:ocean:1:WVEL2:0.5*(WVEL2(i,j,k)+WVEL2(i,j,k+1))*TAREA*rho_0
+GeoMIP_Omon:umo:ocean_mass_x_transport:longitude latitude olevel time:ocean:1:UVEL:0.5*(UVEL(i,j)+UVEL(i,j-1))*HTE*dz*rho_0
+GeoMIP_Omon:vmo:ocean_mass_y_transport:longitude latitude olevel time:ocean:1:VVEL:0.5*(VVEL(i,j)+VVEL(i-1,j))*HTN*dz*rho_0
+GeoMIP_Omon:msftmyz:ocean_meridional_overturning_mass_streamfunction:latitude olevel basin time:ocean:1:MOC:MOC converted from Sv to kg s-1
+GeoMIP_Omon:msftmrhoz:ocean_meridional_overturning_mass_streamfunction:latitude rho basin time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:msftyyz:ocean_y_overturning_mass_streamfunction:latitude olevel basin time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:msftyrhoz:ocean_y_overturning_mass_streamfunction:latitude rho basin time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:msftmyzba:ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection:latitude olevel basin time:ocean:1:MOC:MOC converted from Sv to kg s-1
+GeoMIP_Omon:msftmrhozba:ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection:latitude rho basin time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:msftyyzba:ocean_y_overturning_mass_streamfunction_due_to_bolus_advection:latitude olevel basin time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:msftyrhozba:ocean_y_overturning_mass_streamfunction_due_to_bolus_advection:latitude rho basin time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfnorth:northward_ocean_heat_transport:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfnorthba:northward_ocean_heat_transport_due_to_bolus_advection:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfnorthdiff:northward_ocean_heat_transport_due_to_diffusion:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfx:ocean_heat_x_transport:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfy:ocean_heat_y_transport:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfyba:ocean_heat_y_transport_due_to_bolus_advection:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfydiff:ocean_heat_y_transport_due_to_diffusion:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfxba:ocean_heat_x_transport_due_to_bolus_advection:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfxdiff:ocean_heat_x_transport_due_to_diffusion:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfbasin:northward_ocean_heat_transport:latitude basin time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfbasinba:northward_ocean_heat_transport_due_to_bolus_advection:latitude basin time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfbasindiff:northward_ocean_heat_transport_due_to_diffusion:latitude basin time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:htovgyre:northward_ocean_heat_transport_due_to_gyre:latitude basin time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:htovovrt:northward_ocean_heat_transport_due_to_overturning:latitude basin time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:sltovgyre:northward_ocean_salt_transport_due_to_gyre:latitude basin time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:sltovovrt:northward_ocean_salt_transport_due_to_overturning:latitude basin time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:mfo:sea_water_transport_across_line:oline time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:pr:rainfall_flux:longitude latitude time:ocean:1:PREC_F:PREC_F
+GeoMIP_Omon:prsn:snowfall_flux:longitude latitude time:ocean:1:SNOW_F:SNOW_F
+GeoMIP_Omon:evs:water_evaporation_flux:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:friver:water_flux_into_sea_water_from_rivers:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:ficeberg:water_flux_into_sea_water_from_icebergs:longitude latitude olevel time:ocean:0:UNAVAILABLE::UNAVAILABLE
+GeoMIP_Omon:fsitherm:water_flux_into_sea_water_due_to_sea_ice_thermodynamics:longitude latitude time:ocean seaIce:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:wfo:water_flux_into_sea_water:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:wfonocorr:water_flux_into_sea_water_without_flux_correction:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:wfcorr:water_flux_correction:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:vsfpr:virtual_salt_flux_into_sea_water_due_to_rainfall:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:vsfevap:virtual_salt_flux_into_sea_water_due_to_evaporation:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:vsfriver:virtual_salt_flux_into_sea_water_from_rivers:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:vsfsit:virtual_salt_flux_into_sea_water_due_to_sea_ice_thermodynamics:longitude latitude time:ocean seaIce:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:vsf:virtual_salt_flux_into_sea_water:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:vsfcorr:virtual_salt_flux_correction:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:sfdsi:downward_sea_ice_basal_salt_flux:longitude latitude time:ocean seaIce:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:sfriver:salt_flux_into_sea_water_from_rivers:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfgeou:upward_geothermal_heat_flux_at_sea_floor:longitude latitude time:ocean:0:N/A:Set to zero for all runs
+GeoMIP_Omon:hfrainds:temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfevapds:temperature_flux_due_to_evaporation_expressed_as_heat_flux_out_of_sea_water:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfrunoffds:temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water:longitude latitude olevel time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfsnthermds:heat_flux_into_sea_water_due_to_snow_thermodynamics:longitude latitude olevel time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfsifrazil:heat_flux_into_sea_water_due_to_freezing_of_frazil_ice:longitude latitude olevel time:ocean seaIce:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfsithermds:heat_flux_into_sea_water_due_to_sea_ice_thermodynamics:longitude latitude olevel time:ocean seaIce:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfibthermds:heat_flux_into_sea_water_due_to_iceberg_thermodynamics:longitude latitude olevel time:ocean:0:UNAVAILABLE::UNAVAILABLE
+GeoMIP_Omon:rlds:surface_net_downward_longwave_flux:longitude latitude time:ocean:3:LWDN_F LWUP_F IFRAC:LWDN_F + LWUP_F where IFRAC = 0
+GeoMIP_Omon:hfls:surface_downward_latent_heat_flux:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfss:surface_downward_sensible_heat_flux:longitude latitude time:ocean:1:SENH_F:SENH_F
+GeoMIP_Omon:rsntds:net_downward_shortwave_flux_at_sea_water_surface:longitude latitude time:ocean:1:QSW_HTP:QSW_HTP
+GeoMIP_Omon:rsds:downwelling_shortwave_flux_in_sea_water:longitude latitude olevel time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfcorr:heat_flux_correction:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:hfds:surface_downward_heat_flux_in_sea_water:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:tauuo:surface_downward_x_stress:longitude latitude time:ocean:1:TAUX:TAUX
+GeoMIP_Omon:tauvo:surface_downward_y_stress:longitude latitude time:ocean:1:TAUY:TAUY
+GeoMIP_Omon:tauucorr:surface_downward_x_stress_correction:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:tauvcorr:surface_downward_y_stress_correction:longitude latitude time:ocean:0:UNKNOWN:UNKNOWN
+GeoMIP_Omon:ocnheat:ocean_heat_content:longitude latitude olevel time:ocean:0:UNKNOWN:UNKNOWN

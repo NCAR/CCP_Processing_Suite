@@ -1,0 +1,9 @@
+clcalipso|clcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Cloud Fraction|longitude latitude alt40 time|real|%|area: areacella|time: mean|atmos||||||||
+clcalipso2|clcalipso2|cloud_area_fraction_in_atmosphere_layer|CALIPSO Cloud Fraction Undetected by CloudSat|longitude latitude alt40 time|real|%|area: areacella|time: mean|atmos||||||||
+cfadDbze94|cfadDbze94|histogram_of_equivalent_reflectivity_factor_over_height_above_reference_ellipsoid|CloudSat Radar Reflectivity|longitude latitude alt40 dbze time|real|1|area: areacella|time: mean|atmos||||||||
+cfadLidarsr532|cfadLidarsr532|histogram_of_backscattering_ratio_over_height_above_reference_ellipsoid|CALIPSO Scattering Ratio|longitude latitude alt40 scatratio time|real|1|area: areacella|time: mean|atmos||||||||
+parasolRefl|parasolRefl|toa_bidirectional_reflectance|PARASOL Reflectance|longitude latitude sza5 time|real|1|area: areacella|time: mean|atmos||||||||
+cltcalipso|cltcalipso|cloud_area_fraction|CALIPSO Total Cloud Fraction|longitude latitude time|real|%|area: areacella|time: mean|atmos||||||||
+cllcalipso|cllcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Low Level Cloud Fraction|longitude latitude time p840|real|%|area: areacella|time: mean|atmos||||||||
+clmcalipso|clmcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO Mid Level Cloud Fraction|longitude latitude time p560|real|%|area: areacella|time: mean|atmos||||||||
+clhcalipso|clhcalipso|cloud_area_fraction_in_atmosphere_layer|CALIPSO High Level Cloud Fraction|longitude latitude time p220|real|%|area: areacella|time: mean|atmos||||||||

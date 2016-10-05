@@ -1,0 +1,59 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2012.08.15.14.53.11;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.01.12.20.17.31;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@#!/bin/sh
+#
+# Store data on archival system
+#
+if [ $# -ne 0 ] ; then
+  echo "Usage: store_cmip5"
+#  ./procstat.sh error store_cmip5
+  exit 1
+fi
+#
+../archive_cmip5_write $ARCHIVE_CMIP5
+#
+if [ $? -eq 0 ] ; then
+  echo "Files written to "$ARCHIVE_CMIP5" and erased."
+else
+  echo "Problem with HPSS on write. Stopping"
+#  ./procstat.sh error store_cmip5
+  exit 1
+fi
+cd $LOCAL_PROC
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d11 1
+a11 1
+../../mss_cmip5_write $ARCHIVE_CMIP5
+@

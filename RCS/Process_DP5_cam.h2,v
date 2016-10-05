@@ -1,0 +1,80 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2016.01.12.16.28.47;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh
+#
+if [ $# -ne 1 ] ; then
+   echo "Usage: ./Process_DP5_cam.h2 CASE"
+   echo "One argument REQUIRED:"
+   echo "1: CASE name"
+   exit 1
+else
+   CASE=$1 ; export CASE
+fi
+HIST=cam.h2
+TPER=hr6
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if ! [ -f $EXPFILE ] ; then
+  echo "Cannot find "$EXPFILE". EXIT"
+  exit 1
+fi
+TASK=144
+WALL="10:00:00"
+#
+TEMPLATE=process_dp5_cam.h2_template
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+# Build processing script
+#
+SUBC=`echo $CASE | sed -e 's/e11.BDP.f09_g16.//g' | sed -e 's/-11//g'` ; export SUBC
+CCPS_SCRIPT=${SUBC}.sh ; export CCPS_SCRIPT
+#
+rm -f $CCPS_SCRIPT
+cat ./LSF_dp5     | sed -e "s/NAME/$CCPS_SCRIPT/g" \
+                  | sed -e "s/WALL/$WALL/g"        \
+                  | sed -e "s/USER/$USER/g"        \
+                  | sed -e "s/TASK/$TASK/g"        \
+                  > $CCPS_SCRIPT
+#
+cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
+                  | sed -e "s/xxxHISTxxx/$HIST/g" \
+                  | sed -e "s/xxxTPERxxx/$TPER/g" \
+                  | sed -e "s/TASK/$TASK/g"       \
+                  >> $CCPS_SCRIPT
+#
+chmod +x $CCPS_SCRIPT
+echo ""
+echo $CCPS_SCRIPT" ready to run"
+echo ""
+#
+echo "Run script now? (Y only, all else NO)"
+read DORUN
+#
+if [ "$DORUN" = "Y" ] ; then
+  echo "Running "${CCPS_SCRIPT}
+  sbatch ./${CCPS_SCRIPT}
+else
+  echo "Will not run "${CCPS_SCRIPT}
+fi
+@

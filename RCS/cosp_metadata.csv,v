@@ -1,0 +1,36 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.02.01.22.00.52;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@b40.4xco2_cosp.cam4.1deg.001,CCSM4,NE,abrupt4xCO2,rNNiMMpLL,cm5,unknown,unknown,0001-0104,f09_g16,B_1850_CN,cesm1_0_beta20,2011/07-2011/10,hopper,/home/b/bsander/csm
+b40.co2ramp_cosp.cam4.1deg.001,CCSM4,NE,1pctoCO2,rNNiMMpLL,cm5,unknown,unknown,0001-0039,f09_g16,B_1850_CN,cesm1_0_beta20,2011/05-2011/10,hopper,/home/b/bsander/csm
+b40.pictrl_cosp.cam4.1deg.001,CCSM4,NE,piControl,rNNiMMpLL,cm5,unknown,unknown,0001-0120,f09_g16,B_1850_CN,cesm1_0_beta20,2011/05-2011/09,hopper,/home/b/bsander/csm
+f40.amip_4k_cosp.cam4.1deg.001,CCSM4,NE,amip,rNNiMMpLL,cm5,unknown,unknown,1979-2005,f09_g16,F_AMIP_CN,cesm1_0_beta20,2011/05-2011/05,hopper,/home/b/bsander/csm
+f40.amip_4k_cosp.cam4.1deg.001e,CCSM4,NE,amip,rNNiMMpLL,cm5,unknown,unknown,2004-2008,f09_g16,F_AMIP_CN,cesm1_0_beta20,2011/08-2011/09,hopper,/home/b/bsander/csm
+f40.amip_4xco2_cosp.cam4.1deg.001,CCSM4,NE,unknown,rNNiMMpLL,cm5,unknown,unknown,1979-2005,f09_g16,F_AMIP_CN,cesm1_0_beta20,2011/05-2011/05,hopper,/home/b/bsander/csm
+f40.amip_4xco2_cosp.cam4.1deg.001e,CCSM4,NE,unknown,rNNiMMpLL,cm5,unknown,unknown,2004-2008,f09_g16,F_AMIP_CN,cesm1_0_beta20,2011/08-2011/09,hopper,/home/b/bsander/csm
+f40.amip_cosp.cam4.1deg.001,CCSM4,NE,unknown,rNNiMMpLL,cm5,unknown,unknown,1979-2005,f09_g16,F_AMIP_CN,cesm1_0_beta20,2011/05-2011/05,hopper,/home/b/bsander/csm
+f40.amip_cosp.cam4.1deg.001e,CCSM4,NE,unknown,rNNiMMpLL,cm5,unknown,unknown,2004-2008,f09_g16,F_AMIP_CN,cesm1_0_beta20,2011/08-2011/09,hopper,/home/b/bsander/csm
+f40.amip_pat_cosp.cam4.1deg.001,CCSM4,NE,unknown,rNNiMMpLL,cm5,unknown,unknown,1979-2003,f09_g16,F_AMIP_CN,cesm1_0_beta20,2011/05-2011/05,hopper,/home/b/bsander/csm
+f40.amip_pat_cosp.cam4.1deg.001e,CCSM4,NE,unknown,rNNiMMpLL,cm5,unknown,unknown,2004-2008,f09_g16,F_AMIP_CN,cesm1_0_beta20,2011/09-2011/09,hopper,/home/b/bsander/csm
+f40.ctlsst_4xco2_cosp.cam4.1deg.001,CCSM4,NE,unknown,rNNiMMpLL,cm5,unknown,unknown,0001-0030,f09_g16,F_1850,cesm1_0_beta20,2011/05-2011/05,hopper,/home/b/bsander/csm
+f40.ctlsst_cosp.cam4.1deg.001,CCSM4,NE,unknown,rNNiMMpLL,cm5,unknown,unknown,0001-0030,f09_g16,F_1850,cesm1_0_beta20,2011/05-2011/05,hopper,/home/b/bsander/csm
+@

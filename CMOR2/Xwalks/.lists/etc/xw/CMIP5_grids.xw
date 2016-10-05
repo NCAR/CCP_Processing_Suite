@@ -1,0 +1,14 @@
+axis:Tables/CMIP5_grids:i_index:i::cell index along first dimension
+axis:Tables/CMIP5_grids:j_index:j::cell index along second dimension
+axis:Tables/CMIP5_grids:k_index:k::cell index along third dimension
+axis:Tables/CMIP5_grids:l_index:l::cell index along fourth dimension
+axis:Tables/CMIP5_grids:m_index:m::cell index along fifth dimension
+axis:Tables/CMIP5_grids:x::projection_x_coordinate:x coordinate of projection
+axis:Tables/CMIP5_grids:y::projection_y_coordinate:y coordinate of projection
+axis:Tables/CMIP5_grids:grid_latitude:rlat:grid_latitude:latitude in rotated pole grid
+axis:Tables/CMIP5_grids:grid_longitude:rlon:grid_longitude:longitude in rotated pole grid
+axis:Tables/CMIP5_grids:vertices:::
+variable:Tables/CMIP5_grids:1.0:longitude::1
+variable:Tables/CMIP5_grids:1.0:latitude::1
+variable:Tables/CMIP5_grids:1.0:vertices_longitude::1
+variable:Tables/CMIP5_grids:1.0:vertices_latitude::1

@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+#PBS -q serial
+#PBS -l walltime=48:00:00
+#PBS -N NAME
+#PBS -m abe
+#PBS -e log.NAME.err
+#PBS -o log.NAME.out
+#PBS -V
+#
+eval `/opt/modules/3.2.10.2/bin/modulecmd sh unload netcdf/4.3.0`
+eval `/opt/modules/3.2.10.2/bin/modulecmd sh unload cray-netcdf/4.3.2`
+eval `/opt/modules/3.2.10.2/bin/modulecmd sh load nco`
+#

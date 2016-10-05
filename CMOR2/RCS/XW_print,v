@@ -1,0 +1,52 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.02.16.17.08.11;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@FUCKED
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/csh -f
+#
+# Print xwalk nicer
+#
+if ("$#argv" == 0) then
+  echo "Usage: XW_print xwalk_"
+  exit 1
+else
+  set xwalk = $argv[1]
+endif
+if !(-f ${xwalk}) then
+  echo ${xwalk}" not found. Exit."
+  exit 1
+endif
+#
+foreach i (`cat ${xwalk}`)
+  set var = `echo $i | cut -d":" -f2`
+  set lng = `echo $i | cut -d":" -f3`
+  set dim = `echo $i | cut -d":" -f4 | sed -e 's/ /:/g'`
+  set eqv = `echo $i | cut -d":" -f8 | sed -e 's/ /:/g'`
+  echo -n ${var}"     "
+  echo -n ${lng}"     "
+  echo -n ${dim} | sed -e 's/:/ /g'
+  echo    ${eqv} | sed -e 's/:/ /g'
+end
+#
+exit
+
+@

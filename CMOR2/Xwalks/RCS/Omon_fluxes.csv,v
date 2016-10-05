@@ -1,0 +1,126 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2014.12.08.18.16.04;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2013.10.11.18.54.38;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@Y/N  entry         units "positive"   standard_name/comment
+---  ------------- ----- ----------   ----------------------------------------------------------------------------
+ N   hfds          W m-2 down         surface_downward_heat_flux_in_sea_water
+                                      This is the net flux of heat entering the liquid water column through its 
+                                      upper surface (excluding any 'flux adjustment').
+
+ N   hfls          W m-2 down         surface_downward_latent_heat_flux
+                                      This is defined as "where ice_free_sea over sea"
+
+
+ Y   hfss          W m-2 down         surface_downward_sensible_heat_flux
+     SENH_F                           This is defined as 'where ice_free_sea over sea'"
+
+ Y   rlds          W m-2 down         surface_net_downward_longwave_flux
+     LWDN_F + LWUP_F where IFRAC = 0  This is defined as 'where ice_free_sea over sea'"
+     
+
+ N   rsds          W m-2 down         downwelling_shortwave_flux_in_sea_water
+
+ Y   rsntds        W m-2 down         net_downward_shortwave_flux_at_sea_water_surface
+     QSW_HTP                          This is the flux into the surface of liquid sea water only. This excludes 
+                                      shortwave flux absorbed by sea ice, but includes any light that passes
+                                      through the ice and is absorbed by the ocean.
+
+ N   hfevapds      W m-2 up           temperature_flux_due_to_evaporation_expressed_as_heat_flux_out_of_sea_water
+                                      This is defined as 'where ice_free_sea over sea'"
+
+ N   hfrainds      W m-2 down         temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water
+                                      This is defined as "where ice_free_sea over sea"; i.e., the total flux 
+                                      (considered here) entering the ice-free portion of the grid cell
+                                      divided by the area of the ocean portion of the grid cell.
+
+ N   hfibthermds   W m-2              heat_flux_into_sea_water_due_to_iceberg_thermodynamics
+     hfibthermds2d
+
+ N   hfrunoffds    W m-2              temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water
+     hfrunoffds2d
+
+ N   hfsifrazil    W m-2              heat_flux_into_sea_water_due_to_freezing_of_frazil_ice
+     hfsifrazil2d
+
+ N   hfsithermds   W m-2              heat_flux_into_sea_water_due_to_sea_ice_thermodynamics
+     hfsithermds2d
+
+ N   hfsnthermds   W m-2              heat_flux_into_sea_water_due_to_snow_thermodynamics
+     hfsnthermds2d
+
+ N   hfgeou        W m-2 up           upward_geothermal_heat_flux_at_sea_floor
+
+ N   hfcorr        W m-2 down         heat_flux_correction
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 50
+a50 38
+evs,water_evaporation_flux,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+ficeberg2d,water_flux_into_sea_water_from_icebergs,longitude latitude time,ocean,0,UNAVAILABLE,Not applicable
+ficeberg,water_flux_into_sea_water_from_icebergs,longitude latitude olevel time,ocean,0,UNAVAILABLE,Not applicable
+friver,water_flux_into_sea_water_from_rivers,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+fsitherm,water_flux_into_sea_water_due_to_sea_ice_thermodynamics,longitude latitude time,ocean seaIce,0,UNKNOWN,UNKNOWN
+hfcorr,heat_flux_correction,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+hfds,surface_downward_heat_flux_in_sea_water,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+hfevapds,temperature_flux_due_to_evaporation_expressed_as_heat_flux_out_of_sea_water,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+hfgeou,upward_geothermal_heat_flux_at_sea_floor,longitude latitude time,ocean,0,UNAVAILABLE,Not applicable
+hfibthermds2d,heat_flux_into_sea_water_due_to_iceberg_thermodynamics,longitude latitude time,ocean,0,UNAVAILABLE,Not applicable
+hfibthermds,heat_flux_into_sea_water_due_to_iceberg_thermodynamics,longitude latitude olevel time,ocean,0,UNAVAILABLE,Not applicable
+hfls,surface_downward_latent_heat_flux,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+hfrainds,temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+hfrunoffds2d,temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+hfrunoffds,temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water,longitude latitude olevel time,ocean,0,UNKNOWN,UNKNOWN
+hfsifrazil2d,heat_flux_into_sea_water_due_to_freezing_of_frazil_ice,longitude latitude time,ocean seaIce,0,UNKNOWN,UNKNOWN
+hfsifrazil,heat_flux_into_sea_water_due_to_freezing_of_frazil_ice,longitude latitude olevel time,ocean seaIce,0,UNKNOWN,UNKNOWN
+hfsithermds2d,heat_flux_into_sea_water_due_to_sea_ice_thermodynamics,longitude latitude time,ocean seaIce,0,UNKNOWN,UNKNOWN
+hfsithermds,heat_flux_into_sea_water_due_to_sea_ice_thermodynamics,longitude latitude olevel time,ocean seaIce,0,UNKNOWN,UNKNOWN
+hfsnthermds2d,heat_flux_into_sea_water_due_to_snow_thermodynamics,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+hfsnthermds,heat_flux_into_sea_water_due_to_snow_thermodynamics,longitude latitude olevel time,ocean,0,UNKNOWN,UNKNOWN
+hfss,surface_downward_sensible_heat_flux,longitude latitude time,ocean,1,SENH_F,SENH_F
+pr,rainfall_flux,longitude latitude time,ocean,1,PREC_F,PREC_F
+prsn,snowfall_flux,longitude latitude time,ocean,1,SNOW_F,SNOW_F
+rlds,surface_net_downward_longwave_flux,longitude latitude time,ocean,3,LWDN_F LWUP_F IFRAC,LWDN_F + LWUP_F where IFRAC = 0
+rsds,downwelling_shortwave_flux_in_sea_water,longitude latitude olevel time,ocean,0,UNKNOWN,UNKNOWN
+rsntds,net_downward_shortwave_flux_at_sea_water_surface,longitude latitude time,ocean,1,QSW_HTP,QSW_HTP
+sfdsi,downward_sea_ice_basal_salt_flux,longitude latitude time,ocean seaIce,0,UNKNOWN,UNKNOWN
+sfriver,salt_flux_into_sea_water_from_rivers,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+vsfcorr,virtual_salt_flux_correction,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+vsfevap,virtual_salt_flux_into_sea_water_due_to_evaporation,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+vsf,virtual_salt_flux_into_sea_water,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+vsfpr,virtual_salt_flux_into_sea_water_due_to_rainfall,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+vsfriver,virtual_salt_flux_into_sea_water_from_rivers,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+vsfsit,virtual_salt_flux_into_sea_water_due_to_sea_ice_thermodynamics,longitude latitude time,ocean seaIce,0,UNKNOWN,UNKNOWN
+wfcorr,water_flux_correction,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+wfonocorr,water_flux_into_sea_water_without_flux_correction,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+wfo,water_flux_into_sea_water,longitude latitude time,ocean,0,UNKNOWN,UNKNOWN
+@

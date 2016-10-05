@@ -1,0 +1,44 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.12.16.15.59.18;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@new: "loadsoa_2D-M_CCSM4_r1i1p1_200601-200612.nc"
+
+like: wet3Doa_3D-M_CCSM4_r1i1p1_200601-200612.nc, do "wet2Dsoa file using SOA*SFWET"
+
+
+for loadsoa (new variable) we use SOA*
+for loadpoa (new variabe) we use CB1+CB2 (so earlier loadoa)
+for loadoa we use SOA* + CB1 + CB2 (so basically loadsoa+loadpoa)
+
+For emis*, dry* and wet*  we also have to change the following:
+soa = SOA*
+poa = OC1+OC2
+oa  = SOA* + OC1+OC2
+
+and area-weight as follows:
+
+ii goes over all latitudes
+coo(ii) = gw(ii)*(2.*pi/nlon)*re^2,
+with re = 6.3712e6         ; radius of earth
+and pi = 3.14159265
+.
+@

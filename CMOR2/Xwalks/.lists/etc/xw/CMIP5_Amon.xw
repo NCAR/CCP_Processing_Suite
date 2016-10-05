@@ -1,0 +1,102 @@
+axis:Tables/CMIP5_Amon:longitude:lon:longitude:longitude
+axis:Tables/CMIP5_Amon:latitude:lat:latitude:latitude
+axis:Tables/CMIP5_Amon:plevs:plev:air_pressure:pressure
+axis:Tables/CMIP5_Amon:time:time:time:time
+axis:Tables/CMIP5_Amon:time2:time:time:time
+axis:Tables/CMIP5_Amon:height2m:height:height:height
+axis:Tables/CMIP5_Amon:height10m:height:height:height
+axis:Tables/CMIP5_Amon:smooth_level:lev:atmosphere_sleve_coordinate:atmosphere smooth level vertical (SLEVE) coordinate
+axis:Tables/CMIP5_Amon:natural_log_pressure:lev:atmosphere_ln_pressure_coordinate:atmosphere natural log pressure coordinate
+axis:Tables/CMIP5_Amon:standard_sigma:lev:atmosphere_sigma_coordinate:sigma coordinate
+axis:Tables/CMIP5_Amon:standard_hybrid_sigma:lev:atmosphere_hybrid_sigma_pressure_coordinate:hybrid sigma pressure coordinate
+axis:Tables/CMIP5_Amon:alternate_hybrid_sigma:lev:atmosphere_hybrid_sigma_pressure_coordinate:hybrid sigma pressure coordinate
+axis:Tables/CMIP5_Amon:hybrid_height:lev:atmosphere_hybrid_height_coordinate:hybrid height coordinate
+variable:Tables/CMIP5_Amon:1.0:orog:atmos:1
+variable:Tables/CMIP5_Amon:1.0:p0::1
+variable:Tables/CMIP5_Amon:1.0:ptop::1
+variable:Tables/CMIP5_Amon:1.0:a::1
+variable:Tables/CMIP5_Amon:1.0:b::1
+variable:Tables/CMIP5_Amon:1.0:a_bnds::1
+variable:Tables/CMIP5_Amon:1.0:b_bnds::1
+variable:Tables/CMIP5_Amon:1.0:ap::1
+variable:Tables/CMIP5_Amon:1.0:ap_bnds::1
+variable:Tables/CMIP5_Amon:1.0:ztop::1
+variable:Tables/CMIP5_Amon:1.0:tas:atmos:1
+variable:Tables/CMIP5_Amon:1.0:ts:atmos:1
+variable:Tables/CMIP5_Amon:1.0:tasmin:atmos:1
+variable:Tables/CMIP5_Amon:1.0:tasmax:atmos:1
+variable:Tables/CMIP5_Amon:1.0:psl:atmos:1
+variable:Tables/CMIP5_Amon:1.0:ps:atmos:1
+variable:Tables/CMIP5_Amon:1.0:uas:atmos:1
+variable:Tables/CMIP5_Amon:1.0:vas:atmos:1
+variable:Tables/CMIP5_Amon:1.0:sfcWind:atmos:1
+variable:Tables/CMIP5_Amon:1.0:hurs:atmos:1
+variable:Tables/CMIP5_Amon:1.0:huss:atmos:1
+variable:Tables/CMIP5_Amon:1.0:pr:atmos:1
+variable:Tables/CMIP5_Amon:1.0:prsn:atmos:1
+variable:Tables/CMIP5_Amon:1.0:prc:atmos:1
+variable:Tables/CMIP5_Amon:1.0:evspsbl:atmos:1
+variable:Tables/CMIP5_Amon:1.0:sbl:atmos:1
+variable:Tables/CMIP5_Amon:1.0:tauu:atmos:1
+variable:Tables/CMIP5_Amon:1.0:tauv:atmos:1
+variable:Tables/CMIP5_Amon:1.0:hfls:atmos:1
+variable:Tables/CMIP5_Amon:1.0:hfss:atmos:1
+variable:Tables/CMIP5_Amon:1.0:rlds:atmos:1
+variable:Tables/CMIP5_Amon:1.0:rlus:atmos:1
+variable:Tables/CMIP5_Amon:1.0:rsds:atmos:1
+variable:Tables/CMIP5_Amon:1.0:rsus:atmos:1
+variable:Tables/CMIP5_Amon:1.0:rsdscs:atmos:1
+variable:Tables/CMIP5_Amon:1.0:rsuscs:atmos:1
+variable:Tables/CMIP5_Amon:1.0:rldscs:atmos:1
+variable:Tables/CMIP5_Amon:1.0:rsdt:atmos:1
+variable:Tables/CMIP5_Amon:1.0:rsut:atmos:1
+variable:Tables/CMIP5_Amon:1.0:rlut:atmos:1
+variable:Tables/CMIP5_Amon:1.0:rlutcs:atmos:1
+variable:Tables/CMIP5_Amon:1.0:rsutcs:atmos:1
+variable:Tables/CMIP5_Amon:1.0:prw:atmos:1
+variable:Tables/CMIP5_Amon:1.0:clt:atmos:1
+variable:Tables/CMIP5_Amon:1.0:clwvi:atmos:1
+variable:Tables/CMIP5_Amon:1.0:clivi:atmos:1
+variable:Tables/CMIP5_Amon:1.0:rtmt:atmos:1
+variable:Tables/CMIP5_Amon:1.0:ccb:atmos:1
+variable:Tables/CMIP5_Amon:1.0:cct:atmos:1
+variable:Tables/CMIP5_Amon:1.0:ci:atmos:1
+variable:Tables/CMIP5_Amon:1.0:sci:atmos:1
+variable:Tables/CMIP5_Amon:1.0:fco2antt:atmos:1
+variable:Tables/CMIP5_Amon:1.0:fco2fos:atmos:1
+variable:Tables/CMIP5_Amon:1.0:fco2nat:atmos:1
+variable:Tables/CMIP5_Amon:1.0:cl:atmos:1
+variable:Tables/CMIP5_Amon:1.0:clw:atmos:1
+variable:Tables/CMIP5_Amon:1.0:cli:atmos:1
+variable:Tables/CMIP5_Amon:1.0:mc:atmos:1
+variable:Tables/CMIP5_Amon:1.0:ta:atmos:1
+variable:Tables/CMIP5_Amon:1.0:ua:atmos:1
+variable:Tables/CMIP5_Amon:1.0:va:atmos:1
+variable:Tables/CMIP5_Amon:1.0:hus:atmos:1
+variable:Tables/CMIP5_Amon:1.0:hur:atmos:1
+variable:Tables/CMIP5_Amon:1.0:wap:atmos:1
+variable:Tables/CMIP5_Amon:1.0:zg:atmos:1
+variable:Tables/CMIP5_Amon:1.0:tro3:atmos atmosChem:1
+variable:Tables/CMIP5_Amon:1.0:tro3Clim:atmos atmosChem:1
+variable:Tables/CMIP5_Amon:1.0:co2:atmos:1
+variable:Tables/CMIP5_Amon:1.0:co2Clim:atmos:1
+variable:Tables/CMIP5_Amon:1.0:co2mass:atmos:1
+variable:Tables/CMIP5_Amon:1.0:co2massClim:atmos:1
+variable:Tables/CMIP5_Amon:1.0:ch4:atmos atmosChem:1
+variable:Tables/CMIP5_Amon:1.0:ch4Clim:atmos atmosChem:1
+variable:Tables/CMIP5_Amon:1.0:ch4global:atmos atmosChem:1
+variable:Tables/CMIP5_Amon:1.0:ch4globalClim:atmos atmosChem:1
+variable:Tables/CMIP5_Amon:1.0:n2o:atmos atmosChem:1
+variable:Tables/CMIP5_Amon:1.0:n2oClim:atmos atmosChem:1
+variable:Tables/CMIP5_Amon:1.0:n2oglobal:atmos atmosChem:1
+variable:Tables/CMIP5_Amon:1.0:n2oglobalClim:atmos atmosChem:1
+variable:Tables/CMIP5_Amon:1.0:cfc11global:atmos atmosChem:1
+variable:Tables/CMIP5_Amon:1.0:cfc12global:atmos atmosChem:1
+variable:Tables/CMIP5_Amon:1.0:hcfc22global:atmos atmosChem:1
+variable:Tables/CMIP5_Amon:1.0:cfc113global:atmos atmosChem:1
+variable:Tables/CMIP5_Amon:1.0:pfull:atmos:1
+variable:Tables/CMIP5_Amon:1.0:phalf:atmos:1
+variable:Tables/CMIP5_Amon:1.0:tasAdjust:atmos:1
+variable:Tables/CMIP5_Amon:1.0:tsAdjust:atmos:1
+variable:Tables/CMIP5_Amon:1.0:pslAdjust:atmos:1
+variable:Tables/CMIP5_Amon:1.0:prAdjust:atmos:1

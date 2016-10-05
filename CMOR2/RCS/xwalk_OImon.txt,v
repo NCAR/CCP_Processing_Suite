@@ -1,0 +1,63 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.12.02.17.26.00;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@OImon:ageice:seaIce:1:UNAVAILABLE:UNAVAILABLE
+OImon:bmelt:seaIce:1:meltb:meltb
+OImon:divice:seaIce:1:divu:divu
+OImon:eshrice:seaIce:1:UNKNOWN:UNKNOWN
+OImon:evap:seaIce:1:evap_ai:evap_ai
+OImon:grCongel:seaIce:1:congel:congel
+OImon:grFrazil:seaIce:1:frazil:frazil
+OImon:grLateral:seaIce:1:UNAVAILABLE:UNAVAILABLE
+OImon:hcice:seaIce:1:qin:qin
+OImon:hflssi:seaIce:1:flat_ai:flat_ai
+OImon:hfssi:seaIce:1:fsens_ai:fsens_ai
+OImon:ialb:seaIce:1:UNAVAILABLE:UNAVAILABLE
+OImon:nshrice:seaIce:1:UNKNOWN:UNKNOWN
+OImon:pr:seaIce:1:rain_ai:rain_ai
+OImon:prsn:seaIce:1:snow_ai:snow_ai
+OImon:ridgice:seaIce:1:UNKNOWN:UNKNOWN
+OImon:rldssi:seaIce:1:flwdn:flwdn
+OImon:rlussi:seaIce:1:flwup:flwup
+OImon:rsdssi:seaIce:1:fswdn:fswdn
+OImon:rsussi:seaIce:1:UNKNOWN:UNKNOWN
+OImon:sblsi:seaIce:1:UNKNOWN:UNKNOWN
+OImon:sic:seaIce:1:aice:aice
+OImon:sim:seaIce:1:UNKNOWN:UNKNOWN
+OImon:sit:seaIce:1:hi:hi unchanged
+OImon:snc:seaIce:1:UNKNOWN:UNKNOWN
+OImon:snd:seaIce:1:hs:hs
+OImon:snomelt:seaIce:1:melts:melts
+OImon:snoToIce:seaIce:1:snoice:snoice
+OImon:ssi:seaIce:1:UNKNOWN:UNKNOWN
+OImon:strairx:seaIce:1:strairx:strairx
+OImon:strairy:seaIce:1:strairy:strairy
+OImon:streng:seaIce:1:strength:strength
+OImon:strocnx:seaIce:1:strocnx:strocnx
+OImon:strocny:seaIce:1:strocny:strocny
+OImon:tmelt:seaIce:1:meltt:meltt
+OImon:transifs:seaIce:1:UNKNOWN:UNKNOWN
+OImon:transix:seaIce:1:UNKNOWN:UNKNOWN
+OImon:transiy:seaIce:1:UNKNOWN:UNKNOWN
+OImon:tsice:seaIce:1:Tsfc:Tsfc
+OImon:tsnint:seaIce:1:UNKNOWN:UNKNOWN
+@

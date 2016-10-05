@@ -1,0 +1,44 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.06.05.19.15.12;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@b.e10.BRCP26WCN.f19_g16.003 BRCP26WCN 1.9x2.5_gx1v6 yellowstone b40.rcp2_6.2deg.wcm.003 2055-01-01 cesm1_0_5_rel06 /home/santos/csm
+b.e10.BRCP26WCN.f19_g16.004 BRCP26WCN 1.9x2.5_gx1v6 yellowstone b40.rcp2_6.2deg.wcm.004 2051-01-01 cesm1_0_5_rel06 /home/santos/csm
+b.e10.BRCP45WCN.f19_g16.002 BRCP45WCN 1.9x2.5_gx1v6 yellowstone b40.rcp4_5.2deg.wcm.002 2066-01-01 cesm1_0_5_rel06 /CCSM/csm
+b.e10.BRCP45WCN.f19_g16.003 BRCP45WCN 1.9x2.5_gx1v6 yellowstone b40.rcp4_5.2deg.wcm.003 2066-01-01 cesm1_0_5_rel06 /CCSM/csm
+b.e10.BRCP85WCN.f19_g16.004 BRCP85WCN 1.9x2.5_gx1v6 yellowstone b40.rcp8_5.2deg.wcm.004 2056-01-01 cesm1_0_5_rel06 /CCSM/csm
+b.e10.BRCP85WCN.f19_g16.005 BRCP85WCN 1.9x2.5_gx1v6 yellowstone b40.rcp8_5.2deg.wcm.005 2051-01-01 cesm1_0_5_rel06 /CCSM/csm
+b40.1850.track1.2deg.wcm.007 BW1850CN 1.9x2.5_gx1v6 bluefire b40.1850.track1.2deg.wcm.006 0096-01-01 ccsm4_0_beta50 /CCSM/csm
+b40.1955-2005.2deg.wcm.002 B20TRWCN 1.9x2.5_gx1v6 bluefire b40.20th.track1.2deg.wcm.007 1955-01-01 cesm1_0_beta05 /CCSM/csm
+b40.1955-2005.2deg.wcm.003 B55TRWCN 1.9x2.5_gx1v6 bluefire b40.20th.track1.2deg.wcm.007 1955-01-01 cesm1_0_beta06 /CCSM/csm
+b40.1955-2005.2deg.wcm.004 B55TRWCN 1.9x2.5_gx1v6 bluefire b40.20th.track1.2deg.wcm.007 1955-01-01 cesm1_0_beta08 /CCSM/csm
+b40.20th.track1.2deg.wcm.007 BW20TRCN 1.9x2.5_gx1v6 bluefire b40.1850.track1.2deg.wcm.007 0156-01-01 ccsm4_0_beta52 /CCSM/csm
+b40.rcp2_6.2deg.wcm.003 BRCP26WCN 1.9x2.5_gx1v6 bluefire b40.1955-2005.2deg.wcm.003 2005-01-01 cesm1_0_rel07 /home/fischer/csm
+b40.rcp2_6.2deg.wcm.004 BRCP26WCN 1.9x2.5_gx1v6 bluefire b40.1955-2005.2deg.wcm.004 2005-01-01 cesm1_0_rel07 /CCSM/csm
+b40.rcp4_5.2deg.wcm.001 B55TRWCN 1.9x2.5_gx1v6 bluefire b40.1955-2005.2deg.wcm.002 2005-01-01 cesm1_0_beta06 /CCSM/csm
+b40.rcp4_5.2deg.wcm.002 B55TRWCN 1.9x2.5_gx1v6 bluefire b40.1955-2005.2deg.wcm.003 2005-01-01 cesm1_0_beta07 /CCSM/csm
+b40.rcp4_5.2deg.wcm.003 B55TRWCN 1.9x2.5_gx1v6 bluefire b40.1955-2005.2deg.wcm.004 2005-01-01 cesm1_0_beta09 /CCSM/csm
+b40.rcp8_5.2deg.wcm.001 BRCP45WCN 1.9x2.5_gx1v6 bluefire b40.1955-2005.2deg.wcm.002 2005-01-01 cesm1_0_beta11 /USER/csm
+b40.rcp8_5.2deg.wcm.002 B55TRWCN 1.9x2.5_gx1v6 bluefire b40.1955-2005.2deg.wcm.002 2005-01-01 cesm1_0_beta09 /CCSM/csm
+b40.rcp8_5.2deg.wcm.003 B55TRWCN 1.9x2.5_gx1v6 bluefire b40.1955-2005.2deg.wcm.002 2005-01-01 cesm1_0_beta09 /CCSM/csm
+b40.rcp8_5.2deg.wcm.004 BRCP85WCN 1.9x2.5_gx1v6 bluefire b40.1955-2005.2deg.wcm.003 2005-01-01 cesm1_0_rel07 /home/fischer/csm
+b40.rcp8_5.2deg.wcm.005 BRCP85WCN 1.9x2.5_gx1v6 bluefire b40.1955-2005.2deg.wcm.004 2005-01-01 cesm1_0_rel07 /CCSM/csm
+@

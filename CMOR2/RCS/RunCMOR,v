@@ -1,0 +1,252 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2015.04.02.20.25.34;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.03.21.16.31.08;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@#!/bin/sh
+#
+# RunCMOR
+#
+if [ $# -eq 0 ] ; then
+   echo 'Usage: RunCMOR case comp table "CMIP5 fields"'
+   echo ""
+   echo "  case is required"
+   echo "  comp is required"
+   echo "  table is required"
+   echo '  "CMIP5_fields" is optional - if not given, then all fields in xwalk will be processed'
+   echo "   Otherwise, blank-delimited list inside double quotes, example:"
+   echo ""
+   echo '   ./RunCMOR b40.20th.track1.deg.008 clm2.h0 Lmon "fFire fLuc lai"'
+   exit 1
+elif [ $# -eq 3 ] ; then
+   CASE=$1
+   COMP=$2
+   TABL=$3
+elif [ $# -eq 4 ] ; then
+   CASE=$1
+   COMP=$2
+   TABL=$3
+   VARS=$4
+else
+   echo 'Usage: RunCMOR case comp table "CMIP5 fields"'
+   echo ""
+   echo "  case is required"
+   echo "  comp is required"
+   echo "  table is required"
+   echo '  "CMIP5_fields" is optional - if not given, then all fields in xwalk will be processed'
+   echo "   Otherwise, blank-delimited list inside double quotes, example:"
+   echo ""
+   echo '   ./RunCMOR b40.20th.track1.deg.008 clm2.h0 Lmon "fFire fLuc lai"'
+   exit 1
+fi
+#
+LD_LIBRARY_PATH=/usr/local/netcdf-4.1.3-pgi-hpf-cc-11.5-0/lib:/usr/lib64/mpich2/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
+#
+BASED=${HOME}/CCP_Processing_Suite
+CMORD=${HOME}/CCP_Processing_Suite/CMOR2
+PRFX=""
+#
+ln -s -f ${BASED}/experiments.txt           .
+#
+# Get appropriate grid and xwalk files based on information in experiments.txt
+#
+MIP=`egrep "^${CASE} " experiments.txt | cut -c105- | cut -d" " -f1`
+MOD=`egrep "^${CASE} " experiments.txt | cut -c55-  | cut -d" " -f1`
+#
+case "$MIP" in
+  cm5* )
+    XWALK=xwalk_CMIP5_${TABL} ;;
+  gmp* ) 
+    XWALK=xwalk_GeoMIP_${TABL} ;;
+  pmp* ) 
+    XWALK=xwalk_PMIP3_${TABL} ;;
+  tmp* ) 
+    XWALK=xwalk_TAMIP_${TABL} ;;
+  aer* ) 
+    XWALK=xwalk_AEROCOM-ACC_${TABL} ;;
+  ccm* ) 
+    PRFX=CCMI1_
+    XWALK=xwalk_CCMI1_${TABL} ;;
+  * )
+    echo "Unknown MIP for CASE "${CASE}": "${MIP}
+    echo "Stopping"
+    exit 1 ;;
+esac
+#
+case "$TABL" in
+  3hr | 6hrLev | 6hrPlev | aero | Amon | day | cf3hr | cfDay | cfMon | cfOff | cfSite | 3hrCurt | 3hrMlev | 3hrPlev | 3hrSlev | sites | cfSites )
+    case "$MOD" in
+      CESM1-CAM5 )
+        GRIDF=atm_grid_cam5_f09.nc ;;
+      CESM1-WACCM )
+        GRIDF=atm_grid_f19.nc ;;
+      * )
+        GRIDF=atm_grid_cam4_f09.nc ;;
+    esac ;;
+  monthly )
+    GRIDF=atm_grid_cam4_f19_26L.nc ;;
+  LImon | Lmon )
+    case "$MOD" in
+      CESM1-CAM5 )
+        GRIDF=lnd_grid_f09.nc ;;
+      CESM1-WACCM )
+        GRIDF=lnd_grid_f19.nc ;;
+      * )
+        GRIDF=lnd_grid_f09.nc ;;
+    esac ;;
+  Oclim | Omon | Oyr )
+    case "$MOD" in
+      * )
+        GRIDF=ocn_grid_gx1.nc ;;
+    esac ;;
+  OImon )
+    case "$MOD" in
+      * )
+        GRIDF=ice_grid_gx1.nc ;;
+    esac ;;
+  2D-M | 3D-M | 2D-I )
+    case "$MOD" in
+      * )
+        GRIDF=atm_grid_cam4_f19_56L.nc ;;
+    esac ;;
+  * ) 
+    echo "Unable to continue because "$TABL" not known table. Stopping."
+    exit 1 ;;
+esac
+#
+# Check for xwalk and grid files
+#
+if [ ! -f ${CMORD}/Xwalks/${XWALK} ] ; then
+  echo "xwalk file "${CMORD}"/Xwalks/"${XWALK}" not found."
+  echo "Stopping"
+  exit 1
+fi
+#
+if [ ! -f ${CMORD}/GridFiles/${GRIDF} ] ; then
+  echo "grid file "${CMORD}"/GridFiles/"${GRIDF}" not found."
+  echo "Stopping"
+  exit 1
+fi
+ln -s -f ${CMORD}/Tables             .
+ln -s -f ${CMORD}/GridFiles/${GRIDF} .
+#
+# Assume all fields in xwalk to be processed
+#
+if [ $# -eq 3 ] ; then
+  echo "Linking "${CMORD}"/Xwalks/"${XWALK}
+  ln -s -f ${CMORD}/Xwalks/${XWALK} .
+fi
+#
+# Create new xwalk file containing just the fields to be processed
+#
+if [ $# -eq 4 ] ; then
+  echo "Creating new xwalk file from default "${XWALK}
+  rm -f ${XWALK}
+  for ivar in `echo $VARS` ; do
+    egrep ":${ivar}:" ${CMORD}/Xwalks/${XWALK} >> ${XWALK} 
+    echo $ivar" added to "${XWALK}
+  done
+fi
+#
+# Do it!
+#
+rm -f ${TABL}_in.${CASE}.${COMP} Info_in.${CASE}.${COMP}
+if [ ! -d ./CMOR ] ; then
+  mkdir ./CMOR
+fi
+#
+echo $CASE >> ${TABL}_in.${CASE}.${COMP}
+echo $COMP >> ${TABL}_in.${CASE}.${COMP}
+#
+# Set up various tracking information to be read in and made global metadata
+#
+WHOAMI=`whoami`
+PRCHST=`hostname`
+SVNBIN=`which svn`
+SVNREV=`$SVNBIN info $SVN | egrep "Rev:"`
+SVNDAT=`$SVNBIN info $SVN | egrep "Date:"`
+SVNUID=`$SVNBIN info $SVN | egrep "UUID:"`
+echo $WHOAMI >> Info_in.${CASE}.${COMP}
+echo $PRCHST >> Info_in.${CASE}.${COMP}
+echo $SVNREV >> Info_in.${CASE}.${COMP}
+echo $SVNDAT >> Info_in.${CASE}.${COMP}
+echo $SVNUID >> Info_in.${CASE}.${COMP}
+#
+CBIND=${HOME}/bin
+if [ -f ${CBIND}/${PRFX}${TABL}_CMOR ] ; then
+  ln -s -f ${CBIND}/${PRFX}${TABL}_CMOR .
+else
+  echo "${PRFX}${TABL}_CMOR NOT FOUND in "${CBIND}". Rebuild."
+  exit 1
+fi
+#
+cat ${TABL}_in.${CASE}.${COMP} | ./${PRFX}${TABL}_CMOR
+#
+#rm -f ${TABL}_in.${CASE}.${COMP}
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d42 1
+d48 3
+a50 1
+MIP=`egrep "^${CASE} " experiments.txt | cut -c90-94`
+d56 2
+d60 5
+a67 1
+    ./procstat.sh error RunCMOR
+a70 2
+MOD=`egrep "^${CASE} " experiments.txt | cut -c45-59`
+#
+d72 1
+a72 1
+  3hr | 6hrLev | 6hrPlev | aero | Amon | day | cf3hr | cfDay | cfMon | cfOff | cfSite )
+d76 2
+d81 2
+d85 4
+d102 5
+a108 1
+    ./procstat.sh error RunCMOR
+a116 1
+  ./procstat.sh error RunCMOR
+a122 1
+  ./procstat.sh error RunCMOR
+a124 1
+#
+d171 2
+a172 2
+if [ -f ${CBIND}/${TABL}_CMOR ] ; then
+  ln -s -f ${CBIND}/${TABL}_CMOR .
+d174 1
+a174 1
+  echo "${TABL}_CMOR NOT FOUND in "${CBIND}". Rebuild."
+d178 1
+a178 1
+cat ${TABL}_in.${CASE}.${COMP} | ./${TABL}_CMOR
+@

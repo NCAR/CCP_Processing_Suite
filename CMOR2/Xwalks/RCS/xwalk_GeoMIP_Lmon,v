@@ -1,0 +1,156 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2012.10.16.19.59.42;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.06.03.12.50.11;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@GeoMIP_Lmon:baresoilFrac:area_fraction:longitude latitude time typebare:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:burntArea:area_fraction:longitude latitude time:land:1:ANN_FAREA_BURNED:ANN_FAREA_BURNED
+GeoMIP_Lmon:c3PftFrac:area_fraction:longitude latitude time typec3pft:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:c4PftFrac:area_fraction:longitude latitude time typec4pft:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:cCwd:wood_debris_carbon_content:longitude latitude time:land:1:CWDC:CWDC
+GeoMIP_Lmon:cLeaf:leaf_carbon_content:longitude latitude time:land:1:LEAFC:LEAFC
+GeoMIP_Lmon:cLitterAbove:surface_litter_carbon_content:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:cLitterBelow:subsurface_litter_carbon_content:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:cLitter:litter_carbon_content:longitude latitude time:land:1:TOTLITC:TOTLITC
+GeoMIP_Lmon:cMisc:miscellaneous_living_matter_carbon_content:longitude latitude time:land:1:STORVEGC:STORVEGC
+GeoMIP_Lmon:cProduct:carbon_content_of_products_of_anthropogenic_land_use_change:longitude latitude time:land:1:TOTPRODC:TOTPRODC
+GeoMIP_Lmon:cRoot:root_carbon_content:longitude latitude time:land:3:FROOTC LIVE_ROOTC DEAD_ROOTC:FROOTC,LIVE_ROOTC,DEAD_ROOTC
+GeoMIP_Lmon:cropFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:cSoilFast:fast_soil_pool_carbon_content:longitude latitude time:land:2:SOIL1C SOIL2C:SOIL1C,SOIL2C
+GeoMIP_Lmon:cSoil:soil_carbon_content:longitude latitude time:land:1:TOTSOMC:TOTSOMC
+GeoMIP_Lmon:cSoilMedium:medium_soil_pool_carbon_content:longitude latitude time:land:1:SOIL3C:SOIL3C
+GeoMIP_Lmon:cSoilSlow:slow_soil_pool_carbon_content:longitude latitude time:land:1:SOIL4C:SOIL4C
+GeoMIP_Lmon:cVeg:vegetation_carbon_content:longitude latitude time:land:1:TOTPFTC:TOTPFTC
+GeoMIP_Lmon:cWood:wood_carbon_content:longitude latitude time:land:1:WOODC:WOODC
+GeoMIP_Lmon:evspsblsoi:water_evaporation_flux_from_soil:longitude latitude time:land:1:QSOIL:QSOIL
+GeoMIP_Lmon:evspsblveg:water_evaporation_flux_from_canopy:longitude latitude time:land:1:QVEGE:QVEGE
+GeoMIP_Lmon:fFire:surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fires_excluding_anthropogenic_land_use_change:longitude latitude time:land:1:COL_FIRE_CLOSS:COL_FIRE_CLOSS
+GeoMIP_Lmon:fGrazing:surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_grazing:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:fHarvest:surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_crop_harvesting:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:fLitterSoil:carbon_mass_flux_into_soil_from_litter:longitude latitude time:land:3:LITR1C_TO_SOIL1C LITR2C_TO_SOIL2C LITR3C_TO_SOIL3C:LITR1C_TO_SOIL1C,LITR2C_TO_SOIL2C,LITR3C_TO_SOIL3C
+GeoMIP_Lmon:fLuc:surface_net_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_anthropogenic_land_use_change:longitude latitude time:land:2:DWT_CLOSS PRODUCT_CLOSS:DWT_CLOSS,PRODUCT_CLOSS
+GeoMIP_Lmon:fVegLitter:litter_carbon_flux:longitude latitude time:land:1:LITFALL:LITFALL
+GeoMIP_Lmon:fVegSoil:carbon_mass_flux_into_soil_from_vegetation_excluding_litter:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:gpp:gross_primary_productivity_of_carbon:longitude latitude time:land:1:GPP:GPP
+GeoMIP_Lmon:grassFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:lai:leaf_area_index:longitude latitude time:land:1:TLAI:TLAI
+GeoMIP_Lmon:landCoverFrac:area_fraction:longitude latitude vegtype time:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:mrfso:soil_frozen_water_content:longitude latitude time:land landIce:1:SOILICE:SOILICE integrated over all layers
+GeoMIP_Lmon:mrlsl:moisture_content_of_soil_layer:longitude latitude sdepth time:land:2:SOILLIQ SOILICE:SOILLIQ + SOILICE at each soil depth
+GeoMIP_Lmon:mrro:runoff_flux:longitude latitude time:land:1:QRUNOFF:QRUNOFF
+GeoMIP_Lmon:mrros:surface_runoff_flux:longitude latitude time:land:1:QOVER:QOVER 
+GeoMIP_Lmon:mrso:soil_moisture_content:longitude latitude time:land:2:SOILICE SOILLIQ:Integrate SOILICE + SOILLIQ over all layers
+GeoMIP_Lmon:mrsos:moisture_content_of_soil_layer:longitude latitude time sdepth1:land:1:SOILWATER_10CM:SOILWATER_10CM
+GeoMIP_Lmon:nbp:surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes:longitude latitude time:land:1:NBP:NBP
+GeoMIP_Lmon:nep:surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes_excluding_anthropogenic_land_use_change:longitude latitude time:land:0:UNKNOWN::UNKNOWN
+GeoMIP_Lmon:npp:net_primary_productivity_of_carbon:longitude latitude time:land:1:NPP:NPP
+GeoMIP_Lmon:nppLeaf:net_primary_productivity_of_carbon_accumulated_in_leaves:longitude latitude time:land:1:LEAFC_ALLOC:LEAFC_ALLOC
+GeoMIP_Lmon:nppRoot:net_primary_productivity_of_carbon_accumulated_in_roots:longitude latitude time:land:1:FROOTC_ALLOC:FROOTC_ALLOC
+GeoMIP_Lmon:nppWood:net_primary_productivity_of_carbon_accumulated_in_wood:longitude latitude time:land:1:WOODC_ALLOC:WOODC_ALLOC
+GeoMIP_Lmon:pastureFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:prveg:precipitation_flux_onto_canopy:longitude latitude time:land:1:QINTR:QINTR
+GeoMIP_Lmon:ra:plant_respiration_carbon_flux:longitude latitude time:land:1:AR:AR
+GeoMIP_Lmon:residualFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:rGrowth:surface_upward_carbon_mass_flux_due_to_plant_respiration_for_biomass_growth:longitude latitude time:land:1:GR:GR
+GeoMIP_Lmon:rh:heterotrophic_respiration_carbon_flux:longitude latitude time:land:1:HR:HR
+GeoMIP_Lmon:rMaint:surface_upward_carbon_mass_flux_due_to_plant_respiration_for_biomass_maintenance:longitude latitude time:land:1:MR:MR
+GeoMIP_Lmon:shrubFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:tran:transpiration_flux:longitude latitude time:land:2:QSOIL QVEGT:QSOIL + QVEGT
+GeoMIP_Lmon:treeFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:treeFracPrimDec:area_fraction:longitude latitude time typepdec:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:treeFracPrimEver:area_fraction:longitude latitude time typepever:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:treeFracSecDec:area_fraction:longitude latitude time typesdec:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:treeFracSecEver:area_fraction:longitude latitude time typesever:land:0:UNAVAILABLE:UNAVAILABLE
+GeoMIP_Lmon:tsl:soil_temperature:longitude latitude sdepth time:land:1:TSOI:TSOI
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 59
+a59 59
+Lmon:baresoilFrac:area_fraction:longitude latitude time typebare:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:burntArea:area_fraction:longitude latitude time:land:1:ANN_FAREA_BURNED:ANN_FAREA_BURNED
+Lmon:c3PftFrac:area_fraction:longitude latitude time typec3pft:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:c4PftFrac:area_fraction:longitude latitude time typec4pft:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:cCwd:wood_debris_carbon_content:longitude latitude time:land:1:CWDC:CWDC
+Lmon:cLeaf:leaf_carbon_content:longitude latitude time:land:1:LEAFC:LEAFC
+Lmon:cLitterAbove:surface_litter_carbon_content:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:cLitterBelow:subsurface_litter_carbon_content:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:cLitter:litter_carbon_content:longitude latitude time:land:1:TOTLITC:TOTLITC
+Lmon:cMisc:miscellaneous_living_matter_carbon_content:longitude latitude time:land:1:STORVEGC:STORVEGC
+Lmon:cProduct:carbon_content_of_products_of_anthropogenic_land_use_change:longitude latitude time:land:1:TOTPRODC:TOTPRODC
+Lmon:cRoot:root_carbon_content:longitude latitude time:land:3:FROOTC LIVE_ROOTC DEAD_ROOTC:FROOTC,LIVE_ROOTC,DEAD_ROOTC
+Lmon:cropFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:cSoilFast:fast_soil_pool_carbon_content:longitude latitude time:land:2:SOIL1C SOIL2C:SOIL1C,SOIL2C
+Lmon:cSoil:soil_carbon_content:longitude latitude time:land:1:TOTSOMC:TOTSOMC
+Lmon:cSoilMedium:medium_soil_pool_carbon_content:longitude latitude time:land:1:SOIL3C:SOIL3C
+Lmon:cSoilSlow:slow_soil_pool_carbon_content:longitude latitude time:land:1:SOIL4C:SOIL4C
+Lmon:cVeg:vegetation_carbon_content:longitude latitude time:land:1:TOTPFTC:TOTPFTC
+Lmon:cWood:wood_carbon_content:longitude latitude time:land:1:WOODC:WOODC
+Lmon:evspsblsoi:water_evaporation_flux_from_soil:longitude latitude time:land:1:QSOIL:QSOIL
+Lmon:evspsblveg:water_evaporation_flux_from_canopy:longitude latitude time:land:1:QVEGE:QVEGE
+Lmon:fFire:surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fires_excluding_anthropogenic_land_use_change:longitude latitude time:land:1:COL_FIRE_CLOSS:COL_FIRE_CLOSS
+Lmon:fGrazing:surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_grazing:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:fHarvest:surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_crop_harvesting:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:fLitterSoil:carbon_mass_flux_into_soil_from_litter:longitude latitude time:land:3:LITR1C_TO_SOIL1C LITR2C_TO_SOIL2C LITR3C_TO_SOIL3C:LITR1C_TO_SOIL1C,LITR2C_TO_SOIL2C,LITR3C_TO_SOIL3C
+Lmon:fLuc:surface_net_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_anthropogenic_land_use_change:longitude latitude time:land:2:DWT_CLOSS PRODUCT_CLOSS:DWT_CLOSS,PRODUCT_CLOSS
+Lmon:fVegLitter:litter_carbon_flux:longitude latitude time:land:1:LITFALL:LITFALL
+Lmon:fVegSoil:carbon_mass_flux_into_soil_from_vegetation_excluding_litter:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:gpp:gross_primary_productivity_of_carbon:longitude latitude time:land:1:GPP:GPP
+Lmon:grassFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:lai:leaf_area_index:longitude latitude time:land:1:TLAI:TLAI
+Lmon:landCoverFrac:area_fraction:longitude latitude vegtype time:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:mrfso:soil_frozen_water_content:longitude latitude time:land landIce:1:SOILICE:SOILICE integrated over all layers
+Lmon:mrlsl:moisture_content_of_soil_layer:longitude latitude sdepth time:land:2:SOILLIQ SOILICE:SOILLIQ + SOILICE at each soil depth
+Lmon:mrro:runoff_flux:longitude latitude time:land:1:QRUNOFF:QRUNOFF
+Lmon:mrros:surface_runoff_flux:longitude latitude time:land:1:QOVER:QOVER 
+Lmon:mrso:soil_moisture_content:longitude latitude time:land:2:SOILICE SOILLIQ:Integrate SOILICE + SOILLIQ over all layers
+Lmon:mrsos:moisture_content_of_soil_layer:longitude latitude time sdepth1:land:1:SOILWATER_10CM:SOILWATER_10CM
+Lmon:nbp:surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes:longitude latitude time:land:1:NBP:NBP
+Lmon:nep:surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes_excluding_anthropogenic_land_use_change:longitude latitude time:land:1:UNKNOWN::UNKNOWN
+Lmon:npp:net_primary_productivity_of_carbon:longitude latitude time:land:1:NPP:NPP
+Lmon:nppLeaf:net_primary_productivity_of_carbon_accumulated_in_leaves:longitude latitude time:land:1:LEAFC_ALLOC:LEAFC_ALLOC
+Lmon:nppRoot:net_primary_productivity_of_carbon_accumulated_in_roots:longitude latitude time:land:1:FROOTC_ALLOC:FROOTC_ALLOC
+Lmon:nppWood:net_primary_productivity_of_carbon_accumulated_in_wood:longitude latitude time:land:1:WOODC_ALLOC:WOODC_ALLOC
+Lmon:pastureFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:prveg:precipitation_flux_onto_canopy:longitude latitude time:land:1:QINTR:QINTR
+Lmon:ra:plant_respiration_carbon_flux:longitude latitude time:land:1:AR:AR
+Lmon:residualFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:rGrowth:surface_upward_carbon_mass_flux_due_to_plant_respiration_for_biomass_growth:longitude latitude time:land:1:GR:GR
+Lmon:rh:heterotrophic_respiration_carbon_flux:longitude latitude time:land:1:HR:HR
+Lmon:rMaint:surface_upward_carbon_mass_flux_due_to_plant_respiration_for_biomass_maintenance:longitude latitude time:land:1:MR:MR
+Lmon:shrubFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:tran:transpiration_flux:longitude latitude time:land:2:QSOIL QVEGT:QSOIL,QVEGT
+Lmon:treeFrac:area_fraction:longitude latitude time:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:treeFracPrimDec:area_fraction:longitude latitude time typepdec:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:treeFracPrimEver:area_fraction:longitude latitude time typepever:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:treeFracSecDec:area_fraction:longitude latitude time typesdec:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:treeFracSecEver:area_fraction:longitude latitude time typesever:land:0:UNAVAILABLE:UNAVAILABLE
+Lmon:tsl:soil_temperature:longitude latitude sdepth time:land:1:TSOI:TSOI
+@

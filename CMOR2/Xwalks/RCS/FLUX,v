@@ -1,0 +1,143 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2014.04.17.16.31.05;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2014.04.17.16.24.02;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@Y/N  entry         units "positive"   standard_name/comment
+---  ------------- ----- ----------   ---------------------------------------------------------------------------------------------------------------------------
+ N   hfcorr        W m-2 down         heat_flux_correction                                                        
+
+ N   hfds          W m-2 down         surface_downward_heat_flux_in_sea_water                                     
+                                      This is the net flux of heat entering the liquid water column through its upper surface (excluding any 'flux adjustment').
+
+ N   hfevapds      W m-2 up           temperature_flux_due_to_evaporation_expressed_as_heat_flux_out_of_sea_water 
+                                      This is defined as 'where ice_free_sea over sea'"
+
+ N   hfgeou        W m-2 up           upward_geothermal_heat_flux_at_sea_floor                                    
+
+ N   hfibthermds2d W m-2              heat_flux_into_sea_water_due_to_iceberg_thermodynamics                      
+
+ N   hfibthermds   W m-2              heat_flux_into_sea_water_due_to_iceberg_thermodynamics                      
+
+ N   hfls          W m-2 down         surface_downward_latent_heat_flux                                           
+                                      This is defined as "where ice_free_sea over sea"
+
+ N   hfrainds      W m-2 down         temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water      
+                                      This is defined as "where ice_free_sea over sea"; i.e., the total flux (considered here) entering the ice-free portion of
+                                      the grid cell divided by the area of the ocean portion of the grid cell.
+
+ N   hfrunoffds2d  W m-2              temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water        
+
+ N   hfrunoffds    W m-2              temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water        
+
+ N   hfsifrazil2d  W m-2              heat_flux_into_sea_water_due_to_freezing_of_frazil_ice                      
+
+ N   hfsifrazil    W m-2              heat_flux_into_sea_water_due_to_freezing_of_frazil_ice                      
+
+ N   hfsithermds2d W m-2              heat_flux_into_sea_water_due_to_sea_ice_thermodynamics                      
+
+ N   hfsithermds   W m-2              heat_flux_into_sea_water_due_to_sea_ice_thermodynamics                      
+
+ N   hfsnthermds2d W m-2              heat_flux_into_sea_water_due_to_snow_thermodynamics                         
+
+ N   hfsnthermds   W m-2              heat_flux_into_sea_water_due_to_snow_thermodynamics                         
+
+ Y   hfss          W m-2 down         surface_downward_sensible_heat_flux                                         
+                                      This is defined as 'where ice_free_sea over sea'"
+     SENH_F
+
+ Y   rlds          W m-2 down         surface_net_downward_longwave_flux                                          
+                                      This is defined as 'where ice_free_sea over sea'"
+     LWDN_F LWUP_F IFRAC:LWDN_F + LWUP_F where IFRAC = 0
+
+ N   rsds          W m-2 down         downwelling_shortwave_flux_in_sea_water
+
+ Y   rsntds        W m-2 down         net_downward_shortwave_flux_at_sea_water_surface
+                                      This is the flux into the surface of liquid sea water only. This excludes shortwave flux absorbed by sea ice, but
+                                      includes any light that passes through the ice and is absorbed by the ocean.                           
+     QSW_HTP
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 2
+a2 2
+Y/N  entry         units "positive"   standard_name/long_name
+---  ------------- ----- ----------   ---------------------------------------------------------------------------
+a3 1
+                                      Heat Flux Correction 
+d6 1
+a6 1
+                                      Downward Heat Flux at Sea Water Surface
+d9 1
+a9 1
+                                      Temperature Flux due to Evaporation Expressed as Heat Flux Out of Sea Water 
+a11 1
+                                      Upward Geothermal Heat Flux at Sea Floor 
+a13 1
+                                      Heat Flux into Sea Water due to Iceberg Thermodynamics 
+a15 1
+                                      Heat Flux into Sea Water due to Iceberg Thermodynamics
+d18 1
+a18 1
+                                      Surface Downward Latent Heat Flux
+d21 2
+a22 1
+                                      Temperature Flux due to Rainfall Expressed as Heat Flux into Sea Water 
+a24 1
+                                      Temperature Flux due to Runoff Expressed as Heat Flux into Sea Water 
+a26 1
+                                      Temperature Flux due to Runoff Expressed as Heat Flux into Sea Water 
+a28 1
+                                      Heat Flux into Sea Water due to Frazil Ice Formation 
+a30 1
+                                      Heat Flux into Sea Water due to Frazil Ice Formation 
+a32 1
+                                      Heat Flux into Sea Water due to Sea Ice Thermodynamics 
+a34 1
+                                      Heat Flux into Sea Water due to Sea Ice Thermodynamics 
+a36 1
+                                      Heat Flux into Sea Water due to Snow Thermodynamics 
+a38 1
+                                      Heat Flux into Sea Water due to Snow Thermodynamics 
+d41 1
+a41 1
+                                      Surface Downward Sensible Heat Flux
+d45 1
+a45 1
+                                      Surface Net Downward Longwave Radiation
+d48 1
+a48 2
+ N   rsds          W m-2 down         downwelling_shortwave_flux_in_sea_water                                     
+                                      Downwelling Shortwave Radiation in Sea Water 
+d50 3
+a52 2
+ Y   rsntds        W m-2 down         net_downward_shortwave_flux_at_sea_water_surface                            
+                                      Net Downward Shortwave Radiation at Sea Water Surface 
+@

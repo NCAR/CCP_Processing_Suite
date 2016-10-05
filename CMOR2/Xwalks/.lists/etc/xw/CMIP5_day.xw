@@ -1,0 +1,49 @@
+axis:Tables/CMIP5_day:longitude:lon:longitude:longitude
+axis:Tables/CMIP5_day:latitude:lat:latitude:latitude
+axis:Tables/CMIP5_day:plev8:plev:air_pressure:pressure
+axis:Tables/CMIP5_day:time:time:time:time
+axis:Tables/CMIP5_day:height2m:height:height:height
+axis:Tables/CMIP5_day:height10m:height:height:height
+axis:Tables/CMIP5_day:sdepth1:depth:depth:depth
+variable:Tables/CMIP5_day:1.0:huss:atmos:1
+variable:Tables/CMIP5_day:1.0:tasmin:atmos:1
+variable:Tables/CMIP5_day:1.0:tasmax:atmos:1
+variable:Tables/CMIP5_day:1.0:tas:atmos:1
+variable:Tables/CMIP5_day:1.0:pr:atmos:1
+variable:Tables/CMIP5_day:1.0:psl:atmos:1
+variable:Tables/CMIP5_day:1.0:sfcWind:atmos:1
+variable:Tables/CMIP5_day:1.0:tossq:ocean:1
+variable:Tables/CMIP5_day:1.0:tos:ocean:1
+variable:Tables/CMIP5_day:1.0:omldamax:ocean:1
+variable:Tables/CMIP5_day:1.0:mrsos:land:1
+variable:Tables/CMIP5_day:1.0:rhs:atmos:1
+variable:Tables/CMIP5_day:1.0:rhsmin:atmos:1
+variable:Tables/CMIP5_day:1.0:rhsmax:atmos:1
+variable:Tables/CMIP5_day:1.0:snc:landIce land:1
+variable:Tables/CMIP5_day:1.0:clt:atmos:1
+variable:Tables/CMIP5_day:1.0:tslsi:land:1
+variable:Tables/CMIP5_day:1.0:snw:landIce land:1
+variable:Tables/CMIP5_day:1.0:prc:atmos:1
+variable:Tables/CMIP5_day:1.0:prsn:atmos:1
+variable:Tables/CMIP5_day:1.0:mrro:land:1
+variable:Tables/CMIP5_day:1.0:uas:atmos:1
+variable:Tables/CMIP5_day:1.0:vas:atmos:1
+variable:Tables/CMIP5_day:1.0:sfcWindmax:atmos:1
+variable:Tables/CMIP5_day:1.0:hfls:atmos:1
+variable:Tables/CMIP5_day:1.0:hfss:atmos:1
+variable:Tables/CMIP5_day:1.0:rlds:atmos:1
+variable:Tables/CMIP5_day:1.0:rlus:atmos:1
+variable:Tables/CMIP5_day:1.0:rsds:atmos:1
+variable:Tables/CMIP5_day:1.0:rsus:atmos:1
+variable:Tables/CMIP5_day:1.0:rlut:atmos:1
+variable:Tables/CMIP5_day:1.0:usi:seaIce ocean:1
+variable:Tables/CMIP5_day:1.0:vsi:seaIce ocean:1
+variable:Tables/CMIP5_day:1.0:sic:seaIce ocean:1
+variable:Tables/CMIP5_day:1.0:sit:seaIce ocean:1
+variable:Tables/CMIP5_day:1.0:ta:atmos:1
+variable:Tables/CMIP5_day:1.0:hur:atmos:1
+variable:Tables/CMIP5_day:1.0:hus:atmos:1
+variable:Tables/CMIP5_day:1.0:wap:atmos:1
+variable:Tables/CMIP5_day:1.0:va:atmos:1
+variable:Tables/CMIP5_day:1.0:ua:atmos:1
+variable:Tables/CMIP5_day:1.0:zg:atmos:1

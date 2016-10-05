@@ -1,0 +1,621 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2013.04.01.15.25.35;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2011.11.14.16.56.27;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@CASE=xxxCASExxx ; export CASE
+HIST=xxxHISTxxx ; export HIST
+TABL=xxxTABLxxx ; export TABL
+VARS="xxxVARSxxx" ; export VARS
+#
+# Template for processing single-field CESM netCDF files into CMIP5 format
+#
+# Extract information from "experiments.txt"
+#
+#  Columns   Field
+#   1 -  54  CCSM case name
+#  55 -  74  model_id (CCSM4, CESM-CAM5, CESM-BGC, CESM-CHEM, CESM-WACCM, CESM1-CAM5.1-FV2, etc)
+#  75 -  76  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  80 -  94  Official MIP name, or very brief description (N/A if not applicable)
+#  95 - 104  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+# 105 - 109  MIP (cm3 or cm5) experiment (N/A if not applicable)
+# 110 - 149  RUN_REFCASE (parent case)
+# 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 165 - 174  years of experiment (YYYY if unknown)
+# 175 - 184  GRID (resolution)
+# 185 - 204  COMPSET (N/A if not applicable)
+# 205 - 224  REPOTAG (N/A if not applicable)
+# 225 - 244  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 245 - 254  MACH (hardware)
+# 255 - end  DOUT_L_MSROOT (history file location on archive)
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if [ -f $EXPFILE ] ; then
+  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c75-  | cut -d" " -f1`
+   DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c80-  | cut -d" " -f1`
+   REALIZN=`egrep "^$CASE " $EXPFILE | cut -c95-  | cut -d" " -f1`
+   MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c105-  | cut -d" " -f1`
+    PARENT=`egrep "^$CASE " $EXPFILE | cut -c110- | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c165-168`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c170-173`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c175- | cut -d" " -f1`
+   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c185- | cut -d" " -f1`
+   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c205- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c245- | cut -d" " -f1`
+  VARSBASE=/CCSM/csm
+else
+  echo "Cannot find $EXPFILE. EXIT"
+  ./procstat.sh error process_cmip5_template
+  exit 1
+fi
+#
+if ! [ $LOCATION ] ; then
+  echo "Unable to set variables because "$CASE" not found in $EXPFILE"
+  ./procstat.sh error process_cmip5_template
+  exit 1
+fi
+#
+# Base directory for all CMIP5-related files
+# Directory in which *_CMOR binaries reside
+#
+BASEDIR=${HOME}/CCP_Processing_Suite ; export BASEDIR
+BINDIR=${HOME}/bin                   ; export BINDIR
+SVNBIN=`which svn`                   ; export SVNBIN
+#
+# Acquire PROCHOST
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+# resolve machine/site dependencies
+#
+case "$PROCHOST" in 
+  silver* )                                # silver @@ CGD/NCAR
+    PROCBASE=/datalocal/proc/$USER/$CASE ; export PROCBASE
+    DISK_BASE=/datalocal/proc             ; export DISK_BASE
+    ARCHIVE_BASE=/CCSM/csm               ; export ARCHIVE_BASE
+    SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
+    if ! [ $LD_LIBRARY_PATH ] ; then
+      LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
+    else
+      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
+    fi
+    ;;
+
+  modeling1* )                                # modeling1 in ACD
+    PROCBASE=/data6/$USER/$CASE           ; export PROCBASE
+    DISK_BASE=/data6                       ; export DISK_BASE
+    ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
+    SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
+    if ! [ $LD_LIBRARY_PATH ] ; then
+      LD_LIBRARY_PATH=/data1/strandwg/software/uuid-1.6.2/lib
+    else
+      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/data1/strandwg/software/uuid-1.6.2/lib
+    fi
+    ;;
+
+  tramhill* | hurricane* )                 # tramhill/hurricane @@ CGD/NCAR
+    PROCBASE=/project/yampa01/$USER/$CASE ; export PROCBASE
+    DISK_BASE=/project/yampa01             ; export DISK_BASE
+    ARCHIVE_BASE=/CCSM/csm                ; export ARCHIVE_BASE
+    SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
+    if ! [ $LD_LIBRARY_PATH ] ; then
+      LD_LIBRARY_PATH=/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
+    else
+      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/datalocal/ccpa/strandwg/software/uuid-1.6.2/lib 
+    fi
+    ;;
+
+  mirage* )                                # DASG @@ CISL/NCAR
+    PROCBASE=/glade/scratch/$USER/$CASE             ; export PROCBASE
+    DISK_BASE=/glade/p/cesm/outputdata/cases/$CASE  ; export DISK_BASE
+    ARCHIVE_BASE=/CCSM/csm                          ; export ARCHIVE_BASE
+    SVN=https://proxy.subversion.ucar.edu/CCP_Processing_Suite ; export SVN
+    if ! [ $LD_LIBRARY_PATH ] ; then
+      LD_LIBRARY_PATH=/contrib/lib:/glade/home/strandwg/lib:/fs/local/lib
+    else
+      LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/glade/home/strandwg/lib
+    fi
+    ;;
+  * ) 
+    echo "Unable to continue because "$PROCHOST" not known."
+    ./procstat.sh error process_cmip5_template
+    exit 1 ;;
+esac
+#
+export LD_LIBRARY_PATH
+#
+# Build CMOR binary
+#
+echo "Building "${BINDIR}"/"${TABL}"_CMOR"
+cd ${BASEDIR}/CMOR2
+make ${TABL}"_CMOR"
+#
+# Locate XWALK file
+#
+case "$MIPNAME" in
+  cm5 )
+    XWALK=${BASEDIR}/CMOR2/Xwalks/xwalk_CMIP5_${TABL} ;;
+  gmp )
+    XWALK=${BASEDIR}/CMOR2/Xwalks/xwalk_GeoMIP_${TABL} ;;
+  tmp )
+    XWALK=${BASEDIR}/CMOR2/Xwalks/xwalk_TAMIP_${TABL} ;;
+  * )
+    echo "MIP name "${MIPNAME}" unknown. Stopping."
+    exit 1 ;;
+esac
+if [ ! -f $XWALK ] ; then
+  echo "xwalk file "${XWALK}" NOT found. Stopping."
+  exit 1
+else
+  echo "xwalk file "${XWALK}" located."
+fi
+#
+# Strip off first part of $HIST
+#
+HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
+#
+# Convert history type to component name
+#
+case "$HTYP" in
+  cam2 | cam )
+    COMP_NAME=atm ;;
+  clm2 ) 
+    COMP_NAME=lnd ;;
+  pop  ) 
+    COMP_NAME=ocn ;;
+  csim | cice ) 
+    COMP_NAME=ice ;;
+  * ) 
+    echo "Unable to continue because "$HIST" not known."
+    ./procstat.sh error process_cmip5_template
+    exit 1 ;;
+esac
+#
+# Set up local directory names and archival names
+#
+LOCAL_PROC=$PROCBASE/$TABL
+ARCHIVE_PROC=$VARSBASE/$CASE/$COMP_NAME/proc/tseries
+DISK_BASE=$DISK_BASE/$CASE/$COMP_NAME/proc/tseries
+ARCHIVE_CMIP5=$ARCHIVE_BASE/CMIP5
+#
+# Location of single-field format files on archive
+#
+case "$TABL" in
+  Amon | Lmon | OImon | Omon | LImon | cfMon | aero )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly
+    DISK_BASE=${DISK_BASE}/monthly  ;;
+  day | cfDay )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/daily
+    DISK_BASE=${DISK_BASE}/daily  ;;
+  6hrLev | 6hrPlev )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6
+    DISK_BASE=${DISK_BASE}/hourly6  ;;
+  3hr | cf3hr )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly3
+    DISK_BASE=${DISK_BASE}/hourly3  ;;
+  * ) 
+    echo "Unable to continue because directory for "$TABL" not known."
+    ./procstat.sh error process_cmip5_template
+    exit 1 ;;
+esac
+#
+# Variables that can be processed. Dependent on whether or not VARS exists
+#
+if [ "$VARS" ] ; then
+  rm -f ./VARS_TO_DO
+  for C5F in `echo $VARS` ; do
+    egrep ":$C5F:" $XWALK | cut -d":" -f7 >> ./VARS_TO_DO
+    cat ./VARS_TO_DO | sort | uniq > ./UVARS_TO_DO ; mv ./UVARS_TO_DO ./VARS_TO_DO
+  done
+else
+  rm -f ./VARS_TO_DO
+  for C5F in `cut -d":" -f7 $XWALK | sort | uniq` ; do
+    echo $C5F >> ./VARS_TO_DO
+  done
+fi
+#
+cat ./VARS_TO_DO | sort | uniq | egrep -v "(UNKNOWN|UNAVAILABLE)" > ./tmp.VARS_TO_DO
+mv ./tmp.VARS_TO_DO ./VARS_TO_DO
+#
+TEMPVARS=`cat ./VARS_TO_DO` ; rm -f ./VARS_TO_DO
+CCSM_VARS=`echo $TEMPVARS | sed -e 's/ /,/g'`
+#
+CACHEDIR=${LOCAL_PROC}/data
+#
+# Print out values
+#
+echo "           Case name : "$CASE ; export CASE
+echo "   History file type : "$HIST ; export HIST
+echo "         CMIP5 table : CMIP5_"$TABL ; export TABL
+echo "     Processed files : "$ARCHIVE_CMIP5  ; export ARCHIVE_CMIP5
+if [ "$LOCATION" = "NC" ] ; then
+  HARDWARE=${HARDWARE}".ucar.edu"
+fi
+if [ "$LOCATION" = "NE" ] ; then
+  HARDWARE=${HARDWARE}".nersc.gov"
+fi
+if [ "$LOCATION" = "OR" ] ; then
+  HARDWARE=${HARDWARE}".ccs.ornl.gov"
+fi
+echo "            Location : "$LOCATION ; export LOCATION
+echo "         Description : "$DESCRIP  ; export DESCRIP
+echo "     Realization/RIP : "$REALIZN  ; export REALIZN
+echo "         Parent case : "$PARENT   ; export PARENT
+echo "         Branch date : "$BRANCH   ; export BRANCH
+echo "          Resolution : "$RES      ; export RES
+echo "            Hardware : "$HARDWARE ; export HARDWARE
+echo "             Compset : "$COMPSET  ; export COMPSET
+echo "      Repository tag : "$REPOTAG  ; export REPOTAG
+echo "          Begin year : "$YEARBEG  ; export YEARBEG
+echo "            End year : "$YEAREND  ; export YEAREND
+echo ""
+echo "   Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo ""
+echo "     Processing host : "$PROCHOST      ; export PROCHOST
+echo " Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
+echo "      Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
+echo "   Archive cache dir : "$CACHEDIR      ; export CACHEDIR
+echo "    Local disk cache : "${DISK_BASE}   ; export DISK_BASE
+echo " Processing code dir : "$BASEDIR       ; export BASEDIR
+echo "          Binary dir : "$BINDIR        ; export BINDIR
+echo "         CMOR binary : "$BINDIR"/"${TABL}"_CMOR"
+#  
+if [ ! -d $LOCAL_PROC ] ; then 
+  mkdir -p $LOCAL_PROC 
+fi
+if [ ! -d $CACHEDIR ] ; then 
+  mkdir -p $CACHEDIR 
+fi
+cd $LOCAL_PROC
+#
+ln -s -f $BASEDIR/experiments.txt  .
+ln -s -f $BASEDIR/archive_list         .
+ln -s -f $BASEDIR/archive_var_read     .
+ln -s -f $BASEDIR/archive_cmip5_write  .
+ln -s -f $BASEDIR/CMOR2/RunCMOR    .
+ln -s -f $BASEDIR/store_to_archive .
+ln -s -f $BASEDIR/procstat.sh      .
+#
+ln -s -f $BINDIR/${TABL}_CMOR      .
+#
+cd $LOCAL_PROC
+#
+# Let 'er rip
+#
+echo "BEGIN : procstat"
+./procstat.sh start
+#
+# Get archive listing
+#
+#cd $DISK_BASE
+#ARCHIVE_LIST=archive.$CASE.$HIST.VARS
+#if [ ! -f $ARCHIVE_LIST ] ; then
+#  echo "Getting archival list of "$CASE" "$HIST
+#  ../archive_list $ARCHIVE_LIST
+#  if [ $? -ne 0 ] ; then
+#    echo "Error from archive_list"
+#    ./procstat.sh error archive_list
+#    exit 1
+#  fi
+#fi
+#
+# Retrieve files from archive
+#
+if [ ! -d $DISK_BASE ] ; then
+  mkdir -p $DISK_BASE
+fi
+#
+cd $DISK_BASE
+ln -s -f $BASEDIR/archive_var_read .
+./archive_var_read $ARCHIVE_PROC $CCSM_VARS
+if [ $? -ne 0 ] ; then
+  echo "Error from archive_var_read"
+  ./procstat.sh error archive_var_read
+  exit 1
+fi
+#
+# Run CMOR processor code
+#
+echo "CACHEDIR : "${CACHEDIR}
+echo "DISK_BASE: "${DISK_BASE}
+cd $CACHEDIR
+ln -s -f ${DISK_BASE}/${CASE}.${HIST}*nc .
+#
+cd $LOCAL_PROC
+if [ "$VARS" ] ; then
+  echo $VARS
+  ./RunCMOR $CASE $HIST $TABL "$VARS"
+else
+  ./RunCMOR $CASE $HIST $TABL
+fi
+#
+# Store completed data on archival system
+#
+#./store_cmip5
+#if [ $? -ne 0 ] ; then
+#  echo "store_to_archive failed"
+#  ./procstat.sh error store_to_archive
+#  exit 1
+#fi
+echo "COMPLETE : procstat"
+./procstat.sh complete
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d4 1
+d11 15
+a25 15
+#   1 -  40  CCSM case name
+#  45 -  59  model_id (CCSM4, CESM1, CCSM4-BGC, CCSM4-FSCHEM, CCSM4-WACCM, etc)
+#  60 -  61  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  65 -  79  Official MIP name, or very brief description (N/A if not applicable)
+#  80 -  89  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+#  90 -  94  MIP (cm3 or cm5) experiment (N/A if not applicable)
+#  95 - 134  RUN_REFCASE (parent case)
+# 135 - 149  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 150 - 159  years of experiment (YYYY if unknown)
+# 160 - 169  GRID (resolution)
+# 170 - 199  COMPSET (N/A if not applicable)
+# 190 - 209  REPOTAG (N/A if not applicable)
+# 210 - 229  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 230 - 239  MACH (hardware)
+# 240 - end  DOUT_L_MSROOT (history file location on archive)
+d29 13
+a41 12
+  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c60-  | cut -d" " -f1`
+   DESCRIP=`egrep "^$CASE " $EXPFILE | cut -c65-  | cut -d" " -f1`
+   REALIZN=`egrep "^$CASE " $EXPFILE | cut -c80-  | cut -d" " -f1`
+    PARENT=`egrep "^$CASE " $EXPFILE | cut -c95-  | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c135- | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c150-153`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c155-158`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c160- | cut -d" " -f1`
+   COMPSET=`egrep "^$CASE " $EXPFILE | cut -c170- | cut -d" " -f1`
+   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c190- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c230- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c240- | cut -d" " -f1`
+d59 1
+d68 1
+a68 3
+  copper* )                                # copper @@ CGD/NCAR
+    NCKS=/usr/local/bin/ncks             ; export NCKS
+    NCRCAT=/usr/local/bin/ncrcat         ; export NCRCAT
+d70 1
+a70 1
+    LOCALDSK=/datalocal/proc/$CASE       ; export LOCALDSK
+d72 18
+a92 2
+    NCKS=/usr/local/bin/ncks              ; export NCKS
+    NCRCAT=/usr/local/bin/ncrcat          ; export NCRCAT
+d94 1
+d96 6
+d105 9
+a113 21
+    NCKS=/fs/local/bin/ncks                       ; export NCKS
+    NCRCAT=/fs/local/bin/ncrcat                   ; export NCRCAT
+    PROCBASE=/glade/data01/CMIP5/proc/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/glade/data01/CMIP5/CCSM/csm/$CASE   ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm                        ; export ARCHIVE_BASE
+    ;;
+
+  euclid* )                                # euclid @@ NERSC
+    NCKS=/global/u2/s/strandwg/bin/ncks     ; export NCKS
+    NCRCAT=/global/u2/s/strandwg/bin/ncrcat ; export NCRCAT
+    PROCBASE=/global/scratch/sd/$USER/$CASE ; export PROCBASE
+    LOCALDSK=/global/scratch/sd/$USER/$CASE ; export LOCALDSK
+    ARCHIVE_BASE=/home/c/ccsm/csm           ; export ARCHIVE_BASE
+    ;;
+
+  lens* )                                  # lens @@ ORNL
+    NCKS=/ccs/home/wgstrand/bin/ncks                   ; export NCKS
+    NCRCAT=/ccs/home/wgstrand/bin/ncrcat               ; export NCRCAT
+    PROCBASE=/tmp/work/$USER/$CASE                     ; export PROCBASE
+    LOCALDSK=/tmp/work/$USER/$CASE                     ; export LOCALDSK
+    ARCHIVE_BASE=/f2/ccsm/csm                          ; export ARCHIVE_BASE
+d121 28
+d156 1
+a156 1
+  cam2 )
+d172 6
+a177 3
+LOCAL_PROC=$PROCBASE/$CASE/$TABL
+ARCHIVE_PROC=$HISTBASE/$CASE/$COMP_NAME/proc/tseries
+ARCHIVE_CMIP5=$ARCHIVE_BASE/CMIP5/output
+d180 3
+a182 2
+  Amon | Lmon | OImon | Omon | cfMon | aero )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/tseries/monthly  ;;
+d184 2
+a185 1
+    ARCHIVE_PROC=${ARCHIVE_PROC}/tseries/daily   ;;
+d187 2
+a188 1
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6  ;;
+d190 2
+a191 1
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly3  ;;
+d198 22
+a219 1
+CACHEDIR=${LOCAL_PROC}/CMOR
+d254 1
+d257 1
+d267 5
+a271 5
+ln -s -f $BASEDIR/mss_list         .
+ln -s -f $BASEDIR/mss_read         .
+ln -s -f $BASEDIR/mss_write        .
+ln -s -f $BASEDIR/CMOR2/Run${TABL} .
+ln -s -f $BINDIR/${TABL}_CMOR      .
+d275 2
+d279 1
+a279 1
+# Start from end and go to beginning
+d286 16
+a301 4
+ARCHIVE_LIST=archive.$CASE.$HIST
+if [ ! -f $ARCHIVE_LIST ] ; then
+  echo "Getting archival list of "$CASE" "$HIST
+  ./mss_list_cmip5 $ARCHIVE_LIST
+d304 3
+a306 2
+./procstat.sh
+./mss_read $ARCHIVE_LIST $YEARNOW
+d308 2
+a309 2
+  echo "Error from mss_read"
+  ./procstat.sh error process_cmip5_template
+a311 2
+y#
+# Check on data type to see if it needs time splitting and reconcatenating first
+d313 1
+a313 43
+    case "$HIST" in
+      cam2.h1 | cam2.h2 | cam2.h3 | cam2.h4 | cam2.h5 )
+        for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??-?????.nc` ; do
+          NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
+          if [ $NTIMES -eq 365 ] ; then
+            TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
+            mv $FILE $TRIMD
+            echo "time_split not required on "$FILE" 1 year length already."
+          else
+            echo "time_split-ting on "$FILE
+            ./time_split $FILE erase
+            ./days_to_month erase
+          fi
+        done ;;
+      clm2.h1 | clm2.h2 )
+        for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??-00000.nc` ; do
+          NTIMES=`$NCKS -M $FILE | egrep "name = time" | cut -d"=" -f3`
+          if [ $NTIMES -eq 365 ] ; then
+            TRIMD=`echo $FILE | sed -e 's/\-01\-01\-00000//g'`
+            mv $FILE $TRIMD
+            echo "time_split not required on "$FILE" 1 year length already."
+          else
+            echo "time_split-ting on "$FILE
+            ./time_split $FILE erase
+            ./days_to_month erase
+          fi
+        done ;;
+      cice.h1 )
+        for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-??.nc` ; do
+          echo "time_split-ting on "$FILE
+          ./time_split $FILE erase
+          ./days_to_month erase
+        done ;;
+      pop.h2 | pop.h.nday1 )
+        for FILE in `/bin/ls $CASE.$HIST.${YEARNOW}-??-01.nc` ; do
+          TRIMD=`echo $FILE | sed -e 's/\-01\.nc/\.nc/g'| sed -e 's/\-02\.nc/\.nc/g'`
+          mv $FILE $TRIMD
+          echo "time_split not required on "$FILE" 1 month already."
+        done ;;
+    esac
+    if [ "$TABL" != "mon" ] ; then
+      ./days_to_month erase
+    fi
+d315 4
+a318 1
+# All time splitting should be done now, ready for var_splitting
+d320 7
+a326 65
+    for FILE in `/bin/ls $CASE.$HIST.????-??.nc $CASE.$HIST.????.nc` ; do
+      ./var_split $FILE erase
+      if [ $? -ne 0 ] ; then
+        echo "Error from var_split on file "$FILE
+        ./procstat.sh error process_cmip5_template
+        exit 1
+      else
+        touch .proc.$FILE
+      fi
+      if [ -f .proc.$FILE ] ; then
+        touch .comp.$FILE
+        rm -f .proc.$FILE
+      fi
+    done
+#
+    if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 1 ] ; then
+      touch $YRCHECK
+      rm .????.$CASE.$HIST.${YEARNOW}*.nc
+    else
+      if [ `/bin/ls .comp.$CASE.$HIST.${YEARNOW}*.nc | wc -l` -eq 12 ] ; then
+        touch $YRCHECK
+        rm .????.$CASE.$HIST.${YEARNOW}*.nc
+      fi
+    fi
+#
+# Concatenate all months into respective years, at every year done 
+#
+    echo "Concatenating years at "${YEARNOW}" at "`date`
+    ./concatenate_data M2Y
+  fi
+#
+  YEARNOW=`expr $YEARNOW - 1`
+  if [ $YEARNOW -lt 1000 ] ; then
+    YEARNOW=0${YEARNOW}
+  fi
+  if [ $YEARNOW -lt 100 ] ; then
+    YEARNOW=0${YEARNOW}
+  fi
+  if [ $YEARNOW -lt 10 ] ; then
+    YEARNOW=0${YEARNOW}
+  fi
+  export YEARNOW
+#
+# Concatenate years into decadal segments if more than 31 years of data
+#
+  CHECKDEC=`expr $YEARNOW % 10`
+  if [ $CHECKDEC -eq 0 ] ; then
+    if [ $YRCOUNT -gt 31 ] ; then
+      if [ "$HIST" = "pop.h" ] && [ "$TABL" = "mon" ] ; then
+        ./concatenate_data Y2D
+        ./store_to_archive
+      fi
+      if [ "$HIST" = "cam2.h1" ] && [ "$TABL" = "day" ] ; then
+        ./concatenate_data Y2D
+        ./store_to_archive
+      fi
+    fi
+  fi
+done
+#
+# Concatenate months -> years, years -> all (if possible)
+#
+echo "Final concatenating of "$CASE"."$HIST" at "`date`
+./concatenate_data M2Y
+./concatenate_data Y2A
+d330 6
+a335 6
+./store_to_archive
+if [ $? -ne 0 ] ; then
+  echo "store_to_archive failed"
+  ./procstat.sh error process_cmip5_template
+  exit 1
+fi
+@

@@ -1,0 +1,125 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.08.21.17.45.07;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@table,short name,units,standard_name,dimensions,realm,# model fields,model fields,derivation
+CCMI1_monthly,aoa,year,age_of_stratospheric_air,longitude latitude alevel time,atmos,0,AOA1 ?,will have to be computed externally
+CCMI1_monthly,zmzg,m,geopotential_height,longitude latitude plevs time,atmos,2,Z3 PS,Z3 on model levels
+CCMI1_monthly,wetdms,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_wet_deposition,longitude latitude time,atmos,0,DMSSFWET PS,DMSSFWET on model levels
+CCMI1_monthly,ztp,m,tropopause_altitude,longitude latitude time,atmos,1,TROP_Z,TROP_Z
+CCMI1_monthly,orog,m,surface_altitude,longitude latitude,atmos,1,PHIS,PHIS/9.81
+CCMI1_monthly,emilnox,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_lightning,longitude latitude alevel time,atmos,1,SFNOX PS,SFNOX on model levels
+CCMI1_monthly,jno2,s-1,photolysis_rate_of_NO2,longitude latitude alevel time,atmos,1,jno2 PS,jno2
+CCMI1_monthly,lossch4,mole m-3 s-1,tendency_of_mole_concentration_of_methane_due_to_chemical_gross_destruction,longitude latitude alevel time,atmos,1,CH4_CHML PS,CH4_CHML *(28.97e-3 kg mol-1*1.e-3/6.022e23) on model levels
+CCMI1_monthly,lossco,mole m-3 s-1,tendency_of_mole_concentration_of_carbon_monoxide_due_to_chemical_gross_destruction,longitude latitude alevel time,atmos,1,CO_CHML PS,CO_CHML *(28.97e-3 kg mol-1*1.e-3/6.022e23) on model levels
+CCMI1_monthly,abs550aer,1,atmosphere_absorption_optical_thickness_due_to_ambient_aerosol,longitude latitude time,aerosol,1,AODABS,AODABS
+CCMI1_monthly,clivi,kg m-2,atmosphere_cloud_ice_content,longitude latitude time,atmos,1,TGCLDIWP,TGCLDIWP no change
+CCMI1_monthly,clt,1,cloud_area_fraction,longitude latitude time,atmos,1,CLDTOT,CLDTOT unit conversion
+CCMI1_monthly,drybc,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_dry_deposition,longitude latitude time,aerosol,1,DF_CB1 DF_CB2,DF_CB1+DF_CB2
+CCMI1_monthly,drydms,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_dry_deposition,longitude latitude time,aerosol,1,DF_DMS,DF_DMS
+CCMI1_monthly,drydust,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_dry_deposition,longitude latitude time,aerosol,1,DSTSFDRY,DSTSFDRY
+CCMI1_monthly,dryhno3,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_dry_deposition,longitude latitude time,atmos,1,DF_HNO3,DF_HNO3
+CCMI1_monthly,drynh3,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_ammonia_due_to_dry_deposition,longitude latitude time,atmos,1,DF_NH3,DF_NH3
+CCMI1_monthly,drynh4,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_dry_deposition,longitude latitude time,atmos,1,DF_NH4,DF_NH4
+CCMI1_monthly,dryno2,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_nitrogen_dioxide_due_to_dry_deposition,longitude latitude time,atmos,1,DF_NO2,DF_NO2
+CCMI1_monthly,drynoy,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_all_nitrogen_oxides_due_to_dry_deposition.,longitude latitude time,atmos,1,DF_NOY,DF_NOY
+CCMI1_monthly,dryo3,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_ozone_due_to_dry_deposition,longitude latitude time,atmos,1,DF_O3,DF_O3
+CCMI1_monthly,dryso2,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_dry_deposition,longitude latitude time,aerosol,1,DF_SO2,DF_SO2
+CCMI1_monthly,dryso4,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_dry_deposition,longitude latitude time,aerosol,1,DF_SO4,DF_SO4
+CCMI1_monthly,emico,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_carbon_monoxide_due_to_emission,longitude latitude time,atmos,1,SFCO,SFCO
+CCMI1_monthly,emidms,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission,longitude latitude time,aerosol,1,SFDMS,SFDMS
+CCMI1_monthly,emiisop,kg (C) m-2 s-1,tendency_of_atmosphere_mass_content_of_isoprene_due_to_emission,longitude latitude time,atmos,1,SFISOP,SFISOP
+CCMI1_monthly,eminh3,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_ammonia_due_to_emission,longitude latitude time,atmos,1,SFNH3,SFNH3
+CCMI1_monthly,eminox,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_emission,longitude latitude time,atmos,1,SFNOX,SFNOX
+CCMI1_monthly,emiso2,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_emission,longitude latitude time,aerosol,1,SFSO2 ,SFSO2
+CCMI1_monthly,emiso4,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_emission,longitude latitude time,aerosol,1,SFSO4,SFSO4
+CCMI1_monthly,hfls,W m-2,surface_upward_latent_heat_flux,longitude latitude time,atmos,1,LHFLX,LHFLX no change
+CCMI1_monthly,hfss,W m-2,surface_upward_sensible_heat_flux,longitude latitude time,atmos,1,SHFLX,SHFLX no change
+CCMI1_monthly,od550aer,1,atmosphere_optical_thickness_due_to_ambient_aerosol,longitude latitude time,aerosol,1,AEROD_v,AEROD_v
+CCMI1_monthly,od550so4,1,atmosphere_optical_thickness_due_to_sulfate_ambient_aerosol,longitude latitude time,atmos,1,ODV_SO4,ODV_SO4
+CCMI1_monthly,ps,Pa,surface_air_pressure,longitude latitude time,atmos,1,PS,PS no change
+CCMI1_monthly,reffclwtop,m,effective_radius_of_cloud_liquid_water_particle_at_liquid_water_cloud_top,longitude latitude time,aerosol,1,AREL,AREL
+CCMI1_monthly,rlds,W m-2,surface_downwelling_longwave_flux_in_air,longitude latitude time,atmos,1,FLDS,FLDS no change
+CCMI1_monthly,rlutcs,W m-2,toa_outgoing_longwave_flux_assuming_clear_sky,longitude latitude time,atmos,1,FLUTC,FLUTC no change
+CCMI1_monthly,rsds,W m-2,surface_downwelling_shortwave_flux_in_air,longitude latitude time,atmos,1,FSDS,FSDS no change
+CCMI1_monthly,sic,%,sea_ice_area_fraction,longitude latitude time,atmos,1,ICEFRAC,ICEFRAC
+CCMI1_monthly,tos,K,sea_surface_temperature,longitude latitude time,atmos,1,TS,TS over ocean
+CCMI1_monthly,toz,DU,equivalent_thickness_at_stp_of_atmosphere_ozone_content,longitude latitude time,atmos,1,O3,total ozone column
+CCMI1_monthly,wethno3,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_nitric_acid_due_to_wet_deposition,longitude latitude time,atmos,1,DTWR_HNO3 PS TS,DTWR_HNO3 on model levels
+CCMI1_monthly,wetso2,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition,longitude latitude time,aerosol,1,DTWR_SO2 PS,
+CCMI1_monthly,chegpso4,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_net_chemical_production,longitude latitude alevel time,atmos,2,SO4_CHMP PS,SO4_CHMP*(28.97e-3 kg mol-1*1.e-3/6.022e23) on model levels
+CCMI1_monthly,cl,%,cloud_area_fraction_in_atmosphere_layer,longitude latitude alevel time,atmos,2,CLOUD PS,CLOUD on model levels no change
+CCMI1_monthly,cli,1,mass_fraction_of_cloud_ice_in_air,longitude latitude alevel time,atmos,2,CLDICE PS,CLDICE on model levels no change
+CCMI1_monthly,clw,1,mass_fraction_of_cloud_liquid_water_in_air,longitude latitude alevel time,atmos,2,CLDLIQ PS,CLDLIQ on model levels no change
+CCMI1_monthly,do3chm,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_ozone_due_to_chemistry,longitude latitude alevel time,atmos,2,DO3CHM PS,DO3CHM*(28.97e-3 kg mol-1*1.e-3/6.022e23) on model levels
+CCMI1_monthly,hur,%,relative_humidity,longitude latitude alevel time,atmos,2,RELHUM PS,RELHUM on model levels
+CCMI1_monthly,mcu,kg m-2 s-1,updraught_convective_mass_flux,longitude latitude alevel time,atmos,2,ZMMU PS,ZMMU on model levels
+CCMI1_monthly,o3loss,mole m-3 s-1,tendency_of_mole_concentration_of_ozone_due_to_chemical_loss,longitude latitude alevel time,atmos,2,O3_Loss PS,O3_Loss *(28.97e-3 kg mol-1*1.e-3/6.022e23) on model levels
+CCMI1_monthly,o3prod,mole m-3 s-1,tendency_of_mole_concentration_of_ozone_due_to_chemical_production,longitude latitude alevel time,atmos,2,O3_Prod PS,O3_Prod *(28.97e-3 kg mol-1*1.e-3/6.022e23) on model levels
+CCMI1_monthly,ohloss,mole m-3 s-1,total_rate_of_hydroxyl_loss_reactions,longitude latitude alevel time,atmos,2,OH_CHML PS,OH_CHML *(28.97e-3 kg mol-1*1.e-3/6.022e23) on model levels
+CCMI1_monthly,photo1d,s-1,photolysis_rate_of_ozone_to_O1D,longitude latitude alevel time,atmos,2,jo3_b PS,jo3_b on model levels
+CCMI1_monthly,pilev,Pa,air_pressure_at_model_level_interface,longitude latitude alevel time,atmos,2,ilev PS,on model levels
+CCMI1_monthly,pmlev,Pa,air_pressure,longitude latitude alevel time,atmos,2,lev PS,on model levels
+CCMI1_monthly,prodh2o2viaho2,mole m-3 s-1,rate_of_h2o2_production_from_ho2_self_reaction,longitude latitude alevel time,atmos,2,r_HO2_HO2 PS,r_HO2_HO2 on model levels
+CCMI1_monthly,ta,K,air_temperature,longitude latitude alevel time,atmos,2,T PS,T on model levels
+CCMI1_monthly,ua,m s-1,eastward_wind,longitude latitude alevel time,atmos,2,U PS,U on model levels
+CCMI1_monthly,va,m s-1,northward_wind,longitude latitude alevel time,atmos,2,V PS,V on model levels
+CCMI1_monthly,vmrdms,mole mole-1,mole_fraction_of_dimethyl_sulfide_in_air,longitude latitude alevel time,atmos,2,DMS PS,DMS on model levels
+CCMI1_monthly,vmrhno3,mole mole-1,mole_fraction_of_nitrogen_acid_in_air,longitude latitude alevel time,atmos,2,HNO3 PS ,HNO3 on model levels
+CCMI1_monthly,vmrno,mole mole-1,mole_fraction_of_nitrogen_monoxide_in_air,longitude latitude alevel time,atmos,2,NO PS,NO on model levels
+CCMI1_monthly,vmrno2,mole mole-1,mole_fraction_of_nitrogen_dioxide_in_air,longitude latitude alevel time,atmos,2,NO2 PS ,NO2 on model levels
+CCMI1_monthly,vmrpan,mole mole-1,mole_fraction_of_peroxyacetyl_nitrate_in_air,longitude latitude alevel time,atmos,2,PAN PS ,PAN on model levels
+CCMI1_monthly,vmrso2,mole mole-1,mole_fraction_of_sulfur_dioxide_in_air,longitude latitude alevel time,atmos,2,SO2 PS ,SO2 on model levels
+CCMI1_monthly,zg,m,geopotential_height,longitude latitude alevel time,atmos,2,Z3 PS,Z3 on model levels
+CCMI1_monthly,hus,1,specific_humidity,longitude latitude plevs time,atmos,2,Q PS,Q on model levels
+CCMI1_monthly,zmta,K,air_temperature,longitude latitude plevs time,atmos,2,T PS ,T zavg on standard plevs
+CCMI1_monthly,zmua,m s-1,eastward_wind,longitude latitude plevs time,atmos,2,U PS ,U zavg on standard plevs
+CCMI1_monthly,zmva,m s-1,northward_wind,longitude latitude plevs time,atmos,2,V PS,V on model levels
+CCMI1_monthly,emibc,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_emission,longitude latitude time,aerosol,2,SFCB1 SFCB2,SFCB1 + SFCB2
+CCMI1_monthly,emidust,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_emission,longitude latitude time,aerosol,2,SFdst_a1 SFdst_a3,SFdst_a1+SFdst_a3
+CCMI1_monthly,emioa,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission,longitude latitude time,atmos,2,SFOC1 SFOC2,(SFOC1+SFOC2)*1.4 scale factor
+CCMI1_monthly,emipom,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_expressed_as_carbon_due_to_emission,longitude latitude time,atmos,2,SFOC1 SFOC2,(SFOC1+SFOC2)*1.4 scale factor
+CCMI1_monthly,lso3chm,kg m-2 s-1,tendency_of_lower_stratosphere_mass_content_of_ozone_due_to_chemistry,longitude latitude time,atmos,2,DO3CHM_LMS,DO3CHM_LMS
+CCMI1_monthly,od550bc,1,atmosphere_optical_thickness_due_to_black_carbon_ambient_aerosol,longitude latitude time,atmos,2,ODV_BC1 ODV_BC2,ODV_BC1 ODV_BC2
+CCMI1_monthly,od550oa,1,atmosphere_optical_thickness_due_to_particulate_organic_matter_ambient_aerosol,longitude latitude time,atmos,2,ODV_OC1+ ODV_OC2,ODV_OC1+ODV_OC2
+CCMI1_monthly,pr,kg m-2 s-1,precipitation_flux,longitude latitude time,atmos,2,PRECC PRECL,PRECC + PRECL and unit conversion
+CCMI1_monthly,rlus,W m-2,surface_upwelling_longwave_flux_in_air,longitude latitude time,atmos,2,FLDS FLNS,FLDS + FLNS
+CCMI1_monthly,rsus,W m-2,surface_upwelling_shortwave_flux_in_air,longitude latitude time,atmos,2,FSDS FSNS,FSDS - FSNS
+CCMI1_monthly,rsut,W m-2,toa_outgoing_shortwave_flux,longitude latitude time,atmos,2,SOLIN FSNTOA,SOLIN - FSNTOA
+CCMI1_monthly,rsutcs,W m-2,toa_outgoing_shortwave_flux_assuming_clear_sky,longitude latitude time,atmos,2,SOLIN FSNTOAC,SOLIN - FSNTOAC
+CCMI1_monthly,wetbc,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_wet_deposition,longitude latitude time,aerosol,2,CB2WET PS,CB2WET on model levels
+CCMI1_monthly,mmrbc,kg kg-1,mass_fraction_of_black_carbon_dry_aerosol_in_air,longitude latitude alevel time,atmos,3,CB1 CB2 PS,CB1+CB2 on model levels
+CCMI1_monthly,rlut,W m-2,toa_outgoing_longwave_flux,longitude latitude time,atmos,3,FSNTOA FSNT FLNT,FSNTOA-FSNT+FLNT
+CCMI1_monthly,emiss,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_emission,longitude latitude time,aerosol,4,SFSSLT01 SFSSLT02 SFSSLT03 SFSSLT04,SFSSLT01+SFSSLT02+SFSSLT03+SFSSLT04
+CCMI1_monthly,od550dust,1,atmosphere_optical_thickness_due_to_dust_ambient_aerosol,longitude latitude time,atmos,4,ODV_DST01 ODV_DST02 ODV_DST03 ODV_DST04,ODV_DST01+ODV_DST02+ODV_DST03+ODV_DST04
+CCMI1_monthly,od550ss,1,atmosphere_optical_thickness_due_to_seasalt_ambient_aerosol,longitude latitude time,atmos,4,SSLT01OD SSLT02OD SSLT03OD SSLT04OD,SSLT01OD+SSLT02OD+SSLT03OD+SSLT04OD
+CCMI1_monthly,wetdust,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_wet_deposition,longitude latitude time,aerosol,4,a2x_DSTWET1 a2x_DSTWET2 a2x_DSTWET3 a2x_DSTWET4,a2x_DSTWET+a2x_DSTWET2+a2x_DSTWET3+a2x_DSTWET4
+CCMI1_monthly,mmrdust,kg kg-1,mass_fraction_of_dust_dry_aerosol_in_air,longitude latitude alevel time,atmos,5,DST01 DST02 DST03 DST04 PS,DST01+DST02+DST03+DST04 on model levels
+CCMI1_monthly,mmrss,kg kg-1,mass_fraction_of_seasalt_dry_aerosol_in_air,longitude latitude alevel time,atmos,5,SSLT01 SSLT02 SSLT03 SSLT04 PS,SSLT01+SSLT02+SSLT03+SSLT04 on model levels
+CCMI1_monthly,dryss,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_dry_deposition,longitude latitude time,aerosol,5,DF_SOAB DF_SOAI DF_SOAM DF_SOAT DF_SOAX,DF_SOAB+DF_SOAI+DF_SOAM+DF_SOAT+DF_SOAX
+CCMI1_monthly,mmrsoa,kg kg-1,mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_in_air,longitude latitude alevel time,atmos,6,SOAM SOAI SOAT SOAB SOAX PS,SOAM+SOAI+SOAT+SOAB+SOAX on model levels
+CCMI1_monthly,chepsoa,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production,longitude latitude time,atmos,6,SOAM_PROD SOAI_PROD SOAT_PROD SOAB_PROD SOAX_PROD PS,SOAM_PROD+SOAI_PROD+SOAT_PROD+SOAB_PROD+SOAX_PROD on model levels
+CCMI1_monthly,wetoa,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_wet_deposition,longitude latitude time,aerosol,6,SOABSFWET SOAISFWET SOAMSFWET SOATSFWET SOAXSFWET OC2SFWET,SOABSFWET+SOAISFWET+SOAMSFWET+SOATSFWET+SOAXSFWET + OC2SFWET
+CCMI1_monthly,wetso4,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_sulfate_expressed_as_sulfur_dry_aerosol_due_to_wet_deposition,longitude latitude time,aerosol,6,SO4SFWET,SO4SFWET
+CCMI1_monthly,wetss,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition,longitude latitude time,aerosol,6,SSLT01PP SSLT02PP SSLT03PP SSLT04PP PS TS,SSLT01PP+SSLT02PP+SSLT03PP+SSLT04PP integrated over Z
+CCMI1_monthly,dryoa,kg m-2 s-1,tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_dry_deposition,longitude latitude time,aerosol,7,DF_OC1 DF_OC2 DF_SOAB DF_SOAI DF_SOAM DF_SOAT DF_SOAX,(DF_OC1+DF_OC2)*1.4 scale factor + DF_SOAB+DF_SOAI+DF_SOAM+DF_SOAT+DF_SOAX
+CCMI1_monthly,mmroa,kg kg-1,mass_fraction_of_particulate_organic_matter_dry_aerosol_in_air,longitude latitude alevel time,atmos,8,OC1 OC2 SOAM SOAI SOAT SOAB SOAX PS,OC1+OC2+SOAM+SOAI+SOAT+SOAB+SOAX on model levels
+@

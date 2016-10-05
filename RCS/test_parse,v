@@ -1,0 +1,121 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2013.08.13.22.10.01;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2013.08.13.20.22.52;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@#!/bin/sh -f
+#
+for NCFILE in \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.cam.h1.9999-99.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.cam.h0.9999-99.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.cice.h1.9999-99.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.cice.h2_06h.9999-99.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.cice.h.9999-99.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.clm2.h1.9999-99.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.clm2.h0.9999-99.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.9999-99.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.rtm.h1.9999-99.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.rtm.h0.9999-99.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.ecosys.nday1.9999-99.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.ecosys.nyear1.9999-99.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.nday1.9999-99.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.cam.h1.VARVAR.999999.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.cam.h0.VARVAR.999999.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.cice.h1.VARVAR.999999.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.cice.h2_06h.VARVAR.999999.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.cice.h.VARVAR.999999.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.clm2.h1.VARVAR.999999.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.clm2.h0.VARVAR.999999.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.VARVAR.999999.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.rtm.h1.VARVAR.999999.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.rtm.h0.VARVAR.999999.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.ecosys.nday1.VARVAR.999999.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.ecosys.nyear1.VARVAR.999999.nc \
+ b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.nday1.VARVAR.999999.nc \
+ ; do
+  source ./ncfile_parse $NCFILE
+#
+  NC_CASE=`echo $NCFILE | cut -d"." -f1-${DOT_CASE}`
+  NC_COMP=`echo $NCFILE | cut -d"." -f${DOT_CMP1}-${DOT_CMP2}`
+  if [ $DOT_SVAR -ne 0 ] ; then
+     NC_SVAR=`echo $NCFILE -n | cut -d"." -f${DOT_SVAR}`
+  fi
+  NC_TIME=`echo $NCFILE | cut -d"." -f${DOT_TIME}`
+#
+  if [ $DOT_SVAR -ne 0 ] ; then
+    echo ${NCFILE}": CASE: "${NC_CASE}" COMP: "${NC_COMP}" SVAR: "${NC_SVAR}" TIME: "${NC_TIME}
+  else
+    echo ${NCFILE}": CASE: "${NC_CASE}" COMP: "${NC_COMP}" TIME: "${NC_TIME}
+  fi
+done
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@a1 26
+# b.e11.B20TRC5CNBDRD.f09_g16.001.cam.h1.9999-99.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.cam.h0.9999-99.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.cice.h1.9999-99.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.cice.h2_06h.9999-99.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.cice.h.9999-99.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.clm2.h1.9999-99.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.clm2.h0.9999-99.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.9999-99.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.rtm.h1.9999-99.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.rtm.h0.9999-99.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.ecosys.nday1.9999-99.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.ecosys.nyear1.9999-99.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.nday1.9999-99.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.cam.h1.VARVAR.999999.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.cam.h0.VARVAR.999999.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.cice.h1.VARVAR.999999.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.cice.h2_06h.VARVAR.999999.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.cice.h.VARVAR.999999.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.clm2.h1.VARVAR.999999.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.clm2.h0.VARVAR.999999.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.VARVAR.999999.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.rtm.h1.VARVAR.999999.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.rtm.h0.VARVAR.999999.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.ecosys.nday1.VARVAR.999999.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.ecosys.nyear1.VARVAR.999999.nc \
+# b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.nday1.VARVAR.999999.nc \
+d4 10
+d17 10
+d31 1
+a31 1
+  source ./parse_ncfile $NCFILE
+d35 2
+a36 2
+  if [ $DOT_VARN -ne 0 ] ; then
+     NC_VARN=`echo $NCFILE -n | cut -d"." -f${DOT_VARN}`
+d40 2
+a41 2
+  if [ $DOT_VARN -ne 0 ] ; then
+    echo ${NCFILE}": CASE: "${NC_CASE}" COMP: "${NC_COMP}" VARN: "${NC_VARN}" TIME: "${NC_TIME}
+@

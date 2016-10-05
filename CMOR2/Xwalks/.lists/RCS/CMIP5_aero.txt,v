@@ -1,0 +1,231 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2012.01.31.00.03.19;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.01.19.16.19.08;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@ variable_entry,out_name,standard_name,long_name,dimensions,type,units,cell_measures,cell_methods,modeling_realm,must_have_bounds,ok_max_mean_abs,ok_min_mean_abs,positive,stored_direction,valid_max,valid_min
+variable|p0|||vertical coordinate formula term: reference pressure|||Pa|||||||||||
+variable|ptop|||pressure at top of model|||Pa|||||||||||
+variable|a|||vertical coordinate formula term: a(k)|alevel|double||||||||||||
+variable|b|||vertical coordinate formula term: b(k)|alevel|double||||||||||||
+variable|a_bnds|||vertical coordinate formula term: a(k+1/2)|alevel|double||||||||||||
+variable|b_bnds|||vertical coordinate formula term: b(k+1/2)|alevel|double||||||||||||
+variable|ap|||vertical coordinate formula term: ap(k)|alevel|double|Pa|||||||||||
+variable|ap_bnds|||vertical coordinate formula term: ap(k+1/2)|alevel|double|Pa|||||||||||
+variable|ztop|||height of top of model|||m|||||||||||
+variable|ps|ps|surface_air_pressure|Surface Air Pressure|longitude latitude time|real|Pa||time: mean|atmos||||||||
+variable|od550aer|od550aer|atmosphere_optical_thickness_due_to_ambient_aerosol|Ambient Aerosol Optical Thickness at 550 nm|longitude latitude time|real|1|area: areacella|time: mean|aerosol||||||||
+variable|od550lt1aer|od550lt1aer|atmosphere_optical_thickness_due_to_pm1_ambient_aerosol|Ambient Fine Aerosol Optical Thickness at 550 nm|longitude latitude time|real|1|area: areacella|time: mean|aerosol||||||||
+variable|abs550aer|abs550aer|atmosphere_absorption_optical_thickness_due_to_ambient_aerosol|Ambient Aerosol Absorption Optical Thickness at 550 nm|longitude latitude time|real|1|area: areacella|time: mean|aerosol||||||||
+variable|od870aer|od870aer|atmosphere_optical_thickness_due_to_ambient_aerosol|Ambient Aerosol Optical Thickness at 870 nm|longitude latitude time|real|1|area: areacella|time: mean|aerosol||||||||
+variable|emioa|emioa|tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission|Rate of Emission and Production of Dry Aerosol Total Organic Matter|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|emipoa|emipoa|tendency_of_atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol_due_to_emission|Emission Rate of Dry Aerosol Primary Organic Matter|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|chepsoa|chepsoa|tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production|Production Rate of Dry Aerosol Secondary Organic Matter|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|emibc|emibc|tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_emission|Emission Rate of Black Carbon Aerosol Mass|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|dryoa|dryoa|tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_dry_deposition|Dry Deposition Rate of Dry Aerosol Organic Matter|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|drypoa|drypoa|tendency_of_atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol_due_to_dry_deposition|Dry Deposition Rate of Dry Aerosol Primary Organic Matter|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|drysoa|drysoa|tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_dry_deposition|Dry Deposition Rate of Dry Aerosol Secondary Organic Matter|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|drybc|drybc|tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_dry_deposition|Dry Deposition Rate of Black Carbon Aerosol Mass|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|wetoa|wetoa|tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_wet_deposition|Wet Deposition Rate of Dry Aerosol Organic Matter|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|wetpoa|wetpoa|tendency_of_atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol_due_to_wet_deposition|Wet Deposition Rate of Dry Aerosol Primary Organic Matter|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|wetsoa|wetsoa|tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_wet_deposition|Wet Deposition Rate of Dry Aerosol Secondary Organic Matter|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|wetbc|wetbc|tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_wet_deposition|Wet Deposition Rate of Black Carbon Aerosol Mass|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|emibb|emibb|tendency_of_atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol_due_to_emission|Total Emission of Primary Aerosol from Biomass Burning|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|emiso2|emiso2|tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_emission|Total Emission Rate of SO2|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|emiso4|emiso4|tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_emission|Total Direct Emission Rate of SO4|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|emidms|emidms|tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission|Total Emission Rate of DMS|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|dryso2|dryso2|tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_dry_deposition|Dry Deposition Rate of SO2|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|dryso4|dryso4|tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_dry_deposition|Dry Deposition Rate of SO4|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|drydms|drydms|tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_dry_deposition|Dry Deposition Rate of DMS|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|wetso4|wetso4|tendency_of_atmosphere_mass_content_of_sulfate_expressed_as_sulfur_dry_aerosol_due_to_wet_deposition|Wet Deposition Rate of SO4|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|wetso2|wetso2|tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition|Wet Deposition Rate of SO2|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|wetdms|wetdms|tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_wet_deposition|Wet Deposition Rate of DMS|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|eminh3|eminh3|tendency_of_atmosphere_mass_content_of_ammonia_due_to_emission|Total Emission Rate of NH3|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|drynh3|drynh3|tendency_of_atmosphere_mass_content_of_ammonia_due_to_dry_deposition|Dry Deposition Rate of NH3|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|drynh4|drynh4|tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_dry_deposition|Dry Deposition Rate of NH4|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|wetnh4|wetnh4|tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_wet_deposition|Wet Deposition Rate of NH4+NH3|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|emiss|emiss|tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_emission|Total Emission Rate of Seasalt|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|dryss|dryss|tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_dry_deposition|Dry Deposition Rate of Seasalt|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|wetss|wetss|tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition|Wet Deposition Rate of Seasalt|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|emidust|emidust|tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_emission|Total Emission Rate of Dust|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|drydust|drydust|tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_dry_deposition|Dry Deposition Rate of Dust|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|wetdust|wetdust|tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_wet_deposition|Wet Deposition Rate of Dust|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean|aerosol||||||||
+variable|loadoa|loadoa|atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol|Load of Dry Aerosol Organic Matter|longitude latitude time|real|kg m-2|area: areacella|time: mean|aerosol||||||||
+variable|loadpoa|loadpoa|atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol|Load of Dry Aerosol Primary Organic Matter|longitude latitude time|real|kg m-2|area: areacella|time: mean|aerosol||||||||
+variable|loadsoa|loadsoa|atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol|Load of Dry Aerosol Secondary Organic Matter|longitude latitude time|real|kg m-2|area: areacella|time: mean|aerosol||||||||
+variable|loadbc|loadbc|atmosphere_mass_content_of_black_carbon_dry_aerosol|Load of Black Carbon Aerosol|longitude latitude time|real|kg m-2|area: areacella|time: mean|aerosol||||||||
+variable|loadso4|loadso4|atmosphere_mass_content_of_sulfate_dry_aerosol|Load of SO4|longitude latitude time|real|kg m-2|area: areacella|time: mean|aerosol||||||||
+variable|loaddust|loaddust|atmosphere_mass_content_of_dust_dry_aerosol|Load of Dust|longitude latitude time|real|kg m-2|area: areacella|time: mean|aerosol||||||||
+variable|loadss|loadss|atmosphere_mass_content_of_seasalt_dry_aerosol|Load of Seasalt|longitude latitude time|real|kg m-2|area: areacella|time: mean|aerosol||||||||
+variable|loadno3|loadno3|atmosphere_mass_content_of_nitrate_dry_aerosol|Load of NO3|longitude latitude time|real|kg m-2|area: areacella|time: mean|aerosol||||||||
+variable|loadnh4|loadnh4|atmosphere_mass_content_of_ammonium_dry_aerosol|Load of NH4|longitude latitude time|real|kg m-2|area: areacella|time: mean|aerosol||||||||
+variable|sconcoa|sconcoa|mass_concentration_of_particulate_organic_matter_dry_aerosol_in_air|Surface Concentration of Dry Aerosol Organic Matter|longitude latitude alev1 time|real|kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|sconcpoa|sconcpoa|mass_concentration_of_primary_particulate_organic_matter_dry_aerosol_in_air|Surface Concentration of Dry Aerosol Primary Organic Matter|longitude latitude alev1 time|real|kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|sconcsoa|sconcsoa|mass_concentration_of_secondary_particulate_organic_matter_dry_aerosol_in_air|Surface Concentration of Dry Aerosol Secondary Organic Matter|longitude latitude alev1 time|real|kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|sconcbc|sconcbc|mass_concentration_of_black_carbon_dry_aerosol_in_air|Surface Concentration of Black Carbon Aerosol|longitude latitude alev1 time|real|kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|sconcso4|sconcso4|mass_concentration_of_sulfate_dry_aerosol_in_air|Surface Concentration of SO4|longitude latitude alev1 time|real|kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|sconcdust|sconcdust|mass_concentration_of_dust_dry_aerosol_in_air|Surface Concentration of Dust|longitude latitude alev1 time|real|kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|sconcss|sconcss|mass_concentration_of_seasalt_dry_aerosol_in_air|Surface Concentration of Seasalt|longitude latitude alev1 time|real|kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|sconcno3|sconcno3|mass_concentration_of_nitrate_dry_aerosol_in_air|Surface Concentration of NO3|longitude latitude alev1 time|real|kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|sconcnh4|sconcnh4|mass_concentration_of_ammonium_dry_aerosol_in_air|Surface Concentration of NH4|longitude latitude alev1 time|real|kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|rsdsdiff|rsdsdiff|surface_diffuse_downwelling_shortwave_flux_in_air|Surface Diffuse Downwelling Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|aerosol land||||||||
+variable|rsdscsdiff|rsdscsdiff|surface_diffuse_downwelling_shortwave_flux_in_air_assuming_clear_sky|Surface Diffuse Downwelling Clear Sky Shortwave Radiation|longitude latitude time|real|W m-2|area: areacella|time: mean|aerosol land||||||||
+variable|reffclwtop|reffclwtop|effective_radius_of_cloud_liquid_water_particle_at_liquid_water_cloud_top|Cloud-Top Effective Droplet Radius|longitude latitude time|real|m|area: areacella|time: mean|aerosol||||||||
+variable|cldncl|cldncl|number_concentration_of_cloud_liquid_water_particles_in_air_at_liquid_water_cloud_top|Cloud Droplet Number Concentration of Cloud Tops|longitude latitude time|real|m-3|area: areacella|time: mean|aerosol||||||||
+variable|cldnci|cldnci|number_concentration_of_ice_crystals_in_air_at_ice_cloud_top|Ice Crystal Number Concentration of Cloud Tops|longitude latitude time|real|m-3|area: areacella|time: mean|aerosol||||||||
+variable|cldnvi|cldnvi|atmosphere_number_content_of_cloud_droplets|Column Integrated Cloud Droplet Number|longitude latitude time|real|m-2|area: areacella|time: mean|aerosol||||||||
+variable|ec550aer|ec550aer|volume_extinction_coefficient_in_air_due_to_ambient_aerosol|Ambient Aerosol Extinction at 550 nm|longitude latitude alevel time||m-1|area: areacella|time: mean|aerosol||||||||
+variable|concoa|concoa|mass_concentration_of_particulate_organic_matter_dry_aerosol_in_air|Concentration of Dry Aerosol Organic Matter|longitude latitude alevel time||kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|concpoa|concpoa|mass_concentration_of_primary_particulate_organic_matter_dry_aerosol_in_air|Concentration of Dry Aerosol Primary Organic Matter|longitude latitude alevel time||kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|concsoa|concsoa|mass_concentration_of_secondary_particulate_organic_matter_dry_aerosol_in_air|Concentration of Dry Aerosol Secondary Organic Matter|longitude latitude alevel time||kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|concbb|concbb|mass_concentration_of_biomass_burning_dry_aerosol_in_air|Concentration of Biomass Burning Aerosol|longitude latitude alevel time||kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|concbc|concbc|mass_concentration_of_black_carbon_dry_aerosol_in_air|Concentration of Black Carbon Aerosol|longitude latitude alevel time||kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|concaerh2o|concaerh2o|mass_concentration_of_water_in_ambient_aerosol_in_air|Concentration of Aerosol Water|longitude latitude alevel time||kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|concso4|concso4|mass_concentration_of_sulfate_dry_aerosol_in_air|Concentration of SO4|longitude latitude alevel time||kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|concso2|concso2|mole_fraction_of_sulfur_dioxide_in_air|Mole Fraction of SO2|longitude latitude alevel time||1|area: areacella|time: mean|aerosol||||||||
+variable|concdms|concdms|mole_fraction_of_dimethyl_sulfide_in_air|Mole Fraction of DMS|longitude latitude alevel time||1|area: areacella|time: mean|aerosol||||||||
+variable|concno3|concno3|mass_concentration_of_nitrate_dry_aerosol_in_air|Concentration of NO3 Aerosol|longitude latitude alevel time||kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|concnh4|concnh4|mass_concentration_of_ammonium_dry_aerosol_in_air|Concentration of NH4|longitude latitude alevel time||kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|concss|concss|mass_concentration_of_seasalt_dry_aerosol_in_air|Concentration of Seasalt|longitude latitude alevel time||kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|concdust|concdust|mass_concentration_of_dust_dry_aerosol_in_air|Concentration of Dust|longitude latitude alevel time||kg m-3|area: areacella|time: mean|aerosol||||||||
+variable|conccn|conccn|number_concentration_of_ambient_aerosol_in_air|Aerosol Number Concentration|longitude latitude alevel time||m-3|area: areacella|time: mean|aerosol||||||||
+variable|concnmcn|concnmcn|number_concentration_of_nucleation_mode_ambient_aerosol_in_air|Number Concentration of Nucleation Mode Aerosol|longitude latitude alevel time||m-3|area: areacella|time: mean|aerosol||||||||
+variable|conccmcn|conccmcn|number_concentration_of_coarse_mode_ambient_aerosol_in_air|Number Concentration Coarse Mode Aerosol|longitude latitude alevel time||m-3|area: areacella|time: mean|aerosol||||||||
+variable|reffclws|reffclws|effective_radius_of_stratiform_cloud_liquid_water_particle|Stratiform Cloud Droplet Effective Radius|longitude latitude alevel time||m|area: areacella|time: mean|aerosol||||||||
+variable|reffclwc|reffclwc|effective_radius_of_convective_cloud_liquid_water_particle|Convective Cloud Droplet Effective Radius|longitude latitude alevel time||m|area: areacella|time: mean|aerosol||||||||
+variable|cdnc|cdnc|number_concentration_of_cloud_liquid_water_particles_in_air|Cloud Droplet Number Concentration|longitude latitude alevel time||m-3|area: areacella|time: mean|aerosol||||||||
+variable|inc|inc|number_concentration_of_ice_crystals_in_air|Ice Crystal Number Concentration|longitude latitude alevel time||m-3|area: areacella|time: mean|aerosol||||||||
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 91
+a92 101
+axis:longitude:lon:longitude:longitude::double:degrees_east::::yes::::increasing:360.0:0.0:
+axis:latitude:lat:latitude:latitude::double:degrees_north::::yes::::increasing:90.0:-90.0:
+axis:time:time:time:time::double:days since ?::::yes::::increasing:::
+axis:smooth_level:lev:atmosphere_sleve_coordinate:atmosphere smooth level vertical (SLEVE) coordinate:::m::::yes:::	      up:increasing:800000.:-200.:
+axis:natural_log_pressure:lev:atmosphere_ln_pressure_coordinate:atmosphere natural log pressure coordinate:::::::yes:::	      down:decreasing:20.:-1.:
+axis:standard_sigma:lev:atmosphere_sigma_coordinate:sigma coordinate:::::::yes:::down:decreasing:1.0:0.0:
+axis:standard_hybrid_sigma:lev:atmosphere_hybrid_sigma_pressure_coordinate:hybrid sigma pressure coordinate:::1::::yes:::down:decreasing:1.0:0.0:
+axis:alternate_hybrid_sigma:lev:atmosphere_hybrid_sigma_pressure_coordinate:hybrid sigma pressure coordinate:::1::::yes:::down:decreasing:1.0:0.0:
+axis:hybrid_height:lev:atmosphere_hybrid_height_coordinate:hybrid height coordinate:::m::::yes:::up:increasing::0.0:
+variable:orog:orog:surface_altitude:Surface Altitude:longitude latitude:real:m:::atmos::::::1.00E+04:-700:
+variable:p0:::vertical coordinate formula term: reference pressure:::Pa:::::::::::
+variable:ptop:::pressure at top of model:::Pa:::::::::::
+variable:a:::vertical coordinate formula term: a(k):alevel:double::::::::::::
+variable:b:::vertical coordinate formula term: b(k):alevel:double::::::::::::
+variable:a_bnds:::vertical coordinate formula term: a(k+1/2):alevel:double::::::::::::
+variable:b_bnds:::vertical coordinate formula term: b(k+1/2):alevel:double::::::::::::
+variable:ap:::vertical coordinate formula term: ap(k):alevel:double:Pa:::::::::::
+variable:ap_bnds:::vertical coordinate formula term: ap(k+1/2):alevel:double:Pa:::::::::::
+variable:ztop:::height of top of model:::m:::::::::::
+variable:ps:ps:surface_air_pressure:Surface Air Pressure:longitude latitude time:real:Pa::time: mean:atmos::::::::
+variable:od550aer:od550aer:atmosphere_optical_thickness_due_to_ambient_aerosol:Ambient Aerosol Optical Thickness at 550 nm:longitude latitude time:real:1:area: areacella:time: mean:aerosol::::::::
+variable:od550lt1aer:od550lt1aer:atmosphere_optical_thickness_due_to_pm1_ambient_aerosol:Ambient Fine Aerosol Optical Thickness at 550 nm:longitude latitude time:real:1:area: areacella:time: mean:aerosol::::::::
+variable:abs550aer:abs550aer:atmosphere_absorption_optical_thickness_due_to_ambient_aerosol:Ambient Aerosol Absorption Optical Thickness at 550 nm:longitude latitude time:real:1:area: areacella:time: mean:aerosol::::::::
+variable:od870aer:od870aer:atmosphere_optical_thickness_due_to_ambient_aerosol:Ambient Aerosol Optical Thickness at 870 nm:longitude latitude time:real:1:area: areacella:time: mean:aerosol::::::::
+variable:emioa:emioa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission:Rate of Emission and Production of Dry Aerosol Total Organic Matter:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:emipoa:emipoa:tendency_of_atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol_due_to_emission:Emission Rate of Dry Aerosol Primary Organic Matter:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:chepsoa:chepsoa:tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production:Production Rate of Dry Aerosol Secondary Organic Matter:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:emibc:emibc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_emission:Emission Rate of Black Carbon Aerosol Mass:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:dryoa:dryoa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_dry_deposition:Dry Deposition Rate of Dry Aerosol Organic Matter:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:drypoa:drypoa:tendency_of_atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol_due_to_dry_deposition:Dry Deposition Rate of Dry Aerosol Primary Organic Matter:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:drysoa:drysoa:tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_dry_deposition:Dry Deposition Rate of Dry Aerosol Secondary Organic Matter:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:drybc:drybc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_dry_deposition:Dry Deposition Rate of Black Carbon Aerosol Mass:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:wetoa:wetoa:tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_wet_deposition:Wet Deposition Rate of Dry Aerosol Organic Matter:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:wetpoa:wetpoa:tendency_of_atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol_due_to_wet_deposition:Wet Deposition Rate of Dry Aerosol Primary Organic Matter:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:wetsoa:wetsoa:tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_wet_deposition:Wet Deposition Rate of Dry Aerosol Secondary Organic Matter:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:wetbc:wetbc:tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_wet_deposition:Wet Deposition Rate of Black Carbon Aerosol Mass:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:emibb:emibb:tendency_of_atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol_due_to_emission:Total Emission of Primary Aerosol from Biomass Burning:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:emiso2:emiso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_emission:Total Emission Rate of SO2:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:emiso4:emiso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_emission:Total Direct Emission Rate of SO4:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:emidms:emidms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_emission:Total Emission Rate of DMS:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:dryso2:dryso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_dry_deposition:Dry Deposition Rate of SO2:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:dryso4:dryso4:tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_dry_deposition:Dry Deposition Rate of SO4:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:drydms:drydms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_dry_deposition:Dry Deposition Rate of DMS:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:wetso4:wetso4:tendency_of_atmosphere_mass_content_of_sulfate_expressed_as_sulfur_dry_aerosol_due_to_wet_deposition:Wet Deposition Rate of SO4:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:wetso2:wetso2:tendency_of_atmosphere_mass_content_of_sulfur_dioxide_due_to_wet_deposition:Wet Deposition Rate of SO2:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:wetdms:wetdms:tendency_of_atmosphere_mass_content_of_dimethyl_sulfide_due_to_wet_deposition:Wet Deposition Rate of DMS:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:eminh3:eminh3:tendency_of_atmosphere_mass_content_of_ammonia_due_to_emission:Total Emission Rate of NH3:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:drynh3:drynh3:tendency_of_atmosphere_mass_content_of_ammonia_due_to_dry_deposition:Dry Deposition Rate of NH3:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:drynh4:drynh4:tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_dry_deposition:Dry Deposition Rate of NH4:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:wetnh4:wetnh4:tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_wet_deposition:Wet Deposition Rate of NH4+NH3:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:emiss:emiss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_emission:Total Emission Rate of Seasalt:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:dryss:dryss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_dry_deposition:Dry Deposition Rate of Seasalt:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:wetss:wetss:tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition:Wet Deposition Rate of Seasalt:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:emidust:emidust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_emission:Total Emission Rate of Dust:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:drydust:drydust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_dry_deposition:Dry Deposition Rate of Dust:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:wetdust:wetdust:tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_wet_deposition:Wet Deposition Rate of Dust:longitude latitude time:real:kg m-2 s-1:area: areacella:time: mean:aerosol::::::::
+variable:loadoa:loadoa:atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol:Load of Dry Aerosol Organic Matter:longitude latitude time:real:kg m-2:area: areacella:time: mean:aerosol::::::::
+variable:loadpoa:loadpoa:atmosphere_mass_content_of_primary_particulate_organic_matter_dry_aerosol:Load of Dry Aerosol Primary Organic Matter:longitude latitude time:real:kg m-2:area: areacella:time: mean:aerosol::::::::
+variable:loadsoa:loadsoa:atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol:Load of Dry Aerosol Secondary Organic Matter:longitude latitude time:real:kg m-2:area: areacella:time: mean:aerosol::::::::
+variable:loadbc:loadbc:atmosphere_mass_content_of_black_carbon_dry_aerosol:Load of Black Carbon Aerosol:longitude latitude time:real:kg m-2:area: areacella:time: mean:aerosol::::::::
+variable:loadso4:loadso4:atmosphere_mass_content_of_sulfate_dry_aerosol:Load of SO4:longitude latitude time:real:kg m-2:area: areacella:time: mean:aerosol::::::::
+variable:loaddust:loaddust:atmosphere_mass_content_of_dust_dry_aerosol:Load of Dust:longitude latitude time:real:kg m-2:area: areacella:time: mean:aerosol::::::::
+variable:loadss:loadss:atmosphere_mass_content_of_seasalt_dry_aerosol:Load of Seasalt:longitude latitude time:real:kg m-2:area: areacella:time: mean:aerosol::::::::
+variable:loadno3:loadno3:atmosphere_mass_content_of_nitrate_dry_aerosol:Load of NO3:longitude latitude time:real:kg m-2:area: areacella:time: mean:aerosol::::::::
+variable:loadnh4:loadnh4:atmosphere_mass_content_of_ammonium_dry_aerosol:Load of NH4:longitude latitude time:real:kg m-2:area: areacella:time: mean:aerosol::::::::
+variable:sconcoa:sconcoa:mass_concentration_of_particulate_organic_matter_dry_aerosol_in_air:Surface Concentration of Dry Aerosol Organic Matter:longitude latitude alev1 time:real:kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:sconcpoa:sconcpoa:mass_concentration_of_primary_particulate_organic_matter_dry_aerosol_in_air:Surface Concentration of Dry Aerosol Primary Organic Matter:longitude latitude alev1 time:real:kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:sconcsoa:sconcsoa:mass_concentration_of_secondary_particulate_organic_matter_dry_aerosol_in_air:Surface Concentration of Dry Aerosol Secondary Organic Matter:longitude latitude alev1 time:real:kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:sconcbc:sconcbc:mass_concentration_of_black_carbon_dry_aerosol_in_air:Surface Concentration of Black Carbon Aerosol:longitude latitude alev1 time:real:kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:sconcso4:sconcso4:mass_concentration_of_sulfate_dry_aerosol_in_air:Surface Concentration of SO4:longitude latitude alev1 time:real:kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:sconcdust:sconcdust:mass_concentration_of_dust_dry_aerosol_in_air:Surface Concentration of Dust:longitude latitude alev1 time:real:kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:sconcss:sconcss:mass_concentration_of_seasalt_dry_aerosol_in_air:Surface Concentration of Seasalt:longitude latitude alev1 time:real:kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:sconcno3:sconcno3:mass_concentration_of_nitrate_dry_aerosol_in_air:Surface Concentration of NO3:longitude latitude alev1 time:real:kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:sconcnh4:sconcnh4:mass_concentration_of_ammonium_dry_aerosol_in_air:Surface Concentration of NH4:longitude latitude alev1 time:real:kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:rsdsdiff:rsdsdiff:surface_diffuse_downwelling_shortwave_flux_in_air:Surface Diffuse Downwelling Shortwave Radiation:longitude latitude time:real:W m-2:area: areacella:time: mean:aerosol land::::::::
+variable:rsdscsdiff:rsdscsdiff:surface_diffuse_downwelling_shortwave_flux_in_air_assuming_clear_sky:Surface Diffuse Downwelling Clear Sky Shortwave Radiation:longitude latitude time:real:W m-2:area: areacella:time: mean:aerosol land::::::::
+variable:reffclwtop:reffclwtop:effective_radius_of_cloud_liquid_water_particle_at_liquid_water_cloud_top:Cloud-Top Effective Droplet Radius:longitude latitude time:real:m:area: areacella:time: mean:aerosol::::::::
+variable:cldncl:cldncl:number_concentration_of_cloud_liquid_water_particles_in_air_at_liquid_water_cloud_top:Cloud Droplet Number Concentration of Cloud Tops:longitude latitude time:real:m-3:area: areacella:time: mean:aerosol::::::::
+variable:cldnci:cldnci:number_concentration_of_ice_crystals_in_air_at_ice_cloud_top:Ice Crystal Number Concentration of Cloud Tops:longitude latitude time:real:m-3:area: areacella:time: mean:aerosol::::::::
+variable:cldnvi:cldnvi:atmosphere_number_content_of_cloud_droplets:Column Integrated Cloud Droplet Number:longitude latitude time:real:m-2:area: areacella:time: mean:aerosol::::::::
+variable:ec550aer:ec550aer:volume_extinction_coefficient_in_air_due_to_ambient_aerosol:Ambient Aerosol Extinction at 550 nm:longitude latitude alevel time::m-1:area: areacella:time: mean:aerosol::::::::
+variable:concoa:concoa:mass_concentration_of_particulate_organic_matter_dry_aerosol_in_air:Concentration of Dry Aerosol Organic Matter:longitude latitude alevel time::kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:concpoa:concpoa:mass_concentration_of_primary_particulate_organic_matter_dry_aerosol_in_air:Concentration of Dry Aerosol Primary Organic Matter:longitude latitude alevel time::kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:concsoa:concsoa:mass_concentration_of_secondary_particulate_organic_matter_dry_aerosol_in_air:Concentration of Dry Aerosol Secondary Organic Matter:longitude latitude alevel time::kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:concbb:concbb:mass_concentration_of_biomass_burning_dry_aerosol_in_air:Concentration of Biomass Burning Aerosol:longitude latitude alevel time::kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:concbc:concbc:mass_concentration_of_black_carbon_dry_aerosol_in_air:Concentration of Black Carbon Aerosol:longitude latitude alevel time::kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:concaerh2o:concaerh2o:mass_concentration_of_water_in_ambient_aerosol_in_air:Concentration of Aerosol Water:longitude latitude alevel time::kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:concso4:concso4:mass_concentration_of_sulfate_dry_aerosol_in_air:Concentration of SO4:longitude latitude alevel time::kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:concso2:concso2:mole_fraction_of_sulfur_dioxide_in_air:Mole Fraction of SO2:longitude latitude alevel time::1:area: areacella:time: mean:aerosol::::::::
+variable:concdms:concdms:mole_fraction_of_dimethyl_sulfide_in_air:Mole Fraction of DMS:longitude latitude alevel time::1:area: areacella:time: mean:aerosol::::::::
+variable:concno3:concno3:mass_concentration_of_nitrate_dry_aerosol_in_air:Concentration of NO3 Aerosol:longitude latitude alevel time::kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:concnh4:concnh4:mass_concentration_of_ammonium_dry_aerosol_in_air:Concentration of NH4:longitude latitude alevel time::kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:concss:concss:mass_concentration_of_seasalt_dry_aerosol_in_air:Concentration of Seasalt:longitude latitude alevel time::kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:concdust:concdust:mass_concentration_of_dust_dry_aerosol_in_air:Concentration of Dust:longitude latitude alevel time::kg m-3:area: areacella:time: mean:aerosol::::::::
+variable:conccn:conccn:number_concentration_of_ambient_aerosol_in_air:Aerosol Number Concentration:longitude latitude alevel time::m-3:area: areacella:time: mean:aerosol::::::::
+variable:concnmcn:concnmcn:number_concentration_of_nucleation_mode_ambient_aerosol_in_air:Number Concentration of Nucleation Mode Aerosol:longitude latitude alevel time::m-3:area: areacella:time: mean:aerosol::::::::
+variable:conccmcn:conccmcn:number_concentration_of_coarse_mode_ambient_aerosol_in_air:Number Concentration Coarse Mode Aerosol:longitude latitude alevel time::m-3:area: areacella:time: mean:aerosol::::::::
+variable:reffclws:reffclws:effective_radius_of_stratiform_cloud_liquid_water_particle:Stratiform Cloud Droplet Effective Radius:longitude latitude alevel time::m:area: areacella:time: mean:aerosol::::::::
+variable:reffclwc:reffclwc:effective_radius_of_convective_cloud_liquid_water_particle:Convective Cloud Droplet Effective Radius:longitude latitude alevel time::m:area: areacella:time: mean:aerosol::::::::
+variable:cdnc:cdnc:number_concentration_of_cloud_liquid_water_particles_in_air:Cloud Droplet Number Concentration:longitude latitude alevel time::m-3:area: areacella:time: mean:aerosol::::::::
+variable:inc:inc:number_concentration_of_ice_crystals_in_air:Ice Crystal Number Concentration:longitude latitude alevel time::m-3:area: areacella:time: mean:aerosol::::::::
+@

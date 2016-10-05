@@ -1,0 +1,126 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2012.10.09.21.20.02;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.06.03.12.50.11;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@cfDay:albisccp:cloud_albedo:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:ccb:air_pressure_at_convective_cloud_base:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:cct:air_pressure_at_convective_cloud_top:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:clcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude alt40 time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:clhcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:cli:mass_fraction_of_cloud_ice_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:clisccp:cloud_area_fraction_in_atmosphere_layer:longitude latitude plev7 tau time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:clivi:atmosphere_cloud_ice_content:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:cllcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:cl:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:clmcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:cltcalipso:cloud_area_fraction:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:cltisccp:cloud_area_fraction:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:clt:cloud_area_fraction:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:clw:mass_fraction_of_cloud_liquid_water_in_air:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:clwvi:atmosphere_cloud_condensed_water_content:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:hur:relative_humidity:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:hus:specific_humidity:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:mc:atmosphere_net_upward_convective_mass_flux:longitude latitude alevhalf time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:parasolRefl:toa_bidirectional_reflectance:longitude latitude sza5 time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:pctisccp:air_pressure_at_cloud_top:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:prc:convective_precipitation_flux:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:ps:surface_air_pressure:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:rsdt:toa_incoming_shortwave_flux:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:rsut:toa_outgoing_shortwave_flux:longitude latitude time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:ta700:air_temperature:longitude latitude time p700:atmos:0:UNKNOWN:UNKNOWN
+cfDay:ta:air_temperature:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:ua:eastward_wind:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:va:northward_wind:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:wap500:lagrangian_tendency_of_air_pressure:longitude latitude time p500:atmos:0:UNKNOWN:UNKNOWN
+cfDay:wap:lagrangian_tendency_of_air_pressure:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+cfDay:zg:geopotential_height:longitude latitude alevel time:atmos:0:UNKNOWN:UNKNOWN
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 44
+a44 44
+cfDay:albisccp:cloud_albedo:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:ccb:air_pressure_at_convective_cloud_base:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:cct:air_pressure_at_convective_cloud_top:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:clcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude alt40 time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:clhcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:cli:mass_fraction_of_cloud_ice_in_air:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:clisccp:cloud_area_fraction_in_atmosphere_layer:longitude latitude plev7 tau time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:clivi:atmosphere_cloud_ice_content:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:cllcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:cl:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:clmcalipso:cloud_area_fraction_in_atmosphere_layer:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:cltcalipso:cloud_area_fraction:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:cltisccp:cloud_area_fraction:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:clt:cloud_area_fraction:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:clw:mass_fraction_of_cloud_liquid_water_in_air:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:clwvi:atmosphere_cloud_condensed_water_content:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:hfls:surface_upward_latent_heat_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:hfss:surface_upward_sensible_heat_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:hur:relative_humidity:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:hus:specific_humidity:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:mc:atmosphere_net_upward_convective_mass_flux:longitude latitude alevhalf time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:parasolRefl:toa_bidirectional_reflectance:longitude latitude sza5 time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:pctisccp:air_pressure_at_cloud_top:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:prc:convective_precipitation_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:ps:surface_air_pressure:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:rldscs:surface_downwelling_longwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:rlds:surface_downwelling_longwave_flux_in_air:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:rlus:surface_upwelling_longwave_flux_in_air:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:rlutcs:toa_outgoing_longwave_flux_assuming_clear_sky:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:rlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:rsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:rsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:rsdt:toa_incoming_shortwave_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:rsuscs:surface_upwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:rsus:surface_upwelling_shortwave_flux_in_air:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:rsutcs:toa_outgoing_shortwave_flux_assuming_clear_sky:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:rsut:toa_outgoing_shortwave_flux:longitude latitude time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:ta700:air_temperature:longitude latitude time p700:atmos:1:UNKNOWN:UNKNOWN
+cfDay:ta:air_temperature:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:ua:eastward_wind:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:va:northward_wind:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:wap500:lagrangian_tendency_of_air_pressure:longitude latitude time p500:atmos:1:UNKNOWN:UNKNOWN
+cfDay:wap:lagrangian_tendency_of_air_pressure:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+cfDay:zg:geopotential_height:longitude latitude alevel time:atmos:1:UNKNOWN:UNKNOWN
+@

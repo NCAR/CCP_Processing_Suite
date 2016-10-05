@@ -1,0 +1,356 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2015.02.13.21.57.47;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2014.01.31.19.43.19;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@CCMI1_daily:ccmi_year::time::
+CCMI1_daily:ccmi_month::time::
+CCMI1_daily:ccmi_day::time::
+CCMI1_daily:ccmi_hour::time::
+CCMI1_daily:ccmi_minute::time::
+CCMI1_daily:ps:surface_air_pressure:longitude latitude time1:atmos:
+CCMI1_daily:ua10:eastward_wind:longitude latitude time1 pr10:atmos:
+CCMI1_daily:ua100:eastward_wind:longitude latitude time1 pr100:atmos:
+CCMI1_daily:ua500:eastward_wind:longitude latitude time1 pr500:atmos:
+CCMI1_daily:ua850:eastward_wind:longitude latitude time1 pr850:atmos:
+CCMI1_daily:ua1000:eastward_wind:longitude latitude time1 pr1000:atmos:
+CCMI1_daily:va10:northward_wind:longitude latitude time1 pr10:atmos:
+CCMI1_daily:va50:northward_wind:longitude latitude time1 pr50:atmos:
+CCMI1_daily:va100:northward_wind:longitude latitude time1 pr100:atmos:
+CCMI1_daily:va500:northward_wind:longitude latitude time1 pr500:atmos:
+CCMI1_daily:va1000:northward_wind:longitude latitude time1 pr1000:atmos:
+CCMI1_daily:wa50:upward_air_velocity:longitude latitude time1 pr50:atmos:
+CCMI1_daily:ta5:air_temperature:longitude latitude time1 pr5:atmos:
+CCMI1_daily:ta10:air_temperature:longitude latitude time1 pr10:atmos:
+CCMI1_daily:ta30:air_temperature:longitude latitude time1 pr30:atmos:
+CCMI1_daily:ta40:air_temperature:longitude latitude time1 pr40:atmos:
+CCMI1_daily:ta50:air_temperature:longitude latitude time1 pr50:atmos:
+CCMI1_daily:ta70:air_temperature:longitude latitude time1 pr70:atmos:
+CCMI1_daily:ta100:air_temperature:longitude latitude time1 pr100:atmos:
+CCMI1_daily:ta1000:air_temperature:longitude latitude time1 pr1000:atmos:
+CCMI1_daily:tas:air_temperature:longitude latitude time1 height2m:atmos:
+CCMI1_daily:ts:surface_temperature:longitude latitude time1:atmos:
+CCMI1_daily:zg10:geopotential_height:longitude latitude time1 pr10:atmos:
+CCMI1_daily:zg100:geopotential_height:longitude latitude time1 pr100:atmos:
+CCMI1_daily:zg500:geopotential_height:longitude latitude time1 pr500:atmos:
+CCMI1_daily:zg1000:geopotential_height:longitude latitude time1 pr1000:atmos:
+CCMI1_daily:vorpot840:ertel_potential_vorticity:longitude latitude time1 pot840:atmos:
+CCMI1_daily:vorpot480:ertel_potential_vorticity:longitude latitude time1 pot480:atmos:
+CCMI1_daily:dytoz:equivalent_thickness_at_stp_of_atmosphere_ozone_content:longitude latitude time1:atmos:
+CCMI1_daily:dyrsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time1:atmos:
+CCMI1_daily:dyrsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time1:atmos:
+CCMI1_daily:dyrlut:toa_outgoing_longwave_flux:longitude latitude time1:atmos:
+CCMI1_daily:snd:surface_snow_thickness:longitude latitude time1:atmos:
+CCMI1_daily:snw:surface_snow_amount:longitude latitude time1:atmos:
+CCMI1_daily:tasmin:air_temperature:longitude latitude time height2m:atmos:
+CCMI1_daily:tasmax:air_temperature:longitude latitude time height2m:atmos:
+CCMI1_daily:tpp::longitude latitude time1:atmos:
+CCMI1_daily:sfvmrco25::longitude latitude time1:atmos:
+CCMI1_daily:sfmmrso2t::longitude latitude time1:atmos:
+CCMI1_daily:sfmmraerno3:mass_fraction_of_nitrate_dry_aerosol_in_air:longitude latitude time1:atmos:
+CCMI1_daily:sfmmraerso4:mass_fraction_of_sulfate_dry_aerosol_in_air:longitude latitude time1:atmos:
+CCMI1_daily:sfmmraernh4:mass_fraction_of_ammonium_dry_aerosol_in_air:longitude latitude time1:atmos:
+CCMI1_daily:sfmmrbc:mass_fraction_of_black_carbon_dry_aerosol_in_air:longitude latitude time1:atmos:
+CCMI1_daily:sfmmrpom:mass_fraction_of_particulate_organic_matter_dry_aerosol_in_air:longitude latitude time1:atmos:
+CCMI1_daily:sfmmrsoa:mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_in_air:longitude latitude time1:atmos:
+CCMI1_daily:sfmmrss:mass_fraction_of_seasalt_dry_aerosol_in_air:longitude latitude time1:atmos:
+CCMI1_daily:sfmmrdust:mass_fraction_of_dust_dry_aerosol_in_air:longitude latitude time1:atmos:
+CCMI1_daily:sfmmraerh2o:mass_fraction_of_water_in_ambient_aerosol_in_air:longitude latitude time1:atmos:
+CCMI1_daily:sfvmro3:mole_fraction_of_ozone_in_air:longitude latitude time1:atmos:
+CCMI1_daily:pr:precipitation_flux:longitude latitude time1:atmos:
+CCMI1_daily:maxpblz:atmosphere_boundary_layer_thickness:longitude latitude time:atmos:
+CCMI1_daily:minpblz:atmosphere_boundary_layer_thickness:longitude latitude time:atmos:
+CCMI1_daily:cod:atmosphere_optical_thickness_due_to_cloud:longitude latitude time1:atmos:
+CCMI1_daily:clt:cloud_area_fraction:longitude latitude time1:atmos:
+CCMI1_daily:vmrco50ea700::longitude latitude time1 pr700:atmos:
+CCMI1_daily:vmrco50na700::longitude latitude time1 pr700:atmos:
+CCMI1_daily:vmrco50eu700::longitude latitude time1 pr700:atmos:
+CCMI1_daily:vmrco50sa700::longitude latitude time1 pr700:atmos:
+CCMI1_daily:sic:sea_ice_area_fraction:longitude latitude time1:atmos:
+CCMI1_daily:pmlev:air_pressure:longitude latitude alevel time1:atmos:
+CCMI1_daily:pilev::longitude latitude alevel time1:atmos:
+CCMI1_daily:ta:air_temperature:longitude latitude alevel time1:atmos:
+CCMI1_daily:ua:eastward_wind:longitude latitude alevel time1:atmos:
+CCMI1_daily:va:northward_wind:longitude latitude alevel time1:atmos:
+CCMI1_daily:wap:lagrangian_tendency_of_air_pressure:longitude latitude alevel time1:atmos:
+CCMI1_daily:zg:geopotential_height:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmro3:mole_fraction_of_ozone_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrn2o:mole_fraction_of_nitrous_oxide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrch4:mole_fraction_of_methane_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrhcl:mole_fraction_of_hydrogen_chloride_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrh2o:mole_fraction_of_water_vapor_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmro3psv::longitude latitude alevel time1:atmos:
+CCMI1_daily:sadsulf::longitude latitude alevel time1:atmos:
+CCMI1_daily:sadnat::longitude latitude alevel time1:atmos:
+CCMI1_daily:sadice::longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrcfcl3:mole_fraction_of_cfc11_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrcf2cl2:mole_fraction_of_cfc12_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrch3cl:mole_fraction_of_methyl_chloride_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrch3br:mole_fraction_of_methyl_bromide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrcl:mole_fraction_of_atomic_chlorine_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrclo:mole_fraction_of_chlorine_monoxide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrcl2o2:mole_fraction_of_dichlorine_peroxide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrhocl:mole_fraction_of_hypochlorous_acid_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrclono2:mole_fraction_of_chlorine_nitrate_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmroclo:mole_fraction_of_chlorine_dioxide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrcly:mole_fraction_of_inorganic_chlorine_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmroh:mole_fraction_of_hydroxyl_radical_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrho2:mole_fraction_of_hydroperoxyl_radical_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrh2o2:mole_fraction_of_hydrogen_peroxide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrh2:mole_fraction_of_molecular_hydrogen_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrn:mole_fraction_of_atomic_nitrogen_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrno:mole_fraction_of_nitrogen_monoxide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrno2:mole_fraction_of_nitrogen_dioxide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrhno3:mole_fraction_of_nitric_acid_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrn2o5:mole_fraction_of_dinitrogen_pentoxide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrhno4:mole_fraction_of_peroxynitric_acid_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrnoy:mole_fraction_of_total_reactive_nitrogen_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrbr:mole_fraction_of_atomic_bromine_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrbro:mole_fraction_of_bromine_monoxide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrbrcl:mole_fraction_of_bromine_chloride_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrhbr:mole_fraction_of_hydrogen_bromide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrhobr:mole_fraction_of_hypobromous_acid_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrbrono2:mole_fraction_of_bromine_nitrate_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrbry:mole_fraction_of_total_inorganic_bromine_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrch2o:mole_fraction_of_formaldehyde_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrch3ooh:mole_fraction_of_methyl_hydroperoxide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrco:mole_fraction_of_carbon_monoxide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrco2:mole_fraction_of_carbon_dioxide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:mnstrage:age_of_stratospheric_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrc2h6:mole_fraction_of_ethane_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrc2h2:mole_fraction_of_ethyne_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmrhcn:mole_fraction_of_hydrogen_cyanide_in_air:longitude latitude alevel time1:atmos:
+CCMI1_daily:tntsw:tendency_of_air_temperature_due_to_shortwave_heating:longitude latitude alevel time1:atmos:
+CCMI1_daily:tntlw:tendency_of_air_temperature_due_to_longwave_heating:longitude latitude alevel time1:atmos:
+CCMI1_daily:cl:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time1:atmos:
+CCMI1_daily:clc:convective_cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time1:atmos:
+CCMI1_daily:vmro3ste::longitude latitude alevel time1:atmos:
+CCMI1_daily:vmre90::longitude latitude alevel time1:atmos:
+CCMI1_daily:vmre90n::longitude latitude alevel time1:atmos:
+CCMI1_daily:vmre90s::longitude latitude alevel time1:atmos:
+CCMI1_daily:zmta:air_temperature:longitude latitude plevs time1:atmos:
+CCMI1_daily:zmzg:geopotential_height:longitude latitude plevs time1:atmos:
+CCMI1_daily:zmua:eastward_wind:longitude latitude plevs time1:atmos:
+CCMI1_daily:vstar:northward_transformed_eulerian_mean_air_velocity:longitude latitude plevs time1:atmos:
+CCMI1_daily:wstar::longitude latitude plevs time1:atmos:
+CCMI1_daily:fy:northward_eliassen_palm_flux_in_air:longitude latitude plevs time1:atmos:
+CCMI1_daily:fz:upward_eliassen_palm_flux_in_air:longitude latitude plevs time1:atmos:
+CCMI1_daily:acceldivf:tendency_of_eastward_wind_due_to_eliassen_palm_flux_divergence:longitude latitude plevs time1:atmos:
+CCMI1_daily:zmo3:mole_fraction_of_ozone_in_air:longitude latitude plevs time1:atmos:
+CCMI1_daily:zmh2o:mole_fraction_of_water_vapor_in_air:longitude latitude plevs time1:atmos:
+CCMI1_daily:zmnoy:mole_fraction_of_total_reactive_nitrogen_in_air:longitude latitude plevs time1:atmos:
+CCMI1_daily:zmclo:mole_fraction_of_chlorine_monoxide_in_air:longitude latitude plevs time1:atmos:
+CCMI1_daily:zmbro:mole_fraction_of_bromine_monoxide_in_air:longitude latitude plevs time1:atmos:
+CCMI1_daily:nh50psca::time1 pr50:atmos:
+CCMI1_daily:sh50psca::time1 pr50:atmos:
+CCMI1_daily:nh50area188k::time1 pr50:atmos:
+CCMI1_daily:nh50area195k::time1 pr50:atmos:
+CCMI1_daily:sh50area188k::time1 pr50:atmos:
+CCMI1_daily:sh50area195k::time1 pr50:atmos:
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@a0 34
+CCMI1_daily::longitude:::
+CCMI1_daily::latitude:::
+CCMI1_daily::air_pressure:::
+CCMI1_daily::air_pressure:::
+CCMI1_daily::air_pressure:::
+CCMI1_daily::air_pressure:::
+CCMI1_daily::air_pressure:::
+CCMI1_daily::air_pressure:::
+CCMI1_daily::air_pressure:::
+CCMI1_daily::air_pressure:::
+CCMI1_daily::air_pressure:::
+CCMI1_daily::air_pressure:::
+CCMI1_daily::air_pressure:::
+CCMI1_daily::air_pressure:::
+CCMI1_daily::height:::
+CCMI1_daily::air_potential_temperature:::
+CCMI1_daily::air_potential_temperature:::
+CCMI1_daily::time:::
+CCMI1_daily::atmosphere_sleve_coordinate:::
+CCMI1_daily::atmosphere_ln_pressure_coordinate:::
+CCMI1_daily::atmosphere_sigma_coordinate:::
+CCMI1_daily::atmosphere_hybrid_sigma_pressure_coordinate:::
+CCMI1_daily::atmosphere_hybrid_sigma_pressure_coordinate:::
+CCMI1_daily::atmosphere_hybrid_height_coordinate:::
+CCMI1_daily:orog:surface_altitude:longitude latitude:atmos:
+CCMI1_daily:p0::::
+CCMI1_daily:ptop::::
+CCMI1_daily:a::alevel::
+CCMI1_daily:b::alevel::
+CCMI1_daily:a_bnds::alevel::
+CCMI1_daily:b_bnds::alevel::
+CCMI1_daily:ap::alevel::
+CCMI1_daily:ap_bnds::alevel::
+CCMI1_daily:ztop::::
+d6 34
+a39 34
+CCMI1_daily:ps:surface_air_pressure:longitude latitude time:atmos:
+CCMI1_daily:ua10:eastward_wind:longitude latitude time pr10:atmos:
+CCMI1_daily:ua100:eastward_wind:longitude latitude time pr100:atmos:
+CCMI1_daily:ua500:eastward_wind:longitude latitude time pr500:atmos:
+CCMI1_daily:ua850:eastward_wind:longitude latitude time pr850:atmos:
+CCMI1_daily:ua1000:eastward_wind:longitude latitude time pr1000:atmos:
+CCMI1_daily:va10:northward_wind:longitude latitude time pr10:atmos:
+CCMI1_daily:va50:northward_wind:longitude latitude time pr50:atmos:
+CCMI1_daily:va100:northward_wind:longitude latitude time pr100:atmos:
+CCMI1_daily:va500:northward_wind:longitude latitude time pr500:atmos:
+CCMI1_daily:va1000:northward_wind:longitude latitude time pr1000:atmos:
+CCMI1_daily:wa50:upward_air_velocity:longitude latitude time pr50:atmos:
+CCMI1_daily:ta5:air_temperature:longitude latitude time pr5:atmos:
+CCMI1_daily:ta10:air_temperature:longitude latitude time pr10:atmos:
+CCMI1_daily:ta30:air_temperature:longitude latitude time pr30:atmos:
+CCMI1_daily:ta40:air_temperature:longitude latitude time pr40:atmos:
+CCMI1_daily:ta50:air_temperature:longitude latitude time pr50:atmos:
+CCMI1_daily:ta70:air_temperature:longitude latitude time pr70:atmos:
+CCMI1_daily:ta100:air_temperature:longitude latitude time pr100:atmos:
+CCMI1_daily:ta1000:air_temperature:longitude latitude time pr1000:atmos:
+CCMI1_daily:tas:air_temperature:longitude latitude time height2m:atmos:
+CCMI1_daily:sfta:surface_temperature:longitude latitude time:atmos:
+CCMI1_daily:zg10:geopotential_height:longitude latitude time pr10:atmos:
+CCMI1_daily:zg100:geopotential_height:longitude latitude time pr100:atmos:
+CCMI1_daily:zg500:geopotential_height:longitude latitude time pr500:atmos:
+CCMI1_daily:zg1000:geopotential_height:longitude latitude time pr1000:atmos:
+CCMI1_daily:vorpot840:ertel_potential_vorticity:longitude latitude time pot840:atmos:
+CCMI1_daily:vorpot480:ertel_potential_vorticity:longitude latitude time pot480:atmos:
+CCMI1_daily:dytoz:equivalent_thickness_at_stp_of_atmosphere_ozone_content:longitude latitude time:atmos:
+CCMI1_daily:dyrsds:surface_downwelling_shortwave_flux_in_air:longitude latitude time:atmos:
+CCMI1_daily:dyrsdscs:surface_downwelling_shortwave_flux_in_air_assuming_clear_sky:longitude latitude time:atmos:
+CCMI1_daily:dyrlut:toa_outgoing_longwave_flux:longitude latitude time:atmos:
+CCMI1_daily:snd:surface_snow_thickness:longitude latitude time:atmos:
+CCMI1_daily:snw:surface_snow_amount:longitude latitude time:atmos:
+d42 14
+a55 14
+CCMI1_daily:tpp::longitude latitude time:atmos:
+CCMI1_daily:sfvmrco_25::longitude latitude time:atmos:
+CCMI1_daily:sfmmrso2t::longitude latitude time:atmos:
+CCMI1_daily:sfmmraerno3:mass_fraction_of_nitrate_dry_aerosol_in_air:longitude latitude time:atmos:
+CCMI1_daily:sfmmraerso4:mass_fraction_of_sulfate_dry_aerosol_in_air:longitude latitude time:atmos:
+CCMI1_daily:sfmmraernh4:mass_fraction_of_ammonium_dry_aerosol_in_air:longitude latitude time:atmos:
+CCMI1_daily:sfmmrbc:mass_fraction_of_black_carbon_dry_aerosol_in_air:longitude latitude time:atmos:
+CCMI1_daily:sfmmrpom:mass_fraction_of_particulate_organic_matter_dry_aerosol_in_air:longitude latitude time:atmos:
+CCMI1_daily:sfmmrsoa:mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_in_air:longitude latitude time:atmos:
+CCMI1_daily:sfmmrss:mass_fraction_of_seasalt_dry_aerosol_in_air:longitude latitude time:atmos:
+CCMI1_daily:sfmmrdust:mass_fraction_of_dust_dry_aerosol_in_air:longitude latitude time:atmos:
+CCMI1_daily:sfmmraerh2o:mass_fraction_of_water_in_ambient_aerosol_in_air:longitude latitude time:atmos:
+CCMI1_daily:sfvmro3:mole_fraction_of_ozone_in_air:longitude latitude time:atmos:
+CCMI1_daily:pr:precipitation_flux:longitude latitude time:atmos:
+d58 87
+a144 87
+CCMI1_daily:cod:atmosphere_optical_thickness_due_to_cloud:longitude latitude time:atmos:
+CCMI1_daily:clt:cloud_area_fraction:longitude latitude time:atmos:
+CCMI1_daily:vmrco_50ea700::longitude latitude time pr700:atmos:
+CCMI1_daily:vmrco_50na700::longitude latitude time pr700:atmos:
+CCMI1_daily:vmrco_50eu700::longitude latitude time pr700:atmos:
+CCMI1_daily:vmrco_50sa700::longitude latitude time pr700:atmos:
+CCMI1_daily:sic:sea_ice_area_fraction:longitude latitude time:atmos:
+CCMI1_daily:pmlev:air_pressure:longitude latitude alevel time:atmos:
+CCMI1_daily:pilev::longitude latitude alevel time:atmos:
+CCMI1_daily:ta:air_temperature:longitude latitude alevel time:atmos:
+CCMI1_daily:ua:eastward_wind:longitude latitude alevel time:atmos:
+CCMI1_daily:va:northward_wind:longitude latitude alevel time:atmos:
+CCMI1_daily:wap:lagrangian_tendency_of_air_pressure:longitude latitude alevel time:atmos:
+CCMI1_daily:zg:geopotential_height:longitude latitude alevel time:atmos:
+CCMI1_daily:vmro3:mole_fraction_of_ozone_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrn2o:mole_fraction_of_nitrous_oxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrch4:mole_fraction_of_methane_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrhcl:mole_fraction_of_hydrogen_chloride_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrh2o:mole_fraction_of_water_vapor_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmro3psv::longitude latitude alevel time:atmos:
+CCMI1_daily:sad_sulf::longitude latitude alevel time:atmos:
+CCMI1_daily:sad_nat::longitude latitude alevel time:atmos:
+CCMI1_daily:sad_ice::longitude latitude alevel time:atmos:
+CCMI1_daily:vmrcfcl3:mole_fraction_of_cfc11_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrcf2cl2:mole_fraction_of_cfc12_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrch3cl:mole_fraction_of_methyl_chloride_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrch3br:mole_fraction_of_methyl_bromide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrcl:mole_fraction_of_atomic_chlorine_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrclo:mole_fraction_of_chlorine_monoxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrcl2o2:mole_fraction_of_dichlorine_peroxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrhocl:mole_fraction_of_hypochlorous_acid_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrclono2:mole_fraction_of_chlorine_nitrate_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmroclo:mole_fraction_of_chlorine_dioxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrcly:mole_fraction_of_inorganic_chlorine_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmroh:mole_fraction_of_hydroxyl_radical_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrho2:mole_fraction_of_hydroperoxyl_radical_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrh2o2:mole_fraction_of_hydrogen_peroxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrh2:mole_fraction_of_molecular_hydrogen_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrn:mole_fraction_of_atomic_nitrogen_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrno:mole_fraction_of_nitrogen_monoxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrno2:mole_fraction_of_nitrogen_dioxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrhno3:mole_fraction_of_nitric_acid_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrn2o5:mole_fraction_of_dinitrogen_pentoxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrhno4:mole_fraction_of_peroxynitric_acid_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrnoy:mole_fraction_of_total_reactive_nitrogen_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrbr:mole_fraction_of_atomic_bromine_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrbro:mole_fraction_of_bromine_monoxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrbrcl:mole_fraction_of_bromine_chloride_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrhbr:mole_fraction_of_hydrogen_bromide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrhobr:mole_fraction_of_hypobromous_acid_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrbrono2:mole_fraction_of_bromine_nitrate_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrbry:mole_fraction_of_total_inorganic_bromine_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrch2o:mole_fraction_of_formaldehyde_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrch3ooh:mole_fraction_of_methyl_hydroperoxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrco:mole_fraction_of_carbon_monoxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrco2:mole_fraction_of_carbon_dioxide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:mean_age:age_of_stratospheric_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrc2h6:mole_fraction_of_ethane_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrc2h2:mole_fraction_of_ethyne_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:vmrhcn:mole_fraction_of_hydrogen_cyanide_in_air:longitude latitude alevel time:atmos:
+CCMI1_daily:tntsw:tendency_of_air_temperature_due_to_shortwave_heating:longitude latitude alevel time:atmos:
+CCMI1_daily:tntlw:tendency_of_air_temperature_due_to_longwave_heating:longitude latitude alevel time:atmos:
+CCMI1_daily:cl:cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:
+CCMI1_daily:clc:convective_cloud_area_fraction_in_atmosphere_layer:longitude latitude alevel time:atmos:
+CCMI1_daily:vmro3ste::longitude latitude alevel time:atmos:
+CCMI1_daily:vmre90::longitude latitude alevel time:atmos:
+CCMI1_daily:vmre90n::longitude latitude alevel time:atmos:
+CCMI1_daily:vmre90s::longitude latitude alevel time:atmos:
+CCMI1_daily:zmta:air_temperature:longitude latitude plevs time:atmos:
+CCMI1_daily:zmzg:geopotential_height:longitude latitude plevs time:atmos:
+CCMI1_daily:zmua:eastward_wind:longitude latitude plevs time:atmos:
+CCMI1_daily:vstar:northward_transformed_eulerian_mean_air_velocity:longitude latitude plevs time:atmos:
+CCMI1_daily:wstar::longitude latitude plevs time:atmos:
+CCMI1_daily:fy:northward_eliassen_palm_flux_in_air:longitude latitude plevs time:atmos:
+CCMI1_daily:fz:upward_eliassen_palm_flux_in_air:longitude latitude plevs time:atmos:
+CCMI1_daily:accel_divf:tendency_of_eastward_wind_due_to_eliassen_palm_flux_divergence:longitude latitude plevs time:atmos:
+CCMI1_daily:zmo3:mole_fraction_of_ozone_in_air:longitude latitude plevs time:atmos:
+CCMI1_daily:zmh2o:mole_fraction_of_water_vapor_in_air:longitude latitude plevs time:atmos:
+CCMI1_daily:zmnoy:mole_fraction_of_total_reactive_nitrogen_in_air:longitude latitude plevs time:atmos:
+CCMI1_daily:zmclo:mole_fraction_of_chlorine_monoxide_in_air:longitude latitude plevs time:atmos:
+CCMI1_daily:zmbro:mole_fraction_of_bromine_monoxide_in_air:longitude latitude plevs time:atmos:
+CCMI1_daily:psca_nh50::time pr50:atmos:
+CCMI1_daily:psca_sh50::time pr50:atmos:
+CCMI1_daily:area188k_nh50::time pr50:atmos:
+CCMI1_daily:area195k_nh50::time pr50:atmos:
+CCMI1_daily:area188k_sh50::time pr50:atmos:
+CCMI1_daily:area195k_sh50::time pr50:atmos:
+@

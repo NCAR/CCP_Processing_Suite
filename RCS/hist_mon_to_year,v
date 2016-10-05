@@ -1,0 +1,202 @@
+head	1.3;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.3
+date	2015.04.08.17.37.31;	author strandwg;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2013.07.11.20.08.16;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2013.07.11.20.07.59;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@#!/bin/sh
+#
+# Concatenate months of netCDF history files into years
+#
+if [ $# -ne 0 ] ; then
+  echo "Usage: hist_mon_to_year"
+  ./update_status error hist_mon_to_year
+  exit 1
+fi
+# 
+# Check for ncrcat
+#
+if [ ! $NCRCAT ] ; then
+  TEST4NCRCAT=`which ncrcat 2>&1`
+  if [ $? -eq 0 ] ; then
+    NCRCAT=`which ncrcat`
+  else
+    ./update_status error hist_mon_to_year
+    exit 1
+  fi
+fi
+#
+# Parse first filename
+#
+FILE=`/bin/ls | egrep '\.nc$' | head -n 1`
+FLEN=`echo $FILE | wc -c`
+NDOT=0
+CSTR=1
+while [ $CSTR -le $FLEN ] ; do
+  CURC=`echo $FILE | cut -c${CSTR}-${CSTR}`
+  if [ "$CURC" = "." ] ; then
+     NDOT=`expr '(' $NDOT ')' '+' '1'`
+  fi
+  CSTR=`expr '(' $CSTR ')' '+' '1'`
+done
+IDOT=1
+DCAS=1
+DTIM=1
+DHT1=1
+DHT2=1
+while [ $IDOT -le $NDOT ] ; do
+  CURC=`echo $FILE | cut -d "." -f${IDOT}-${IDOT}`
+  case "$CURC" in
+    cam2 | cam | clm2 | pop | csim | cice | rtm )
+      DCAS=`expr '(' $IDOT ')' '-' '1'`
+      DHT1=$IDOT ;;
+  esac
+  DTIM=$IDOT
+  IDOT=`expr '(' $IDOT ')' '+' '1'`
+done
+DHT2=`expr '(' $DHT1 ')' '+' '1'`
+#
+CASES=`/bin/ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f1-${DCAS} | sort | uniq`
+ HIST=`/bin/ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
+#
+# Check for pop.h2/pop.h.nday1/pop.h.ecosys.nday1
+#
+if [ "$HIST" = "pop.h" ] ; then
+  DYCK=`expr '(' $DHT2 ')' '+' '1'`
+  ODAY=`/bin/ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DYCK} | sort | uniq`
+  if [ "$ODAY" = "nday1" ] || [ "$ODAY" = "h2" ] ; then
+    DHT2=$DYCK
+    DTIM=`expr '(' $DHT2 ')' '+' '1'`
+    HIST=`/bin/ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+  fi
+  if [ "$ODAY" = "ecosys" ] ; then
+    DHT2=`expr '(' $DYCK ')' '+' '1'`
+    DTIM=`expr '(' $DHT2 ')' '+' '1'`
+    HIST=`/bin/ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+    echo $HIST
+  fi
+fi
+#
+for c in $CASES ; do      
+  for h in $HIST ; do
+    YEARS=`/bin/ls | egrep "${c}\.${h}\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DTIM} | cut -c1-4 | sort | uniq`
+    for y in $YEARS ; do
+      NUM=`/bin/ls ${c}\.${h}\.${y}-??\.nc | wc -l`
+      if [ $NUM -eq 12 ] ; then
+        DF=${c}.${h}.${y}.nc
+        echo "Creating: "$DF
+        if [ $DF ] ; then
+          $NCRCAT -O ${c}.${h}.${y}-??.nc $DF
+          if [ $? -eq 0 ] ; then
+            echo "Created: "$DF
+            rm -f ${c}.${h}.${y}-??.nc
+          fi
+        else
+          echo "Undefined DF: "$DF
+          ./update_status error hist_mon_to_year
+          exit 1
+        fi
+      fi
+    done
+  done
+done
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d7 1
+a7 1
+  ./status_check error hist_mon_to_year
+d18 1
+a18 2
+    echo "NCRCAT not in PATH - UNDEFINED"
+    ./status_check error hist_mon_to_year
+d25 1
+a25 1
+FILE=`ls | egrep '\.nc$' | head -n 1`
+a51 1
+echo "HT2: "${DHT2}
+d53 2
+a54 2
+CASES=`ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f1-${DCAS} | sort | uniq`
+ HIST=`ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
+d56 1
+a56 1
+# Check for pop.h.nday1
+d60 1
+a60 1
+  ODAY=`ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DYCK} | sort | uniq`
+d64 7
+a70 1
+    HIST=`ls | egrep "\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+d76 1
+a76 1
+    YEARS=`ls | egrep "${c}\.${h}\.[0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DTIM} | cut -c1-4 | sort | uniq`
+d78 1
+a78 1
+      NUM=`ls ${c}\.${h}\.${y}-??\.nc | wc -l`
+d83 1
+a83 1
+          $NCRCAT -4 -L 1 -O ${c}.${h}.${y}-??.nc $DF
+d90 1
+a90 1
+          ./status_check error hist_mon_to_year
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d53 1
+d55 2
+a56 2
+CASES=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f1-${DCAS} | sort | uniq`
+ HIST=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f${DHT1},${DHT2} | sort | uniq`
+a59 1
+echo $HIST
+d62 1
+a62 1
+  ODAY=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f${DYCK} | sort | uniq`
+d65 2
+a66 2
+    DTIM=`expr '(' $DTIM ')' '+' '1'`
+    HIST=`ls | egrep '\.([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9])\-..\.nc$' | cut -d"." -f${DHT1}-${DHT2} | sort | uniq`
+d72 1
+a72 3
+    YEARS4=`ls | egrep "${c}\.${h}\.[0-9][0-9][0-9][0-9]\-..\.nc"      | cut -d"." -f${DTIM} | cut -c1-4 | sort | uniq`
+    YEARS5=`ls | egrep "${c}\.${h}\.[0-9][0-9][0-9][0-9][0-9]\-..\.nc" | cut -d"." -f${DTIM} | cut -c1-5 | sort | uniq`
+    YEARS=${YEARS4}" "${YEARS5}
+d77 1
+@

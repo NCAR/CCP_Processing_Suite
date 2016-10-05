@@ -1,0 +1,59 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2015.02.12.20.36.29;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@,lon,longitude,longitude,,double,degrees_east,,,,yes,,,,increasing,360.0,0.0,
+,lat,latitude,latitude,,double,degrees_north,,,,yes,,,,increasing,90.0,-90.0,
+,plev,air_pressure,pressure,,double,Pa,,,,no,,,down,decreasing,,,
+,plev,air_pressure,pressure,,double,Pa,,,,no,,,down,decreasing,,,
+,time,time,time,,double,days since ?,,,,yes,,,,increasing,,,
+,time,time,time,,double,days since ?,,,,no,,,,increasing,,,
+,lev,atmosphere_sleve_coordinate,atmosphere smooth level vertical (SLEVE) coordinate,,,m,,,,yes,,,	      up,increasing,800000.,-200.,
+,lev,atmosphere_ln_pressure_coordinate,atmosphere natural log pressure coordinate,,,,,,,yes,,,	      down,decreasing,20.,-1.,
+,lev,atmosphere_sigma_coordinate,sigma coordinate,,,,,,,yes,,,down,decreasing,1.0,0.0,
+,lev,atmosphere_hybrid_sigma_pressure_coordinate,hybrid sigma pressure coordinate,,,1,,,,yes,,,down,decreasing,1.0,0.0,
+,lev,atmosphere_hybrid_sigma_pressure_coordinate,hybrid sigma pressure coordinate,,,1,,,,yes,,,down,decreasing,1.0,0.0,
+,lev,atmosphere_hybrid_height_coordinate,hybrid height coordinate,,,m,,,,yes,,,up,increasing,,0.0,
+orog,orog,surface_altitude,Surface Altitude,longitude latitude,real,m,,,atmos,,,,,,1.00E+04,-700,
+p0,,,vertical coordinate formula term: reference pressure,,,Pa,,,,,,,,,,,
+ptop,,,pressure at top of model,,,Pa,,,,,,,,,,,
+a,,,vertical coordinate formula term: a(k),alevel,double,1,,,,,,,,,,,
+b,,,vertical coordinate formula term: b(k),alevel,double,1,,,,,,,,,,,
+a_bnds,,,vertical coordinate formula term: a(k+1/2),alevel,double,1,,,,,,,,,,,
+b_bnds,,,vertical coordinate formula term: b(k+1/2),alevel,double,1,,,,,,,,,,,
+ap,,,vertical coordinate formula term: ap(k),alevel,double,Pa,,,,,,,,,,,
+ap_bnds,,,vertical coordinate formula term: ap(k+1/2),alevel,double,Pa,,,,,,,,,,,
+ztop,,,height of top of model,,,m,,,,,,,,,,,
+ccmi_year,,,CCMI Year,time,integer,year,,,,,,,,,,,
+ccmi_month,,,CCMI Month,time,integer,month,,,,,,,,,,,
+ccmi_day,,,CCMI Day,time,integer,day,,,,,,,,,,,
+ccmi_hour,,,CCMI Hour,time,integer,hour,,,,,,,,,,,
+ccmi_minute,,,CCMI Minute,time,integer,minute,,,,,,,,,,,
+ps,,surface_air_pressure,Surface Air Pressure,longitude latitude time1,real,Pa,area: areacella,time: point,atmos,,,,,,1000000,0,
+sfvmro3,,mole_fraction_of_ozone_in_air,Ozone Volume Mixing Ratio in the Lowest Model Layer,longitude latitude time1,real,mole mole-1,area: areacella,time: point,atmos,,,,,,1,0,
+sfvmrno2,,mole_fraction_of_nitrogen_dioxide_in_air,NO2 Volume Mixing Ratio in the Lowest Model Layer,longitude latitude time1,real,mole mole-1,area: areacella,time: point,atmos,,,,,,1,0,
+sfvmrco,,mole_fraction_of_carbon_monoxide_in_air,CO Volume Mixing Ratio in the Lowest Model Layer,longitude latitude time1,real,mole mole-1,area: areacella,time: point,atmos,,,,,,1,0,
+sfmmrpm2p5,,mass_fraction_of_pm2p5_ambient_aerosol_in_air,PM2.5 Mass Mixing Ratio in the Lowest Model Layer,longitude latitude time1,real,kg kg-1,area: areacella,time: point,atmos,,,,,,1,0,
+dryo3,,tendency_of_atmosphere_mass_content_of_ozone_due_to_dry_deposition,Dry Deposition Rate of O3,longitude latitude time1,real,kg m-2 s-1,area: areacella,time: point,atmos,,,,down,,1000000,0,
+gsto,,,Stomatal Conductance of Water Vapour,longitude latitude time1,real,mmol m-2 s-1,area: areacella,time: point,atmos,,,,,,1000000,0,
+stoo3,,tendency_of_atmosphere_mass_content_of_ozone_due_to_dry_deposition_into_stomata,Dry Deposition Rate of O3 in Stomata,longitude latitude time1,real,kg m-2 s-1,area: areacella,time: point,atmos,,,,down,,1000000,0,
+vmro3cnp,,mole_fraction_of_ozone_in_air,Ozone Volume Mixing Ratio at Canopy Height,longitude latitude time1,real,mole mole-1,area: areacella,time: point,atmos,,,,,,1,0,
+@

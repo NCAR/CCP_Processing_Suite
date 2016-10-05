@@ -1,0 +1,143 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.12.15.18.51.55;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh
+#
+if [ $# -ne 3 ] ; then
+   echo "Usage: ./Process_Setup CASE HIST TPER"
+   echo "First three arguments REQUIRED:"
+   echo "1: CASE name"
+   echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h rtm.h0 etc]"
+   echo "3: TPER time period of above HIST type - must be one of [ann mon day hr6 hr3 hr1 m30]"
+   exit 1
+else
+   CASE=$1 ; export CASE
+   HIST=$2 ; export HIST
+   TPER=$3 ; export TPER
+fi
+#
+# Set up a bunch of stuff
+#
+case "$TPER" in
+  ann | mon | day | hr6 | hr3 | hr1 | m30 )
+    echo ${TPER}" is known time period. Proceeding." ;;
+  * ) 
+    echo "Unable to continue because "$TPER" is unknown. Stopping."
+    exit 1 ;;
+esac
+#
+# Check for LME runs
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if ! [ -f $EXPFILE ] ; then
+  echo "Cannot find "$EXPFILE". EXIT"
+  exit 1
+else
+  MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c105- | cut -d" " -f1`
+  case "$MIPNAME" in 
+    lme )
+      TEMPLATE=process_lme_template ;;
+    le5 )
+      TEMPLATE=process_le5_template ;;
+    yyg )
+      TEMPLATE=process_yyg_template ;;
+    * )
+      case "$TPER" in 
+        mon )
+          TEMPLATE=process_mon_template ;;
+        * )
+          TEMPLATE=process_template ;;
+    esac ;;
+  esac
+fi
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+# Build processing script
+#
+CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
+rm -f $CCPS_SCRIPT
+#
+case "$PROCHOST" in 
+  silver* )  # Interactive machines
+    echo "#!/bin/sh" > $CCPS_SCRIPT
+    cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
+                      | sed -e "s/xxxHISTxxx/$HIST/g" \
+                      | sed -e "s/xxxTPERxxx/$TPER/g" \
+                      >> $CCPS_SCRIPT ;;
+  yslogin* | geyser* )                     # yellowstone/geyser @@ NCAR
+    cat ./LSF_geyser       | sed -e "s/NAME/$CCPS_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CCPS_SCRIPT
+    cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
+                      | sed -e "s/xxxHISTxxx/$HIST/g" \
+                      | sed -e "s/xxxTPERxxx/$TPER/g" \
+                      >> $CCPS_SCRIPT ;;
+  rhea* )                                  # rhea @@ ORNL
+    cat ./LSF_rhea    > $CCPS_SCRIPT
+    cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
+                      | sed -e "s/xxxHISTxxx/$HIST/g" \
+                      | sed -e "s/xxxTPERxxx/$TPER/g" \
+                      >> $CCPS_SCRIPT ;;
+  nid* | hopper* | cvrsvc* )               # hopper/carver @@ NERSC
+    cat ./LSF_carver       | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
+    cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
+                      | sed -e "s/xxxHISTxxx/$HIST/g" \
+                      | sed -e "s/xxxTPERxxx/$TPER/g" \
+                      >> $CCPS_SCRIPT ;;
+  login1* )                                # tukey @@ ANL
+    cat ./LSF_tukey   | sed -e "s/NAME/$CCPS_SCRIPT/g" > $CCPS_SCRIPT
+    cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
+                      | sed -e "s/xxxHISTxxx/$HIST/g" \
+                      | sed -e "s/xxxTPERxxx/$TPER/g" \
+                      >> $CCPS_SCRIPT ;;
+  * )
+    echo "Unable to build script because "$PROCHOST" unknown."
+    exit 1 ;;
+esac
+#
+chmod +x $CCPS_SCRIPT
+echo ""
+echo $CCPS_SCRIPT" ready to run"
+echo ""
+#
+echo "Run script now? (Y only, all else NO)"
+read DORUN
+#
+if [ "$DORUN" = "Y" ] ; then
+  echo "Running "${CCPS_SCRIPT}
+  case "$PROCHOST" in
+    rhea* )
+      ( /usr/bin/qsub ./${CCPS_SCRIPT} ) ;;
+    yslogin* | geyser* )
+      ( /ncar/opt/lsf/8.3/linux2.6-glibc2.3-x86_64/bin/bsub < ./${CCPS_SCRIPT} ) ;;
+    hopper* )
+      ( /usr/common/nsg/bin/qsub ./${CCPS_SCRIPT} ) ;;
+    cvrsvc* )
+      ( /usr/syscom/opt/torque/default/bin/qsub ./${CCPS_SCRIPT} ) ;;
+    login1* )
+      ( /usr/bin/qsub -n 1 -t 720 -A CESM_Atmos ./${CCPS_SCRIPT} ) ;;
+    * )
+      ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
+  esac
+else
+  echo "Will not run "${CCPS_SCRIPT}
+fi
+@

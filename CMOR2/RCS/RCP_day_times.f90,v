@@ -1,0 +1,47 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.06.02.20.43.04;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@program RCP_day_times
+  !
+  integer::ntimes,ic,nchunks
+  integer,dimension(20)::tidx1,tidx2
+  !
+  ntimes = 35040
+  select case ( ntimes )
+  case ( 35040 )         ! RCP from 2005-2100, use only 2006 onwards, 4 * 1 + 17 * 5 + 1 * 6 year chunks
+     nchunks= 19
+     tidx1(1) =   366
+     tidx2(1) =  1825
+     do ic = 2,nchunks-1
+        tidx1(ic) = tidx2(ic-1) +  1
+        tidx2(ic) = tidx1(ic) + 1824
+     enddo
+     tidx1(nchunks) = tidx2(nchunks-1) + 1
+     tidx2(nchunks) = ntimes
+  end select
+  do ic = 1,nchunks
+     write(*,*) tidx1(ic)
+     write(*,*) tidx2(ic)
+  enddo
+!  write(*,'(''# chunks '',i3,'':'',20((i5,''-'',i5),'',''))') nchunks,(tidx1(ic),tidx2(ic),ic=1,nchunks)
+end program RCP_day_times
+@

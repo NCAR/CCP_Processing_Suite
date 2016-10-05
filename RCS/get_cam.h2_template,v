@@ -1,0 +1,36 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2016.01.12.16.24.16;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/csh
+#
+#SBATCH --jobname=GSUBC
+#SBATCH --queue=xfer
+#SBATCH --time=24:00:00
+#SBATCH --account=mp9
+#SBATCH -i
+#SBATCH --mail-user=USER@@ucar.edu
+#
+cd $LOCAL_HIST
+hsi -q "cd /home/c/ccsm/csm/DP-CAM5_cam.h2_hist/CASE ; get CASE.cam.h2.*.nc"
+#
+exit
+@

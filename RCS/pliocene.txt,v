@@ -1,0 +1,54 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2016.05.31.20.29.41;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@casename        model_id        Loc.    Official MIP name       RIP code        cm3 or cm5      RUN_REFCASE     RUN_REFDATE yyyy-mm-dd  run years       CMIP5 yrs       Grid    Compset repotag Run Cal dates (yyyy/mm-yyyy/mm) MACH    DOUT_L_MSROOT   Paleo Notes
+b40.plio.FV1.003        CCSM4   NC      PlioMIP1        N/A     N/A     b40.1850.track1.1deg.006        "0801-01-01"    450-550 N/A     f09_g16 B1850CN cesm1_0_beta05          bf      /CCSM/csm/      Blue for different MACH from Yellowstone (i.e. Bluefire)
+b40.plio.FV1.003ext     "       all     "                       b40.plio.FV1.003        "0551-01-01"    551-650 "       "       "       cesm1_0_06              ys      /CCSM/csm/      Blue for different REFDATES from 451
+b40.plio.FV1.003bsc     "       "                               b40.plio.FV1.003        "0451-01-01"    451-550                 "       cesm1_0_beta05          bf      /CCSM/csm/      
+b40.plio.FV1.003bsc_ext "                                       b40.plio.FV1.003bsc     "0551-01-01"    551-650                 "       cesm1_0_6               ys      /CCSM/csm/      
+b.e12.B1850CN.f09_g16.plio.002  CESM1.2 "                               b40.plio.FV1.003        "0451-01-01"    451-650                 "       cesm1_2_1               "       /CCSM/csm/      
+b.e12.B1850CN.f09_g16.plio.002.daily    "                                       b.e12.B1850CN.f09_g16.plio.002  "0651-01-01"    651-670                 "       cesm1_2_0               "       "       daily hist output
+b.e12.B1850CN.f09_g16.plioCA.001.daily                                          b.e12.B1850CN.f09_g16.plioCA.001        "0851-01-01"    851-870                 "       cesm1_2_0               "       "       daily hist output
+b.e12.B1850CN.f09_g16.plioCA_BSC.002                                            b40.plio.FV1.003        "0451-01-01"    451-651                         "       cesm1_2_1       2015/10-2015/11 "       "       run in 1 yr jobs---lots of restart tars
+b.e12.B1850CN.f09_g16.plioWAIS.006                                              b40.plio.FV1.003        "0451-01-01"    451-650                 "       cesm1_2_0               "       "       
+b.e12.B1850CN.f09_g16.pliohorb.001                                              b40.plio.FV1.003        "0451-01-01"    451-650                 "       cesm1_2_1       2015/10-2015/11 "       "       
+b.e12.B1850CN.f09_g16.pliohorb.3159.001                                         b40.plio.FV1.003        "0451-01-01"    451-605                 "       cesm1_2_0       2016/02-2016/04 "       "       451-599,600-650
+b.e12.B1850CN.f09_g16.pliolorb.001                                              b40.plio.FV1.003        "0451-01-01"    451-699                 "       cesm1_2_1       2015/10-2015/12 "       "       451-550 on HPSS,551-699
+b.e12.B1850CN.f09_g16.pliohCO2.001                                              b40.plio.FV1.003        "0451-01-01"    451-650                 "       cesm1_2_1       2015/09-2015/12 "       "       451-550 on HPSS
+b.e12.B1850CN.f09_g16.pliolCO2.001                                              b40.plio.FV1.003        "0451-01-01"    451-650                 "       cesm1_2_1       2015/10-2015/12 "       "       451-550 on HPSS
+b.e12.B1850CN.f09_g16.pliohbc_ice               NC                              b40.plio.FV1.003        "0451-01-01"    452-610                 "       cesm1_2_0               "       "       
+b.e12.B1850CN.f09_g16.plioccn.001                                               b40.plio.FV1.003        "0451-01-01"    451-551                 "       cesm1_2_0               "       "       
+b.e12.B1850CN.f09_g16.plio.002.daily                                            b.e12.B1850CN.f09_g16.plio.002  "0451-01-01"    0651-0670                       E_1850_CN       cesm1_2_1               "       "       
+b.e12.B1850CN.f09_g16.plioCA.001.daily                                          b.e12.B1850CN.f09_g16.plio.002  "0451-01-01"    0850-0870                       E_1850_CN       cesm1_2_2               "       "       
+b.e12.B1850CN.f09_g16.plio_cam1850                                              b40.plio.FV1.003        "0451-01-01"    0451-0650                       E_1850_CN       cesm1_2_3               "       "       All on /glade/scratch/ranfeng
+e.e12.B1850CN.f09_g16.plioccn.2000                                              b.e12.B1850CN.f09_g16.plio.002  "0001-01-01"    0001-0066                       E_1850_CN       cesm1_2_4               "       "       
+e.e12.B1850CN.f09_g16.plioccn.2000-daily                                                e.e12.B1850CN.f09_g16.plioccn.2000      "0051-01-01"    0051-0066                       E_1850_CN       cesm1_2_5               "       "       
+e.e12.B1850CN.f09_g16.plioccn.2000-forcing                                              e.e12.B1850CN.f09_g16.plioccn.2000      "0067-01-01"    0067-0068                       E_1850_CN       cesm1_2_6               "       "       
+e.e12.B1850CN.f09_g16.plioccn.hCO2.2000                                         e.e12.B1850CN.f09_g16.plioccn.2000      "0001-01-01"    0001-0050                       E_1850_CN       cesm1_2_7               "       "       
+e.e12.B1850CN.f09_g16.plioccn.hCO2.preind                                               e.e12.B1850CN.f09_g16.plioccn.preind    "0001-01-01"    0001-0051                       E_1850_CN       cesm1_2_8               "       "       
+e.e12.B1850CN.f09_g16.plioccn.lCO2.2000                                         e.e12.B1850CN.f09_g16.plioccn.2000      "0001-01-01"    0001-0052                       E_1850_CN       cesm1_2_9               "       "       
+e.e12.B1850CN.f09_g16.plioccn.lCO2.preind                                               e.e12.B1850CN.f09_g16.plioccn.preind    "0001-01-01"    0001-0053                       E_1850_CN       cesm1_2_10              "       "       
+e.e12.B1850CN.f09_g16.plioccn.preind                                            b.e12.B1850CN.f09_g16.plio.002  "0001-01-01"    0001-0066                       E_1850_CN       cesm1_2_11              "       "       
+e.e12.B1850CN.f09_g16.plioccn.preind-daily                                              e.e12.B1850CN.f09_g16.plioccn.preind    "0051-01-01"    0051-0066                       E_1850_CN       cesm1_2_12              "       "       
+e.e12.B1850CN.f09_g16.plioccn.preind-forcing                                            e.e12.B1850CN.f09_g16.plioccn.preind    "0067-01-01"    0067-0068                       E_1850_CN       cesm1_2_13              "       "       
+e.e12.B1850CN.f09_g16.preind                                            b40.1850.track1.1deg.006        "0001-01-01"    0001-0052                       E_1850_CN       cesm1_2_14              "       "       
+b.e12.B1850CN.f09_g16.plioCA.001        "                                       b40.plio.FV1.003        "0451-01-01"    451-860                 "       cesm1_2_1               "       "       Nan may have to work on this case because it was rerun and is now in pieces.  @

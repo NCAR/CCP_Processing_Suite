@@ -1,0 +1,631 @@
+#
+export MP_TIMEOUT=14400
+export MP_PULSE=1800
+export MP_DEBUG_NOTIMEOUT=yes
+#
+# Necessary modules to load
+#
+eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load python`
+eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load all-python-libs`
+PATH=/glade/u/home/strandwg/.local/bin:${PATH} ; export PATH
+#
+PYTHONPATH=/glade/u/home/strandwg/.local/lib/python2.7/site-packages:${PYTHONPATH}
+#
+CASE=xxxCASExxx ; export CASE
+HIST=xxxHISTxxx ; export HIST
+TPER=xxxTPERxxx ; export TPER
+LMEX=xxxLMEXxxx ; export LMEX
+#
+echo -n "TS START: " ; date
+#
+# Template for processing last millenium ensemble CESM history netCDF files into single-field format 
+#
+# Extract relevant information from "experiments.txt"
+#
+#  Columns   Field
+#   1 -  54  CCSM case name
+# 105 - 109  MIP (cm3 or cm5) experiment (N/A if not applicable)
+# 110 - 149  RUN_REFCASE (parent case)
+# 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 165 - 174  years of experiment (YYYY if unknown)
+# 165 - 174  run years of experiment (YYYY if unknown)
+# 175 - 184  CMIP5-requested years
+# 185 - 194  GRID (resolution)
+# 195 - 214  COMPSET (N/A if not applicable)
+# 215 - 234  REPOTAG (N/A if not applicable)
+# 234 - 249  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 250 - 259  MACH (hardware)
+# 260 - end  DOUT_L_MSROOT (history file location on archive)
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if [ -f $EXPFILE ] ; then
+   MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c105-  | cut -d" " -f1`
+    PARENT=`egrep "^$CASE " $EXPFILE | cut -c110- | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c165-168`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c170-173`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c185- | cut -d" " -f1`
+   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c215- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c250- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c260- | cut -d" " -f1`
+else
+  echo "Cannot find $EXPFILE. EXIT"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
+fi
+#
+if ! [ $YEARBEG ] ; then
+  echo "Unable to set variables because "$CASE" not found in $EXPFILE"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
+fi
+#
+# Acquire PROCHOST
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+# resolve machine/site dependencies
+#
+case "$PROCHOST" in 
+  yslogin* | geyser* )                                # Yellowstone (geyser) @ CISL/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCODIR=/glade/apps/opt/nco/4.4.2/gnu/4.8.2/bin
+    NCKS=${NCODIR}/ncks      ; export NCKS
+    NCRCAT=${NCODIR}/ncrcat  ; export NCRCAT
+    if [ `echo $CASE | egrep "tambora" | wc -c` = 0 ] ; then
+      PROCBASE=/glade/p/cesm0005/proc/$USER/$CASE  ; export PROCBASE
+      LOCALDSK=/glade/p/cesm0005/csm/$CASE         ; export LOCALDSK
+      ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-LME         ; export ARCHIVE_BASE 
+    else
+      PROCBASE=/glade/p/cesm/palwg_dev/LME/proc/$USER/$CASE  ; export PROCBASE
+      LOCALDSK=/glade/p/cesm/palwg_dev/LME/archive/$CASE     ; export LOCALDSK
+      ARCHIVE_BASE=/CCSM/csm/palwg_dev/cesmLME/CESM-CAM5-LME ; export ARCHIVE_BASE
+    fi
+    DISK_BASE=/glade/p/cesmLME/CESM-CAM5-LME      ; export DISK_BASE
+    HSIOPTS="-a P93300019"                        ; export HSIOPTS
+    ;;
+  * ) 
+    echo "Unable to continue because "$PROCHOST" not known."
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1 ;;
+esac
+#
+ISTAMB=`echo $CASE | egrep "tambora" | wc -l`
+if [ $ISTAMB -ne 0 ] ; then
+  DISK_BASE=/glade/p/cesm/palwg_dev/LME/CESM-CAM5-LME ; export DISK_BASE
+fi
+#
+# Strip off first part of $HIST
+#
+HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
+#
+# Convert history type to component name
+#
+case "$HTYP" in
+  cam )
+    COMP_NAME=atm ;;
+  clm2 ) 
+    COMP_NAME=lnd ;;
+  pop  ) 
+    COMP_NAME=ocn ;;
+  rtm  ) 
+    COMP_NAME=rof ;;
+  cice ) 
+    COMP_NAME=ice ;;
+  * ) 
+    echo "Unable to continue because "$HIST" not known."
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1 ;;
+esac
+#
+# Set up local names and archival names
+#
+LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
+LOCAL_PROC=$PROCBASE/$COMP_NAME
+ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
+#
+ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
+DISK_PROC=$DISK_BASE/$COMP_NAME/proc/tseries
+#
+case "$TPER" in
+  mon )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly
+       DISK_PROC=${DISK_PROC}/monthly ;;
+  day )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/daily
+       DISK_PROC=${DISK_PROC}/daily ;;
+  hr6 )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6
+       DISK_PROC=${DISK_PROC}/hourly6 ;;
+  * ) 
+    echo "Unable to continue because "$TPER" not known."
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1 ;;
+esac
+#
+LOCAL_PROC=${LOCAL_PROC}/${TPER}/${LMEX}
+CACHEDIR=${LOCAL_PROC}/to_archive
+#
+YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
+MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
+#
+# PyReshaper Arguments
+#
+VERBOSITY=1
+#
+# Create output filename time period prefix
+#
+PREFIX="${CACHEDIR}/${CASE}.${HIST}."
+#
+# Print out values
+#
+echo "            Case name : "$CASE ; export CASE
+echo "    History file type : "$HIST ; export HIST
+echo "          Time period : "$TPER ; export TPER
+echo "    by var processing : YES"
+echo " HPSS processed files : "$ARCHIVE_PROC ; export ARCHIVE_PROC
+echo " disk processed files : "$DISK_PROC    ; export DISK_PROC
+HARDWARE=${HARDWARE}".ucar.edu"
+echo "          Branch date : "$BRANCH   ; export BRANCH
+echo "           Resolution : "$RES      ; export RES
+echo "             Hardware : "$HARDWARE ; export HARDWARE
+echo "              Compset : "$COMPSET  ; export COMPSET
+echo "       Repository tag : "$REPOTAG  ; export REPOTAG
+echo "           Begin year : "$YEARBEG  ; export YEARBEG
+echo "             End year : "$YEAREND  ; export YEAREND
+echo "           Year count : "$YRCOUNT  ; export YRCOUNT
+echo "         Months count : "$MNCOUNT  ; export MNCOUNT
+echo ""
+echo "PyReshaper"
+echo "          Output time : "$OUTTIME       ; export OUTTIME
+echo "        Output prefix : "$PREFIX        ; export PREFIX
+echo "        Output format : "$NCFORMAT      ; export NCFORMAT
+echo "            Verbosity : "$VERBOSITY     ; export VERBOSITY
+echo ""
+echo "    Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo "        History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
+echo "        History names : "$HIST          ; export HIST
+echo ""
+echo "      Processing host : "$PROCHOST      ; export PROCHOST
+echo "  Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
+echo "       Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
+echo "    Archive cache dir : "$CACHEDIR      ; export CACHEDIR
+echo "  Processing code dir : "$BASEDIR       ; export BASEDIR
+#  
+if [ ! -d $LOCAL_PROC ] ; then 
+  mkdir -p $LOCAL_PROC 
+fi
+if [ ! -d ${CACHEDIR} ] ; then 
+  mkdir -p $CACHEDIR
+fi
+cd $LOCAL_PROC
+#
+case "$HIST" in
+  cice.h | cice.h1 )
+    ln -s -f $BASEDIR/split_cice_hemis  .
+    NCFORMAT=netcdf4  ; export NCFORMAT ;;
+  *   )
+    NCFORMAT=netcdf4c ; export NCFORMAT ;;
+esac
+#
+ln -s -f $BASEDIR/run_slice2series          Transpose_Data
+ln -s -f $BASEDIR/store_to_archive_var_keep store_to_archive_var
+ln -s -f $BASEDIR/archive_write_var_keep    archive_write_var_keep
+ln -s -f $BASEDIR/disk_move_var             .
+ln -s -f $BASEDIR/update_status             .
+#
+cd $LOCAL_PROC
+#
+# Start actual processing, extract each field one at a time for all times
+#
+./update_status start
+#
+if [ -d $LOCAL_HIST ] ; then
+  case "$LMEX" in
+    lm )
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc | wc -l`
+      if [ $NHISTF -eq 0 ] ; then
+        echo "History files from "${YEARBEG}"-"${YEAREND}" not on "${LOCAL_HIST}". Exiting."
+        ./update_status error "$CASE $HIST $TPER"
+        exit 1
+      fi ;;
+    ext ) 
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],2000}-*.nc | wc -l`
+      if [ $NHISTF -eq 0 ] ; then
+        echo "History files from "${YEARBEG}"-"${YEAREND}" not on "${LOCAL_HIST}". Exiting."
+        ./update_status error "$CASE $HIST $TPER"
+        exit 1
+      fi ;;
+    rcp ) 
+      NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-9][0-9],2100}-*.nc | wc -l`
+      if [ $NHISTF -eq 0 ] ; then
+        echo "History files from "${YEARBEG}"-"${YEAREND}" not on "${LOCAL_HIST}". Exiting."
+        ./update_status error "$CASE $HIST $TPER"
+        exit 1
+      fi ;;
+    * ) 
+      echo "Unable to continue because "$LMEX" not known."
+      ./update_status error "$CASE $HIST $TPER $LMEX"
+      exit 1 ;;
+  esac
+fi
+#
+# Last millenium portion (850-1849)
+#
+# Link history files - all for everything besides pop.h and pop.h.nday1,
+# one century at a time for pop.h and pop.h.nday1
+#
+if [ "$LMEX" = "lm" ] ; then
+  if [ "$HIST" = "pop.h" ] || [ "$HIST" = "pop.h.nday1" ] ; then
+    echo ${CASE}"."${HIST}" files on disk, softlinking."
+    for ICEN in 08 09 10 11 12 13 14 15 16 17 18 ; do
+      rm -f ${CASE}.${HIST}.${ICEN}[0-9]*.nc 
+      if [ ! -f .comp.${CASE}.${HIST}.${ICEN} ] ; then
+        if [ "$ICEN" = "18" ] ; then
+          NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-4]*.nc | wc -l`
+        else
+          NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-9]*.nc | wc -l`
+        fi
+        if [ $NHISTF -eq 0 ] ; then 
+          echo ${NHISTF}" files in "${LOCAL_HIST}"/"${CASE}"."${HIST}"."${ICEN}". Incorrect - exiting."
+          ./update_status error "$CASE $HIST $TPER"
+          exit 1
+        else
+          if [ "$ICEN" = "18" ] ; then
+            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-4]*.nc .
+          else
+            ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${ICEN}[0-9]*.nc .
+          fi
+        fi
+        NHISTF=`/bin/ls ${CASE}.${HIST}.${ICEN}*.nc | wc -l`
+        if [ "$ICEN" = "18" ] || [ "$ICEN" = "08" ] ; then
+          GOODHC=600
+        else
+          GOODHC=1200
+        fi
+        if [ $NHISTF -ne $GOODHC ] ; then
+          echo ${NHISTF}" should be "${GOODHC}". File count mismatch. Exit."
+          exit 1
+        fi
+#
+# Create output filename time period suffix
+#
+        case "$TPER" in
+          mon )
+            OUTTIME=${ICEN}0001-${ICEN}9912
+            if [ "$ICEN" = "18" ] ; then
+              OUTTIME=${ICEN}0001-${ICEN}4912
+            fi
+            if [ "$ICEN" = "08" ] ; then
+              OUTTIME=${ICEN}5001-${ICEN}9912
+            fi ;;
+          day ) 
+            OUTTIME=${ICEN}000101-${ICEN}991231
+            if [ "$ICEN" = "18" ] ; then
+              OUTTIME=${ICEN}000101-${ICEN}491231
+            fi
+            if [ "$ICEN" = "08" ] ; then
+              OUTTIME=${ICEN}500101-${ICEN}991231
+            fi ;;
+        esac
+        export OUTTIME
+        SUFFIX=".${OUTTIME}.nc" ; export SUFFIX
+#
+# Extract each field from all files
+#
+        echo -n "TS Transpose_Data start: " ; date
+        ./Transpose_Data
+        if [ $? -ne 0 ] ; then
+          echo "Transpose_Data failed"
+          ./update_status error "$CASE $HIST $TPER"
+          exit 1
+        fi
+        echo -n "TS Transpose_Data end  : " ; date
+#
+# If cice, split hemispheres
+#
+        case "$HTYP" in
+          cice ) 
+          cd $CACHEDIR
+          echo -n "TS split cice hemis start: " ; date
+          ../split_cice_hemis
+          echo -n "TS split cice hemis end  : " ; date
+          cd $LOCAL_PROC ;;
+        esac
+#
+# Store completed data on archival system
+#
+        echo -n "TS archive start: " ; date
+        ./store_to_archive_var
+        if [ $? -ne 0 ] ; then
+          echo "store_to_archive failed"
+          ./update_status error "$CASE $HIST $TPER"
+          exit 1
+        else
+          echo -n "TS archive end: " ; date
+        fi
+#
+# Move completed data on to DISK_PROC
+#
+        echo -n "TS disk move start: " ; date
+        ./disk_move_var
+        if [ $? -ne 0 ] ; then
+          echo "disk_move_var failed"
+          ./update_status error "$CASE $HIST $TPER"
+          exit 1
+        else
+          echo -n "TS disk_move_var end: " ; date
+        fi
+        touch .comp.${CASE}.${HIST}.${ICEN}
+        rm ${CASE}.${HIST}.${ICEN}*nc
+      fi
+    done
+#
+# All other output streams
+#
+  else
+#
+# Make sure there's the correct number of files
+#
+    NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc | wc -l`
+    if [ $NHISTF -eq 0 ] ; then 
+      echo "No files in "${LOCAL_HIST}"/"${CASE}"."${HIST}". Incorrect - exiting."
+      exit 1
+    fi
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc .
+    NHISTF=`/bin/ls ${CASE}.${HIST}.{08[5-9],09[0-9],10[0-9],11[0-9],12[0-9],13[0-9],14[0-9],15[0-9],16[0-9],17[0-9],18[0-4]}?-*.nc | wc -l`
+    case "$HIST" in 
+      cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 )
+        if [ $NHISTF -ne $MNCOUNT ] ; then
+          echo ${NHISTF}" should be "${MNCOUNT}". File count mismatch. Exit."
+          exit 1
+        fi ;;
+      cam.h1 | clm2.h1 )
+        if [ $NHISTF = 1001 ] || [ $NHISTF = 1000 ] ; then
+          echo ${NHISTF}" correct for "${HIST}
+        else
+          echo ${NHISTF}" should be 1000 or 1001. File count mismatch. Exit."
+          exit 1
+        fi ;;
+    esac
+#
+# Create output filename time period suffix
+#
+    case "$TPER" in
+      mon )
+        OUTTIME=085001-184912 ;;
+      day ) 
+        OUTTIME=08500101-18491231 ;;
+    esac
+    export OUTTIME
+    SUFFIX=".${OUTTIME}.nc" ; export SUFFIX
+#
+# Extract each field from all files
+#
+    echo -n "TS Transpose_Data start: " ; date
+    ./Transpose_Data
+    if [ $? -ne 0 ] ; then
+      echo "Transpose_Data failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    fi
+    echo -n "TS Transpose_Data end  : " ; date
+#
+# If cice, split hemispheres
+#
+  case "$HTYP" in
+    cice ) 
+      cd $CACHEDIR
+      echo -n "TS split cice hemis start: " ; date
+      ../split_cice_hemis
+      echo -n "TS split cice hemis end  : " ; date
+      cd $LOCAL_PROC ;;
+  esac
+#
+# Store completed data on archival system
+#
+    echo -n "TS archive start: " ; date
+    ./store_to_archive_var
+    if [ $? -ne 0 ] ; then
+      echo "store_to_archive failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      echo -n "TS archive end: " ; date
+    fi
+#
+# Move completed data on to DISK_PROC
+#
+    echo -n "TS disk move start: " ; date
+    ./disk_move_var
+    if [ $? -ne 0 ] ; then
+      echo "disk_move_var failed"
+      ./update_status error "$CASE $HIST $TPER"
+      exit 1
+    else
+      echo -n "TS disk_move_var end: " ; date
+    fi
+  fi
+fi
+#
+# Historical extension - 1850 to 2005
+#
+# Link history files - all for everything
+#
+# Make sure there's the correct number of files
+#
+if [ "$LMEX" = "ext" ] ; then
+  rm -f ${CASE}.${HIST}.[0-9]*.nc
+  ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{18[5-9][0-9],19[0-9][0-9],200[0-5]}-*.nc .
+  NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
+  case "$HIST" in 
+    cam.h0 | cice.h | cice.h1 | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 )
+      if [ $NHISTF -ne 1872 ] ; then
+        echo ${NHISTF}" should be 1872. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cam.h1 | clm2.h1 )
+      if [ $NHISTF = 156 ] || [ $NHISTF = 157 ] ; then
+        echo ""
+      else
+        echo ${NHISTF}" should be 156 or 157. File count mismatch. Exit."
+        exit 1
+      fi ;;
+  esac
+#
+# Create output filename time period suffix
+#
+  case "$TPER" in
+    mon )
+      OUTTIME=185001-200512 ;;
+    day ) 
+      OUTTIME=18500101-20051231 ;;
+    hr6 ) 
+      OUTTIME=1850010100Z-2005123118Z ;;
+  esac
+  export OUTTIME
+  SUFFIX=".${OUTTIME}.nc" ; export SUFFIX
+#
+# Extract each field from all files
+#
+  echo -n "TS Transpose_Data start: " ; date
+  ./Transpose_Data
+  if [ $? -ne 0 ] ; then
+    echo "Transpose_Data failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  fi
+  echo -n "TS Transpose_Data end  : " ; date
+#
+# If cice, split hemispheres
+#
+  case "$HTYP" in
+    cice ) 
+      cd $CACHEDIR
+      echo -n "TS split cice hemis start: " ; date
+      ../split_cice_hemis
+      echo -n "TS split cice hemis end  : " ; date
+      cd $LOCAL_PROC ;;
+  esac
+#
+# Store completed data on archival system
+#
+  echo -n "TS archive start: " ; date
+  ./store_to_archive_var
+  if [ $? -ne 0 ] ; then
+    echo "store_to_archive failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  else
+    echo -n "TS archive end: " ; date
+  fi
+#
+# Move completed data on to DISK_PROC
+#
+  echo -n "TS disk move start: " ; date
+ ./disk_move_var
+  if [ $? -ne 0 ] ; then
+    echo "disk_move_var failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  else
+    echo -n "TS disk_move_var end: " ; date
+  fi
+fi
+#
+# RCP extension - 2006 to 2100
+#
+# Link history files - all for everything
+#
+# Make sure there's the correct number of files
+#
+if [ "$LMEX" = "rcp" ] ; then
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-9][0-9],2100}-*.nc | wc -l`
+  if [ $NHISTF -eq 0 ] ; then 
+    echo "No files in "${LOCAL_HIST}"/"${CASE}"."${HIST}". Incorrect - exiting."
+    exit 1
+  fi
+  ln -s -f  ${LOCAL_HIST}/${CASE}.${HIST}.{200[6-9],20[1-9][0-9],2100}-*.nc .
+  NHISTF=`/bin/ls ${CASE}.${HIST}.*.nc | wc -l`
+  case "$HIST" in 
+    cam.h0 | cice.h | clm2.h0 | pop.h | pop.h.nday1 | rtm.h0 )
+      if [ $NHISTF -ne 1140 ] ; then
+        echo ${NHISTF}" should be 1140. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cice.h1 )
+      if [ $NHISTF -ne 34675 ] ; then
+        echo ${NHISTF}" should be 34675. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cam.h1 | clm2.h1 )
+      if [ $NHISTF -ne 95 ] ; then
+        echo ${NHISTF}" should be 95. File count mismatch. Exit."
+        exit 1
+      fi ;;
+  esac
+#
+# Create output filename time period suffix
+#
+  case "$TPER" in
+    mon )
+      OUTTIME=200601-210012 ;;
+    day ) 
+      OUTTIME=20060101-21001231 ;;
+    hr6 ) 
+      OUTTIME=2006010100Z-2100123118Z ;;
+  esac
+  export OUTTIME
+  SUFFIX=".${OUTTIME}.nc" ; export SUFFIX
+#
+# Extract each field from all files
+#
+  echo -n "TS Transpose_Data start: " ; date
+  ./Transpose_Data
+  if [ $? -ne 0 ] ; then
+    echo "Transpose_Data failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  fi
+  echo -n "TS Transpose_Data end  : " ; date
+#
+# If cice, split hemispheres
+#
+  case "$HTYP" in
+    cice ) 
+      cd $CACHEDIR
+      echo -n "TS split cice hemis start: " ; date
+      ../split_cice_hemis
+      echo -n "TS split cice hemis end  : " ; date
+      cd $LOCAL_PROC ;;
+  esac
+#
+# Store completed data on archival system
+#
+  echo -n "TS archive start: " ; date
+  ./store_to_archive_var
+  if [ $? -ne 0 ] ; then
+    echo "store_to_archive failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  else
+    echo -n "TS archive end: " ; date
+  fi
+#
+# Move completed data on to DISK_PROC
+#
+  echo -n "TS disk move start: " ; date
+ ./disk_move_var
+  if [ $? -ne 0 ] ; then
+    echo "disk_move_var failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  else
+    echo -n "TS disk_move_var end: " ; date
+  fi
+fi
+#
+# Completed
+#
+./update_status complete
+echo -n "TS COMPLETE: " ; date

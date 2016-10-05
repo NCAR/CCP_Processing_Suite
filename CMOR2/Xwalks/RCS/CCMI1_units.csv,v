@@ -1,0 +1,340 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.12.08.18.16.04;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@abs550aer,1
+accel_divf,m s-2
+accel_gw,m s-2
+accel_nogw,m s-2
+accel_ogw,m s-2
+airmass,kg m-2
+albs,1
+albsrfc,1
+ang4467aer,1
+ang4487aer,1
+ang5087aer,1
+aoa_nh,year
+aoa,year
+asyaer,1
+ccn,m-3
+cheaqph2o2so4,kg m-2 s-1
+cheaqpo3so4,kg m-2 s-1
+cheaqpso4,kg m-2 s-1
+chegpso4,kg m-2 s-1
+chepasoa,kg m-2 s-1
+chepsoa,kg m-2 s-1
+cl,%
+clc,%
+cli,1
+clivi,kg m-2
+clt,1
+clw,1
+cnpz,m
+cod,1
+convclt,1
+dh,m
+diab_drag,m s-2
+do3chm,kg m-2 s-1
+drybc,kg m-2 s-1
+drydms,kg m-2 s-1
+drydust,kg m-2 s-1
+dryhno3,kg m-2 s-1
+drynh3,kg m-2 s-1
+drynh4,kg m-2 s-1
+dryno2,kg m-2 s-1
+drynoy,kg m-2 s-1
+dryo3,kg m-2 s-1
+dryoa,kg m-2 s-1
+dryso2,kg m-2 s-1
+dryso4,kg m-2 s-1
+dryss,kg m-2 s-1
+emiabc,kg m-2 s-1
+emiaco,kg m-2 s-1
+emiahch,kg m-2 s-1
+emianh3,kg m-2 s-1
+emianox,kg m-2 s-1
+emiaoa,kg m-2 s-1
+emiapom,kg m-2 s-1
+emiaso2,kg m-2 s-1
+emiaso4,kg m-2 s-1
+emiasoa,kg m-2 s-1
+emiavoc,kg m-2 s-1
+emibc,kg m-2 s-1
+emibvoc,kg m-2 s-1
+emico,kg m-2 s-1
+emidms,kg m-2 s-1
+emidust,kg m-2 s-1
+emiisop,kg (C) m-2 s-1
+emiisop,kg m-2 s-1
+emilnox,kg m-2 s-1
+eminh3,kg m-2 s-1
+eminox,kg m-2 s-1
+emioa,kg m-2 s-1
+emipcb153,kg m-2 s-1
+emipom,kg m-2 s-1
+emiso2,kg m-2 s-1
+emiso4,kg m-2 s-1
+emiss,kg m-2 s-1
+emivoc,kg m-2 s-1
+flashrate,km-2 s-1
+fy,kg s-2
+fz,kg s-2
+gf90aer,1
+g_sto,mmol m-2 s-1
+hfls,W m-2
+hfss,W m-2
+hno3_hetprod,mole m-3 s-1
+hus,1
+icc,1
+jno2,s-1
+lai,1
+lcc,1
+lossch4,mole m-3 s-1
+lossco,mole m-3 s-1
+losso1dviah2o,mole m-3 s-1
+losso3viaalkenes,mole m-3 s-1
+losso3viaho2,mole m-3 s-1
+losso3viaoh,mole m-3 s-1
+lossrcoo2viano2,mole m-3 s-1
+lossro2viaho2,mole m-3 s-1
+lossro2viano3,mole m-3 s-1
+lossro2viano,mole m-3 s-1
+lossro2viaro2,mole m-3 s-1
+lossso2viaoh,mole m-3 s-1
+lso3chm,kg m-2 s-1
+lts,K
+lwclrefc,W m-2
+lwp,kg m-2
+lwtoaasaer,W m-2
+lwtoaasch4,W m-2
+lwtoaasdust,W m-2
+lwtoaashc,W m-2
+lwtoaasn2o,W m-2
+lwtoaaso3,W m-2
+lwtoacsaer,W m-2
+lwtropaso3,W m-2
+mcu,kg m-2 s-1
+mean_age,year
+mmraerh2o,kg kg-1
+mmraernh4,kg kg-1
+mmraerno3,kg kg-1
+mmraerso4,kg kg-1
+mmrbc,kg kg-1
+mmrdust,kg kg-1
+mmroa,kg kg-1
+mmrpm10,kg kg-1
+mmrpm1,kg kg-1
+mmrpm2p5,kg kg-1
+mmrsoa,kg kg-1
+mmrss,kg kg-1
+nogw_e_flux,Pa
+nogw_w_flux,Pa
+o3loss,mole m-3 s-1
+o3prod,mole m-3 s-1
+o3steflx,kg m-2 s-1
+od440aer,1
+od550aer,1
+od550aerh2o,1
+od550bb,1
+od550bc,1
+od550dust,1
+od550lt1aer,1
+od550no3,1
+od550oa,1
+od550so4,1
+od550soa,1
+od550ss,1
+od870aer,1
+ogw_flux,Pa
+ohloss,mole m-3 s-1
+orog|m
+photo1d,s-1
+pilev,Pa
+pmlev,Pa
+pr,kg m-2 s-1
+prodh2o2viaho2,mole m-3 s-1
+prodhno3viano2oh,mole m-3 s-1
+prodhpx,mole m-3 s-1
+prodo1d,mole m-3 s-1
+prodo3viach3o2,mole m-3 s-1
+prodo3viaho2,mole m-3 s-1
+prodo3viaro2,mole m-3 s-1
+prodoh,mole m-3 s-1
+ps,Pa
+ptp,Pa
+reemiahch,kg m-2 s-1
+reemipcb153,kg m-2 s-1
+reffclitop,m
+reffclwtop,m
+rlds,W m-2
+rlus,W m-2
+rlutcs,W m-2
+rlut,W m-2
+rsds,W m-2
+rsus,W m-2
+rsutcs,W m-2
+rsut,W m-2
+sic,%
+snc,%
+stoo3,kg m-2 s-1
+swclrefc,W m-2
+swtoaasaer,W m-2
+swtoaasbb,W m-2
+swtoaasbcff,W m-2
+swtoaasch4,W m-2
+swtoaasdust,W m-2
+swtoaashc,W m-2
+swtoaasn2o,W m-2
+swtoaasno3,W m-2
+swtoaaso3,W m-2
+swtoaasoaff,W m-2
+swtoaasso4,W m-2
+swtoaassoa,W m-2
+swtoaasss,W m-2
+swtoacsaer,W m-2
+swtoacsbb,W m-2
+swtoacsbcff,W m-2
+swtoacsdust,W m-2
+swtoacsoaff,W m-2
+swtropaso3,W m-2
+ta,K
+tatp,K
+tntlw,K s-1
+tntmp,K s-1
+tntsw,K s-1
+tos,K
+toz,DU
+tpo3chm,kg m-2 s-1
+tropoz,DU
+ttop,K
+ua,m s-1
+va,m s-1
+vgd,%
+vmrc2h2,mole mole-1
+vmrc2h6,mole mole-1
+vmrch2o,mole mole-1
+vmrch3ccl3,mole mole-1
+vmrch3cn,mole mole-1
+vmrch4,mole mole-1
+vmrco_25,mole mole-1
+vmrco2,mole mole-1
+vmrco_50ea,mole mole-1
+vmrco_50eu,mole mole-1
+vmrco_50,mole mole-1
+vmrco_50na,mole mole-1
+vmrco_50sa,mole mole-1
+vmrco,mole mole-1
+vmrdms,mole mole-1
+vmre90,mole mole-1
+vmre90n,mole mole-1
+vmre90s,mole mole-1
+vmrh2o,mole mole-1
+vmrhcl,mole mole-1
+vmrhcn,mole mole-1
+vmrhno3,mole mole-1
+vmrisop,mole mole-1
+vmrn2o,mole mole-1
+vmrnh_50,mole mole-1
+vmrnh_50w,mole mole-1
+vmrnh_5,mole mole-1
+vmrno2,mole mole-1
+vmrno,mole mole-1
+vmro3cnp,mole mole-1
+vmro3,mole mole-1
+vmro3s,mole mole-1
+vmro3ste,mole mole-1
+vmroh,mole mole-1
+vmrpan,mole mole-1
+vmrsf6,mole mole-1
+vmrso2,mole mole-1
+vmrso2t,mole mole-1
+vmrst80_25,mole mole-1
+vstar,m s-1
+vt100,K m s-1
+wa,m s-1
+wetbc,kg m-2 s-1
+wetdms,kg m-2 s-1
+wetdust,kg m-2 s-1
+wethno3,kg m-2 s-1
+wetnh3,kg m-2 s-1
+wetnh4,kg m-2 s-1
+wetnoy,kg m-2 s-1
+wetoa,kg m-2 s-1
+wetso2,kg m-2 s-1
+wetso4,kg m-2 s-1
+wetss,kg m-2 s-1
+wstar,m s-1
+zg,m
+zmbrcl,mole mole-1
+zmbr,mole mole-1
+zmbro,mole mole-1
+zmbrono2,mole mole-1
+zmbry,mole mole-1
+zmc2br2f4,mole mole-1
+zmcbrclf2,mole mole-1
+zmcbrf3,mole mole-1
+zmccl3,mole mole-1
+zmcf2cl2,mole mole-1
+zmcfcl3,mole mole-1
+zmch2br2,mole mole-1
+zmch2o,mole mole-1
+zmch3br,mole mole-1
+zmch3ccl2f,mole mole-1
+zmch3ccl3,mole mole-1
+zmch3cclf2,mole mole-1
+zmch3cl,mole mole-1
+zmch3ooh,mole mole-1
+zmch4,mole mole-1
+zmchbr3,mole mole-1
+zmchclf2,mole mole-1
+zmcl2o2,mole mole-1
+zmcl,mole mole-1
+zmclo,mole mole-1
+zmclono2,mole mole-1
+zmcly,mole mole-1
+zmco,mole mole-1
+zmh2,mole mole-1
+zmh2o2,mole mole-1
+zmh2o,mole mole-1
+zmhbr,mole mole-1
+zmhcl,mole mole-1
+zmhno3,mole mole-1
+zmhno4,mole mole-1
+zmho2,mole mole-1
+zmhobr,mole mole-1
+zmhocl,mole mole-1
+zmmean_age,years
+zmn2o5,mole mole-1
+zmn2o,mole mole-1
+zmn,mole mole-1
+zmno2,mole mole-1
+zmno,mole mole-1
+zmnoy,mole mole-1
+zmo3,mole mole-1
+zmoclo,mole mole-1
+zmoh,mole mole-1
+zmta,K
+zmtnt,K s-1
+zmua,m s-1
+zmva,m s-1
+zmzg,m
+ztp,m
+@

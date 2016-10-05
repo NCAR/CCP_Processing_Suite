@@ -1,0 +1,83 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.10.20.18.38.30;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@baresoilFrac:longitude latitude time typebare
+burntArea:longitude latitude time
+c3PftFrac:longitude latitude time typec3pft
+c4PftFrac:longitude latitude time typec4pft
+cCwd:longitude latitude time
+cLeaf:longitude latitude time
+cLitterAbove:longitude latitude time
+cLitterBelow:longitude latitude time
+cLitter:longitude latitude time
+cMisc:longitude latitude time
+cProduct:longitude latitude time
+cRoot:longitude latitude time
+cropFrac:longitude latitude time
+cSoilFast:longitude latitude time
+cSoil:longitude latitude time
+cSoilMedium:longitude latitude time
+cSoilSlow:longitude latitude time
+cVeg:longitude latitude time
+cWood:longitude latitude time
+evspsblsoi:longitude latitude time
+evspsblveg:longitude latitude time
+fFire:longitude latitude time
+fGrazing:longitude latitude time
+fHarvest:longitude latitude time
+fLitterSoil:longitude latitude time
+fLuc:longitude latitude time
+fVegLitter:longitude latitude time
+fVegSoil:longitude latitude time
+gpp:longitude latitude time
+grassFrac:longitude latitude time
+lai:longitude latitude time
+landCoverFrac:longitude latitude vegtype time
+mrfso:longitude latitude time
+mrlsl:longitude latitude sdepth time
+mrro:longitude latitude time
+mrros:longitude latitude time
+mrso:longitude latitude time
+mrsos:longitude latitude time1 sdepth1
+mrsos:longitude latitude time sdepth1
+nbp:longitude latitude time
+nep:longitude latitude time
+npp:longitude latitude time
+nppLeaf:longitude latitude time
+nppRoot:longitude latitude time
+nppWood:longitude latitude time
+pastureFrac:longitude latitude time
+prveg:longitude latitude time
+ra:longitude latitude time
+residualFrac:longitude latitude time
+rGrowth:longitude latitude time
+rh:longitude latitude time
+rMaint:longitude latitude time
+shrubFrac:longitude latitude time
+tran:longitude latitude time
+treeFrac:longitude latitude time
+treeFracPrimDec:longitude latitude time typepdec
+treeFracPrimEver:longitude latitude time typepever
+treeFracSecDec:longitude latitude time typesdec
+treeFracSecEver:longitude latitude time typesever
+tsl:longitude latitude sdepth time
+@

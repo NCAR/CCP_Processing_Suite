@@ -1,0 +1,49 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.04.08.17.46.48;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@CMIP5 name              CMIP5 long_name
+--------------------    -------------------------------------- 
+co2massClim             atmosphere_mass_of_carbon_dioxide
+BrOx                    mole_fraction_of_BrOx_in_air
+Bry                     mole_fraction_of_Bry_in_air
+co2                     mole_fraction_of_carbon_dioxide_in_air
+co2Clim                 mole_fraction_of_carbon_dioxide_in_air
+cfc113global            mole_fraction_of_cfc113_in_air
+ClOx                    mole_fraction_of_ClOx_in_air
+Cly                     mole_fraction_of_Cly_in_air
+carbonmonoxide          mole_fraction_of_CO_in_air
+HCl                     mole_fraction_of_HCl_in_air
+hydroxide               mole_fraction_of_hydroxide_in_air
+ch4                     mole_fraction_of_methane_in_air
+ch4Clim                 mole_fraction_of_methane_in_air
+ch4globalClim           mole_fraction_of_methane_in_air
+n2o                     mole_fraction_of_nitrous_oxide_in_air
+n2oClim                 mole_fraction_of_nitrous_oxide_in_air
+n2oglobalClim           mole_fraction_of_nitrous_oxide_in_air
+NOx                     mole_fraction_of_NOx_in_air
+tro3                    mole_fraction_of_ozone_in_air
+tro3Clim                mole_fraction_of_ozone_in_air
+J_NO2                   NO2_photolysis_rate
+J_O1D                   Ox_to_O1D_photolysis_rate
+strathr                 strat_radiative_heating_rate
+uvb                     ultraviolet_radiation_B
+@

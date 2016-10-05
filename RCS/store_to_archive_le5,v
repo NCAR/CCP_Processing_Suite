@@ -1,0 +1,50 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.08.02.20.55.03;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh
+#
+# Store data on archival system
+#
+if [ $# -ne 0 ] ; then
+  echo "Usage: store_to_archive"
+  ./update_status error store_to_archive
+  exit 1
+fi
+#
+cd $CACHEDIR
+#
+if [ `ls CAT.*.nc | wc -l` -ne 0 ] ; then
+  for NC3FILE in `ls CAT.*.nc` ; do
+    NC4FILE=`echo $NC3FILE | sed -e 's/^CAT\.//g'`
+    $NCKS -4 -L 1 $NC3FILE $NC4FILE
+    if [ $? -eq 0 ] ; then
+      rm -f $NC3FILE
+    else
+      echo "netCDF-4 L 1 compression failed on "${NC3FILE}
+      exit 1
+    fi
+  done
+fi
+../archive_write $ARCHIVE_PROC
+#
+cd $LOCAL_PROC
+@

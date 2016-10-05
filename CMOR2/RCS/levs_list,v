@@ -1,0 +1,52 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.11.11.15.37.43;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@!
+p0 = 1.e5
+a_coeff = (/ 0.1, 0.2, 0.3, 0.22, 0.1 /)
+b_coeff = (/ 0.0, 0.1, 0.2, 0.5, 0.8 /)
+a_coeff_bnds=(/0.,.15, .25, .25, .16, 0./)
+b_coeff_bnds=(/0.,.05, .15, .35, .65, 1./)
+
+error_flag = cmor_zfactor( &
+     zaxis_id=ilev,&
+     zfactor_name='p0',&
+     units='Pa',&
+     zfactor_values = p0)
+error_flag = cmor_zfactor( &
+     zaxis_id=ilev,&
+     factor_name='b', &
+     axis_ids= (/ ilev /), &
+     zfactor_values = b_coeff, &
+     zfactor_bounds = b_coeff_bnds )
+error_flag = cmor_zfactor( & 
+     zaxis_id=ilev,&
+     zfactor_name='a',&
+     axis_ids= (/ ilev /), &
+     zfactor_values = a_coeff,&
+     zfactor_bounds = a_coeff_bnds )
+zfactor_id = cmor_zfactor( &
+     zaxis_id=ilev,&
+     zfactor_name='ps',&
+     axis_ids=(/ ilon, ilat, itim /), &
+     units='Pa' )
+@

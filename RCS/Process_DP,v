@@ -1,0 +1,252 @@
+head	1.3;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.3
+date	2012.08.15.14.52.36;	author strandwg;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2012.05.24.20.05.21;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2011.11.14.16.57.54;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@#!/bin/sh
+#
+if [ $# -ne 3 ] ; then
+   echo "Usage: ./Process_Setup CASE HIST TPER"
+   echo "All three arguments REQUIRED:"
+   echo "1: CASE name"
+   echo "2: HIST name - usually one of [cam2.h0 cam2.h1 cam2.h2 clm.h0 pop.h csim.h cice.h etc]"
+   echo "3: TPER time period of above HIST type - must be one of [ann mon day hr6 hr3 m30]"
+   exit 1
+elif [ $# -eq 3 ] ; then
+   CASE=$1 ; export CASE
+   HIST=$2 ; export HIST
+   TPER=$3 ; export TPER
+fi
+#
+# Set up a bunch of stuff
+#
+case "$TPER" in
+  ann | mon | day | hr6 | hr3 | m30 )
+    echo ${TPER}" is known time period. Proceeding." ;;
+  * ) 
+    echo "Unable to continue because "$TPER" is unknown. Stopping."
+    ./procstat.sh error Process_Setup
+    exit 1 ;;
+esac
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if ! [ -f $EXPFILE ] ; then
+  echo "Cannot find "$EXPFILE". EXIT"
+  exit 1
+fi
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+# Build processing script
+#
+CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
+rm -f $CCPS_SCRIPT
+#
+case "$PROCHOST" in 
+  silver* | tramhill* | hurricane* | mirage0 | mirage1 | mirage2 | mirage5 | modeling1* | euclid* )  # NCAR and NERSC machines
+    echo "#!/bin/sh" > $CCPS_SCRIPT
+    cat ./process_dp_template | sed -e "s/xxxCASExxx/$CASE/g" \
+                           | sed -e "s/xxxHISTxxx/$HIST/g" \
+                           | sed -e "s/xxxTPERxxx/$TPER/g" \
+                           >> $CCPS_SCRIPT ;;
+  mirage3 | mirage4 )
+    cat ./LSF_batch | sed -e "s/NAME/$CCPS_SCRIPT/g" | sed -e "s/USER/$USER/g" > $CCPS_SCRIPT
+    cat ./process_dp_template | sed -e "s/xxxCASExxx/$CASE/g" \
+                           | sed -e "s/xxxHISTxxx/$HIST/g" \
+                           | sed -e "s/xxxTPERxxx/$TPER/g" \
+                           >> $CCPS_SCRIPT ;;
+  lens* )                                  # lens @@ ORNL
+    cat ./ORNL_batch > $CCPS_SCRIPT
+    cat ./process_dp_template | sed -e "s/xxxCASExxx/$CASE/g" \
+                           | sed -e "s/xxxHISTxxx/$HIST/g" \
+                           | sed -e "s/xxxTPERxxx/$TPER/g" \
+                           >> $CCPS_SCRIPT ;;
+  * )
+    echo "Unable to build script because "$PROCHOST" unknown."
+    ./procstat.sh error process_dp_template
+    exit 1 ;;
+esac
+#
+chmod +x $CCPS_SCRIPT
+echo ""
+echo $CCPS_SCRIPT" ready to run"
+echo ""
+#
+echo "Run script now? (Y only, all else NO)"
+read DORUN
+#
+if [ "$DORUN" = "Y" ] ; then
+  echo "Running "${CCPS_SCRIPT}
+  case "$PROCHOST" in
+    lens* )
+      ( /usr/bin/qsub ./${CCPS_SCRIPT} ) ;;
+    mirage3 | mirage4 )
+      ( /fs/local/apps/lsf/8.0/linux2.6-glibc2.3-x86_64/bin/bsub < ./${CCPS_SCRIPT} ) ;;
+    * )
+      ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
+  esac
+else
+  echo "Will not run "${CCPS_SCRIPT}
+fi
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d4 1
+a4 1
+   echo "Usage: ./Process_DP CASE HIST TPER"
+d8 1
+a8 1
+   echo "3: TPER time period of above HIST type - must be one of [mon day hr6 hr3]"
+d18 8
+a25 10
+if [ $TPER != "mon" ] ; then
+  if [ $TPER != "day" ] ; then
+    if [ $TPER != "hr6" ] ; then
+      if [ $TPER != "hr3" ] ; then
+        echo "TPER must be one of [mon day hr6 hr3]"
+        exit 1
+      fi
+    fi
+  fi
+fi
+d35 1
+a35 1
+# Start to build processing script
+d37 1
+a37 1
+CCPS_SCRIPT=${CASE}_${HIST}_process.sh
+d44 2
+a45 2
+                              | sed -e "s/xxxHISTxxx/$HIST/g" \
+                              | sed -e "s/xxxTPERxxx/$TPER/g" \
+d47 2
+a48 2
+  mirage3 | mirage4 )  # NCAR and NERSC machines
+    cat ./LSF_batch > $CCPS_SCRIPT
+d50 2
+a51 2
+                              | sed -e "s/xxxHISTxxx/$HIST/g" \
+                              | sed -e "s/xxxTPERxxx/$TPER/g" \
+d56 2
+a57 2
+                              | sed -e "s/xxxHISTxxx/$HIST/g" \
+                              | sed -e "s/xxxTPERxxx/$TPER/g" \
+d79 1
+a79 1
+      ( SOME_LSF_COMMAND ./${CCPS_SCRIPT} ) ;;
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@a28 19
+# Extract information from "experiments.txt"
+#
+#  Columns   Field
+#   1 -  40  CCSM case name
+#  45 -  59  model_id (CCSM4, CESM1, CCSM4-BGC, CCSM4-FSCHEM, CCSM4-WACCM, etc)
+#  60 -  61  Location (NC = NCAR; NE = NERSC; OR = ORNL)
+#  65 -  79  Official MIP name, or very brief description (N/A if not applicable)
+#  80 -  89  RIP code (cm5) or realization number (cm3) (N/A if not applicable)
+#  90 -  94  MIP (cm3 or cm5) experiment (N/A if not applicable)
+#  95 - 134  RUN_REFCASE (parent case)
+# 135 - 149  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 150 - 159  years of experiment (YYYY if unknown)
+# 160 - 169  GRID (resolution)
+# 170 - 199  COMPSET (N/A if not applicable)
+# 180 - 209  REPOTAG (N/A if not applicable)
+# 210 - 229  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 230 - 239  MACH (hardware)
+# 240 - end  DOUT_L_MSROOT (history file location on archive)
+#
+d30 1
+a30 7
+if [ -f $EXPFILE ] ; then
+  LOCATION=`egrep "^$CASE " $EXPFILE | cut -c60- | cut -d" " -f1`
+      CMIP=`egrep "^$CASE " $EXPFILE | cut -c90- | cut -d" " -f1`
+  if [ "$CMIP" = "N/A" ] ; then
+      CMIP="byv";export $CMIP
+  fi
+else
+d35 1
+a35 4
+if ! [ $LOCATION ] ; then
+  echo "Unable to build script because case '"$CASE"' not found in "$EXPFILE
+  exit 1
+fi
+d42 2
+a43 2
+case "$LOCATION" in
+  NC ) # NCAR experiments
+d46 2
+a47 2
+                           | sed -e "s/xxxHISTxxx/$HIST/g" \
+                           | sed -e "s/xxxTPERxxx/$TPER/g" \
+d49 2
+a50 2
+  NE ) # NERSC experiments
+    cat ./NERSC_batch      >> $CCPS_SCRIPT
+d52 2
+a53 2
+                           | sed -e "s/xxxHISTxxx/$HIST/g" \
+                           | sed -e "s/xxxTPERxxx/$TPER/g" \
+d55 2
+a56 2
+  OR ) # ORNL experiments
+    cat ./ORNL_batch       >> $CCPS_SCRIPT
+d58 2
+a59 2
+                           | sed -e "s/xxxHISTxxx/$HIST/g" \
+                           | sed -e "s/xxxTPERxxx/$TPER/g" \
+d62 2
+a63 1
+    echo "Unable to build script because "$LOCATION" not found in "$EXPFILE
+d77 2
+a78 6
+  case "$LOCATION" in
+    NC )
+      ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
+    NE )
+      ( ./${CCPS_SCRIPT} > log.${CCPS_SCRIPT} 2>&1 & ) ;;
+    OR ) 
+d80 2
+d83 1
+a83 2
+      echo "Unable to run script because "$LOCATION" not found in "$EXPFILE
+      exit 1 ;;
+@

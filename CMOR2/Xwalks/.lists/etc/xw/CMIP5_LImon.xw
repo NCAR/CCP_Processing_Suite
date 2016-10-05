@@ -1,0 +1,16 @@
+axis:Tables/CMIP5_LImon:longitude:lon:longitude:longitude
+axis:Tables/CMIP5_LImon:latitude:lat:latitude:latitude
+axis:Tables/CMIP5_LImon:time:time:time:time
+axis:Tables/CMIP5_LImon:sdepth:depth:depth:depth
+variable:Tables/CMIP5_LImon:1.0:snc:landIce land:1
+variable:Tables/CMIP5_LImon:1.0:snw:landIce land:1
+variable:Tables/CMIP5_LImon:1.0:snd:landIce land:1
+variable:Tables/CMIP5_LImon:1.0:lwsnl:landIce land:1
+variable:Tables/CMIP5_LImon:1.0:sootsn:landIce land:1
+variable:Tables/CMIP5_LImon:1.0:agesno:landIce land:1
+variable:Tables/CMIP5_LImon:1.0:tsn:landIce land:1
+variable:Tables/CMIP5_LImon:1.0:snm:landIce land:1
+variable:Tables/CMIP5_LImon:1.0:sbl:landIce land:1
+variable:Tables/CMIP5_LImon:1.0:hfdsn:landIce land:1
+variable:Tables/CMIP5_LImon:1.0:tpf:landIce land:1
+variable:Tables/CMIP5_LImon:1.0:pflw:landIce land:1

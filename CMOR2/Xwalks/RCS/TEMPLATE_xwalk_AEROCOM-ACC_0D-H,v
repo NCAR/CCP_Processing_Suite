@@ -1,0 +1,136 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.02.28.18.35.30;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@AEROCOM-ACC_0D-H:mmraerh2o:mass_fraction_of_water_in_ambient_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:ec550dryaer:atmosphere_extinction_due_to_dry_aerosol:station time::
+AEROCOM-ACC_0D-H:abs550dryaer:atmosphere_absorption_due_to_dry_aerosol:station time::
+AEROCOM-ACC_0D-H:mmrtr01:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr02:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr03:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr04:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr05:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr06:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr07:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr08:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr09:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr10:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr11:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr12:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr13:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr14:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr15:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr16:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr17:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr18:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr19:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr20:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr21:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr22:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr23:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr24:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr25:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr26:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr27:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr28:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr29:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr30:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr31:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr32:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr33:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr34:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr35:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr36:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr37:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr38:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr39:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr40:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr41:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr42:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr43:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr44:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr45:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr46:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr47:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr48:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr49:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr50:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr51:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr52:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr53:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr54:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr55:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr56:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr57:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr58:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr59:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr60:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr61:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr62:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr63:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr64:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr65:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr66:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr67:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr68:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr69:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr70:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr71:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr72:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr73:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr74:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr75:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr76:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr77:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr78:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr79:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr80:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr81:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr82:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr83:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr84:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr85:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr86:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr87:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr88:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr89:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr90:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr91:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr92:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr93:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr94:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr95:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr96:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr97:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr98:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr99:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:mmrtr100:mass_fraction_of_tracer_dry_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:conccnmode01:number_concentration_of_ambient_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:conccnmode02:number_concentration_of_ambient_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:conccnmode03:number_concentration_of_ambient_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:conccnmode04:number_concentration_of_ambient_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:conccnmode05:number_concentration_of_ambient_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:conccnmode06:number_concentration_of_ambient_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:conccnmode07:number_concentration_of_ambient_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:conccnmode08:number_concentration_of_ambient_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:conccnmode09:number_concentration_of_ambient_aerosol_in_air:station time::
+AEROCOM-ACC_0D-H:conccnmode10:number_concentration_of_ambient_aerosol_in_air:station time::
+@

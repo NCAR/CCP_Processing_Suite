@@ -1,0 +1,120 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2012.01.29.00.57.54;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.01.28.23.29.08;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@Oyr:arag:ocean:1:UNKNOWN:UNKNOWN
+Oyr:bacc:ocean:1:UNKNOWN:UNKNOWN
+Oyr:bddtalk:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bddtdic:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bddtdife:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bddtdin:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bddtdip:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bddtdisi:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:bfe:ocean:1:UNKNOWN:UNKNOWN
+Oyr:bsi:ocean:1:UNKNOWN:UNKNOWN
+Oyr:calc:ocean:1:UNKNOWN:UNKNOWN
+Oyr:chlcalc:ocean:1:UNKNOWN:UNKNOWN
+Oyr:chldiat:ocean:1:UNKNOWN:UNKNOWN
+Oyr:chldiaz:ocean:1:diazChl:diazChl
+Oyr:chlmisc:ocean:1:UNKNOWN:UNKNOWN
+Oyr:chl:ocean:1:UNKNOWN:UNKNOWN
+Oyr:chlpico:ocean:1:UNKNOWN:UNKNOWN
+Oyr:co3:ocean:1:CO3:CO3
+Oyr:co3satarag:ocean:1:co3_sat_arag:co3_sat_arag
+Oyr:co3satcalc:ocean:1:co3_sat_calc:co3_sat_calc
+Oyr:darag:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:dcalc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:detoc:ocean:1:UNKNOWN:UNKNOWN
+Oyr:dfe:ocean:2:DOFe Fe:DOFe + Fe
+Oyr:dissic:ocean:1:DIC:DIC
+Oyr:dissoc:ocean:1:DOC:DOC
+Oyr:dms:ocean:1:UNKNOWN:UNKNOWN
+Oyr:dpocdtcalc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:dpocdtdiaz:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:dpocdtpico:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:exparag:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:expcalc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:expcfe:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:expc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:expn:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:expp:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:expsi:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:fediss:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:fescav:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:graz:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:nh4:ocean:1:NH4:NH4
+Oyr:no3:ocean:1:NO3:NO3
+Oyr:o2:ocean:1:O2:O2
+Oyr:parag:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:pbfe:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:pbsi:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:pcalc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:pdi:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:ph:ocean:1:pH_3D:Integrate pH_3D over depth
+Oyr:phycalc:ocean:1:UNKNOWN:UNKNOWN
+Oyr:phyc:ocean:1:spC:spC
+Oyr:phydiat:ocean:1:UNKNOWN:UNKNOWN
+Oyr:phydiaz:ocean:1:diazC:diazC
+Oyr:phyfe:ocean:1:spFe:spFe
+Oyr:phymisc:ocean:1:UNKNOWN:UNKNOWN
+Oyr:phyn:ocean:1:UNKNOWN:UNKNOWN
+Oyr:phypico:ocean:1:UNKNOWN:UNKNOWN
+Oyr:phypmisc:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:phyp:ocean:1:UNKNOWN:UNKNOWN
+Oyr:physi:ocean:1:UNKNOWN:UNKNOWN
+Oyr:pnitrate:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:po4:ocean:1:PO4:PO4
+Oyr:pon:ocean:1:UNKNOWN:UNKNOWN
+Oyr:pop:ocean:1:UNKNOWN:UNKNOWN
+Oyr:pp:ocnBgchem:1:UNKNOWN:UNKNOWN
+Oyr:si:ocean:1:SiO3:SiO3
+Oyr:talk:ocean:1:ALK:Integrate ALK over depth
+Oyr:zmeso:ocean:1:UNKNOWN:UNKNOWN
+Oyr:zmicro:ocean:1:UNKNOWN:UNKNOWN
+Oyr:zoocmisc:ocean:1:UNKNOWN:UNKNOWN
+Oyr:zooc:ocean:1:zooC:zooC
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d3 6
+d15 1
+a16 1
+Oyr:chlmisc:ocean:1:UNKNOWN:UNKNOWN
+d21 2
+d28 13
+d44 5
+d58 1
+d61 1
+d65 1
+d70 1
+a71 1
+Oyr:zoocmisc:ocean:1:UNKNOWN:UNKNOWN
+@

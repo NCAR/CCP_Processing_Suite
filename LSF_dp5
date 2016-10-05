@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+#SBATCH -J NAME
+#SBATCH --err=NAME.err
+#SBATCH --output=NAME.out
+#SBATCH --partition=regular
+#SBATCH --qos=premium
+#SBATCH --nodes=NODE
+#SBATCH --time=WALL
+#SBATCH --license=scratch3
+#SBATCH --account=mp9
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=USER@ucar.edu
+#

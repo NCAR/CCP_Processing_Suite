@@ -1,0 +1,55 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.12.02.17.07.41;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@Omon:1.0:soga:sea_water_salinity:ocean:SALT
+Omon:1.0:so:sea_water_salinity:ocean:SALT
+Omon:1.0:thetaoga:sea_water_potential_temperature:ocean:TEMP
+Omon:1.0:thetao:sea_water_potential_temperature:ocean:TEMP
+Omon:1.0:thkcello:cell_thickness:ocean:dz
+Omon:1.0:uo:sea_water_x_velocity:ocean:UVEL
+Omon:1.0:volo:sea_water_volume:ocean:PD,DXT,DYT
+Omon:1.0:vo:sea_water_y_velocity:ocean:VVEL
+Omon:1.0:wmosq:square_of_upward_ocean_mass_transport:ocean:WVEL2,PD,DXT,DYT
+Omon:1.0:wmo:upward_ocean_mass_transport:ocean:WVEL,PD,DXT,DYT
+Omon:1.0:zosga:global_average_sea_level_change:ocean:SSH,PD,TEMP,SALT
+Omon:1.0:zos:sea_surface_height_above_geoid:ocean:SSH,PD,TEMP,SALT
+Omon:1.0:zossga:global_average_steric_sea_level_change:ocean:SSH,PD,TEMP,SALT
+Omon:1.0:zostoga:global_average_thermosteric_sea_level_change:ocean:SSH,PD,TEMP,SALT
+Omon:2.0:hfnorth:northward_ocean_heat_transport:ocean:N_HEAT
+Omon:2.0:hfss:surface_downward_sensible_heat_flux:ocean:SENH_F
+Omon:2.0:NOSHORT:sea_water_transport_across_line:ocean:MOC
+Omon:2.0:pr:rainfall_flux:ocean:PREC_F
+Omon:2.0:prsn:snowfall_flux:ocean:SNOW_F
+Omon:2.0:rlds:surface_net_downward_longwave_flux:ocean:LWUP_F,LWDN_F
+Omon:2.0:rsds:downwelling_shortwave_flux_in_sea_water:ocean:SHF_QSW
+Omon:2.0:rsntds:net_downward_shortwave_flux_at_sea_water_surface:ocean:QSW_HTP
+Omon:2.0:tauuo:surface_downward_x_stress:ocean:TAUX
+Omon:2.0:tauvo:surface_downward_y_stress:ocean:TAUY
+Omon:2.0:tos:sea_surface_temperature:ocean:TEMP
+Omon:2.0:umo:ocean_mass_x_transport:ocean:UVEL,PD,DXU
+Omon:2.0:vmo:ocean_mass_y_transport:ocean:VVEL,PD,DYU
+Omon:3.0:agessc:sea_water_age_since_surface_contact:ocean:IAGE
+Omon:3.0:cfc11:moles_per_unit_mass_of_cfc11_in_sea_water:ocean:CFC11
+Omon:3.0:msftbarot:ocean_barotropic_mass_streamfunction:ocean:BSF
+Omon:3.0:rhopoto:sea_water_potential_density:ocean:PD
+Omon:3.0:tossq:square_of_sea_surface_temperature:ocean:TEMP2
+@

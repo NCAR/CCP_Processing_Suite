@@ -1,0 +1,96 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2015.04.14.22.22.00;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh 
+#
+# Runfx
+#
+if [ $# -eq 1 ] ; then
+   VARS=$1
+elif [ $# -ne 0 ] ; then
+   echo 'Usage: Runfx "CMIP5 fields"'
+   echo ""
+   echo '  "CMIP5_fields" is optional - if not given, then all fields in xwalk will be processed'
+   echo "   Otherwise, blank-delimited list inside double quotes, example:"
+   echo ""
+   echo '   ./Runfx "areacello"'
+fi
+#
+BASED=${HOME}/CCP_Processing_Suite
+CMORD=${HOME}/CCP_Processing_Suite/CMOR2
+CBIND=${HOME}/bin
+#
+XWALK=xwalk_fx.txt
+#
+ln -s -f ${CMORD}/Tables          .
+ln -s -f ${CMORD}/GridFiles/atm_grid_f09.nc .
+ln -s -f ${CMORD}/GridFiles/lnd_grid_f09.nc .
+ln -s -f ${CMORD}/GridFiles/ocn_grid_gx1.nc .
+#
+# Assume all fields in xwalk to be processed
+#
+if [ $# -eq 0 ] ; then
+  echo "Linking "${CMORD}"/"${XWALK}
+#  ln -s -f ${CMORD}/${XWALK} .
+fi
+#
+# Create new xwalk file containing just the fields to be processed
+#
+#if [ $# -eq 1 ] ; then
+#  echo "Creating new xwalk file from default "${XWALK}
+#  rm -f ${XWALK}
+#  for ivar in `echo $VARS` ; do
+#    egrep ":${ivar}:" ${CMORD}/${XWALK} >> ${XWALK} 
+#    echo $ivar" added to "${XWALK}
+#  done
+#fi
+##
+## Do it!
+##
+rm -f Info_in.fx
+if [ ! -d ./CMOR ] ; then
+  mkdir ./CMOR
+fi
+#
+# Set up various tracking information to be read in and made global metadata
+#
+WHOAMI=`whoami`
+PRCHST=`hostname`
+SVNBIN=`which svn`
+SVNREV=`$SVNBIN info $SVN | egrep "Rev:"`
+SVNDAT=`$SVNBIN info $SVN | egrep "Date:"`
+SVNUID=`$SVNBIN info $SVN | egrep "UUID:"`
+echo $WHOAMI >> Info_in.fx
+echo $PRCHST >> Info_in.fx
+echo $SVNREV >> Info_in.fx
+echo $SVNDAT >> Info_in.fx
+echo $SVNUID >> Info_in.fx
+#
+if [ -f ${CBIND}/fx_CMOR ] ; then
+  ln -s -f ${CBIND}/fx_CMOR .
+else
+  echo "fx_CMOR NOT FOUND in "${CBIND}". Rebuild."
+  exit 1
+fi
+#
+./fx_CMOR
+@

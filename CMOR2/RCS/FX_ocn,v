@@ -1,0 +1,47 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.02.27.16.34.05;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@Susan, CMIP5 requests a number of time-invariant and experiment-invariant fields, all on the native
+POP grid, and in MKS units:
+
+CMIP5 name  CMIP5 long_name                           dimensionality            POP equivalent
+----------  ----------------------------------------- ------------------------- ---------------------------------------
+areacello   cell_area                                 longitude latitude        TAREA, convert cm^2 to m^2
+basin       region                                    longitude latitude        REGION_MASK, indices changed as needed
+deptho      sea_floor_depth_below_geoid               longitude latitude        HT, convert cm to m
+thkcello    cell_thickness                            longitude latitude olevel dz at each gridcell, convert cm to m
+volcello    ocean_volume                              longitude latitude olevel TAREA * dz, convert cm^3 to m^3
+
+I've provided all the above for all the CCSM4 long-term runs, as they're easily calculated from the grid information in
+every history file.
+
+There are two additional fields CMIP5 requests for which I'm unsure of the POP equivalents:
+
+CMIP5 name  CMIP5 long_name                           dimensionality            POP equivalent
+----------  ----------------------------------------- ------------------------- ---------------------------------------
+hfgeou      upward_geothermal_heat_flux_at_sea_floor  longitude latitude        ?????
+sftof       sea_area_fraction                         longitude latitude        ?????
+
+Do these fields exist for POP? If so, in what file(s) are they?
+
+Thanks!
+@

@@ -1,0 +1,51 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.11.14.16.58.08;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh
+# List a directory on an archival system
+# Arguments:
+# 1 local file that has list
+#
+if [ $# -ne 1 ] ; then
+  echo "Usage: mss_list_cmip5 local_list - REQUIRED"
+  ./procstat.sh error mss_list_cmip5
+  exit 1
+else
+  ARCHIVE_L=$1
+fi
+#
+# If hsi command exists, use it.
+#
+TEST4HSI=`which hsi 2<&1`
+if [ $? -eq 0 ] ; then
+  hsi -q "ls -Fl $ARCHIVE_HIST" 2>&1 | egrep "\.${HIST}\." | cut -c60- > $ARCHIVE_L 2>&1 
+  if [ $? -ne 0 ] ; then
+    echo "Error on mss_list_cmip5 from "$ARCHIVE_HIST
+    ./procstat.sh error mss_list_cmip5
+    exit 1
+  fi
+else
+  echo "Cannot find hsi command."
+  ./procstat.sh error mss_list_cmip5
+  exit 1
+fi
+@

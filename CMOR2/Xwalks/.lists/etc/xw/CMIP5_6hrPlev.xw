@@ -1,0 +1,8 @@
+axis:Tables/CMIP5_6hrPlev:longitude:lon:longitude:longitude
+axis:Tables/CMIP5_6hrPlev:latitude:lat:latitude:latitude
+axis:Tables/CMIP5_6hrPlev:plev3:plev:air_pressure:pressure
+axis:Tables/CMIP5_6hrPlev:time1:time:time:time
+variable:Tables/CMIP5_6hrPlev:1.0:ua:atmos:1
+variable:Tables/CMIP5_6hrPlev:1.0:va:atmos:1
+variable:Tables/CMIP5_6hrPlev:1.0:ta:atmos:1
+variable:Tables/CMIP5_6hrPlev:1.0:psl:atmos:1

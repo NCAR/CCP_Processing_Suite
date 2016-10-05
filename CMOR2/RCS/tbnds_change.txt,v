@@ -1,0 +1,38 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2011.11.09.21.25.08;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@20C original:
+------------------------------------------
+time_bnds( 1)=0 time( 1)=0 time_bnds( 2)=0
+time_bnds( 3)=0 time( 2)=1 time_bnds( 4)=1
+time_bnds( 5)=1 time( 3)=2 time_bnds( 6)=2
+time_bnds( 7)=2 time( 4)=3 time_bnds( 8)=3
+time_bnds( 9)=3 time( 5)=4 time_bnds(10)=4
+
+RCP original:
+------------------------------------------
+time_bnds( 1)=364 time( 1)=365 time_bnds( 2)=365
+time_bnds( 3)=365 time( 2)=366 time_bnds( 4)=366
+time_bnds( 5)=366 time( 3)=367 time_bnds( 6)=367
+time_bnds( 7)=367 time( 4)=368 time_bnds( 8)=368
+time_bnds( 9)=368 time( 5)=369 time_bnds(10)=369
+@

@@ -1,0 +1,47 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2013.02.28.18.35.30;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@AEROCOM-ACC_2D-I::longitude:::
+AEROCOM-ACC_2D-I::latitude:::
+AEROCOM-ACC_2D-I::time:::
+AEROCOM-ACC_2D-I::atmosphere_sigma_coordinate:::
+AEROCOM-ACC_2D-I::atmosphere_hybrid_sigma_pressure_coordinate:::
+AEROCOM-ACC_2D-I::atmosphere_hybrid_sigma_pressure_coordinate:::
+AEROCOM-ACC_2D-I::atmosphere_hybrid_height_coordinate:::
+AEROCOM-ACC_2D-I:p0::::
+AEROCOM-ACC_2D-I:ptop::::
+AEROCOM-ACC_2D-I:sigma::zlevel::
+AEROCOM-ACC_2D-I:sigmabnds::zlevel::
+AEROCOM-ACC_2D-I:a::zlevel::
+AEROCOM-ACC_2D-I:b::zlevel::
+AEROCOM-ACC_2D-I:abnds::zlevel::
+AEROCOM-ACC_2D-I:bbnds::zlevel::
+AEROCOM-ACC_2D-I:ap::zlevel::
+AEROCOM-ACC_2D-I:apbnds::zlevel::
+AEROCOM-ACC_2D-I:az::zlevel::
+AEROCOM-ACC_2D-I:bz::zlevel::
+AEROCOM-ACC_2D-I:azbnds::zlevel::
+AEROCOM-ACC_2D-I:bzbnds::zlevel::
+AEROCOM-ACC_2D-I:orog:surface_altitude:longitude latitude::
+AEROCOM-ACC_2D-I:landf:land_area_fraction:longitude latitude::
+AEROCOM-ACC_2D-I:area:area:longitude latitude::
+@

@@ -1,0 +1,116 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2015.02.12.20.36.29;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@,lon,longitude,longitude,,double,degrees_east,,,,yes,,,,increasing,360.0,0.0,
+,lat,latitude,latitude,,double,degrees_north,,,,yes,,,,increasing,90.0,-90.0,
+,plev,air_pressure,pressure,,double,Pa,,,,no,,,down,decreasing,,,
+,plev,air_pressure,pressure,,double,Pa,,,,no,,,down,decreasing,,,
+,time,time,time,,double,days since ?,,,,yes,,,,increasing,,,
+,lev,atmosphere_sleve_coordinate,atmosphere smooth level vertical (SLEVE) coordinate,,,m,,,,yes,,,	      up,increasing,800000.,-200.,
+,lev,atmosphere_ln_pressure_coordinate,atmosphere natural log pressure coordinate,,,,,,,yes,,,	      down,decreasing,20.,-1.,
+,lev,atmosphere_sigma_coordinate,sigma coordinate,,,,,,,yes,,,down,decreasing,1.0,0.0,
+,lev,atmosphere_hybrid_sigma_pressure_coordinate,hybrid sigma pressure coordinate,,,1,,,,yes,,,down,decreasing,1.0,0.0,
+,lev,atmosphere_hybrid_sigma_pressure_coordinate,hybrid sigma pressure coordinate,,,1,,,,yes,,,down,decreasing,1.0,0.0,
+,lev,atmosphere_hybrid_height_coordinate,hybrid height coordinate,,,m,,,,yes,,,up,increasing,,0.0,
+orog,orog,surface_altitude,Surface Altitude,longitude latitude,real,m,,,atmos,,,,,,1.00E+04,-700,
+p0,,,vertical coordinate formula term: reference pressure,,,Pa,,,,,,,,,,,
+ptop,,,pressure at top of model,,,Pa,,,,,,,,,,,
+a,,,vertical coordinate formula term: a(k),alevel,double,1,,,,,,,,,,,
+b,,,vertical coordinate formula term: b(k),alevel,double,1,,,,,,,,,,,
+a_bnds,,,vertical coordinate formula term: a(k+1/2),alevel,double,1,,,,,,,,,,,
+b_bnds,,,vertical coordinate formula term: b(k+1/2),alevel,double,1,,,,,,,,,,,
+ap,,,vertical coordinate formula term: ap(k),alevel,double,Pa,,,,,,,,,,,
+ap_bnds,,,vertical coordinate formula term: ap(k+1/2),alevel,double,Pa,,,,,,,,,,,
+ztop,,,height of top of model,,,m,,,,,,,,,,,
+ccmi_year,,,CCMI Year,time,integer,year,,,,,,,,,,,
+ccmi_month,,,CCMI Month,time,integer,month,,,,,,,,,,,
+ccmi_day,,,CCMI Day,time,integer,day,,,,,,,,,,,
+ccmi_hour,,,CCMI Hour,time,integer,hour,,,,,,,,,,,
+ccmi_minute,,,CCMI Minute,time,integer,minute,,,,,,,,,,,
+n2obrdn,,atmosphere_moles_of_nitrous_oxide,Atmospheric Burden of Nitrous Oxide,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+n2otbrdn,,tendency_of_atmosphere_moles_of_nitrous_oxide,Tendency of Atmospheric Burden of Nitrous Oxide,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cfcl3brdn,,atmosphere_moles_of_cfc11,Atmospheric Burden of CFC-11,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cfcl3tbrdn,,tendency_of_atmosphere_moles_of_cfc11,Tendency of Atmospheric Burden of CFC-11,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cf2cl2brdn,,atmosphere_moles_of_cfc12,Atmospheric Burden of CFC-12,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cf2cl2tbrdn,,tendency_of_atmosphere_moles_of_cfc12,Tendency of Atmospheric Burden of CFC-12,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ccl2fcclf2brdn,,atmosphere_moles_of_cfc113,Atmospheric Burden of CFC-113,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ccl2fcclf2tbrdn,,tendency_of_atmosphere_moles_of_cfc113,Tendency of Atmospheric Burden of CFC-113,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cclf2cclf2brdn,,atmosphere_moles_of_cfc114,Atmospheric Burden of CFC-114,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cclf2cclf2tbrdn,,tendency_of_atmosphere_moles_of_cfc114,Tendency of Atmospheric Burden of CFC-114,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cclf2cf3brdn,,atmosphere_moles_of_cfc115,Atmospheric Burden of CFC-115,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cclf2cf3tbrdn,,tendency_of_atmosphere_moles_of_cfc115,Tendency of Atmospheric Burden of CFC-115,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ccl4brdn,,atmosphere_moles_of_carbon_tetrachloride,Atmospheric Burden of CCl4,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ccl4tbrdn,,tendency_of_atmosphere_moles_of_carbon_tetrachloride,Tendency of Atmospheric Burden of CCl4,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cbrf3brdn,,atmosphere_moles_of_halon1301,Atmospheric Burden of Halon 1301,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cbrf3tbrdn,,tendency_of_atmosphere_moles_of_halon1301,Tendency of Atmospheric Burden of Halon 1301,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cbrclf2brdn,,atmosphere_moles_of_halon1211,Atmospheric Burden of Halon 1211,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cbrclf2tbrdn,,tendency_of_atmosphere_moles_of_halon1211,Tendency of Atmospheric Burden of Halon 1211,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+c2br2f4brdn,,atmosphere_moles_of_halon2402,Atmospheric Burden of Halon 2402,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+c2br2f4tbrdn,,tendency_of_atmosphere_moles_of_halon2402,Tendency of Atmospheric Burden of Halon 2402,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cbr2f2brdn,,atmosphere_moles_of_halon1202,Atmospheric Burden of Halon 1202,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cbr2f2tbrdn,,tendency_of_atmosphere_moles_of_halon1202,Tendency of Atmospheric Burden of Halon 1202,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch4brdn,,atmosphere_moles_of_methane,Atmospheric Burden of CH4,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch4tbrdn,,tendency_of_atmosphere_moles_of_methane,Tendency of Atmospheric Burden of CH4,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch4trtbrdn,,tendency_of_troposphere_moles_of_methane,Tendency of Tropospheric Burden of CH4,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch4smtbrdn,,tendency_of_middle_atmosphere_moles_of_methane,Tendency of Middle Atmosphere Burden of CH4,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cobrdn,,atmosphere_moles_of_carbon_monoxide,Atmospheric Burden of CO,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cotbrdn,,tendency_of_atmosphere_moles_of_carbon_monoxide,Tendency of Atmospheric Burden of CO,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cotrtbrdn,,tendency_of_troposphere_moles_of_carbon_monoxide,Tendency of Tropospheric Burden of CO,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+cosmtbrdn,,tendency_of_middle_atmosphere_moles_of_carbon_monoxide,Tendency of Middle Atmosphere Burden of CO,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+h2brdn,,atmosphere_moles_of_molecular_hydrogen,Atmospheric Burden of H2,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+h2tbrdn,,tendency_of_atmosphere_moles_of_molecular_hydrogen,Tendency of Atmospheric Burden of H2,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+h2trtbrdn,,tendency_of_troposphere_moles_of_molecular_hydrogen,Tendency of Tropospheric Burden of H2,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+h2smtbrdn,,tendency_of_middle_atmosphere_moles_of_molecular_hydrogen,Tendency of Middle Atmosphere Burden of H2,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3clbrdn,,atmosphere_moles_of_methyl_chloride,Atmospheric Burden of CH3Cl,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3cltbrdn,,tendency_of_atmosphere_moles_of_methyl_chloride,Tendency of Atmospheric Burden of CH3Cl,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3cltrtbrdn,,tendency_of_troposphere_moles_of_methyl_chloride,Tendency of Tropospheric Burden of CH3Cl,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3clsmtbrdn,,tendency_of_middle_atmosphere_moles_of_methyl_chloride,Tendency of Middle Atmosphere Burden of CH3Cl,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3brbrdn,,atmosphere_moles_of_methyl_bromide,Atmospheric Burden of CH3Br,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3brtbrdn,,tendency_of_atmosphere_moles_of_methyl_bromide,Tendency of Atmospheric Burden of CH3Br,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3brtrtbrdn,,tendency_of_troposphere_moles_of_methyl_bromide,Tendency of Tropospheric Burden of CH3Br,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3brsmtbrdn,,tendency_of_middle_atmosphere_moles_of_methyl_bromide,Tendency of Middle Atmosphere Burden of CH3Br,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3ccl3brdn,,atmosphere_moles_of_hcc140a,Atmospheric Burden of CH3CCl3,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3ccl3tbrdn,,tendency_of_atmosphere_moles_of_hcc140a,Tendency of Atmospheric Burden of CH3CCl3,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3ccl3trtbrdn,,tendency_of_troposphere_moles_of_hcc140a,Tendency of Tropospheric Burden of CH3CCl3,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3ccl3smtbrdn,,tendency_of_middle_atmosphere_moles_of_hcc140a,Tendency of Middle Atmosphere Burden of CH3CCl3,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+chclf2brdn,,atmosphere_moles_of_hcfc22,Atmospheric Burden of CHClF2,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+chclf2tbrdn,,tendency_of_atmosphere_moles_of_hcfc22,Tendency of Atmospheric Burden of CHClF2,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+chclf2trtbrdn,,tendency_of_troposphere_moles_of_hcfc22,Tendency of Tropospheric Burden of CHClF2,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+chclf2smtbrdn,,,Tendency of Middle Atmosphere Burden of CHClF2,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3ccl2fbrdn,,atmosphere_moles_of_hcfc141b,Atmospheric Burden of CH3CCl2F,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3ccl2ftbrdn,,tendency_of_atmosphere_moles_of_hcfc141b,Tendency of Atmospheric Burden of CH3CCl2F,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3ccl2ftrtbrdn,,,Tendency of Tropospheric Burden of CH3CCl2F,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3ccl2fsmtbrdn,,,Tendency of Middle Atmosphere Burden of CH3CCl2F,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3cclf2brdn,,atmosphere_moles_of_hcfc142b,Atmospheric Burden of CH3CClF2,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3cclf2tbrdn,,tendency_of_atmosphere_moles_of_hcfc142b,Tendency of Atmospheric Burden of CH3CClF2,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3cclf2trtbrdn,,,Tendency of Tropospheric Burden of CH3CClF2,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch3cclf2smtbrdn,,,Tendency of Middle Atmosphere Burden of CH3CClF2,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch2fcf3brdn,,,Atmospheric Burden of CH2FCF3,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch2fcf3tbrdn,,,Tendency of Atmospheric Burden of CH2FCF3,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch2fcf3trtbrdn,,,Tendency of Tropospheric Burden of CH2FCF3,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+ch2fcf3smtbrdn,,,Tendency of Middle Atmosphere Burden of CH2FCF3,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+c2hf3cl2brdn,,,Atmospheric Burden of C2HF3Cl2,time,real,moles,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+c2hf3cl2tbrdn,,,Tendency of Atmospheric Burden of C2HF3Cl2,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+c2hf3cl2trtbrdn,,,Tendency of Tropospheric Burden of C2HF3Cl2,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+c2hf3cl2smtbrdn,,,Tendency of Middle Atmosphere Burden of C2HF3Cl2,time,real,moles yr-1,,time: mean area: sum,atmos,,,,,,1.00E+16,0.0,
+growseas,,,Growing Season,longitude latitude time,real,days,area: areacella,time: sum,atmos,,,,,,400.0,0.0,
+@

@@ -1,0 +1,82 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.03.19.18.10.24;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@mrsos|mrsos|moisture_content_of_soil_layer|Moisture in Upper Portion of Soil Column|longitude latitude time sdepth1|real|kg m-2|area: areacella|time: mean area: mean where land|land||123.3|-35.89|||146.5|-2.008|
+mrso|mrso|soil_moisture_content|Total Soil Moisture Content|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||3038|-1424|||5717|-64.17|
+mrfso|mrfso|soil_frozen_water_content|Soil Frozen Water Content|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land landIce||940.3|-419|||5763|0|
+mrros|mrros|surface_runoff_flux|Surface Runoff|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||1.302e-05|-5.867e-06|||0.0009825|-6.802e-06|
+mrro|mrro|runoff_flux|Total Runoff|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||1.874e-05|-6.668e-06|||0.001065|-0.0002019|
+prveg|prveg|precipitation_flux_onto_canopy|Precipitation onto Canopy|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||||||
+evspsblveg|evspsblveg|water_evaporation_flux_from_canopy|Evaporation from Canopy|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||up||||
+evspsblsoi|evspsblsoi|water_evaporation_flux_from_soil|Water Evaporation from Soil|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||up||||
+tran|tran|transpiration_flux|Transpiration|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||up||||
+mrlsl|mrlsl|moisture_content_of_soil_layer|Water Content of Soil Layer|longitude latitude sdepth time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+tsl|tsl|soil_temperature|Temperature of Soil|longitude latitude sdepth time|real|K|area: areacella|time: mean|land||||||||
+treeFrac|treeFrac|area_fraction|Tree Cover Fraction|longitude latitude time|real|%|area: areacella|time: mean|land||||||||
+grassFrac|grassFrac|area_fraction|Natural Grass Fraction|longitude latitude time|real|%|area: areacella|time: mean|land||||||||
+shrubFrac|shrubFrac|area_fraction|Shrub Fraction|longitude latitude time|real|%|area: areacella|time: mean|land||||||||
+cropFrac|cropFrac|area_fraction|Crop Fraction|longitude latitude time|real|%|area: areacella|time: mean|land||||||||
+pastureFrac|pastureFrac|area_fraction|Anthropogenic Pasture Fraction|longitude latitude time|real|%|area: areacella|time: mean|land||||||||
+baresoilFrac|baresoilFrac|area_fraction|Bare Soil Fraction|longitude latitude time typebare|real|%|area: areacella|time: mean|land||||||||
+residualFrac|residualFrac|area_fraction|Fraction of Grid Cell that is Land but Neither Vegetation-Covered nor Bare Soil|longitude latitude time|real|%|area: areacella|time: mean|land||||||||
+burntArea|burntArea|area_fraction|Burnt Area Fraction|longitude latitude time|real|%|area: areacella|time: mean|land||||||||
+cVeg|cVeg|vegetation_carbon_content|Carbon Mass in Vegetation|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+cLitter|cLitter|litter_carbon_content|Carbon Mass in Litter Pool|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+cSoil|cSoil|soil_carbon_content|Carbon Mass in Soil Pool|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+cProduct|cProduct|carbon_content_of_products_of_anthropogenic_land_use_change|Carbon Mass in Products of Land Use Change|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+lai|lai|leaf_area_index|Leaf Area Index|longitude latitude time|real|1|area: areacella|time: mean area: mean where land|land||||||||
+gpp|gpp|gross_primary_productivity_of_carbon|Carbon Mass Flux out of Atmosphere due to Gross Primary Production on Land|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||down||||
+ra|ra|plant_respiration_carbon_flux|Carbon Mass Flux into Atmosphere due to Autotrophic (Plant) Respiration on Land|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||up||||
+npp|npp|net_primary_productivity_of_carbon|Carbon Mass Flux out of Atmosphere due to Net Primary Production on Land|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||down||||
+rh|rh|heterotrophic_respiration_carbon_flux|Carbon Mass Flux into Atmosphere due to Heterotrophic Respiration on Land|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||up||||
+fFire|fFire|surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fires_excluding_anthropogenic_land_use_change|Carbon Mass Flux into Atmosphere due to CO2 Emission from Fire|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||up||||
+fGrazing|fGrazing|surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_grazing|Carbon Mass Flux into Atmosphere due to Grazing on Land|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||up||||
+fHarvest|fHarvest|surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_crop_harvesting|Carbon Mass Flux into Atmosphere due to Crop Harvesting|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||up||||
+fLuc|fLuc|surface_net_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_anthropogenic_land_use_change|Net Carbon Mass Flux into Atmosphere due to Land Use Change|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||up||||
+nbp|nbp|surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes|Carbon Mass Flux out of Atmosphere due to Net Biospheric Production on Land|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||down||||
+fVegLitter|fVegLitter|litter_carbon_flux|Total Carbon Mass Flux from Vegetation to Litter|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||||||
+fLitterSoil|fLitterSoil|carbon_mass_flux_into_soil_from_litter|Total Carbon Mass Flux from Litter to Soil|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||||||
+fVegSoil|fVegSoil|carbon_mass_flux_into_soil_from_vegetation_excluding_litter|Total Carbon Mass Flux from Vegetation Directly to Soil|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||||||
+cLeaf|cLeaf|leaf_carbon_content|Carbon Mass in Leaves|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+cWood|cWood|wood_carbon_content|Carbon Mass in Wood|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+cRoot|cRoot|root_carbon_content|Carbon Mass in Roots|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+cMisc|cMisc|miscellaneous_living_matter_carbon_content|Carbon Mass in Other Living Compartments on Land|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+cCwd|cCwd|wood_debris_carbon_content|Carbon Mass in Coarse Woody Debris|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+cLitterAbove|cLitterAbove|surface_litter_carbon_content|Carbon Mass in Above-Ground Litter|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+cLitterBelow|cLitterBelow|subsurface_litter_carbon_content|Carbon Mass in Below-Ground Litter|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+cSoilFast|cSoilFast|fast_soil_pool_carbon_content|Carbon Mass in Fast Soil Pool|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+cSoilMedium|cSoilMedium|medium_soil_pool_carbon_content|Carbon Mass in Medium Soil Pool|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+cSoilSlow|cSoilSlow|slow_soil_pool_carbon_content|Carbon Mass in Slow Soil Pool|longitude latitude time|real|kg m-2|area: areacella|time: mean area: mean where land|land||||||||
+landCoverFrac|landCoverFrac|area_fraction|Plant Functional Type Grid Fraction|longitude latitude vegtype time|real|%|area: areacella|time: mean|land||||||||
+treeFracPrimDec|treeFracPrimDec|area_fraction|Total Primary Deciduous Tree Fraction|longitude latitude time typepdec|real|%|area: areacella|time: mean|land||||||||
+treeFracPrimEver|treeFracPrimEver|area_fraction|Total Primary Evergreen Tree Cover Fraction|longitude latitude time typepever|real|%|area: areacella|time: mean|land||||||||
+treeFracSecDec|treeFracSecDec|area_fraction|Total Secondary Deciduous Tree Cover Fraction|longitude latitude time typesdec|real|%|area: areacella|time: mean|land||||||||
+treeFracSecEver|treeFracSecEver|area_fraction|Total Secondary Evergreen Tree Cover Fraction|longitude latitude time typesever|real|%|area: areacella|time: mean|land||||||||
+c3PftFrac|c3PftFrac|area_fraction|Total C3 PFT Cover Fraction|longitude latitude time typec3pft|real|%|area: areacella|time: mean|land||||||||
+c4PftFrac|c4PftFrac|area_fraction|Total C4 PFT Cover Fraction|longitude latitude time typec4pft|real|%|area: areacella|time: mean|land||||||||
+rGrowth|rGrowth|surface_upward_carbon_mass_flux_due_to_plant_respiration_for_biomass_growth|Carbon Mass Flux into Atmosphere due to Growth Autotrophic Respiration on Land|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||up||||
+rMaint|rMaint|surface_upward_carbon_mass_flux_due_to_plant_respiration_for_biomass_maintenance|Carbon Mass Flux into Atmosphere due to Maintenance Autotrophic Respiration on Land|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||up||||
+nppLeaf|nppLeaf|net_primary_productivity_of_carbon_accumulated_in_leaves|Carbon Mass Flux due to NPP Allocation to Leaf|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||down||||
+nppWood|nppWood|net_primary_productivity_of_carbon_accumulated_in_wood|Carbon Mass Flux due to NPP Allocation to Wood|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||down||||
+nppRoot|nppRoot|net_primary_productivity_of_carbon_accumulated_in_roots|Carbon Mass Flux due to NPP Allocation to Roots|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||down||||
+nep|nep|surface_net_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_all_land_processes_excluding_anthropogenic_land_use_change|Net Carbon Mass Flux out of Atmophere due to Net Ecosystem Productivity on Land.|longitude latitude time|real|kg m-2 s-1|area: areacella|time: mean area: mean where land|land||||down||||
+@

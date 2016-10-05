@@ -1,0 +1,1033 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.10.17.15.43.18;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@5c5
+< table_date:   6 August 2014 ! date this table was constructed
+---
+> table_date:   8 November 2013 ! date this table was constructed
+9,28c9,28
+< expt_id_ok:  'Hindcast' 'refC1'
+< expt_id_ok:  'Hindcast - Specified Dynamics' 'refC1SD'
+< expt_id_ok:  'Projection' 'refC2'
+< expt_id_ok:  'Hindcast Scenario - altEmis' 'senC1Emis'
+< expt_id_ok:  'HindcastSD Scenario - altEmis' 'senC1SDEmis'
+< expt_id_ok:  'Hindcast Scenario - fxdEmis' 'senC1fEmis'
+< expt_id_ok:  'HindcastSD Scenario - fxdEmis' 'senC1SDfEmis'
+< expt_id_ok:  'Hindcast Scenario - altSSI' 'senC1SSI'
+< expt_id_ok:  'Projection Scenario - RCP2.6' 'senC2rcp26'
+< expt_id_ok:  'Projection Scenario - RCP4.5' 'senC2rcp45'
+< expt_id_ok:  'Projection Scenario - RCP8.5' 'senC2rcp85'
+< expt_id_ok:  'Projection Scenario - fxdODS' 'senC2fODS'
+< expt_id_ok:  'Projection Scenario - fxdODS2000' 'senC2fODS2000'
+< expt_id_ok:  'Projection Scenario - fxdGHG' 'senC2fGHG'
+< expt_id_ok:  'Projection Scenario - fxdEmis' 'senC2fEmis'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G1' 'senC2GeoMIPG1'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G2' 'senC2GeoMIPG2'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G3' 'senC2GeoMIPG3'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G4' 'senC2GeoMIPG4'
+< expt_id_ok:  'Projection Scenario - SolarTrend' 'senC2SlrTrend'
+---
+> expt_id_ok:  'CCMI_Historical' 'refC1'
+> expt_id_ok:  'CCMI_HistoricalSD' 'refC1sd'
+> expt_id_ok:  'CCMI_Projection' 'refC2'
+> expt_id_ok:  'CCMI_HistorSc_Emis' 'senC1Emis'
+> expt_id_ok:  'CCMI_HistorSc_EmisSD' 'senC1SDEmis'
+> expt_id_ok:  'CCMI_HistorSc_fEmis' 'senC1fEmis'
+> expt_id_ok:  'CCMI_HistorSc_fEmisSD' 'senC1SDfEmis'
+> expt_id_ok:  'CCMI_HistorSc_SSI' 'senC1SSI'
+> expt_id_ok:  'CCMI_ProjecSC_RCP2.6' 'senC2rcp26'
+> expt_id_ok:  'CCMI_ProjecSC_RCP4.5' 'senC2rcp45'
+> expt_id_ok:  'CCMI_ProjecSC_RCP8.5' 'senC2rcp85'
+> expt_id_ok:  'CCMI_ProjecSC_fODS' 'senC2fODS'
+> expt_id_ok:  'CCMI_ProjecSC_fODS2000' 'senC2fODS2000'
+> expt_id_ok:  'CCMI_ProjecSC_fGHG' 'senC2fGHG'
+> expt_id_ok:  'CCMI_ProjecSC_fEMIS' 'senC2fEMIS'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G1' 'senC2GeoMIPG1'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G2' 'senC2GeoMIPG2'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G3' 'senC2GeoMIPG3'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G4' 'senC2GeoMIPG4'
+> expt_id_ok:  'CCMI_ProjecSC_SolarTrend' 'senC2slrtrend'
+271c271
+< !----------------------------------	
+---
+> !----------------------------------     
+275c275
+< positive:	      up
+---
+> positive:             up
+277c277
+< !----------------------------------	
+---
+> !----------------------------------     
+280c280
+< !----------------------------------	
+---
+> !----------------------------------     
+289c289
+< !----------------------------------	
+---
+> !----------------------------------     
+302c302
+< !----------------------------------	
+---
+> !----------------------------------     
+306,307c306,307
+< positive:	      down
+< !----------------------------------	
+---
+> positive:             down
+> !----------------------------------     
+310c310
+< !----------------------------------	
+---
+> !----------------------------------     
+319c319
+< !----------------------------------	
+---
+> !----------------------------------     
+332c332
+< !----------------------------------	
+---
+> !----------------------------------     
+337c337
+< !----------------------------------	
+---
+> !----------------------------------     
+340c340
+< !----------------------------------	
+---
+> !----------------------------------     
+349c349
+< !----------------------------------	
+---
+> !----------------------------------     
+362c362
+< !----------------------------------	
+---
+> !----------------------------------     
+370c370
+< !----------------------------------	
+---
+> !----------------------------------     
+379c379
+< !----------------------------------		
+---
+> !----------------------------------             
+393c393
+< !----------------------------------	
+---
+> !----------------------------------     
+399c399
+< !----------------------------------	
+---
+> !----------------------------------     
+402c402
+< !----------------------------------	
+---
+> !----------------------------------     
+411c411
+< !----------------------------------		
+---
+> !----------------------------------             
+425c425
+< !----------------------------------	
+---
+> !----------------------------------     
+431c431
+< !----------------------------------	
+---
+> !----------------------------------     
+434c434
+< !----------------------------------	
+---
+> !----------------------------------     
+442c442
+< !----------------------------------		
+---
+> !----------------------------------             
+479c479
+< !----------------------------------	
+---
+> !----------------------------------     
+482c482
+< !----------------------------------	
+---
+> !----------------------------------     
+492c492
+< !----------------------------------	
+---
+> !----------------------------------     
+495c495
+< !----------------------------------	
+---
+> !----------------------------------     
+505c505
+< !----------------------------------	
+---
+> !----------------------------------     
+508c508
+< !----------------------------------	
+---
+> !----------------------------------     
+511c511
+< !----------------------------------	
+---
+> !----------------------------------     
+514c514
+< !----------------------------------	
+---
+> !----------------------------------     
+523c523
+< !----------------------------------	
+---
+> !----------------------------------     
+526c526
+< !----------------------------------	
+---
+> !----------------------------------     
+529c529
+< !----------------------------------	
+---
+> !----------------------------------     
+532c532
+< !----------------------------------	
+---
+> !----------------------------------     
+542c542
+< !----------------------------------	
+---
+> !----------------------------------     
+545c545
+< !----------------------------------	
+---
+> !----------------------------------     
+548c548
+< !----------------------------------	
+---
+> !----------------------------------     
+551c551
+< !----------------------------------	
+---
+> !----------------------------------     
+561c561
+< !----------------------------------	
+---
+> !----------------------------------     
+564c564
+< !----------------------------------	
+---
+> !----------------------------------     
+567c567
+< !----------------------------------	
+---
+> !----------------------------------     
+578c578
+< !----------------------------------	
+---
+> !----------------------------------     
+581c581
+< !----------------------------------	
+---
+> !----------------------------------     
+584c584
+< !----------------------------------	
+---
+> !----------------------------------     
+587c587
+< !----------------------------------	
+---
+> !----------------------------------     
+595c595
+< !----------------------------------	
+---
+> !----------------------------------     
+598c598
+< !----------------------------------	
+---
+> !----------------------------------     
+601c601
+< !----------------------------------	
+---
+> !----------------------------------     
+604c604
+< !----------------------------------	
+---
+> !----------------------------------     
+614c614
+< !----------------------------------	
+---
+> !----------------------------------     
+617c617
+< !----------------------------------	
+---
+> !----------------------------------     
+937c937
+< !FAILS CF25 standard_name:     equivalent_thickness_at_stp_of_troposphere_ozone_content
+---
+> standard_name:     equivalent_thickness_at_stp_of_troposphere_ozone_content
+1144c1144
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission
+1191c1191
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production
+1238c1238
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_black_carbon_dry_aerosol_due_to_emission
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_black_carbon_dry_aerosol_due_to_emission
+1382c1382
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_sulfur_dioxide_due_to_emission
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_sulfur_dioxide_due_to_emission
+1430c1430
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_sulfate_dry_aerosol_due_to_emission
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_sulfate_dry_aerosol_due_to_emission
+1550c1550
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_wet_deposition
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_wet_deposition
+1646c1646
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_ammonia_due_to_emission
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_ammonia_due_to_emission
+1909c1909
+< !FAILS CF25 standard_name:     effective_radius_of_cloud_ice_particle_at_ice_cloud_top
+---
+> standard_name:     effective_radius_of_cloud_ice_particle_at_ice_cloud_top
+2028c2028
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_non_methane_volatile_organic_compounds_as_carbon_due_to_emission
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_non_methane_volatile_organic_compounds_as_carbon_due_to_emission
+2052c2052
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_non_methane_volatile_organic_compounds_expressed_as_carbon_due_to_emission_from_vegetation
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_non_methane_volatile_organic_compounds_expressed_as_carbon_due_to_emission_from_vegetation
+2070c2070
+< variable_entry:    emibisop
+---
+> variable_entry:    emiisop
+2076c2076
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_isoprene_due_to_emission_from_vegetation
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_isoprene_due_to_emission_from_vegetation
+2100c2100
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_non_methane_volatile_organic_compounds_as_carbon_due_to_emission
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_non_methane_volatile_organic_compounds_as_carbon_due_to_emission
+2124c2124
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_carbon_monoxide_due_to_emission
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_carbon_monoxide_due_to_emission
+2148c2148
+< !FAILS CF25 standard_name:     atmosphere_aerosol_asymmetry_parameter 
+---
+> standard_name:     atmosphere_aerosol_asymmetry_parameter 
+2240c2240
+< !FAILS CF25 standard_name:     atmosphere_optical_thickness_due_to_sulfate_ambient_aerosol
+---
+> standard_name:     atmosphere_optical_thickness_due_to_sulfate_ambient_aerosol
+2309c2309
+< !FAILS CF25 standard_name:     atmosphere_optical_thickness_due_to_secondary_particulate_organic_matter_ambient_aerosol
+---
+> standard_name:     atmosphere_optical_thickness_due_to_secondary_particulate_organic_matter_ambient_aerosol
+2332c2332
+< !FAILS CF25 standard_name:     atmosphere_optical_thickness_due_to_biomass_burning_ambient_aerosol
+---
+> standard_name:     atmosphere_optical_thickness_due_to_biomass_burning_ambient_aerosol
+2355c2355
+< !FAILS CF25 standard_name:     atmosphere_optical_thickness_due_to_nitrate_ambient_aerosol
+---
+> standard_name:     atmosphere_optical_thickness_due_to_nitrate_ambient_aerosol
+2447c2447
+< !FAILS CF25 standard_name:     aerosol_growth_factor_at_90_percent_relative_humidity
+---
+> standard_name:     aerosol_growth_factor_at_90_percent_relative_humidity
+2470c2470
+< !FAILS CF25 standard_name:     toa_instantaneous_longwave_forcing_due_to_clouds_with_reference_composition
+---
+> standard_name:     toa_instantaneous_longwave_forcing_due_to_clouds_with_reference_composition
+2493c2493
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_clouds_with_reference_composition
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_clouds_with_reference_composition
+2516c2516
+< !FAILS CF25 standard_name:     liquid_water_cloud_area_fraction
+---
+> standard_name:     liquid_water_cloud_area_fraction
+2539c2539
+< !FAILS CF25 standard_name:     ice_cloud_area_fraction
+---
+> standard_name:     ice_cloud_area_fraction
+2677c2677
+< !FAILS CF25 standard_name:     number_concentration_of_ambient_aerosol_in_air_at_liquid_water_cloud_top
+---
+> standard_name:     number_concentration_of_ambient_aerosol_in_air_at_liquid_water_cloud_top
+2723c2723
+< !FAILS CF25 standard_name:     potential_temperature_difference_between_700hPa_and_1000hPa
+---
+> standard_name:     potential_temperature_difference_between_700hPa_and_1000hPa
+2938c2938
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_methane
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_methane
+2961c2961
+< !FAILS CF25 standard_name:     toa_instantaneous_longwave_forcing_due_to_methane
+---
+> standard_name:     toa_instantaneous_longwave_forcing_due_to_methane
+2984c2984
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_nitrous_oxide
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_nitrous_oxide
+3007c3007
+< !FAILS CF25 standard_name:     toa_instantaneous_longwave_forcing_due_to_nitrous_oxide
+---
+> standard_name:     toa_instantaneous_longwave_forcing_due_to_nitrous_oxide
+3030c3030
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_halocarbons
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_halocarbons
+3053c3053
+< !FAILS CF25 standard_name:     toa_instantaneous_longwave_forcing_due_to_halocarbons
+---
+> standard_name:     toa_instantaneous_longwave_forcing_due_to_halocarbons
+3076c3076
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_ozone
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_ozone
+3099c3099
+< !FAILS CF25 standard_name:     toa_instantaneous_longwave_forcing_due_to_ozone
+---
+> standard_name:     toa_instantaneous_longwave_forcing_due_to_ozone
+3122c3122
+< !FAILS CF25 standard_name:     tropopause_instantaneous_shortwave_forcing_due_to_ozone
+---
+> standard_name:     tropopause_instantaneous_shortwave_forcing_due_to_ozone
+3145c3145
+< !FAILS CF25 standard_name:     tropopause_instantaneous_longwave_forcing_due_to_ozone
+---
+> standard_name:     tropopause_instantaneous_longwave_forcing_due_to_ozone
+3168c3168
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_sulfate_ambient_aerosol
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_sulfate_ambient_aerosol
+3191c3191
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_black_carbon_ambient_aerosol_from_fossil_fuels
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_black_carbon_ambient_aerosol_from_fossil_fuels
+3214c3214
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_black_carbon_ambient_aerosol_from_fossil_fuels_assuming_clear_sky
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_black_carbon_ambient_aerosol_from_fossil_fuels_assuming_clear_sky
+3237c3237
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_particulate_organic_matter_ambient_aerosol_from_fossil_fuels 
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_particulate_organic_matter_ambient_aerosol_from_fossil_fuels 
+3260c3260
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_particulate_organic_matter_ambient_aerosol_from_fossil_fuels_assuming_clear_sky
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_particulate_organic_matter_ambient_aerosol_from_fossil_fuels_assuming_clear_sky
+3283c3283
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_biomass_burning_ambient_aerosol
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_biomass_burning_ambient_aerosol
+3306c3306
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_biomass_burning_ambient_aerosol_assuming_clear_sky
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_biomass_burning_ambient_aerosol_assuming_clear_sky
+3329c3329
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_secondary_particulate_organic_matter_ambient_aerosol
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_secondary_particulate_organic_matter_ambient_aerosol
+3352c3352
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_nitrate_ambient_aerosol
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_nitrate_ambient_aerosol
+3375c3375
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_seasalt_ambient_aerosol
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_seasalt_ambient_aerosol
+3398c3398
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_dust_ambient_aerosol
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_dust_ambient_aerosol
+3421c3421
+< !FAILS CF25 standard_name:     toa_instantaneous_longwave_forcing_due_to_dust_ambient_aerosol
+---
+> standard_name:     toa_instantaneous_longwave_forcing_due_to_dust_ambient_aerosol
+3444c3444
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_dust_ambient_aerosol_assuming_clear_sky
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_dust_ambient_aerosol_assuming_clear_sky
+3467c3467
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_ambient_aerosol
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_ambient_aerosol
+3490c3490
+< !FAILS CF25 standard_name:     toa_instantaneous_shortwave_forcing_due_to_ambient_aerosol_assuming_clear_sky
+---
+> standard_name:     toa_instantaneous_shortwave_forcing_due_to_ambient_aerosol_assuming_clear_sky
+3513c3513
+< !FAILS CF25 standard_name:     toa_instantaneous_longwave_forcing_due_to_ambient_aerosol
+---
+> standard_name:     toa_instantaneous_longwave_forcing_due_to_ambient_aerosol
+3536c3536
+< !FAILS CF25 standard_name:     toa_instantaneous_longwave_forcing_due_to_ambient_aerosol_assuming_clear_sky
+---
+> standard_name:     toa_instantaneous_longwave_forcing_due_to_ambient_aerosol_assuming_clear_sky
+3583c3583
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_nox_expressed_as_nitrogen_due_to_emission
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_nox_expressed_as_nitrogen_due_to_emission
+3655c3655
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_all_nitrogen_oxides_due_to_dry_deposition.   
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_all_nitrogen_oxides_due_to_dry_deposition.   
+3703c3703
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_all_nitrogen_oxides_due_to_wet_deposition
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_all_nitrogen_oxides_due_to_wet_deposition
+3727c3727
+< !FAILS CF25 standard_name:     lightning_flash_rate
+---
+> standard_name:     lightning_flash_rate
+3750c3750
+< !FAILS CF25 standard_name:     tendency_of_troposphere_mass_content_of_ozone_due_to_chemistry
+---
+> standard_name:     tendency_of_troposphere_mass_content_of_ozone_due_to_chemistry
+3773c3773
+< !FAILS CF25 standard_name:     tendency_of_lower_stratosphere_mass_content_of_ozone_due_to_chemistry
+---
+> standard_name:     tendency_of_lower_stratosphere_mass_content_of_ozone_due_to_chemistry
+3796c3796
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_expressed_as_carbon_due_to_emission
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_expressed_as_carbon_due_to_emission
+3916c3916
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_particulate_organic_matter_as_dry_aerosol_due_to_emission
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_particulate_organic_matter_as_dry_aerosol_due_to_emission
+3940c3940
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_secondary_particulate_organic_matter_as_dry_aerosol_due_to_emission
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_anthropogenic_secondary_particulate_organic_matter_as_dry_aerosol_due_to_emission
+3988c3988
+< !FAILS CF25 standard_name:     vegetation_area_fraction_by_specified_category
+---
+> standard_name:     vegetation_area_fraction_by_specified_category
+3997c3997
+< dimensions:        longitude latitude vgidx time 
+---
+> dimensions:        longitude latitude time vgidx
+4051c4051
+< variable_entry:    gsto
+---
+> variable_entry:    g_sto
+4057c4057
+< !FAILS CF25 standard_name:     stomatal_conductance_of_water_vapour_per_unit_leaf_area
+---
+> standard_name:     stomatal_conductance_of_water_vapour_per_unit_leaf_area
+4126c4126
+< !FAILS CF25 standard_name:     downward_mass_flux_ozone_at_tropopause
+---
+> standard_name:     downward_mass_flux_ozone_at_tropopause
+4173c4173
+< !FAILS CF25 standard_name:     air_pressure_at_model_level_interface
+---
+> standard_name:     air_pressure_at_model_level_interface
+4397c4397
+< variable_entry:    mnstrage
+---
+> variable_entry:    mean_age
+4794c4794
+< !FAILS CF25 standard_name:     tendency_of_mole_concentration_of_O1D_due_to_chemical_gross_production
+---
+> standard_name:     tendency_of_mole_concentration_of_O1D_due_to_chemical_gross_production
+4817c4817
+< !FAILS CF25 standard_name:     tendency_of_mole_concentration_of_hydroxyl_radical_due_to_chemical_gross_production
+---
+> standard_name:     tendency_of_mole_concentration_of_hydroxyl_radical_due_to_chemical_gross_production
+4840c4840
+< !FAILS CF25 standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_production_by_HO2_plus_NO
+---
+> standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_production_by_HO2_plus_NO
+4863c4863
+< !FAILS CF25 standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_production_by_CH3O2_plus_NO
+---
+> standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_production_by_CH3O2_plus_NO
+4886c4886
+< !FAILS CF25 standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_production_by_RO2_plus_NO
+---
+> standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_production_by_RO2_plus_NO
+4909c4909
+< !FAILS CF25 standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_destruction_by_OH
+---
+> standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_destruction_by_OH
+4932c4932
+< !FAILS CF25 standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_destruction_by_HO2
+---
+> standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_destruction_by_HO2
+4955c4955
+< !FAILS CF25 standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_destruction_by_alkenes
+---
+> standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_destruction_by_alkenes
+4978c4978
+< !FAILS CF25 standard_name:     tendency_of_mole_concentration_of_methane_due_to_chemical_gross_destruction
+---
+> standard_name:     tendency_of_mole_concentration_of_methane_due_to_chemical_gross_destruction
+5001c5001
+< !FAILS CF25 standard_name:     tendency_of_mole_concentration_of_carbon_monoxide_due_to_chemical_gross_destruction
+---
+> standard_name:     tendency_of_mole_concentration_of_carbon_monoxide_due_to_chemical_gross_destruction
+5024c5024
+< !FAILS CF25 standard_name:     photolysis_rate_of_ozone_to_O1D
+---
+> standard_name:     photolysis_rate_of_ozone_to_O1D
+5070c5070
+< !FAILS CF25 standard_name:     model_level_geometric_thickness
+---
+> standard_name:     model_level_geometric_thickness
+5392c5392
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_lightning
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_lightning
+5415c5415
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_gas_phase_net_chemical_production
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_gas_phase_net_chemical_production
+5438c5438
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_aqueous_phase_net_chemical_production
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_aqueous_phase_net_chemical_production
+5461c5461
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_aqueous_phase_net_chemical_production_by_Siv_plus_H2O2
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_aqueous_phase_net_chemical_production_by_Siv_plus_H2O2
+5484c5484
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_aqueous_phase_net_chemical_production_by_Siv_plus_O3
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_aqueous_phase_net_chemical_production_by_Siv_plus_O3
+5645c5645
+< !FAILS CF25 standard_name:     tendency_of_atmosphere_mass_content_of_ozone_due_to_chemistry
+---
+> standard_name:     tendency_of_atmosphere_mass_content_of_ozone_due_to_chemistry
+5662c5662
+< variable_entry:    vmrnh5
+---
+> variable_entry:    vmrnh_5
+5668c5668
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_nh-5_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_nh-5_tracer_in_air
+5685c5685
+< variable_entry:    vmrnh50
+---
+> variable_entry:    vmrnh_50
+5691c5691
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_nh-50_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_nh-50_tracer_in_air
+5708c5708
+< variable_entry:    vmrnh50w
+---
+> variable_entry:    vmrnh_50w
+5714c5714
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_nh-50w_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_nh-50w_tracer_in_air
+5731c5731
+< variable_entry:    vmraoanh
+---
+> variable_entry:    aoa_nh
+5737c5737
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_aoa-nh_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_aoa-nh_tracer_in_air
+5754c5754
+< variable_entry:    vmrst8025
+---
+> variable_entry:    vmrst80_25
+5760c5760
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_st80-25_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_st80-25_tracer_in_air
+5777c5777
+< variable_entry:    vmrco25
+---
+> variable_entry:    vmrco_25
+5783c5783
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_co-25_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_co-25_tracer_in_air
+5800c5800
+< variable_entry:    vmrco50
+---
+> variable_entry:    vmrco_50
+5806c5806
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_co-50_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_co-50_tracer_in_air
+5823c5823
+< variable_entry:    vmrco50ea
+---
+> variable_entry:    vmrco_50ea
+5829c5829
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_co-50ea_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_co-50ea_tracer_in_air
+5846c5846
+< variable_entry:    vmrco50na
+---
+> variable_entry:    vmrco_50na
+5852c5852
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_co-50na_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_co-50na_tracer_in_air
+5869c5869
+< variable_entry:    vmrco50eu
+---
+> variable_entry:    vmrco_50eu
+5875c5875
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_co-50eu_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_co-50eu_tracer_in_air
+5892c5892
+< variable_entry:    vmrco50sa
+---
+> variable_entry:    vmrco_50sa
+5898c5898
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_co-50sa_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_co-50sa_tracer_in_air
+5921c5921
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_so2t_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_so2t_tracer_in_air
+5944c5944
+< !FAILS CF25 standard_name:     mole_fraction_of_stratospheric_ozone_tracer_in_air
+---
+> standard_name:     mole_fraction_of_stratospheric_ozone_tracer_in_air
+5967c5967
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_SF6_in_air
+---
+> standard_name:     mole_fraction_of_specified_SF6_in_air
+5984c5984
+< variable_entry:    altaoa
+---
+> variable_entry:    aoa
+6013c6013
+< !FAILS CF25 standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_production
+---
+> standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_production
+6036c6036
+< !FAILS CF25 standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_loss
+---
+> standard_name:     tendency_of_mole_concentration_of_ozone_due_to_chemical_loss
+6059c6059
+< !FAILS CF25 standard_name:     photolysis_rate_of_NO2
+---
+> standard_name:     photolysis_rate_of_NO2
+6082c6082
+< !FAILS CF25 standard_name:     rate_of_o1d_reaction_with_h2o
+---
+> standard_name:     rate_of_o1d_reaction_with_h2o
+6105c6105
+< !FAILS CF25 standard_name:     total_rate_of_hydroxyl_loss_reactions
+---
+> standard_name:     total_rate_of_hydroxyl_loss_reactions
+6128c6128
+< !FAILS CF25 standard_name:     rate_of_h2o2_production_from_ho2_self_reaction
+---
+> standard_name:     rate_of_h2o2_production_from_ho2_self_reaction
+6151c6151
+< !FAILS CF25 standard_name:     rate_of_hno3_production_from_hydroxyl_reaction_with_no2
+---
+> standard_name:     rate_of_hno3_production_from_hydroxyl_reaction_with_no2
+6174c6174
+< !FAILS CF25 standard_name:     chemical_production_rate_of_all_peroxides
+---
+> standard_name:     chemical_production_rate_of_all_peroxides
+6191c6191
+< variable_entry:    hno3hetprod
+---
+> variable_entry:    hno3_hetprod
+6197c6197
+< !FAILS CF25 standard_name:     chemical_loss_rate_of_n2o5_by_heterogeneous_reactions
+---
+> standard_name:     chemical_loss_rate_of_n2o5_by_heterogeneous_reactions
+6220c6220
+< !FAILS CF25 standard_name:     reaction_rate_of_hydroxyl_reaction_with_so2
+---
+> standard_name:     reaction_rate_of_hydroxyl_reaction_with_so2
+6243c6243
+< !FAILS CF25 standard_name:     total_reaction_rate_of_no_with_peroxy_radicals
+---
+> standard_name:     total_reaction_rate_of_no_with_peroxy_radicals
+6266c6266
+< !FAILS CF25 standard_name:     reaction_rate_of_no3_with_peroxy_radicals
+---
+> standard_name:     reaction_rate_of_no3_with_peroxy_radicals
+6289c6289
+< !FAILS CF25 standard_name:     reaction_rate_of_peroxy_radicals_with_ho2
+---
+> standard_name:     reaction_rate_of_peroxy_radicals_with_ho2
+6312c6312
+< !FAILS CF25 standard_name:     total_reaction_rate_of_peroxy_radical_self_reaction
+---
+> standard_name:     total_reaction_rate_of_peroxy_radical_self_reaction
+6335c6335
+< !FAILS CF25 standard_name:     total_reaction_rate_of_no2_with_peroxyacyl_radicals
+---
+> standard_name:     total_reaction_rate_of_no2_with_peroxyacyl_radicals
+6427c6427
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_o3ste_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_o3ste_tracer_in_air
+6432c6432
+< comment:           Ozone tracer intended to map out STE of ozone:  (a) set o3ste to O3 at top layer; (b) use standard O3 P-L terms to change o3ste every chemistry time step for 'stratospheric' air grid boxes; (c) reset o3ste to O3 in the lowermost layers (fix these layers to be up to sigma=0.9, ~1 km altitude) and record this tropospheric reset only as a 2-D (lat,long) monthly mean tendency (Tg/s or Tg per month pergird cell).  Determine 'statropsheric' air in any way that is most convenient (e90, O3, PV-theta, etc).
+---
+> comment:           Ozone tracer intended to map out strat-trop exchange (STE) of ozone:  (a) set o3ste to O3 at top layer; (b) use standard O3 P-L terms to change o3ste every chemistry time step for 'stratospheric' air grid boxes; (c) reset o3ste to O3 in the lowermost layers (fix these layers to be up to sigma=0.9, ~1 km altitude) and record this tropospheric reset only as a 2-D (lat,long) monthly mean tendency (Tg/s or Tg per month pergird cell).  Determine 'statropsheric' air in any way that is most convenient (e90, O3, PV-theta, etc).
+6450c6450
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_e90_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_e90_tracer_in_air
+6473c6473
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_e90n_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_e90n_tracer_in_air
+6496c6496
+< !FAILS CF25 standard_name:     mole_fraction_of_specified_e90s_tracer_in_air
+---
+> standard_name:     mole_fraction_of_specified_e90s_tracer_in_air
+6521a6522
+> cell_measures:     area: areacella
+6543a6545
+> cell_measures:     area: areacella
+6565a6568
+> cell_measures:     area: areacella
+6587a6591
+> cell_measures:     area: areacella
+6609a6614
+> cell_measures:     area: areacella
+6631a6637
+> cell_measures:     area: areacella
+6653a6660
+> cell_measures:     area: areacella
+6675a6683
+> cell_measures:     area: areacella
+6689c6697
+< variable_entry:    zmmnstrage
+---
+> variable_entry:    zmmean_age
+6697a6706
+> cell_measures:     area: areacella
+6719a6729
+> cell_measures:     area: areacella
+6741a6752
+> cell_measures:     area: areacella
+6755c6766
+< variable_entry:    zmccl4
+---
+> variable_entry:    zmccl3
+6763a6775
+> cell_measures:     area: areacella
+6785a6798
+> cell_measures:     area: areacella
+6807a6821
+> cell_measures:     area: areacella
+6829a6844
+> cell_measures:     area: areacella
+6851a6867
+> cell_measures:     area: areacella
+6873a6890
+> cell_measures:     area: areacella
+6895a6913
+> cell_measures:     area: areacella
+6917a6936
+> cell_measures:     area: areacella
+6939a6959
+> cell_measures:     area: areacella
+6961a6982
+> cell_measures:     area: areacella
+6981c7002
+< !FAILS CF25 standard_name:     mole_fraction_of_methylene_bromide_in_air
+---
+> standard_name:     mole_fraction_of_methylene_bromide_in_air
+6983a7005
+> cell_measures:     area: areacella
+7003c7025
+< !FAILS CF25 standard_name:     mole_fraction_of_bromoform_in_air
+---
+> standard_name:     mole_fraction_of_bromoform_in_air
+7005a7028
+> cell_measures:     area: areacella
+7027a7051
+> cell_measures:     area: areacella
+7049a7074
+> cell_measures:     area: areacella
+7071a7097
+> cell_measures:     area: areacella
+7093a7120
+> cell_measures:     area: areacella
+7115a7143
+> cell_measures:     area: areacella
+7137a7166
+> cell_measures:     area: areacella
+7159a7189
+> cell_measures:     area: areacella
+7181a7212
+> cell_measures:     area: areacella
+7203a7235
+> cell_measures:     area: areacella
+7225a7258
+> cell_measures:     area: areacella
+7238a7272,7294
+> variable_entry:    zmclono2
+> !============
+> modeling_realm:     atmos
+> !----------------------------------
+> ! Variable attributes:
+> !----------------------------------
+> standard_name:     mole_fraction_of_chlorine_nitrate_in_air
+> units:             mole mole-1
+> cell_methods:      time: mean longitude: mean
+> cell_measures:     area: areacella
+> long_name:         Zonal Mean ClONO2 Volume Mixing Ratio
+> comment:           
+> !----------------------------------
+> ! Additional variable information:
+> !----------------------------------
+> dimensions:        longitude latitude plevs time
+> type:              real
+> valid_min:         0.0
+> valid_max:         1.0
+> !----------------------------------
+> !
+> 
+> !============
+7247a7304
+> cell_measures:     area: areacella
+7269a7327
+> cell_measures:     area: areacella
+7291a7350
+> cell_measures:     area: areacella
+7313a7373
+> cell_measures:     area: areacella
+7335a7396
+> cell_measures:     area: areacella
+7357a7419
+> cell_measures:     area: areacella
+7379a7442
+> cell_measures:     area: areacella
+7401a7465
+> cell_measures:     area: areacella
+7423a7488
+> cell_measures:     area: areacella
+7445a7511
+> cell_measures:     area: areacella
+7467a7534
+> cell_measures:     area: areacella
+7489a7557
+> cell_measures:     area: areacella
+7511a7580
+> cell_measures:     area: areacella
+7533a7603
+> cell_measures:     area: areacella
+7555a7626
+> cell_measures:     area: areacella
+7577a7649
+> cell_measures:     area: areacella
+7599a7672
+> cell_measures:     area: areacella
+7621a7695
+> cell_measures:     area: areacella
+7635c7709
+< variable_entry:    acceldivf
+---
+> variable_entry:    accel_divf
+7643a7718
+> cell_measures:     area: areacella
+7665a7741
+> cell_measures:     area: areacella
+7685c7761
+< !FAILS CF25 standard_name:     upward_transformed_eulerian_mean_air_velocity
+---
+> standard_name:     upward_transformed_eulerian_mean_air_velocity
+7687a7764
+> cell_measures:     area: areacella
+7701c7778
+< variable_entry:    accelgw
+---
+> variable_entry:    accel_gw
+7709a7787
+> cell_measures:     area: areacella
+7723c7801
+< variable_entry:    accelogw
+---
+> variable_entry:    accel_ogw
+7731a7810
+> cell_measures:     area: areacella
+7745c7824
+< variable_entry:    ogwflux
+---
+> variable_entry:    ogw_flux
+7753a7833
+> cell_measures:     area: areacella
+7767c7847
+< variable_entry:    accelnogw
+---
+> variable_entry:    accel_nogw
+7775a7856
+> cell_measures:     area: areacella
+7789c7870
+< variable_entry:    nogwfluxw
+---
+> variable_entry:    nogw_w_flux
+7797a7879
+> cell_measures:     area: areacella
+7811c7893
+< variable_entry:    nogwfluxe
+---
+> variable_entry:    nogw_e_flux
+7819a7902
+> cell_measures:     area: areacella
+7833c7916
+< variable_entry:    diabdrag
+---
+> variable_entry:    diab_drag
+7841a7925
+> cell_measures:     area: areacella
+7863a7948
+> cell_measures:     area: areacella
+7885a7971
+> cell_measures:     area: areacella
+7907a7994
+> cell_measures:     area: areacella
+7929a8017
+> cell_measures:     area: areacella
+7951a8040
+> cell_measures:     area: areacella
+7963a8053
+> 
+@

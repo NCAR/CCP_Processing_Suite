@@ -1,0 +1,46 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2012.02.10.18.16.34;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh
+#
+# All time splitting should be done now, ready for var_splitting
+#
+CASE=A
+HIST=B
+#
+NF=`echo $CASE.$HIST.????-??.nc | wc -w`
+echo $NF
+if [ ${NF} -ne 1 ] ; then
+  for FILE in `/bin/ls $CASE.$HIST.????-??.nc` ; do
+    echo $FILE
+  done
+fi
+#
+NF=`echo $CASE.$HIST.????.nc | wc -w`
+echo $NF
+if [ ${NF} -ne 1 ] ; then
+  for FILE in `/bin/ls $CASE.$HIST.????.nc` ; do
+    echo $FILE
+  done
+fi
+#
+@

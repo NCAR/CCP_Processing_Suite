@@ -1,0 +1,1985 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2015.04.06.21.54.24;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@cmor_version:  2.6.0 ! minimum version of CMOR that can read this table
+cf_version:   1.6    ! version of CF that output conforms to
+project_id:   HTAP2    ! project id
+table_id:     HTAP2-satellite  ! table id
+table_date:   17 September 2014 ! date this table was constructed or updated
+comment:	Model documentation available via http://iek8wikis.iek.fz-juelich.de/HTAPWiki/modeldocumentation ! mandatory in the global attribute
+
+frequency: 1 hr instantaneous
+
+approx_interval:  ! approximate spacing between successive time
+                          !   samples (in units:: of the output time 
+                          !   coordinate)
+
+baseURL: http://iek8wikis.iek.fz-juelich.de/HTAPWiki/WP2.2 http://iek8wikis.iek.fz-juelich.de/HTAPWiki/HTAP-2-data-submission http://iek8wikis.iek.fz-juelich.de/HTAPWiki/modeldocumentation
+
+required_global_attributes: creation_date cmor_version comment table_id project_id contact parent_experiment forcing experiment_id model_id source institute_id institution Conventions realization title
+
+expt_id_ok: 'BASE'
+expt_id_ok: 'GLOFIR0'
+expt_id_ok: 'GLOFIR1'
+expt_id_ok: 'GLOFIR0p5'
+expt_id_ok: 'GLOFIR2'
+expt_id_ok: 'GLOFIR5'
+
+generic_levels:   alevel alev1
+
+!============
+axis_entry: longitude
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name::    longitude
+units::            degrees_east
+axis:             X             ! X, Y, Z, T (default: undeclared)
+long_name::        longitude
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:            lon
+valid_min:        -180.0         
+valid_max:        +180.0 
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+!============
+axis_entry: latitude
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name::    latitude
+units::            degrees_north
+axis:             Y             ! X, Y, Z, T (default: undeclared)
+long_name::        latitude
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:            lat
+valid_min:        -90.0         
+valid_max:        90.0 
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+!============
+axis_entry: time
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name::    time
+units::            days since  2001-01-01 00:00:00
+axis:             T             ! X, Y, Z, T (default: undeclared)
+long_name::        time
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:            time
+valid_min:        -8000.         
+valid_max:        8000. 
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+!============
+axis_entry: alev1
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+axis:             Z             ! X, Y, Z, T (default: undeclared)
+long_name::        lowest atmospheric model level
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:            lev
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+index_only:       ok
+!----------------------------------
+!
+
+!============
+axis_entry: smooth_level
+!============
+!
+! This coordinate is a hybrid height coordinate with units:: of meters (m).
+!  It increases upward.
+!  The values of a(k)*ztop, which appear in the formula below, should be stored as smooth_level. 
+!  Note that in the netCDF file the variable will be named "lev", not smooth_level.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name::    atmosphere_sleve_coordinate
+units::            m
+axis:             Z
+positive:	      up
+long_name::        atmosphere smooth level vertical (SLEVE) coordinate
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:            lev
+must_have_bounds: yes
+stored_direction: increasing
+valid_min:        -200.
+valid_max:        800000.
+formula:          z = a*ztop + b1*zsurf1 + b2*zsurf2
+z_factors:        a: a b1: b1 b2: b2 ztop: ztop zsurf1: zsurf1 zsurf2: zsurf2
+z_bounds_factors: a: a_bnds b1: b1_bnds b2: b2_bnds ztop: ztop zsurf1: zsurf1 zsurf2: zsurf2
+!----------------------------------	
+!
+
+!============
+axis_entry: natural_log_pressure
+!============
+!
+!This coordinate is dimensionless and varies from near 0 at the surface and increases upward.
+!  The values of lev(k), which appears in the formula below, should be stored as natural_log_pressure.  
+!  Note that in the netCDF file the variable will be named "lev", not natural_log_pressure.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name::    atmosphere_ln_pressure_coordinate
+axis:             Z
+long_name::        atmosphere natural log pressure coordinate
+positive:	      down
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:            lev
+must_have_bounds: yes
+stored_direction: decreasing
+valid_min:        -1.
+valid_max:        20.
+formula:          p = p0 * exp(-lev)
+z_factors:        p0: p0 lev: lev
+z_bounds_factors: p0: p0 lev: lev_bnds
+!----------------------------------	
+!
+
+!============
+axis_entry: standard_sigma
+!============
+!
+! This coordinate is dimensionless and varies from 0 at the model top to 1.0 at the surface.
+!  The values of sigma(k), which appears in the formula below, should be stored as standard_sigma.  
+!  Note that in the netCDF file the variable will be named "lev", not standard_sigma.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name::    atmosphere_sigma_coordinate
+axis:             Z
+positive:         down
+long_name::        sigma coordinate
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:            lev
+must_have_bounds: yes
+stored_direction: decreasing
+valid_min:        0.0
+valid_max:        1.0
+formula:          p(n,k,j,i) = ptop + sigma(k)*(ps(n,j,i) - ptop)
+z_factors:        ptop: ptop sigma: lev ps: ps
+z_bounds_factors: ptop: ptop sigma: lev_bnds ps: ps
+!----------------------------------	
+!
+!
+
+!============
+axis_entry:  standard_hybrid_sigma
+!============
+!
+! This coordinate is dimensionless and varies from a small value at the model top to 1.0 at the surface.
+!  The values of a+ b, which appear in the formula below, should be stored as standard_hybrid_sigma.  
+!  Note that in the netCDF file the variable will be named "lev", not standard_hybrid_sigma.
+!
+!---------------------------------
+! Axis attributes:
+!----------------------------------	
+standard_name::    atmosphere_hybrid_sigma_pressure_coordinate
+units::            1
+axis:             Z 
+positive:         down
+long_name::        hybrid sigma pressure coordinate
+!----------------------------------
+! Additional axis information:
+!----------------------------------	
+out_name:            lev
+must_have_bounds: yes
+stored_direction: decreasing
+valid_min:        0.0
+valid_max:        1.0
+formula:          p(n,k,j,i) = a(k)*p0 + b(k)*ps(n,j,i)
+z_factors:        p0: p0 a: a b: b ps: ps
+z_bounds_factors: p0: p0 a: a_bnds b: b_bnds ps: ps
+!----------------------------------		
+!
+!
+
+!============
+axis_entry:  alternate_hybrid_sigma
+!============
+!
+! This coordinate is dimensionless and varies from a small value at the model top to 1.0 at the surface.
+!  The values of ap/p0 + b, which appear in the formula below, should be stored as alternate_hybrid_sigma.  
+!  Note that in the netCDF file the variable will be named "lev", not alternate_hybrid_sigma.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name::    atmosphere_hybrid_sigma_pressure_coordinate
+units::            1
+axis:             Z
+positive:         down
+long_name::        hybrid sigma pressure coordinate
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:            lev
+must_have_bounds: yes
+stored_direction: decreasing
+valid_min:        0.0
+valid_max:        1.0
+formula:          p(n,k,j,i) = ap(k) + b(k)*ps(n,j,i)
+z_factors:        ap: ap b: b ps: ps
+z_bounds_factors: ap: ap_bnds b: b_bnds ps: ps
+!----------------------------------		
+!
+!
+
+!============
+axis_entry:  hybrid_height
+!============
+!
+! This coordinate has dimension of meters (m) and increases upward.
+!  The values of a which appear in the formula below, should be stored as hybrid_height.  
+!  Note that in the netCDF file the variable will be named "lev", not hybrid_height.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name::    atmosphere_hybrid_height_coordinate
+units::            m
+axis:             Z 
+positive:         up
+long_name::        hybrid height coordinate
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:            lev
+must_have_bounds: yes
+stored_direction: increasing
+valid_min:        -700
+valid_max:        50000
+formula:          z(k,j,i) = a(k) + b(k)*orog(j,i)
+z_factors:        a: lev b: b orog: orog
+z_bounds_factors: a: lev_bnds b: b_bnds orog: orog
+!----------------------------------		
+!
+!
+! ***************************************************************
+!
+! Vertical coordinate formula terms:
+!
+! ***************************************************************
+!
+!
+!============
+variable_entry:    orog
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name::     surface_altitude
+units::             m
+long_name::         Surface Altitude
+comment:           height above the geoid; as defined here, ""the geoid"" is a surface of constant geopotential that, if the ocean were at rest, would coincide with mean sea level. Under this definition, the geoid changes as the mean volume of the ocean changes (e.g., due to glacial melt, or global warming of the ocean).  Report here the height above the present-day geoid.  Over ocean, report as 0.0
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude
+out_name:             orog
+type:              float
+valid_min:         -700
+valid_max:         1.00E+04
+!----------------------------------
+!
+!
+!============
+variable_entry: p0
+!============
+!------------
+!
+! Variable attributes:
+!----------------------------------
+standard_name::     model_reference_air_pressure	
+long_name::       vertical coordinate formula term: reference pressure 
+units::           Pa
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+out_name:             p0
+type:              float
+valid_min:         20000
+valid_max:         150000
+!----------------------------------
+!
+!
+!============
+variable_entry: ptop
+!============
+!
+!------------
+!
+! Variable attributes:
+!----------------------------------
+standard_name::     model_top_air_pressure		
+long_name::       vertical coordinate formula term: pressure at model top 
+units::           Pa
+type:              float
+valid_min:         1
+valid_max:         50000
+!----------------------------------
+!
+!
+!
+!============
+variable_entry: a
+!============
+!------------
+!
+! Variable attributes:
+!----------------------------------	
+long_name::   vertical coordinate formula term: a(k)
+!----------------------------------	
+!
+! Additional variable information:
+!----------------------------------	
+dimensions:         alevel
+type:               double
+!----------------------------------	
+!
+!
+!============
+variable_entry: b
+!============
+!------------
+!
+! Variable attributes:
+!----------------------------------	
+long_name::  vertical coordinate formula term: b(k)
+!----------------------------------	
+!
+! Additional variable information:
+!----------------------------------	
+dimensions:         alevel
+type:               double
+!----------------------------------	
+!
+!
+!============
+variable_entry: a_bnds
+!============
+!
+!------------
+!
+! Variable attributes:
+!----------------------------------	
+long_name::  vertical coordinate formula term: a(k+1/2)
+!----------------------------------	
+!
+! Additional variable information:
+!----------------------------------	
+dimensions:         alevel
+type:               double
+!----------------------------------	
+!
+!
+!============
+variable_entry: b_bnds
+!============
+!
+!------------
+!
+! Variable attributes:
+!----------------------------------	
+long_name::  vertical coordinate formula term: b(k+1/2)
+!----------------------------------	
+!
+! Additional variable information:
+!----------------------------------	
+dimensions:         alevel
+type:               double
+!----------------------------------
+!
+!
+!============
+variable_entry: ap
+!============
+!
+! Variable attributes:
+!----------------------------------	
+long_name:: alternate hybrid sigma vertical coordinate formula term: ap(k)
+units::           Pa
+!----------------------------------	
+!
+! Additional variable information:
+!----------------------------------	
+dimensions:         alevel
+type:               double
+valid_min:         1
+valid_max:         150000
+!----------------------------------	
+!
+!
+!============
+variable_entry: ap_bnds
+!============
+!
+! Variable attributes:
+!----------------------------------	
+long_name:: alternate hybrid sigma vertical coordinate formula term: ap(k+1/2)
+units::           Pa
+!----------------------------------	
+!
+! Additional variable information:
+!----------------------------------	
+dimensions:         alevel
+type:               double
+valid_min:         1
+valid_max:         150000
+!----------------------------------	
+!
+!
+!============
+variable_entry: ztop
+!============
+!
+!------------
+!
+! Variable attributes:
+!----------------------------------	
+long_name::       height of top of model 
+units::           m
+!----------------------------------	
+!
+!
+!============
+variable_entry: ps
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name::  surface_air_pressure
+units::         Pa
+cell_methods:     time: mean
+long_name::        Surface Air Pressure
+comment:      not, in general, the same as mean sea-level pressure
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:    longitude latitude time
+out_name:     ps
+type:      float
+valid_min:   30000
+valid_max:   150000
+!----------------------------------
+!
+!
+!************************************************************************ 
+!
+!                       HTAP Satellite Time Table
+!
+!************************************************************************ !
+!============
+variable_entry:	vmro3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_ozone_in_air
+units:	mole mole-1
+long_name:	O3 Volume Mixing Ratio
+comment:	at 13:30 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmro3
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	vmro3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_ozone_in_air
+units:	mole mole-1
+long_name:	O3 Volume Mixing Ratio
+comment:	at 01:30 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmro3
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	vmrno2
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_nitrogen_dioxide_in_air
+units:	mole mole-1
+long_name:	NO2 Volume Mixing Ratio
+comment:	at 10:00 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmrno2
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	vmrno2
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_nitrogen_dioxide_in_air
+units:	mole mole-1
+long_name:	NO2 Volume Mixing Ratio
+comment:	at 13:30 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmrno2
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	vmrnh3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_ammonia_in_air
+units:	mole mole-1
+long_name:	NH3 Volume Mixing Ratio
+comment:	at 10:00 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmrnh3
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	vmrnh3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_ammonia_in_air
+units:	mole mole-1
+long_name:	NH3 Volume Mixing Ratio
+comment:	at 01:30 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmrnh3
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	vmrnh3
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_ammonia_in_air
+units:	mole mole-1
+long_name:	NH3 Volume Mixing Ratio
+comment:	at 13:30 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmrnh3
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	vmrso2
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_sulfur_dioxide_in_air
+units:	mole mole-1
+long_name:	SO2 Volume Mixing Ratio
+comment:	at 10:00 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmrso2
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	vmrhcho
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_formaldehyde_in_air
+units:	mole mole-1
+long_name:	CH2O Volume Mixing Ratio
+comment:	at 10:00 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmrhcho
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	vmrco
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_carbon_monoxide_in_air
+units:	mole mole-1
+long_name:	CO Volume Mixing Ratio
+comment:	at 10:00 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmrco
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	vmrco
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_carbon_monoxide_in_air
+units:	mole mole-1
+long_name:	CO Volume Mixing Ratio
+comment:	at 13:30 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmrco
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	vmrco
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_carbon_monoxide_in_air
+units:	mole mole-1
+long_name:	CO Volume Mixing Ratio
+comment:	at 21:30 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmrco
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	vmrco
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_carbon_monoxide_in_air
+units:	mole mole-1
+long_name:	CO Volume Mixing Ratio
+comment:	at 01:30 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmrco
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	vmrcodirect50d
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_synthetic_tracer_with_fixed_lifetime_in_air
+units:	mole mole-1
+long_name:	CO with lifetime of 50 days Volume Mixing Ratio 
+comment:	Tracer_lifetime : 50 days. At 13:30 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmrcodirect50d
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	vmrcodirect25d
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mole_fraction_of_synthetic_tracer_with_fixed_lifetime_in_air
+units:	mole mole-1
+long_name:	CO with lifetime of 25 days Volume Mixing Ratio
+comment:	Tracer_lifetime : 25 days. At 13:30 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: vmrcodirect25d
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	mmrpm2p5
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mass_fraction_of_pm2p5_dry_aerosol_particles_in_air
+units:	kg kg-1
+long_name:	PM2.5 Mass Mixing Ratio
+comment:	at 13:30 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: mmrpm2p5
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	mmrpm2p5
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	mass_fraction_of_pm2p5_dry_aerosol_particles_in_air
+units:	kg kg-1
+long_name:	PM2.5 Mass Mixing Ratio
+comment:	at 01:30 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: mmrpm2p5
+valid_min:	0.
+valid_max:	0.1
+!----------------------------------
+!
+!
+!============
+variable_entry:	ec550aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	volume_extinction_coefficient_in_air_due_to_ambient_aerosol_particles
+units:	m-1
+long_name:	Aerosol Extinction at 550nm
+comment:	at 13:30 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: ec550aer
+valid_min:	0.
+valid_max:	0.001
+!----------------------------------
+!
+!
+!============
+variable_entry:	ec550aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:	volume_extinction_coefficient_in_air_due_to_ambient_aerosol_particles
+units:	m-1
+long_name:	Aerosol Extinction at 550nm
+comment:	at 01:30 Local Solar Time (instantaneous). Priority = 1.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:	longitude latitude alevel time
+out_name: ec550aer
+valid_min:	0.
+valid_max:	0.001
+!----------------------------------
+!
+!
+!    !tlkmod+t.kucsera+mc2+vars+column+sat
+!
+!============
+variable_entry: od550aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 550 nm
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od550aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od550oa
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_organic_matter_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 550 nm Organic Matter
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od550oa
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od550bc
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_seasalt_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 550 nm black carbon
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od550bc
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od550so4
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_sulfate_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 550 nm SO4
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od550so4
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od550dust
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_dust_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 550 nm dust
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od550dust
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od550ss
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_seasalt_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 550 nm seasalt
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od550ss
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od440aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 440 nm
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od440aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od865aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 865 nm
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od865aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od870aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 870nm
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od870aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: abs550aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_absorption_optical_thickness_due_to_ambient_aerosol
+units: 1
+long_name: Absorption thickness at 550nm
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: abs550aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: abs440aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_absorption_optical_thickness_due_to_ambient_aerosol
+units: 1
+long_name: Absorption thickness at 440nm
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: abs440aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: abs870aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_absorption_optical_thickness_due_to_ambient_aerosol
+units: 1
+long_name: Absorption thickness at 870nm
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: abs870aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!     !tlkmod--
+!
+!============
+variable_entry: od550aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 550 nm
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od550aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od550oa
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_organic_matter_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 550 nm Organic Matter
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od550oa
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od550bc
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_seasalt_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 550 nm black carbon
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od550bc
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od550so4
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_sulfate_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 550 nm SO4
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od550so4
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od550dust
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_dust_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 550 nm dust
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od550dust
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od550ss
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: seasalt	atmosphere_optical_thickness_due_to_seasalt_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 550 nm
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od550ss
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od440aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 440 nm
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od440aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od865aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 865 nm
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 2
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od865aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: od870aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_optical_thickness_due_to_ambient_aerosol_particles
+units: 1
+long_name: Optical thickness at 870nm
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: od870aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: abs550aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_absorption_optical_thickness_due_to_ambient_aerosol
+units: 1
+long_name: Absorption thickness at 550nm
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: abs550aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: abs440aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_absorption_optical_thickness_due_to_ambient_aerosol
+units: 1
+long_name: Absorption thickness at 440nm
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: abs440aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: abs870aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_absorption_optical_thickness_due_to_ambient_aerosol
+units: 1
+long_name: Absorption thickness at 870nm
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: abs870aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!    !tlkmod+t.kucsera+mc2+vars+surf+sat
+!
+!============
+variable_entry: uas
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: eastward_wind
+units: m s-1
+long_name: Near surface V wind speed at 10m
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: uas
+valid_min: -150
+valid_max: 150
+!----------------------------------
+!
+!
+!============
+variable_entry: vas
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: northward_wind
+units: m s-1
+long_name: Near surface U wind speed at 10m
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: vas
+valid_min: -150
+valid_max: 150
+!----------------------------------
+!
+!
+!============
+variable_entry: was
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: upward_air_velocity
+units: m s-1
+long_name: Near surface vertical wind speed at 10m
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: was
+valid_min: -150
+valid_max: 150
+!----------------------------------
+!
+!
+!============
+variable_entry: uapbl
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: eastward_wind_at mid_level_in_boundary_layer
+units: m s-1
+long_name: U wind at middle of PBL layer
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 2
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: uapbl
+valid_min: -150
+valid_max: 150
+!----------------------------------
+!
+!
+!============
+variable_entry: vapbl
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: northward_wind_at mid_level_in_boundary_layer
+units: m s-1
+long_name: V wind at middle of PBL layer
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 2
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: vapbl
+valid_min: -150
+valid_max: 150
+!----------------------------------
+!
+!
+!============
+variable_entry: zmlay
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_boundary_layer_thickness
+units: m
+long_name: Boundary layer thickness
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 2
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: zmlay
+valid_min: 0
+valid_max: 5000
+!----------------------------------
+!
+!       !tlkmod--
+!
+!============
+variable_entry: uas
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: eastward_wind
+units: m s-1
+long_name: Near surface V wind speed at 10m
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: uas
+valid_min: -150
+valid_max: 150
+!----------------------------------
+!
+!
+!============
+variable_entry: vas
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: northward_wind
+units: m s-1
+long_name: Near surface U wind speed at 10m
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: vas
+valid_min: -150
+valid_max: 150
+!----------------------------------
+!
+!
+!============
+variable_entry: was
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: upward_air_velocity
+units: m s-1
+long_name: Near surface vertical wind speed at 10m
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: was
+valid_min: -150
+valid_max: 150
+!----------------------------------
+!
+!
+!============
+variable_entry: uapbl
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: eastward_wind_at mid_level_in_boundary_layer
+units: m s-1
+long_name: U wind at middle of PBL layer
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 2
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: uapbl
+valid_min: -150
+valid_max: 150
+!----------------------------------
+!
+!
+!============
+variable_entry: vapbl
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: northward_wind_at mid_level_in_boundary_layer
+units: m s-1
+long_name: V wind at middle of PBL layer
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 2
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: vapbl
+valid_min: -150
+valid_max: 150
+!----------------------------------
+!
+!
+!============
+variable_entry: zmlay
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_boundary_layer_thickness
+units: m
+long_name: Boundary layer thickness
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 2
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude time
+out_name: zmlay
+valid_min: 0
+valid_max: 5000
+!----------------------------------
+!
+!    !tlkmod+mmp
+!
+!============
+variable_entry: mmrso4
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_sulfate_dry_aerosol_particles_in_air
+units: kg kg-1
+long_name: SO4 Mass Mixing Ratio
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: mmrso4
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrbc
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_elemental_carbon_dry_aerosol_particles_in_air
+units: kg kg-1
+long_name: elemental Carbon Mass Mixing Ratio
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: mmrbc
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmroc
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_organic_matter_dry_aerosol_particles_expressed_as_carbon_in_air
+units: kg kg-1
+long_name: Particulate Organic Carbon Mass Mixing Ratio
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: mmroc
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmroa
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_organic_matter_dry_aerosol_particles_in_air
+units: kg kg-1
+long_name: Particulate Organic Matter Mass Mixing Ratio
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: mmroa
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrss
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_seasalt_dry_aerosol_particles_in_air
+units: kg kg-1
+long_name: Seasalt Mass Mixing Ratio
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: mmrss
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrdust
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_dust_dry_aerosol_particles_in_air
+units: kg kg-1
+long_name: Dust Mass Mixing Ratio
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: mmrdust
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrsoa
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_secondary_organic_matter_dry_aerosol_particles_in_air
+units: kg kg-1
+long_name: SOA Mass Mixing Ratio
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 2
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: mmrsoa
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: abs550aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_absorption_optical_thickness_due_to_ambient_aerosol_particles
+units: 1
+long_name: Absorption thickness at 550nm
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: abs550aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+!
+!============
+variable_entry: ec550aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: volume_extinction_coefficient_in_air_due_to_ambient_aerosol_particles
+units: m-1
+long_name: Aerosol Extinction at 550nm
+comment: at 10:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: ec550aer
+valid_min: 0
+valid_max: 0.001
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrso4
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_sulfate_dry_aerosol_particles_in_air
+units: kg kg-1
+long_name: SO4 Mass Mixing Ratio
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: mmrso4
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrbc
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_elemental_carbon_dry_aerosol_particles_in_air
+units: kg kg-1
+long_name: elemental Carbon  Mass Mixing Ratio
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: mmrbc
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmroc
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_organic_matter_dry_aerosol_particles_expressed_as_carbon_in_air
+units: kg kg-1
+long_name: Particulate Organic Carbon Mass Mixing Ratio
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: mmroc
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmroa
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_organic_matter_dry_aerosol_particles_in_air
+units: kg kg-1
+long_name: Particulate Organic Matter Mass Mixing Ratio
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: mmroa
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrss
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_seasalt_dry_aerosol_particles_in_air
+units: kg kg-1
+long_name: Seasalt Mass Mixing Ratio
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: mmrss
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrdust
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_dust_dry_aerosol_particles_in_air
+units: kg kg-1
+long_name: Dust  Mass Mixing Ratio
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: mmrdust
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: mmrsoa
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: mass_fraction_of_secondary_organic_matter_dry_aerosol_particles_in_air
+units: kg kg-1
+long_name: SOA Mass Mixing Ratio
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 2
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: mmrsoa
+valid_min: 0
+valid_max: 0.1
+!----------------------------------
+!
+!
+!============
+variable_entry: abs550aer
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: atmosphere_absorption_optical_thickness_due_to_ambient_aerosol_particles
+units: 1
+long_name: Absorption thickness at 550nm
+comment: at 13:30 Local Solar Time (instantaneous). Priority = 1
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions: longitude latitude alevel time
+out_name: abs550aer
+valid_min: 0
+valid_max: 10
+!----------------------------------
+!
+@

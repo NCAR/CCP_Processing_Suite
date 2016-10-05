@@ -1,0 +1,250 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2016.01.12.16.28.06;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm PrgEnv-intel`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm intel`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm cray-netcdf`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh rm ncar`
+#
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load gcc`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load python/2.7-anaconda`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load netcdf/4.3.0`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load szip`
+eval `/opt/modules/3.2.10.3/bin/modulecmd sh load zlib`
+#
+MPPW=TASK ; export MPPW
+#
+PYTHONPATH=/global/project/projectdirs/ccsm1/pythonlib/lib/python2.7/site-packages/PyNIO:$PYTHONPATH
+export PYTHONPATH
+PATH=${HOME}/.local/bin:${PATH}
+export PATH
+LD_LIBRARY_PATH=/usr/common/usg/nco/4.5.2/gnu/lib:${LD_LIBRARY_PATH} ; export LD_LIBRARY_PATH
+#
+NCODIR=/usr/common/usg/nco/4.5.2/gnu/bin ; export NCODIR
+NCKS=${NCODIR}/ncks     ; export NCKS
+NCRA=${NCODIR}/ncra     ; export NCRA
+NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
+#
+CASE=xxxCASExxx ; export CASE
+HIST=xxxHISTxxx ; export HIST
+TPER=xxxTPERxxx ; export TPER
+#
+echo -n "TS START: " ; date
+#
+# Template for processing large ensemble CESM history netCDF files into single-field format 
+#
+# Extract relevant information from "experiments.txt"
+#
+#  Columns   Field
+#   1 -  54  CCSM case name
+# 105 - 109  MIP (cm3 or cm5) experiment (N/A if not applicable)
+# 110 - 149  RUN_REFCASE (parent case)
+# 150 - 164  RUN_REFDATE (branch date, yyyy-mm-dd)
+# 165 - 174  years of experiment (YYYY if unknown)
+# 165 - 174  run years of experiment (YYYY if unknown)
+# 175 - 184  CMIP5-requested years
+# 185 - 194  GRID (resolution)
+# 195 - 214  COMPSET (N/A if not applicable)
+# 215 - 234  REPOTAG (N/A if not applicable)
+# 234 - 249  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 250 - 259  MACH (hardware)
+# 260 - end  DOUT_L_MSROOT (history file location on archive)
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
+if [ -f $EXPFILE ] ; then
+   MIPNAME=`egrep "^$CASE " $EXPFILE | cut -c105-  | cut -d" " -f1`
+    PARENT=`egrep "^$CASE " $EXPFILE | cut -c110- | cut -d" " -f1`
+    BRANCH=`egrep "^$CASE " $EXPFILE | cut -c150- | cut -d" " -f1`
+   YEARBEG=`egrep "^$CASE " $EXPFILE | cut -c165-168`
+   YEAREND=`egrep "^$CASE " $EXPFILE | cut -c170-173`
+       RES=`egrep "^$CASE " $EXPFILE | cut -c185- | cut -d" " -f1`
+   REPOTAG=`egrep "^$CASE " $EXPFILE | cut -c215- | cut -d" " -f1`
+  HARDWARE=`egrep "^$CASE " $EXPFILE | cut -c250- | cut -d" " -f1`
+  HISTBASE=`egrep "^$CASE " $EXPFILE | cut -c260- | cut -d" " -f1`
+else
+  echo "Cannot find $EXPFILE. EXIT"
+  exit 1
+fi
+#
+if ! [ $YEARBEG ] ; then
+  echo "Unable to set variables because "$CASE" not found in $EXPFILE"
+  exit 1
+fi
+#
+# Acquire PROCHOST
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+BASEDIR=${HOME}/CCP_Processing_Suite
+#
+PROCBASE=/scratch3/scratchdirs/$USER/$CASE ; export PROCBASE
+LOCALDSK=/scratch3/scratchdirs/$USER/$CASE ; export LOCALDSK
+ARCHIVE_BASE=/home/c/ccsm/csm/CESM1-CAM5-DP          ; export ARCHIVE_BASE
+#
+# Convert history type to component name
+#
+COMP_NAME=atm
+#
+# Set up local names and archival names
+#
+LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
+LOCAL_PROC=$PROCBASE/$COMP_NAME
+ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
+#
+ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
+DISK_PROC=$DISK_BASE/$COMP_NAME/proc/tseries
+ARCHIVE_PROC=${ARCHIVE_PROC}/hourly6
+DISK_PROC=${DISK_PROC}/hourly6
+#
+CACHEDIR=${LOCAL_PROC}/to_archive
+#
+YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
+MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
+#
+# PyReshaper Arguments
+#
+VERBOSITY=3
+#
+PREFIX="${CACHEDIR}/${CASE}.${HIST}."
+#
+# Create output filename time period suffix
+#
+OUTTIME=${YEARBEG}110100Z-${YEAREND}123118Z ; export OUTTIME
+SUFFIX=".${OUTTIME}.nc" ; export SUFFIX
+#
+# Print out values
+#
+echo "            Case name : "$CASE ; export CASE
+echo "    History file type : "$HIST ; export HIST
+echo "          Time period : "$TPER ; export TPER
+echo "    by var processing : YES"
+echo " HPSS processed files : "$ARCHIVE_PROC ; export ARCHIVE_PROC
+echo " disk processed files : "$DISK_PROC    ; export DISK_PROC
+HARDWARE=${HARDWARE}".ucar.edu"
+echo "          Branch date : "$BRANCH   ; export BRANCH
+echo "           Resolution : "$RES      ; export RES
+echo "             Hardware : "$HARDWARE ; export HARDWARE
+echo "              Compset : "$COMPSET  ; export COMPSET
+echo "       Repository tag : "$REPOTAG  ; export REPOTAG
+echo "           Begin year : "$YEARBEG  ; export YEARBEG
+echo "             End year : "$YEAREND  ; export YEAREND
+echo "           Year count : "$YRCOUNT  ; export YRCOUNT
+echo "         Months count : "$MNCOUNT  ; export MNCOUNT
+echo ""
+echo "    Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo "        History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
+echo "        History names : "$HIST          ; export HIST
+echo ""
+echo "PyReshaper"
+echo "          Output time : "$OUTTIME       ; export OUTTIME
+echo "        Output prefix : "$PREFIX        ; export PREFIX
+echo "        Output suffix : "$SUFFIX        ; export SUFFIX
+echo "        Output format : "$NCFORMAT      ; export NCFORMAT
+echo "            Verbosity : "$VERBOSITY     ; export VERBOSITY
+echo ""
+echo ""
+echo "      Processing host : "$PROCHOST      ; export PROCHOST
+echo "  Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
+echo "       Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
+echo "    Archive cache dir : "$CACHEDIR      ; export CACHEDIR
+echo "  Processing code dir : "$BASEDIR       ; export BASEDIR
+#  
+if [ ! -d $LOCAL_PROC ] ; then 
+  mkdir -p $LOCAL_PROC 
+fi
+if [ ! -d $CACHEDIR ] ; then 
+  mkdir -p $CACHEDIR 
+fi
+cd $LOCAL_PROC
+#
+NCFORMAT=netcdf4  ; export NCFORMAT
+#
+ln -s -f $BASEDIR/update_status        update_status
+ln -s -f $BASEDIR/run_slice2series     Transpose_Data
+#
+# Retrieve data from HPSS
+#
+cd $LOCAL_HIST
+cp ${HOME}/CCP_Processing_Suite/get_cam.h2_template .
+cat get_cam.h2_template         | \
+  sed -e "s/SUBC/$SUBC/g" | \
+  sed -e "s/USER/$USER/g" | \
+  sed -e "s/CASE/$CASE/g" > g.${SUBC}
+/opt/slurm/default/bin/sbatch g.${SUBC}
+#
+cd $LOCAL_PROC
+#
+# Start actual processing, extract each field one at a time for all times
+#
+./update_status start
+#
+if [ -d $LOCAL_HIST ] ; then
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+  if [ $NHISTF -ne 0 ] ; then
+    echo ${CASE}"."${HIST}" files on disk, softlinking."
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
+  else
+    echo "History files not on "${LOCAL_HIST}". Exiting."
+    exit 1
+  fi    
+fi
+#
+# Make sure there's the correct number of files, based on stream and time period
+#
+NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
+if [ $NHISTF -ne 11 ] ; then
+  echo ${NHISTF}" should be 11. File count mismatch. Exit."
+  exit 1
+fi
+#
+# Extract each field from all files
+#
+echo -n "TS transpose_data start: " ; date
+./Transpose_Data
+if [ $? -ne 0 ] ; then
+  echo "Transpose_Data failed"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
+fi
+echo -n "TS transpose_data end  : " ; date
+#
+# Move completed data for later transfer to archival system
+#
+cd $CACHEDIR
+if [ ! -f /scratch3/scratchdirs/$USER/toHPSS_$HIST ] ; then
+  mkdir -p /scratch3/scratchdirs/$USER/toHPSS_$HIST
+fi
+mv ${CASE}.${HIST}.*.[0-9]*.nc /scratch3/scratchdirs/$USER/toHPSS_$HIST
+if [ $? -ne 0 ] ; then
+  echo "move toHPSS_"${HIST}" failed"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
+else
+  echo -n "move toHPSS_"${HIST}" end: " ; date
+fi
+#
+./update_status complete
+echo -n "TS COMPLETE: " ; date
+#
+exit
+@

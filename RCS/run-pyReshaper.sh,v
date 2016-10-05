@@ -1,0 +1,67 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2015.06.10.20.20.40;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/bash
+#BSUB -n 16
+#BSUB -R "span[ptile=4]"
+#BSUB -q regular
+#BSUB -a poe
+#BSUB -x
+#BSUB -o reshaper.%J.log
+#BSUB -J reshaper
+#BSUB -P STDD0002
+#BSUB -W 04:00
+
+export MP_TIMEOUT=14400
+export MP_PULSE=1800
+export MP_DEBUG_NOTIMEOUT=yes
+
+# NOTE: Your PATH and PYTHONPATH must be properly set
+#       before this script will run without error
+
+# Necessary modules to load
+module load python
+module load all-python-libs
+
+# PyReshaper Arguments
+VERBOSITY=3
+NCFORMAT=netcdf4c
+PREFIX=/path/to/output/dir/b40.20th.track1.1deg.006.cam2.h0.
+SUFFIX=.185001-185912.nc
+
+# Bash array of all Time-Variant Metadata Variable Names
+# (If empty, the PyReshaper will put each time-dependent variable in its own file)
+METAVARS=(ch4vmr co2vmr date date_written datesec f11vmr f12vmr n2ovmr \
+          ndcur nscur nsteph sol_tsi time time_bnds time_written)
+
+# Bash array of all time-slice files
+SLICEFILES=(/path/to/input/dir/*.nc)
+
+# Now create the argument list for each metadata variable
+for i in `seq 0 $((${#METAVARS[*]} - 1))`; do
+  METAARGS[$((2 * i))]=-m
+  METAARGS[$((2 * i + 1))]=${METAVARS[$i]}
+done
+
+# Now run the PyReshaper
+mpirun.lsf slice2series -v $VERBOSITY -f $NCFORMAT -p $PREFIX -s $SUFFIX ${METAARGS[*]} ${SLICEFILES[*]}
+@

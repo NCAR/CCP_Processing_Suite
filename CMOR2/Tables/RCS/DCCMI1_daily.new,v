@@ -1,0 +1,1131 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.1
+date	2014.10.17.15.43.18;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@1,5c1,5
+< cmor_version: 2.5.0    ! minimum version of CMOR that can read this table
+< cf_version:   1.4      ! version of CF that output conforms to
+< project_id:   CCMI1    ! project id
+< table_id:     daily    ! table id
+< table_date:   6 August 2014 ! date this table was constructed
+---
+> cmor_version: 2.5.0   ! minimum version of CMOR that can read this table
+> cf_version:   1.4     ! version of CF that output conforms to
+> project_id:   CCMI1   ! project id
+> table_id:     daily   ! table id
+> table_date:   8 November 2013 ! date this table was constructed  
+9,28c9,28
+< expt_id_ok:  'Hindcast' 'refC1'
+< expt_id_ok:  'Hindcast - Specified Dynamics' 'refC1SD'
+< expt_id_ok:  'Projection' 'refC2'
+< expt_id_ok:  'Hindcast Scenario - altEmis' 'senC1Emis'
+< expt_id_ok:  'HindcastSD Scenario - altEmis' 'senC1SDEmis'
+< expt_id_ok:  'Hindcast Scenario - fxdEmis' 'senC1fEmis'
+< expt_id_ok:  'HindcastSD Scenario - fxdEmis' 'senC1SDfEmis'
+< expt_id_ok:  'Hindcast Scenario - altSSI' 'senC1SSI'
+< expt_id_ok:  'Projection Scenario - RCP2.6' 'senC2rcp26'
+< expt_id_ok:  'Projection Scenario - RCP4.5' 'senC2rcp45'
+< expt_id_ok:  'Projection Scenario - RCP8.5' 'senC2rcp85'
+< expt_id_ok:  'Projection Scenario - fxdODS' 'senC2fODS'
+< expt_id_ok:  'Projection Scenario - fxdODS2000' 'senC2fODS2000'
+< expt_id_ok:  'Projection Scenario - fxdGHG' 'senC2fGHG'
+< expt_id_ok:  'Projection Scenario - fxdEmis' 'senC2fEmis'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G1' 'senC2GeoMIPG1'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G2' 'senC2GeoMIPG2'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G3' 'senC2GeoMIPG3'
+< expt_id_ok:  'Projection Scenario - GeoMIP-G4' 'senC2GeoMIPG4'
+< expt_id_ok:  'Projection Scenario - SolarTrend' 'senC2SlrTrend'
+---
+> expt_id_ok:  'CCMI_Historical' 'refC1'
+> expt_id_ok:  'CCMI_HistoricalSD' 'refC1sd'
+> expt_id_ok:  'CCMI_Projection' 'refC2'
+> expt_id_ok:  'CCMI_HistorSc_Emis' 'senC1Emis'
+> expt_id_ok:  'CCMI_HistorSc_EmisSD' 'senC1SDEmis'
+> expt_id_ok:  'CCMI_HistorSc_fEmis' 'senC1fEmis'
+> expt_id_ok:  'CCMI_HistorSc_fEmisSD' 'senC1SDfEmis'
+> expt_id_ok:  'CCMI_HistorSc_SSI' 'senC1SSI'
+> expt_id_ok:  'CCMI_ProjecSC_RCP2.6' 'senC2rcp26'
+> expt_id_ok:  'CCMI_ProjecSC_RCP4.5' 'senC2rcp45'
+> expt_id_ok:  'CCMI_ProjecSC_RCP8.5' 'senC2rcp85'
+> expt_id_ok:  'CCMI_ProjecSC_fODS' 'senC2fODS'
+> expt_id_ok:  'CCMI_ProjecSC_fODS2000' 'senC2fODS2000'
+> expt_id_ok:  'CCMI_ProjecSC_fGHG' 'senC2fGHG'
+> expt_id_ok:  'CCMI_ProjecSC_fEMIS' 'senC2fEMIS'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G1' 'senC2GeoMIPG1'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G2' 'senC2GeoMIPG2'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G3' 'senC2GeoMIPG3'
+> expt_id_ok:  'CCMI_ProjecSC_GeoM_G4' 'senC2GeoMIPG4'
+> expt_id_ok:  'CCMI_ProjecSC_SolarTrend' 'senC2slrtrend'
+459,478d458
+< axis_entry: time1
+< !============
+< !----------------------------------
+< ! Axis attributes:
+< !----------------------------------
+< standard_name:    time
+< units:            days since ?
+< axis:             T             ! X, Y, Z, T (default: undeclared)
+< long_name:        time
+< !----------------------------------
+< ! Additional axis information:
+< !----------------------------------
+< out_name:         time
+< stored_direction: increasing
+< type:             double
+< must_have_bounds: no
+< !----------------------------------
+< !
+< 
+< !============
+490c470
+< !----------------------------------	
+---
+> !----------------------------------     
+494c474
+< positive:	      up
+---
+> positive:             up
+496c476
+< !----------------------------------	
+---
+> !----------------------------------     
+499c479
+< !----------------------------------	
+---
+> !----------------------------------     
+508c488
+< !----------------------------------	
+---
+> !----------------------------------     
+521c501
+< !----------------------------------	
+---
+> !----------------------------------     
+525,526c505,506
+< positive:	      down
+< !----------------------------------	
+---
+> positive:             down
+> !----------------------------------     
+529c509
+< !----------------------------------	
+---
+> !----------------------------------     
+538c518
+< !----------------------------------	
+---
+> !----------------------------------     
+551c531
+< !----------------------------------	
+---
+> !----------------------------------     
+556c536
+< !----------------------------------	
+---
+> !----------------------------------     
+559c539
+< !----------------------------------	
+---
+> !----------------------------------     
+568c548
+< !----------------------------------	
+---
+> !----------------------------------     
+581c561
+< !----------------------------------	
+---
+> !----------------------------------     
+589c569
+< !----------------------------------	
+---
+> !----------------------------------     
+598c578
+< !----------------------------------		
+---
+> !----------------------------------             
+612c592
+< !----------------------------------	
+---
+> !----------------------------------     
+618c598
+< !----------------------------------	
+---
+> !----------------------------------     
+621c601
+< !----------------------------------	
+---
+> !----------------------------------     
+630c610
+< !----------------------------------		
+---
+> !----------------------------------             
+644c624
+< !----------------------------------	
+---
+> !----------------------------------     
+650c630
+< !----------------------------------	
+---
+> !----------------------------------     
+653c633
+< !----------------------------------	
+---
+> !----------------------------------     
+661c641
+< !----------------------------------		
+---
+> !----------------------------------             
+698c678
+< !----------------------------------	
+---
+> !----------------------------------     
+701c681
+< !----------------------------------	
+---
+> !----------------------------------     
+711c691
+< !----------------------------------	
+---
+> !----------------------------------     
+714c694
+< !----------------------------------	
+---
+> !----------------------------------     
+724c704
+< !----------------------------------	
+---
+> !----------------------------------     
+727c707
+< !----------------------------------	
+---
+> !----------------------------------     
+730c710
+< !----------------------------------	
+---
+> !----------------------------------     
+733c713
+< !----------------------------------	
+---
+> !----------------------------------     
+742c722
+< !----------------------------------	
+---
+> !----------------------------------     
+745c725
+< !----------------------------------	
+---
+> !----------------------------------     
+748c728
+< !----------------------------------	
+---
+> !----------------------------------     
+751c731
+< !----------------------------------	
+---
+> !----------------------------------     
+761c741
+< !----------------------------------	
+---
+> !----------------------------------     
+764c744
+< !----------------------------------	
+---
+> !----------------------------------     
+767c747
+< !----------------------------------	
+---
+> !----------------------------------     
+770c750
+< !----------------------------------	
+---
+> !----------------------------------     
+780c760
+< !----------------------------------	
+---
+> !----------------------------------     
+783c763
+< !----------------------------------	
+---
+> !----------------------------------     
+786c766
+< !----------------------------------	
+---
+> !----------------------------------     
+797c777
+< !----------------------------------	
+---
+> !----------------------------------     
+800c780
+< !----------------------------------	
+---
+> !----------------------------------     
+803c783
+< !----------------------------------	
+---
+> !----------------------------------     
+806c786
+< !----------------------------------	
+---
+> !----------------------------------     
+814c794
+< !----------------------------------	
+---
+> !----------------------------------     
+817c797
+< !----------------------------------	
+---
+> !----------------------------------     
+820c800
+< !----------------------------------	
+---
+> !----------------------------------     
+823c803
+< !----------------------------------	
+---
+> !----------------------------------     
+833c813
+< !----------------------------------	
+---
+> !----------------------------------     
+836c816
+< !----------------------------------	
+---
+> !----------------------------------     
+924a905
+> cell_methods:      time: point
+931c912
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+946a928
+> cell_methods:      time: point
+953c935
+< dimensions:        longitude latitude time1 pr10
+---
+> dimensions:        longitude latitude time pr10
+968a951
+> cell_methods:      time: point
+975c958
+< dimensions:        longitude latitude time1 pr100
+---
+> dimensions:        longitude latitude time pr100
+990a974
+> cell_methods:      time: point
+997c981
+< dimensions:        longitude latitude time1 pr500
+---
+> dimensions:        longitude latitude time pr500
+1012a997
+> cell_methods:      time: point
+1019c1004
+< dimensions:        longitude latitude time1 pr850
+---
+> dimensions:        longitude latitude time pr850
+1034a1020
+> cell_methods:      time: point
+1041c1027
+< dimensions:        longitude latitude time1 pr1000
+---
+> dimensions:        longitude latitude time pr1000
+1056a1043
+> cell_methods:      time: point
+1063c1050
+< dimensions:        longitude latitude time1 pr10
+---
+> dimensions:        longitude latitude time pr10
+1078a1066
+> cell_methods:      time: point
+1085c1073
+< dimensions:        longitude latitude time1 pr50
+---
+> dimensions:        longitude latitude time pr50
+1100a1089
+> cell_methods:      time: point
+1107c1096
+< dimensions:        longitude latitude time1 pr100
+---
+> dimensions:        longitude latitude time pr100
+1122a1112
+> cell_methods:      time: point
+1129c1119
+< dimensions:        longitude latitude time1 pr500
+---
+> dimensions:        longitude latitude time pr500
+1144a1135
+> cell_methods:      time: point
+1151c1142
+< dimensions:        longitude latitude time1 pr1000
+---
+> dimensions:        longitude latitude time pr1000
+1166a1158
+> cell_methods:      time: point
+1173c1165
+< dimensions:        longitude latitude time1 pr50
+---
+> dimensions:        longitude latitude time pr50
+1188a1181
+> cell_methods:      time: point
+1195c1188
+< dimensions:        longitude latitude time1 pr5
+---
+> dimensions:        longitude latitude time pr5
+1210a1204
+> cell_methods:      time: point
+1217c1211
+< dimensions:        longitude latitude time1 pr10
+---
+> dimensions:        longitude latitude time pr10
+1232a1227
+> cell_methods:      time: point
+1239c1234
+< dimensions:        longitude latitude time1 pr30
+---
+> dimensions:        longitude latitude time pr30
+1254a1250
+> cell_methods:      time: point
+1261c1257
+< dimensions:        longitude latitude time1 pr40
+---
+> dimensions:        longitude latitude time pr40
+1276a1273
+> cell_methods:      time: point
+1283c1280
+< dimensions:        longitude latitude time1 pr50
+---
+> dimensions:        longitude latitude time pr50
+1298a1296
+> cell_methods:      time: point
+1305c1303
+< dimensions:        longitude latitude time1 pr70
+---
+> dimensions:        longitude latitude time pr70
+1320a1319
+> cell_methods:      time: point
+1327c1326
+< dimensions:        longitude latitude time1 pr100
+---
+> dimensions:        longitude latitude time pr100
+1342a1342
+> cell_methods:      time: point
+1349c1349
+< dimensions:        longitude latitude time1 pr1000
+---
+> dimensions:        longitude latitude time pr1000
+1364a1365
+> cell_methods:      time: point
+1371c1372
+< dimensions:        longitude latitude time1 height2m
+---
+> dimensions:        longitude latitude time height2m
+1379c1380
+< variable_entry:    ts
+---
+> variable_entry:    sfta
+1386a1388
+> cell_methods:      time: point
+1389c1391
+< comment:           skin temperature - i.e SST for open ocean
+---
+> comment:           Temperature at surface
+1393c1395
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1408a1411
+> cell_methods:      time: point
+1415c1418
+< dimensions:        longitude latitude time1 pr10
+---
+> dimensions:        longitude latitude time pr10
+1430a1434
+> cell_methods:      time: point
+1437c1441
+< dimensions:        longitude latitude time1 pr100
+---
+> dimensions:        longitude latitude time pr100
+1452a1457
+> cell_methods:      time: point
+1459c1464
+< dimensions:        longitude latitude time1 pr500
+---
+> dimensions:        longitude latitude time pr500
+1474a1480
+> cell_methods:      time: point
+1481c1487
+< dimensions:        longitude latitude time1 pr1000
+---
+> dimensions:        longitude latitude time pr1000
+1496a1503
+> cell_methods:      time: point
+1503c1510
+< dimensions:        longitude latitude time1 pot840
+---
+> dimensions:        longitude latitude time pot840
+1518a1526
+> cell_methods:      time: point
+1525c1533
+< dimensions:        longitude latitude time1 pot480
+---
+> dimensions:        longitude latitude time pot480
+1540a1549
+> cell_methods:      time: point
+1547c1556
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1562a1572
+> cell_methods:      time: point
+1569c1579
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1585a1596
+> cell_methods:      time: point
+1592c1603
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1608a1620
+> cell_methods:      time: point
+1615c1627
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1631a1644
+> cell_methods:      time: point
+1638c1651
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1653a1667
+> cell_methods:      time: point
+1660c1674
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1721a1736
+> cell_methods:      time: point
+1728c1743
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1736c1751
+< variable_entry:    sfvmrco25
+---
+> variable_entry:    sfvmrco_25
+1743a1759
+> cell_methods:      time: point
+1750c1766
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1765a1782
+> cell_methods:      time: point
+1772c1789
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1787a1805
+> cell_methods:      time: point
+1794c1812
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1809a1828
+> cell_methods:      time: point
+1816c1835
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1831a1851
+> cell_methods:      time: point
+1838c1858
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1853a1874
+> cell_methods:      time: point
+1860c1881
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1875a1897
+> cell_methods:      time: point
+1882c1904
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1897a1920
+> cell_methods:      time: point
+1904c1927
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1919a1943
+> cell_methods:      time: point
+1926c1950
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1941a1966
+> cell_methods:      time: point
+1948c1973
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1963a1989
+> cell_methods:      time: point
+1970c1996
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+1985a2012
+> cell_methods:      time: point
+1992c2019
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+2007a2035
+> cell_methods:      time: point
+2014c2042
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+2075a2104
+> cell_methods:      time: point
+2082c2111
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+2097a2127
+> cell_methods:      time: point
+2104c2134
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+2112c2142
+< variable_entry:    vmrco50ea700
+---
+> variable_entry:    vmrco_50ea700
+2119a2150
+> cell_methods:      time: point
+2126c2157
+< dimensions:        longitude latitude time1 pr700
+---
+> dimensions:        longitude latitude time pr700
+2134c2165
+< variable_entry:    vmrco50na700
+---
+> variable_entry:    vmrco_50na700
+2141a2173
+> cell_methods:      time: point
+2148c2180
+< dimensions:        longitude latitude time1 pr700
+---
+> dimensions:        longitude latitude time pr700
+2156c2188
+< variable_entry:    vmrco50eu700
+---
+> variable_entry:    vmrco_50eu700
+2163a2196
+> cell_methods:      time: point
+2170c2203
+< dimensions:        longitude latitude time1 pr700
+---
+> dimensions:        longitude latitude time pr700
+2178c2211
+< variable_entry:    vmrco50sa700
+---
+> variable_entry:    vmrco_50sa700
+2185a2219
+> cell_methods:      time: point
+2192c2226
+< dimensions:        longitude latitude time1 pr700
+---
+> dimensions:        longitude latitude time pr700
+2207a2242
+> cell_methods:      time: point
+2214c2249
+< dimensions:        longitude latitude time1
+---
+> dimensions:        longitude latitude time
+2237c2272
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2260c2295
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2283c2318
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2306c2341
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2329c2364
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2352c2387
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2375c2410
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2398c2433
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2421c2456
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2444c2479
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2467c2502
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2490c2525
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2513c2548
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2521c2556
+< variable_entry:    sadsulf
+---
+> variable_entry:    sad_sulf
+2536c2571
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2544c2579
+< variable_entry:    sadnat
+---
+> variable_entry:    sad_nat
+2559c2594
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2567c2602
+< variable_entry:    sadice
+---
+> variable_entry:    sad_ice
+2582c2617
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2605c2640
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2628c2663
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2651c2686
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2674c2709
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2697c2732
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2720c2755
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2743c2778
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2766c2801
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2789c2824
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2812c2847
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2835c2870
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2858c2893
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2881c2916
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2904c2939
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2927c2962
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2950c2985
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2973c3008
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+2996c3031
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3019c3054
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3042c3077
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3065c3100
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3088c3123
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3111c3146
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3134c3169
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3157c3192
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3180c3215
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3203c3238
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3226c3261
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3249c3284
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3272c3307
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3295c3330
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3318c3353
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3341c3376
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3349c3384
+< variable_entry:    mnstrage
+---
+> variable_entry:    mean_age
+3364c3399
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3387c3422
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3410c3445
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3433c3468
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3456c3491
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3479c3514
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3502c3537
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3525c3560
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3548c3583
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3571c3606
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3594c3629
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3617c3652
+< dimensions:        longitude latitude alevel time1
+---
+> dimensions:        longitude latitude alevel time
+3633c3668,3669
+< cell_methods:      longitude: mean
+---
+> cell_methods:      time: mean longitude: mean
+> cell_measures:     area: areacella
+3639c3675
+< dimensions:        longitude latitude plevs time1
+---
+> dimensions:        longitude latitude plevs time
+3655c3691,3692
+< cell_methods:      longitude: mean
+---
+> cell_methods:      time: mean longitude: mean
+> cell_measures:     area: areacella
+3661c3698
+< dimensions:        longitude latitude plevs time1
+---
+> dimensions:        longitude latitude plevs time
+3677c3714,3715
+< cell_methods:      longitude: mean
+---
+> cell_methods:      time: mean longitude: mean
+> cell_measures:     area: areacella
+3683c3721
+< dimensions:        longitude latitude plevs time1
+---
+> dimensions:        longitude latitude plevs time
+3699c3737,3738
+< cell_methods:      longitude: mean
+---
+> cell_methods:      time: mean longitude: mean
+> cell_measures:     area: areacella
+3705c3744
+< dimensions:        longitude latitude plevs time1
+---
+> dimensions:        longitude latitude plevs time
+3721c3760,3761
+< cell_methods:      longitude: mean
+---
+> cell_methods:      time: mean longitude: mean
+> cell_measures:     area: areacella
+3727c3767
+< dimensions:        longitude latitude plevs time1
+---
+> dimensions:        longitude latitude plevs time
+3743c3783,3784
+< cell_methods:      longitude: mean
+---
+> cell_methods:      time: mean longitude: mean
+> cell_measures:     area: areacella
+3749c3790
+< dimensions:        longitude latitude plevs time1
+---
+> dimensions:        longitude latitude plevs time
+3765c3806,3807
+< cell_methods:      longitude: mean
+---
+> cell_methods:      time: mean longitude: mean
+> cell_measures:     area: areacella
+3771c3813
+< dimensions:        longitude latitude plevs time1
+---
+> dimensions:        longitude latitude plevs time
+3779c3821
+< variable_entry:    acceldivf
+---
+> variable_entry:    accel_divf
+3787c3829,3830
+< cell_methods:      longitude: mean
+---
+> cell_methods:      time: mean longitude: mean
+> cell_measures:     area: areacella
+3793c3836
+< dimensions:        longitude latitude plevs time1
+---
+> dimensions:        longitude latitude plevs time
+3809c3852,3853
+< cell_methods:      longitude: mean
+---
+> cell_methods:      time: mean longitude: mean
+> cell_measures:     area: areacella
+3815c3859
+< dimensions:        longitude latitude plevs time1
+---
+> dimensions:        longitude latitude plevs time
+3831c3875,3876
+< cell_methods:      longitude: mean
+---
+> cell_methods:      time: mean longitude: mean
+> cell_measures:     area: areacella
+3837c3882
+< dimensions:        longitude latitude plevs time1
+---
+> dimensions:        longitude latitude plevs time
+3853c3898,3899
+< cell_methods:      longitude: mean
+---
+> cell_methods:      time: mean longitude: mean
+> cell_measures:     area: areacella
+3859c3905
+< dimensions:        longitude latitude plevs time1
+---
+> dimensions:        longitude latitude plevs time
+3875c3921,3922
+< cell_methods:      longitude: mean
+---
+> cell_methods:      time: mean longitude: mean
+> cell_measures:     area: areacella
+3881c3928
+< dimensions:        longitude latitude plevs time1
+---
+> dimensions:        longitude latitude plevs time
+3897c3944,3945
+< cell_methods:      longitude: mean
+---
+> cell_methods:      time: mean longitude: mean
+> cell_measures:     area: areacella
+3903c3951
+< dimensions:        longitude latitude plevs time1
+---
+> dimensions:        longitude latitude plevs time
+3911c3959
+< variable_entry:    nh50psca
+---
+> variable_entry:    psca_nh50
+3919c3967,3968
+< cell_methods:      area: sum
+---
+> cell_methods:      area
+> cell_measures:     area: areacella
+3925c3974
+< dimensions:        time1 pr50
+---
+> dimensions:        time pr50
+3933c3982
+< variable_entry:    sh50psca
+---
+> variable_entry:    psca_sh50
+3941c3990,3991
+< cell_methods:      area: sum
+---
+> cell_methods:      area
+> cell_measures:     area: areacella
+3947c3997
+< dimensions:        time1 pr50
+---
+> dimensions:        time pr50
+3955c4005
+< variable_entry:    nh50area188k
+---
+> variable_entry:    area188k_nh50
+3963c4013,4014
+< cell_methods:      area: sum
+---
+> cell_methods:      area
+> cell_measures:     area: areacella
+3969c4020
+< dimensions:        time1 pr50
+---
+> dimensions:        time pr50
+3977c4028
+< variable_entry:    nh50area195k
+---
+> variable_entry:    area195k_nh50
+3985c4036,4037
+< cell_methods:      area: sum
+---
+> cell_methods:      area
+> cell_measures:     area: areacella
+3991c4043
+< dimensions:        time1 pr50
+---
+> dimensions:        time pr50
+3999c4051
+< variable_entry:    sh50area188k
+---
+> variable_entry:    area188k_sh50
+4007c4059,4060
+< cell_methods:      area: sum
+---
+> cell_methods:      area
+> cell_measures:     area: areacella
+4013c4066
+< dimensions:        time1 pr50
+---
+> dimensions:        time pr50
+4021c4074
+< variable_entry:    sh50area195k
+---
+> variable_entry:    area195k_sh50
+4029c4082,4083
+< cell_methods:      area: sum
+---
+> cell_methods:      area
+> cell_measures:     area: areacella
+4035c4089
+< dimensions:        time1 pr50
+---
+> dimensions:        time pr50
+4041a4096
+> 
+@

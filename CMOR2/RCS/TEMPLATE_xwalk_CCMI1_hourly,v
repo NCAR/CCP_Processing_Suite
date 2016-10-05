@@ -1,0 +1,83 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2015.02.13.21.57.47;	author strandwg;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2014.01.31.19.43.19;	author strandwg;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@CCMI1_hourly:ccmi_year::time::
+CCMI1_hourly:ccmi_month::time::
+CCMI1_hourly:ccmi_day::time::
+CCMI1_hourly:ccmi_hour::time::
+CCMI1_hourly:ccmi_minute::time::
+CCMI1_hourly:ps:surface_air_pressure:longitude latitude time1:atmos:
+CCMI1_hourly:sfvmro3:mole_fraction_of_ozone_in_air:longitude latitude time1:atmos:
+CCMI1_hourly:sfvmrno2:mole_fraction_of_nitrogen_dioxide_in_air:longitude latitude time1:atmos:
+CCMI1_hourly:sfvmrco:mole_fraction_of_carbon_monoxide_in_air:longitude latitude time1:atmos:
+CCMI1_hourly:sfmmrpm2p5:mass_fraction_of_pm2p5_ambient_aerosol_in_air:longitude latitude time1:atmos:
+CCMI1_hourly:dryo3:tendency_of_atmosphere_mass_content_of_ozone_due_to_dry_deposition:longitude latitude time1:atmos:
+CCMI1_hourly:gsto::longitude latitude time1:atmos:
+CCMI1_hourly:stoo3:tendency_of_atmosphere_mass_content_of_ozone_due_to_dry_deposition_into_stomata:longitude latitude time1:atmos:
+CCMI1_hourly:vmro3cnp:mole_fraction_of_ozone_in_air:longitude latitude time1:atmos:
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@a0 21
+CCMI1_hourly::longitude:::
+CCMI1_hourly::latitude:::
+CCMI1_hourly::air_pressure:::
+CCMI1_hourly::air_pressure:::
+CCMI1_hourly::time:::
+CCMI1_hourly::atmosphere_sleve_coordinate:::
+CCMI1_hourly::atmosphere_ln_pressure_coordinate:::
+CCMI1_hourly::atmosphere_sigma_coordinate:::
+CCMI1_hourly::atmosphere_hybrid_sigma_pressure_coordinate:::
+CCMI1_hourly::atmosphere_hybrid_sigma_pressure_coordinate:::
+CCMI1_hourly::atmosphere_hybrid_height_coordinate:::
+CCMI1_hourly:orog:surface_altitude:longitude latitude:atmos:
+CCMI1_hourly:p0::::
+CCMI1_hourly:ptop::::
+CCMI1_hourly:a::alevel::
+CCMI1_hourly:b::alevel::
+CCMI1_hourly:a_bnds::alevel::
+CCMI1_hourly:b_bnds::alevel::
+CCMI1_hourly:ap::alevel::
+CCMI1_hourly:ap_bnds::alevel::
+CCMI1_hourly:ztop::::
+d6 9
+a14 9
+CCMI1_hourly:ps:surface_air_pressure:longitude latitude time:atmos:
+CCMI1_hourly:sfvmro3:mole_fraction_of_ozone_in_air:longitude latitude time:atmos:
+CCMI1_hourly:sfvmrno2:mole_fraction_of_nitrogen_dioxide_in_air:longitude latitude time:atmos:
+CCMI1_hourly:sfvmrco:mole_fraction_of_carbon_monoxide_in_air:longitude latitude time:atmos:
+CCMI1_hourly:sfmmrpm2p5:mass_fraction_of_pm2p5_ambient_aerosol_in_air:longitude latitude time:atmos:
+CCMI1_hourly:dryo3:tendency_of_atmosphere_mass_content_of_ozone_due_to_dry_deposition:longitude latitude time:atmos:
+CCMI1_hourly:g_sto::longitude latitude time:atmos:
+CCMI1_hourly:stoo3:tendency_of_atmosphere_mass_content_of_ozone_due_to_dry_deposition_into_stomata:longitude latitude time:atmos:
+CCMI1_hourly:vmro3cnp:mole_fraction_of_ozone_in_air:longitude latitude time:atmos:
+@
