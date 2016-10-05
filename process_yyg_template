@@ -81,8 +81,8 @@ case "$PROCHOST" in
     NCRA=${NCODIR}/ncra     ; export NCRA
     NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
     LOCALDSK=/glade/scratch/${RUNNER}/archive/$CASE ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-YY        ; export ARCHIVE_BASE
-    PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
+    ARCHIVE_BASE=CCSM/csm/CESM-CAM5-BGC-LowWarming  ; export ARCHIVE_BASE
+    PROCBASE=/glade/scratch/$USER/$CASE             ; export PROCBASE
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
@@ -222,8 +222,8 @@ cd $LOCAL_PROC
 #
 if [ -d $LOCAL_HIST ] ; then
   echo ${CASE}"."${HIST}" files on disk, softlinking."
-  rm ${CASE}.${HIST}.{200?,2100}-[0-9]*nc
-  ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{200?,2100}-[0-9]*.nc .
+  rm ${CASE}.${HIST}.{20??,2100}-[0-9]*nc
+  ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{20??,2100}-[0-9]*.nc .
   rm ${CASE}.${HIST}.2101*nc
 fi
 #
@@ -259,9 +259,9 @@ esac
 # Extract each field from all files
 #
 echo -n "TS tranpose_data start: " ; date
-./Tranpose_Data
+./Transpose_Data
 if [ $? -ne 0 ] ; then
-  echo "Tranpose_Data failed"
+  echo "Transpose_Data failed"
   ./update_status error "$CASE $HIST $TPER"
   exit 1
 fi
