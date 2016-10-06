@@ -61,7 +61,6 @@ fi
 #
 PROCHOST=`hostname`;export PROCHOST
 #
-<<<<<<< HEAD
 # JF or YY
 #
 SUFX=`echo $CASE | cut -d"." -f5-`
@@ -72,10 +71,6 @@ case "$SUFX" in
     RUNNER=yangyang ;;
 esac
 #
-=======
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471
-# resolve machine/site dependencies
-#
 case "$PROCHOST" in 
   yslogin* | geyser* )                                # Yellowstone (geyser) @ CISL/NCAR
     BASEDIR=${HOME}/CCP_Processing_Suite
@@ -83,15 +78,9 @@ case "$PROCHOST" in
     NCKS=${NCODIR}/ncks     ; export NCKS
     NCRA=${NCODIR}/ncra     ; export NCRA
     NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
-<<<<<<< HEAD
     LOCALDSK=/glade/scratch/${RUNNER}/archive/$CASE ; export LOCALDSK
-    ARCHIVE_BASE=CCSM/csm/CESM-CAM5-BGC-LowWarming  ; export ARCHIVE_BASE
+    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-LowWarming  ; export ARCHIVE_BASE
     PROCBASE=/glade/scratch/$USER/$CASE             ; export PROCBASE
-=======
-    LOCALDSK=/glade/scratch/yangyang/archive/$CASE ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-YY        ; export ARCHIVE_BASE
-    PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471
     ;;
   * ) 
     echo "Unable to continue because "$PROCHOST" not known."
@@ -150,11 +139,7 @@ MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
 # PyReshaper Arguments
 #
-<<<<<<< HEAD
 VERBOSITY=0
-=======
-VERBOSITY=3
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471
 #
 # Create output filename time period prefix
 #
@@ -233,28 +218,12 @@ cd $LOCAL_PROC
 #
 ./update_status start
 #
-if [ -d $LOCAL_HIST ] ; then
-<<<<<<< HEAD
-  echo ${CASE}"."${HIST}" files on disk, softlinking."
-  rm ${CASE}.${HIST}.{20??,2100}-[0-9]*nc
-  ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{20??,2100}-[0-9]*.nc .
-  rm ${CASE}.${HIST}.2101*nc
-=======
-  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
-  if [ $NHISTF -ne 0 ] ; then
-    echo ${CASE}"."${HIST}" files on disk, softlinking."
-    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
-    rm -f ${CASE}.${HIST}.2101*
-  else
-    echo "History files not on "${LOCAL_HIST}". Exiting."
-    exit 1
-  fi    
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471
-fi
+rm ${CASE}.${HIST}.{20??,2100}-[0-9]*nc
+ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{20??,2100}-[0-9]*.nc .
+rm ${CASE}.${HIST}.2101*nc
 #
 # Make sure there's the correct number of files, based on stream and time period and 20C/RCP
 #
-<<<<<<< HEAD
 NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
 #
 case "$HIST" in 
@@ -281,51 +250,17 @@ case "$HIST" in
       exit 1
     fi ;;
 esac
-=======
-#NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
-##
-#case "$HIST" in 
-#  cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
-#    if [ $NHISTF -ne 1140 ] ; then
-#      echo ${NHISTF}" should be 1140. File count mismatch. Exit."
-#      exit 1
-#    fi ;;
-#  cice.h | cice.h1 )
-#    if [ $NHISTF -ne 34675 ] ; then
-#      echo ${NHISTF}" should be 34675. File count mismatch. Exit."
-#      exit 1
-#    fi ;;
-#  cam.h1 | clm2.h1 )
-#    if [ $NHISTF -eq 95 ] || [ $NHISTF -eq 96 ] ; then
-#      echo ${NHISTF}" good."
-#    else
-#      echo ${NHISTF}" should be 95 or 96. File count mismatch. Exit."
-#      exit 1
-#    fi ;;
-#  rtm.h1 | pop.h.ecosys.nyear1 )
-#    if [ $NHISTF -ne 95 ] ; then
-#      echo ${NHISTF}" should be 95. File count mismatch. Exit."
-#      exit 1
-#    fi ;;
-#esac
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471
 #
 # Extract each field from all files
 #
-echo -n "TS tranpose_data start: " ; date
-<<<<<<< HEAD
+echo -n "TS transpose_data start: " ; date
 ./Transpose_Data
 if [ $? -ne 0 ] ; then
   echo "Transpose_Data failed"
-=======
-./Tranpose_Data
-if [ $? -ne 0 ] ; then
-  echo "Tranpose_Data failed"
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471
   ./update_status error "$CASE $HIST $TPER"
   exit 1
 fi
-echo -n "TS tranpose_data end  : " ; date
+echo -n "TS transpose_data end  : " ; date
 # 
 # Split cice hemispheres
 #

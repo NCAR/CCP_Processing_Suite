@@ -1865,7 +1865,6 @@ b.e11.BRCP60C5CN.f09_g16.001                          CESM1-CAM5          NE   r
 b.e11.BRCP60C5CN.f09_g16.002                          CESM1-CAM5          NE   rcp60          r2i1p1    cm5  b40_20th_1d_b08c5cn_138j                2006-01-01     2006-2100 2006-2100 f09_g16   BRCP60C5CN          cesm1_1_beta06      11/12-12/01    hopper    /home/c/ccsm/csm
 b.e11.BRCP60C5CN.f09_g16.004                          CESM1-CAM5          NE   rcp60          r3i1p1    cm5  b40_20th_1d_b08c5cn_139jp               2006-01-01     2006-2100 2006-2100 f09_g16   BRCP60C5CN          cesm1_1_beta06      11/12-12/01    franklin  /home/c/ccsm/csm
 b.e11.BRCP60C5CN.f09_g16.2300.001                     CESM1-CAM5          NE   rcp60          r1i1p1    cm5  b.e10.B20TRC5CN.f09_g16.001             2100-01-01     2101-2300 2101-2300 f09_g16   BRCP60C5CN          cesm1_1_beta06      11/12-12/01    franklin  /home/c/ccsm/csm
-<<<<<<< HEAD
 b.e11.BRCP85C5CNBDRD.f09_g16.001                      CESM1-CAM5-BGC      NC   N/A            N/A       le5  b.e11.B20TRC5CNBDRD.f09_g16.001         2006-01-01     2081-2100 2081-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  13/06-13/06    yellow    /CCSM/csm
 b.e11.BRCP85C5CNBDRD.f09_g16.002                      CESM1-CAM5-BGC      NC   N/A            N/A       le5  b.e11.B20TRC5CNBDRD.f09_g16.002         2006-01-01     2081-2100 2081-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  13/07-13/07    yellow    /CCSM/csm
 b.e11.BRCP85C5CNBDRD.f09_g16.003                      CESM1-CAM5-BGC      NC   N/A            N/A       le5  b.e11.B20TRC5CNBDRD.f09_g16.003         2006-01-01     2081-2100 2081-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  13/07-13/07    yellow    none
@@ -1974,7 +1973,6 @@ b.e11.BRCP85C5CNBDRD.f09_g16.030.b                    CESM1-CAM5-BGC      NC   N
 b.e11.BRCP85C5CNBDRD.f09_g16.030.c                    CESM1-CAM5-BGC      NC   N/A            N/A       yyg  b.e11.B20TRC5CNBDRD.f09_g16.030         2006-01-01     2006-2100 2006-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  13/07-13/07    yellow    /CCSM/csm
 b.e11.BRCP85C5CNBDRD.f09_g16.030                      CESM1-CAM5-BGC      NC   N/A            N/A       le5  b.e11.B20TRC5CNBDRD.f09_g16.030         2006-01-01     2081-2100 2081-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  13/07-13/07    yellow    none
 b.e11.BRCP85C5CNBDRD.f09_g16.030.d                    CESM1-CAM5-BGC      NC   N/A            N/A       yyg  b.e11.B20TRC5CNBDRD.f09_g16.030         2006-01-01     2006-2100 2006-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  13/07-13/07    yellow    /CCSM/csm
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471
 b.e11.BRCP85C5CNBDRD.f09_g16.031                      CESM1-CAM5-BGC      NC   N/A            N/A       le5  b.e11.B20TRC5CNBDRD.f09_g16.030         2006-01-01     2081-2100 2081-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  13/07-13/07    yellow    none
 b.e11.BRCP85C5CNBDRD.f09_g16.032                      CESM1-CAM5-BGC      NC   N/A            N/A       le5  b.e11.B20TRC5CNBDRD.f09_g16.030         2006-01-01     2081-2100 2081-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  13/07-13/07    yellow    none
 b.e11.BRCP85C5CNBDRD.f09_g16.033                      CESM1-CAM5-BGC      NC   N/A            N/A       le5  b.e11.B20TRC5CNBDRD.f09_g16.030         2006-01-01     2081-2100 2081-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  13/07-13/07    yellow    none
@@ -3776,8 +3774,6 @@ b.e11.B1850LENS.f09_g16.IPO_p2p.syr1251.003           CESM1-CAM5          NC   N
 b.e11.B1850LENS.f09_g16.IPO_1pct_p2c.syr0606.001      CESM1-CAM5          NC   N/A            N/A       byv  unknown                                 0606-01-01     0606-0615 0606-0615 f09_g16   B1850C5CN           unknown             16/06-16/07    yellow    /CCSM/csm/IPO-PACEMAKER
 b.e11.B1850LENS.f09_g16.IPO_2n2p.syr1356.002          CESM1-CAM5          NC   N/A            N/A       byv  unknown                                 1356-01-01     1356-1365 1356-1364 f09_g16   B1850C5CN           unknown             16/06-16/07    yellow    /CCSM/csm/IPO-PACEMAKER
 b.e11.B1850LENS.f09_g16.IPO_2p2c.syr1241.002          CESM1-CAM5          NC   N/A            N/A       byv  unknown                                 1241-01-01     1241-1250 1241-1250 f09_g16   B1850C5CN           unknown             16/06-16/07    yellow    /CCSM/csm/IPO-PACEMAKER
-<<<<<<< HEAD
-test
 b.e11.BRCP85C5CNBDRD.f09_g16.001.b                    CESM1-CAM5-BGC      NC   N/A            N/A       yyg  b.e11.B20TRC5CNBDRD.f09_g16.001         2006-01-01     2006-2100 2006-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  13/06-13/06    yellow    /CCSM/csm
 b.e11.BRCP85C5CNBDRD.f09_g16.002.b                    CESM1-CAM5-BGC      NC   N/A            N/A       yyg  b.e11.B20TRC5CNBDRD.f09_g16.002         2006-01-01     2006-2100 2006-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  13/07-13/07    yellow    /CCSM/csm
 b.e11.BRCP85C5CNBDRD.f09_g16.003.b                    CESM1-CAM5-BGC      NC   N/A            N/A       yyg  b.e11.B20TRC5CNBDRD.f09_g16.003         2006-01-01     2006-2100 2006-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  13/07-13/07    yellow    /CCSM/csm
@@ -3855,8 +3851,3 @@ b.e11.BRCP26C5CNBDRD.f09_g16.2pt0degC.007             CESM1-CAM5-BGC      NC   N
 b.e11.BRCP26C5CNBDRD.f09_g16.2pt0degC.008             CESM1-CAM5-BGC      NC   N/A            N/A       yyg  unknown                                 2006-01-01     2006-2100 2006-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  16/08-16/10    yellow    /CCSM/csm
 b.e11.BRCP26C5CNBDRD.f09_g16.2pt0degC.009             CESM1-CAM5-BGC      NC   N/A            N/A       yyg  unknown                                 2006-01-01     2006-2100 2006-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  16/08-16/10    yellow    /CCSM/csm
 b.e11.BRCP26C5CNBDRD.f09_g16.2pt0degC.010             CESM1-CAM5-BGC      NC   N/A            N/A       yyg  unknown                                 2006-01-01     2006-2100 2006-2100 f09_g16   BRCP85C5CN          cesm1_1_1_alpha01g  16/08-16/10    yellow    /CCSM/csm
-=======
-test2
-test3
-test4
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471

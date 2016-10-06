@@ -23,11 +23,6 @@ case "$TPER" in
     exit 1 ;;
 esac
 #
-<<<<<<< HEAD
-=======
-# Check for LME runs
-#
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471
 EXPFILE=${HOME}/CCP_Processing_Suite/experiments.txt ; export EXPFILE
 if ! [ -f $EXPFILE ] ; then
   echo "Cannot find "$EXPFILE". EXIT"
