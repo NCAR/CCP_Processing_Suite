@@ -3,13 +3,15 @@ export MP_TIMEOUT=14400
 export MP_PULSE=1800
 export MP_DEBUG_NOTIMEOUT=yes
 #
+NODE=xxxNODExxx ; export NODE
+#
 # Necessary modules to load
 #
-eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load python`
-eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load all-python-libs`
-PATH=/glade/u/home/strandwg/.local/bin:${PATH} ; export PATH
+eval `/opt/modules/3.2.10.3/bin/modulecmd bash load bwpy`
+PATH=/mnt/a/u/sciteam/strandjr/.local/bin:${PATH} ; export PATH
+eval `/opt/modules/3.2.10.3/bin/modulecmd bash load nco`
 #
-PYTHONPATH=/glade/u/home/strandwg/.local/lib/python2.7/site-packages:${PYTHONPATH}
+PYTHONPATH=/mnt/a/u/sciteam/strandjr/.local/lib/python2.7/site-packages:${PYTHONPATH}
 #
 CASE=xxxCASExxx ; export CASE
 HIST=xxxHISTxxx ; export HIST
@@ -61,44 +63,13 @@ fi
 #
 PROCHOST=`hostname`;export PROCHOST
 #
-<<<<<<< HEAD
-# JF or YY
-#
-SUFX=`echo $CASE | cut -d"." -f5-`
-case "$SUFX" in 
-  2pt0degC.004 | 2pt0degC.005 | 2pt0degC.006 | 2pt0degC.007 )
-    RUNNER=lamar ;;
-  * ) 
-    RUNNER=yangyang ;;
-esac
-#
-=======
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471
-# resolve machine/site dependencies
-#
-case "$PROCHOST" in 
-  yslogin* | geyser* )                                # Yellowstone (geyser) @ CISL/NCAR
-    BASEDIR=${HOME}/CCP_Processing_Suite
-    NCODIR=/glade/apps/opt/nco/4.5.1/gnu/4.8.2/bin    ; export NCODIR
-    NCKS=${NCODIR}/ncks     ; export NCKS
-    NCRA=${NCODIR}/ncra     ; export NCRA
-    NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
-<<<<<<< HEAD
-    LOCALDSK=/glade/scratch/${RUNNER}/archive/$CASE ; export LOCALDSK
-    ARCHIVE_BASE=CCSM/csm/CESM-CAM5-BGC-LowWarming  ; export ARCHIVE_BASE
-    PROCBASE=/glade/scratch/$USER/$CASE             ; export PROCBASE
-=======
-    LOCALDSK=/glade/scratch/yangyang/archive/$CASE ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm/CESM-CAM5-BGC-YY        ; export ARCHIVE_BASE
-    PROCBASE=/glade/scratch/$USER/$CASE            ; export PROCBASE
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471
-    ;;
-  * ) 
-    echo "Unable to continue because "$PROCHOST" not known."
-    exit 1 ;;
-esac
-#
-export LD_LIBRARY_PATH
+BASEDIR=${HOME}/CCP_Processing_Suite
+#NCODIR=/sw/xe/nco/4.5.5/cnl5.2_gnu4.9.3/bin ; export NCODIR
+NCKS=`which ncks`     ; export NCKS
+NCRA=`which ncra`     ; export NCRA
+NCRCAT=`which ncrcat` ; export NCRCAT
+LOCALDSK=/mnt/c/scratch/sciteam/truesdal/archive/$CASE ; export LOCALDSK
+PROCBASE=/mnt/c/scratch/sciteam/strandjr/$CASE         ; export PROCBASE
 #
 # Strip off first part of $HIST
 #
@@ -150,25 +121,11 @@ MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
 #
 # PyReshaper Arguments
 #
-<<<<<<< HEAD
-VERBOSITY=0
-=======
-VERBOSITY=3
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471
+VERBOSITY=1
 #
 # Create output filename time period prefix
 #
 PREFIX="${CACHEDIR}/${CASE}.${HIST}."
-#
-# Create output filename time period suffix
-#
-case "$TPER" in
-  mon )
-    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
-  day ) 
-    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
-esac
-SUFFIX=".${OUTTIME}.nc"
 #
 # Print out values
 #
@@ -189,9 +146,7 @@ echo "           Year count : "$YRCOUNT  ; export YRCOUNT
 echo "         Months count : "$MNCOUNT  ; export MNCOUNT
 echo ""
 echo "PyReshaper"
-echo "          Output time : "$OUTTIME       ; export OUTTIME
 echo "        Output prefix : "$PREFIX        ; export PREFIX
-echo "        Output suffix : "$SUFFIX        ; export SUFFIX
 echo "        Output format : "$NCFORMAT      ; export NCFORMAT
 echo "            Verbosity : "$VERBOSITY     ; export VERBOSITY
 echo ""
@@ -204,7 +159,7 @@ echo "  Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
 echo "       Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
 echo "    Archive cache dir : "$CACHEDIR      ; export CACHEDIR
 echo "  Processing code dir : "$BASEDIR       ; export BASEDIR
-#  
+#
 if [ ! -d $LOCAL_PROC ] ; then 
   mkdir -p $LOCAL_PROC 
 fi
@@ -215,17 +170,14 @@ cd $LOCAL_PROC
 #
 case "$HIST" in
   cice.h | cice.h1 )
-    NCFORMAT=netcdf4  ; export NCFORMAT
-    ln -s -f $BASEDIR/split_cice_hemis . ;;
+    ln -s -f $BASEDIR/split_cice_hemis .
+    NCFORMAT=netcdf4  ; export NCFORMAT ;;
   *   )
     NCFORMAT=netcdf4c ; export NCFORMAT ;;
-  *   )
 esac
 #
-ln -s -f $BASEDIR/store_to_archive_var .
-ln -s -f $BASEDIR/archive_write_var    .
-ln -s -f $BASEDIR/update_status        .
-ln -s -f $BASEDIR/run_slice2series     Transpose_Data
+ln -s -f $BASEDIR/update_status    .
+ln -s -f $BASEDIR/run_slice2series Transpose_Data
 #
 cd $LOCAL_PROC
 #
@@ -233,122 +185,67 @@ cd $LOCAL_PROC
 #
 ./update_status start
 #
-if [ -d $LOCAL_HIST ] ; then
-<<<<<<< HEAD
-  echo ${CASE}"."${HIST}" files on disk, softlinking."
-  rm ${CASE}.${HIST}.{20??,2100}-[0-9]*nc
-  ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{20??,2100}-[0-9]*.nc .
-  rm ${CASE}.${HIST}.2101*nc
-=======
-  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc | wc -l`
+for YEAR in 2006 ; do
+#
+# Create output filename time period suffix
+#
+  case "$TPER" in
+    ann )
+      OUTTIME=${YEAR}-${YEAR} ;;
+    mon )
+      OUTTIME=${YEAR}01-${YEAR}12 ;;
+    day ) 
+      OUTTIME=${YEAR}0101-${YEAR}1231 ;;
+  esac
+  export OUTTIME
+  SUFFIX=".${OUTTIME}.nc" ; export SUFFIX
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEAR}*.nc | wc -l`
   if [ $NHISTF -ne 0 ] ; then
     echo ${CASE}"."${HIST}" files on disk, softlinking."
-    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
-    rm -f ${CASE}.${HIST}.2101*
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.${YEAR}*.nc .
   else
     echo "History files not on "${LOCAL_HIST}". Exiting."
     exit 1
   fi    
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471
-fi
 #
 # Make sure there's the correct number of files, based on stream and time period and 20C/RCP
 #
-<<<<<<< HEAD
-NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
-#
-case "$HIST" in 
-  cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
-    if [ $NHISTF -ne 1140 ] ; then
-      echo ${NHISTF}" should be 1140. File count mismatch. Exit."
-      exit 1
-    fi ;;
-  cice.h1 )
-    if [ $NHISTF -ne 34675 ] ; then
-      echo ${NHISTF}" should be 34675. File count mismatch. Exit."
-      exit 1
-    fi ;;
-  cam.h1 | clm2.h1 )
-    if [ $NHISTF -eq 95 ] || [ $NHISTF -eq 96 ] ; then
-      echo ${NHISTF}" good."
-    else
-      echo ${NHISTF}" should be 95 or 96. File count mismatch. Exit."
-      exit 1
-    fi ;;
-  rtm.h1 | pop.h.ecosys.nyear1 )
-    if [ $NHISTF -ne 95 ] ; then
-      echo ${NHISTF}" should be 95. File count mismatch. Exit."
-      exit 1
-    fi ;;
-esac
-=======
-#NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
-##
-#case "$HIST" in 
-#  cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
-#    if [ $NHISTF -ne 1140 ] ; then
-#      echo ${NHISTF}" should be 1140. File count mismatch. Exit."
-#      exit 1
-#    fi ;;
-#  cice.h | cice.h1 )
-#    if [ $NHISTF -ne 34675 ] ; then
-#      echo ${NHISTF}" should be 34675. File count mismatch. Exit."
-#      exit 1
-#    fi ;;
-#  cam.h1 | clm2.h1 )
-#    if [ $NHISTF -eq 95 ] || [ $NHISTF -eq 96 ] ; then
-#      echo ${NHISTF}" good."
-#    else
-#      echo ${NHISTF}" should be 95 or 96. File count mismatch. Exit."
-#      exit 1
-#    fi ;;
-#  rtm.h1 | pop.h.ecosys.nyear1 )
-#    if [ $NHISTF -ne 95 ] ; then
-#      echo ${NHISTF}" should be 95. File count mismatch. Exit."
-#      exit 1
-#    fi ;;
-#esac
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471
+  NHISTF=`/bin/ls ${LOCAL_HIST}/${CASE}.${HIST}.${YEAR}*.nc | wc -l`
+  case "$HIST" in 
+    cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+      if [ $NHISTF -ne 12 ] ; then
+        echo ${NHISTF}" should be 12. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cice.h | cice.h1 )
+      if [ $NHISTF -ne 34675 ] ; then
+        echo ${NHISTF}" should be 34675. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    cam.h1 | clm2.h1 )
+      if [ $NHISTF -eq 95 ] || [ $NHISTF -eq 96 ] ; then
+        echo ${NHISTF}" good."
+      else
+        echo ${NHISTF}" should be 95 or 96. File count mismatch. Exit."
+        exit 1
+      fi ;;
+    rtm.h1 | pop.h.ecosys.nyear1 )
+      if [ $NHISTF -ne 95 ] ; then
+        echo ${NHISTF}" should be 95. File count mismatch. Exit."
+        exit 1
+      fi ;;
+  esac
 #
 # Extract each field from all files
 #
-echo -n "TS tranpose_data start: " ; date
-<<<<<<< HEAD
-./Transpose_Data
-if [ $? -ne 0 ] ; then
-  echo "Transpose_Data failed"
-=======
-./Tranpose_Data
-if [ $? -ne 0 ] ; then
-  echo "Tranpose_Data failed"
->>>>>>> 6d5ff2af425118f5bfbc296be0ecfdff5d746471
-  ./update_status error "$CASE $HIST $TPER"
-  exit 1
-fi
-echo -n "TS tranpose_data end  : " ; date
-# 
-# Split cice hemispheres
-#
-case "$HTYP" in
-  cice ) 
-    cd $CACHEDIR
-    echo -n "TS split cice hemis start: " ; date
-    ../split_cice_hemis
-    echo -n "TS split cice hemis end  : " ; date
-    cd $LOCAL_PROC ;;
-esac
-#
-# Store completed data on archival system
-#
-echo -n "TS archive start: " ; date
-./store_to_archive_var
-if [ $? -ne 0 ] ; then
-  echo "store_to_archive failed"
-  ./update_status error "$CASE $HIST $TPER"
-  exit 1
-else
-  echo -n "TS archive end: " ; date
-fi
+  ./Transpose_Data
+  if [ $? -ne 0 ] ; then
+    echo "Transpose_Data failed"
+    ./update_status error "$CASE $HIST $TPER"
+    exit 1
+  fi
+  echo -n "TS Transpose_Data end  : " ; date
+done
 #
 ./update_status complete
 echo -n "TS COMPLETE: " ; date
