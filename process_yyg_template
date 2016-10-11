@@ -14,6 +14,7 @@ PYTHONPATH=/glade/u/home/strandwg/.local/lib/python2.7/site-packages:${PYTHONPAT
 CASE=xxxCASExxx ; export CASE
 HIST=xxxHISTxxx ; export HIST
 TPER=xxxTPERxxx ; export TPER
+PIEC=xxxPIECxxx ; export PIEC
 #
 echo -n "TS START: " ; date
 #
