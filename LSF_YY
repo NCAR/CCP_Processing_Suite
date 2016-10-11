@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+#BSUB -n NODE
+#BSUB -R "span[ptile=TSKN]"
+#BSUB -q regular
+#BSUB -a poe
+#BSUB -q geyser
+#BSUB -W 72:00
+#BSUB -o log.NAME
+#BSUB -e log.NAME
+#BSUB -J NAME
+#BSUB -P PROJNO
+#BSUB -u USER@ucar.edu
+#
