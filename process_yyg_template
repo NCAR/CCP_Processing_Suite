@@ -58,10 +58,10 @@ fi
 case "$PIEC" in
   BEG )
     YEARBEG=2006
-    YEARBEG=2100 ;;
+    YEAREND=2100 ;;
   END )
     YEARBEG=2101
-    YEARBEG=2120 ;;
+    YEAREND=2120 ;;
 esac
 #
 # Acquire PROCHOST
