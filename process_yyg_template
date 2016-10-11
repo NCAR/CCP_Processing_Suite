@@ -52,10 +52,16 @@ else
   exit 1
 fi
 #
-if ! [ $YEARBEG ] ; then
-  echo "Unable to set variables because "$CASE" not found in $EXPFILE"
-  exit 1
-fi
+# Figure out what time span to process
+#
+case "$PIEC" in
+  BEG )
+    YEARBEG=2006
+    YEARBEG=2100 ;;
+  END )
+    YEARBEG=2101
+    YEARBEG=2120 ;;
+esac
 #
 # Acquire PROCHOST
 #
@@ -148,6 +154,8 @@ PREFIX="${CACHEDIR}/${CASE}.${HIST}."
 # Create output filename time period suffix
 #
 case "$TPER" in
+  ann )
+    OUTTIME=${YEARBEG}-${YEAREND} ;;
   mon )
     OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
   day ) 
@@ -218,9 +226,17 @@ cd $LOCAL_PROC
 #
 ./update_status start
 #
-rm ${CASE}.${HIST}.{20??,2100}-[0-9]*nc
-ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.{20??,2100}-[0-9]*.nc .
-rm ${CASE}.${HIST}.2101*nc
+rm ${CASE}.${HIST}.*nc
+#
+case "$PIEC" in
+  BEG )
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.20??*.nc .
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.2100*.nc . ;;
+  END )
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.210[1-9]*.nc .
+    ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.21[1-2]?*.nc . ;;
+esac
+#
 #
 # Make sure there's the correct number of files, based on stream and time period and 20C/RCP
 #
@@ -228,25 +244,13 @@ NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
 #
 case "$HIST" in 
   cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
-    if [ $NHISTF -ne 1140 ] ; then
-      echo ${NHISTF}" should be 1140. File count mismatch. Exit."
+    if [ $NHISTF -ne $MNCOUNT ] ; then
+      echo ${NHISTF}" should be "${MNCOUNT}". File count mismatch. Exit."
       exit 1
     fi ;;
-  cice.h1 )
-    if [ $NHISTF -ne 34675 ] ; then
-      echo ${NHISTF}" should be 34675. File count mismatch. Exit."
-      exit 1
-    fi ;;
-  cam.h1 | clm2.h1 )
-    if [ $NHISTF -eq 95 ] || [ $NHISTF -eq 96 ] ; then
-      echo ${NHISTF}" good."
-    else
-      echo ${NHISTF}" should be 95 or 96. File count mismatch. Exit."
-      exit 1
-    fi ;;
-  rtm.h1 | pop.h.ecosys.nyear1 )
-    if [ $NHISTF -ne 95 ] ; then
-      echo ${NHISTF}" should be 95. File count mismatch. Exit."
+  cice.h1 | cam.h1 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 )
+    if [ $NHISTF -ne $YRCOUNT ] ; then
+      echo ${NHISTF}" should be "${YRCOUNT}". File count mismatch. Exit."
       exit 1
     fi ;;
 esac

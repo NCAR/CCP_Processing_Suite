@@ -1,16 +1,18 @@
 #!/bin/sh
 #
-if [ $# -ne 3 ] ; then
-   echo "Usage: ./Process_YY CASE HIST TPER"
+if [ $# -ne 4 ] ; then
+   echo "Usage: ./Process_YY CASE HIST TPER (beg OR end)"
    echo "Three arguments REQUIRED:"
    echo "1: CASE name"
    echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h rtm.h0 etc]"
    echo "3: TPER time period of above HIST type - must be one of [ann mon day hr6 hr3 hr1 m30]"
+   echo "4: piece - BEG (2006-2100) or END (2101-2120) "
    exit 1
 else
    CASE=$1 ; export CASE
    HIST=$2 ; export HIST
    TPER=$3 ; export TPER
+   PIEC=$4 ; export PIEC
 fi
 #
 # Set up a bunch of stuff
@@ -33,13 +35,30 @@ fi
 #
 PROCHOST=`hostname`;export PROCHOST
 #
+# Deduce appropriate node and ptile settings
+#
+case "$HIST" in
+  cam.h1 ) 
+    NODE=24
+    TSKN=8 ;;
+  * )
+    NODE=16
+    TSKN=4 ;;
+  * )
+    echo "Unknown "${HIST}
+    exit 1 ;;
+esac
+#
 # Build processing script
 #
-CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
+CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_${PIEC}_process.sh
 rm -f $CCPS_SCRIPT
 #
-cat ./LSF_geyser  | sed -e "s/NAME/$CCPS_SCRIPT/g" \
+
+cat ./LSF_YY      | sed -e "s/NAME/$CCPS_SCRIPT/g" \
                   | sed -e "s/USER/$USER/g"        \
+                  | sed -e "s/NODE/$NODE/g"        \
+                  | sed -e "s/TSKN/$TSKN/g"        \
                   | sed -e "s/PROJNO/P93300014/g"  > $CCPS_SCRIPT
 #
 cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g" \
