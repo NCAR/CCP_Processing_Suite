@@ -72,7 +72,7 @@ PROCHOST=`hostname`;export PROCHOST
 #
 SUFX=`echo $CASE | cut -d"." -f5-`
 case "$SUFX" in 
-  2pt0degC.004 | 2pt0degC.005 | 2pt0degC.006 | 2pt0degC.007 )
+  2pt0degC.002 | 2pt0degC.003 | 2pt0degC.004 | 2pt0degC.005 | 2pt0degC.006 | 2pt0degC.007 )
     RUNNER=lamar ;;
   * ) 
     RUNNER=yangyang ;;
