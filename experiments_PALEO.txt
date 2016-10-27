@@ -1,0 +1,16 @@
+#
+# Master CCSM experiment list
+#
+#  Columns  Field
+#  1 -  29  CASE
+# 30 -  39  run years of experiment (YYYY if unknown)
+# 40 -  50  Calendar dates of simulation execution (yyyy/mm-yyyy/mm)
+# 55 - end  MACHINE (hardware)
+#
+#        1         2         3         4         5         6         
+#23456789012345678901234567890123456789012345678901234567890123456789
+#                            run       run beg-end
+#CASE                        beg  end  yy/mm-yy/mm    MACHINE        
+#--------------------------------------------------------------------
+ctrl1D                       0001-0512 16/08-16/10    yellowstone    
+trans1-850AD                 0001-YYYY 16/10-16/10    yellowstone    

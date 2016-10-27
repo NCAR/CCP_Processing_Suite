@@ -1,0 +1,63 @@
+#!/bin/sh
+#
+if [ $# -ne 3 ] ; then
+   echo "Usage: ./Process_PALEO CASE HIST TPER"
+   echo "First three arguments REQUIRED:"
+   echo "1: CASE name"
+   echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h rtm.h0 etc]"
+   echo "3: TPER time period of above HIST type - must be one of [ann mon d10 day hr6 hr3 hr1 m30]"
+   exit 1
+else
+   CASE=$1 ; export CASE
+   HIST=$2 ; export HIST
+   TPER=$3 ; export TPER
+fi
+#
+# Set up a bunch of stuff
+#
+case "$TPER" in
+  ann | mon | d10 | day | hr6 | hr3 | hr1 | m30 )
+    echo ${TPER}" is known time period. Proceeding." ;;
+  * ) 
+    echo "Unable to continue because "$TPER" is unknown. Stopping."
+    exit 1 ;;
+esac
+#
+EXPFILE=${HOME}/CCP_Processing_Suite/experiments_PALEO.txt ; export EXPFILE
+if ! [ -f $EXPFILE ] ; then
+  echo "Cannot find "$EXPFILE". EXIT"
+  exit 1
+fi
+#
+TEMPLATE=process_PALEO_template ; export TEMPLATE
+#
+PROCHOST=`hostname`;export PROCHOST
+#
+# Build processing script
+#
+CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
+rm -f $CCPS_SCRIPT
+#
+cat ./LSF_geyser  | sed -e "s/NAME/$CCPS_SCRIPT/g" \
+                  | sed -e "s/USER/$USER/g"        \
+                  | sed -e "s/PROJNO/P93300624/g"  \
+                  > $CCPS_SCRIPT
+cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g"  \
+                  | sed -e "s/xxxHISTxxx/$HIST/g"  \
+                  | sed -e "s/xxxTPERxxx/$TPER/g"  \
+                  >> $CCPS_SCRIPT ;;
+#
+chmod +x $CCPS_SCRIPT
+echo ""
+echo $CCPS_SCRIPT" ready to run"
+echo ""
+#
+echo "Run script now? (Y only, all else NO)"
+read DORUN
+#
+if [ "$DORUN" = "Y" ] ; then
+  echo "Running "${CCPS_SCRIPT}
+  bsub < ./${CCPS_SCRIPT}
+else
+  echo "Will not run "${CCPS_SCRIPT}
+fi
