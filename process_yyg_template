@@ -208,7 +208,7 @@ fi
 cd $LOCAL_PROC
 #
 case "$HIST" in
-  cice.h | cice.h1 )
+  cice.h | cice.h1 | cam.h1 )
     NCFORMAT=netcdf4  ; export NCFORMAT
     ln -s -f $BASEDIR/split_cice_hemis . ;;
   *   )
