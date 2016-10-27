@@ -4,8 +4,8 @@ if [ $# -ne 3 ] ; then
    echo "Usage: ./Process_PALEO CASE HIST TPER"
    echo "First three arguments REQUIRED:"
    echo "1: CASE name"
-   echo "2: HIST name - usually one of [cam2.h0 cam.h0 cam2.h1 cam.h1 cam2.h2 cam.h2 clm.h0 pop.h csim.h cice.h rtm.h0 etc]"
-   echo "3: TPER time period of above HIST type - must be one of [ann mon d10 day hr6 hr3 hr1 m30]"
+   echo "2: HIST name - usually one of [cam.h0 cam.h1 clm2.h0 clm2.h1 pop.h cice.h rtm.h0 etc]"
+   echo "3: TPER time period of above HIST type - must be one of [ann mon day]"
    exit 1
 else
    CASE=$1 ; export CASE
@@ -16,7 +16,7 @@ fi
 # Set up a bunch of stuff
 #
 case "$TPER" in
-  ann | mon | d10 | day | hr6 | hr3 | hr1 | m30 )
+  ann | mon | day )
     echo ${TPER}" is known time period. Proceeding." ;;
   * ) 
     echo "Unable to continue because "$TPER" is unknown. Stopping."
@@ -37,10 +37,14 @@ PROCHOST=`hostname`;export PROCHOST
 #
 CCPS_SCRIPT=${CASE}_${HIST}_${TPER}_process.sh
 rm -f $CCPS_SCRIPT
+################################################################################
+# 
+# Change "PPPPPPPPP" to one of your project numbers
 #
+################################################################################
 cat ./LSF_geyser  | sed -e "s/NAME/$CCPS_SCRIPT/g" \
                   | sed -e "s/USER/$USER/g"        \
-                  | sed -e "s/PROJNO/P93300624/g"  \
+                  | sed -e "s/PROJNO/PPPPPPPPP/g"  \
                   > $CCPS_SCRIPT
 cat ./${TEMPLATE} | sed -e "s/xxxCASExxx/$CASE/g"  \
                   | sed -e "s/xxxHISTxxx/$HIST/g"  \
