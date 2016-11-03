@@ -167,10 +167,10 @@ if [ ! -d ${CACHEDIR} ] ; then
 fi
 cd $LOCAL_PROC
 #
-ln -s -f $BASEDIR/run_slice2series          Transpose_Data
-ln -s -f $BASEDIR/store_to_archive_var_keep store_to_archive_var
-ln -s -f $BASEDIR/archive_write_var_keep    archive_write_var_keep
-ln -s -f $BASEDIR/update_status             .
+ln -s -f $BASEDIR/run_slice2series  Transpose_Data
+ln -s -f $BASEDIR/store_to_archive  store_to_archive
+ln -s -f $BASEDIR/archive_write     archive_write
+ln -s -f $BASEDIR/update_status     .
 #
 cd $LOCAL_PROC
 #
@@ -270,7 +270,7 @@ for CENTURY in 00 01 02 03 04 05 ; do
 # Store completed data on archival system
 #
   echo -n "TS archive start: " ; date
-  ./store_to_archive_var
+  ./store_to_archive
   if [ $? -ne 0 ] ; then
     echo "store_to_archive failed"
     ./update_status error "$CASE $HIST $TPER"
