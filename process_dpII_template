@@ -1,0 +1,237 @@
+#
+export MP_TIMEOUT=14400
+export MP_PULSE=1800
+export MP_DEBUG_NOTIMEOUT=yes
+#
+# Necessary modules to load
+#
+eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load python`
+eval `/glade/apps/opt/lmod/lmod/libexec/lmod bash load all-python-libs`
+PATH=/glade/u/home/strandwg/.local/bin:${PATH} ; export PATH
+#
+PYTHONPATH=/glade/u/home/strandwg/.local/lib/python2.7/site-packages:${PYTHONPATH}
+#
+CASE=xxxCASExxx ; export CASE
+HIST=xxxHISTxxx ; export HIST
+TPER=xxxTPERxxx ; export TPER
+#
+echo -n "TS START: " ; date
+#
+YEARBEG=`echo "$CASE" | cut -d"." -f5 | cut -c1-4`
+YEAREND=`echo "scale=0 ; $YEARBEG + 10" | bc -l`
+#
+case "$PROCHOST" in 
+  cheyenne* )                                # Cheyenne @ CISL/NCAR
+    BASEDIR=${HOME}/CCP_Processing_Suite
+    NCODIR=/glade/u/apps/ch/opt/nco/4.6.2/gnu/6.3.0/bin ; export NCODIR
+    NCKS=${NCODIR}/ncks     ; export NCKS
+    NCRA=${NCODIR}/ncra     ; export NCRA
+    NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
+    LOCALDSK=/glade2/h2/acgd0004/DP/archive/$CASE ; export LOCALDSK
+    ARCHIVE_BASE=/CCSM/csm/CESM1-CAM5-DP          ; export ARCHIVE_BASE
+    PROCBASE=/glade2/h2/acgd0004/$USER/$CASE      ; export PROCBASE
+    ;;
+  * ) 
+    echo "Unable to continue because "$PROCHOST" not known."
+    exit 1 ;;
+esac
+#
+# Strip off first part of $HIST
+#
+HTYP=`echo $HIST | cut -d'.' -f1` ; export HTYP
+#
+# Convert history type to component name
+#
+case "$HTYP" in
+  cam2 | cam )
+    COMP_NAME=atm ;;
+  clm2 ) 
+    COMP_NAME=lnd ;;
+  pop  ) 
+    COMP_NAME=ocn ;;
+  rtm  ) 
+    COMP_NAME=rof ;;
+  cice ) 
+    COMP_NAME=ice ;;
+  * ) 
+    echo "Unable to continue because "$HIST" not known."
+    exit 1 ;;
+esac
+#
+# Set up local names and archival names
+#
+LOCAL_HIST=$LOCALDSK/$COMP_NAME/hist
+LOCAL_PROC=$PROCBASE/$COMP_NAME
+ARCHIVE_HIST=$HISTBASE/$CASE/$COMP_NAME/hist
+#
+ARCHIVE_PROC=$ARCHIVE_BASE/$COMP_NAME/proc/tseries
+#
+case "$TPER" in
+  ann )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/annual  ;;
+  mon )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/monthly ;;
+  day )
+    ARCHIVE_PROC=${ARCHIVE_PROC}/daily   ;;
+  * ) 
+    echo "Unable to continue because "$TPER" not known."
+    exit 1 ;;
+esac
+#
+LOCAL_PROC=${LOCAL_PROC}/${TPER}
+CACHEDIR=${LOCAL_PROC}/to_archive
+#
+YRCOUNT=`expr '(' $YEAREND '-' $YEARBEG ')' '+' '1'`
+MNCOUNT=`expr '(' '(' $YEAREND '-' $YEARBEG ')' '+' '1' ')' '*' '12'`
+#
+# PyReshaper Arguments
+#
+VERBOSITY=0
+#
+# Create output filename time period prefix
+#
+PREFIX="${CACHEDIR}/${CASE}.${HIST}."
+#
+# Create output filename time period suffix
+#
+case "$TPER" in
+  ann )
+    OUTTIME=${YEARBEG}-${YEAREND} ;;
+  mon )
+    OUTTIME=${YEARBEG}01-${YEAREND}12 ;;
+  day ) 
+    OUTTIME=${YEARBEG}0101-${YEAREND}1231 ;;
+esac
+SUFFIX=".${OUTTIME}.nc"
+#
+# Print out values
+#
+echo "            Case name : "$CASE ; export CASE
+echo "    History file type : "$HIST ; export HIST
+echo "          Time period : "$TPER ; export TPER
+echo "    by var processing : YES"
+echo "           Begin year : "$YEARBEG  ; export YEARBEG
+echo "             End year : "$YEAREND  ; export YEAREND
+echo "           Year count : "$YRCOUNT  ; export YRCOUNT
+echo "         Months count : "$MNCOUNT  ; export MNCOUNT
+echo ""
+echo "PyReshaper"
+echo "          Output time : "$OUTTIME       ; export OUTTIME
+echo "        Output prefix : "$PREFIX        ; export PREFIX
+echo "        Output suffix : "$SUFFIX        ; export SUFFIX
+echo "        Output format : "$NCFORMAT      ; export NCFORMAT
+echo "            Verbosity : "$VERBOSITY     ; export VERBOSITY
+echo ""
+echo "    Archival base dir : "$ARCHIVE_BASE  ; export ARCHIVE_BASE
+echo "        History files : "$ARCHIVE_HIST  ; export ARCHIVE_HIST
+echo "        History names : "$HIST          ; export HIST
+echo ""
+echo "      Processing host : "$PROCHOST      ; export PROCHOST
+echo "  Local history files : "$LOCAL_HIST    ; export LOCAL_HIST
+echo "       Processing dir : "$LOCAL_PROC    ; export LOCAL_PROC
+echo "    Archive cache dir : "$CACHEDIR      ; export CACHEDIR
+echo "  Processing code dir : "$BASEDIR       ; export BASEDIR
+#  
+if [ ! -d $LOCAL_PROC ] ; then 
+  mkdir -p $LOCAL_PROC 
+fi
+if [ ! -d $CACHEDIR ] ; then 
+  mkdir -p $CACHEDIR 
+fi
+cd $LOCAL_PROC
+#
+case "$HIST" in
+  cam.h1 )
+    NCFORMAT=netcdf4  ; export NCFORMAT
+  cice.h | cice.h1 )
+    NCFORMAT=netcdf4  ; export NCFORMAT
+    ln -s -f $BASEDIR/split_cice_hemis . ;;
+  *   )
+    NCFORMAT=netcdf4c ; export NCFORMAT ;;
+esac
+#
+ln -s -f $BASEDIR/update_status        .
+ln -s -f $BASEDIR/run_slice2series     Transpose_Data
+#
+cd $LOCAL_PROC
+#
+# Start actual processing, extract each field one at a time for all times
+#
+./update_status start
+#
+rm ${CASE}.${HIST}.*nc
+#
+ln -s -f ${LOCAL_HIST}/${CASE}.${HIST}.[0-9]*.nc .
+#
+# Make sure there's the correct number of files
+#
+NHISTF=`/bin/ls ${CASE}.${HIST}.[0-9]*.nc | wc -l`
+case "$HIST" in 
+  cam.h0 | cice.h | clm2.h0 | rtm.h0 | pop.h | pop.h.nday1 | pop.h.ecosys.nday1 )
+    if [ $NHISTF -ne 122 ] ; then
+      echo ${NHISTF}" should be 122. File count mismatch. Exit."
+      exit 1
+    fi ;;
+  cam.h1 | cam.h2 | clm2.h1 | rtm.h1 | pop.h.ecosys.nyear1 | cice.h1 )
+    if [ $NHISTF -ne 11 ] ; then
+      echo ${NHISTF}" should be 11. File count mismatch. Exit."
+      exit 1
+    fi ;;
+esac
+#
+# Create output filename time period suffix
+#
+case "$TPER" in
+  ann )
+    OUTTIME=${YEARBEG}-${YEAREND} ;;
+  mon )
+    OUTTIME=${YEARBEG}11-${YEAREND}12 ;;
+  day ) 
+    OUTTIME=${YEARBEG}1101-${YEAREND}1231 ;;
+  hr6 ) 
+    OUTTIME=${YEARBEG}110100Z-${YEAREND}123118Z ;;
+esac
+export OUTTIME
+SUFFIX=".${OUTTIME}.nc" ; export SUFFIX
+#
+# Extract each field from all files
+#
+echo -n "TS transpose_data start: " ; date
+./Transpose_Data
+if [ $? -ne 0 ] ; then
+  echo "Transpose_Data failed"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
+fi
+echo -n "TS transpose_data end  : " ; date
+#
+# If cice, split hemispheres
+#
+case "$HTYP" in
+  cice ) 
+    cd $CACHEDIR
+    echo -n "TS split cice hemis start: " ; date
+    ../split_cice_hemis
+    echo -n "TS split cice hemis end  : " ; date
+    cd $LOCAL_PROC ;;
+esac
+#
+# Move completed data for later transfer to archival system
+#
+cd $CACHEDIR
+if [ ! -f /glade2/h2/acgd0004/$USER/toHPSS_$HIST ] ; then
+  mkdir -p /glade2/h2/acgd0004/$USER/toHPSS_$HIST
+fi
+mv ${CASE}.${HIST}.*.[0-9]*.nc /glade2/h2/acgd0004/$USER/toHPSS_$HIST
+if [ $? -ne 0 ] ; then
+  echo "move toHPSS_"${HIST}" failed"
+  ./update_status error "$CASE $HIST $TPER"
+  exit 1
+else
+  echo -n "move toHPSS_"${HIST}" end: " ; date
+fi
+#
+./update_status complete
+echo -n "TS COMPLETE: " ; date
+#
+exit

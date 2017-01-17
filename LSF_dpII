@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+#PBS -N NAME
+#PBS -A P93300014
+#PBS -q regular
+#PBS -l select=NODE:ncpus=TASK
+#PBS -l walltime=WALL
+#PBS -j eo
+#PBS -o log.NAME
+#PBS -e log.NAME
+#PBS -m abe
+#PBS -M USER@ucar.edu
+#PBS -V
+#
