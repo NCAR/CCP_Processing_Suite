@@ -20,21 +20,14 @@ echo -n "TS START: " ; date
 YEARBEG=`echo "$CASE" | cut -d"." -f5 | cut -c1-4`
 YEAREND=`echo "scale=0 ; $YEARBEG + 10" | bc -l`
 #
-case "$PROCHOST" in 
-  cheyenne* )                                # Cheyenne @ CISL/NCAR
-    BASEDIR=${HOME}/CCP_Processing_Suite
-    NCODIR=/glade/u/apps/ch/opt/nco/4.6.2/gnu/6.3.0/bin ; export NCODIR
-    NCKS=${NCODIR}/ncks     ; export NCKS
-    NCRA=${NCODIR}/ncra     ; export NCRA
-    NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
-    LOCALDSK=/glade2/h2/acgd0004/DP/archive/$CASE ; export LOCALDSK
-    ARCHIVE_BASE=/CCSM/csm/CESM1-CAM5-DP          ; export ARCHIVE_BASE
-    PROCBASE=/glade2/h2/acgd0004/$USER/$CASE      ; export PROCBASE
-    ;;
-  * ) 
-    echo "Unable to continue because "$PROCHOST" not known."
-    exit 1 ;;
-esac
+BASEDIR=${HOME}/CCP_Processing_Suite
+NCODIR=/glade/u/apps/ch/opt/nco/4.6.2/gnu/6.3.0/bin ; export NCODIR
+NCKS=${NCODIR}/ncks     ; export NCKS
+NCRA=${NCODIR}/ncra     ; export NCRA
+NCRCAT=${NCODIR}/ncrcat ; export NCRCAT
+LOCALDSK=/glade2/h2/acgd0004/DP/archive/$CASE ; export LOCALDSK
+ARCHIVE_BASE=/CCSM/csm/CESM1-CAM5-DP          ; export ARCHIVE_BASE
+PROCBASE=/glade2/h2/acgd0004/$USER/$CASE      ; export PROCBASE
 #
 # Strip off first part of $HIST
 #
